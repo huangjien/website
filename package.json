@@ -3,10 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "prepare": "husky install",
+    "dev": "cross-env NODE_OPTION='--inspect' next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prettier": "prettier --website ."
   },
   "dependencies": {
     "@next/font": "13.1.5",
@@ -16,5 +18,16 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "semantic-ui-react": "^2.1.4"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "yarn": ">=1.22.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.20.12",
+    "babel-loader": "^8.3.0",
+    "cross-env": "^7.0.3",
+    "husky": "^8.0.3",
+    "prettier": "^2.8.3"
   }
 }
