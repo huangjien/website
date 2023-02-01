@@ -8,7 +8,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prettier": "prettier --website ."
+    "prettier": "prettier --website .",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "@next/font": "13.1.5",
@@ -25,9 +27,18 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.12",
+    "@storybook/addon-essentials": "^7.0.0-beta.39",
+    "@storybook/addon-interactions": "^7.0.0-beta.39",
+    "@storybook/addon-links": "^7.0.0-beta.39",
+    "@storybook/blocks": "^7.0.0-beta.39",
+    "@storybook/nextjs": "^7.0.0-beta.39",
+    "@storybook/react": "^7.0.0-beta.39",
+    "@storybook/testing-library": "^0.0.14-next.1",
     "babel-loader": "^8.3.0",
     "cross-env": "^7.0.3",
+    "eslint-plugin-storybook": "^0.6.10",
     "husky": "^8.0.3",
-    "prettier": "^2.8.3"
+    "prettier": "^2.8.3",
+    "storybook": "^7.0.0-beta.39"
   }
 }
