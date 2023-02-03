@@ -1,7 +1,7 @@
 export default {
   "stories": [
     "../src/**/*.mdx",
-    "../src/**/*.stories.js"
+    "../src/**/*.stories.@(js|jsx|ts|tsx)"
   ],
   "addons": [
     "@storybook/addon-links",
@@ -12,7 +12,6 @@ export default {
     "name": "@storybook/nextjs",
     "options": {}
   },
-  "staticDirs": ['../public'],
   "docs": {
     "autodocs": "tag"
   }

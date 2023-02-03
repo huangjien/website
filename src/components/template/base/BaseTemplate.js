@@ -1,4 +1,4 @@
-export default function BaseTemplate(content) {
+export const BaseTemplate = ({ content }) => {
     return (
         <h2>
             <p>{content}</p>

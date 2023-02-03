@@ -1,14 +1,19 @@
 {
-  "extends": ["next", "next/core-web-vitals", "eslint:recommended"],
+  "extends": [
+    "next",
+    "next/core-web-vitals",
+    "eslint:recommended",
+    "plugin:import/recommended"
+  ],
   "globals": {
     "React": "readonly"
   },
   "overrides": [
     {
-      "files": ["*.stories.@(ts|tsx|js|jsx|mjs|cjs)"],
+      "files": ["*.stories.js"],
       "rules": {
         // example of overriding a rule
-        "storybook/hierarchy-separator": "error"
+        "storybook/hierarchy-separator": "ignore"
       }
     }
   ],

@@ -1,14 +1,20 @@
-import BaseTemplate from './BaseTemplate';
+
+import { BaseTemplate } from './BaseTemplate';
+import { mockBaseTemplateProps } from './BaseTemplate.mock';
 
 export default {
+    title: 'components/template/base/BaseTemplate',
+    component: BaseTemplate
+}
 
-    title: 'BaseTemplate',
-    component: BaseTemplate,
-    //👇 Creates specific argTypes
-    argTypes: {
-    },
-    args: {
-        content: 'This is parameter example',
-    }
+const Template = (args) => <BaseTemplate {...args} />
+
+export const Base = Template.bind({});;
+Base.args = {
+    ...mockBaseTemplateProps.base
+}
+
+export const Error = Template.bind({});
+Error.args = {
+    ...mockBaseTemplateProps.error,
 };
-
