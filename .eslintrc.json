@@ -5,6 +5,14 @@
     "eslint:recommended",
     "plugin:import/recommended"
   ],
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "moduleDirectory": ["node_modules", "src/"],
+        "extensions": [".js", ".jsx", ".ts", ".css", ".tsx"]
+      }
+    }
+  },
   "globals": {
     "React": "readonly"
   },
@@ -13,7 +21,7 @@
       "files": ["*.stories.js"],
       "rules": {
         // example of overriding a rule
-        "storybook/hierarchy-separator": "ignore"
+        "storybook/hierarchy-separator": "off"
       }
     }
   ],

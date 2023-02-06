@@ -9,7 +9,7 @@ export default {
 
 const Template = (args) => <BaseTemplate {...args} />
 
-export const Base = Template.bind({});;
+export const Base = Template.bind({});
 Base.args = {
     ...mockBaseTemplateProps.base
 }

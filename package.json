@@ -12,14 +12,22 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
+  "bugs": {
+    "url": "https://github.com/huangjien/blog/issues"
+  },
   "dependencies": {
     "@next/font": "13.1.5",
+    "@nextui-org/react": "^1.0.0-beta.10",
+    "bootstrap": "^5.2.3",
+    "boxicons": "^2.1.4",
     "eslint": "8.32.0",
     "eslint-config-next": "13.1.5",
+    "github-markdown-css": "^5.1.0",
+    "graphql-request": "^5.0.0",
     "next": "13.1.5",
     "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "semantic-ui-react": "^2.1.4"
+    "react-bootstrap": "^2.7.0",
+    "react-dom": "18.2.0"
   },
   "engines": {
     "node": ">=16.0.0",
@@ -36,9 +44,11 @@
     "@storybook/testing-library": "^0.0.14-next.1",
     "babel-loader": "^8.3.0",
     "cross-env": "^7.0.3",
+    "css-loader": "^6.7.3",
     "eslint-plugin-storybook": "^0.6.10",
     "husky": "^8.0.3",
     "prettier": "^2.8.3",
-    "storybook": "^7.0.0-beta.39"
+    "storybook": "^7.0.0-beta.39",
+    "style-loader": "^3.3.1"
   }
 }
