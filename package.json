@@ -16,15 +16,15 @@
     "url": "https://github.com/huangjien/blog/issues"
   },
   "dependencies": {
-    "@next/font": "13.1.5",
+    "@next/font": "13.1.6",
     "@nextui-org/react": "^1.0.0-beta.10",
     "bootstrap": "^5.2.3",
     "boxicons": "^2.1.4",
     "eslint": "8.32.0",
-    "eslint-config-next": "13.1.5",
+    "eslint-config-next": "13.1.6",
     "github-markdown-css": "^5.1.0",
     "graphql-request": "^5.0.0",
-    "next": "13.1.5",
+    "next": "13.1.6",
     "react": "18.2.0",
     "react-bootstrap": "^2.7.0",
     "react-dom": "18.2.0"

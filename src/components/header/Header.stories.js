@@ -1,4 +1,4 @@
-import { Header } from './Header';
+import Header from './Header';
 import { mockHeaderProps } from './Header.mock';
 
 
