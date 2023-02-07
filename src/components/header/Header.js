@@ -8,7 +8,7 @@ const Header = () => (
                 Jien Huang
             </Text>
         </Navbar.Brand>
-        <Navbar.Content hideIn="xs">
+        <Navbar.Content hideIn="xs" enableCursorHighlight activeColor="secondary" variant="highlight-rounded">
             <Navbar.Link href="/">
                 Home
             </Navbar.Link>
