@@ -1,8 +1,8 @@
 import Header from '../header/Header';
 
 const layoutStyle = {
-    margin: 10,
-    padding: 10,
+    margin: 5,
+    padding: 5,
     boxSizing: 'border-box',
     maxW: "100%"
 };
