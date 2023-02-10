@@ -13,7 +13,10 @@ export default function Document() {
   }
   return (
     <Html lang="en">
-      <Head >{CssBaseline.flush()} </Head>
+      <Head >
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <meta name="emotion-insertion-point" content="" />
+        {CssBaseline.flush()} </Head>
       <body>
         <Main />
         <NextScript />
