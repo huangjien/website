@@ -1,6 +1,5 @@
 import { Navbar, Text } from '@nextui-org/react';
 
-
 const Header = () => (
     <Navbar variant="sticky">
         <Navbar.Brand>
