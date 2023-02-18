@@ -1,5 +1,6 @@
 import { Navbar, Switch, Text, Tooltip, useTheme } from '@nextui-org/react';
 import { useTheme as useNextTheme } from 'next-themes';
+import { Document, Home, Setting } from 'react-iconly';
 
 const Header = () => {
     const { setTheme } = useNextTheme();
@@ -11,16 +12,17 @@ const Header = () => {
                 <Text b hideIn="xs">
                     Jien Huang
                 </Text>
+
             </Navbar.Brand>
             <Navbar.Content hideIn="xs" enableCursorHighlight activeColor="secondary" variant="highlight-rounded">
                 <Navbar.Link id="home" href="/">
-                    Home
+                    <Home /> Home
                 </Navbar.Link>
                 <Navbar.Link id="settings" href="/settings">
-                    Settings
+                    <Setting />Settings
                 </Navbar.Link>
                 <Navbar.Link id="about" href="/about">
-                    About
+                    <Document />About
                 </Navbar.Link>
                 <Tooltip content={type} placement="left" color="invert">
                     <Switch
