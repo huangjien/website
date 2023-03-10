@@ -388,8 +388,12 @@ const darkTheme = createTheme({
 const globalStyles = globalCss({
   'body': {
     // maxWidth: '70ch',
-    padding: '3em 1em',
-    margin: 'auto',
+    margin: 5,
+    padding: 5,
+    boxSizing: 'border-box',
+    maxW: "100%",
+    // padding: '3em 1em',
+    // margin: 'auto',
     lineHeight: 1.75,
     fontSize: '1.25em'
   },
@@ -398,13 +402,13 @@ const globalStyles = globalCss({
     right: '20px',
     bottom: '20px',
     alignItems: 'right',
-    height: '40px',
+    // height: '40px',
     justifyContent: 'right',
-    zIndex: 1000,
-    cursor: 'pointer',
-    animation: 'fadeIn 0.5s',
-    transition: 'opacity 0.4s',
-    opacity: 0.5
+    // zIndex: 1000,
+    // cursor: 'pointer',
+    // animation: 'fadeIn 0.5s',
+    // transition: 'opacity 0.4s',
+    // opacity: 0.5
   }
 });
 
