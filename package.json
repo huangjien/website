@@ -16,14 +16,14 @@
     "url": "https://github.com/huangjien/blog/issues"
   },
   "dependencies": {
-    "@next/font": "13.1.6",
+    "@next/font": "13.2.3",
     "@nextui-org/react": "^1.0.0-beta.10",
     "bootstrap": "^5.2.3",
-    "eslint": "8.34.0",
-    "eslint-config-next": "13.1.6",
+    "eslint": "8.35.0",
+    "eslint-config-next": "13.2.3",
     "github-markdown-css": "^5.1.0",
     "graphql-request": "^5.0.0",
-    "next": "13.1.6",
+    "next": "13.2.3",
     "next-themes": "^0.2.1",
     "react": "18.2.0",
     "react-bootstrap": "^2.7.2",
@@ -35,7 +35,7 @@
     "yarn": ">=1.22.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.12",
+    "@babel/core": "^7.21.0",
     "@storybook/addon-essentials": "^7.0.0-beta.39",
     "@storybook/addon-interactions": "^7.0.0-beta.39",
     "@storybook/addon-links": "^7.0.0-beta.39",

@@ -16,7 +16,7 @@ const Header = () => {
             </Navbar.Brand>
             <Navbar.Content hideIn="xs" enableCursorHighlight activeColor="secondary" variant="highlight-rounded">
                 <Navbar.Link id="home" href="/">
-                    <Home /> Home
+                    <Home size='large' /> Home
                 </Navbar.Link>
                 <Navbar.Link id="settings" href="/settings">
                     <Setting />Settings

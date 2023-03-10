@@ -1,5 +1,5 @@
+import ScrollToTop from '../../lib/ScrollToTop';
 import Header from '../header/Header';
-
 const layoutStyle = {
     margin: 5,
     padding: 5,
@@ -10,8 +10,10 @@ const layoutStyle = {
 const Layout = props => (
 
     <div style={layoutStyle} >
+
         <Header />
         {props.children}
+        <ScrollToTop />
     </div>
 
 );

@@ -392,6 +392,19 @@ const globalStyles = globalCss({
     margin: 'auto',
     lineHeight: 1.75,
     fontSize: '1.25em'
+  },
+  '.scrollToTop': {
+    position: 'fixed',
+    right: '20px',
+    bottom: '20px',
+    alignItems: 'right',
+    height: '40px',
+    justifyContent: 'right',
+    zIndex: 1000,
+    cursor: 'pointer',
+    animation: 'fadeIn 0.5s',
+    transition: 'opacity 0.4s',
+    opacity: 0.5
   }
 });
 
@@ -408,7 +421,6 @@ export default function App({ Component, pageProps }) {
     >
       <IconlyProvider
         set='two-tone'
-
         primaryColor='blue'
         secondaryColor='grey'
         stroke='light'

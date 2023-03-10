@@ -3,6 +3,7 @@ import { Head, Html, Main, NextScript } from 'next/document';
 import React from 'react';
 
 
+
 export default function Document() {
   async function getInitialProps(ctx) {
     const initialProps = await Document.getInitialProps(ctx);
@@ -19,6 +20,7 @@ export default function Document() {
 
         {CssBaseline.flush()} </Head>
       <body>
+
         <Main />
         <NextScript />
       </body>
