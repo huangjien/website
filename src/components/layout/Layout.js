@@ -1,3 +1,4 @@
+import { Container } from '@nextui-org/react';
 import { useScroll } from 'ahooks';
 import { useEffect, useState } from "react";
 import { ChevronUpCircle } from 'react-iconly';
@@ -33,7 +34,9 @@ const Layout = props => {
             maxW: "100%"
         }}>
             <Header />
-            {props.children}
+            <Container xl>
+                {props.children}
+            </Container>
             <ChevronUpCircle className="scrollToTop" size='large'
                 onClick={scrollToTop}
                 style={{ display: show ? 'flex' : 'none' }} />

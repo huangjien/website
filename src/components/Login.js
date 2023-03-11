@@ -1,4 +1,3 @@
-
 import { Avatar, Button, Input, Loading, Modal, Text } from '@nextui-org/react';
 import { useRequest } from 'ahooks';
 import React, { useEffect } from 'react';
@@ -36,15 +35,14 @@ const Login = () => {
             {!data && <Button auto shadow onPress={handler}>Login</Button>}
             {loading ? <Loading /> :
                 data && data.avatar_url ?
-                    data && <Avatar squared text={data.name} src={data.avatar_url} /> :
+                    data && <Avatar zoomed bordered text={data.name} src={data.avatar_url} /> :
                     data && <Text href="#"> {data.name} </Text>}
             <Modal
                 closeButton
                 blur
                 aria-labelledby="modal-title"
                 open={visible}
-                onClose={closeHandler}
-            >
+                onClose={closeHandler}>
                 <Modal.Header>
                     <Text id="modal-title" size={18}>
                         Please enter your Github user name and token
@@ -83,7 +81,6 @@ const Login = () => {
                     </Button>
                 </Modal.Footer>
             </Modal>
-
         </>
     )
 }

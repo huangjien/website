@@ -1,4 +1,4 @@
-import { Navbar, Spacer, Switch, Text, Tooltip, useTheme } from '@nextui-org/react';
+import { Image, Navbar, Spacer, Switch, Tooltip, useTheme } from '@nextui-org/react';
 import { useTheme as useNextTheme } from 'next-themes';
 import { Document, Home, Setting } from 'react-iconly';
 import Login from '../Login';
@@ -19,9 +19,11 @@ const Header = () => {
     return (
         <Navbar isBordered={isDark} variant="sticky">
             <Navbar.Brand>
-                <Text b hideIn="xs">
+                {/* <Text b hideIn="xs">
                     Jien Huang
-                </Text>
+                </Text> */}
+                <Image src="/favicon.png" alt="Logo" width={64} height={64} />
+
 
             </Navbar.Brand>
             <Navbar.Content hideIn="xs" activeColor="primary" variant={variants}>

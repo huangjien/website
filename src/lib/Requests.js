@@ -47,7 +47,6 @@ var data = {
 }
 
 export async function getUser(username, password) {
-    console.log(username, password)
     // eslint-disable-next-line no-undef
     return new Promise((resolve) => {
         setTimeout(() => {

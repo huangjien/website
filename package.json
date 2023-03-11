@@ -16,7 +16,6 @@
     "url": "https://github.com/huangjien/blog/issues"
   },
   "dependencies": {
-    "@next/font": "13.2.3",
     "@nextui-org/react": "^1.0.0-beta.10",
     "ahooks": "^3.7.5",
     "bootstrap": "^5.2.3",
@@ -38,12 +37,12 @@
   },
   "devDependencies": {
     "@babel/core": "^7.21.0",
-    "@storybook/addon-essentials": "^7.0.0-beta.39",
-    "@storybook/addon-interactions": "^7.0.0-beta.39",
-    "@storybook/addon-links": "^7.0.0-beta.39",
-    "@storybook/blocks": "^7.0.0-beta.39",
-    "@storybook/nextjs": "^7.0.0-beta.39",
-    "@storybook/react": "^7.0.0-beta.39",
+    "@storybook/addon-essentials": "^7.0.0-rc.1",
+    "@storybook/addon-interactions": "^7.0.0-rc.1",
+    "@storybook/addon-links": "^7.0.0-rc.1",
+    "@storybook/blocks": "^7.0.0-rc.1",
+    "@storybook/nextjs": "^7.0.0-rc.1",
+    "@storybook/react": "^7.0.0-rc.1",
     "@storybook/testing-library": "^0.0.14-next.1",
     "babel-loader": "^9.1.2",
     "cross-env": "^7.0.3",
@@ -51,7 +50,7 @@
     "eslint-plugin-storybook": "^0.6.10",
     "husky": "^8.0.3",
     "prettier": "^2.8.3",
-    "storybook": "^7.0.0-beta.39",
+    "storybook": "^7.0.0-rc.1",
     "style-loader": "^3.3.1"
   }
 }
