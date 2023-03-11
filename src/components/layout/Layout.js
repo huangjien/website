@@ -2,6 +2,7 @@ import { useScroll } from 'ahooks';
 import { useEffect, useState } from "react";
 import { ChevronUpCircle } from 'react-iconly';
 import Header from '../header/Header';
+import { Box } from './Box';
 
 const triggerPx = 128
 
@@ -28,13 +29,15 @@ const Layout = props => {
         }
     }, [show, scroll]);
     return (
-        <div  >
+        <Box css={{
+            maxW: "100%"
+        }}>
             <Header />
             {props.children}
             <ChevronUpCircle className="scrollToTop" size='large'
                 onClick={scrollToTop}
                 style={{ display: show ? 'flex' : 'none' }} />
-        </div>
+        </Box>
     )
 
 };
