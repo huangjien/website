@@ -1,6 +1,7 @@
 import { Avatar, Button, Input, Loading, Modal, Text } from '@nextui-org/react';
 import { useRequest } from 'ahooks';
 import React, { useEffect } from 'react';
+import { Hide, Show, User } from 'react-iconly';
 import { getUser } from '../lib/Requests';
 
 const Login = () => {
@@ -57,9 +58,10 @@ const Login = () => {
                         size="lg"
                         placeholder="Github User Name"
                         value={username}
+                        contentRight={<User />}
                         onChange={(e) => setUsername(e.target.value)}
                     />
-                    <Input aria-label="Github Token"
+                    <Input.Password aria-label="Github Token"
                         clearable
                         bordered
                         fullWidth
@@ -67,6 +69,8 @@ const Login = () => {
                         size="lg"
                         placeholder="Github Token"
                         value={password}
+                        visibleIcon={<Show />}
+                        hiddenIcon={<Hide />}
                         onChange={(e) => setPassword(e.target.value)}
                     />
 
