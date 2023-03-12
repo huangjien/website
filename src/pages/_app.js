@@ -2,6 +2,8 @@ import { createTheme, globalCss, NextUIProvider } from '@nextui-org/react';
 import { ThemeProvider as NextThemesProvider } from 'next-themes';
 import SSRProvider from 'react-bootstrap/SSRProvider';
 import { IconlyProvider } from 'react-iconly';
+import '../styles/github-markdown.css';
+// import '../styles/globals.css';
 
 // 2. Call `createTheme` and pass your custom values
 const lightTheme = createTheme({

@@ -22,7 +22,7 @@ const Header = () => {
                 {/* <Text b hideIn="xs">
                     Jien Huang
                 </Text> */}
-                <Image src="/favicon.png" alt="Logo" width={64} height={64} />
+                <Image src="/favicon.png" alt="Logo" width={32} height={32} />
 
 
             </Navbar.Brand>
