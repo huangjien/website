@@ -1,6 +1,8 @@
 import { Image, Navbar, Spacer, Switch, Tooltip, useTheme } from '@nextui-org/react';
 import { useTheme as useNextTheme } from 'next-themes';
+import { useContext } from 'react';
 import { Document, Home, Setting } from 'react-iconly';
+import { userContext } from '../../lib/Requests';
 import Login from '../Login';
 
 const variants = [
@@ -15,6 +17,17 @@ const variants = [
 const Header = () => {
     const { setTheme } = useNextTheme();
     const { isDark, type } = useTheme();
+    // const [cached, setCached] = useSessionStorageState("currentUser")
+    const [data] = useContext(userContext)
+
+
+    // useEffect(() => {
+    //     console.log(cached)
+    //     if (cached) {
+    //         setData(cached)
+    //     }
+
+    // }, [data, cached]);
 
     return (
         <Navbar isBordered={isDark} variant="sticky">
@@ -30,9 +43,11 @@ const Header = () => {
                 <Navbar.Link id="home" href="/">
                     <Home size='large' /> Home
                 </Navbar.Link>
-                <Navbar.Link id="settings" href="/settings">
-                    <Setting />Settings
-                </Navbar.Link>
+                {data &&
+                    <Navbar.Link id="settings" href="/settings">
+                        <Setting />Settings
+                    </Navbar.Link>
+                }
                 <Navbar.Link id="about" href="/about">
                     <Document />About
                 </Navbar.Link>

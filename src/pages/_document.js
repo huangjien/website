@@ -18,7 +18,6 @@ export default function Document() {
       <Head >
         <link rel="shortcut icon" href="/favicon.ico" />
         <meta name="emotion-insertion-point" content="" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         {CssBaseline.flush()} </Head>
       <body>

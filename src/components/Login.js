@@ -1,17 +1,20 @@
-import { Avatar, Button, Input, Loading, Modal, Text } from '@nextui-org/react';
-import { useRequest } from 'ahooks';
-import React, { useEffect } from 'react';
+import { Avatar, Button, Dropdown, Input, Loading, Modal, Text } from '@nextui-org/react';
+import { useRequest, useSessionStorageState } from 'ahooks';
+import React, { useContext, useEffect } from 'react';
 import { Hide, Show, User } from 'react-iconly';
-import { getUser } from '../lib/Requests';
+import { getUser, userContext } from '../lib/Requests';
 
 const Login = () => {
     const [username, setUsername] = React.useState('');
     const [password, setPassword] = React.useState('');
-    const [data, setData] = React.useState(null);
+    const [cached, setCached] = useSessionStorageState("currentUser")
+    const [data, setData] = useContext(userContext)
     const { loading, run } = useRequest(getUser, {
         manual: true, debounceWait: 300, throttleWait: 300,
         onSuccess: (result) => {
+            console.log(data)
             setData(result);
+            setCached(result);
         },
         onError: (error) => {
             console.log(error);
@@ -25,7 +28,18 @@ const Login = () => {
         setVisible(false);
     };
 
+    const clearLogin = () => {
+        console.log("clearLogin")
+        setCached(undefined)
+        setData(undefined)
+    }
+
     useEffect(() => {
+        console.log(data)
+        if (cached) {
+            setData(cached)
+            setVisible(false)
+        }
         if (data) {
             setVisible(false)
         }
@@ -36,8 +50,24 @@ const Login = () => {
             {!data && <Button auto shadow onPress={handler}>Login</Button>}
             {loading ? <Loading /> :
                 data && data.avatar_url ?
-                    data && <Avatar zoomed bordered text={data.name} src={data.avatar_url} /> :
-                    data && <Text href="#"> {data.name} </Text>}
+                    data &&
+                    <Dropdown placement="bottom-left">
+                        <Dropdown.Trigger>
+                            <Avatar zoomed bordered text={data.name} src={data.avatar_url} />
+                        </Dropdown.Trigger>
+                        <Dropdown.Menu color="secondary" aria-label="Avatar Actions">
+                            <Dropdown.Item key="profile" textValue={data.email.trim()} >
+                                <Text color="inherit" >
+                                    {data.email.trim()}
+                                </Text>
+                            </Dropdown.Item>
+                            <Dropdown.Item key="logout" withDivider
+                                onAction={() => console.log("hey")} color="error" textValue="Log Out"
+                            >Log out{" "}
+                            </Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
+                    : data && <Text href="#"> {data.name} </Text>}
             <Modal
                 closeButton
                 blur
