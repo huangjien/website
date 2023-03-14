@@ -9,17 +9,17 @@ const Login = () => {
     const [password, setPassword] = React.useState('');
     const [cached, setCached] = useSessionStorageState("currentUser")
     const [data, setData] = useContext(userContext)
+    const [selectedKey, setSelectedKey] = React.useState();
     const { loading, run } = useRequest(getUser, {
         manual: true, debounceWait: 300, throttleWait: 300,
         onSuccess: (result) => {
-            console.log(data)
             setData(result);
             setCached(result);
         },
         onError: (error) => {
             console.log(error);
         },
-        cacheKey: 'currentUser', staleTime: 1000 * 60 * 5
+        cacheKey: 'currentUser'
     });
     const [visible, setVisible] = React.useState(false);
     const handler = () => setVisible(true);
@@ -29,13 +29,12 @@ const Login = () => {
     };
 
     const clearLogin = () => {
-        console.log("clearLogin")
         setCached(undefined)
         setData(undefined)
+        setSelectedKey(undefined)
     }
 
     useEffect(() => {
-        console.log(data)
         if (cached) {
             setData(cached)
             setVisible(false)
@@ -44,6 +43,14 @@ const Login = () => {
             setVisible(false)
         }
     }, [data]);
+
+    useEffect(() => {
+        if (!selectedKey) return;
+        if (selectedKey.toLowerCase() === "logout") {
+            clearLogin()
+        }
+
+    }, [selectedKey])
 
     return (
         <>
@@ -55,15 +62,15 @@ const Login = () => {
                         <Dropdown.Trigger>
                             <Avatar zoomed bordered text={data.name} src={data.avatar_url} />
                         </Dropdown.Trigger>
-                        <Dropdown.Menu color="secondary" aria-label="Avatar Actions">
-                            <Dropdown.Item key="profile" textValue={data.email.trim()} >
+                        <Dropdown.Menu color="secondary" aria-label="Avatar Actions" onAction={setSelectedKey}>
+                            <Dropdown.Item key="email" textValue={data.email.trim()} >
                                 <Text color="inherit" >
                                     {data.email.trim()}
                                 </Text>
                             </Dropdown.Item>
                             <Dropdown.Item key="logout" withDivider
-                                onAction={() => console.log("hey")} color="error" textValue="Log Out"
-                            >Log out{" "}
+                                color="error" textValue="Log Out"
+                            >Log out
                             </Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
