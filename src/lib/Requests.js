@@ -3,15 +3,16 @@ import { createContext } from 'react';
 export const userContext = createContext(undefined)
 export const settingContext = createContext({})
 
-export async function getSetting() {
-    return await fetch(`/api/settings`).then(res => res.json()).then(data => { return data })
+export const getSetting = async () => {
+    return await fetch('/api/settings', {
+        method: 'GET'
+    }).then(res => res.json()).then(data => { return data })
 }
 
-export async function getUser(username, password) {
+export const getUser = async (username, password) => {
     if (window != undefined) {
         var cached = sessionStorage.getItem("currentUser")
         if (cached) {
-            console.log(cached)
             return await JSON.parse(cached)
         }
     }
