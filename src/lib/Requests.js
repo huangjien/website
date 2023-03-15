@@ -1,4 +1,5 @@
 import { createContext } from 'react';
+import { currentUser } from '../lib/global';
 
 export const userContext = createContext(undefined)
 export const settingContext = createContext({})
@@ -11,7 +12,7 @@ export const getSetting = async () => {
 
 export const getUser = async (username, password) => {
     if (window != undefined) {
-        var cached = sessionStorage.getItem("currentUser")
+        var cached = sessionStorage.getItem(currentUser)
         if (cached) {
             return await JSON.parse(cached)
         }

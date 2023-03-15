@@ -17,17 +17,7 @@ const variants = [
 const Header = () => {
     const { setTheme } = useNextTheme();
     const { isDark, type } = useTheme();
-    // const [cached, setCached] = useSessionStorageState("currentUser")
     const [data] = useContext(userContext)
-
-
-    // useEffect(() => {
-    //     console.log(cached)
-    //     if (cached) {
-    //         setData(cached)
-    //     }
-
-    // }, [data, cached]);
 
     return (
         <Navbar isBordered={isDark} variant="sticky">
@@ -36,7 +26,6 @@ const Header = () => {
                     Jien Huang
                 </Text> */}
                 <Image src="/favicon.png" alt="Logo" width={32} height={32} />
-
 
             </Navbar.Brand>
             <Navbar.Content hideIn="xs" activeColor="primary" variant={variants}>

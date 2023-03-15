@@ -1,10 +1,9 @@
 import { useScroll } from 'ahooks';
 import { useEffect, useState } from "react";
 import { ChevronUpCircle } from 'react-iconly';
+import { triggerPx } from '../../lib/global';
 import Header from '../header/Header';
 import { Box } from './Box';
-
-const triggerPx = 128
 
 const Layout = props => {
     const scroll = useScroll(null)

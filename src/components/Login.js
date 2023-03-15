@@ -2,12 +2,13 @@ import { Avatar, Button, Dropdown, Input, Loading, Modal, Row, Text } from '@nex
 import { useRequest, useSessionStorageState } from 'ahooks';
 import React, { useContext, useEffect, useState } from 'react';
 import { Hide, Show, User } from 'react-iconly';
+import { currentUser } from '../lib/global';
 import { getSetting, getUser, settingContext, userContext } from '../lib/Requests';
 
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [cached, setCached] = useSessionStorageState("currentUser")
+    const [cached, setCached] = useSessionStorageState(currentUser)
     const [data, setData] = useContext(userContext)
     useRequest(getSetting, {
         onSuccess: (result) => {
@@ -34,7 +35,7 @@ const Login = () => {
         onError: (error) => {
             console.log(error);
         },
-        cacheKey: 'currentUser'
+        cacheKey: currentUser
     });
     const [visible, setVisible] = React.useState(false);
     const handler = () => setVisible(true);
@@ -48,11 +49,6 @@ const Login = () => {
         setData(undefined)
         setSelectedKey(undefined)
     }
-
-    // useEffect(() => {
-    //     console.log(config)
-    //     setSetting(config)
-    // }, [config])
 
     useEffect(() => {
         if (cached) {
