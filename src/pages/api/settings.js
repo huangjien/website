@@ -1,7 +1,7 @@
 // local test url: http://localhost:3000/api/settings
 
 export default function handler(req, res) {
-  fetch(`https://api.github.com/repos/huangjien-com/blog/issues?labels=settings`, {
+  fetch(`${process.env.GITHUB_REPO}/issues?labels=settings`, {
     method: 'GET',
     headers: {
       'Authorization': `token ${process.env.GITHUB_TOKEN}`
@@ -17,6 +17,8 @@ export default function handler(req, res) {
       }
       res.status(200).json({ "result": result })
     })
-    .catch(err => res.status(err.status).json({ error: err.message }));
+    .catch(err => {
+      res.status(err.status).json({ error: err.message })
+    });
 }
 

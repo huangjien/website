@@ -1,9 +1,17 @@
+import { Text } from '@nextui-org/react';
+import { useContext } from 'react';
 import Layout from '../components/layout/Layout';
+import { settingContext, userContext } from '../lib/Requests';
 
-export default function Settings() {
+const Settings = () => {
+    const [setting] = useContext(settingContext)
+    const [data] = useContext(userContext)
+
     return (
         <Layout>
-            <p>This is the settings page, should be protected by OAuth</p>
+            {!data && <Text color="error">Please log in</Text>}
+            {data && <pre>{setting}</pre>}
         </Layout>
     )
 }
+export default Settings

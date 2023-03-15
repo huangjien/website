@@ -1,7 +1,6 @@
 import { useScroll } from 'ahooks';
 import { useEffect, useState } from "react";
 import { ChevronUpCircle } from 'react-iconly';
-import { userContext } from '../../lib/Requests';
 import Header from '../header/Header';
 import { Box } from './Box';
 
@@ -10,7 +9,7 @@ const triggerPx = 128
 const Layout = props => {
     const scroll = useScroll(null)
     const [show, setShow] = useState(false)
-    const [user, setUser] = useState(undefined)
+
 
     const scrollToTop = () => {
         window.scrollTo({
@@ -34,12 +33,12 @@ const Layout = props => {
         <Box css={{
             maxW: "100%"
         }}>
-            <userContext.Provider value={[user, setUser]} >
-                <Header />
-                <Box >
-                    {props.children}
-                </Box>
-            </userContext.Provider>
+
+            <Header />
+            <Box >
+                {props.children}
+            </Box>
+
             <ChevronUpCircle className="scrollToTop" size='large'
                 onClick={scrollToTop}
                 style={{ display: show ? 'flex' : 'none' }} />

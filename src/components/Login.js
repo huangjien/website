@@ -1,20 +1,35 @@
-import { Avatar, Button, Dropdown, Input, Loading, Modal, Text } from '@nextui-org/react';
+import { Avatar, Button, Dropdown, Input, Loading, Modal, Row, Text } from '@nextui-org/react';
 import { useRequest, useSessionStorageState } from 'ahooks';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Hide, Show, User } from 'react-iconly';
-import { getUser, userContext } from '../lib/Requests';
+import { getSetting, getUser, settingContext, userContext } from '../lib/Requests';
 
 const Login = () => {
-    const [username, setUsername] = React.useState('');
-    const [password, setPassword] = React.useState('');
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
     const [cached, setCached] = useSessionStorageState("currentUser")
     const [data, setData] = useContext(userContext)
-    const [selectedKey, setSelectedKey] = React.useState();
+    useRequest(getSetting, {
+        onSuccess: (result) => {
+            setSetting(result?.result)
+        }, staleTime: -1
+    })
+    const [setting, setSetting] = useContext(settingContext)
+    const [selectedKey, setSelectedKey] = useState();
+    const [error, setError] = useState();
     const { loading, run } = useRequest(getUser, {
         manual: true, debounceWait: 300, throttleWait: 300,
         onSuccess: (result) => {
-            setData(result);
-            setCached(result);
+
+            if (!result.message) {
+                setData(result);
+                setCached(result);
+                setError(undefined)
+            } else {
+                setError(result.message)
+                setData(undefined)
+                setCached(undefined)
+            }
         },
         onError: (error) => {
             console.log(error);
@@ -33,6 +48,11 @@ const Login = () => {
         setData(undefined)
         setSelectedKey(undefined)
     }
+
+    // useEffect(() => {
+    //     console.log(config)
+    //     setSetting(config)
+    // }, [config])
 
     useEffect(() => {
         if (cached) {
@@ -54,7 +74,7 @@ const Login = () => {
 
     return (
         <>
-            {!data && <Button auto shadow onPress={handler}>Login</Button>}
+            {!data?.name && <Button auto shadow onPress={handler}>Login</Button>}
             {loading ? <Loading /> :
                 data && data.avatar_url ?
                     data &&
@@ -110,7 +130,12 @@ const Login = () => {
                         hiddenIcon={<Hide />}
                         onChange={(e) => setPassword(e.target.value)}
                     />
+                    <Row justify="space-between">
+                        {
+                            error && <Text >{error}</Text>
+                        }
 
+                    </Row>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button auto flat color="error" onPress={closeHandler}>
