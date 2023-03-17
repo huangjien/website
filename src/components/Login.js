@@ -13,7 +13,7 @@ const Login = () => {
     useRequest(getSetting, {
         onSuccess: (result) => {
             setSetting(result?.result)
-        }, staleTime: -1
+        }, cacheTime: -1
     })
     const [setting, setSetting] = useContext(settingContext)
     const [selectedKey, setSelectedKey] = useState();

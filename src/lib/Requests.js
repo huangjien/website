@@ -10,6 +10,22 @@ export const getSetting = async () => {
     }).then(res => res.json()).then(data => { return data })
 }
 
+export const getMarkDownHtml = async (content) => {
+    return await fetch('/api/markdown', {
+        method: 'POST',
+        body: content
+    })
+        .then(res => res.text())
+        .then(data => { return (data) })
+}
+
+export const getReadme = async () => {
+    return await fetch('/api/about', {
+        method: 'GET'
+    }).then(res => { return res.text() })
+}
+
+
 export const getUser = async (username, password) => {
     if (window != undefined) {
         var cached = sessionStorage.getItem(currentUser)

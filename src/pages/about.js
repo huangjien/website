@@ -1,63 +1,42 @@
-import { Text } from '@nextui-org/react';
+import { useRequest, useSessionStorageState } from 'ahooks';
+import { useEffect, useState } from 'react';
 import Layout from '../components/layout/Layout';
-
+// import { getReadme } from '../lib/Requests';
+import { aboutContent } from '../lib/global';
+import { getMarkDownHtml, getReadme } from '../lib/Requests';
 export default function About() {
+    const [bio, setBio] = useSessionStorageState(aboutContent);
+    const [htmlContent, setHtmlContent] = useState();
+    useRequest(getReadme, {
+        onSuccess: (result) => {
+            setBio(result)
+        }
+    })
+    // useRequest(getMarkDownHtml(bio), {
+    //     onSuccess: (result) => {
+    //         console.log(result)
+    //         setHtmlContent(result)
+    //     }, ready: bio
+    // })
+    useEffect(() => {
+        if (bio) {
+            getMarkDownHtml(bio).then(
+                (content) => {
+                    console.log(content)
+                    setHtmlContent(content)
+                }
+            )
+
+        }
+        if (htmlContent)
+            console.log(htmlContent)
+    }, [])
+
     return (
         <Layout>
-            <Text>This is the about page</Text>
-            <Text>This is the about page</Text>
-            <Text>This is the about page</Text>
-            <Text>This is the about page</Text>
-            <Text>This is the about page</Text>
-            <Text>This is the about page</Text>
-            <Text>This is the about page</Text>
-            <Text>This is the about page</Text>
-            <Text>This is the about page</Text>
-            <Text>This is the about page</Text>
-            <Text>This is the about page</Text>
-            <Text>This is the about page</Text>
-            <Text>This is the about page</Text>
-            <Text>This is the about page</Text>
-            <Text>This is the about page</Text>
-            <Text>This is the about page</Text>
-            <Text>This is the about page</Text>
-            <Text>This is the about page</Text>
-            <Text>This is the about page</Text>
-            <Text>This is the about page</Text>
-            <Text>This is the about page</Text>
-            <Text>This is the about page</Text>
-            <Text>This is the about page</Text>
-            <Text>This is the about page</Text>
-            <Text>This is the about page</Text>
-            <Text>This is the about page</Text>
-            <Text>This is the about page</Text>
-            <Text>This is the about page</Text>
-            <Text>This is the about page</Text>
-            <Text>This is the about page</Text>
-            <Text>This is the about page</Text>
-            <Text>This is the about page</Text>
-            <Text>This is the about page</Text>
-            <Text>This is the about page</Text>
-            <Text>This is the about page</Text>
-            <Text>This is the about page</Text>
-            <Text>This is the about page</Text>
-            <Text>This is the about page</Text>
-            <Text>This is the about page</Text>
-            <Text>This is the about page</Text>
-            <Text>This is the about page</Text>
-            <Text>This is the about page</Text>
-            <Text>This is the about page</Text>
-            <Text>This is the about page</Text>
-            <Text>This is the about page</Text>
-            <Text>This is the about page</Text>
-            <Text>This is the about page</Text>
-            <Text>This is the about page</Text>
-            <Text>This is the about page</Text>
-            <Text>This is the about page</Text>
-            <Text>This is the about page</Text>
-            <Text>This is the about page</Text>
-            <Text>This is the about page</Text>
-            <Text>This is the about page</Text>
+
+            {/* <pre>{htmlContent}</pre> */}
+            <div dangerouslySetInnerHTML={{ __html: htmlContent }} ></div>
         </Layout>
     )
 }
