@@ -12,12 +12,7 @@ export default function About() {
             setBio(result)
         }
     })
-    // useRequest(getMarkDownHtml(bio), {
-    //     onSuccess: (result) => {
-    //         console.log(result)
-    //         setHtmlContent(result)
-    //     }, ready: bio
-    // })
+
     useEffect(() => {
         if (bio) {
             getMarkDownHtml(bio).then(
@@ -26,16 +21,11 @@ export default function About() {
                     setHtmlContent(content)
                 }
             )
-
         }
-        if (htmlContent)
-            console.log(htmlContent)
-    }, [])
+    }, [bio])
 
     return (
         <Layout>
-
-            {/* <pre>{htmlContent}</pre> */}
             <div dangerouslySetInnerHTML={{ __html: htmlContent }} ></div>
         </Layout>
     )

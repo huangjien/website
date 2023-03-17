@@ -43,9 +43,4 @@ export const getUser = async (username, password) => {
         .then(data => {
             return data;
         })
-    // .catch(error => {
-    //     console.log(error);
-    //     return error;
-    // }
-    // )
 }
