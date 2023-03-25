@@ -44,3 +44,24 @@ export const getUser = async (username, password) => {
             return data;
         })
 }
+
+export const properties2Json = (propertiesString) => {
+    if (!propertiesString) {
+        return []
+    }
+    let properties = propertiesString.split('\n');
+    let propertiesJson = [];
+    for (let i = 0; i < properties.length; i++) {
+        let property = properties[i];
+        let propertyJson = {};
+        property = property.split('=');
+        if (property[0]) {
+            propertyJson['key'] = i
+            propertyJson['name'] = property[0].trim()
+            propertyJson['value'] = property[1] ? property[1].trim() : ''
+            propertiesJson.push(propertyJson);
+        }
+
+    }
+    return propertiesJson;
+};

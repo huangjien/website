@@ -3,7 +3,7 @@ import { useRequest, useSessionStorageState } from 'ahooks';
 import React, { useContext, useEffect, useState } from 'react';
 import { Hide, Show, User } from 'react-iconly';
 import { currentUser } from '../lib/global';
-import { getSetting, getUser, settingContext, userContext } from '../lib/Requests';
+import { getSetting, getUser, properties2Json, settingContext, userContext } from '../lib/Requests';
 
 const Login = () => {
     const [username, setUsername] = useState('');
@@ -12,7 +12,10 @@ const Login = () => {
     const [data, setData] = useContext(userContext)
     useRequest(getSetting, {
         onSuccess: (result) => {
-            setSetting(result?.result)
+            if (result && result.result) {
+                setSetting(properties2Json(result.result))
+            }
+
         }, cacheTime: -1
     })
     const [setting, setSetting] = useContext(settingContext)
@@ -23,6 +26,8 @@ const Login = () => {
         onSuccess: (result) => {
 
             if (!result.message) {
+                // we got login info here, now we will handle it according setting
+
                 setData(result);
                 setCached(result);
                 setError(undefined)
