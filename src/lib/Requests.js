@@ -25,6 +25,12 @@ export const getReadme = async () => {
     }).then(res => { return res.text() })
 }
 
+export const getIssues = async () => {
+    return await fetch('/api/issues', {
+        method: 'GET'
+    }).then(res => { return res.text() })
+}
+
 export const getLabels = async () => {
     return await fetch('/api/labels', {
         method: 'GET'
@@ -73,12 +79,15 @@ export const properties2Json = (propertiesString) => {
 };
 
 export const getOneSetting = (settings, key) => {
-    console.log(settings)
     var result = undefined
+    if (!settings) {
+        return result
+    }
     settings.forEach(setting => {
         if (setting['name'] === key) {
             result = setting['value']
         }
     });
+    // console.log(result)
     return result
 };

@@ -1,32 +1,18 @@
-import { Table, useAsyncList, useCollator } from '@nextui-org/react';
+import { Table } from '@nextui-org/react';
 import { useEffect, useState } from 'react';
+import { itemsPerPage } from '../lib/global';
+
 
 const HTable = ({ columns, data }) => {
     const [tableData, setTableData] = useState();
-    const collator = useCollator({ numeric: true });
-    async function load({ signal }) {
-        const items = tableData
-        return items
-    }
+
     useEffect(() => {
         if (data) {
             setTableData(data)
         }
     }, [data])
-    async function sort({ items, sortDescriptor }) {
-        return {
-            items: items.sort((a, b) => {
-                let first = a[sortDescriptor.column];
-                let second = b[sortDescriptor.column];
-                let cmp = collator.compare(first, second);
-                if (sortDescriptor.direction === "descending") {
-                    cmp *= -1;
-                }
-                return cmp;
-            }),
-        };
-    }
-    const list = useAsyncList({ load, sort });
+
+
     return (
         <>
             {tableData &&
@@ -37,13 +23,11 @@ const HTable = ({ columns, data }) => {
                         minWidth: "80%",
 
                     }}
-                    selectionMode="single" bordered sticked striped
-                    sortDescriptor={list.sortDescriptor}
-                    onSortChange={list.sort}
+                    selectionMode="single" sticked striped
                 >
                     <Table.Header columns={columns}>
                         {(column) => (
-                            <Table.Column allowsSorting key={column.key}>{column.label}</Table.Column>
+                            <Table.Column key={column.key}>{column.label}</Table.Column>
                         )}
                     </Table.Header>
                     <Table.Body items={tableData}>
@@ -57,7 +41,7 @@ const HTable = ({ columns, data }) => {
                         shadow
                         noMargin
                         align="center"
-                        rowsPerPage={25}
+                        rowsPerPage={itemsPerPage}
                         onPageChange={(page) => console.log({ page })}
                     />
                 </Table>
