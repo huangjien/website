@@ -25,6 +25,12 @@ export const getReadme = async () => {
     }).then(res => { return res.text() })
 }
 
+export const getLabels = async () => {
+    return await fetch('/api/labels', {
+        method: 'GET'
+    }).then(res => res.json()).then(data => { return data })
+}
+
 
 export const getUser = async (username, password) => {
     if (window != undefined) {
@@ -64,4 +70,15 @@ export const properties2Json = (propertiesString) => {
 
     }
     return propertiesJson;
+};
+
+export const getOneSetting = (settings, key) => {
+    console.log(settings)
+    var result = undefined
+    settings.forEach(setting => {
+        if (setting['name'] === key) {
+            result = setting['value']
+        }
+    });
+    return result
 };

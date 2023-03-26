@@ -11,7 +11,6 @@ const HTable = ({ columns, data }) => {
     useEffect(() => {
         if (data) {
             setTableData(data)
-            load
         }
     }, [data])
     async function sort({ items, sortDescriptor }) {
