@@ -1,5 +1,11 @@
 // local test url: http://localhost:3000/api/about
 
+export const config = {
+    api: {
+        externalResolver: true,
+    },
+};
+
 export default function handler(req, res) {
     fetch('https://api.github.com/markdown', {
         method: 'POST',

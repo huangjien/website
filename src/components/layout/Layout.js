@@ -1,3 +1,4 @@
+import { Spacer } from '@nextui-org/react';
 import { useScroll } from 'ahooks';
 import { useEffect, useState } from "react";
 import { ChevronUpCircle } from 'react-iconly';
@@ -34,6 +35,7 @@ const Layout = props => {
         }}>
 
             <Header />
+            <Spacer y={1} />
             <Box >
                 {props.children}
             </Box>

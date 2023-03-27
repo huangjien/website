@@ -1,3 +1,10 @@
+
+export const config = {
+    api: {
+        externalResolver: true,
+    },
+};
+
 export default function handler(req, res) {
     fetch(`${process.env.GITHUB_REPO}/issues`, {
         method: 'GET',
@@ -7,7 +14,7 @@ export default function handler(req, res) {
     })
         .then(response => response.json())
         .then(data => {
-            console.log(data)
+            // console.log(data)
             res.status(200).send(data)
         })
         .catch(err => {

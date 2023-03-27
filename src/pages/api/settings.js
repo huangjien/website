@@ -1,4 +1,9 @@
 // local test url: http://localhost:3000/api/settings
+export const config = {
+  api: {
+    externalResolver: true,
+  },
+};
 
 export default function handler(req, res) {
   fetch(`${process.env.GITHUB_REPO}/issues?labels=settings`, {

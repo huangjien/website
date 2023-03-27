@@ -17,7 +17,7 @@ export default function About() {
         if (bio) {
             getMarkDownHtml(bio).then(
                 (content) => {
-                    console.log(content)
+                    // console.log(content)
                     setHtmlContent(content)
                 }
             )
