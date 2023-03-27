@@ -1,6 +1,6 @@
-import { styled } from "@nextui-org/react";
+import { styled } from '@nextui-org/react';
 
-export const Box = styled("div", {
-    boxSizing: "border-box",
-    margin: "1em"
+export const Box = styled('div', {
+  boxSizing: 'border-box',
+  margin: '1em',
 });

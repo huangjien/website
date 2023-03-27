@@ -1,6 +1,6 @@
 import { createTheme, globalCss, NextUIProvider } from '@nextui-org/react';
 import { ThemeProvider as NextThemesProvider } from 'next-themes';
-import { useState } from "react";
+import { useState } from 'react';
 import SSRProvider from 'react-bootstrap/SSRProvider';
 import { IconlyProvider } from 'react-iconly';
 import { settingContext, userContext } from '../lib/Requests';
@@ -34,7 +34,8 @@ const lightTheme = createTheme({
       primarySolidContrast: '$white',
       primaryShadow: '$green500',
 
-      gradient: 'linear-gradient(112deg, $blue100 -25%, $pink500 -10%, $purple500 80%)',
+      gradient:
+        'linear-gradient(112deg, $blue100 -25%, $pink500 -10%, $purple500 80%)',
       link: '#5E1DAD',
     },
     shadows: {
@@ -42,7 +43,7 @@ const lightTheme = createTheme({
       sm: '0 2px 8px 2px rgb(104 112 118 / 0.07), 0 2px 4px -1px rgb(104 112 118 / 0.04)',
       md: '0 12px 20px 6px rgb(104 112 118 / 0.08)',
       lg: '0 12px 34px 6px rgb(104 112 118 / 0.18)',
-      xl: '0 25px 65px 0px rgb(104 112 118 / 0.35)'
+      xl: '0 25px 65px 0px rgb(104 112 118 / 0.35)',
     },
     // to use along with css dropShadow utility
     dropShadows: {
@@ -50,23 +51,23 @@ const lightTheme = createTheme({
       sm: 'drop-shadow(0 2px 8px rgb(104 112 118 / 0.07)) drop-shadow(0 2px 4px rgb(104 112 118 / 0.04))',
       md: 'drop-shadow(0 4px 12px rgb(104 112 118 / 0.08)) drop-shadow(0 20px 8px rgb(104 112 118 / 0.04))',
       lg: 'drop-shadow(0 12px 24px rgb(104 112 118 / 0.15)) drop-shadow(0 12px 14px rgb(104 112 118 / 0.1))',
-      xl: 'drop-shadow(0 25px 34px rgb(104 112 118 / 0.35))'
+      xl: 'drop-shadow(0 25px 34px rgb(104 112 118 / 0.35))',
     },
     fontSizes: {
-      xs: '0.75rem', /* 12px */
-      sm: '0.875rem', /* 14px */
-      base: '1rem', /* 16px */
-      md: '1rem', /* 16px */
-      lg: '1.125rem', /* 18px */
-      xl: '1.25rem', /* 20px */
-      '2xl': '1.5rem', /* 24px */
-      '3xl': '1.875rem', /* 30px */
-      '4xl': '2.25rem', /* 36px */
-      '5xl': '3rem', /* 48px */
-      '6xl': '3.75rem', /* 60px */
-      '7xl': '4.5rem', /* 72px */
-      '8xl': '6rem', /* 96px */
-      '9xl': '8rem', /* 128px */
+      xs: '0.75rem' /* 12px */,
+      sm: '0.875rem' /* 14px */,
+      base: '1rem' /* 16px */,
+      md: '1rem' /* 16px */,
+      lg: '1.125rem' /* 18px */,
+      xl: '1.25rem' /* 20px */,
+      '2xl': '1.5rem' /* 24px */,
+      '3xl': '1.875rem' /* 30px */,
+      '4xl': '2.25rem' /* 36px */,
+      '5xl': '3rem' /* 48px */,
+      '6xl': '3.75rem' /* 60px */,
+      '7xl': '4.5rem' /* 72px */,
+      '8xl': '6rem' /* 96px */,
+      '9xl': '8rem' /* 128px */,
     },
     fontWeights: {
       hairline: 100,
@@ -77,23 +78,23 @@ const lightTheme = createTheme({
       semibold: 600,
       bold: 700,
       extrabold: 800,
-      black: 900
+      black: 900,
     },
     lineHeights: {
-      xs: 1, /* 16px */
-      sm: 1.25, /* 20px */
-      base: 1.5, /* 24px */
-      md: 1.5, /* 24px */
-      lg: 1.75, /* 28px */
-      xl: 1.75, /* 28px */
-      '2xl': 2, /* 32px */
-      '3xl': 2.25, /* 36px */
-      '4xl': 2.5, /* 40px */
-      '5xl': 1, /* 16px */
-      '6xl': 1, /* 16px */
-      '7xl': 1, /* 16px */
-      '8xl': 1, /* 16px */
-      '9xl': 1 /* 16px */
+      xs: 1 /* 16px */,
+      sm: 1.25 /* 20px */,
+      base: 1.5 /* 24px */,
+      md: 1.5 /* 24px */,
+      lg: 1.75 /* 28px */,
+      xl: 1.75 /* 28px */,
+      '2xl': 2 /* 32px */,
+      '3xl': 2.25 /* 36px */,
+      '4xl': 2.5 /* 40px */,
+      '5xl': 1 /* 16px */,
+      '6xl': 1 /* 16px */,
+      '7xl': 1 /* 16px */,
+      '8xl': 1 /* 16px */,
+      '9xl': 1 /* 16px */,
     },
     letterSpacings: {
       tighter: '-0.05em',
@@ -101,7 +102,7 @@ const lightTheme = createTheme({
       normal: '0',
       wide: '0.025em',
       wider: '0.05em',
-      widest: '0.1em'
+      widest: '0.1em',
     },
     radii: {
       xs: '7px',
@@ -121,7 +122,7 @@ const lightTheme = createTheme({
       normal: '2px',
       bold: '3px',
       extrabold: '4px',
-      black: '5px'
+      black: '5px',
     },
     spacing: {
       0: '0rem',
@@ -176,14 +177,14 @@ const lightTheme = createTheme({
       64: '16rem',
       72: '18rem',
       80: '20rem',
-      96: '24rem'
+      96: '24rem',
     },
     breakpoints: {
       xs: '650px',
       sm: '960px',
       md: '1280px',
       lg: '1400px',
-      xl: '1920px'
+      xl: '1920px',
     },
     zIndices: {
       1: '100',
@@ -192,10 +193,10 @@ const lightTheme = createTheme({
       4: '400',
       5: '500',
       10: '1000',
-      max: '9999'
+      max: '9999',
     },
-  }
-})
+  },
+});
 
 const darkTheme = createTheme({
   type: 'dark',
@@ -206,11 +207,10 @@ const darkTheme = createTheme({
       black: '#000000',
 
       // background colors (dark)
-      background: "$black",
-      backgroundAlpha: "rgba(255, 255, 255, 0.8)", // used for semi-transparent backgrounds like the navbar
-      foreground: "$white",
-      backgroundContrast: "$black",
-
+      background: '$black',
+      backgroundAlpha: 'rgba(255, 255, 255, 0.8)', // used for semi-transparent backgrounds like the navbar
+      foreground: '$white',
+      backgroundContrast: '$black',
 
       //semantic colors (light)
       blue50: '#EDF5FF',
@@ -228,14 +228,14 @@ const darkTheme = createTheme({
       primaryBorderHover: '$blue600',
       primarySolidHover: '$blue700',
       primarySolidContrast: '$white', // commonly used for text inside the component
-      primaryShadow: '$blue500'
+      primaryShadow: '$blue500',
     },
     shadows: {
       xs: '0 2px 8px 1px rgb(0 0 0 / 0.07), 0 1px 1px -1px rgb(0 0 0 / 0.04)',
       sm: '0 2px 8px 2px rgb(0 0 0 / 0.07), 0 2px 4px -1px rgb(0 0 0 / 0.04)',
       md: '0 12px 20px 6px rgb(0 0 0 / 0.08)',
       lg: '0 12px 34px 6px rgb(0 0 0 / 0.18)',
-      xl: '0 25px 65px 0px rgb(0 0 0 / 0.35)'
+      xl: '0 25px 65px 0px rgb(0 0 0 / 0.35)',
     },
     // to use along with css dropShadow utility
     dropShadows: {
@@ -243,23 +243,23 @@ const darkTheme = createTheme({
       sm: 'drop-shadow(0 2px 8px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 4px rgb(0 0 0 / 0.04))',
       md: 'drop-shadow(0 4px 12px rgb(0 0 0 / 0.08)) drop-shadow(0 20px 8px rgb(0 0 0 / 0.04))',
       lg: 'drop-shadow(0 12px 24px rgb(0 0 0 / 0.15)) drop-shadow(0 12px 14px rgb(0 0 0 / 0.1))',
-      xl: 'drop-shadow(0 25px 34px rgb(0 0 0 / 0.35))'
+      xl: 'drop-shadow(0 25px 34px rgb(0 0 0 / 0.35))',
     },
     fontSizes: {
-      xs: '0.75rem', /* 12px */
-      sm: '0.875rem', /* 14px */
-      base: '1rem', /* 16px */
-      md: '1rem', /* 16px */
-      lg: '1.125rem', /* 18px */
-      xl: '1.25rem', /* 20px */
-      '2xl': '1.5rem', /* 24px */
-      '3xl': '1.875rem', /* 30px */
-      '4xl': '2.25rem', /* 36px */
-      '5xl': '3rem', /* 48px */
-      '6xl': '3.75rem', /* 60px */
-      '7xl': '4.5rem', /* 72px */
-      '8xl': '6rem', /* 96px */
-      '9xl': '8rem', /* 128px */
+      xs: '0.75rem' /* 12px */,
+      sm: '0.875rem' /* 14px */,
+      base: '1rem' /* 16px */,
+      md: '1rem' /* 16px */,
+      lg: '1.125rem' /* 18px */,
+      xl: '1.25rem' /* 20px */,
+      '2xl': '1.5rem' /* 24px */,
+      '3xl': '1.875rem' /* 30px */,
+      '4xl': '2.25rem' /* 36px */,
+      '5xl': '3rem' /* 48px */,
+      '6xl': '3.75rem' /* 60px */,
+      '7xl': '4.5rem' /* 72px */,
+      '8xl': '6rem' /* 96px */,
+      '9xl': '8rem' /* 128px */,
     },
     fontWeights: {
       hairline: 100,
@@ -270,23 +270,23 @@ const darkTheme = createTheme({
       semibold: 600,
       bold: 700,
       extrabold: 800,
-      black: 900
+      black: 900,
     },
     lineHeights: {
-      xs: 1, /* 16px */
-      sm: 1.25, /* 20px */
-      base: 1.5, /* 24px */
-      md: 1.5, /* 24px */
-      lg: 1.75, /* 28px */
-      xl: 1.75, /* 28px */
-      '2xl': 2, /* 32px */
-      '3xl': 2.25, /* 36px */
-      '4xl': 2.5, /* 40px */
-      '5xl': 1, /* 16px */
-      '6xl': 1, /* 16px */
-      '7xl': 1, /* 16px */
-      '8xl': 1, /* 16px */
-      '9xl': 1 /* 16px */
+      xs: 1 /* 16px */,
+      sm: 1.25 /* 20px */,
+      base: 1.5 /* 24px */,
+      md: 1.5 /* 24px */,
+      lg: 1.75 /* 28px */,
+      xl: 1.75 /* 28px */,
+      '2xl': 2 /* 32px */,
+      '3xl': 2.25 /* 36px */,
+      '4xl': 2.5 /* 40px */,
+      '5xl': 1 /* 16px */,
+      '6xl': 1 /* 16px */,
+      '7xl': 1 /* 16px */,
+      '8xl': 1 /* 16px */,
+      '9xl': 1 /* 16px */,
     },
     letterSpacings: {
       tighter: '-0.05em',
@@ -294,7 +294,7 @@ const darkTheme = createTheme({
       normal: '0',
       wide: '0.025em',
       wider: '0.05em',
-      widest: '0.1em'
+      widest: '0.1em',
     },
     radii: {
       xs: '7px',
@@ -314,7 +314,7 @@ const darkTheme = createTheme({
       normal: '2px',
       bold: '3px',
       extrabold: '4px',
-      black: '5px'
+      black: '5px',
     },
     spacing: {
       0: '0rem',
@@ -369,14 +369,14 @@ const darkTheme = createTheme({
       64: '16rem',
       72: '18rem',
       80: '20rem',
-      96: '24rem'
+      96: '24rem',
     },
     breakpoints: {
       xs: '650px',
       sm: '960px',
       md: '1280px',
       lg: '1400px',
-      xl: '1920px'
+      xl: '1920px',
     },
     zIndices: {
       1: '100',
@@ -385,22 +385,22 @@ const darkTheme = createTheme({
       4: '400',
       5: '500',
       10: '1000',
-      max: '9999'
+      max: '9999',
     },
-  }
-})
+  },
+});
 
 const globalStyles = globalCss({
-  'body': {
+  body: {
     // maxWidth: '70ch',
     margin: 5,
     padding: 5,
     boxSizing: 'border-box',
-    maxW: "100%",
+    maxW: '100%',
     // padding: '3em 1em',
     // margin: 'auto',
     lineHeight: 1.75,
-    fontSize: '1.25em'
+    fontSize: '1.25em',
   },
   '.scrollToTop': {
     position: 'fixed',
@@ -414,13 +414,12 @@ const globalStyles = globalCss({
     // animation: 'fadeIn 0.5s',
     // transition: 'opacity 0.4s',
     // opacity: 0.5
-  }
+  },
 });
 
-
 export default function App({ Component, pageProps }) {
-  const [user, setUser] = useState(undefined)
-  const [setting, setSetting] = useState(undefined)
+  const [user, setUser] = useState(undefined);
+  const [setting, setSetting] = useState(undefined);
   globalStyles();
   return (
     <NextThemesProvider
@@ -428,20 +427,20 @@ export default function App({ Component, pageProps }) {
       attribute="class"
       value={{
         light: lightTheme.className,
-        dark: darkTheme.className
+        dark: darkTheme.className,
       }}
     >
       <IconlyProvider
-        set='two-tone'
-        primaryColor='blue'
-        secondaryColor='grey'
-        stroke='light'
-        size='small'
+        set="two-tone"
+        primaryColor="blue"
+        secondaryColor="grey"
+        stroke="light"
+        size="small"
       >
         <NextUIProvider>
           <SSRProvider>
             <settingContext.Provider value={[setting, setSetting]}>
-              <userContext.Provider value={[user, setUser]} >
+              <userContext.Provider value={[user, setUser]}>
                 <Component {...pageProps} />
               </userContext.Provider>
             </settingContext.Provider>
