@@ -1,4 +1,4 @@
-// local test url: http://localhost:3000/api/about
+// local test url: http://localhost:3000/api/markdown
 
 export const config = {
     api: {
@@ -16,7 +16,6 @@ export default function handler(req, res) {
     })
         .then(response => response.text())
         .then(data => {
-            // console.log(data)
             res.status(200).send(data)
         })
 }

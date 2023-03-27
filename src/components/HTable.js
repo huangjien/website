@@ -12,7 +12,6 @@ const HTable = ({ columns, data }) => {
         }
     }, [data])
 
-
     return (
         <>
             {tableData &&

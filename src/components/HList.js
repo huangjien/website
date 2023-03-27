@@ -1,56 +1,44 @@
 import { Collapse, Dropdown, Input, Navbar, Pagination } from "@nextui-org/react";
 import { useDebounceEffect } from 'ahooks';
+import 'babel-polyfill';
 import { useEffect, useMemo, useState } from 'react';
 import { Bookmark, Search } from 'react-iconly';
 import { Box } from '../components/layout/Box';
 import { itemsPerPage } from '../lib/global';
 import { HIssue } from './HIssue';
 
-const intersection = (arrA, arrB) => arrA.filter(x => { console.log(x); arrB.has(x.toUpperCase()) })
-
 export const HList = (data) => {
     const [listData, setListData] = useState()
     const [searchValue, setSearchValue] = useState('')
     const [labels, setLabels] = useState()
-    const [selected, setSelected] = useState((["ALL"]));
+    // eslint-disable-next-line no-undef
+    const [selected, setSelected] = useState(new Set(['ALL']))
     const [pageTotal, setPageTotal] = useState(0)
 
     const selectedValue = useMemo(
         () => Array.from(selected).join(", ").replaceAll("_", " "),
         [selected]
     );
-    useDebounceEffect(() => {
-        if (!searchValue) {
-            return
-        }
-        if (listData) {
-            const filterred = listData.filter(issue => {
-                var regex = new RegExp("Ral", "i")
-                return issue['title'].search(regex) > -1 || issue['body'].search(regex) > -1
-            })
-            setListData(filterred)
-        }
-
-    }, [searchValue], { wait: 2000 })
 
     useDebounceEffect(() => {
-        if (!selected) {
-            return
-        }
-        console.log(selected)
-        if (selected.includes('ALL')) {
-            setSearchValue('')
+        if (!searchValue && selected.has('ALL')) {
             setListData(data.data)
-        } else {
-            // check listData['labels.name'] contains selected
-            const filteredArray = data.data.filter(value => {
-                var ret = value['labels.name'].filter(x => selected.has(x.toUpperCase()))
-                var len = ret.length
-                return len > 0
-            });
-            setListData(filteredArray)
+            return
         }
-    }, [selected], { wait: 2000 })
+        // if (listData) {
+        const filterred = data.data.filter(issue => {
+            var regex = new RegExp(searchValue, "i")
+            return issue['title'].search(regex) > -1 || issue['body'].search(regex) > -1
+        })
+        const filteredArray = filterred.filter(value => {
+            var ret = value['labels.name'].filter(x => selected.has(x.toUpperCase()) || selected.has('ALL'))
+            var len = ret.length
+            return len > 0
+        });
+        setListData(filteredArray)
+        // }
+
+    }, [searchValue, selected], { wait: 2000 })
 
     useEffect(() => {
         if (!listData) {
@@ -78,7 +66,6 @@ export const HList = (data) => {
         if (data.data) {
             setListData(data.data)
         }
-
     }, [data])
 
     return (
@@ -160,7 +147,7 @@ export const HList = (data) => {
 
             <Collapse.Group key='Issues'>
                 {listData &&
-                    listData.map(issue => (
+                    listData.map((issue) => (
                         <HIssue title={issue.title} key={issue.updated_at} issue={issue} />
                     ))
                 }

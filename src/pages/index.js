@@ -11,6 +11,7 @@ const Index = () => {
   const [rawData, setRawData] = useState()
   const [listData, setListData] = useSessionStorageState(issuesConent);
   const [labelsList, setLabelsList] = useState([])
+
   useRequest(getIssues, {
     onSuccess: (result) => {
       setRawData(JSON.parse(result))
@@ -30,8 +31,6 @@ const Index = () => {
 
   useEffect(() => {
     if (rawData && issueContent && labelsList) {
-      // console.log(rawData)
-      // console.log(typeof rawData)
       // forEach rawDate content, check its labels.name, if it is in labelList, then only record data in the issueContent
       var finalResult = []
       rawData.forEach(issue => {

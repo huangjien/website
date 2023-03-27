@@ -21,22 +21,22 @@ export const HIssue = (issue) => {
             {data &&
                 <Collapse shadow bordered key={data.updated_at} title={data.title} subtitle={'last updated: ' + data.updated_at}>
                     <Grid.Container alignItems="center" gap={1}>
-                        <Text key='created_at' >{"created: " + data.created_at}</Text>
+                        <Text >{"created: " + data.created_at}</Text>
                         <Spacer x={2} />
-                        <Badge key='status' enableShadow disableOutline color={data.state === 'open' ? 'success' : 'error'}>{data.state}</Badge>
+                        <Badge enableShadow disableOutline color={data.state === 'open' ? 'success' : 'error'}>{data.state}</Badge>
                         <Spacer x={2} />
                         {data['labels.name'] &&
-                            data['labels.name'].map(label => (
-                                <>
-                                    <Spacer x={1} />
-                                    <Badge key={label} enableShadow disableOutline >{label}</Badge>
-                                </>
+                            data['labels.name'].map((label) => (
+                                <div key={label}>
+                                    <Spacer x={0.5} />
+                                    <Badge enableShadow disableOutline >{label}</Badge>
+                                </div>
                             )
                             )
                         }
                     </Grid.Container>
 
-                    <Spacer y={1} />
+                    <Spacer key="last_spacer" y={1} />
                     <div dangerouslySetInnerHTML={{ __html: data.html }} ></div>
                 </Collapse>
             }
