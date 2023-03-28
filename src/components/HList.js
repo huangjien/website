@@ -30,9 +30,8 @@ export const HList = (data) => {
         setListData(data.data);
         return;
       }
-
+      var regex = new RegExp(searchValue, 'i');
       const filterred = data.data.filter((issue) => {
-        var regex = new RegExp(searchValue, 'i');
         return (
           issue['title'].search(regex) > -1 || issue['body'].search(regex) > -1
         );

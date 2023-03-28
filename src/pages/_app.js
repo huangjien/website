@@ -422,31 +422,31 @@ export default function App({ Component, pageProps }) {
   const [setting, setSetting] = useState(undefined);
   globalStyles();
   return (
-    <NextThemesProvider
-      defaultTheme="system"
-      attribute="class"
-      value={{
-        light: lightTheme.className,
-        dark: darkTheme.className,
-      }}
-    >
-      <IconlyProvider
-        set="two-tone"
-        primaryColor="blue"
-        secondaryColor="grey"
-        stroke="light"
-        size="small"
+    <SSRProvider>
+      <NextThemesProvider
+        defaultTheme="system"
+        attribute="class"
+        value={{
+          light: lightTheme.className,
+          dark: darkTheme.className,
+        }}
       >
-        <NextUIProvider>
-          <SSRProvider>
+        <IconlyProvider
+          set="two-tone"
+          primaryColor="blue"
+          secondaryColor="grey"
+          stroke="light"
+          size="small"
+        >
+          <NextUIProvider>
             <settingContext.Provider value={[setting, setSetting]}>
               <userContext.Provider value={[user, setUser]}>
                 <Component {...pageProps} />
               </userContext.Provider>
             </settingContext.Provider>
-          </SSRProvider>
-        </NextUIProvider>
-      </IconlyProvider>
-    </NextThemesProvider>
+          </NextUIProvider>
+        </IconlyProvider>
+      </NextThemesProvider>
+    </SSRProvider>
   );
 }
