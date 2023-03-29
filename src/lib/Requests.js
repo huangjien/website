@@ -1,4 +1,5 @@
-import { createContext } from 'react';
+import { useSessionStorageState } from 'ahooks';
+import { createContext, useState } from 'react';
 import { currentUser } from '../lib/global';
 
 export const userContext = createContext(undefined);
@@ -24,10 +25,46 @@ export const hashCode = (string) => {
   return hash;
 };
 
+export const useMessage = (initialMessage) => {
+  const [message, setMessage] = useState(initialMessage);
+  const [msg, setMsg] = useSessionStorageState('message');
+  const fatal = (message) => {
+    setMsg({ 'messageType': 'Error', 'message': message, 'color': 'error' });
+  }
+  const warning = (message) => {
+    setMsg({ 'messageType': 'Warning', 'message': message, 'color': 'warning' });
+  }
+  const success = (message) => {
+    setMsg({ 'messageType': 'Success', 'message': message, 'color': 'success' })
+  }
+  const info = (message) => {
+    setMsg({ 'messageType': 'Info', 'message': message, 'color': 'primary' })
+  }
+  const clear = () => {
+    setMsg(undefined)
+  }
+  const messageType = () => {
+    return msg ? msg.messageType : '';
+  }
+
+  const messageContent = () => {
+    return msg ? msg.message : '';
+  }
+
+  return [msg, fatal, warning, success, info, clear, messageType, messageContent]
+}
+
+export const setMessage = (messageType, message) => {
+  var msg = {}
+  msg['messageType'] = messageType;
+  msg['message'] = message;
+  sessionStorage.setItem('message', JSON.stringify(msg));
+};
+
 export const getMarkDownHtml = async (content) => {
   // check the local storage with hashCode, if matched, save the time to access the github
   const hash = hashCode(content);
-  const translated = localStorage.getItem(`${hash}`);
+  const translated = sessionStorage.getItem(`${hash}`);
   if (translated) {
     return await translated;
   }
@@ -38,7 +75,7 @@ export const getMarkDownHtml = async (content) => {
   })
     .then((res) => res.text())
     .then((data) => {
-      localStorage.setItem(`${hash}`, data);
+      sessionStorage.setItem(`${hash}`, data);
       return data;
     });
 };

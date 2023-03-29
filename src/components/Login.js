@@ -6,9 +6,9 @@ import {
   Loading,
   Modal,
   Row,
-  Text,
+  Text
 } from '@nextui-org/react';
-import { useRequest, useSessionStorageState } from 'ahooks';
+import { useRequest, useSessionStorageState, useUpdateEffect } from 'ahooks';
 import React, { useContext, useEffect, useState } from 'react';
 import { Hide, Show, User } from 'react-iconly';
 import { currentUser } from '../lib/global';
@@ -16,15 +16,17 @@ import {
   getOneSetting,
   getSetting,
   getUser,
-  properties2Json,
-  settingContext,
-  userContext,
+  properties2Json, settingContext, useMessage,
+  userContext
 } from '../lib/Requests';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [showMessage, setShowMessage] = useState(false);
   const [cached, setCached] = useSessionStorageState(currentUser);
+  // const [msg, setMsg] = useSessionStorageState(message);
+  const [msg, fatal, warning, info, success, clear, messageType, messageContent] = useMessage('default message')
   const [data, setData] = useContext(userContext);
   useRequest(getSetting, {
     onSuccess: (result) => {
@@ -66,9 +68,11 @@ const Login = () => {
   });
   const [visible, setVisible] = React.useState(false);
   const handler = () => setVisible(true);
-
-  const closeHandler = () => {
-    setVisible(false);
+  const closeHandler = (removeMsg) => {
+    setShowMessage(false);
+    if (removeMsg) {
+      clear();
+    }
   };
 
   const clearLogin = () => {
@@ -76,6 +80,13 @@ const Login = () => {
     setData(undefined);
     setSelectedKey(undefined);
   };
+
+  useUpdateEffect(() => {
+    if (msg) {
+      // show message
+      setShowMessage(true)
+    }
+  }, [msg]);
 
   useEffect(() => {
     if (cached) {
@@ -92,10 +103,43 @@ const Login = () => {
     if (selectedKey.toLowerCase() === 'logout') {
       clearLogin();
     }
+    if (selectedKey.toLowerCase() === 'showmessage') {
+      setShowMessage(true);
+    }
+    if (selectedKey.toLowerCase() === 'testmessage') {
+      warning('This is an error')
+    }
   }, [selectedKey]);
 
   return (
     <>
+      {msg && <Modal
+        closeButton
+        preventClose={messageType() === "Error"}
+        aria-labelledby="modal-title"
+        open={showMessage && msg}
+        onClose={closeHandler}
+      >
+        <Modal.Header>
+          <Text color={msg.color} id="modal-title" b size={18}>
+            {messageType()}
+          </Text>
+        </Modal.Header>
+        <Modal.Body>
+          <Row justify="space-between">
+            <Text size={16}>{messageContent()}</Text>
+          </Row>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button auto flat color="primary" onPress={() => closeHandler(true)}>
+            Acknowledge
+          </Button>
+          <Button auto onPress={() => closeHandler(false)}>
+            Keep the message
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      }
       {!data?.name && (
         <Button auto shadow onPress={handler}>
           Login
@@ -107,9 +151,10 @@ const Login = () => {
         data && (
           <Dropdown placement="bottom-left">
             <Dropdown.Trigger>
-              <Avatar zoomed bordered text={data.name} src={data.avatar_url} />
+              <Avatar color={msg ? 'error' : 'primary'} zoomed bordered text={data.name} src={data.avatar_url} />
             </Dropdown.Trigger>
             <Dropdown.Menu
+              disabledKeys={msg ? [] : ['showMessage']}
               color="secondary"
               aria-label="Avatar Actions"
               onAction={setSelectedKey}
@@ -117,6 +162,8 @@ const Login = () => {
               <Dropdown.Item key="email" textValue={data.email.trim()}>
                 <Text color="inherit">{data.email.trim()}</Text>
               </Dropdown.Item>
+              <Dropdown.Item withDivider key="showMessage">Message</Dropdown.Item>
+              <Dropdown.Item key="testMessage">Test Message</Dropdown.Item>
               <Dropdown.Item
                 key="logout"
                 withDivider
