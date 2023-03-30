@@ -1,5 +1,5 @@
 import { useSessionStorageState } from 'ahooks';
-import { createContext, useState } from 'react';
+import { createContext } from 'react';
 import { currentUser } from '../lib/global';
 
 export const userContext = createContext(undefined);
@@ -26,8 +26,7 @@ export const hashCode = (string) => {
 };
 
 export const useMessage = (initialMessage) => {
-  const [message, setMessage] = useState(initialMessage);
-  const [msg, setMsg] = useSessionStorageState('message');
+  const [msg, setMsg] = useSessionStorageState('message', { defaultValue: initialMessage });
   const fatal = (message) => {
     setMsg({ 'messageType': 'Error', 'message': message, 'color': 'error' });
   }
@@ -51,7 +50,11 @@ export const useMessage = (initialMessage) => {
     return msg ? msg.message : '';
   }
 
-  return [msg, fatal, warning, success, info, clear, messageType, messageContent]
+  const messageColor = () => {
+    return msg ? msg.color : '';
+  }
+
+  return [msg, fatal, warning, success, info, clear, messageType, messageContent, messageColor]
 }
 
 export const setMessage = (messageType, message) => {

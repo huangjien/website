@@ -26,7 +26,7 @@ const Login = () => {
   const [showMessage, setShowMessage] = useState(false);
   const [cached, setCached] = useSessionStorageState(currentUser);
   // const [msg, setMsg] = useSessionStorageState(message);
-  const [msg, fatal, warning, info, success, clear, messageType, messageContent] = useMessage('default message')
+  const [msg, fatal, warning, info, success, clear, messageType, messageContent, messageColor] = useMessage('default message')
   const [data, setData] = useContext(userContext);
   useRequest(getSetting, {
     onSuccess: (result) => {
@@ -109,6 +109,7 @@ const Login = () => {
     if (selectedKey.toLowerCase() === 'testmessage') {
       warning('This is an error')
     }
+    setSelectedKey(undefined)
   }, [selectedKey]);
 
   return (
@@ -121,7 +122,7 @@ const Login = () => {
         onClose={closeHandler}
       >
         <Modal.Header>
-          <Text color={msg.color} id="modal-title" b size={18}>
+          <Text color={messageColor()} id="modal-title" b size={18}>
             {messageType()}
           </Text>
         </Modal.Header>
@@ -151,7 +152,7 @@ const Login = () => {
         data && (
           <Dropdown placement="bottom-left">
             <Dropdown.Trigger>
-              <Avatar color={msg ? 'error' : 'primary'} zoomed bordered text={data.name} src={data.avatar_url} />
+              <Avatar color={messageColor()} zoomed bordered text={data.name} src={data.avatar_url} />
             </Dropdown.Trigger>
             <Dropdown.Menu
               disabledKeys={msg ? [] : ['showMessage']}
