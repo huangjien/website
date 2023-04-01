@@ -418,8 +418,6 @@ const globalStyles = globalCss({
 });
 
 export default function App({ Component, pageProps }) {
-
-
   globalStyles();
   return (
     <SSRProvider>
@@ -439,7 +437,7 @@ export default function App({ Component, pageProps }) {
           size="small"
         >
           <NextUIProvider>
-            <ProvideSettings >
+            <ProvideSettings>
               <ProvideAuth>
                 <Component {...pageProps} />
               </ProvideAuth>

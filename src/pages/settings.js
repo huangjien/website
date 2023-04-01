@@ -6,7 +6,7 @@ import { useAuth } from '../lib/useAuth';
 import { useSettings } from '../lib/useSettings';
 
 const Settings = () => {
-  const { settings } = useSettings()
+  const { settings } = useSettings();
   const { user } = useAuth();
   const { push } = useRouter();
   const columns = [
@@ -27,6 +27,8 @@ const Settings = () => {
     }
   }, [user]);
 
-  return <Layout>{user && <HTable columns={columns} data={settings} />}</Layout>;
+  return (
+    <Layout>{user && <HTable columns={columns} data={settings} />}</Layout>
+  );
 };
 export default Settings;

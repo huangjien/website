@@ -16,6 +16,9 @@ export const getSettings = async () => {
 
 export const hashCode = (string) => {
   var hash = 0;
+  if (!string) {
+    return 0;
+  }
   for (var i = 0; i < string.length; i++) {
     var code = string.charCodeAt(i);
     hash = (hash << 5) - hash + code;
@@ -34,7 +37,7 @@ export const setMessage = (messageType, message) => {
 export const getMarkDownHtml = async (content) => {
   // check the local storage with hashCode, if matched, save the time to access the github
   const hash = hashCode(content);
-  const translated = sessionStorage.getItem(`${hash}`);
+  const translated = sessionStorage.getItem(hash);
   if (translated) {
     return await translated;
   }
@@ -52,6 +55,14 @@ export const getMarkDownHtml = async (content) => {
 
 export const getReadme = async () => {
   return await fetch('/api/about', {
+    method: 'GET',
+  }).then((res) => {
+    return res.text();
+  });
+};
+
+export const getRawContent = async (url) => {
+  return await fetch(url, {
     method: 'GET',
   }).then((res) => {
     return res.text();
@@ -114,5 +125,3 @@ export const properties2Json = (propertiesString) => {
   }
   return propertiesJson;
 };
-
-

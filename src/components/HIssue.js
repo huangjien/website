@@ -1,46 +1,44 @@
 import { Badge, Collapse, Grid, Spacer, Text } from '@nextui-org/react';
-import { useEffect, useState } from 'react';
-import { getMarkDownHtml } from '../lib/Requests';
 
 export const HIssue = (issue) => {
-  const [data, setData] = useState();
+  // const [data, setData] = useState();
 
-  useEffect(() => {
-    if (issue) {
-      // setData(issue.issue)
-      getMarkDownHtml(issue.issue.body).then((content) => {
-        setData({ ...issue.issue, html: content });
-      });
-    }
-  }, [issue]);
+  // useEffect(() => {
+  //   if (issue) {
+  //     // setData(issue.issue)
+  //     getMarkDownHtml(issue.issue.body).then((content) => {
+  //       setData({ ...issue.issue, html: content });
+  //     });
+  //   }
+  // }, [issue]);
   return (
     <>
       <Spacer y={1} />
-      {data && (
+      {issue && (
         <Collapse
           shadow
           bordered
-          key={data.updated_at}
-          title={data.title}
-          subtitle={'last updated: ' + data.updated_at}
+          key={issue.issue.updated_at}
+          title={issue.issue.title}
+          subtitle={'last updated: ' + issue.issue.updated_at}
         >
           <Grid.Container alignItems="center" gap={1}>
             <Grid>
-              <Text>{'created: ' + data.created_at}</Text>
+              <Text>{'created: ' + issue.issue.created_at}</Text>
             </Grid>
 
             <Grid>
               <Badge
                 enableShadow
                 disableOutline
-                color={data.state === 'open' ? 'success' : 'error'}
+                color={issue.issue.state === 'open' ? 'success' : 'error'}
               >
-                {data.state}
+                {issue.issue.state}
               </Badge>
             </Grid>
             <Grid></Grid>
-            {data['labels.name'] &&
-              data['labels.name'].map((label) => (
+            {issue.issue['labels.name'] &&
+              issue.issue['labels.name'].map((label) => (
                 <Grid key={label}>
                   {/* <Spacer x={0.5} /> */}
                   <Badge enableShadow disableOutline>
@@ -51,7 +49,7 @@ export const HIssue = (issue) => {
           </Grid.Container>
 
           <Spacer key="last_spacer" y={1} />
-          <div dangerouslySetInnerHTML={{ __html: data.html }}></div>
+          <div dangerouslySetInnerHTML={{ __html: issue.issue.html }}></div>
         </Collapse>
       )}
     </>

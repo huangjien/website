@@ -3,23 +3,23 @@ import React from 'react';
 const DefaultOnSSR = () => <div></div>;
 
 class NoSSR extends React.Component {
-    constructor(...args) {
-        super(...args);
-        this.state = {
-            canRender: false
-        };
-    }
+  constructor(...args) {
+    super(...args);
+    this.state = {
+      canRender: false,
+    };
+  }
 
-    componentDidMount() {
-        this.setState({ canRender: true });
-    }
+  componentDidMount() {
+    this.setState({ canRender: true });
+  }
 
-    render() {
-        const { children, onSSR = <DefaultOnSSR /> } = this.props;
-        const { canRender } = this.state;
+  render() {
+    const { children, onSSR = <DefaultOnSSR /> } = this.props;
+    const { canRender } = this.state;
 
-        return canRender ? children : onSSR;
-    }
+    return canRender ? children : onSSR;
+  }
 }
 
 export default NoSSR;

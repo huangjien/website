@@ -6,12 +6,11 @@ import {
   Loading,
   Modal,
   Row,
-  Text
+  Text,
 } from '@nextui-org/react';
-import { useSessionStorageState, useUpdateEffect } from 'ahooks';
+import { useUpdateEffect } from 'ahooks';
 import React, { useEffect, useState } from 'react';
 import { Hide, Show, User } from 'react-iconly';
-import { currentUser } from '../lib/global';
 import { useAuth } from '../lib/useAuth';
 import { useMessage } from '../lib/useMessage';
 
@@ -19,8 +18,7 @@ const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showMessage, setShowMessage] = useState(false);
-  const [cached, setCached] = useSessionStorageState(currentUser);
-  // const [msg, setMsg] = useSessionStorageState(message);
+
   const [
     msg,
     fatal,
@@ -33,11 +31,10 @@ const Login = () => {
     messageColor,
   ] = useMessage('default message');
 
-
   // const { setting } = useSettings()
   const [selectedKey, setSelectedKey] = useState();
   // const [error, setError] = useState();
-  const { loading, error, user, login, logout } = useAuth()
+  const { loading, error, user, login, logout } = useAuth();
   const [visible, setVisible] = React.useState(false);
   const handler = () => setVisible(true);
   const closeHandler = (removeMsg) => {
@@ -48,7 +45,7 @@ const Login = () => {
   };
 
   const clearLogin = () => {
-    logout()
+    logout();
     setSelectedKey(undefined);
   };
 
@@ -60,7 +57,6 @@ const Login = () => {
   }, [msg]);
 
   useEffect(() => {
-
     if (user) {
       setVisible(false);
     }

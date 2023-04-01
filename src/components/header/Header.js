@@ -5,7 +5,7 @@ import {
   Spacer,
   Switch,
   Tooltip,
-  useTheme
+  useTheme,
 } from '@nextui-org/react';
 import { useTheme as useNextTheme } from 'next-themes';
 import { Document, Home, Setting } from 'react-iconly';
@@ -13,7 +13,6 @@ import { useAuth } from '../../lib/useAuth';
 import Login from '../Login';
 
 import NoSSR from '../../lib/NoSSR';
-
 
 const Header = () => {
   const { setTheme } = useNextTheme();

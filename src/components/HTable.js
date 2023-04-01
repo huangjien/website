@@ -1,4 +1,4 @@
-import { Input, Loading, Navbar, Table } from '@nextui-org/react';
+import { Input, Navbar, Table } from '@nextui-org/react';
 import { useDebounceEffect } from 'ahooks';
 import { useEffect, useState } from 'react';
 import { Search } from 'react-iconly';
@@ -11,7 +11,6 @@ const HTable = ({ columns, data }) => {
     column: '',
     direction: 'desceding',
   });
-  const [load, setLoad] = useState(false);
 
   useEffect(() => {
     if (data) {
@@ -26,7 +25,6 @@ const HTable = ({ columns, data }) => {
       }
       //sort on tableData
       if (tableData && tableData.length) {
-        setLoad(true);
         const sorted = tableData.sort((a, b) => {
           const valueA = a[sortdescriptor.column];
           const valueB = b[sortdescriptor.column];
@@ -39,11 +37,10 @@ const HTable = ({ columns, data }) => {
           return sortdescriptor.direction === 'ascending' ? -1 : 1;
         });
         setTableData(sorted);
-        setLoad(false);
       }
     },
     [sortdescriptor],
-    { wait: 2000 }
+    { wait: 500 }
   );
 
   useDebounceEffect(
@@ -57,7 +54,6 @@ const HTable = ({ columns, data }) => {
         var found = false;
         columns.every((column) => {
           if (item[column.key].search(regex) > -1) {
-            console.log(item[column.key], column.key);
             found = true;
             return false;
           }
@@ -75,7 +71,6 @@ const HTable = ({ columns, data }) => {
     <>
       {tableData && (
         <>
-          {load && <Loading color="warning" />}
           <Navbar isBordered variant="sticky">
             <Navbar.Content
               css={{
