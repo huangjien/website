@@ -1,11 +1,10 @@
-import { useSessionStorageState } from 'ahooks';
 import { createContext } from 'react';
 import { currentUser } from '../lib/global';
 
 export const userContext = createContext(undefined);
 export const settingContext = createContext({});
 
-export const getSetting = async () => {
+export const getSettings = async () => {
   return await fetch('/api/settings', {
     method: 'GET',
   })
@@ -25,40 +24,8 @@ export const hashCode = (string) => {
   return hash;
 };
 
-export const useMessage = (initialMessage) => {
-  const [msg, setMsg] = useSessionStorageState('message', { defaultValue: initialMessage });
-  const fatal = (message) => {
-    setMsg({ 'messageType': 'Error', 'message': message, 'color': 'error' });
-  }
-  const warning = (message) => {
-    setMsg({ 'messageType': 'Warning', 'message': message, 'color': 'warning' });
-  }
-  const success = (message) => {
-    setMsg({ 'messageType': 'Success', 'message': message, 'color': 'success' })
-  }
-  const info = (message) => {
-    setMsg({ 'messageType': 'Info', 'message': message, 'color': 'primary' })
-  }
-  const clear = () => {
-    setMsg(undefined)
-  }
-  const messageType = () => {
-    return msg ? msg.messageType : '';
-  }
-
-  const messageContent = () => {
-    return msg ? msg.message : '';
-  }
-
-  const messageColor = () => {
-    return msg ? msg.color : '';
-  }
-
-  return [msg, fatal, warning, success, info, clear, messageType, messageContent, messageColor]
-}
-
 export const setMessage = (messageType, message) => {
-  var msg = {}
+  var msg = {};
   msg['messageType'] = messageType;
   msg['message'] = message;
   sessionStorage.setItem('message', JSON.stringify(msg));
@@ -148,16 +115,4 @@ export const properties2Json = (propertiesString) => {
   return propertiesJson;
 };
 
-export const getOneSetting = (settings, key) => {
-  var result = undefined;
-  if (!settings) {
-    return result;
-  }
-  settings.forEach((setting) => {
-    if (setting['name'] === key) {
-      result = setting['value'];
-    }
-  });
-  // console.log(result)
-  return result;
-};
+

@@ -1,9 +1,9 @@
 import { createTheme, globalCss, NextUIProvider } from '@nextui-org/react';
 import { ThemeProvider as NextThemesProvider } from 'next-themes';
-import { useState } from 'react';
 import SSRProvider from 'react-bootstrap/SSRProvider';
 import { IconlyProvider } from 'react-iconly';
-import { settingContext, userContext } from '../lib/Requests';
+import { ProvideAuth } from '../lib/useAuth';
+import { ProvideSettings } from '../lib/useSettings';
 import '../styles/github-markdown.css';
 
 // import '../styles/globals.css';
@@ -418,8 +418,8 @@ const globalStyles = globalCss({
 });
 
 export default function App({ Component, pageProps }) {
-  const [user, setUser] = useState(undefined);
-  const [setting, setSetting] = useState(undefined);
+
+
   globalStyles();
   return (
     <SSRProvider>
@@ -439,11 +439,11 @@ export default function App({ Component, pageProps }) {
           size="small"
         >
           <NextUIProvider>
-            <settingContext.Provider value={[setting, setSetting]}>
-              <userContext.Provider value={[user, setUser]}>
+            <ProvideSettings >
+              <ProvideAuth>
                 <Component {...pageProps} />
-              </userContext.Provider>
-            </settingContext.Provider>
+              </ProvideAuth>
+            </ProvideSettings>
           </NextUIProvider>
         </IconlyProvider>
       </NextThemesProvider>

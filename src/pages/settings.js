@@ -1,13 +1,13 @@
 import { useUpdateEffect } from 'ahooks';
 import { useRouter } from 'next/navigation';
-import { useContext } from 'react';
 import HTable from '../components/HTable';
 import Layout from '../components/layout/Layout';
-import { settingContext, userContext } from '../lib/Requests';
+import { useAuth } from '../lib/useAuth';
+import { useSettings } from '../lib/useSettings';
 
 const Settings = () => {
-  const [setting] = useContext(settingContext);
-  const [data] = useContext(userContext);
+  const { settings } = useSettings()
+  const { user } = useAuth();
   const { push } = useRouter();
   const columns = [
     {
@@ -22,15 +22,11 @@ const Settings = () => {
 
   // protect this page when user suddenly logout
   useUpdateEffect(() => {
-    if (!data) {
-      push('/')
+    if (!user) {
+      push('/');
     }
-  }, [data])
+  }, [user]);
 
-  return (
-    <Layout>
-      {data && <HTable columns={columns} data={setting} />}
-    </Layout>
-  );
+  return <Layout>{user && <HTable columns={columns} data={settings} />}</Layout>;
 };
 export default Settings;

@@ -1,12 +1,13 @@
 import { useRequest, useSessionStorageState } from 'ahooks';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { HList } from '../components/HList';
 import Layout from '../components/layout/Layout';
 import { issuesConent } from '../lib/global';
-import { getIssues, getOneSetting, settingContext } from '../lib/Requests';
+import { getIssues } from '../lib/Requests';
+import { useSettings } from '../lib/useSettings';
 
 const Index = () => {
-  const [setting] = useContext(settingContext);
+  const { settings, getSetting } = useSettings();
   const [issueContent, setIssueContent] = useState();
   const [rawData, setRawData] = useState();
   const [listData, setListData] = useSessionStorageState(issuesConent);
@@ -20,15 +21,15 @@ const Index = () => {
   });
 
   useEffect(() => {
-    if (setting) {
-      var labels = getOneSetting(setting, 'blog.labels');
+    if (settings) {
+      var labels = getSetting('blog.labels');
       var list = labels.split(',');
       setLabelsList(list);
-      var issueContent = getOneSetting(setting, 'blog.content');
+      var issueContent = getSetting('blog.content');
       var contentList = issueContent.split(',');
       setIssueContent(contentList);
     }
-  }, [setting]);
+  }, [settings]);
 
   useEffect(() => {
     if (rawData && issueContent && labelsList) {
