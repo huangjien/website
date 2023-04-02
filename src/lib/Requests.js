@@ -34,25 +34,6 @@ export const setMessage = (messageType, message) => {
   sessionStorage.setItem('message', JSON.stringify(msg));
 };
 
-export const getMarkDownHtml = async (content) => {
-  // check the local storage with hashCode, if matched, save the time to access the github
-  const hash = hashCode(content);
-  const translated = sessionStorage.getItem(hash);
-  if (translated) {
-    return await translated;
-  }
-
-  return await fetch('/api/markdown', {
-    method: 'POST',
-    body: content,
-  })
-    .then((res) => res.text())
-    .then((data) => {
-      sessionStorage.setItem(`${hash}`, data);
-      return data;
-    });
-};
-
 export const getReadme = async () => {
   return await fetch('/api/about', {
     method: 'GET',
@@ -86,6 +67,15 @@ export const getLabels = async () => {
       return data;
     });
 };
+
+export const isMember = async () => {
+  return await fetch('/api/member', {
+    method: 'GET'
+  }).then((res) => res.json())
+    .then((data) => {
+      return data;
+    });
+}
 
 export const getUser = async (username, password) => {
   if (window != undefined) {

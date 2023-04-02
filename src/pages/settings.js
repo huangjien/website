@@ -8,7 +8,7 @@ import { useSettings } from '../lib/useSettings';
 
 const Settings = () => {
   const { settings } = useSettings();
-  const { user } = useAuth();
+  const { user, isAdmin } = useAuth();
   const { push } = useRouter();
   const { t } = useTranslation();
   const columns = [
@@ -24,7 +24,7 @@ const Settings = () => {
 
   // protect this page when user suddenly logout
   useUpdateEffect(() => {
-    if (!user) {
+    if (!isAdmin) {
       push('/');
     }
   }, [user]);

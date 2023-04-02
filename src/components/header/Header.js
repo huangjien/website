@@ -30,7 +30,7 @@ const Header = () => {
   const { t, i18n } = useTranslation();
 
   const chooseLanguage = (lang) => {
-    console.log(lang);
+    // console.log(lang);
     var it = lang.values();
     //get first entry:
     var first = it.next();

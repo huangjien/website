@@ -1,6 +1,6 @@
 import { useRequest, useSessionStorageState } from 'ahooks';
-import { createContext, useContext, useState } from 'react';
-import { getUser } from './Requests';
+import { createContext, useContext, useEffect, useState } from 'react';
+import { getUser, isMember } from './Requests';
 import { useSettings } from './useSettings';
 
 const currentUser = 'currentUser';
@@ -17,6 +17,7 @@ export const useAuth = () => {
 
 function useProvideAuth() {
   const { getSetting } = useSettings();
+  const [isAdmin, setIsAdmin] = useState(false);
   const [user, setUser] = useSessionStorageState(currentUser);
   const { loading, run } = useRequest(getUser, {
     manual: true,
@@ -44,21 +45,30 @@ function useProvideAuth() {
   });
   const [error, setError] = useState(null);
 
+  useEffect(() => {
+    if (user) {
+      isMember().then(data => {
+        data.forEach(item => {
+          if (item.login === user.login) {
+            setIsAdmin(true);
+          }
+        })
+      })
+    }
+  }, [user])
+
   function login(username, token) {
     run(username, token);
   }
 
   function logout() {
     setUser(undefined);
+    setIsAdmin(false)
   }
 
   function isAuthenticated() {
     return user !== undefined;
   }
 
-  function isAdmin() {
-    return user && user.role === 'admin';
-  }
-
-  return { loading, user, login, logout, error };
+  return { isAuthenticated, isAdmin, loading, user, login, logout, error };
 }
