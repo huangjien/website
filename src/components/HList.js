@@ -24,6 +24,31 @@ export const HList = (data) => {
     [selected]
   );
 
+  const handleSelect = (e) => {
+    // if selected only contain one element and it is 'ALL', and e contains more than 'ALL', then remove 'ALL'
+    if (selected.size === 1 && selected.has('ALL')
+      && e.size > 1 && e.has('ALL')) {
+      // eslint-disable-next-line no-undef
+      ret = new Set([])
+      e.forEach(k => {
+        if (k !== 'ALL') {
+          ret.add(k)
+        }
+      })
+      setSelected(ret)
+      return
+    }
+    // if selected does not contain 'ALL', but e contains 'ALL', then selected = 'ALL'
+    if (!selected.has('ALL') && e.has('ALL')) {
+      // eslint-disable-next-line no-undef
+      var ret = new Set([])
+      ret.add('ALL')
+      setSelected(ret)
+      return
+    }
+    setSelected(e)
+  }
+
   useDebounceEffect(
     () => {
       if (!searchValue && selected.has('ALL')) {
@@ -92,7 +117,7 @@ export const HList = (data) => {
               disallowEmptySelection
               selectionMode="multiple"
               selectedKeys={selected}
-              onSelectionChange={setSelected}
+              onSelectionChange={handleSelect}
             >
               {(item) => (
                 <Dropdown.Item withDivider={item.key === 'ALL'} key={item.key}>

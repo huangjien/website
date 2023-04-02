@@ -6,7 +6,7 @@ import {
   Loading,
   Modal,
   Row,
-  Text,
+  Text
 } from '@nextui-org/react';
 import { useUpdateEffect } from 'ahooks';
 import React, { useEffect, useState } from 'react';
@@ -15,6 +15,7 @@ import { useAuth } from '../lib/useAuth';
 import { useMessage } from '../lib/useMessage';
 
 const Login = () => {
+  // const { setTheme, isDark, type } = useNextTheme();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showMessage, setShowMessage] = useState(false);
@@ -139,6 +140,16 @@ const Login = () => {
               <Dropdown.Item key="email" textValue={user.email}>
                 <Text color="inherit">{user.email}</Text>
               </Dropdown.Item>
+              {/* <Dropdown.Item key="theme" textValue='Theme'>
+                <Tooltip content={type} placement="left" color="invert">
+                  <Switch
+                    id="theme"
+                    size="sm"
+                    checked={isDark}
+                    onChange={(e) => setTheme(e.target.checked ? 'dark' : 'light')}
+                  ></Switch>
+                </Tooltip>
+              </Dropdown.Item> */}
               <Dropdown.Item withDivider key="showMessage">
                 Message
               </Dropdown.Item>
