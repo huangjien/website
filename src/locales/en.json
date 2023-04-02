@@ -1,3 +1,38 @@
 {
-  "header.home": "Home"
+  "global": {
+    "search": "Search..."
+  },
+  "header": {
+    "home": "Home",
+    "settings": "Settings",
+    "about": "About",
+    "login": "Login",
+    "login_promote": "Please enter your Github user name and token",
+    "close": "Close",
+    "acknowledge": "Acknowledge",
+    "keep_message": "Keep the message",
+    "logout": "Logout",
+    "message": "Message",
+    "day": "Day",
+    "night": "Night"
+  },
+  "issue": {
+    "title": "Issue",
+    "description": "Description",
+    "issue": "Issue",
+    "issue_id": "Issue ID",
+    "issue_id_placeholder": "Enter issue id",
+    "issue_id_error": "Issue ID is required",
+    "issue_id_error_message": "Issue ID is required",
+    "issue_id_error_message_placeholder": "Enter issue id",
+    "issue_id_error_message_error": "Issue ID is required",
+    "last_update": "Last Update",
+    "created": "Created"
+  },
+  "column": {
+    "title": {
+      "key": "Key",
+      "value": "Value"
+    }
+  }
 }
