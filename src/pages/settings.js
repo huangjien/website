@@ -1,5 +1,6 @@
 import { useUpdateEffect } from 'ahooks';
 import { useRouter } from 'next/navigation';
+import { useTranslation } from 'react-i18next';
 import HTable from '../components/HTable';
 import Layout from '../components/layout/Layout';
 import { useAuth } from '../lib/useAuth';
@@ -9,14 +10,15 @@ const Settings = () => {
   const { settings } = useSettings();
   const { user } = useAuth();
   const { push } = useRouter();
+  const { t } = useTranslation();
   const columns = [
     {
       key: 'name',
-      label: 'NAME',
+      label: t('column.title.key'),
     },
     {
       key: 'value',
-      label: 'VALUE',
+      label: t('column.title.value'),
     },
   ];
 

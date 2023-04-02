@@ -1,7 +1,8 @@
 import { Input, Navbar, Table } from '@nextui-org/react';
 import { useDebounceEffect } from 'ahooks';
 import { useEffect, useState } from 'react';
-import { Search } from 'react-iconly';
+import { useTranslation } from 'react-i18next';
+import { BiSearch } from 'react-icons/bi';
 import { itemsPerPage } from '../lib/global';
 
 const HTable = ({ columns, data }) => {
@@ -11,6 +12,7 @@ const HTable = ({ columns, data }) => {
     column: '',
     direction: 'desceding',
   });
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (data) {
@@ -94,7 +96,7 @@ const HTable = ({ columns, data }) => {
                   value={searchValue}
                   onChange={(e) => setSearchValue(e.target.value)}
                   contentLeft={
-                    <Search fill="var(--nextui-colors-accents6)" size={16} />
+                    <BiSearch fill="var(--nextui-colors-accents6)" size={16} />
                   }
                   contentLeftStyling={false}
                   css={{
@@ -108,7 +110,7 @@ const HTable = ({ columns, data }) => {
                       dflex: 'center',
                     },
                   }}
-                  placeholder="Search..."
+                  placeholder={t('global.search')}
                 />
               </Navbar.Item>
             </Navbar.Content>

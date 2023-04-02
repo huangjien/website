@@ -6,16 +6,18 @@ import {
   Loading,
   Modal,
   Row,
-  Text
+  Text,
 } from '@nextui-org/react';
 import { useUpdateEffect } from 'ahooks';
 import React, { useEffect, useState } from 'react';
-import { Hide, Show, User } from 'react-iconly';
+import { useTranslation } from 'react-i18next';
+import { BiHide, BiShow, BiUser } from 'react-icons/bi';
 import { useAuth } from '../lib/useAuth';
 import { useMessage } from '../lib/useMessage';
 
 const Login = () => {
   // const { setTheme, isDark, type } = useNextTheme();
+  const { t } = useTranslation();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showMessage, setShowMessage] = useState(false);
@@ -104,17 +106,17 @@ const Login = () => {
               color="primary"
               onPress={() => closeHandler(true)}
             >
-              Acknowledge
+              {t('header.acknowledge')}
             </Button>
             <Button auto onPress={() => closeHandler(false)}>
-              Keep the message
+              {t('header.keep_message')}
             </Button>
           </Modal.Footer>
         </Modal>
       )}
       {!user?.name && (
         <Button auto shadow onPress={handler}>
-          Login
+          {t('header.login')}
         </Button>
       )}
       {loading ? (
@@ -140,18 +142,8 @@ const Login = () => {
               <Dropdown.Item key="email" textValue={user.email}>
                 <Text color="inherit">{user.email}</Text>
               </Dropdown.Item>
-              {/* <Dropdown.Item key="theme" textValue='Theme'>
-                <Tooltip content={type} placement="left" color="invert">
-                  <Switch
-                    id="theme"
-                    size="sm"
-                    checked={isDark}
-                    onChange={(e) => setTheme(e.target.checked ? 'dark' : 'light')}
-                  ></Switch>
-                </Tooltip>
-              </Dropdown.Item> */}
               <Dropdown.Item withDivider key="showMessage">
-                Message
+                {t('header.message')}
               </Dropdown.Item>
               <Dropdown.Item key="testMessage">Test Message</Dropdown.Item>
               <Dropdown.Item
@@ -160,7 +152,7 @@ const Login = () => {
                 color="error"
                 textValue="Log Out"
               >
-                Log out
+                {t('header.logout')}
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
@@ -177,7 +169,7 @@ const Login = () => {
       >
         <Modal.Header>
           <Text id="modal-title" size={18}>
-            Please enter your Github user name and token
+            {t('header.login_promote')}
           </Text>
         </Modal.Header>
         <Modal.Body>
@@ -190,7 +182,7 @@ const Login = () => {
             size="lg"
             placeholder="Github User Name"
             value={username}
-            contentRight={<User />}
+            contentRight={<BiUser />}
             onChange={(e) => setUsername(e.target.value)}
           />
           <Input.Password
@@ -202,19 +194,18 @@ const Login = () => {
             size="lg"
             placeholder="Github Token"
             value={password}
-            visibleIcon={<Show />}
-            hiddenIcon={<Hide />}
+            visibleIcon={<BiShow />}
+            hiddenIcon={<BiHide />}
             onChange={(e) => setPassword(e.target.value)}
           />
           <Row justify="space-between">{error && <Text>{error}</Text>}</Row>
         </Modal.Body>
         <Modal.Footer>
           <Button auto flat color="error" onPress={closeHandler}>
-            Close
+            {t('header.close')}
           </Button>
           <Button auto onPress={() => login(username, password)}>
-            {/* <Button auto onClick={closeHandler}> */}
-            Login
+            {t('header.login')}
           </Button>
         </Modal.Footer>
       </Modal>

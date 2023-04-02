@@ -7,6 +7,8 @@ export const useGithubContent = () => {
   const { getSetting } = useSettings();
   const [about, setAbout] = useSessionStorageState('about');
   const [rawData, setRawData] = useState();
+  const [issues, setIssues] = useState()
+  const [tags, setTags] = useState()
 
   useRequest(getReadme, {
     onSuccess: (result) => {
@@ -23,10 +25,12 @@ export const useGithubContent = () => {
 
   useEffect(() => {
     if (rawData) {
+      // console.log(rawData)
       const blog_labels = getSetting('blog.labels');
       const issueContent = getSetting('blog.content');
       if (blog_labels && issueContent) {
         const list = blog_labels.split(',');
+        setTags(list)
         const issueContentList = issueContent.split(',');
         var finalResult = [];
         rawData.forEach((issue) => {
@@ -36,11 +40,12 @@ export const useGithubContent = () => {
           labels.forEach((label) => {
             // console.log(label['name'])
             if (list.includes(label['name'])) {
-              // console.log(issue)
+              // console.log(issue);
               isVisible = true;
               labelArray.push(label.name);
             }
           });
+          // console.log(isVisible, labels);
           if (isVisible) {
             // then we start handle this issue: we only care the the content in the issueContent
             var content = {};
@@ -50,8 +55,9 @@ export const useGithubContent = () => {
               } else {
                 content[key] = issue[key];
                 if (key === 'body') {
+                  // console.log(key, issue[key]);
                   getHtml(issue[key]).then((html) => {
-                    // console.log(html)
+                    // console.log(html);
                     content['html'] = html;
                   });
                 }
@@ -61,11 +67,13 @@ export const useGithubContent = () => {
             finalResult.push(content);
           }
         });
+        setIssues(finalResult);
       }
     }
   }, [rawData]);
 
   const getHtml = async (markdown) => {
+    // console.log(markdown)
     const hash = hashCode(markdown);
     const translated = sessionStorage.getItem(`${hash}`);
     if (translated) {
@@ -82,5 +90,5 @@ export const useGithubContent = () => {
       });
   };
 
-  return { getIssues, about };
+  return { tags, issues, about };
 };

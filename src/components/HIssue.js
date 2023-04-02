@@ -1,16 +1,9 @@
 import { Badge, Collapse, Grid, Spacer, Text } from '@nextui-org/react';
+import { useTranslation } from 'react-i18next';
 
 export const HIssue = (issue) => {
-  // const [data, setData] = useState();
+  const { t } = useTranslation();
 
-  // useEffect(() => {
-  //   if (issue) {
-  //     // setData(issue.issue)
-  //     getMarkDownHtml(issue.issue.body).then((content) => {
-  //       setData({ ...issue.issue, html: content });
-  //     });
-  //   }
-  // }, [issue]);
   return (
     <>
       <Spacer y={1} />
@@ -20,11 +13,11 @@ export const HIssue = (issue) => {
           bordered
           key={issue.issue.updated_at}
           title={issue.issue.title}
-          subtitle={'last updated: ' + issue.issue.updated_at}
+          subtitle={t('issue.last_update') + ': ' + issue.issue.updated_at}
         >
           <Grid.Container alignItems="center" gap={1}>
             <Grid>
-              <Text>{'created: ' + issue.issue.created_at}</Text>
+              <Text>{t('issue.created') + ': ' + issue.issue.created_at}</Text>
             </Grid>
 
             <Grid>

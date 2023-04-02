@@ -7,7 +7,8 @@ import {
 } from '@nextui-org/react';
 import { useDebounceEffect } from 'ahooks';
 import { useEffect, useMemo, useState } from 'react';
-import { Bookmark, Search } from 'react-iconly';
+import { useTranslation } from 'react-i18next';
+import { BiFilter, BiSearch } from 'react-icons/bi';
 import { Box } from '../components/layout/Box';
 import { itemsPerPage } from '../lib/global';
 import { HIssue } from './HIssue';
@@ -23,31 +24,36 @@ export const HList = (data) => {
     () => Array.from(selected).join(', ').replaceAll('_', ' '),
     [selected]
   );
+  const { t } = useTranslation();
 
   const handleSelect = (e) => {
     // if selected only contain one element and it is 'ALL', and e contains more than 'ALL', then remove 'ALL'
-    if (selected.size === 1 && selected.has('ALL')
-      && e.size > 1 && e.has('ALL')) {
+    if (
+      selected.size === 1 &&
+      selected.has('ALL') &&
+      e.size > 1 &&
+      e.has('ALL')
+    ) {
       // eslint-disable-next-line no-undef
-      ret = new Set([])
-      e.forEach(k => {
+      ret = new Set([]);
+      e.forEach((k) => {
         if (k !== 'ALL') {
-          ret.add(k)
+          ret.add(k);
         }
-      })
-      setSelected(ret)
-      return
+      });
+      setSelected(ret);
+      return;
     }
     // if selected does not contain 'ALL', but e contains 'ALL', then selected = 'ALL'
     if (!selected.has('ALL') && e.has('ALL')) {
       // eslint-disable-next-line no-undef
-      var ret = new Set([])
-      ret.add('ALL')
-      setSelected(ret)
-      return
+      var ret = new Set([]);
+      ret.add('ALL');
+      setSelected(ret);
+      return;
     }
-    setSelected(e)
-  }
+    setSelected(e);
+  };
 
   useDebounceEffect(
     () => {
@@ -107,7 +113,7 @@ export const HList = (data) => {
         <Navbar.Brand css={{ mr: '$4' }}>
           <Dropdown placement="bottom-right">
             <Dropdown.Button light>
-              <Bookmark size="medium" />
+              <BiFilter size="2em" />
               {selectedValue}
             </Dropdown.Button>
             <Dropdown.Menu
@@ -167,7 +173,7 @@ export const HList = (data) => {
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
               contentLeft={
-                <Search fill="var(--nextui-colors-accents6)" size={16} />
+                <BiSearch fill="var(--nextui-colors-accents6)" size={16} />
               }
               contentLeftStyling={false}
               css={{
@@ -181,7 +187,7 @@ export const HList = (data) => {
                   dflex: 'center',
                 },
               }}
-              placeholder="Search..."
+              placeholder={t('global.search')}
             />
           </Navbar.Item>
         </Navbar.Content>

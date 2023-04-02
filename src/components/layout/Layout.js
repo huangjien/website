@@ -1,7 +1,7 @@
 import { Spacer } from '@nextui-org/react';
 import { useScroll } from 'ahooks';
 import { useEffect, useState } from 'react';
-import { ChevronUpCircle } from 'react-iconly';
+import { BiCaretUp } from 'react-icons/bi';
 import { triggerPx } from '../../lib/global';
 import Header from '../header/Header';
 import { Box } from './Box';
@@ -38,9 +38,9 @@ const Layout = (props) => {
       <Spacer y={1} />
       <Box>{props.children}</Box>
 
-      <ChevronUpCircle
+      <BiCaretUp
         className="scrollToTop"
-        size="large"
+        size="3em"
         onClick={scrollToTop}
         style={{ display: show ? 'flex' : 'none' }}
       />
