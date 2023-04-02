@@ -1,7 +1,38 @@
 {
+  "global": {
+    "search": "Поиск..."
+  },
   "header": {
     "home": "Главная",
     "settings": "Настройки",
-    "about": "О нас"
+    "about": "Информация",
+    "login": "Войти",
+    "login_promote": "Введите имя пользователя и токен Github",
+    "close": "Закрыть",
+    "acknowledge": "Подтвердить",
+    "keep_message": "Сохранить сообщение",
+    "logout": "Выйти",
+    "message": "Сообщение",
+    "day": "Дневной режим",
+    "night": "Ночной режим"
+  },
+  "issue": {
+    "title": "Проблема",
+    "description": "Описание",
+    "issue": "Проблема",
+    "issue_id": "ID проблемы",
+    "issue_id_placeholder": "Введите ID проблемы",
+    "issue_id_error": "Требуется ID проблемы",
+    "issue_id_error_message": "Требуется ID проблемы",
+    "issue_id_error_message_placeholder": "Введите ID проблемы",
+    "issue_id_error_message_error": "Требуется ID проблемы",
+    "last_update": "Последнее обновление",
+    "created": "Создано"
+  },
+  "column": {
+    "title": {
+      "key": "Ключ",
+      "value": "Значение"
+    }
   }
 }

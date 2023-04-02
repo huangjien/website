@@ -1,7 +1,38 @@
 {
+  "global": {
+    "search": "搜尋..."
+  },
   "header": {
     "home": "首頁",
     "settings": "設定",
-    "about": "關於"
+    "about": "關於",
+    "login": "登錄",
+    "login_promote": "請輸入您的 Github 用戶名和令牌",
+    "close": "關閉",
+    "acknowledge": "確認",
+    "keep_message": "保留訊息",
+    "logout": "註銷",
+    "message": "訊息",
+    "day": "日間模式",
+    "night": "夜間模式"
+  },
+  "issue": {
+    "title": "問題",
+    "description": "描述",
+    "issue": "問題",
+    "issue_id": "問題 ID",
+    "issue_id_placeholder": "輸入問題 ID",
+    "issue_id_error": "需要問題 ID",
+    "issue_id_error_message": "需要問題 ID",
+    "issue_id_error_message_placeholder": "輸入問題 ID",
+    "issue_id_error_message_error": "需要問題 ID",
+    "last_update": "最後更新",
+    "created": "建立"
+  },
+  "column": {
+    "title": {
+      "key": "鍵",
+      "value": "值"
+    }
   }
 }

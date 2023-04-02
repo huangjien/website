@@ -8,9 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prettier": "prettier --write .",
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "prettier": "prettier --write ."
   },
   "bugs": {
     "url": "https://github.com/huangjien/blog/issues"
@@ -22,7 +20,6 @@
     "eslint": "8.37.0",
     "eslint-config-next": "13.2.4",
     "github-markdown-css": "^5.2.0",
-    "graphql-request": "^5.0.0",
     "i18next": "^22.4.13",
     "mockjs": "^1.1.0",
     "next": "13.2.4",
@@ -39,20 +36,11 @@
   },
   "devDependencies": {
     "@babel/core": "^7.21.4",
-    "@storybook/addon-essentials": "^7.0.0",
-    "@storybook/addon-interactions": "^7.0.0",
-    "@storybook/addon-links": "^7.0.0",
-    "@storybook/blocks": "^7.0.0",
-    "@storybook/nextjs": "^7.0.0",
-    "@storybook/react": "^7.0.0",
-    "@storybook/testing-library": "^0.0.14-next.1",
     "babel-loader": "^9.1.2",
     "cross-env": "^7.0.3",
     "css-loader": "^6.7.3",
-    "eslint-plugin-storybook": "^0.6.11",
     "husky": "^8.0.3",
     "prettier": "^2.8.7",
-    "storybook": "^7.0.0",
     "style-loader": "^3.3.2"
   }
 }

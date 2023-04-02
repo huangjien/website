@@ -1,7 +1,38 @@
 {
+  "global": {
+    "search": "Cuardaigh..."
+  },
   "header": {
     "home": "Baile",
     "settings": "Socruithe",
-    "about": "Faoi"
+    "about": "Faoi",
+    "login": "Logáil isteach",
+    "login_promote": "Cuir isteach d'ainm úsáideora Github agus do thóinín",
+    "close": "Dún",
+    "acknowledge": "Aitheantas",
+    "keep_message": "Coinnigh an teachtaireacht",
+    "logout": "Logáil amach",
+    "message": "Teachtaireacht",
+    "day": "Lá",
+    "night": "Oíche"
+  },
+  "issue": {
+    "title": "Gnó",
+    "description": "Cur Síos",
+    "issue": "Gnó",
+    "issue_id": "Aitheantas na ghnó",
+    "issue_id_placeholder": "Iontráil ID na gnó",
+    "issue_id_error": "ID na gnó riachtanach",
+    "issue_id_error_message": "ID na gnó riachtanach",
+    "issue_id_error_message_placeholder": "Iontráil ID na gnó",
+    "issue_id_error_message_error": "ID na gnó riachtanach",
+    "last_update": "Último atualização",
+    "created": "Cruthaithe"
+  },
+  "column": {
+    "title": {
+      "key": "Eochair",
+      "value": "Luach"
+    }
   }
 }

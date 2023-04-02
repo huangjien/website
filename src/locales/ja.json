@@ -1,7 +1,38 @@
 {
+  "global": {
+    "search": "検索..."
+  },
   "header": {
     "home": "ホーム",
     "settings": "設定",
-    "about": "について"
+    "about": "情報",
+    "login": "ログイン",
+    "login_promote": "GitHubのユーザー名とトークンを入力してください",
+    "close": "閉じる",
+    "acknowledge": "確認",
+    "keep_message": "メッセージを保持する",
+    "logout": "ログアウト",
+    "message": "メッセージ",
+    "day": "デイモード",
+    "night": "ナイトモード"
+  },
+  "issue": {
+    "title": "問題",
+    "description": "説明",
+    "issue": "問題",
+    "issue_id": "問題ID",
+    "issue_id_placeholder": "問題IDを入力してください",
+    "issue_id_error": "問題IDが必要です",
+    "issue_id_error_message": "問題IDが必要です",
+    "issue_id_error_message_placeholder": "問題IDを入力してください",
+    "issue_id_error_message_error": "問題IDが必要です",
+    "last_update": "最終更新",
+    "created": "作成"
+  },
+  "column": {
+    "title": {
+      "key": "キー",
+      "value": "値"
+    }
   }
 }

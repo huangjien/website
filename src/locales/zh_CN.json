@@ -1,20 +1,20 @@
 {
   "global": {
-    "search": "检索..."
+    "search": "搜索..."
   },
   "header": {
     "home": "首页",
     "settings": "设置",
     "about": "关于",
     "login": "登录",
-    "login_promote": "请输入您的 Github 用户名和密钥",
+    "login_promote": "请输入您的 Github 用户名和令牌",
     "close": "关闭",
     "acknowledge": "确认",
     "keep_message": "保留消息",
-    "logout": "退出登录",
+    "logout": "注销",
     "message": "消息",
-    "day": "白天",
-    "night": "夜间"
+    "day": "日间模式",
+    "night": "夜间模式"
   },
   "issue": {
     "title": "问题",
@@ -27,11 +27,11 @@
     "issue_id_error_message_placeholder": "输入问题 ID",
     "issue_id_error_message_error": "需要问题 ID",
     "last_update": "最后更新",
-    "created": "创建时间"
+    "created": "创建"
   },
   "column": {
     "title": {
-      "key": "关键字",
+      "key": "键",
       "value": "值"
     }
   }

@@ -1,7 +1,38 @@
 {
+  "global": {
+    "search": "Rechercher..."
+  },
   "header": {
     "home": "Accueil",
     "settings": "Paramètres",
-    "about": "À propos"
+    "about": "À propos",
+    "login": "Connexion",
+    "login_promote": "Veuillez entrer votre nom d'utilisateur Github et votre jeton",
+    "close": "Fermer",
+    "acknowledge": "Reconnaître",
+    "keep_message": "Conserver le message",
+    "logout": "Déconnexion",
+    "message": "Message",
+    "day": "Jour",
+    "night": "Nuit"
+  },
+  "issue": {
+    "title": "Problème",
+    "description": "Description",
+    "issue": "Problème",
+    "issue_id": "ID du problème",
+    "issue_id_placeholder": "Entrer l'ID du problème",
+    "issue_id_error": "ID du problème requis",
+    "issue_id_error_message": "ID du problème requis",
+    "issue_id_error_message_placeholder": "Entrer l'ID du problème",
+    "issue_id_error_message_error": "ID du problème requis",
+    "last_update": "Dernière mise à jour",
+    "created": "Créé"
+  },
+  "column": {
+    "title": {
+      "key": "Clé",
+      "value": "Valeur"
+    }
   }
 }
