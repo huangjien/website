@@ -1,6 +1,16 @@
 import { useRequest } from 'ahooks';
 import { createContext, useContext, useState } from 'react';
-import { getSettings, properties2Json } from './Requests';
+import { properties2Json } from './Requests';
+
+const getSettings = async () => {
+  return await fetch('/api/settings', {
+    method: 'GET',
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      return data;
+    });
+};
 
 const settingContext = createContext();
 

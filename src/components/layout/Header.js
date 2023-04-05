@@ -7,7 +7,7 @@ import {
   Tooltip,
   useTheme,
 } from '@nextui-org/react';
-import { useSessionStorageState } from 'ahooks';
+import { useCookieState } from 'ahooks';
 import { useTheme as useNextTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -20,12 +20,14 @@ import Login from '../Login';
 const Header = () => {
   const { setTheme } = useNextTheme();
   const { isDark, type } = useTheme();
-  // eslint-disable-next-line no-undef
-  const [language, setLanguage] = useState(new Set(['en']));
-  const [currentLanguage, setCurrentLanguage] = useSessionStorageState(
+
+
+  const [currentLanguage, setCurrentLanguage] = useCookieState(
     'Language',
     { defaultValue: 'en' }
   );
+  // eslint-disable-next-line no-undef
+  const [language, setLanguage] = useState(new Set([currentLanguage]));
   const { user } = useAuth();
   const { t, i18n } = useTranslation();
 

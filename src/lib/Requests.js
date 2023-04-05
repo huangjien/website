@@ -4,16 +4,6 @@ import { currentUser } from '../lib/global';
 export const userContext = createContext(undefined);
 export const settingContext = createContext({});
 
-export const getSettings = async () => {
-  return await fetch('/api/settings', {
-    method: 'GET',
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      return data;
-    });
-};
-
 export const hashCode = (string) => {
   var hash = 0;
   if (!string) {

@@ -32,7 +32,7 @@ const Login = () => {
     messageType,
     messageContent,
     messageColor,
-  ] = useMessage('default message');
+  ] = useMessage();
 
   // const { setting } = useSettings()
   const [selectedKey, setSelectedKey] = useState();
