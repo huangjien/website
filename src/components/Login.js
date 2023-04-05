@@ -74,11 +74,11 @@ const Login = () => {
     if (selectedKey.toLowerCase() === 'showmessage') {
       setShowMessage(true);
     }
-    if (selectedKey.toLowerCase() === 'testmessage') {
-      warning('This is an error');
-    }
+    // if (selectedKey.toLowerCase() === 'testmessage') {
+    //   warning('This is an error');
+    // }
     setSelectedKey(undefined);
-  }, [selectedKey]);
+  }, [clearLogin, selectedKey]);
 
   return (
     <>

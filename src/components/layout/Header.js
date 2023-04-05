@@ -44,7 +44,7 @@ const Header = () => {
     if (currentLanguage) {
       i18n.changeLanguage(currentLanguage);
     }
-  }, [currentLanguage]);
+  }, [currentLanguage, i18n]);
 
   return (
     <NoSSR>
