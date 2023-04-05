@@ -3,8 +3,8 @@ import { useScroll } from 'ahooks';
 import { useEffect, useState } from 'react';
 import { BiCaretUp } from 'react-icons/bi';
 import { triggerPx } from '../../lib/global';
-import Header from '../header/Header';
 import { Box } from './Box';
+import Header from './Header';
 
 const Layout = (props) => {
   const scroll = useScroll(null);

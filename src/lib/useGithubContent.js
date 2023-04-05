@@ -7,7 +7,7 @@ export const useGithubContent = () => {
   const { getSetting } = useSettings();
   const [about, setAbout] = useSessionStorageState('about');
   const [rawData, setRawData] = useState();
-  const [issues, setIssues] = useState()
+  const [issues, setIssues] = useSessionStorageState('issues')
   const [tags, setTags] = useState()
 
   useRequest(getReadme, {
@@ -70,7 +70,7 @@ export const useGithubContent = () => {
         setIssues(finalResult);
       }
     }
-  }, [rawData]);
+  }, [getSetting, rawData]);
 
   const getHtml = async (markdown) => {
     // console.log(markdown)
