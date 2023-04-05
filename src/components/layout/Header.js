@@ -1,17 +1,17 @@
 import {
+  Button,
   Dropdown,
   Image,
   Navbar,
   Spacer,
-  Switch,
   Tooltip,
-  useTheme,
+  useTheme
 } from '@nextui-org/react';
 import { useCookieState } from 'ahooks';
 import { useTheme as useNextTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { BiBook, BiCertification, BiGlobe, BiHome } from 'react-icons/bi';
+import { BiBook, BiCertification, BiGlobe, BiHome, BiMoon, BiSun } from 'react-icons/bi';
 import NoSSR from '../../lib/NoSSR';
 import { useAuth } from '../../lib/useAuth';
 import { languages } from '../../locales/i18n';
@@ -21,11 +21,9 @@ const Header = () => {
   const { setTheme } = useNextTheme();
   const { isDark, type } = useTheme();
 
-
-  const [currentLanguage, setCurrentLanguage] = useCookieState(
-    'Language',
-    { defaultValue: 'en' }
-  );
+  const [currentLanguage, setCurrentLanguage] = useCookieState('Language', {
+    defaultValue: 'en',
+  });
   // eslint-disable-next-line no-undef
   const [language, setLanguage] = useState(new Set([currentLanguage]));
   const { user } = useAuth();
@@ -102,12 +100,15 @@ const Header = () => {
             placement="bottom-left"
             color="invert"
           >
-            <Switch
+            {/* <Switch
               id="theme"
               size="sm"
               checked={isDark}
               onChange={(e) => setTheme(e.target.checked ? 'dark' : 'light')}
-            ></Switch>
+            ></Switch> */}
+            <Button light auto onClick={() => { isDark ? setTheme('light') : setTheme('dark') }}>
+              {isDark ? <BiMoon size="2em" /> : <BiSun size="2em" />}
+            </Button>
           </Tooltip>
         </Navbar.Content>
       </Navbar>

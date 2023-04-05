@@ -7,8 +7,8 @@ export const useGithubContent = () => {
   const { getSetting } = useSettings();
   const [about, setAbout] = useSessionStorageState('about');
   const [rawData, setRawData] = useState();
-  const [issues, setIssues] = useSessionStorageState('issues')
-  const [tags, setTags] = useState()
+  const [issues, setIssues] = useSessionStorageState('issues');
+  const [tags, setTags] = useState();
 
   useRequest(getReadme, {
     onSuccess: (result) => {
@@ -30,7 +30,7 @@ export const useGithubContent = () => {
       const issueContent = getSetting('blog.content');
       if (blog_labels && issueContent) {
         const list = blog_labels.split(',');
-        setTags(list)
+        setTags(list);
         const issueContentList = issueContent.split(',');
         var finalResult = [];
         rawData.forEach((issue) => {

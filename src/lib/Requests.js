@@ -60,12 +60,13 @@ export const getLabels = async () => {
 
 export const isMember = async () => {
   return await fetch('/api/member', {
-    method: 'GET'
-  }).then((res) => res.json())
+    method: 'GET',
+  })
+    .then((res) => res.json())
     .then((data) => {
       return data;
     });
-}
+};
 
 export const getUser = async (username, password) => {
   if (window != undefined) {

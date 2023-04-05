@@ -47,15 +47,15 @@ function useProvideAuth() {
 
   useEffect(() => {
     if (user) {
-      isMember().then(data => {
-        data.forEach(item => {
+      isMember().then((data) => {
+        data.forEach((item) => {
           if (item.login === user.login) {
             setIsAdmin(true);
           }
-        })
-      })
+        });
+      });
     }
-  }, [user])
+  }, [user]);
 
   function login(username, token) {
     run(username, token);
@@ -63,7 +63,7 @@ function useProvideAuth() {
 
   function logout() {
     setUser(undefined);
-    setIsAdmin(false)
+    setIsAdmin(false);
   }
 
   function isAuthenticated() {

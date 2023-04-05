@@ -40,8 +40,7 @@ const Login = () => {
   const { isAuthenticated, loading, error, user, login, logout } = useAuth();
   const [visible, setVisible] = useState(false);
   const handler = () => setVisible(true);
-  const closeLoginDialog
-    = () => setVisible(false);
+  const closeLoginDialog = () => setVisible(false);
   const closeHandler = (removeMsg) => {
     setShowMessage(false);
     if (removeMsg) {
@@ -200,7 +199,9 @@ const Login = () => {
             hiddenIcon={<BiHide />}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <Row justify="space-between">{error && <Text color='error'>{error}</Text>}</Row>
+          <Row justify="space-between">
+            {error && <Text color="error">{error}</Text>}
+          </Row>
         </Modal.Body>
         <Modal.Footer>
           <Button auto flat color="error" onPress={closeLoginDialog}>
