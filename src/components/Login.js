@@ -9,7 +9,7 @@ import {
   Text,
 } from '@nextui-org/react';
 import { useUpdateEffect } from 'ahooks';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BiHide, BiShow, BiUser } from 'react-icons/bi';
 import { useAuth } from '../lib/useAuth';
@@ -37,9 +37,11 @@ const Login = () => {
   // const { setting } = useSettings()
   const [selectedKey, setSelectedKey] = useState();
   // const [error, setError] = useState();
-  const { loading, error, user, login, logout } = useAuth();
-  const [visible, setVisible] = React.useState(false);
+  const { isAuthenticated, loading, error, user, login, logout } = useAuth();
+  const [visible, setVisible] = useState(false);
   const handler = () => setVisible(true);
+  const closeLoginDialog
+    = () => setVisible(false);
   const closeHandler = (removeMsg) => {
     setShowMessage(false);
     if (removeMsg) {
@@ -60,10 +62,10 @@ const Login = () => {
   }, [msg]);
 
   useEffect(() => {
-    if (user) {
+    if (isAuthenticated()) {
       setVisible(false);
     }
-  }, [user]);
+  }, [isAuthenticated]);
 
   useEffect(() => {
     if (!selectedKey) return;
@@ -87,7 +89,7 @@ const Login = () => {
           preventClose={messageType() === 'Error'}
           aria-labelledby="modal-title"
           open={showMessage && msg}
-          onClose={closeHandler}
+          onClose={() => closeHandler(false)}
         >
           <Modal.Header>
             <Text color={messageColor()} id="modal-title" b size={18}>
@@ -145,7 +147,7 @@ const Login = () => {
               <Dropdown.Item withDivider key="showMessage">
                 {t('header.message')}
               </Dropdown.Item>
-              <Dropdown.Item key="testMessage">Test Message</Dropdown.Item>
+              {/* <Dropdown.Item key="testMessage">Test Message</Dropdown.Item> */}
               <Dropdown.Item
                 key="logout"
                 withDivider
@@ -165,7 +167,7 @@ const Login = () => {
         blur
         aria-labelledby="modal-title"
         open={visible}
-        onClose={closeHandler}
+        onClose={closeLoginDialog}
       >
         <Modal.Header>
           <Text id="modal-title" size={18}>
@@ -198,10 +200,10 @@ const Login = () => {
             hiddenIcon={<BiHide />}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <Row justify="space-between">{error && <Text>{error}</Text>}</Row>
+          <Row justify="space-between">{error && <Text color='error'>{error}</Text>}</Row>
         </Modal.Body>
         <Modal.Footer>
-          <Button auto flat color="error" onPress={closeHandler}>
+          <Button auto flat color="error" onPress={closeLoginDialog}>
             {t('header.close')}
           </Button>
           <Button auto onPress={() => login(username, password)}>
