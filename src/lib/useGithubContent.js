@@ -77,7 +77,7 @@ export const useGithubContent = () => {
     const hash = hashCode(markdown);
     const translated = sessionStorage.getItem(`${hash}`);
     if (translated) {
-      return await translated;
+      return translated;
     }
     return await fetch('/api/markdown', {
       method: 'POST',
@@ -90,5 +90,5 @@ export const useGithubContent = () => {
       });
   };
 
-  return { tags, issues, about };
+  return { tags, issues, about, getHtml };
 };
