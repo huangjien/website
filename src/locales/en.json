@@ -5,6 +5,7 @@
   "header": {
     "home": "Home",
     "settings": "Settings",
+    "ai": "AI",
     "about": "About",
     "login": "Login",
     "login_promote": "Please enter your Github user name and token",

@@ -6,8 +6,8 @@ import { useGithubContent } from '../lib/useGithubContent';
 
 const Index = () => {
   const { tags, issues } = useGithubContent();
-  const { t } = useTranslation()
-  useTitle(t('header.home'))
+  const { t } = useTranslation();
+  useTitle(t('header.home'));
   return (
     <Layout>
       <HList header={tags} data={issues} />

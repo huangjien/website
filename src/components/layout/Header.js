@@ -5,13 +5,21 @@ import {
   Navbar,
   Spacer,
   Tooltip,
-  useTheme
+  useTheme,
 } from '@nextui-org/react';
 import { useCookieState } from 'ahooks';
 import { useTheme as useNextTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { BiBook, BiCertification, BiGlobe, BiHome, BiMoon, BiSun } from 'react-icons/bi';
+import {
+  BiBook,
+  BiCertification,
+  BiChip,
+  BiGlobe,
+  BiHome,
+  BiMoon,
+  BiSun,
+} from 'react-icons/bi';
 import NoSSR from '../../lib/NoSSR';
 import { useAuth } from '../../lib/useAuth';
 import { languages } from '../../locales/i18n';
@@ -63,6 +71,12 @@ const Header = () => {
               {t('header.settings')}
             </Navbar.Link>
           )}
+
+          <Navbar.Link id="ai" href="/ai">
+            <BiChip size="2em" />
+            {t('header.ai')}
+          </Navbar.Link>
+
           <Navbar.Link id="about" href="/about">
             <BiBook size="2em" />
             {t('header.about')}
@@ -106,7 +120,13 @@ const Header = () => {
               checked={isDark}
               onChange={(e) => setTheme(e.target.checked ? 'dark' : 'light')}
             ></Switch> */}
-            <Button light auto onClick={() => { isDark ? setTheme('light') : setTheme('dark') }}>
+            <Button
+              light
+              auto
+              onClick={() => {
+                isDark ? setTheme('light') : setTheme('dark');
+              }}
+            >
               {isDark ? <BiMoon size="2em" /> : <BiSun size="2em" />}
             </Button>
           </Tooltip>

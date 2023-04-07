@@ -1,44 +1,190 @@
-import { Grid, Text } from '@nextui-org/react'
-import { useTranslation } from 'react-i18next'
+import {
+  Card,
+  Container,
+  Grid,
+  Progress,
+  Spacer,
+  Text,
+  Textarea,
+  useInput,
+} from '@nextui-org/react';
+import { useKeyPress, useLocalStorageState, useTitle } from 'ahooks';
+import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { BiQuestionMark } from 'react-icons/bi';
+import Layout from '../components/layout/Layout';
+import NoSSR from '../lib/NoSSR';
+import { useGithubContent } from '../lib/useGithubContent';
+import { useMessage } from '../lib/useMessage';
 
-const question = (data) => {
-    return (
-        <Grid xs={12} >
-            <Text>{data}</Text>
-        </Grid>
-    )
-}
+const getAnswer = async (question) => {
+  const requestBody = {
+    model: 'gpt-3.5-turbo',
+    messages: [{ role: 'user', content: question }],
+  };
+  return await fetch('/api/ai', {
+    method: 'POST',
+    body: JSON.stringify(requestBody),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      return data;
+    });
+};
 
-const answer = (data) => {
-    return (
-        <Grid xs={12}>
-            <div dangerouslySetInnerHTML={{ __html: data }}></div>
-        </Grid>
-    )
-}
+export default function AI() {
+  const inputRef = useRef(null);
+  const { value: questionText, setValue: setQuestionText, reset } = useInput();
+  const [content, setContent] = useLocalStorageState('QandA', {
+    defaultValue: [],
+  });
+  const { t } = useTranslation();
+  const [loading, setLoading] = useState(false);
+  const { getHtml } = useGithubContent();
+  useTitle(t('header.ai'));
+  const [fatal, success] = useMessage();
 
+  useKeyPress(
+    'ctrl.enter',
+    () => {
+      console.log(questionText);
+      if (!questionText) return;
+      setLoading(true);
+      getAnswer(questionText)
+        .then((data) => {
+          if (data.error) {
+            fatal('AI request return error:\n' + data.error.message);
+            throw new Error('AI request return error:\n' + data.error.message);
+          }
+          // add question and answer to content
+          var newQandA = {
+            question: questionText,
+            answer: data.choices[0].message.content,
+            key: data.id,
+            id: data.id,
+            timestamp: data.created,
+            model: data.model,
+            question_tokens: data.usage.prompt_tokens,
+            answer_tokens: data.usage.completion_tokens,
+            total_tokens: data.usage.total_tokens,
+          };
+          success(
+            'We receive an answer from AI.\nAnswer length: ' +
+              data.usage.completion_tokens
+          );
+          return newQandA;
+        })
+        .then((qAndA) => {
+          getHtml(qAndA.answer)
+            .then((html) => {
+              qAndA.html = html;
+              return qAndA;
+            })
+            .then((qAndA) => {
+              if (!content) {
+                setContent([qAndA]);
+                return;
+              }
+              setContent([qAndA, ...content]);
+              setLoading(false);
+              setQuestionText('');
+              reset();
+            });
+        });
+    },
+    {
+      target: inputRef,
+    }
+  );
 
-const sampleData = [
-    {question: 'This is a question', answer: 'The code looks like below:\n\n```This is code```\n Finished here.'},
-    {question: 'This is another question', answer: '### title\n\n content \n\n'}
-]
+  useEffect(() => {
+    // if content.length > 100, then delete all records of one month ago
+    if (content.length > 2) {
+      const now = new Date();
+      // const oneMonthAgo = new Date(now.getTime() - (1000 * 60 * 60 * 24 * 30)).getTime()
+      const oneMonthAgo = new Date(now.getTime() - 1000 * 60 * 60).getTime();
+      const oneMonthTimestamp = Math.round(oneMonthAgo / 1000);
+      const newArray = content.filter((item) => {
+        return item.timestamp > oneMonthTimestamp;
+      });
+      console.log(newArray);
+    }
+  }, [content]);
 
-const ai = () => {
-    const [content, setContent] = useState(sampleData)
-    const {t} = useTranslation()
-
-useEffect(() => {
-
-}, [content])
-
-    return (
-        <>
-        <Grid.Container gap = {1} justify="center">
-            {/* display question and answer here */}
-
-
-            {/* display input here */}
-        </Grid.Container>
-        </>
-    )
+  return (
+    <Layout>
+      <NoSSR>
+        {/* display input here */}
+        <Card
+          isHoverable
+          variant="bordered"
+          css={{ position: 'sticky', top: '5em', zIndex: 100 }}
+        >
+          <Card.Body>
+            {/* <Textarea value={questionText} rows={2} aria-label="question" ref={inputRef} id="question"
+                            onChange={(event) => setQuestionText(event.target.value)} fullWidth={true} helperColor='success'
+                            placeholder='Input your question here ...'
+                            helperText='Press Ctrl+Enter to send your question' /> */}
+            <Textarea
+              rows={2}
+              aria-label="question"
+              ref={inputRef}
+              id="question"
+              disabled={loading}
+              fullWidth={true}
+              helperColor="success"
+              onChange={(event) => setQuestionText(event.target.value)}
+              placeholder="Input your question here ..."
+              helperText="Press Ctrl+Enter to send your question"
+            />
+          </Card.Body>
+        </Card>
+        {loading && <Progress indeterminated />}
+        {!loading && <Spacer y={2} />}
+        <Container gap={2} fluid>
+          {/* display question and answer here */}
+          {content &&
+            content.length > 0 &&
+            content.map((data, index) => {
+              return (
+                <>
+                  <Card
+                    css={{ p: '$6' }}
+                    isHoverable
+                    variant="bordered"
+                    key={index}
+                  >
+                    <Card.Header>
+                      <BiQuestionMark size="1.3em" color="green" />
+                      <Grid.Container css={{ pl: '$6' }}>
+                        <Grid xs={12}>
+                          <Text b css={{ lineHeight: '$xs' }}>
+                            {data.question}
+                          </Text>
+                        </Grid>
+                        <Grid xs={12}>
+                          <Text i css={{ color: '$accents8' }}>
+                            {'question length: ' +
+                              data.question_tokens +
+                              ' answer length: ' +
+                              data.answer_tokens}
+                          </Text>
+                        </Grid>
+                      </Grid.Container>
+                    </Card.Header>
+                    <Card.Divider />
+                    <Card.Body>
+                      <div
+                        dangerouslySetInnerHTML={{ __html: data.html }}
+                      ></div>
+                    </Card.Body>
+                  </Card>
+                  <Spacer y={1} />
+                </>
+              );
+            })}
+        </Container>
+      </NoSSR>
+    </Layout>
+  );
 }

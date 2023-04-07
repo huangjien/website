@@ -6,13 +6,12 @@ import Layout from '../components/layout/Layout';
 import { useAuth } from '../lib/useAuth';
 import { useSettings } from '../lib/useSettings';
 
-
 const Settings = () => {
   const { settings } = useSettings();
   const { user, isAdmin } = useAuth();
   const { push } = useRouter();
   const { t } = useTranslation();
-  useTitle(t('header.settings'))
+  useTitle(t('header.settings'));
   const columns = [
     {
       key: 'name',
