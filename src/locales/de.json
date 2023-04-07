@@ -2,6 +2,15 @@
   "global": {
     "search": "Suche..."
   },
+  "ai": {
+    "send": "Senden",
+    "input_placeholder": "Geben Sie hier Ihre Frage ein ...",
+    "input_helptext": "Drücken Sie Strg+Enter, um Ihre Frage zu senden",
+    "question_length": "Länge der Frage",
+    "answer_length": "Länge der Antwort",
+    "return_error": "Der AI-Request gibt einen Fehler zurück",
+    "return_length": "Wir haben eine Antwort vom AI erhalten.\nLänge der Antwort"
+  },
   "header": {
     "home": "Startseite",
     "settings": "Einstellungen",

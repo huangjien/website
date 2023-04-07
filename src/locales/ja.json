@@ -2,6 +2,15 @@
   "global": {
     "search": "検索..."
   },
+  "ai": {
+    "send": "送信",
+    "input_placeholder": "ここに質問を入力してください ...",
+    "input_helptext": "Ctrl+Enter を押して質問を送信します",
+    "question_length": "質問の長さ",
+    "answer_length": "回答の長さ",
+    "return_error": "AI 要求がエラーを返しました",
+    "return_length": "AI から回答がありました。\n回答の長さ"
+  },
   "header": {
     "home": "ホーム",
     "settings": "設定",

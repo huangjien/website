@@ -2,6 +2,15 @@
   "global": {
     "search": "搜索..."
   },
+  "ai": {
+    "send": "发送",
+    "input_placeholder": "在此输入您的问题...",
+    "input_helptext": "按 Ctrl+Enter 发送您的问题",
+    "question_length": "问题长度",
+    "answer_length": "答案长度",
+    "return_error": "AI 请求返回错误",
+    "return_length": "我们从 AI 收到了答案。\n答案长度"
+  },
   "header": {
     "home": "首页",
     "settings": "设置",

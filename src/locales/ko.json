@@ -2,6 +2,15 @@
   "global": {
     "search": "검색..."
   },
+  "ai": {
+    "send": "보내기",
+    "input_placeholder": "질문을 여기에 입력하세요 ...",
+    "input_helptext": "질문을 보내려면 Ctrl+Enter를 누르세요",
+    "question_length": "질문 길이",
+    "answer_length": "답변 길이",
+    "return_error": "AI 요청 오류 반환",
+    "return_length": "AI에서 답변을 받았습니다.\n답변 길이"
+  },
   "header": {
     "home": "홈",
     "settings": "설정",

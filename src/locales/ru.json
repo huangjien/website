@@ -2,6 +2,15 @@
   "global": {
     "search": "Поиск..."
   },
+  "ai": {
+    "send": "Отправить",
+    "input_placeholder": "Введите свой вопрос здесь ...",
+    "input_helptext": "Нажмите Ctrl+Enter, чтобы отправить свой вопрос",
+    "question_length": "Длина вопроса",
+    "answer_length": "Длина ответа",
+    "return_error": "AI запрос возвращает ошибку",
+    "return_length": "Мы получили ответ от AI.\nДлина ответа"
+  },
   "header": {
     "home": "Главная",
     "settings": "Настройки",

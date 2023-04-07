@@ -2,6 +2,15 @@
   "global": {
     "search": "Cuardaigh..."
   },
+  "ai": {
+    "send": "Seol",
+    "input_placeholder": "Cuir do cheist anseo ...",
+    "input_helptext": "Brúigh Ctrl+Enter chun do cheist a sheoladh",
+    "question_length": "Fad na ceiste",
+    "answer_length": "Fad na freagra",
+    "return_error": "D'fhág an iarratas AI earráid",
+    "return_length": "Fuair muid freagra ó AI.\nFad na freagra"
+  },
   "header": {
     "home": "Baile",
     "settings": "Socruithe",

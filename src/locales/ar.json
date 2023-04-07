@@ -2,6 +2,15 @@
   "global": {
     "search": "بحث..."
   },
+  "ai": {
+    "send": "ارسال",
+    "input_placeholder": "ادخل سؤالك هنا...",
+    "input_helptext": "اضغط على Ctrl+Enter لإرسال السؤال",
+    "question_length": "طول السؤال",
+    "answer_length": "طول الإجابة",
+    "return_error": "طلب الذكاء الاصطناعي يعيد خطأ",
+    "return_length": "لقد تلقينا إجابة من الذكاء الاصطناعي.\nطول الإجابة"
+  },
   "header": {
     "home": "الصفحة الرئيسية",
     "settings": "الإعدادات",

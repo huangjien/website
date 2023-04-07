@@ -1,13 +1,14 @@
-import { Input, Navbar, Table } from '@nextui-org/react';
+import { Input, Navbar, Table, useInput } from '@nextui-org/react';
 import { useDebounceEffect } from 'ahooks';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BiSearch } from 'react-icons/bi';
 import { itemsPerPage } from '../lib/global';
 
 const HTable = ({ columns, data }) => {
+  const inputRef = useRef(null);
   const [tableData, setTableData] = useState();
-  const [searchValue, setSearchValue] = useState('');
+  const { value: searchValue, setValue: setSearchValue } = useInput('');
   const [sortdescriptor, setSortdescriptor] = useState({
     column: '',
     direction: 'desceding',
@@ -92,6 +93,7 @@ const HTable = ({ columns, data }) => {
               >
                 <Input
                   clearable
+                  ref={inputRef}
                   aria-label="search"
                   value={searchValue}
                   onChange={(e) => setSearchValue(e.target.value)}

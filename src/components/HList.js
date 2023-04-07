@@ -1,21 +1,21 @@
 import {
   Collapse,
   Dropdown,
-  Input,
   Navbar,
-  Pagination,
+  Pagination
 } from '@nextui-org/react';
 import { useDebounceEffect } from 'ahooks';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BiFilter, BiSearch } from 'react-icons/bi';
+import { ControllableInput } from '../components/ControllableInput';
 import { Box } from '../components/layout/Box';
 import { itemsPerPage } from '../lib/global';
 import { HIssue } from './HIssue';
 
 export const HList = (data) => {
   const [listData, setListData] = useState();
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState();
   const [labels, setLabels] = useState();
   // eslint-disable-next-line no-undef
   const [selected, setSelected] = useState(new Set(['ALL']));
@@ -167,11 +167,12 @@ export const HList = (data) => {
               },
             }}
           >
-            <Input
+            <ControllableInput
               clearable
+
               aria-label="search"
+              onChange={setSearchValue}
               value={searchValue}
-              onChange={(e) => setSearchValue(e.target.value)}
               contentLeft={
                 <BiSearch fill="var(--nextui-colors-accents6)" size={16} />
               }
