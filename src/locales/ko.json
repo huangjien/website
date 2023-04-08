@@ -12,6 +12,7 @@
     "return_length": "AI에서 답변을 받았습니다.\n답변 길이"
   },
   "header": {
+    "ai": "인공지능",
     "home": "홈",
     "settings": "설정",
     "about": "정보",

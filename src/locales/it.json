@@ -12,6 +12,7 @@
     "return_length": "Abbiamo ricevuto una risposta da AI.\nLunghezza della risposta"
   },
   "header": {
+    "ai": "Intelligenza artificiale",
     "home": "Home",
     "settings": "Impostazioni",
     "about": "Informazioni",

@@ -123,7 +123,7 @@ const Header = () => {
             <Button
               light
               auto
-              onClick={() => {
+              onPress={() => {
                 isDark ? setTheme('light') : setTheme('dark');
               }}
             >

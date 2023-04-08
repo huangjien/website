@@ -12,15 +12,15 @@ const lightTheme = createTheme({
   type: 'light',
   theme: {
     colors: {
-      // // generic colors
-      // white: '#ffffff',
-      // black: '#000000',
+      // generic colors
+      white: '#ffffff',
+      black: '#000000',
 
-      // // background colors (light)
-      // background: "$white",
-      // backgroundAlpha: "rgba(255, 255, 255, 0.8)", // used for semi-transparent backgrounds like the navbar
-      // foreground: "$black",
-      // backgroundContrast: "$white",
+      // background colors (light)
+      background: "$white",
+      backgroundAlpha: "rgba(255, 255, 255, 0.8)", // used for semi-transparent backgrounds like the navbar
+      foreground: "$black",
+      backgroundContrast: "$white",
       // brand colors
       primaryLight: '$green200',
       primaryLightHover: '$green300',

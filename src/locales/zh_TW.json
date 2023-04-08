@@ -12,6 +12,7 @@
     "return_length": "我們從 AI 收到了答案。\n答案長度"
   },
   "header": {
+    "ai": "人工智慧",
     "home": "首頁",
     "settings": "設定",
     "about": "關於",

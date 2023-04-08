@@ -12,6 +12,7 @@
     "return_length": "AI から回答がありました。\n回答の長さ"
   },
   "header": {
+    "ai": "AI（人工知能）",
     "home": "ホーム",
     "settings": "設定",
     "about": "情報",
