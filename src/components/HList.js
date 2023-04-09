@@ -26,6 +26,8 @@ export const HList = (data) => {
     [selected]
   );
   const { t } = useTranslation();
+  const [currentPageNumber, setCurrentPageNumber] = useState(1)
+  const [filterredData, setFilterredData] = useState()
 
   useKeyPress(
     'enter',
@@ -72,6 +74,7 @@ export const HList = (data) => {
   useDebounceEffect(
     () => {
       if (!searchValue && selected.has('ALL')) {
+        setFilterredData(data.data)
         setListData(data.data);
         return;
       }
@@ -88,11 +91,22 @@ export const HList = (data) => {
         var len = ret.length;
         return len > 0;
       });
-      setListData(filteredArray);
+
+      setFilterredData(filteredArray)
+      setCurrentPageNumber(1)
+      // setListData(filterredData.slice(0, itemsPerPage));
     },
     [searchValue, selected],
     { wait: 2000 }
   );
+
+  useDebounceEffect(() => {
+
+    if (filterredData && filterredData.length > 0) {
+      setPageTotal(Math.ceil(filterredData.length / itemsPerPage))
+      setListData(filterredData.slice((currentPageNumber - 1) * itemsPerPage, currentPageNumber * itemsPerPage));
+    }
+  }, [currentPageNumber, filterredData], { wait: 1000 })
 
   useEffect(() => {
     if (!listData) {
@@ -168,6 +182,7 @@ export const HList = (data) => {
                 aria-label="pagination"
                 noMargin
                 shadow
+                onChange={page => setCurrentPageNumber(page)}
                 total={pageTotal}
                 initialPage={1}
               />

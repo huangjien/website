@@ -1,5 +1,5 @@
 export const triggerPx = 128;
-export const itemsPerPage = 25;
+export const itemsPerPage = 10;
 export const currentUser = 'currentUser';
 export const aboutContent = 'about';
 export const issuesConent = 'issues';

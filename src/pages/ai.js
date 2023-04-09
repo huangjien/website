@@ -1,6 +1,7 @@
 import {
     Button,
     Card,
+    Collapse,
     Container,
     Grid,
     Input,
@@ -19,6 +20,7 @@ import { BiQuestionMark, BiSearch } from 'react-icons/bi';
 import { error, success } from '../components/Notification';
 import Layout from '../components/layout/Layout';
 import NoSSR from '../lib/NoSSR';
+import { itemsPerPage } from '../lib/global';
 import { useGithubContent } from '../lib/useGithubContent';
 
 
@@ -46,6 +48,7 @@ export default function AI() {
     const inputRef = useRef(null);
     const searchRef = useRef(null);
     const [searchValue, setSearchValue] = useState()
+    const [currentPageNumber, setCurrentPageNumber] = useState(1)
     const [pageTotal, setPageTotal] = useState(0);
     const { value: questionText, setValue: setQuestionText, reset } = useInput();
     const [content, setContent] = useLocalStorageState('QandA', {
@@ -61,16 +64,22 @@ export default function AI() {
 
     useDebounceEffect(() => {
         if (content && content.length > 0) {
-            var regex = new RegExp(searchValue, 'i');
-            const filterred = content.filter((qAndA) => {
-                return (
-                    qAndA['question'].search(regex) > -1 || qAndA['answer'].search(regex) > -1
-                );
-            });
-            setDisplayContent(filterred)
+            const filterred = getFilterItems();
+            // now we have the content to be show, then we start calculate the pagination and display it.
+            setPageTotal(Math.ceil(filterred.length / itemsPerPage))
+            setCurrentPageNumber(1)
+            setDisplayContent(filterred.slice(0, itemsPerPage))
         }
 
     }, [content, searchValue], { wait: 1000 })
+
+    useDebounceEffect(() => {
+        if (content && content.length > 0) {
+            const filterred = getFilterItems();
+            setPageTotal(Math.ceil(filterred.length / itemsPerPage))
+            setDisplayContent(filterred.slice((currentPageNumber - 1) * itemsPerPage, currentPageNumber * itemsPerPage))
+        }
+    }, [currentPageNumber], { wait: 1000 })
 
     useKeyPress(
         'enter',
@@ -163,17 +172,15 @@ export default function AI() {
                                                 contentLeft={
                                                     <BiSearch size='1em' />
                                                 }
-
                                                 placeholder={t('global.search')}
                                             />
-
                                             {pageTotal > 0 && (
-
                                                 <Pagination
                                                     aria-label="pagination"
                                                     noMargin
                                                     shadow
                                                     total={pageTotal}
+                                                    onChange={page => setCurrentPageNumber(page)}
                                                     initialPage={1}
                                                 />
                                             )}
@@ -208,21 +215,24 @@ export default function AI() {
                                                     {data.question}
                                                 </Text>
                                             </Grid>
-                                            <Grid xs={12}>
-                                                <Text i css={{ color: '$accents8' }}>
-                                                    {t('ai.question_length') + ' :' +
-                                                        data.question_tokens + ' ' +
-                                                        t('ai.answer_length') + ' :' +
-                                                        data.answer_tokens}
-                                                </Text>
-                                            </Grid>
+
                                         </Grid.Container>
                                     </Card.Header>
-                                    <Card.Divider />
+
                                     <Card.Body>
-                                        <div
-                                            dangerouslySetInnerHTML={{ __html: data.html }}
-                                        ></div>
+                                        <Collapse divider={false} bordered={false} xs={12} title={
+                                            <Text i css={{ color: '$accents8' }}>
+                                                {t('ai.question_length') + ' :' +
+                                                    data.question_tokens + ' ' +
+                                                    t('ai.answer_length') + ' :' +
+                                                    data.answer_tokens}
+                                            </Text>
+                                        } >
+                                            <div
+                                                dangerouslySetInnerHTML={{ __html: data.html }}
+                                            ></div>
+                                        </Collapse>
+
                                     </Card.Body>
                                 </Card>
 
@@ -233,6 +243,16 @@ export default function AI() {
             </NoSSR>
         </Layout>
     );
+
+    function getFilterItems() {
+        var regex = new RegExp(searchValue, 'i');
+        const filterred = content.filter((qAndA) => {
+            return (
+                qAndA['question'].search(regex) > -1 || qAndA['answer'].search(regex) > -1
+            );
+        });
+        return filterred;
+    }
 
     function request2AI() {
         setLoading(true);

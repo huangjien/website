@@ -410,9 +410,9 @@ const globalStyles = globalCss({
     justifyContent: 'right',
     // zIndex: 1000,
     // cursor: 'pointer',
-    // animation: 'fadeIn 0.5s',
-    // transition: 'opacity 0.4s',
-    // opacity: 0.5
+    animation: 'fadeIn 0.5s',
+    transition: 'opacity 0.4s',
+    opacity: 0.5
   },
 });
 
