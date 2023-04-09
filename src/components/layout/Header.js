@@ -58,7 +58,10 @@ const Header = () => {
 
   return (
     <NoSSR>
-      <Navbar id='main_header' isBordered={isDark} variant="sticky">
+      <Navbar id='main_header' isBordered={isDark} variant="sticky" css={{
+        $$navbarBackgroundColor: "transparent",
+        $$navbarBlurBackgroundColor: "transparent"
+      }}>
         <Navbar.Brand>
           {/* <Navbar.Toggle aria-label="toggle navigation" /> */}
           <Image src="/favicon.png" alt="Logo" width={32} height={32} />
