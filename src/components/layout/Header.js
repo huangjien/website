@@ -20,6 +20,8 @@ import {
   BiMoon,
   BiSun,
 } from 'react-icons/bi';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import NoSSR from '../../lib/NoSSR';
 import { useAuth } from '../../lib/useAuth';
 import { languages } from '../../locales/i18n';
@@ -56,7 +58,7 @@ const Header = () => {
 
   return (
     <NoSSR>
-      <Navbar isBordered={isDark} variant="sticky">
+      <Navbar id='main_header' isBordered={isDark} variant="sticky">
         <Navbar.Brand>
           {/* <Navbar.Toggle aria-label="toggle navigation" /> */}
           <Image src="/favicon.png" alt="Logo" width={32} height={32} />
@@ -130,6 +132,10 @@ const Header = () => {
               {isDark ? <BiMoon size="2em" /> : <BiSun size="2em" />}
             </Button>
           </Tooltip>
+          <ToastContainer position={toast.POSITION.TOP_CENTER}
+            autoClose={5000} pauseOnHover
+            closeOnClick theme={isDark ? 'dark' : 'light'}
+            draggable />
         </Navbar.Content>
       </Navbar>
     </NoSSR>

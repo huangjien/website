@@ -16,15 +16,21 @@ import { useDebounceEffect, useKeyPress, useLocalStorageState, useTitle } from '
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BiQuestionMark, BiSearch } from 'react-icons/bi';
+import { error, success } from '../components/Notification';
 import Layout from '../components/layout/Layout';
 import NoSSR from '../lib/NoSSR';
 import { useGithubContent } from '../lib/useGithubContent';
-import { useMessage } from '../lib/useMessage';
 
-const getAnswer = async (question) => {
+
+const getAnswer = async (question, lastAnswer) => {
+    var questionArray = [{ role: 'user', content: question }]
+    if (lastAnswer) {
+        questionArray.unshift({ role: 'assistant', content: lastAnswer })
+    }
     const requestBody = {
         model: 'gpt-3.5-turbo',
-        messages: [{ role: 'user', content: question }],
+        messages: questionArray,
+        temperature: 0.2
     };
     return await fetch('/api/ai', {
         method: 'POST',
@@ -45,12 +51,13 @@ export default function AI() {
     const [content, setContent] = useLocalStorageState('QandA', {
         defaultValue: [],
     });
+    const [lastAnswer, setLastAnswer] = useLocalStorageState('LastAnswer', { defaultValue: '' })
     const { t } = useTranslation();
     const [loading, setLoading] = useState(false);
     const { getHtml } = useGithubContent();
     const [displayContent, setDisplayContent] = useState([])
     useTitle(t('header.ai'));
-    const [fatal, success] = useMessage();
+
 
     useDebounceEffect(() => {
         if (content && content.length > 0) {
@@ -229,10 +236,10 @@ export default function AI() {
 
     function request2AI() {
         setLoading(true);
-        getAnswer(questionText)
+        getAnswer(questionText, lastAnswer)
             .then((data) => {
                 if (data.error) {
-                    fatal(t('ai.return_error') + ':\n' + data.error.message);
+                    error(t('ai.return_error') + ':\n' + data.error.message);
                     setLoading(false);
                     setQuestionText('');
                     reset();
@@ -250,6 +257,7 @@ export default function AI() {
                     answer_tokens: data.usage.completion_tokens,
                     total_tokens: data.usage.total_tokens,
                 };
+                setLastAnswer(newQandA.answer); // store last answer so that we can compare it later.  If the user answers the wrong way, it will be the last correct
                 success(
                     t('ai.return_length') + ': ' +
                     data.usage.completion_tokens

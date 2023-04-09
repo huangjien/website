@@ -3,17 +3,15 @@ import {
   Button,
   Dropdown,
   Input,
-  Loading,
   Modal,
   Row,
-  Text,
+  Text
 } from '@nextui-org/react';
-import { useUpdateEffect } from 'ahooks';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BiHide, BiShow, BiUser } from 'react-icons/bi';
 import { useAuth } from '../lib/useAuth';
-import { useMessage } from '../lib/useMessage';
+
 
 const Login = () => {
   // const { setTheme, isDark, type } = useNextTheme();
@@ -22,17 +20,6 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [showMessage, setShowMessage] = useState(false);
 
-  const [
-    msg,
-    fatal,
-    warning,
-    info,
-    success,
-    clear,
-    messageType,
-    messageContent,
-    messageColor,
-  ] = useMessage();
 
   // const { setting } = useSettings()
   const [selectedKey, setSelectedKey] = useState();
@@ -41,24 +28,12 @@ const Login = () => {
   const [visible, setVisible] = useState(false);
   const handler = () => setVisible(true);
   const closeLoginDialog = () => setVisible(false);
-  const closeHandler = (removeMsg) => {
-    setShowMessage(false);
-    if (removeMsg) {
-      clear();
-    }
-  };
+
 
   const clearLogin = () => {
     logout();
     setSelectedKey(undefined);
   };
-
-  useUpdateEffect(() => {
-    if (msg) {
-      // show message
-      setShowMessage(true);
-    }
-  }, [msg]);
 
   useEffect(() => {
     if (isAuthenticated()) {
@@ -82,52 +57,18 @@ const Login = () => {
 
   return (
     <>
-      {msg && (
-        <Modal
-          closeButton
-          preventClose={messageType() === 'Error'}
-          aria-labelledby="modal-title"
-          open={showMessage && msg}
-          onClose={() => closeHandler(false)}
-        >
-          <Modal.Header>
-            <Text color={messageColor()} id="modal-title" b size={18}>
-              {messageType()}
-            </Text>
-          </Modal.Header>
-          <Modal.Body>
-            <Row justify="space-between">
-              <Text size={16}>{messageContent()}</Text>
-            </Row>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button
-              auto
-              flat
-              color="primary"
-              onPress={() => closeHandler(true)}
-            >
-              {t('header.acknowledge')}
-            </Button>
-            <Button auto onPress={() => closeHandler(false)}>
-              {t('header.keep_message')}
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      )}
+
       {!user?.name && (
         <Button auto shadow onPress={handler}>
           {t('header.login')}
         </Button>
       )}
-      {loading ? (
-        <Loading />
-      ) : user && user.avatar_url ? (
+      {user && user.avatar_url ? (
         user && (
           <Dropdown placement="bottom-left">
             <Dropdown.Trigger>
               <Avatar
-                color={messageColor()}
+
                 zoomed
                 bordered
                 text={user.name}
@@ -135,7 +76,6 @@ const Login = () => {
               />
             </Dropdown.Trigger>
             <Dropdown.Menu
-              disabledKeys={msg ? [] : ['showMessage']}
               color="secondary"
               aria-label="Avatar Actions"
               onAction={setSelectedKey}
@@ -143,9 +83,7 @@ const Login = () => {
               <Dropdown.Item key="email" textValue={user.email}>
                 <Text color="inherit">{user.email}</Text>
               </Dropdown.Item>
-              <Dropdown.Item withDivider key="showMessage">
-                {t('header.message')}
-              </Dropdown.Item>
+
               {/* <Dropdown.Item key="testMessage">Test Message</Dropdown.Item> */}
               <Dropdown.Item
                 key="logout"

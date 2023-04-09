@@ -2,6 +2,7 @@ import { Spacer } from '@nextui-org/react';
 import { useScroll } from 'ahooks';
 import { useEffect, useState } from 'react';
 import { BiCaretUp } from 'react-icons/bi';
+
 import { triggerPx } from '../../lib/global';
 import { Box } from './Box';
 import Header from './Header';
@@ -29,13 +30,14 @@ const Layout = (props) => {
     }
   }, [show, scroll]);
   return (
-    <Box
+    <Box id='Layout'
       css={{
         maxW: '100%',
       }}
     >
       <Header />
       <Spacer y={1} />
+
       <Box>{props.children}</Box>
 
       <BiCaretUp
