@@ -1,11 +1,11 @@
 import { toast } from 'react-toastify';
 
 export const success = (content) => {
-  toast.success(content, { transition: 'zoom' });
+  toast.success(content);
 };
 
 export const info = (content) => {
-  toast.info(content, { transition: 'zoom' });
+  toast.info(content);
 };
 
 export const warn = (content) => {
