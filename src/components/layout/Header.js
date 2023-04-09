@@ -12,13 +12,13 @@ import { useTheme as useNextTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
-  BiBook,
-  BiCertification,
   BiChip,
+  BiCog,
+  BiDetail,
   BiGlobe,
   BiHome,
   BiMoon,
-  BiSun,
+  BiSun
 } from 'react-icons/bi';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -77,7 +77,7 @@ const Header = () => {
           </Navbar.Link>
           {user && (
             <Navbar.Link id="settings" href="/settings">
-              <BiCertification size="2em" />
+              <BiCog size="2em" />
               {t('header.settings')}
             </Navbar.Link>
           )}
@@ -88,7 +88,7 @@ const Header = () => {
           </Navbar.Link>
 
           <Navbar.Link id="about" href="/about">
-            <BiBook size="2em" />
+            <BiDetail size="2em" />
             {t('header.about')}
           </Navbar.Link>
           <Spacer id="space1" x={4} />
