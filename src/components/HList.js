@@ -1,20 +1,21 @@
 import {
   Collapse,
   Dropdown,
+  Input,
   Navbar,
   Pagination
 } from '@nextui-org/react';
-import { useDebounceEffect } from 'ahooks';
-import { useEffect, useMemo, useState } from 'react';
+import { useDebounceEffect, useKeyPress } from 'ahooks';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BiFilter, BiSearch } from 'react-icons/bi';
-import { ControllableInput } from '../components/ControllableInput';
 import { Box } from '../components/layout/Box';
 import { itemsPerPage } from '../lib/global';
 import { HIssue } from './HIssue';
 
 export const HList = (data) => {
   const [listData, setListData] = useState();
+  const searchRef = useRef(null)
   const [searchValue, setSearchValue] = useState();
   const [labels, setLabels] = useState();
   // eslint-disable-next-line no-undef
@@ -25,6 +26,19 @@ export const HList = (data) => {
     [selected]
   );
   const { t } = useTranslation();
+
+  useKeyPress(
+    'enter',
+    () => {
+      setSearchValue(searchRef.current.value)
+    },
+    {
+      target: searchRef
+    },
+    {
+      exactMatch: true
+    }
+  )
 
   const handleSelect = (e) => {
     // if selected only contain one element and it is 'ALL', and e contains more than 'ALL', then remove 'ALL'
@@ -167,27 +181,15 @@ export const HList = (data) => {
               },
             }}
           >
-            <ControllableInput
+            <Input
               clearable
-
+              ref={searchRef}
               aria-label="search"
-              onChange={setSearchValue}
-              value={searchValue}
               contentLeft={
-                <BiSearch fill="var(--nextui-colors-accents6)" size={16} />
+                <BiSearch size='1em' />
               }
               contentLeftStyling={false}
-              css={{
-                w: '100%',
-                '@xsMax': {
-                  mw: '300px',
-                },
-                '& .nextui-input-content--left': {
-                  h: '100%',
-                  ml: '$4',
-                  dflex: 'center',
-                },
-              }}
+              onClearClick={() => setSearchValue('')}
               placeholder={t('global.search')}
             />
           </Navbar.Item>

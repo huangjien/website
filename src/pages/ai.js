@@ -3,6 +3,7 @@ import {
     Card,
     Container,
     Grid,
+    Input,
     Pagination,
     Progress,
     Row,
@@ -15,7 +16,6 @@ import { useDebounceEffect, useKeyPress, useLocalStorageState, useTitle } from '
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BiQuestionMark, BiSearch } from 'react-icons/bi';
-import { ControllableInput } from '../components/ControllableInput';
 import Layout from '../components/layout/Layout';
 import NoSSR from '../lib/NoSSR';
 import { useGithubContent } from '../lib/useGithubContent';
@@ -38,6 +38,7 @@ const getAnswer = async (question) => {
 
 export default function AI() {
     const inputRef = useRef(null);
+    const searchRef = useRef(null);
     const [searchValue, setSearchValue] = useState()
     const [pageTotal, setPageTotal] = useState(0);
     const { value: questionText, setValue: setQuestionText, reset } = useInput();
@@ -65,11 +66,25 @@ export default function AI() {
     }, [content, searchValue], { wait: 1000 })
 
     useKeyPress(
+        'enter',
+        () => {
+            setSearchValue(searchRef.current.value)
+        },
+        {
+            target: searchRef
+        },
+        {
+            exactMatch: true
+        }
+    )
+    useKeyPress(
         'ctrl.enter',
         () => {
-            console.log(questionText);
+
             if (!questionText) return;
             request2AI();
+            inputRef.current.value = '';
+
         },
         {
             target: inputRef,
@@ -131,12 +146,13 @@ export default function AI() {
                                                 {t('ai.send')}
                                             </Button>
 
-                                            <ControllableInput x={1}
+                                            <Input x={1}
                                                 clearable
+                                                ref={searchRef}
                                                 aria-label="search"
-                                                value={searchValue}
-                                                onChange={setSearchValue}
-
+                                                // value={searchValue}
+                                                // onChange={setSearchValue}
+                                                onClearClick={() => setSearchValue('')}
                                                 contentLeft={
                                                     <BiSearch size='1em' />
                                                 }
@@ -170,40 +186,40 @@ export default function AI() {
                         displayContent.length > 0 &&
                         displayContent.map((data, index) => {
                             return (
-                                <>
-                                    <Card
-                                        css={{ p: '$6' }}
-                                        isHoverable
-                                        variant="bordered"
-                                        key={index}
-                                    >
-                                        <Card.Header>
-                                            <BiQuestionMark size="1.3em" color="green" />
-                                            <Grid.Container css={{ pl: '$6' }}>
-                                                <Grid xs={12}>
-                                                    <Text b css={{ lineHeight: '$xs' }}>
-                                                        {data.question}
-                                                    </Text>
-                                                </Grid>
-                                                <Grid xs={12}>
-                                                    <Text i css={{ color: '$accents8' }}>
-                                                        {t('ai.question_length') + ' :' +
-                                                            data.question_tokens + ' ' +
-                                                            t('ai.answer_length') + ' :' +
-                                                            data.answer_tokens}
-                                                    </Text>
-                                                </Grid>
-                                            </Grid.Container>
-                                        </Card.Header>
-                                        <Card.Divider />
-                                        <Card.Body>
-                                            <div
-                                                dangerouslySetInnerHTML={{ __html: data.html }}
-                                            ></div>
-                                        </Card.Body>
-                                    </Card>
-                                    <Spacer y={1} />
-                                </>
+
+                                <Card
+                                    css={{ p: '$6' }}
+                                    isHoverable
+                                    variant="bordered"
+                                    key={index}
+                                >
+                                    <Card.Header>
+                                        <BiQuestionMark size="1.3em" color="green" />
+                                        <Grid.Container css={{ pl: '$6' }}>
+                                            <Grid xs={12}>
+                                                <Text b css={{ lineHeight: '$xs' }}>
+                                                    {data.question}
+                                                </Text>
+                                            </Grid>
+                                            <Grid xs={12}>
+                                                <Text i css={{ color: '$accents8' }}>
+                                                    {t('ai.question_length') + ' :' +
+                                                        data.question_tokens + ' ' +
+                                                        t('ai.answer_length') + ' :' +
+                                                        data.answer_tokens}
+                                                </Text>
+                                            </Grid>
+                                        </Grid.Container>
+                                    </Card.Header>
+                                    <Card.Divider />
+                                    <Card.Body>
+                                        <div
+                                            dangerouslySetInnerHTML={{ __html: data.html }}
+                                        ></div>
+                                    </Card.Body>
+                                </Card>
+
+
                             );
                         })}
                 </Container>

@@ -1,19 +1,32 @@
-import { Input, Navbar, Table, useInput } from '@nextui-org/react';
-import { useDebounceEffect } from 'ahooks';
+import { Input, Navbar, Table } from '@nextui-org/react';
+import { useDebounceEffect, useKeyPress } from 'ahooks';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BiSearch } from 'react-icons/bi';
 import { itemsPerPage } from '../lib/global';
 
 const HTable = ({ columns, data }) => {
-  const inputRef = useRef(null);
+  const searchRef = useRef(null);
   const [tableData, setTableData] = useState();
-  const { value: searchValue, setValue: setSearchValue } = useInput('');
+  const [searchValue, setSearchValue] = useState();
   const [sortdescriptor, setSortdescriptor] = useState({
     column: '',
     direction: 'desceding',
   });
   const { t } = useTranslation();
+
+  useKeyPress(
+    'enter',
+    () => {
+      setSearchValue(searchRef.current.value)
+    },
+    {
+      target: searchRef
+    },
+    {
+      exactMatch: true
+    }
+  )
 
   useEffect(() => {
     if (data) {
@@ -93,25 +106,13 @@ const HTable = ({ columns, data }) => {
               >
                 <Input
                   clearable
-                  ref={inputRef}
+                  ref={searchRef}
                   aria-label="search"
-                  value={searchValue}
-                  onChange={(e) => setSearchValue(e.target.value)}
                   contentLeft={
-                    <BiSearch fill="var(--nextui-colors-accents6)" size={16} />
+                    <BiSearch size='1em' />
                   }
                   contentLeftStyling={false}
-                  css={{
-                    w: '100%',
-                    '@xsMax': {
-                      mw: '300px',
-                    },
-                    '& .nextui-input-content--left': {
-                      h: '100%',
-                      ml: '$4',
-                      dflex: 'center',
-                    },
-                  }}
+                  onClearClick={() => setSearchValue('')}
                   placeholder={t('global.search')}
                 />
               </Navbar.Item>
