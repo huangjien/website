@@ -3,7 +3,7 @@ import {
   Dropdown,
   Input,
   Navbar,
-  Pagination
+  Pagination,
 } from '@nextui-org/react';
 import { useDebounceEffect, useKeyPress } from 'ahooks';
 import { useEffect, useMemo, useRef, useState } from 'react';
@@ -15,7 +15,7 @@ import { HIssue } from './HIssue';
 
 export const HList = (data) => {
   const [listData, setListData] = useState();
-  const searchRef = useRef(null)
+  const searchRef = useRef(null);
   const [searchValue, setSearchValue] = useState();
   const [labels, setLabels] = useState();
   // eslint-disable-next-line no-undef
@@ -26,21 +26,21 @@ export const HList = (data) => {
     [selected]
   );
   const { t } = useTranslation();
-  const [currentPageNumber, setCurrentPageNumber] = useState(1)
-  const [filterredData, setFilterredData] = useState()
+  const [currentPageNumber, setCurrentPageNumber] = useState(1);
+  const [filterredData, setFilterredData] = useState();
 
   useKeyPress(
     'enter',
     () => {
-      setSearchValue(searchRef.current.value)
+      setSearchValue(searchRef.current.value);
     },
     {
-      target: searchRef
+      target: searchRef,
     },
     {
-      exactMatch: true
+      exactMatch: true,
     }
-  )
+  );
 
   const handleSelect = (e) => {
     // if selected only contain one element and it is 'ALL', and e contains more than 'ALL', then remove 'ALL'
@@ -74,7 +74,7 @@ export const HList = (data) => {
   useDebounceEffect(
     () => {
       if (!searchValue && selected.has('ALL')) {
-        setFilterredData(data.data)
+        setFilterredData(data.data);
         setListData(data.data);
         return;
       }
@@ -92,21 +92,29 @@ export const HList = (data) => {
         return len > 0;
       });
 
-      setFilterredData(filteredArray)
-      setCurrentPageNumber(1)
+      setFilterredData(filteredArray);
+      setCurrentPageNumber(1);
       // setListData(filterredData.slice(0, itemsPerPage));
     },
     [searchValue, selected],
     { wait: 2000 }
   );
 
-  useDebounceEffect(() => {
-
-    if (filterredData && filterredData.length > 0) {
-      setPageTotal(Math.ceil(filterredData.length / itemsPerPage))
-      setListData(filterredData.slice((currentPageNumber - 1) * itemsPerPage, currentPageNumber * itemsPerPage));
-    }
-  }, [currentPageNumber, filterredData], { wait: 1000 })
+  useDebounceEffect(
+    () => {
+      if (filterredData && filterredData.length > 0) {
+        setPageTotal(Math.ceil(filterredData.length / itemsPerPage));
+        setListData(
+          filterredData.slice(
+            (currentPageNumber - 1) * itemsPerPage,
+            currentPageNumber * itemsPerPage
+          )
+        );
+      }
+    },
+    [currentPageNumber, filterredData],
+    { wait: 1000 }
+  );
 
   useEffect(() => {
     if (!listData) {
@@ -182,7 +190,7 @@ export const HList = (data) => {
                 aria-label="pagination"
                 noMargin
                 shadow
-                onChange={page => setCurrentPageNumber(page)}
+                onChange={(page) => setCurrentPageNumber(page)}
                 total={pageTotal}
                 initialPage={1}
               />
@@ -200,9 +208,7 @@ export const HList = (data) => {
               clearable
               ref={searchRef}
               aria-label="search"
-              contentLeft={
-                <BiSearch size='1em' />
-              }
+              contentLeft={<BiSearch size="1em" />}
               contentLeftStyling={false}
               onClearClick={() => setSearchValue('')}
               placeholder={t('global.search')}

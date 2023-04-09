@@ -58,10 +58,15 @@ const Header = () => {
 
   return (
     <NoSSR>
-      <Navbar id='main_header' isBordered={isDark} variant="sticky" css={{
-        $$navbarBackgroundColor: "transparent",
-        $$navbarBlurBackgroundColor: "transparent"
-      }}>
+      <Navbar
+        id="main_header"
+        isBordered={isDark}
+        variant="sticky"
+        css={{
+          $$navbarBackgroundColor: 'transparent',
+          $$navbarBlurBackgroundColor: 'transparent',
+        }}
+      >
         <Navbar.Brand>
           {/* <Navbar.Toggle aria-label="toggle navigation" /> */}
           <Image src="/favicon.png" alt="Logo" width={32} height={32} />
@@ -135,10 +140,14 @@ const Header = () => {
               {isDark ? <BiMoon size="2em" /> : <BiSun size="2em" />}
             </Button>
           </Tooltip>
-          <ToastContainer position={toast.POSITION.TOP_CENTER}
-            autoClose={5000} pauseOnHover
-            closeOnClick theme={isDark ? 'dark' : 'light'}
-            draggable />
+          <ToastContainer
+            position={toast.POSITION.TOP_CENTER}
+            autoClose={5000}
+            pauseOnHover
+            closeOnClick
+            theme={isDark ? 'dark' : 'light'}
+            draggable
+          />
         </Navbar.Content>
       </Navbar>
     </NoSSR>

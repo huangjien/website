@@ -30,7 +30,8 @@ const Layout = (props) => {
     }
   }, [show, scroll]);
   return (
-    <Box id='Layout'
+    <Box
+      id="Layout"
       css={{
         maxW: '100%',
       }}

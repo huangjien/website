@@ -17,10 +17,10 @@ const lightTheme = createTheme({
       black: '#000000',
 
       // background colors (light)
-      background: "$white",
-      backgroundAlpha: "rgba(255, 255, 255, 0.8)", // used for semi-transparent backgrounds like the navbar
-      foreground: "$black",
-      backgroundContrast: "$white",
+      background: '$white',
+      backgroundAlpha: 'rgba(255, 255, 255, 0.8)', // used for semi-transparent backgrounds like the navbar
+      foreground: '$black',
+      backgroundContrast: '$white',
       // brand colors
       primaryLight: '$green200',
       primaryLightHover: '$green300',
@@ -412,7 +412,7 @@ const globalStyles = globalCss({
     // cursor: 'pointer',
     animation: 'fadeIn 0.5s',
     transition: 'opacity 0.4s',
-    opacity: 0.5
+    opacity: 0.5,
   },
 });
 

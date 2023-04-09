@@ -18,15 +18,15 @@ const HTable = ({ columns, data }) => {
   useKeyPress(
     'enter',
     () => {
-      setSearchValue(searchRef.current.value)
+      setSearchValue(searchRef.current.value);
     },
     {
-      target: searchRef
+      target: searchRef,
     },
     {
-      exactMatch: true
+      exactMatch: true,
     }
-  )
+  );
 
   useEffect(() => {
     if (data) {
@@ -108,9 +108,7 @@ const HTable = ({ columns, data }) => {
                   clearable
                   ref={searchRef}
                   aria-label="search"
-                  contentLeft={
-                    <BiSearch size='1em' />
-                  }
+                  contentLeft={<BiSearch size="1em" />}
                   contentLeftStyling={false}
                   onClearClick={() => setSearchValue('')}
                   placeholder={t('global.search')}

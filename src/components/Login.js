@@ -5,13 +5,12 @@ import {
   Input,
   Modal,
   Row,
-  Text
+  Text,
 } from '@nextui-org/react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BiHide, BiShow, BiUser } from 'react-icons/bi';
 import { useAuth } from '../lib/useAuth';
-
 
 const Login = () => {
   // const { setTheme, isDark, type } = useNextTheme();
@@ -20,7 +19,6 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [showMessage, setShowMessage] = useState(false);
 
-
   // const { setting } = useSettings()
   const [selectedKey, setSelectedKey] = useState();
   // const [error, setError] = useState();
@@ -28,7 +26,6 @@ const Login = () => {
   const [visible, setVisible] = useState(false);
   const handler = () => setVisible(true);
   const closeLoginDialog = () => setVisible(false);
-
 
   const clearLogin = () => {
     logout();
@@ -57,48 +54,44 @@ const Login = () => {
 
   return (
     <>
-
       {!user?.name && (
         <Button auto shadow onPress={handler}>
           {t('header.login')}
         </Button>
       )}
-      {user && user.avatar_url ? (
-        user && (
-          <Dropdown placement="bottom-left">
-            <Dropdown.Trigger>
-              <Avatar
-
-                zoomed
-                bordered
-                text={user.name}
-                src={user.avatar_url}
-              />
-            </Dropdown.Trigger>
-            <Dropdown.Menu
-              color="secondary"
-              aria-label="Avatar Actions"
-              onAction={setSelectedKey}
-            >
-              <Dropdown.Item key="email" textValue={user.email}>
-                <Text color="inherit">{user.email}</Text>
-              </Dropdown.Item>
-
-              {/* <Dropdown.Item key="testMessage">Test Message</Dropdown.Item> */}
-              <Dropdown.Item
-                key="logout"
-                withDivider
-                color="error"
-                textValue="Log Out"
+      {user && user.avatar_url
+        ? user && (
+            <Dropdown placement="bottom-left">
+              <Dropdown.Trigger>
+                <Avatar
+                  zoomed
+                  bordered
+                  text={user.name}
+                  src={user.avatar_url}
+                />
+              </Dropdown.Trigger>
+              <Dropdown.Menu
+                color="secondary"
+                aria-label="Avatar Actions"
+                onAction={setSelectedKey}
               >
-                {t('header.logout')}
-              </Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-        )
-      ) : (
-        user && <Text href="#"> {user.name} </Text>
-      )}
+                <Dropdown.Item key="email" textValue={user.email}>
+                  <Text color="inherit">{user.email}</Text>
+                </Dropdown.Item>
+
+                {/* <Dropdown.Item key="testMessage">Test Message</Dropdown.Item> */}
+                <Dropdown.Item
+                  key="logout"
+                  withDivider
+                  color="error"
+                  textValue="Log Out"
+                >
+                  {t('header.logout')}
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          )
+        : user && <Text href="#"> {user.name} </Text>}
       <Modal
         closeButton
         blur
