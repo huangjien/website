@@ -13,16 +13,11 @@ import { BiHide, BiShow, BiUser } from 'react-icons/bi';
 import { useAuth } from '../lib/useAuth';
 
 const Login = () => {
-  // const { setTheme, isDark, type } = useNextTheme();
   const { t } = useTranslation();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [showMessage, setShowMessage] = useState(false);
-
-  // const { setting } = useSettings()
   const [selectedKey, setSelectedKey] = useState();
-  // const [error, setError] = useState();
-  const { isAuthenticated, loading, error, user, login, logout } = useAuth();
+  const { isAuthenticated, error, user, login, logout } = useAuth();
   const [visible, setVisible] = useState(false);
   const handler = () => setVisible(true);
   const closeLoginDialog = () => setVisible(false);
@@ -43,12 +38,7 @@ const Login = () => {
     if (selectedKey.toLowerCase() === 'logout') {
       clearLogin();
     }
-    if (selectedKey.toLowerCase() === 'showmessage') {
-      setShowMessage(true);
-    }
-    // if (selectedKey.toLowerCase() === 'testmessage') {
-    //   warning('This is an error');
-    // }
+
     setSelectedKey(undefined);
   }, [clearLogin, selectedKey]);
 

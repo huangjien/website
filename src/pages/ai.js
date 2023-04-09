@@ -204,6 +204,7 @@ export default function AI() {
                       />
                       {pageTotal > 0 && (
                         <Pagination
+                          x={1}
                           aria-label="pagination"
                           noMargin
                           shadow

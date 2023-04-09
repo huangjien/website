@@ -143,6 +143,7 @@ const Header = () => {
           <ToastContainer
             position={toast.POSITION.TOP_CENTER}
             autoClose={5000}
+            limit={3}
             pauseOnHover
             closeOnClick
             theme={isDark ? 'dark' : 'light'}
