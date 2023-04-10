@@ -5,9 +5,8 @@ export const config = {
 };
 
 export default function handler(req, res) {
-  const {
-    query: { issue_number },
-  } = req;
+  const { issue_number } = req.query;
+
   fetch(`${process.env.GITHUB_REPO}/issues/${issue_number}/comments`, {
     method: 'GET',
     headers: {

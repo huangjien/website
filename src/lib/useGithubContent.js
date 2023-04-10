@@ -66,7 +66,7 @@ export const useGithubContent = () => {
               // console.log(content)
               const commentList = [];
               // get comments according number
-              fetch('/api/comments/' + content.number, {
+              fetch('/api/comments?issue_number=' + content.number, {
                 method: 'GET',
               })
                 .then((res) => res.json())
