@@ -1,36 +1,37 @@
-## Getting Started
+## General Template Projects (Front End)
 
-First, run the development server:
+**_Don't Repeat Yourself_**
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+When I start a new project, working on some new, innovate ideas, always need to start from the scratch. So I decide to create some general template projects. Next time, just copy from an existing project, major, basic works has been done, just focus on the new ideas.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**_Where is the knowledge_**
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+After a few years work in great company, like IBM, HP etc, I noticed that templates are actually containers of knowledge. Some experienced people created them with their knowledge and experiences, then shared them in templates. With templates, you will easily avoid some basic traps, gain the direction of the tasks.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+**_Shortcoming_**
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+Warning: Knowledge and experiences have expiry date!
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+And some of them just restrict your choice and directions. When revolutionary technologies appear on this field, abandon template immediately, try new stuff; then create new, better template.
 
-## Learn More
+### Start with below command
 
-To learn more about Next.js, take a look at the following resources:
+Run below command to copy the template to create your own repo:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+`git clone https://github.com/[ORG]/[OWNER]/[REPO].git [NEW REPO]`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### Front End
 
-## Deploy on Vercel
+Template repo: https://github.com/huangjien/website
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+#### Features
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- Data stored in github repo (**issue**)
+- Login with github user **authentication**
+- **Advanced** front end **Table** , **List** and **Comment**
+- **Serverless** deploy (vercel)
+- **Next.js** as main framework
+- I18N with **react-i18next**
+- **NextUI** play the role of UI Framework
+- **GPT-3.5-Turbo** kick in
+- Notification is done by **react-toastify**
