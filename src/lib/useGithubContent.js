@@ -126,9 +126,15 @@ function extractContentAccordingContentList(
   var content = {};
   contentList.forEach((key) => {
     content[key] = getValueByPath(originalContent, key);
+    if (key === 'title' && content[key].indexOf('\n') > 0) {
+      getHtml(content[key]).then((html) => {
+        // console.log(html);
+        content['titleHtml'] = html;
+      });
+    }
     if (key === 'body') {
       // console.log(key, issue[key]);
-      getHtml(originalContent[key]).then((html) => {
+      getHtml(content[key]).then((html) => {
         // console.log(html);
         content['html'] = html;
       });

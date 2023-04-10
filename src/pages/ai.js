@@ -230,18 +230,19 @@ export default function AI() {
             displayContent.map((data, index) => {
               return (
                 <Card
-                  css={{ p: '$6' }}
+
                   isHoverable
                   variant="bordered"
                   key={index}
                 >
                   <Card.Header>
                     <BiQuestionMark size="1.3em" color="green" />
-                    <Grid.Container>
-                      <Grid xs={12}>
-                        <Text b>{data.question}</Text>
-                      </Grid>
-                    </Grid.Container>
+                    {/* <Grid.Container>
+                      <Grid xs={12}> */}
+                    {/* {data?.questionHtml && <div className='multiline' dangerouslySetInnerHTML={{ __html: data.questionHtml }} />} */}
+                    <Text b>{data.question}</Text>
+                    {/* </Grid>
+                    </Grid.Container> */}
                   </Card.Header>
                   <Card.Body>
                     <Collapse
@@ -310,6 +311,7 @@ export default function AI() {
         return newQandA;
       })
       .then((qAndA) => {
+        getHtml(qAndA.question).then((html) => qAndA.questionHtml = html)
         getHtml(qAndA.answer)
           .then((html) => {
             qAndA.html = html;
