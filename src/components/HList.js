@@ -145,10 +145,14 @@ export const HList = (data) => {
 
   return (
     <Box>
-      <Navbar isBordered variant="sticky" css={{
-        $$navbarBackgroundColor: 'transparent',
-        $$navbarBlurBackgroundColor: 'transparent',
-      }}>
+      <Navbar
+        isBordered
+        variant="sticky"
+        css={{
+          $$navbarBackgroundColor: 'transparent',
+          $$navbarBlurBackgroundColor: 'transparent',
+        }}
+      >
         <Navbar.Brand css={{ mr: '$4' }}>
           <Dropdown placement="bottom-right">
             <Dropdown.Button light>

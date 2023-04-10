@@ -1,5 +1,5 @@
-import { useRequest } from 'ahooks';
-import { createContext, useContext, useState } from 'react';
+import { useRequest, useSessionStorageState } from 'ahooks';
+import { createContext, useContext } from 'react';
 import { properties2Json } from './Requests';
 
 const getSettings = async () => {
@@ -28,7 +28,9 @@ export const useSettings = () => {
 };
 
 function useProvideSettings() {
-  const [settings, setSettings] = useState();
+  const [settings, setSettings] = useSessionStorageState(
+    'application_settings'
+  );
   useRequest(getSettings, {
     onSuccess: (result) => {
       if (result && result.result) {

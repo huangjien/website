@@ -40,7 +40,7 @@ const Login = () => {
     }
 
     setSelectedKey(undefined);
-  }, [clearLogin, selectedKey]);
+  }, [selectedKey]);
 
   return (
     <>

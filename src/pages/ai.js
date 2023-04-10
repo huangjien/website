@@ -196,8 +196,6 @@ export default function AI() {
                         clearable
                         ref={searchRef}
                         aria-label="search"
-                        // value={searchValue}
-                        // onChange={setSearchValue}
                         onClearClick={() => setSearchValue('')}
                         contentLeft={<BiSearch size="1em" />}
                         placeholder={t('global.search')}
@@ -229,12 +227,7 @@ export default function AI() {
             displayContent.length > 0 &&
             displayContent.map((data, index) => {
               return (
-                <Card
-
-                  isHoverable
-                  variant="bordered"
-                  key={index}
-                >
+                <Card isHoverable variant="bordered" key={index}>
                   <Card.Header>
                     <BiQuestionMark size="1.3em" color="green" />
                     {/* <Grid.Container>
@@ -311,7 +304,7 @@ export default function AI() {
         return newQandA;
       })
       .then((qAndA) => {
-        getHtml(qAndA.question).then((html) => qAndA.questionHtml = html)
+        getHtml(qAndA.question).then((html) => (qAndA.questionHtml = html));
         getHtml(qAndA.answer)
           .then((html) => {
             qAndA.html = html;
