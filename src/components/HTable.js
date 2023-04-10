@@ -125,7 +125,9 @@ const HTable = ({ columns, data }) => {
             selectionMode="single"
             sticked
             striped
-            onSortChange={(e) => setSortdescriptor(e)}
+            onSortChange={(e) => {
+              setSortdescriptor(e);
+            }}
             sortDescriptor={sortdescriptor}
           >
             <Table.Header columns={columns}>

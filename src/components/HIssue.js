@@ -1,5 +1,6 @@
 import { Badge, Collapse, Grid, Spacer, Text } from '@nextui-org/react';
 import { useTranslation } from 'react-i18next';
+import { HComment } from './HComment';
 
 export const HIssue = (issue) => {
   const { t } = useTranslation();
@@ -43,6 +44,14 @@ export const HIssue = (issue) => {
 
           <Spacer key="last_spacer" y={1} />
           <div dangerouslySetInnerHTML={{ __html: issue.issue.html }}></div>
+          {/* if contains comments, put here */}
+          {issue.issue?.commentList &&
+            // <pre key={issue.issue.id}>
+            //   {JSON.stringify(issue.issue.commentList)}
+            // </pre>}
+            issue.issue.commentList.map((comment) => (
+              <HComment key={comment.id} comment={comment} />
+            ))}
         </Collapse>
       )}
     </>

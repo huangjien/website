@@ -1,6 +1,5 @@
 import { createTheme, globalCss, NextUIProvider } from '@nextui-org/react';
 import { ThemeProvider as NextThemesProvider } from 'next-themes';
-import SSRProvider from 'react-bootstrap/SSRProvider';
 import { ProvideAuth } from '../lib/useAuth';
 import { ProvideSettings } from '../lib/useSettings';
 import '../locales/i18n';
@@ -419,23 +418,21 @@ const globalStyles = globalCss({
 export default function App({ Component, pageProps }) {
   globalStyles();
   return (
-    <SSRProvider>
-      <NextThemesProvider
-        defaultTheme="system"
-        attribute="class"
-        value={{
-          light: lightTheme.className,
-          dark: darkTheme.className,
-        }}
-      >
-        <NextUIProvider>
-          <ProvideSettings>
-            <ProvideAuth>
-              <Component {...pageProps} />
-            </ProvideAuth>
-          </ProvideSettings>
-        </NextUIProvider>
-      </NextThemesProvider>
-    </SSRProvider>
+    <NextThemesProvider
+      defaultTheme="system"
+      attribute="class"
+      value={{
+        light: lightTheme.className,
+        dark: darkTheme.className,
+      }}
+    >
+      <NextUIProvider>
+        <ProvideSettings>
+          <ProvideAuth>
+            <Component {...pageProps} />
+          </ProvideAuth>
+        </ProvideSettings>
+      </NextUIProvider>
+    </NextThemesProvider>
   );
 }

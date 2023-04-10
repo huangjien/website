@@ -1,6 +1,6 @@
 import { useRequest, useSessionStorageState } from 'ahooks';
 import { useEffect, useState } from 'react';
-import { getIssues, getReadme, hashCode } from './Requests';
+import { getIssues, getReadme, getValueByPath, hashCode } from './Requests';
 import { useSettings } from './useSettings';
 
 export const useGithubContent = () => {
@@ -28,10 +28,13 @@ export const useGithubContent = () => {
       // console.log(rawData)
       const blog_labels = getSetting('blog.labels');
       const issueContent = getSetting('blog.content');
+      const issueContentList = issueContent.split(',');
+      const commentContent = getSetting('comment.content');
+      const commentContentList = commentContent.split(',');
       if (blog_labels && issueContent) {
         const list = blog_labels.split(',');
         setTags(list);
-        const issueContentList = issueContent.split(',');
+
         var finalResult = [];
         rawData.forEach((issue) => {
           const labels = issue['labels'];
@@ -48,21 +51,42 @@ export const useGithubContent = () => {
           // console.log(isVisible, labels);
           if (isVisible) {
             // then we start handle this issue: we only care the the content in the issueContent
-            var content = {};
-            issueContentList.forEach((key) => {
-              if (key === 'labels.name') {
-                content[key] = labelArray;
-              } else {
-                content[key] = issue[key];
-                if (key === 'body') {
-                  // console.log(key, issue[key]);
-                  getHtml(issue[key]).then((html) => {
-                    // console.log(html);
-                    content['html'] = html;
+            var content = extractContentAccordingContentList(
+              issueContentList,
+              issue,
+              getHtml
+            );
+            content['labels.name'] = labelArray;
+            // now, we need to check if it contains comments,
+            // if yes, then we need to add the comments to content,
+            // of course, we need to translate them into html format
+
+            if (content?.comments > 0) {
+              // get comments
+              // console.log(content)
+              const commentList = [];
+              // get comments according number
+              fetch('/api/comments/' + content.number, {
+                method: 'GET',
+              })
+                .then((res) => res.json())
+                .then((comment) => {
+                  // console.log(comment);
+                  // foreach to handle a comments array here
+                  comment.forEach((oneComment) => {
+                    const oneCommentContent =
+                      extractContentAccordingContentList(
+                        commentContentList,
+                        oneComment,
+                        getHtml
+                      );
+                    commentList.push(oneCommentContent);
                   });
-                }
-              }
-            });
+                });
+
+              content['commentList'] = commentList;
+            }
+
             // then we save this issue to the data
             finalResult.push(content);
           }
@@ -92,3 +116,23 @@ export const useGithubContent = () => {
 
   return { tags, issues, about, getHtml };
 };
+
+// extract a new subset from the content, according content list, then add a html field according body
+function extractContentAccordingContentList(
+  contentList,
+  originalContent,
+  getHtml
+) {
+  var content = {};
+  contentList.forEach((key) => {
+    content[key] = getValueByPath(originalContent, key);
+    if (key === 'body') {
+      // console.log(key, issue[key]);
+      getHtml(originalContent[key]).then((html) => {
+        // console.log(html);
+        content['html'] = html;
+      });
+    }
+  });
+  return content;
+}
