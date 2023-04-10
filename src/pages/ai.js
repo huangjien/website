@@ -17,11 +17,12 @@ import {
   useDebounceEffect,
   useKeyPress,
   useLocalStorageState,
+  useSessionStorageState,
   useTitle,
 } from 'ahooks';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { BiQuestionMark, BiSearch } from 'react-icons/bi';
+import { BiPlayCircle, BiQuestionMark, BiSearch } from 'react-icons/bi';
 import { error, success } from '../components/Notification';
 import Layout from '../components/layout/Layout';
 import NoSSR from '../lib/NoSSR';
@@ -49,6 +50,9 @@ const getAnswer = async (question, lastAnswer) => {
 };
 
 export default function AI() {
+  const [languageCode] = useSessionStorageState('languageCode', { defaultValue: 'en-US' })
+  const [speakerName] = useSessionStorageState('speakerName', { defaultValue: 'en-US-Standard-A' })
+
   const inputRef = useRef(null);
   const searchRef = useRef(null);
   const [searchValue, setSearchValue] = useState();
@@ -65,6 +69,7 @@ export default function AI() {
   const [loading, setLoading] = useState(false);
   const { getHtml } = useGithubContent();
   const [displayContent, setDisplayContent] = useState([]);
+  const [audioSrc, setAudioSrc] = useState('')
   useTitle(t('header.ai'));
 
   useDebounceEffect(
@@ -145,6 +150,13 @@ export default function AI() {
     { wait: 2000 }
   );
 
+  const handleText2Speech = async (e, text) => {
+    const res = await fetch(`/api/tts?&&languageCode=${languageCode}&&name=${speakerName}&&text=${encodeURIComponent(text.replaceAll('\n', ''))}`);
+    const blob = await res.blob();
+    const audioUrl = URL.createObjectURL(blob)
+    setAudioSrc(audioUrl)
+  }
+
   return (
     <Layout>
       <NoSSR>
@@ -160,7 +172,7 @@ export default function AI() {
                 <Card>
                   <Card.Body>
                     <Textarea
-                      rows={2}
+                      rows={4}
                       aria-label="question"
                       ref={inputRef}
                       fullWidth={true}
@@ -206,11 +218,16 @@ export default function AI() {
                           aria-label="pagination"
                           noMargin
                           shadow
+                          controls={false}
                           total={pageTotal}
                           onChange={(page) => setCurrentPageNumber(page)}
                           initialPage={1}
                         />
                       )}
+                    </Row>
+                    <Spacer y={1} />
+                    <Row justify="space-evenly">
+                      {audioSrc && <audio controls autoPlay src={audioSrc} />}
                     </Row>
                   </Card.Body>
                 </Card>
@@ -221,7 +238,7 @@ export default function AI() {
         </Card>
         {loading && <Progress indeterminated />}
         {!loading && <Spacer y={2} />}
-        <Container gap={2} fluid>
+        <Container gap={1} fluid>
           {/* display question and answer here */}
           {displayContent &&
             displayContent.length > 0 &&
@@ -234,6 +251,14 @@ export default function AI() {
                       <Grid xs={12}> */}
                     {/* {data?.questionHtml && <div className='multiline' dangerouslySetInnerHTML={{ __html: data.questionHtml }} />} */}
                     <Text b>{data.question}</Text>
+                    {languageCode && speakerName &&
+                      <>
+                        <Spacer x={1} />
+                        <Button light auto onPress={(e) => handleText2Speech(e, data.answer)} >
+                          <BiPlayCircle color="green" size='2em' />
+                        </Button>
+                      </>
+                    }
                     {/* </Grid>
                     </Grid.Container> */}
                   </Card.Header>

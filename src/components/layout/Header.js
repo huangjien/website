@@ -7,7 +7,7 @@ import {
   Tooltip,
   useTheme,
 } from '@nextui-org/react';
-import { useCookieState } from 'ahooks';
+import { useSessionStorageState } from 'ahooks';
 import { useTheme as useNextTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -30,13 +30,16 @@ import Login from '../Login';
 const Header = () => {
   const { setTheme } = useNextTheme();
   const { isDark, type } = useTheme();
+  const [languageCode, setLanguageCode] = useSessionStorageState('languageCode', { defaultValue: 'en-US' })
+  const [speakerName, setSpeakerName] = useSessionStorageState('speakerName', { defaultValue: 'en-US-Standard-A' })
 
-  const [currentLanguage, setCurrentLanguage] = useCookieState('Language', {
+
+  const [currentLanguage, setCurrentLanguage] = useSessionStorageState('Language', {
     defaultValue: 'en',
   });
   // eslint-disable-next-line no-undef
   const [language, setLanguage] = useState(new Set([currentLanguage]));
-  const { user } = useAuth();
+  const { user, isAdmin } = useAuth();
   const { t, i18n } = useTranslation();
 
   const chooseLanguage = (lang) => {
@@ -53,6 +56,15 @@ const Header = () => {
   useEffect(() => {
     if (currentLanguage) {
       i18n.changeLanguage(currentLanguage);
+      // search in languages array for the current language and set languageCode and speakerName
+      var lang = languages.find(o => o.key === currentLanguage)
+      if (lang && lang.languageCode && lang.name) {
+        setLanguageCode(lang.languageCode)
+        setSpeakerName(lang.name)
+      } else {
+        setLanguageCode(undefined)
+        setSpeakerName(undefined)
+      }
     }
   }, [currentLanguage, i18n]);
 
@@ -75,18 +87,18 @@ const Header = () => {
           <Navbar.Link id="home" href="/">
             <BiHome size="2em" /> {t('header.home')}
           </Navbar.Link>
-          {user && (
+          {isAdmin &&
             <Navbar.Link id="settings" href="/settings">
               <BiCog size="2em" />
               {t('header.settings')}
             </Navbar.Link>
+          }
+          {user && (
+            <Navbar.Link id="ai" href="/ai">
+              <BiChip size="2em" />
+              {t('header.ai')}
+            </Navbar.Link>
           )}
-
-          <Navbar.Link id="ai" href="/ai">
-            <BiChip size="2em" />
-            {t('header.ai')}
-          </Navbar.Link>
-
           <Navbar.Link id="about" href="/about">
             <BiDetail size="2em" />
             {t('header.about')}
@@ -124,12 +136,6 @@ const Header = () => {
             placement="bottom-left"
             color="invert"
           >
-            {/* <Switch
-              id="theme"
-              size="sm"
-              checked={isDark}
-              onChange={(e) => setTheme(e.target.checked ? 'dark' : 'light')}
-            ></Switch> */}
             <Button
               light
               auto

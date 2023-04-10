@@ -3,13 +3,13 @@ import { initReactI18next } from 'react-i18next';
 import { resources } from './resources';
 
 export const languages = [
-  { key: 'en', value: 'English' }, //英语					    English
+  { key: 'en', value: 'English', languageCode: 'en-US', name: 'en-US-Standard-A' }, //英语					    English
   // {"key": "af", "value":  "Burry (Afrikaans)"}, //布尔语(南非荷兰语)       Burry (Afrikaans)
   // {"key": "sq", "value":  "shqiptar"}, //阿尔巴尼亚语                     shqiptar
   // {"key": "am", "value":  "አማርኛ"}, //阿姆哈拉语				           አማርኛ
-  { key: 'ar', value: 'عربي' }, //阿拉伯语				                عربي
-  { key: 'ja', value: '日本語' }, //日语				    日本語
-  { key: 'ko', value: '한국어' }, //韩语					    한국어
+  { key: 'ar', value: 'عربي', languageCode: 'ar-XA', name: 'ar-XA-Standard-A' }, //阿拉伯语				                عربي
+  { key: 'ja', value: '日本語', languageCode: 'ja-JP', name: 'ja-JP-Standard-A' }, //日语				    日本語
+  { key: 'ko', value: '한국어', languageCode: 'ko-KR', name: 'ko-KR-Standard-A' }, //韩语					    한국어
   // {"key": "hy", "value":  "Հայերեն"}, //亚美尼亚语				        Հայերեն
   // {"key": "az", "value":  "Azərbaycan"}, //阿塞拜疆语				        Azərbaycan
   // {"key": "eu", "value":  "Euskal"}, //巴斯克语				            Euskal
@@ -20,8 +20,8 @@ export const languages = [
   // {"key": "bg", "value":  "български"}, //保加利亚语				        български
   // {"key": "ca", "value":  "Català"}, //加泰罗尼亚语			            Català
   // {"key": "ceb", "value":  "Sugbo"}, //宿务语				                Sugbo
-  { key: 'zh_CN', value: '中文(简体)' }, //中文(简体)
-  { key: 'zh_TW', value: '中文(繁體)' }, //中文(繁體)
+  { key: 'zh_CN', value: '中文(简体)', languageCode: 'cmn-CN', name: 'cmn-CN-Standard-A' }, //中文(简体)
+  { key: 'zh_TW', value: '中文(繁體)', languageCode: 'cmn-TW', name: 'cmn-TW-Standard-A' }, //中文(繁體)
   // {"key": "co", "value":  "Corsa"}, //科西嘉语				    Corsa
   // {"key": "hr", "value":  "Croata"}, //克罗地亚语				    Croata
   // {"key": "cs", "value":  "Česky"}, //捷克语				        Česky
@@ -31,11 +31,11 @@ export const languages = [
   // {"key": "eo", "value":  "Esperanto"}, //世界语				    Esperanto
   // {"key": "et", "value":  "Eesti keel"}, //爱沙尼亚语				 Eesti keel
   // {"key": "fi", "value":  "suomalainen"}, //芬兰语				suomalainen
-  { key: 'fr', value: 'Français' }, //法国语				    Français
+  { key: 'fr', value: 'Français', languageCode: 'fr-FR', name: 'fr-FR-Standard-A' }, //法国语				    Français
   // {"key": "fy", "value":  "Frysk"}, //弗里西语				    Frysk
   // {"key": "gl", "value":  "Galego"}, //加利西亚语				    Galego
   // {"key": "ka", "value":  "ქართული"}, //格鲁吉亚语				ქართული
-  { key: 'de', value: 'Deutsche Sprache' }, //德语			    Deutsche Sprache
+  { key: 'de', value: 'Deutsche Sprache', languageCode: 'de-DE', name: 'de-DE-Standard-A' }, //德语			    Deutsche Sprache
   // {"key": "el", "value":  "Ελληνικά"}, //希腊语				    Ελληνικά
 
   // {"key": "gu", "value":  "ગુજરાતી"}, //古吉拉特语				    ગુજરાતી
@@ -51,7 +51,7 @@ export const languages = [
 
   // {"key": "id", "value":  "Bahasa indonesia"}, //印尼语	    Bahasa indonesia
   { key: 'ga', value: 'Gaeilge' }, //爱尔兰语				Gaeilge
-  { key: 'it', value: 'lingua italiana' }, //意大利语		lingua italiana
+  { key: 'it', value: 'lingua italiana', languageCode: 'it-IT', name: 'it-IT-Standard-A' }, //意大利语		lingua italiana
 
   // {"key": "jw", "value":  "Wong Jawa"}, //印尼爪哇语			Wong Jawa
   // {"key": "kn", "value":  "ಕನ್ನಡ"}, //卡纳达语				    ಕನ್ನಡ
@@ -85,7 +85,7 @@ export const languages = [
   // {"key": "pt", "value":  "Português"}, //葡萄牙语			Português
   // {"key": "pa", "value":  "ਪੰਜਾਬੀ"}, //旁遮普语				   ਪੰਜਾਬੀ
   // {"key": "ro", "value":  "românesc"}, //罗马尼亚语			românesc
-  { key: 'ru', value: 'Русский язык' }, //俄语				Русский язык
+  { key: 'ru', value: 'Русский язык', languageCode: 'ru-RU', name: 'ru-RU-Standard-A' }, //俄语				Русский язык
   // {"key": "sm", "value":  "Samoa"}, //萨摩亚语				Samoa
   // {"key": "gd", "value":  "Gàidhlig na h-Alba"}, //苏格兰盖尔语			Gàidhlig na h-Alba
   // {"key": "sr", "value":  "Српски"}, //塞尔维亚语				    Српски
@@ -97,7 +97,7 @@ export const languages = [
   // {"key": "sk", "value":  "slovenského jazyk"}, //斯洛伐克语	    slovenského jazyk
   // {"key": "sl", "value":  "Slovenščina"}, //斯洛文尼亚语			Slovenščina
   // {"key": "so", "value":  "Somali"}, //索马里语				    Somali
-  { key: 'es', value: 'Español' }, //西班牙语				    Español
+  { key: 'es', value: 'Español', languageCode: 'es-ES', name: 'es-ES-Standard-A' }, //西班牙语				    Español
   // {"key": "su", "value":  "Sunda Indonesian"}, //印尼巽他语       Sunda Indonesian
   // {"key": "sw", "value":  "Kiswahili"}, //斯瓦希里语				Kiswahili
   // {"key": "sv", "value":  "Svenska"}, //瑞典语				    Svenska
