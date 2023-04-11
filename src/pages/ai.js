@@ -22,7 +22,13 @@ import {
 } from 'ahooks';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { BiPlayCircle, BiQuestionMark, BiSearch } from 'react-icons/bi';
+import {
+  BiMicrophone,
+  BiMicrophoneOff,
+  BiPlayCircle,
+  BiQuestionMark,
+  BiSearch,
+} from 'react-icons/bi';
 import { error, success } from '../components/Notification';
 import Layout from '../components/layout/Layout';
 import NoSSR from '../lib/NoSSR';
@@ -46,13 +52,20 @@ const getAnswer = async (question, lastAnswer) => {
     .then((res) => res.json())
     .then((data) => {
       return data;
+    }).catch(err => {
+      console.log(err)
+      error(err.message)
     });
 };
 
 export default function AI() {
-  const [languageCode] = useSessionStorageState('languageCode', { defaultValue: 'en-US' })
-  const [speakerName] = useSessionStorageState('speakerName', { defaultValue: 'en-US-Standard-A' })
-
+  const [languageCode] = useSessionStorageState('languageCode', {
+    defaultValue: 'en-US',
+  });
+  const [speakerName] = useSessionStorageState('speakerName', {
+    defaultValue: 'en-US-Standard-A',
+  });
+  const [isMicOn, setIsMicOn] = useState(false);
   const inputRef = useRef(null);
   const searchRef = useRef(null);
   const [searchValue, setSearchValue] = useState();
@@ -69,7 +82,7 @@ export default function AI() {
   const [loading, setLoading] = useState(false);
   const { getHtml } = useGithubContent();
   const [displayContent, setDisplayContent] = useState([]);
-  const [audioSrc, setAudioSrc] = useState('')
+  const [audioSrc, setAudioSrc] = useState('');
   useTitle(t('header.ai'));
 
   useDebounceEffect(
@@ -151,10 +164,21 @@ export default function AI() {
   );
 
   const handleText2Speech = async (e, text) => {
-    const res = await fetch(`/api/tts?&&languageCode=${languageCode}&&name=${speakerName}&&text=${encodeURIComponent(text.replaceAll('\n', ''))}`);
+    const res = await fetch(
+      `/api/tts?&&languageCode=${languageCode}&&name=${speakerName}&&text=${encodeURIComponent(
+        text.replaceAll('\n', '')
+      )}`
+    );
     const blob = await res.blob();
-    const audioUrl = URL.createObjectURL(blob)
-    setAudioSrc(audioUrl)
+    const audioUrl = URL.createObjectURL(blob);
+    setAudioSrc(audioUrl);
+  };
+
+  const handleMic = () => {
+    // TODO
+    // handle recording
+    // or after recording, send voice to whisper
+    setIsMicOn(!isMicOn)
   }
 
   return (
@@ -227,7 +251,14 @@ export default function AI() {
                     </Row>
                     <Spacer y={1} />
                     <Row justify="space-evenly">
-                      {audioSrc && <audio controls autoPlay src={audioSrc} />}
+                      <Button light auto onPress={() => handleMic()}>
+                        {isMicOn ? (
+                          <BiMicrophoneOff color="red" size="2em" />
+                        ) : (
+                          <BiMicrophone color="green" size="2em" />
+                        )}
+                      </Button>
+                      {<audio disabled={!audioSrc} controls autoPlay src={audioSrc} />}
                     </Row>
                   </Card.Body>
                 </Card>
@@ -251,14 +282,18 @@ export default function AI() {
                       <Grid xs={12}> */}
                     {/* {data?.questionHtml && <div className='multiline' dangerouslySetInnerHTML={{ __html: data.questionHtml }} />} */}
                     <Text b>{data.question}</Text>
-                    {languageCode && speakerName &&
+                    {languageCode && speakerName && (
                       <>
                         <Spacer x={1} />
-                        <Button light auto onPress={(e) => handleText2Speech(e, data.answer)} >
-                          <BiPlayCircle color="green" size='2em' />
+                        <Button
+                          light
+                          auto
+                          onPress={(e) => handleText2Speech(e, data.answer)}
+                        >
+                          <BiPlayCircle color="green" size="2em" />
                         </Button>
                       </>
-                    }
+                    )}
                     {/* </Grid>
                     </Grid.Container> */}
                   </Card.Header>

@@ -30,13 +30,20 @@ import Login from '../Login';
 const Header = () => {
   const { setTheme } = useNextTheme();
   const { isDark, type } = useTheme();
-  const [languageCode, setLanguageCode] = useSessionStorageState('languageCode', { defaultValue: 'en-US' })
-  const [speakerName, setSpeakerName] = useSessionStorageState('speakerName', { defaultValue: 'en-US-Standard-A' })
-
-
-  const [currentLanguage, setCurrentLanguage] = useSessionStorageState('Language', {
-    defaultValue: 'en',
+  const [languageCode, setLanguageCode] = useSessionStorageState(
+    'languageCode',
+    { defaultValue: 'en-US' }
+  );
+  const [speakerName, setSpeakerName] = useSessionStorageState('speakerName', {
+    defaultValue: 'en-US-Standard-A',
   });
+
+  const [currentLanguage, setCurrentLanguage] = useSessionStorageState(
+    'Language',
+    {
+      defaultValue: 'en',
+    }
+  );
   // eslint-disable-next-line no-undef
   const [language, setLanguage] = useState(new Set([currentLanguage]));
   const { user, isAdmin } = useAuth();
@@ -57,13 +64,13 @@ const Header = () => {
     if (currentLanguage) {
       i18n.changeLanguage(currentLanguage);
       // search in languages array for the current language and set languageCode and speakerName
-      var lang = languages.find(o => o.key === currentLanguage)
+      var lang = languages.find((o) => o.key === currentLanguage);
       if (lang && lang.languageCode && lang.name) {
-        setLanguageCode(lang.languageCode)
-        setSpeakerName(lang.name)
+        setLanguageCode(lang.languageCode);
+        setSpeakerName(lang.name);
       } else {
-        setLanguageCode(undefined)
-        setSpeakerName(undefined)
+        setLanguageCode(undefined);
+        setSpeakerName(undefined);
       }
     }
   }, [currentLanguage, i18n]);
@@ -87,12 +94,12 @@ const Header = () => {
           <Navbar.Link id="home" href="/">
             <BiHome size="2em" /> {t('header.home')}
           </Navbar.Link>
-          {isAdmin &&
+          {isAdmin && (
             <Navbar.Link id="settings" href="/settings">
               <BiCog size="2em" />
               {t('header.settings')}
             </Navbar.Link>
-          }
+          )}
           {user && (
             <Navbar.Link id="ai" href="/ai">
               <BiChip size="2em" />
