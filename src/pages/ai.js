@@ -54,7 +54,7 @@ const getAnswer = async (question, lastAnswer) => {
     .then((res) => res.json())
     .then((data) => {
       return data;
-    })
+    });
   // .catch(err => {
   // console.log(err)
   // err.message += '\n' + requestBody
@@ -90,7 +90,10 @@ export default function AI() {
   const [loading, setLoading] = useState(false);
   const { getHtml } = useGithubContent();
   const [displayContent, setDisplayContent] = useState([]);
+  const [audio, setAudio] = useState(true);
+  const mediaRecorder = useRef(null);
   const [audioSrc, setAudioSrc] = useState('');
+  const mimeType = 'audio/webm';
   useTitle(t('header.ai'));
 
   useDebounceEffect(
@@ -181,13 +184,58 @@ export default function AI() {
     const audioUrl = URL.createObjectURL(blob);
     setAudioSrc(audioUrl);
   };
+  const [stream, setStream] = useState(null);
+
+  const startRecording = async () => {
+    // if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    //   navigator.mediaDevices
+    //     .getUserMedia({
+    //       audio: true,
+    //     })
+    //     .then((stream) => { setStream(stream) })
+    //     .catch((err) => {
+    //       error(`The following getUserMedia error occurred: ${err}`);
+    //     });
+    // } else {
+    //   success('getUserMedia not supported on your browser!');
+    // }
+    await navigator.mediaDevices
+      .getUserMedia({ audio: true })
+      .then((stream) => {
+        setStream(stream);
+        mediaRecorder.current = new MediaRecorder(stream, { type: mimeType });
+        mediaRecorder.current.start();
+        const localAudioChunks = [];
+        mediaRecorder.current.ondataavailable = (event) => {
+          if (typeof event.data == 'undefined') return;
+          if (event.data.size == 0) return;
+          localAudioChunks.push(event.data);
+        };
+        setAudio(localAudioChunks);
+      });
+  };
+  const stopRecording = async () => {
+    mediaRecorder.current.stop();
+    mediaRecorder.current.onstop = () => {
+      const audioBlob = new Blob(audio, { type: mimeType });
+      const audioUrl = URL.createObjectURL(audioBlob);
+      setAudioSrc(audioUrl);
+      setAudio([]);
+      stream.getTracks().forEach(track => track.stop())
+    };
+  };
 
   const handleMic = () => {
     // TODO
     // handle recording
     // or after recording, send voice to whisper
-    setIsMicOn(!isMicOn)
-  }
+    setIsMicOn(!isMicOn);
+    if (!isMicOn) {
+      startRecording();
+    } else {
+      stopRecording();
+    }
+  };
 
   return (
     <Layout>
@@ -259,19 +307,31 @@ export default function AI() {
                     </Row>
                     <Spacer y={1} />
                     <Row justify="space-evenly">
-                      <Button light auto onPress={() => handleMic()}>
-                        {isMicOn ? (
-                          <BiMicrophoneOff color="red" size="2em" />
-                        ) : (
-                          <BiMicrophone color="green" size="2em" />
+                      <Grid>
+                        <Button light auto onPress={() => handleMic()}>
+                          {isMicOn ? (
+                            <BiMicrophoneOff color="red" size="2em" />
+                          ) : (
+                            <BiMicrophone color="green" size="2em" />
+                          )}
+                        </Button>
+                        {isMicOn && (
+                          <Progress size="sm" striped indeterminated />
                         )}
-                      </Button>
-                      {<audio disabled={!audioSrc} controls autoPlay src={audioSrc} />}
+                      </Grid>
+                      {
+                        <audio
+                          disabled={!audioSrc}
+                          controls
+                          autoPlay
+                          src={audioSrc}
+                        />
+                      }
                     </Row>
                   </Card.Body>
                 </Card>
               </Grid>
-              {loading && <Progress indeterminated />}
+              {loading && <Progress size="sm" striped indeterminated />}
             </Grid.Container>
           </Card.Body>
         </Card>
@@ -351,7 +411,13 @@ export default function AI() {
     getAnswer(questionText, lastAnswer)
       .then((data) => {
         if (data.error) {
-          error(t('ai.return_error') + ':\n' + data.error.code + '\n' + data.error.message);
+          error(
+            t('ai.return_error') +
+            ':\n' +
+            data.error.code +
+            '\n' +
+            data.error.message
+          );
           setLoading(false);
           throw new Error(t('ai.return_error') + ':\n' + data.error.message);
         }
