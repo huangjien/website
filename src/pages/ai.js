@@ -54,7 +54,7 @@ const getAnswer = async (question, lastAnswer) => {
       return data;
     }).catch(err => {
       console.log(err)
-      error("Error Code: " + err.status + "  \n  " + err.message)
+      error("Error Code: " + err.code + "  \n  " + err.message)
     });
 };
 
