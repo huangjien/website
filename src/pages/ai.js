@@ -54,6 +54,10 @@ const getAnswer = async (question, lastAnswer) => {
     .then((res) => res.json())
     .then((data) => {
       return data;
+    }).catch(err => {
+      console.log(err)
+      err.message += '\n' + requestBody
+      throw err;
     })
   // .catch(err => {
   //   console.log(err)
