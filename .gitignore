@@ -33,7 +33,6 @@ yarn-error.log*
 
 public/feed.xml
 package-lock.json
-.husky/
 yarn.lock
 storybook-static/
 googleKey.json
