@@ -37,7 +37,8 @@ import { useGithubContent } from '../lib/useGithubContent';
 
 const getAnswer = async (question, lastAnswer) => {
   var questionArray = [{ role: 'user', content: question }];
-  if (lastAnswer) {
+  // if lastAnser too long or too long ago, then we don't add it.
+  if (lastAnswer && lastAnswer.length < 1024) {
     questionArray.unshift({ role: 'assistant', content: lastAnswer });
   }
   const requestBody = {
@@ -45,6 +46,7 @@ const getAnswer = async (question, lastAnswer) => {
     messages: questionArray,
     temperature: 0.5,
   };
+
   return await fetch('/api/ai', {
     method: 'POST',
     body: JSON.stringify(requestBody),
@@ -52,10 +54,11 @@ const getAnswer = async (question, lastAnswer) => {
     .then((res) => res.json())
     .then((data) => {
       return data;
-    }).catch(err => {
-      console.log(err)
-      error("Error Code: " + err.code + "  \n  " + err.message)
-    });
+    })
+  // .catch(err => {
+  //   console.log(err)
+  //   error("Error Code: " + err.code + "  \n  " + err.message)
+  // });
 };
 
 export default function AI() {
@@ -343,7 +346,7 @@ export default function AI() {
     getAnswer(questionText, lastAnswer)
       .then((data) => {
         if (data.error) {
-          error(t('ai.return_error') + ':\n' + data.error.message);
+          error(t('ai.return_error') + ':\n' + data.error.code + '\n' + data.error.message);
           setLoading(false);
           throw new Error(t('ai.return_error') + ':\n' + data.error.message);
         }
