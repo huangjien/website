@@ -55,8 +55,8 @@ const getAnswer = async (question, lastAnswer) => {
     .then((data) => {
       return data;
     }).catch(err => {
-      console.log(err)
-      err.message += '\n' + requestBody
+      // console.log(err)
+      // err.message += '\n' + requestBody
       throw err;
     })
   // .catch(err => {
@@ -270,12 +270,12 @@ export default function AI() {
                   </Card.Body>
                 </Card>
               </Grid>
-              <Spacer x={1} />
+              {loading && <Progress indeterminated />}
             </Grid.Container>
           </Card.Body>
         </Card>
-        {loading && <Progress indeterminated />}
-        {!loading && <Spacer y={2} />}
+
+        <Spacer y={2} />
         <Container gap={1} fluid>
           {/* display question and answer here */}
           {displayContent &&
