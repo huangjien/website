@@ -17,8 +17,7 @@ import {
   useDebounceEffect,
   useKeyPress,
   useLocalStorageState,
-  useSessionStorageState,
-  useTitle,
+  useTitle
 } from 'ahooks';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -32,7 +31,7 @@ import Layout from '../components/layout/Layout';
 import NoSSR from '../lib/NoSSR';
 import { itemsPerPage } from '../lib/global';
 import { useGithubContent } from '../lib/useGithubContent';
-
+import { useSettings } from '../lib/useSettings';
 const getAnswer = async (question, lastAnswer) => {
   var questionArray = [{ role: 'user', content: question }];
   // if lastAnser too long or too long ago, then we don't add it.
@@ -65,12 +64,7 @@ const getAnswer = async (question, lastAnswer) => {
 };
 
 export default function AI() {
-  const [languageCode] = useSessionStorageState('languageCode', {
-    defaultValue: 'en-US',
-  });
-  const [speakerName] = useSessionStorageState('speakerName', {
-    defaultValue: 'en-US-Standard-A',
-  });
+  const { languageCode, speakerName, setLanguageCode, setCurrentLanguage, currentLanguage, setSpeakerName } = useSettings()
   const inputRef = useRef(null);
   const searchRef = useRef(null);
   const [searchValue, setSearchValue] = useState();

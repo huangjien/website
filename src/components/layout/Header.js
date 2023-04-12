@@ -7,7 +7,6 @@ import {
   Tooltip,
   useTheme,
 } from '@nextui-org/react';
-import { useSessionStorageState } from 'ahooks';
 import { useTheme as useNextTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -24,26 +23,14 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import NoSSR from '../../lib/NoSSR';
 import { useAuth } from '../../lib/useAuth';
+import { useSettings } from '../../lib/useSettings';
 import { languages } from '../../locales/i18n';
 import Login from '../Login';
 
 const Header = () => {
   const { setTheme } = useNextTheme();
   const { isDark, type } = useTheme();
-  const [languageCode, setLanguageCode] = useSessionStorageState(
-    'languageCode',
-    { defaultValue: 'en-US' }
-  );
-  const [speakerName, setSpeakerName] = useSessionStorageState('speakerName', {
-    defaultValue: 'en-US-Standard-A',
-  });
-
-  const [currentLanguage, setCurrentLanguage] = useSessionStorageState(
-    'Language',
-    {
-      defaultValue: 'en',
-    }
-  );
+  const { languageCode, setLanguageCode, setCurrentLanguage, currentLanguage, setSpeakerName } = useSettings()
   // eslint-disable-next-line no-undef
   const [language, setLanguage] = useState(new Set([currentLanguage]));
   const { user, isAdmin } = useAuth();

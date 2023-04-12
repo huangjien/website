@@ -31,6 +31,20 @@ function useProvideSettings() {
   const [settings, setSettings] = useSessionStorageState(
     'application_settings'
   );
+  const [languageCode, setLanguageCode] = useSessionStorageState(
+    'languageCode',
+    { defaultValue: 'en-US' }
+  );
+  const [speakerName, setSpeakerName] = useSessionStorageState('speakerName', {
+    defaultValue: 'en-US-Standard-A',
+  });
+
+  const [currentLanguage, setCurrentLanguage] = useSessionStorageState(
+    'Language',
+    {
+      defaultValue: 'en',
+    }
+  );
   useRequest(getSettings, {
     onSuccess: (result) => {
       if (result && result.result) {
@@ -53,5 +67,5 @@ function useProvideSettings() {
     return result;
   };
 
-  return { settings, getSetting };
+  return { settings, getSetting, currentLanguage, setCurrentLanguage, speakerName, setSpeakerName, languageCode, setLanguageCode };
 }
