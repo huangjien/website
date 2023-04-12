@@ -218,15 +218,50 @@ export default function AI() {
     mediaRecorder.current.stop();
     mediaRecorder.current.onstop = () => {
       const audioBlob = new Blob(audio, { type: mimeType });
+
       const audioUrl = URL.createObjectURL(audioBlob);
       setAudioSrc(audioUrl);
+
       setAudio([]);
+      // clear the browser status, without this line, the browser tab wil indicate that it is recording
       stream.getTracks().forEach(track => track.stop())
-    };
+
+
+      // eslint-disable-next-line no-undef
+      blobToBase64(audioBlob).then(base64 => {
+        console.log(base64)
+        fetch('/api/transcribe', {
+          method: 'POST',
+          body: base64
+        })
+          .then((response) => {
+
+            console.log(response.text());
+          })
+          .catch((err) => {
+            error(err.code + '\n' + err.message)
+          })
+      });
+
+    }
+
   };
 
+
+  const blobToBase64 = async blob => {
+    const reader = new FileReader();
+    reader.readAsDataURL(blob);
+    // eslint-disable-next-line no-undef
+    return new Promise((resolve) => {
+      reader.onloadend = () => {
+        resolve(reader.result);
+      };
+    });
+  };
+
+
+
   const handleMic = () => {
-    // TODO
     // handle recording
     // or after recording, send voice to whisper
     setIsMicOn(!isMicOn);
@@ -246,8 +281,8 @@ export default function AI() {
           variant="bordered"
           css={{ position: 'sticky', top: '5em', zIndex: 100 }}
         >
-          <Card.Body>
-            <Grid.Container gap={1}>
+          <Card.Body justify="space-evenly">
+            <Grid.Container gap={0.2}>
               <Grid xs={6}>
                 <Card>
                   <Card.Body>
@@ -305,7 +340,7 @@ export default function AI() {
                         />
                       )}
                     </Row>
-                    <Spacer y={1} />
+                    <Spacer y={0.2} />
                     <Row justify="space-evenly">
                       <Grid>
                         <Button light auto onPress={() => handleMic()}>
@@ -319,14 +354,16 @@ export default function AI() {
                           <Progress size="sm" striped indeterminated />
                         )}
                       </Grid>
-                      {
-                        <audio
-                          disabled={!audioSrc}
-                          controls
-                          autoPlay
-                          src={audioSrc}
-                        />
-                      }
+                      <Grid>
+                        {
+                          <audio
+                            disabled={!audioSrc}
+                            controls
+                            autoPlay
+                            src={audioSrc}
+                          />
+                        }
+                      </Grid>
                     </Row>
                   </Card.Body>
                 </Card>
@@ -336,7 +373,7 @@ export default function AI() {
           </Card.Body>
         </Card>
 
-        <Spacer y={2} />
+        <Spacer y={1} />
         <Container gap={1} fluid>
           {/* display question and answer here */}
           {displayContent &&

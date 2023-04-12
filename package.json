@@ -1,6 +1,6 @@
 {
   "name": "website",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "private": true,
   "scripts": {
     "prepare": "husky install",
@@ -19,6 +19,7 @@
     "ahooks": "^3.7.6",
     "eslint": "8.38.0",
     "eslint-config-next": "13.3.0",
+    "formidable-serverless": "^1.1.1",
     "github-markdown-css": "^5.2.0",
     "google-auth-library": "^8.7.0",
     "googleapis": "^114.0.0",
