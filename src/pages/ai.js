@@ -23,11 +23,9 @@ import {
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
-  BiMicrophone,
-  BiMicrophoneOff,
   BiPlayCircle,
   BiQuestionMark,
-  BiSearch,
+  BiSearch
 } from 'react-icons/bi';
 import { error, success } from '../components/Notification';
 import Layout from '../components/layout/Layout';
@@ -73,7 +71,6 @@ export default function AI() {
   const [speakerName] = useSessionStorageState('speakerName', {
     defaultValue: 'en-US-Standard-A',
   });
-  const [isMicOn, setIsMicOn] = useState(false);
   const inputRef = useRef(null);
   const searchRef = useRef(null);
   const [searchValue, setSearchValue] = useState();
@@ -90,10 +87,7 @@ export default function AI() {
   const [loading, setLoading] = useState(false);
   const { getHtml } = useGithubContent();
   const [displayContent, setDisplayContent] = useState([]);
-  const [audio, setAudio] = useState(true);
-  const mediaRecorder = useRef(null);
   const [audioSrc, setAudioSrc] = useState('');
-  const mimeType = 'audio/webm';
   useTitle(t('header.ai'));
 
   useDebounceEffect(
@@ -184,58 +178,7 @@ export default function AI() {
     const audioUrl = URL.createObjectURL(blob);
     setAudioSrc(audioUrl);
   };
-  const [stream, setStream] = useState(null);
 
-  const startRecording = async () => {
-    // if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-    //   navigator.mediaDevices
-    //     .getUserMedia({
-    //       audio: true,
-    //     })
-    //     .then((stream) => { setStream(stream) })
-    //     .catch((err) => {
-    //       error(`The following getUserMedia error occurred: ${err}`);
-    //     });
-    // } else {
-    //   success('getUserMedia not supported on your browser!');
-    // }
-    await navigator.mediaDevices
-      .getUserMedia({ audio: true })
-      .then((stream) => {
-        setStream(stream);
-        mediaRecorder.current = new MediaRecorder(stream, { type: mimeType });
-        mediaRecorder.current.start();
-        const localAudioChunks = [];
-        mediaRecorder.current.ondataavailable = (event) => {
-          if (typeof event.data == 'undefined') return;
-          if (event.data.size == 0) return;
-          localAudioChunks.push(event.data);
-        };
-        setAudio(localAudioChunks);
-      });
-  };
-  const stopRecording = async () => {
-    mediaRecorder.current.stop();
-    mediaRecorder.current.onstop = () => {
-      const audioBlob = new Blob(audio, { type: mimeType });
-      const audioUrl = URL.createObjectURL(audioBlob);
-      setAudioSrc(audioUrl);
-      setAudio([]);
-      stream.getTracks().forEach(track => track.stop())
-    };
-  };
-
-  const handleMic = () => {
-    // TODO
-    // handle recording
-    // or after recording, send voice to whisper
-    setIsMicOn(!isMicOn);
-    if (!isMicOn) {
-      startRecording();
-    } else {
-      stopRecording();
-    }
-  };
 
   return (
     <Layout>
@@ -307,18 +250,6 @@ export default function AI() {
                     </Row>
                     <Spacer y={1} />
                     <Row justify="space-evenly">
-                      <Grid>
-                        <Button light auto onPress={() => handleMic()}>
-                          {isMicOn ? (
-                            <BiMicrophoneOff color="red" size="2em" />
-                          ) : (
-                            <BiMicrophone color="green" size="2em" />
-                          )}
-                        </Button>
-                        {isMicOn && (
-                          <Progress size="sm" striped indeterminated />
-                        )}
-                      </Grid>
                       {
                         <audio
                           disabled={!audioSrc}
