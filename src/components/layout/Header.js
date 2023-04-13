@@ -30,7 +30,12 @@ import Login from '../Login';
 const Header = () => {
   const { setTheme } = useNextTheme();
   const { isDark, type } = useTheme();
-  const { languageCode, setLanguageCode, setCurrentLanguage, currentLanguage, setSpeakerName } = useSettings()
+  const {
+    setLanguageCode,
+    setCurrentLanguage,
+    currentLanguage,
+    setSpeakerName,
+  } = useSettings();
   // eslint-disable-next-line no-undef
   const [language, setLanguage] = useState(new Set([currentLanguage]));
   const { user, isAdmin } = useAuth();

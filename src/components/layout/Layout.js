@@ -1,8 +1,8 @@
-import { Spacer } from '@nextui-org/react';
+import { Container, Link, Spacer, Text } from '@nextui-org/react';
 import { useScroll } from 'ahooks';
 import { useEffect, useState } from 'react';
 import { BiCaretUp } from 'react-icons/bi';
-
+import packageJson from '../../../package.json';
 import { triggerPx } from '../../lib/global';
 import { Box } from './Box';
 import Header from './Header';
@@ -47,6 +47,14 @@ const Layout = (props) => {
         onClick={scrollToTop}
         style={{ display: show ? 'flex' : 'none' }}
       />
+
+      <Container className="footer">
+        <Text size="$xs">
+          <Link passHref={true} href={'mailto:' + packageJson.author}>
+            {packageJson.copyright}
+          </Link>
+        </Text>
+      </Container>
     </Box>
   );
 };

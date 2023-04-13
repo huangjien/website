@@ -1,12 +1,15 @@
 {
   "name": "website",
-  "version": "0.5.1",
+  "version": "0.5.2",
+  "author": "huangjien@gmail.com",
+  "copyright": "Copyright (c) 2013 Jien Huang",
+  "description": "A blog website template",
   "private": true,
   "scripts": {
     "prepare": "husky install",
-    "dev": "cross-env NODE_OPTION='--inspect' next dev",
+    "dev": "cross-env NODE_OPTION='--inspect' next dev -p 8080",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 8080",
     "lint": "next lint",
     "prettier": "prettier --write ."
   },

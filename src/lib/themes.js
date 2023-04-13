@@ -392,6 +392,16 @@ export const globalStyle = globalCss({
     lineHeight: 1.75,
     fontSize: '1.25em',
   },
+  '.footer': {
+    align: 'center',
+    position: 'fixed',
+    left: '50%',
+    width: '75%',
+    bottom: 0,
+    clear: 'both',
+    whiteSpace: 'nowrap',
+    alignItems: 'center',
+  },
   '.scrollToTop': {
     position: 'fixed',
     right: '20px',

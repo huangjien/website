@@ -67,5 +67,14 @@ function useProvideSettings() {
     return result;
   };
 
-  return { settings, getSetting, currentLanguage, setCurrentLanguage, speakerName, setSpeakerName, languageCode, setLanguageCode };
+  return {
+    settings,
+    getSetting,
+    currentLanguage,
+    setCurrentLanguage,
+    speakerName,
+    setSpeakerName,
+    languageCode,
+    setLanguageCode,
+  };
 }

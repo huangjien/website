@@ -56,6 +56,7 @@ const Login = () => {
                 <Avatar
                   zoomed
                   bordered
+                  alt={user.name}
                   text={user.name}
                   src={user.avatar_url}
                 />

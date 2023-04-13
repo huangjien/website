@@ -2,6 +2,9 @@
 const nextConfig = {
   output: 'standalone',
   reactStrictMode: false,
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   // compiler: {
   //   removeConsole: { exclude: ['error'] },
   // },

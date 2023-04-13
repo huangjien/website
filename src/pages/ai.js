@@ -17,15 +17,11 @@ import {
   useDebounceEffect,
   useKeyPress,
   useLocalStorageState,
-  useTitle
+  useTitle,
 } from 'ahooks';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  BiPlayCircle,
-  BiQuestionMark,
-  BiSearch
-} from 'react-icons/bi';
+import { BiPlayCircle, BiQuestionMark, BiSearch } from 'react-icons/bi';
 import { error, success } from '../components/Notification';
 import Layout from '../components/layout/Layout';
 import NoSSR from '../lib/NoSSR';
@@ -64,7 +60,7 @@ const getAnswer = async (question, lastAnswer) => {
 };
 
 export default function AI() {
-  const { languageCode, speakerName, setLanguageCode, setCurrentLanguage, currentLanguage, setSpeakerName } = useSettings()
+  const { languageCode, speakerName } = useSettings();
   const inputRef = useRef(null);
   const searchRef = useRef(null);
   const [searchValue, setSearchValue] = useState();
@@ -172,7 +168,6 @@ export default function AI() {
     const audioUrl = URL.createObjectURL(blob);
     setAudioSrc(audioUrl);
   };
-
 
   return (
     <Layout>
@@ -338,10 +333,10 @@ export default function AI() {
         if (data.error) {
           error(
             t('ai.return_error') +
-            ':\n' +
-            data.error.code +
-            '\n' +
-            data.error.message
+              ':\n' +
+              data.error.code +
+              '\n' +
+              data.error.message
           );
           setLoading(false);
           throw new Error(t('ai.return_error') + ':\n' + data.error.message);
