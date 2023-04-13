@@ -30,7 +30,7 @@ jobs:
       - run: yarn push
 
       # Setup gcloud CLI
-      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@v1
         with:
           version: 'latest'
           service_account_email: ${{ secrets.GCP_SA_EMAIL }}
