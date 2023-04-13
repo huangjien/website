@@ -57,11 +57,16 @@ jobs:
 
       # Deploy image to Cloud Run
       - name: Deploy
+        id: deploy
         run: |-
           gcloud run deploy blog \
             --quiet \
             --region "$RUN_REGION" \
             --image "docker.io/huangjien/website:latest" \
             --platform "managed" \
-            --port 80 \
+            --port 8080 \
             --allow-unauthenticated
+
+      # If required, use the Cloud Run url output in later steps
+      - name: Show Output
+        run: echo ${{ steps.deploy.outputs.url }}
