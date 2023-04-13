@@ -53,6 +53,7 @@ const Layout = (props) => {
           <Link passHref={true} href={'mailto:' + packageJson.author}>
             {packageJson.copyright}
           </Link>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{' version: ' + packageJson.version}
         </Text>
       </Container>
     </Box>
