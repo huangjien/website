@@ -12,7 +12,7 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: node:lts
+    name: Build and Deploy to GCR
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -29,11 +29,6 @@ jobs:
       - run: yarn make
       - run: yarn push
 
-  deploy:
-    permissions:
-      contents: 'read'
-      id-token: 'write'
-    steps:
       # Setup gcloud CLI
       - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
         with:
