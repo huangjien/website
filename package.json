@@ -1,6 +1,6 @@
 {
   "name": "website",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "author": "huangjien@gmail.com",
   "copyright": "Copyright (c) 2013 Jien Huang",
   "description": "A blog website template",
@@ -10,6 +10,9 @@
     "dev": "cross-env NODE_OPTION='--inspect' next dev -p 8080",
     "build": "next build",
     "start": "next start -p 8080",
+    "push": "docker push huangjien/website",
+    "make": "docker buildx build --platform linux/amd64 -t huangjien/website .",
+    "exe": "docker run --env-file .env.local -ti -d -p 8080:8080 huangjien/website",
     "lint": "next lint",
     "prettier": "prettier --write ."
   },
