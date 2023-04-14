@@ -21,7 +21,7 @@ import {
 } from 'ahooks';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { BiPlayCircle, BiQuestionMark, BiSearch } from 'react-icons/bi';
+import { BiPlayCircle, BiSearch } from 'react-icons/bi';
 import { error, success } from '../components/Notification';
 import Layout from '../components/layout/Layout';
 import NoSSR from '../lib/NoSSR';
@@ -128,7 +128,7 @@ export default function AI() {
     () => {
       if (!questionText) return;
       request2AI();
-      inputRef.current.value = '';
+      // inputRef.current.value = '';
     },
     {
       target: inputRef,
@@ -364,51 +364,56 @@ export default function AI() {
             displayContent.length > 0 &&
             displayContent.map((data, index) => {
               return (
-                <Card isHoverable variant="bordered" key={index}>
-                  <Card.Header>
-                    <BiQuestionMark size="1.3em" color="green" />
-                    {/* <Grid.Container>
+
+                <Collapse key={index}
+                  divider={false}
+                  bordered
+                  xs={12}
+                  title={
+                    <Row justify='flex-start'>
+
+                      {/* <Grid.Container>
                       <Grid xs={12}> */}
-                    {/* {data?.questionHtml && <div className='multiline' dangerouslySetInnerHTML={{ __html: data.questionHtml }} />} */}
-                    <Text b>{data.question}</Text>
-                    {languageCode && speakerName && (
-                      <>
-                        <Spacer x={1} />
+                      {/* {data?.questionHtml && <div className='multiline' dangerouslySetInnerHTML={{ __html: data.questionHtml }} />} */}
+
+
+                      <Text b>{data.question}</Text>
+
+                    </Row>
+
+                  }
+                  subtitle={
+                    <Row justify='flex-start'  >
+
+                      <Text i css={{ color: '$accents8' }}>
+                        {t('ai.question_length') +
+                          ' :' +
+                          data.question_tokens +
+                          ' ' +
+                          t('ai.answer_length') +
+                          ' :' +
+                          data.answer_tokens}
+                      </Text>
+                      <Spacer x={1} />
+                      {languageCode && speakerName && (
                         <Button
                           light
                           auto
                           onPress={(e) => handleText2Speech(e, data.answer)}
                         >
-                          <BiPlayCircle color="green" size="2em" />
+                          <BiPlayCircle color="green" size='1.5em' />
                         </Button>
-                      </>
-                    )}
-                    {/* </Grid>
-                    </Grid.Container> */}
-                  </Card.Header>
-                  <Card.Body>
-                    <Collapse
-                      divider={false}
-                      bordered={false}
-                      xs={12}
-                      title={
-                        <Text i css={{ color: '$accents8' }}>
-                          {t('ai.question_length') +
-                            ' :' +
-                            data.question_tokens +
-                            ' ' +
-                            t('ai.answer_length') +
-                            ' :' +
-                            data.answer_tokens}
-                        </Text>
-                      }
-                    >
-                      <div
-                        dangerouslySetInnerHTML={{ __html: data.html }}
-                      ></div>
-                    </Collapse>
-                  </Card.Body>
-                </Card>
+
+                      )}
+                    </Row>
+
+                  }
+                >
+                  <div
+                    dangerouslySetInnerHTML={{ __html: data.html }}
+                  ></div>
+                </Collapse>
+
               );
             })}
         </Container>
@@ -470,6 +475,7 @@ export default function AI() {
               setContent([qAndA]);
               return;
             }
+            setQuestionText('')
             inputRef.current.value = '';
             setContent([qAndA, ...content]);
             setLoading(false);
