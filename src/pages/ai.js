@@ -17,24 +17,17 @@ import {
   useDebounceEffect,
   useKeyPress,
   useLocalStorageState,
-  useSessionStorageState,
   useTitle,
 } from 'ahooks';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  BiMicrophone,
-  BiMicrophoneOff,
-  BiPlayCircle,
-  BiQuestionMark,
-  BiSearch,
-} from 'react-icons/bi';
+import { BiPlayCircle, BiQuestionMark, BiSearch } from 'react-icons/bi';
 import { error, success } from '../components/Notification';
 import Layout from '../components/layout/Layout';
 import NoSSR from '../lib/NoSSR';
 import { itemsPerPage } from '../lib/global';
 import { useGithubContent } from '../lib/useGithubContent';
-
+import { useSettings } from '../lib/useSettings';
 const getAnswer = async (question, lastAnswer) => {
   var questionArray = [{ role: 'user', content: question }];
   // if lastAnser too long or too long ago, then we don't add it.
@@ -67,13 +60,7 @@ const getAnswer = async (question, lastAnswer) => {
 };
 
 export default function AI() {
-  const [languageCode] = useSessionStorageState('languageCode', {
-    defaultValue: 'en-US',
-  });
-  const [speakerName] = useSessionStorageState('speakerName', {
-    defaultValue: 'en-US-Standard-A',
-  });
-  const [isMicOn, setIsMicOn] = useState(false);
+  const { languageCode, speakerName } = useSettings();
   const inputRef = useRef(null);
   const searchRef = useRef(null);
   const [searchValue, setSearchValue] = useState();
@@ -90,10 +77,7 @@ export default function AI() {
   const [loading, setLoading] = useState(false);
   const { getHtml } = useGithubContent();
   const [displayContent, setDisplayContent] = useState([]);
-  const [audio, setAudio] = useState(true);
-  const mediaRecorder = useRef(null);
   const [audioSrc, setAudioSrc] = useState('');
-  const mimeType = 'audio/webm';
   useTitle(t('header.ai'));
 
   useDebounceEffect(
