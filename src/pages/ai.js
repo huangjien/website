@@ -21,7 +21,7 @@ import {
 } from 'ahooks';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { BiPlayCircle, BiSearch } from 'react-icons/bi';
+import { BiMicrophone, BiMicrophoneOff, BiPlayCircle, BiSearch } from 'react-icons/bi';
 import { error, success } from '../components/Notification';
 import Layout from '../components/layout/Layout';
 import NoSSR from '../lib/NoSSR';
@@ -63,6 +63,7 @@ export default function AI() {
   const { languageCode, speakerName } = useSettings();
   const inputRef = useRef(null);
   const searchRef = useRef(null);
+  const mediaRecorder = useRef(null);
   const [searchValue, setSearchValue] = useState();
   const [currentPageNumber, setCurrentPageNumber] = useState(1);
   const [pageTotal, setPageTotal] = useState(0);
@@ -76,8 +77,11 @@ export default function AI() {
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const { getHtml } = useGithubContent();
+  const [isMicOn, setIsMicOn] = useState(false);
   const [displayContent, setDisplayContent] = useState([]);
   const [audioSrc, setAudioSrc] = useState('');
+  const [audio, setAudio] = useState(true);
+  const mimeType = 'audio/mpeg';
   useTitle(t('header.ai'));
 
   useDebounceEffect(
@@ -168,6 +172,89 @@ export default function AI() {
     const audioUrl = URL.createObjectURL(blob);
     setAudioSrc(audioUrl);
   };
+  const [stream, setStream] = useState(null);
+
+  const startRecording = async () => {
+    // if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    //   navigator.mediaDevices
+    //     .getUserMedia({
+    //       audio: true,
+    //     })
+    //     .then((stream) => { setStream(stream) })
+    //     .catch((err) => {
+    //       error(`The following getUserMedia error occurred: ${err}`);
+    //     });
+    // } else {
+    //   success('getUserMedia not supported on your browser!');
+    // }
+    await navigator.mediaDevices
+      .getUserMedia({ audio: true })
+      .then((stream) => {
+        setStream(stream);
+        mediaRecorder.current = new MediaRecorder(stream, { type: mimeType });
+        mediaRecorder.current.start();
+        const localAudioChunks = [];
+        mediaRecorder.current.ondataavailable = (event) => {
+          if (typeof event.data == 'undefined') return;
+          if (event.data.size == 0) return;
+          localAudioChunks.push(event.data);
+        };
+        setAudio(localAudioChunks);
+      });
+  };
+  const stopRecording = async () => {
+    mediaRecorder.current.stop();
+    mediaRecorder.current.onstop = () => {
+      const audioBlob = new Blob(audio, { type: mimeType });
+
+      const audioUrl = URL.createObjectURL(audioBlob);
+      setAudioSrc(audioUrl);
+
+      setAudio([]);
+      // clear the browser status, without this line, the browser tab wil indicate that it is recording
+      stream.getTracks().forEach(track => track.stop())
+
+      const file = new File([audioBlob], 'audio.mp3', { type: mimeType })
+
+      const formData = new FormData()
+      formData.append('file', file)
+      formData.append('model', 'whisper-1')
+
+
+      fetch('/api/transcribe', {
+        method: 'POST',
+        // enctype: 'multipart/form-data',
+        body: formData
+      }).then(res => res.json())
+        .then((response) => {
+          if (response?.error) {
+            error(response.error.message)
+          } else {
+            inputRef.current.value = response.text
+            setQuestionText(response.text)
+            // console.log(response);
+          }
+
+        })
+        .catch((err) => {
+          error(err.code + '\n' + err.message)
+        })
+    }
+
+  };
+
+
+
+  const handleMic = () => {
+    // handle recording
+    // or after recording, send voice to whisper
+    setIsMicOn(!isMicOn);
+    if (!isMicOn) {
+      startRecording();
+    } else {
+      stopRecording();
+    }
+  };
 
   return (
     <Layout>
@@ -178,8 +265,8 @@ export default function AI() {
           variant="bordered"
           css={{ position: 'sticky', top: '5em', zIndex: 100 }}
         >
-          <Card.Body>
-            <Grid.Container gap={1}>
+          <Card.Body justify="space-evenly">
+            <Grid.Container gap={0.2}>
               <Grid xs={6}>
                 <Card>
                   <Card.Body>
@@ -237,16 +324,30 @@ export default function AI() {
                         />
                       )}
                     </Row>
-                    <Spacer y={1} />
+                    <Spacer y={0.2} />
                     <Row justify="space-evenly">
-                      {
-                        <audio
-                          disabled={!audioSrc}
-                          controls
-                          autoPlay
-                          src={audioSrc}
-                        />
-                      }
+                      <Grid>
+                        <Button light auto onPress={() => handleMic()}>
+                          {isMicOn ? (
+                            <BiMicrophoneOff color="red" size="2em" />
+                          ) : (
+                            <BiMicrophone color="green" size="2em" />
+                          )}
+                        </Button>
+                        {isMicOn && (
+                          <Progress size="sm" striped indeterminated />
+                        )}
+                      </Grid>
+                      <Grid>
+                        {
+                          <audio
+                            disabled={!audioSrc}
+                            controls
+                            autoPlay
+                            src={audioSrc}
+                          />
+                        }
+                      </Grid>
                     </Row>
                   </Card.Body>
                 </Card>
@@ -256,7 +357,7 @@ export default function AI() {
           </Card.Body>
         </Card>
 
-        <Spacer y={2} />
+        <Spacer y={1} />
         <Container gap={1} fluid>
           {/* display question and answer here */}
           {displayContent &&
