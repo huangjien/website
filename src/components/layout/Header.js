@@ -92,12 +92,12 @@ const Header = () => {
               {t('header.settings')}
             </Navbar.Link>
           )}
-          {user && (
-            <Navbar.Link id="ai" href="/ai">
-              <BiChip size="2em" />
-              {t('header.ai')}
-            </Navbar.Link>
-          )}
+          {/* {user && ( */}
+          <Navbar.Link id="ai" href="/ai">
+            <BiChip size="2em" />
+            {t('header.ai')}
+          </Navbar.Link>
+          {/* )} */}
           <Navbar.Link id="about" href="/about">
             <BiDetail size="2em" />
             {t('header.about')}
