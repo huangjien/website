@@ -21,7 +21,7 @@ import {
 } from 'ahooks';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { BiPlayCircle, BiSearch } from 'react-icons/bi';
+import { BiMicrophone, BiMicrophoneOff, BiPlayCircle, BiSearch } from 'react-icons/bi';
 import { error, success } from '../components/Notification';
 import Layout from '../components/layout/Layout';
 import NoSSR from '../lib/NoSSR';
@@ -63,6 +63,7 @@ export default function AI() {
   const { languageCode, speakerName } = useSettings();
   const inputRef = useRef(null);
   const searchRef = useRef(null);
+  const mediaRecorder = useRef(null);
   const [searchValue, setSearchValue] = useState();
   const [currentPageNumber, setCurrentPageNumber] = useState(1);
   const [pageTotal, setPageTotal] = useState(0);
@@ -76,8 +77,11 @@ export default function AI() {
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const { getHtml } = useGithubContent();
+  const [isMicOn, setIsMicOn] = useState(false);
   const [displayContent, setDisplayContent] = useState([]);
   const [audioSrc, setAudioSrc] = useState('');
+  const [audio, setAudio] = useState(true);
+  const mimeType = 'audio/mpeg';
   useTitle(t('header.ai'));
 
   useDebounceEffect(
@@ -210,37 +214,33 @@ export default function AI() {
       // clear the browser status, without this line, the browser tab wil indicate that it is recording
       stream.getTracks().forEach(track => track.stop())
 
+      const file = new File([audioBlob], 'audio.mp3', { type: mimeType })
 
-      // eslint-disable-next-line no-undef
-      blobToBase64(audioBlob).then(base64 => {
-        console.log(base64)
-        fetch('/api/transcribe', {
-          method: 'POST',
-          body: base64
+      const formData = new FormData()
+      formData.append('file', file)
+      formData.append('model', 'whisper-1')
+
+
+      fetch('/api/transcribe', {
+        method: 'POST',
+        // enctype: 'multipart/form-data',
+        body: formData
+      }).then(res => res.json())
+        .then((response) => {
+          if (response?.error) {
+            error(response.error.message)
+          } else {
+            inputRef.current.value = response.text
+            setQuestionText(response.text)
+            // console.log(response);
+          }
+
         })
-          .then((response) => {
-
-            console.log(response.text());
-          })
-          .catch((err) => {
-            error(err.code + '\n' + err.message)
-          })
-      });
-
+        .catch((err) => {
+          error(err.code + '\n' + err.message)
+        })
     }
 
-  };
-
-
-  const blobToBase64 = async blob => {
-    const reader = new FileReader();
-    reader.readAsDataURL(blob);
-    // eslint-disable-next-line no-undef
-    return new Promise((resolve) => {
-      reader.onloadend = () => {
-        resolve(reader.result);
-      };
-    });
   };
 
 

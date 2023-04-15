@@ -50,7 +50,7 @@ const Layout = (props) => {
 
       <Container className="footer">
         <Text size="$xs">
-          <Link passHref={true} href={'mailto:' + packageJson.author}>
+          <Link href={'mailto:' + packageJson.author}>
             {packageJson.copyright}
           </Link>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{' version: ' + packageJson.version}
