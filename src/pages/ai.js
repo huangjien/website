@@ -21,7 +21,12 @@ import {
 } from 'ahooks';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { BiMicrophone, BiMicrophoneOff, BiPlayCircle, BiSearch } from 'react-icons/bi';
+import {
+  BiMicrophone,
+  BiMicrophoneOff,
+  BiPlayCircle,
+  BiSearch,
+} from 'react-icons/bi';
 import { error, success } from '../components/Notification';
 import Layout from '../components/layout/Layout';
 import NoSSR from '../lib/NoSSR';
@@ -212,38 +217,33 @@ export default function AI() {
 
       setAudio([]);
       // clear the browser status, without this line, the browser tab wil indicate that it is recording
-      stream.getTracks().forEach(track => track.stop())
+      stream.getTracks().forEach((track) => track.stop());
 
-      const file = new File([audioBlob], 'audio.mp3', { type: mimeType })
+      const file = new File([audioBlob], 'audio.mp3', { type: mimeType });
 
-      const formData = new FormData()
-      formData.append('file', file)
-      formData.append('model', 'whisper-1')
-
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('model', 'whisper-1');
 
       fetch('/api/transcribe', {
         method: 'POST',
-        // enctype: 'multipart/form-data',
-        body: formData
-      }).then(res => res.json())
+        body: formData,
+      })
+        .then((res) => res.json())
         .then((response) => {
           if (response?.error) {
-            error(response.error.message)
+            error(response.error.message);
           } else {
-            inputRef.current.value = response.text
-            setQuestionText(response.text)
+            inputRef.current.value = response.text;
+            setQuestionText(response.text);
             // console.log(response);
           }
-
         })
         .catch((err) => {
-          error(err.code + '\n' + err.message)
-        })
-    }
-
+          error(err.code + '\n' + err.message);
+        });
+    };
   };
-
-
 
   const handleMic = () => {
     // handle recording
@@ -364,27 +364,22 @@ export default function AI() {
             displayContent.length > 0 &&
             displayContent.map((data, index) => {
               return (
-
-                <Collapse key={index}
+                <Collapse
+                  key={index}
                   divider={false}
                   bordered
                   xs={12}
                   title={
-                    <Row justify='flex-start'>
-
+                    <Row justify="flex-start">
                       {/* <Grid.Container>
                       <Grid xs={12}> */}
                       {/* {data?.questionHtml && <div className='multiline' dangerouslySetInnerHTML={{ __html: data.questionHtml }} />} */}
 
-
                       <Text b>{data.question}</Text>
-
                     </Row>
-
                   }
                   subtitle={
-                    <Row justify='flex-start'  >
-
+                    <Row justify="flex-start">
                       <Text i css={{ color: '$accents8' }}>
                         {t('ai.question_length') +
                           ' :' +
@@ -401,19 +396,14 @@ export default function AI() {
                           auto
                           onPress={(e) => handleText2Speech(e, data.answer)}
                         >
-                          <BiPlayCircle color="green" size='1.5em' />
+                          <BiPlayCircle color="green" size="1.5em" />
                         </Button>
-
                       )}
                     </Row>
-
                   }
                 >
-                  <div
-                    dangerouslySetInnerHTML={{ __html: data.html }}
-                  ></div>
+                  <div dangerouslySetInnerHTML={{ __html: data.html }}></div>
                 </Collapse>
-
               );
             })}
         </Container>
@@ -439,10 +429,10 @@ export default function AI() {
         if (data.error) {
           error(
             t('ai.return_error') +
-            ':\n' +
-            data.error.code +
-            '\n' +
-            data.error.message
+              ':\n' +
+              data.error.code +
+              '\n' +
+              data.error.message
           );
           setLoading(false);
           throw new Error(t('ai.return_error') + ':\n' + data.error.message);
@@ -475,7 +465,7 @@ export default function AI() {
               setContent([qAndA]);
               return;
             }
-            setQuestionText('')
+            setQuestionText('');
             inputRef.current.value = '';
             setContent([qAndA, ...content]);
             setLoading(false);
