@@ -33,5 +33,5 @@ Template repo: https://github.com/huangjien/website
 - **Next.js** as main framework
 - I18N with **react-i18next**
 - **NextUI** play the role of UI Framework
-- **GPT-3.5-Turbo** kick in
+- **GPT-4-0613** kick in
 - Notification is done by **react-toastify**

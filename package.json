@@ -1,8 +1,8 @@
 {
   "name": "website",
-  "version": "0.5.18",
+  "version": "0.5.21",
   "author": "huangjien@gmail.com",
-  "copyright": "Copyright (c) 2013 Jien Huang",
+  "copyright": "Copyright (c) 2023 Jien Huang",
   "description": "A blog website template",
   "private": true,
   "scripts": {
@@ -20,32 +20,35 @@
     "url": "https://github.com/huangjien/blog/issues"
   },
   "dependencies": {
-    "@nextui-org/react": "^1.0.0-beta.10",
-    "ahooks": "^3.7.6",
-    "eslint": "8.38.0",
-    "eslint-config-next": "13.3.0",
+    "@nextui-org/react": "^2.1.10",
+    "ahooks": "^3.7.8",
+    "antd": "^5.8.6",
+    "eslint": "8.48.0",
+    "eslint-config-next": "13.4.19",
+    "framer-motion": "^10.16.4",
     "github-markdown-css": "^5.2.0",
     "http-proxy": "^1.18.1",
-    "i18next": "^22.4.14",
-    "next": "13.3.0",
+    "i18next": "^23.4.9",
+    "next": "13.4.19",
     "next-themes": "^0.2.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-i18next": "^12.2.0",
-    "react-icons": "^4.8.0",
-    "react-toastify": "^9.1.2"
+    "react-i18next": "^13.2.2",
+    "react-icons": "^4.10.1",
+    "react-markdown": "^8.0.7",
+    "react-toastify": "^9.1.3"
   },
   "engines": {
     "node": ">=16.0.0",
     "yarn": ">=1.22.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.21.4",
-    "babel-loader": "^9.1.2",
+    "@babel/core": "^7.22.15",
+    "babel-loader": "^9.1.3",
     "cross-env": "^7.0.3",
-    "css-loader": "^6.7.3",
+    "css-loader": "^6.8.1",
     "husky": "^8.0.3",
-    "prettier": "^2.8.7",
-    "style-loader": "^3.3.2"
+    "prettier": "^3.0.3",
+    "style-loader": "^3.3.3"
   }
 }
