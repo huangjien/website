@@ -40,7 +40,7 @@ const getAnswer = async (question, lastAnswer) => {
     questionArray.unshift({ role: 'assistant', content: lastAnswer });
   }
   const requestBody = {
-    model: 'gpt-3.5-turbo',
+    model: 'gpt-4-0613',
     messages: questionArray,
     temperature: 0.5,
   };
@@ -429,10 +429,10 @@ export default function AI() {
         if (data.error) {
           error(
             t('ai.return_error') +
-              ':\n' +
-              data.error.code +
-              '\n' +
-              data.error.message
+            ':\n' +
+            data.error.code +
+            '\n' +
+            data.error.message
           );
           setLoading(false);
           throw new Error(t('ai.return_error') + ':\n' + data.error.message);
