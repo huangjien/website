@@ -1,4 +1,3 @@
-
 import RootLayout from './layout';
 import {
   Table,
@@ -57,11 +56,14 @@ export default function Settings() {
 
   return (
     <RootLayout>
-      <Table isStriped
+      <Table
+        isStriped
         aria-label="Settings"
         bottomContent={
           <div className="flex text-lg justify-center gap-8 items-center">
-            <span className="text-default-400 text-small">Total {settings.length} items</span>
+            <span className="text-default-400 text-small">
+              Total {settings.length} items
+            </span>
             <Pagination
               isCompact
               showControls
@@ -85,22 +87,28 @@ export default function Settings() {
             </label>
           </div>
         }
-        className= " min-h-max text-lg "
+        className=" min-h-max text-lg "
       >
-        <TableHeader >
-          <TableColumn className='text-lg' key="name">{t('column.title.key')}</TableColumn>
-          <TableColumn className='text-lg' key="value">{t('column.title.value')}</TableColumn>
-
+        <TableHeader>
+          <TableColumn className="text-lg" key="name">
+            {t('column.title.key')}
+          </TableColumn>
+          <TableColumn className="text-lg" key="value">
+            {t('column.title.value')}
+          </TableColumn>
         </TableHeader>
         <TableBody items={items}>
           {(item) => (
-            <TableRow  key={item.id}>
-              {(columnKey) => <TableCell className=' text-lg ' >{getKeyValue(item, columnKey)}</TableCell>}
+            <TableRow key={item.id}>
+              {(columnKey) => (
+                <TableCell className=" text-lg ">
+                  {getKeyValue(item, columnKey)}
+                </TableCell>
+              )}
             </TableRow>
           )}
         </TableBody>
       </Table>
-
     </RootLayout>
   );
 }

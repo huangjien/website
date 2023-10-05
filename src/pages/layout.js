@@ -11,10 +11,8 @@ import packageJson from '../../package.json';
 import { triggerPx } from '../lib/global';
 
 export default function RootLayout({ children }) {
-  
   const scroll = useScroll();
   const [show, setShow] = useState(false);
-
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -38,15 +36,15 @@ export default function RootLayout({ children }) {
   return (
     // <html lang="en" suppressHydrationWarning>
     //   <body className="bg-white dark:bg-black text-white dark:text-black">
-    <main  className="w-full flex flex-col h-full min-h-screen bg-white dark:bg-black text-black dark:text-white ">
-      <NavigationBar className=" text-gray-700 bg-white dark-mode:text-gray-200 dark-mode:bg-gray-800" />       
-        {children}
+    <main className="w-full flex flex-col h-full min-h-screen bg-white dark:bg-black text-black dark:text-white ">
+      <NavigationBar className=" text-gray-700 bg-white dark-mode:text-gray-200 dark-mode:bg-gray-800" />
+      {children}
       <BiArrowToTop
-          className=" animate-bounce fixed bottom-10 right-10 primary"
-          size="2em"
-          onClick={scrollToTop}
-          style={{ display: show ? 'flex' : 'none' }}
-        />
+        className=" animate-bounce fixed bottom-10 right-10 primary"
+        size="2em"
+        onClick={scrollToTop}
+        style={{ display: show ? 'flex' : 'none' }}
+      />
 
       <footer className=" fixed bottom-0 text-center text-gray-600 right-32 ">
         <p className=" text-xs">

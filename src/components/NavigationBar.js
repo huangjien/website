@@ -55,7 +55,13 @@ export const NavigationBar = () => {
       <NavbarBrand>
         <Dropdown aria-label="main_dropdown">
           <DropdownTrigger>
-            <Image src="/favicon.png" alt='brand' isZoomed width={32} height={32} />
+            <Image
+              src="/favicon.png"
+              alt="brand"
+              isZoomed
+              width={32}
+              height={32}
+            />
           </DropdownTrigger>
           <DropdownMenu
             className="sm:block md:block lg:hidden font-bold text-inherit"

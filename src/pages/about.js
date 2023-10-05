@@ -1,4 +1,3 @@
-
 import RootLayout from './layout';
 import { useTitle } from 'ahooks';
 import { useTranslation } from 'react-i18next';

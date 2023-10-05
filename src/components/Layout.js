@@ -13,7 +13,7 @@ import {
   Image,
   Label,
   SidebarPushable,
-  SidebarPusher
+  SidebarPusher,
 } from 'semantic-ui-react';
 import SidebarComponent from './Sidebar';
 
@@ -23,9 +23,20 @@ const Layout = ({ children }) => {
   const [show, setShow] = useState(false);
   const ref = useRef(null);
 
-  useLongPress(() => {console.log('pressed')}, ref, {
-    onClick: () => {console.log('click')}, onLongPressEnd: () => {console.log('released')}
-  });
+  useLongPress(
+    () => {
+      console.log('pressed');
+    },
+    ref,
+    {
+      onClick: () => {
+        console.log('click');
+      },
+      onLongPressEnd: () => {
+        console.log('released');
+      },
+    }
+  );
 
   const toggleSidebar = () => {
     setVisible(!visible);
@@ -49,7 +60,6 @@ const Layout = ({ children }) => {
       setShow(false);
     }
   }, [show, scroll]);
-
 
   return (
     <NoSSR>

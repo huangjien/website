@@ -5,7 +5,7 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  Pagination
+  Pagination,
 } from '@nextui-org/react';
 import { useState, useMemo, useCallback, useEffect } from 'react';
 import { Issue } from './Issue';
@@ -20,18 +20,18 @@ export const IssueList = ({ ComponentName, data }) => {
     if (data) {
       Math.ceil(data.length / rowsPerPage);
     }
-  }, [data,rowsPerPage])
+  }, [data, rowsPerPage]);
 
   const renderCell = useCallback((itemData, columnKey) => {
     switch (columnKey) {
       case 'Issue':
-        return (<Issue issue={itemData} />)
+        return <Issue issue={itemData} />;
       case 'Chat':
-        return (<Chat data={itemData} />)
+        return <Chat data={itemData} />;
       default:
-        return (<pre>{JSON.stringify(itemData)}</pre>)
+        return <pre>{JSON.stringify(itemData)}</pre>;
     }
-  })
+  });
 
   const onRowsPerPageChange = useCallback((e) => {
     setRowsPerPage(Number(e.target.value));
@@ -46,11 +46,15 @@ export const IssueList = ({ ComponentName, data }) => {
 
   return (
     <div>
-      <Table isStriped hideHeader
+      <Table
+        isStriped
+        hideHeader
         aria-label="Settings"
         bottomContent={
           <div className="flex text-lg justify-center lg:gap-8 items-center">
-            <span className="text-default-400 text-small">Total {data?.length} items</span>
+            <span className="text-default-400 text-small">
+              Total {data?.length} items
+            </span>
             <Pagination
               isCompact
               showControls
@@ -76,19 +80,19 @@ export const IssueList = ({ ComponentName, data }) => {
         }
         className=" min-h-max w-auto text-lg lg:gap-8 lg:m-8 "
       >
-        <TableHeader >
+        <TableHeader>
           <TableColumn key="id">id</TableColumn>
-
         </TableHeader>
         <TableBody items={items}>
           {(item) => (
             <TableRow key={item.id}>
-              <TableCell aria-label={item.id} className='lg:gap-4 lg:m-4' >{renderCell(item, ComponentName)}</TableCell>
+              <TableCell aria-label={item.id} className="lg:gap-4 lg:m-4">
+                {renderCell(item, ComponentName)}
+              </TableCell>
             </TableRow>
           )}
         </TableBody>
       </Table>
-
     </div>
-  )
+  );
 };

@@ -23,11 +23,9 @@ export const ThemeSwitch = () => {
   };
 
   return (
-    <Button light className=" bg-transparent text-success "
-      onClick={onChange}>
+    <Button light className=" bg-transparent text-success " onClick={onChange}>
       {theme === 'light' && <BiMoon size={'2em'} />}
       {theme !== 'light' && <BiSun size={'2em'} />}
     </Button>
-
   );
 };
