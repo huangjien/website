@@ -4,7 +4,11 @@ import {
   Dropdown,
   Input,
   Modal,
-  Row,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  Tooltip,
+  ModalFooter,
   Text,
 } from '@nextui-org/react';
 import { useEffect, useState } from 'react';
@@ -17,8 +21,8 @@ const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [selectedKey, setSelectedKey] = useState();
-  const { isAuthenticated, error, user, login, logout } = useAuth();
-  const [visible, setVisible] = useState(false);
+  const { error, user, login, isAuthenticated, logout } = useAuth();
+  const [visible, setVisible] = useState(true);
   const handler = () => setVisible(true);
   const closeLoginDialog = () => setVisible(false);
 
@@ -45,9 +49,16 @@ const Login = () => {
   return (
     <>
       {!user?.name && (
-        <Button auto shadow onPress={handler}>
-          {t('header.login')}
-        </Button>
+        <Tooltip content={t('header.login')}>
+          <Button
+            className="bg-transparent  text-success"
+            auto
+            shadow
+            onPress={handler}
+          >
+            <BiUser size="2em" />
+          </Button>
+        </Tooltip>
       )}
       {user && user.avatar_url
         ? user && (
@@ -62,7 +73,6 @@ const Login = () => {
                 />
               </Dropdown.Trigger>
               <Dropdown.Menu
-                color="secondary"
                 aria-label="Avatar Actions"
                 onAction={setSelectedKey}
               >
@@ -90,12 +100,12 @@ const Login = () => {
         open={visible}
         onClose={closeLoginDialog}
       >
-        <Modal.Header>
-          <Text id="modal-title" size={18}>
+        <ModalHeader>
+          <h3 id="modal-title" size={18}>
             {t('header.login_promote')}
-          </Text>
-        </Modal.Header>
-        <Modal.Body>
+          </h3>
+        </ModalHeader>
+        <ModalBody>
           <Input
             aria-label="Github User Name"
             clearable
@@ -108,7 +118,8 @@ const Login = () => {
             contentRight={<BiUser />}
             onChange={(e) => setUsername(e.target.value)}
           />
-          <Input.Password
+          <Input
+            type="password"
             aria-label="Github Token"
             clearable
             bordered
@@ -121,18 +132,18 @@ const Login = () => {
             hiddenIcon={<BiHide />}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <Row justify="space-between">
+          <h3 justify="space-between">
             {error && <Text color="error">{error}</Text>}
-          </Row>
-        </Modal.Body>
-        <Modal.Footer>
+          </h3>
+        </ModalBody>
+        <ModalFooter>
           <Button auto flat color="error" onPress={closeLoginDialog}>
             {t('header.close')}
           </Button>
           <Button auto onPress={() => login(username, password)}>
             {t('header.login')}
           </Button>
-        </Modal.Footer>
+        </ModalFooter>
       </Modal>
     </>
   );

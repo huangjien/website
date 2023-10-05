@@ -3,7 +3,7 @@
 //   -H "Content-Type: application/json" \
 //   -H "Authorization: Bearer $OPEN_API_KEY" \
 //   -d '{
-//     "model": "gpt-4-0613",
+//     "model": "gpt-3.5-turbo",
 //     "messages": [{"role": "user", "content": "write a hello world with java, and explain how to run it"}]
 //   }'
 

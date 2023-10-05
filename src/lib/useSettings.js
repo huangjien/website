@@ -45,6 +45,11 @@ function useProvideSettings() {
       defaultValue: 'en',
     }
   );
+
+  const [currentTheme, setCurrentTheme] = useSessionStorageState('theme', {
+    defaultValue: 'light',
+  });
+
   useRequest(getSettings, {
     onSuccess: (result) => {
       if (result && result.result) {
@@ -72,6 +77,8 @@ function useProvideSettings() {
     getSetting,
     currentLanguage,
     setCurrentLanguage,
+    currentTheme,
+    setCurrentTheme,
     speakerName,
     setSpeakerName,
     languageCode,

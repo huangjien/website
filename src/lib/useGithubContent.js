@@ -80,6 +80,7 @@ export const useGithubContent = () => {
                         oneComment,
                         getHtml
                       );
+                      // console.log(oneCommentContent)
                     commentList.push(oneCommentContent);
                   });
                 });
@@ -88,6 +89,7 @@ export const useGithubContent = () => {
             }
 
             // then we save this issue to the data
+            // console.log(content)
             finalResult.push(content);
           }
         });
