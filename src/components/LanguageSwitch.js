@@ -45,7 +45,7 @@ export const LanguageSwitch = () => {
         setSpeakerName(undefined);
       }
     }
-  }, [currentLanguage, i18n]);
+  }, [currentLanguage, setLanguageCode, setSpeakerName, i18n]);
 
   return (
     <Dropdown placement="bottom-left">

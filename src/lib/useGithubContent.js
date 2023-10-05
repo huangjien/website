@@ -96,7 +96,7 @@ export const useGithubContent = () => {
         setIssues(finalResult);
       }
     }
-  }, [getSetting, rawData]);
+  }, [getSetting, setIssues, rawData]);
 
   const getHtml = async (markdown) => {
     // console.log(markdown)
