@@ -14,19 +14,18 @@ export default function AI() {
   useTitle(t('header.ai'));
 
   const append = (qandA) => {
-    if (!content){
-      setContent([qandA])
+    if (!content) {
+      setContent([qandA]);
     } else {
-      setContent([qandA, ...content])
+      setContent([qandA, ...content]);
     }
-    
-  }
+  };
 
   return (
     <RootLayout>
       <div className="min-h-max w-auto text-lg lg:gap-8 lg:m-8 ">
         <QuestionTabs append={append} />
-        <IssueList data={content} ComponentName={'Chat'}  />
+        <IssueList data={content} ComponentName={'Chat'} />
       </div>
     </RootLayout>
   );

@@ -26,10 +26,10 @@ const Login = () => {
   const handler = () => setVisible(true);
   const closeLoginDialog = () => setVisible(false);
 
-  const clearLogin = () => {
-    logout();
-    setSelectedKey(undefined);
-  };
+  // const clearLogin = () => {
+  //   logout();
+  //   setSelectedKey(undefined);
+  // };
 
   useEffect(() => {
     if (isAuthenticated()) {
@@ -40,11 +40,12 @@ const Login = () => {
   useEffect(() => {
     if (!selectedKey) return;
     if (selectedKey.toLowerCase() === 'logout') {
-      clearLogin();
+      logout();
+      setSelectedKey(undefined);
     }
 
     setSelectedKey(undefined);
-  }, [selectedKey]);
+  }, [selectedKey, logout]);
 
   return (
     <>

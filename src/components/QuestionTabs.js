@@ -9,20 +9,21 @@ import {
   RadioGroup,
   Radio,
   Input,
-  Spinner
+  Spinner,
 } from '@nextui-org/react';
 import { useState, useRef } from 'react';
 import {
   BiMessageRoundedDetail,
   BiMicrophone,
-  BiSolidThermometer, BiTimer
+  BiSolidThermometer,
+  BiTimer,
 } from 'react-icons/bi';
-import { error, success } from '../components/Notification';
+import { error, success, warn } from '../components/Notification';
 import NoSSR from '../lib/NoSSR';
 import { itemsPerPage } from '../lib/global';
 import { useGithubContent } from '../lib/useGithubContent';
 import { useSettings } from '../lib/useSettings';
-import { useLocalStorageState } from 'ahooks'
+import { useLocalStorageState } from 'ahooks';
 import { useTranslation } from 'react-i18next';
 
 const getAnswer = async (question, lastAnswer) => {
@@ -56,14 +57,15 @@ const getAnswer = async (question, lastAnswer) => {
   // });
 };
 
-export const QuestionTabs = ({ append }) => { // append is the method add Q and A to parent content list
+export const QuestionTabs = ({ append }) => {
+  // append is the method add Q and A to parent content list
   const [hold, setHold] = useState(false);
   const [longPressDetected, setLongPressDetected] = useState(false);
   let pressTimer = null;
   const { languageCode, speakerName } = useSettings();
   const { getHtml } = useGithubContent();
   const mediaRecorder = useRef(null);
-  const [questionText, setQuestionText] = useState("");
+  const [questionText, setQuestionText] = useState('');
   const [lastAnswer, setLastAnswer] = useLocalStorageState('LastAnswer', {
     defaultValue: '',
   });
@@ -90,7 +92,11 @@ export const QuestionTabs = ({ append }) => { // append is the method add Q and 
       console.log('Long Press Released');
     } else {
       console.log('Short Press Triggered', questionText);
-      request2AI()
+      if (questionText === undefined || questionText?.length < 5) {
+        warn('Please input a meaningful question');
+      } else {
+        request2AI();
+      }
     }
     setHold(false);
     setLongPressDetected(false);
@@ -103,10 +109,10 @@ export const QuestionTabs = ({ append }) => { // append is the method add Q and 
         if (data.error) {
           error(
             t('ai.return_error') +
-            ':\n' +
-            data.error.code +
-            '\n' +
-            data.error.message
+              ':\n' +
+              data.error.code +
+              '\n' +
+              data.error.message
           );
           setLoading(false);
           throw new Error(t('ai.return_error') + ':\n' + data.error.message);
@@ -135,7 +141,7 @@ export const QuestionTabs = ({ append }) => { // append is the method add Q and 
             return qAndA;
           })
           .then((qAndA) => {
-            append(qAndA)
+            append(qAndA);
             setQuestionText('');
             setLoading(false);
           });
@@ -155,11 +161,14 @@ export const QuestionTabs = ({ append }) => { // append is the method add Q and 
       <Tab title={<h2 className=" text-xl">AI Conversation</h2>}>
         <Card>
           <CardBody>
-            {loading && <Spinner size='lg' color='success' />}
+            {loading && <Spinner size="lg" color="success" />}
             <div className=" inline-flex justify-items-stretch items-stretch justify-between">
-              <Textarea className="inline-block font-bold text-2xl m-1 lg:w-10/12 sm:w-8/12 max-h-full"
+              <Textarea
+                className="inline-block font-bold text-2xl m-1 lg:w-10/12 sm:w-8/12 max-h-full"
                 isDisabled={loading}
-                value={questionText} onValueChange={(e) => setQuestionText(e)} />
+                value={questionText}
+                onValueChange={(e) => setQuestionText(e)}
+              />
 
               <Tooltip
                 placement="bottom"
@@ -174,7 +183,8 @@ export const QuestionTabs = ({ append }) => { // append is the method add Q and 
                   type="button"
                   aria-label="send"
                   onPressStart={startPress}
-                  onPressEnd={endPress} isDisabled={questionText === undefined || questionText?.length < 5 || loading}
+                  onPressEnd={endPress}
+                  isDisabled={loading}
                   className=" justify-center text-success items-center flex flex-col m-3 lg:w-2/12 sm:w-4/12 max-h-full"
                 >
                   {hold && (
@@ -197,7 +207,9 @@ export const QuestionTabs = ({ append }) => { // append is the method add Q and 
               <card>
                 <CardBody>
                   <RadioGroup
-                    label={<h3 className=' text-xl font-bold' >Select AI model</h3>}
+                    label={
+                      <h3 className=" text-xl font-bold">Select AI model</h3>
+                    }
                     orientation="horizontal"
                     defaultValue={'gpt-4-0613'}
                   >
@@ -217,7 +229,11 @@ export const QuestionTabs = ({ append }) => { // append is the method add Q and 
                     size="lg"
                     defaultValue={0.5}
                     type="number"
-                    label={<h3 className=' text-xl font-bold' >Softmax Temperature</h3>}
+                    label={
+                      <h3 className=" text-xl font-bold">
+                        Softmax Temperature
+                      </h3>
+                    }
                     placeholder="The value must between 0 and 1"
                     labelPlacement="outside"
                     startContent={
@@ -232,7 +248,7 @@ export const QuestionTabs = ({ append }) => { // append is the method add Q and 
                     size="lg"
                     defaultValue={300}
                     type="number"
-                    label={<h3 className=' text-xl font-bold' >Track Speed</h3>}
+                    label={<h3 className=" text-xl font-bold">Track Speed</h3>}
                     placeholder="The value must between 50 and 500"
                     labelPlacement="outside"
                     startContent={
@@ -243,7 +259,7 @@ export const QuestionTabs = ({ append }) => { // append is the method add Q and 
               </card>
               <card>
                 <CardBody>
-                <h3 className=' text-xl font-bold' >Audio Player</h3>
+                  <h3 className=" text-xl font-bold">Audio Player</h3>
                   <audio
                     disabled={!audioSrc}
                     controls

@@ -5,6 +5,7 @@ import {
   DropdownMenu,
   DropdownItem,
   Button,
+  Tooltip,
 } from '@nextui-org/react';
 import { useTranslation } from 'react-i18next';
 import { BiGlobe } from 'react-icons/bi';
@@ -50,11 +51,13 @@ export const LanguageSwitch = () => {
   return (
     <Dropdown placement="bottom-left">
       <DropdownTrigger>
-        <Button light className=" bg-transparent text-success ">
-          {/* <Button flat> */}
-          <BiGlobe size="2em" />
-          {/* </Button> */}
-        </Button>
+        <Tooltip content={'Switch Language'}>
+          <Button light className=" bg-transparent text-success ">
+            {/* <Button flat> */}
+            <BiGlobe size="2em" />
+            {/* </Button> */}
+          </Button>
+        </Tooltip>
       </DropdownTrigger>
       <DropdownMenu
         disallowEmptySelection
