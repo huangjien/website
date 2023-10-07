@@ -2,12 +2,14 @@
 const nextConfig = {
   output: 'standalone',
   reactStrictMode: false,
+  transpilePackages: ['ahooks'],
   eslint: {
     ignoreDuringBuilds: true,
   },
-  // compiler: {
-  //   removeConsole: { exclude: ['error'] },
-  // },
+  compiler: {
+    styledComponents: true,
+    // removeConsole: { exclude: ['error'] },
+  },
   async rewrites() {
     return [
       {

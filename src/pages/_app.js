@@ -1,29 +1,26 @@
+'use client';
 import { NextUIProvider } from '@nextui-org/react';
 import { ThemeProvider as NextThemesProvider } from 'next-themes';
-import { darkTheme, globalStyle, lightTheme } from '../lib/themes';
-import { ProvideAuth } from '../lib/useAuth';
 import { ProvideSettings } from '../lib/useSettings';
-import '../locales/i18n';
-import '../styles/github-markdown.css';
+import NoSSR from '../lib/NoSSR';
+import { ProvideAuth } from '../lib/useAuth';
+// import { languages } from '../locales/i18n';
+import './globals.css';
 
-export default function App({ Component, pageProps }) {
-  globalStyle();
+function App({ Component, pageProps }) {
   return (
-    <NextThemesProvider
-      defaultTheme="system"
-      attribute="class"
-      value={{
-        light: lightTheme.className,
-        dark: darkTheme.className,
-      }}
-    >
+    // Use at the root of our app
+    <NoSSR>
       <NextUIProvider>
-        <ProvideSettings>
-          <ProvideAuth>
-            <Component {...pageProps} />
-          </ProvideAuth>
-        </ProvideSettings>
+        <NextThemesProvider attribute="class" defaultTheme="dark">
+          <ProvideSettings>
+            <ProvideAuth>
+              <Component {...pageProps} />
+            </ProvideAuth>
+          </ProvideSettings>
+        </NextThemesProvider>
       </NextUIProvider>
-    </NextThemesProvider>
+    </NoSSR>
   );
 }
+export default App;

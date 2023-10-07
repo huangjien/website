@@ -70,5 +70,5 @@ function useProvideAuth() {
     return user !== undefined;
   }
 
-  return { isAuthenticated, isAdmin, loading, user, login, logout, error };
+  return { isAdmin, loading, user, login, logout, error, isAuthenticated };
 }

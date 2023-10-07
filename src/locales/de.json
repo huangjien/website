@@ -3,6 +3,16 @@
     "search": "Suche..."
   },
   "ai": {
+    "track_speed": "Geschwindigkeit der Strecke",
+    "conversation": "Künstliche Intelligenz Konversation", 
+    "send_tooltip": "Klicken Sie, um die Frage zu senden",
+    "hold": "Halten Sie für Spracheingabe",
+    "configuration": "Konfiguration",
+    "select_model": "Wählen Sie das KI-Modell aus",
+    "temperature": "Softmax-Temperatur",
+    "value_range_0_1": "Der Wert muss zwischen 0 und 1 liegen",
+    "value_range_50_500": "Der Wert muss zwischen 50 und 500 liegen",
+    "audio_player": "Audioplayer",
     "send": "Senden",
     "input_placeholder": "Geben Sie hier Ihre Frage ein ...",
     "input_helptext": "Drücken Sie Strg+Enter, um Ihre Frage zu senden",
@@ -16,6 +26,10 @@
     "home": "Startseite",
     "settings": "Einstellungen",
     "about": "Über uns",
+    "login_username": "Benutzername",
+    "login_token": "Token",
+    "login_username_placeholder": "Geben Sie Ihren Github-Benutzernamen ein",
+    "login_token_placeholder": "Geben Sie Ihren Github-Token ein",
     "login": "Anmelden",
     "login_promote": "Bitte geben Sie Ihren Github Benutzernamen und Token ein",
     "close": "Schließen",
@@ -27,6 +41,8 @@
     "night": "Nacht"
   },
   "issue": {
+    "row_per_page": "Zeilen pro Seite",
+    "total": "Insgesamt {{total}} Artikel",
     "title": "Problem",
     "description": "Beschreibung",
     "issue": "Problem",

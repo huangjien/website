@@ -4,136 +4,153 @@ import {
   Dropdown,
   Input,
   Modal,
-  Row,
-  Text,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  Tooltip,
+  ModalFooter,
+  useDisclosure,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
 } from '@nextui-org/react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BiHide, BiShow, BiUser } from 'react-icons/bi';
 import { useAuth } from '../lib/useAuth';
+import { useTheme } from 'next-themes';
 
 const Login = () => {
   const { t } = useTranslation();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [selectedKey, setSelectedKey] = useState();
-  const { isAuthenticated, error, user, login, logout } = useAuth();
-  const [visible, setVisible] = useState(false);
-  const handler = () => setVisible(true);
-  const closeLoginDialog = () => setVisible(false);
+  const { error, user, login, isAuthenticated, logout } = useAuth();
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [isVisible, setIsVisible] = useState(false);
+  const { theme } = useTheme();
 
-  const clearLogin = () => {
-    logout();
-    setSelectedKey(undefined);
-  };
-
-  useEffect(() => {
-    if (isAuthenticated()) {
-      setVisible(false);
-    }
-  }, [isAuthenticated]);
+  const toggleVisibility = () => setIsVisible(!isVisible);
 
   useEffect(() => {
     if (!selectedKey) return;
     if (selectedKey.toLowerCase() === 'logout') {
-      clearLogin();
+      logout();
+      setSelectedKey(undefined);
     }
 
     setSelectedKey(undefined);
-  }, [selectedKey]);
+  }, [selectedKey, logout]);
 
   return (
     <>
       {!user?.name && (
-        <Button auto shadow onPress={handler}>
-          {t('header.login')}
-        </Button>
+        <>
+          <Tooltip content={t('header.login')}>
+            <Button
+              className="bg-transparent  text-success"
+              auto
+              shadow
+              onPress={onOpen}
+            >
+              <BiUser size="2em" />
+            </Button>
+          </Tooltip>
+          <Modal size='xl'
+            isOpen={isOpen}
+            onOpenChange={onOpenChange}
+            placement="top-center"
+          >
+            <ModalContent>
+              {(onClose) => (
+                <>
+                  <ModalHeader className="flex flex-col gap-1">
+                    {t('header.login_promote')}
+                  </ModalHeader>
+                  <ModalBody>
+                    <Input size='lg'
+                      autoFocus
+                      endContent={
+                        <BiUser className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                      }
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
+                      label={t('header.login_username')}
+                      placeholder={t('header.login_username_placeholder')}
+                      variant="bordered"
+                    />
+                    <Input size='lg'
+                      endContent={
+                        <button
+                          className="focus:outline-none"
+                          type="button"
+                          onClick={toggleVisibility}
+                        >
+                          {isVisible ? (
+                            <BiHide className="text-2xl text-default-400 pointer-events-none" />
+                          ) : (
+                            <BiShow className="text-2xl text-default-400 pointer-events-none" />
+                          )}
+                        </button>
+                      }
+                      type={isVisible ? 'text' : 'password'}
+                      label={t('header.login_token')}
+                      onChange={(e) => setPassword(e.target.value)}
+                      value={password}
+                      placeholder={t('header.login_token_placeholder')}
+                      variant="bordered"
+                    />
+                  </ModalBody>
+                  <ModalFooter>
+                    <Button color="danger" variant="flat" onPress={onClose}>
+                      {t('header.close')}
+                    </Button>
+                    <Button
+                      color="primary"
+                      onPress={() => login(username, password)}
+                    >
+                      {t('header.login')}
+                    </Button>
+                  </ModalFooter>
+                </>
+              )}
+            </ModalContent>
+          </Modal>
+        </>
       )}
       {user && user.avatar_url
         ? user && (
             <Dropdown placement="bottom-left">
-              <Dropdown.Trigger>
+              <DropdownTrigger>
                 <Avatar
-                  zoomed
-                  bordered
+                  isBordered
+                  showFallback
+                  fallback={<BiUser />}
                   alt={user.name}
                   text={user.name}
                   src={user.avatar_url}
                 />
-              </Dropdown.Trigger>
-              <Dropdown.Menu
-                color="secondary"
+              </DropdownTrigger>
+              <DropdownMenu theme={theme === 'dark' ? 'dark' : 'light'}
                 aria-label="Avatar Actions"
                 onAction={setSelectedKey}
               >
-                <Dropdown.Item key="email" textValue={user.email}>
-                  <Text color="inherit">{user.email}</Text>
-                </Dropdown.Item>
+                <DropdownItem key="email" textValue={user.email}>
+                  <p color="inherit">{user.email}</p>
+                </DropdownItem>
 
-                {/* <Dropdown.Item key="testMessage">Test Message</Dropdown.Item> */}
-                <Dropdown.Item
+                <DropdownItem
                   key="logout"
                   withDivider
                   color="error"
                   textValue="Log Out"
                 >
                   {t('header.logout')}
-                </Dropdown.Item>
-              </Dropdown.Menu>
+                </DropdownItem>
+              </DropdownMenu>
             </Dropdown>
           )
-        : user && <Text href="#"> {user.name} </Text>}
-      <Modal
-        closeButton
-        blur
-        aria-labelledby="modal-title"
-        open={visible}
-        onClose={closeLoginDialog}
-      >
-        <Modal.Header>
-          <Text id="modal-title" size={18}>
-            {t('header.login_promote')}
-          </Text>
-        </Modal.Header>
-        <Modal.Body>
-          <Input
-            aria-label="Github User Name"
-            clearable
-            bordered
-            fullWidth
-            color="primary"
-            size="lg"
-            placeholder="Github User Name"
-            value={username}
-            contentRight={<BiUser />}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          <Input.Password
-            aria-label="Github Token"
-            clearable
-            bordered
-            fullWidth
-            color="primary"
-            size="lg"
-            placeholder="Github Token"
-            value={password}
-            visibleIcon={<BiShow />}
-            hiddenIcon={<BiHide />}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <Row justify="space-between">
-            {error && <Text color="error">{error}</Text>}
-          </Row>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button auto flat color="error" onPress={closeLoginDialog}>
-            {t('header.close')}
-          </Button>
-          <Button auto onPress={() => login(username, password)}>
-            {t('header.login')}
-          </Button>
-        </Modal.Footer>
-      </Modal>
+        : user && <p href="#"> {user.name} </p>}
     </>
   );
 };

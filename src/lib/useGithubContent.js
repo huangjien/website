@@ -80,6 +80,7 @@ export const useGithubContent = () => {
                         oneComment,
                         getHtml
                       );
+                    // console.log(oneCommentContent)
                     commentList.push(oneCommentContent);
                   });
                 });
@@ -88,13 +89,14 @@ export const useGithubContent = () => {
             }
 
             // then we save this issue to the data
+            // console.log(content)
             finalResult.push(content);
           }
         });
         setIssues(finalResult);
       }
     }
-  }, [getSetting, rawData]);
+  }, [getSetting, setIssues, rawData]);
 
   const getHtml = async (markdown) => {
     // console.log(markdown)

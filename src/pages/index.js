@@ -1,17 +1,16 @@
+import { useGithubContent } from '../lib/useGithubContent';
+import RootLayout from './layout';
 import { useTitle } from 'ahooks';
 import { useTranslation } from 'react-i18next';
-import { HList } from '../components/HList';
-import Layout from '../components/layout/Layout';
-import { useGithubContent } from '../lib/useGithubContent';
+import { IssueList } from '../components/IssueList';
 
-const Index = () => {
+export default function Home() {
   const { tags, issues } = useGithubContent();
   const { t } = useTranslation();
   useTitle(t('header.home'));
   return (
-    <Layout>
-      <HList header={tags} data={issues} />
-    </Layout>
+    <RootLayout>
+      <IssueList data={issues} ComponentName={'Issue'} />
+    </RootLayout>
   );
-};
-export default Index;
+}

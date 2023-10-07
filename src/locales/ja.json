@@ -3,6 +3,16 @@
     "search": "検索..."
   },
   "ai": {
+    "track_speed": "トラック速度",
+    "conversation": "AI会話",
+    "send_tooltip": "質問を送るためにクリックしてください",
+    "hold": "音声入力のために押し続けてください",
+    "configuration": "設定",
+    "select_model": "AIモデルを選択",
+    "temperature": "ソフトマックス温度",
+    "value_range_0_1": "値は0から1の間でなければなりません",
+    "value_range_50_500": "値は50から500の間でなければなりません",
+    "audio_player": "オーディオプレーヤー",
     "send": "送信",
     "input_placeholder": "ここに質問を入力してください ...",
     "input_helptext": "Ctrl+Enter を押して質問を送信します",
@@ -16,6 +26,10 @@
     "home": "ホーム",
     "settings": "設定",
     "about": "情報",
+    "login_username": "ユーザー名",
+    "login_token": "トークン",
+    "login_username_placeholder": "GitHubのユーザー名を入力してください",
+    "login_token_placeholder": "GitHubのトークンを入力してください",
     "login": "ログイン",
     "login_promote": "GitHubのユーザー名とトークンを入力してください",
     "close": "閉じる",
@@ -27,6 +41,8 @@
     "night": "ナイトモード"
   },
   "issue": {
+    "row_per_page": "ページごとの行",
+    "total": "合計 {{total}} アイテム",
     "title": "問題",
     "description": "説明",
     "issue": "問題",

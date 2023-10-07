@@ -3,6 +3,16 @@
     "search": "搜索..."
   },
   "ai": {
+    "track_speed": "轨道速度",
+    "conversation": "AI对话",
+    "send_tooltip": "点击发送问题",
+    "hold": "按住进行语音输入",
+    "configuration": "配置",
+    "select_model": "选择 AI 模型",
+    "temperature": "Softmax 温度",
+    "value_range_0_1": "值必须在 0 和 1 之间",
+    "value_range_50_500": "值必须在 50 和 500 之间",
+    "audio_player": "音频播放器",
     "send": "发送",
     "input_placeholder": "在此输入您的问题...",
     "input_helptext": "按 Ctrl+Enter 发送您的问题",
@@ -16,6 +26,10 @@
     "home": "首页",
     "settings": "设置",
     "about": "关于",
+    "login_username": "用户名",
+    "login_token": "令牌",
+    "login_username_placeholder": "请输入您的GitHub用户名",
+    "login_token_placeholder": "请输入您的GitHub令牌",
     "login": "登录",
     "login_promote": "请输入您的 Github 用户名和令牌",
     "close": "关闭",
@@ -27,6 +41,8 @@
     "night": "夜间模式"
   },
   "issue": {
+    "row_per_page": "每页行数",
+    "total": "总计 {{total}} 项",
     "title": "问题",
     "description": "描述",
     "issue": "问题",
