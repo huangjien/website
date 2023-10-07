@@ -46,10 +46,10 @@ module.exports = {
             black: '#000000',
 
             // background colors (light)
-            background: `$white`,
+            background: '#ffffff',
             backgroundAlpha: 'rgba(255, 255, 255, 0.8)', // used for semi-transparent backgrounds like the navbar
-            foreground: `$black`,
-            backgroundContrast: '$white',
+            foreground: '#000000',
+            backgroundContrast: '#ffffff',
             // brand colors
             primaryLight: '$green200',
             primaryLightHover: '$green300',
@@ -59,7 +59,7 @@ module.exports = {
             primaryBorder: '$green500',
             primaryBorderHover: '$green600',
             primarySolidHover: '$green700',
-            primarySolidContrast: '$white',
+            primarySolidContrast: '#ffffff',
             primaryShadow: '$green500',
 
             gradient:
@@ -245,10 +245,10 @@ module.exports = {
             black: '#000000',
 
             // background colors (dark)
-            background: '$black',
+            background: '#000000',
             backgroundAlpha: 'rgba(255, 255, 255, 0.8)', // used for semi-transparent backgrounds like the navbar
-            foreground: '$white',
-            backgroundContrast: '$black',
+            foreground: '#ffffff',
+            backgroundContrast: '#000000',
 
             //semantic colors (light)
             blue50: '#EDF5FF',
@@ -265,7 +265,7 @@ module.exports = {
             primaryBorder: '$blue500',
             primaryBorderHover: '$blue600',
             primarySolidHover: '$blue700',
-            primarySolidContrast: '$white', // commonly used for text inside the component
+            primarySolidContrast: '#ffffff', // commonly used for text inside the component
             primaryShadow: '$blue500',
           },
           shadows: {

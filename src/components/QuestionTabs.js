@@ -9,7 +9,7 @@ import {
   RadioGroup,
   Radio,
   Input,
-  Spinner,
+  Progress,
 } from '@nextui-org/react';
 import { useState, useRef } from 'react';
 import {
@@ -184,10 +184,10 @@ export const QuestionTabs = ({ append }) => {
         if (data.error) {
           error(
             t('ai.return_error') +
-              ':\n' +
-              data.error.code +
-              '\n' +
-              data.error.message
+            ':\n' +
+            data.error.code +
+            '\n' +
+            data.error.message
           );
           setLoading(false);
           throw new Error(t('ai.return_error') + ':\n' + data.error.message);
@@ -229,17 +229,20 @@ export const QuestionTabs = ({ append }) => {
       radius="md w-auto m-2"
       size="lg"
       classNames={{
-        tabList: 'gap-1 justify-evenly w-full relative rounded m-0 ',
+        tabList: ' justify-evenly w-full relative rounded m-0 ',
         cursor: 'w-full ',
         tab: 'w-fit  h-12',
       }}
     >
-      <Tab title={<h2 className=" text-xl">{t('ai.conversation')}</h2>}>
+      <Tab title={<h2 className=" font-semibold" size={'2em'}>{t('ai.conversation')}</h2>}>
         <Card>
           <CardBody>
-            {loading && (
-              <Spinner size="lg" color="success" className=" text-overlay" />
-            )}
+            {loading &&
+              <Progress size="sm"
+                isIndeterminate
+                aria-label="Loading..."
+                className="max-w-full" />
+            }
             <div className=" inline-flex justify-items-stretch items-stretch justify-between">
               <Textarea
                 size="xl"
@@ -280,7 +283,7 @@ export const QuestionTabs = ({ append }) => {
           </CardBody>
         </Card>
       </Tab>
-      <Tab title={<h2 className=" text-xl">{t('ai.configuration')}</h2>}>
+      <Tab title={<h2 className=" font-semibold" size={'2em'}>{t('ai.configuration')}</h2>}>
         <Card>
           <CardBody>
             <div className="  min-h-unit-20 lg:inline-flex  items-stretch justify-between sm:overflow-auto">

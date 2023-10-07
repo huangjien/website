@@ -1,4 +1,4 @@
-import { Badge, Accordion, AccordionItem, Chip } from '@nextui-org/react';
+import { Accordion, AccordionItem, Chip } from '@nextui-org/react';
 import { useTranslation } from 'react-i18next';
 import { Comment } from './Comment';
 
@@ -12,7 +12,7 @@ export const Issue = ({ issue }) => {
           <AccordionItem
             title={
               <div className=" inline-flex justify-items-stretch items-stretch justify-between">
-                <h2 className=" font-semibold text-2xl">{issue.title}</h2>
+                <h2 className=" font-semibold text-xl">{issue.title}</h2>
                 {issue['labels.name'] &&
                   issue['labels.name'].map((label) => (
                     <div key={label}>
