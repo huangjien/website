@@ -18,6 +18,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BiHide, BiShow, BiUser } from 'react-icons/bi';
 import { useAuth } from '../lib/useAuth';
+import { useTheme } from 'next-themes';
 
 const Login = () => {
   const { t } = useTranslation();
@@ -27,6 +28,7 @@ const Login = () => {
   const { error, user, login, isAuthenticated, logout } = useAuth();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [isVisible, setIsVisible] = useState(false);
+  const { theme } = useTheme();
 
   const toggleVisibility = () => setIsVisible(!isVisible);
 
@@ -54,7 +56,7 @@ const Login = () => {
               <BiUser size="2em" />
             </Button>
           </Tooltip>
-          <Modal
+          <Modal size='xl'
             isOpen={isOpen}
             onOpenChange={onOpenChange}
             placement="top-center"
@@ -66,18 +68,18 @@ const Login = () => {
                     {t('header.login_promote')}
                   </ModalHeader>
                   <ModalBody>
-                    <Input
+                    <Input size='lg'
                       autoFocus
                       endContent={
                         <BiUser className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                       }
                       value={username}
                       onChange={(e) => setUsername(e.target.value)}
-                      label="Email"
-                      placeholder="Enter your github user name"
+                      label={t('header.login_username')}
+                      placeholder={t('header.login_username_placeholder')}
                       variant="bordered"
                     />
-                    <Input
+                    <Input size='lg'
                       endContent={
                         <button
                           className="focus:outline-none"
@@ -92,10 +94,10 @@ const Login = () => {
                         </button>
                       }
                       type={isVisible ? 'text' : 'password'}
-                      label="Password"
+                      label={t('header.login_token')}
                       onChange={(e) => setPassword(e.target.value)}
                       value={password}
-                      placeholder="Enter your github token"
+                      placeholder={t('header.login_token_placeholder')}
                       variant="bordered"
                     />
                   </ModalBody>
@@ -129,7 +131,7 @@ const Login = () => {
                   src={user.avatar_url}
                 />
               </DropdownTrigger>
-              <DropdownMenu
+              <DropdownMenu theme={theme === 'dark' ? 'dark' : 'light'}
                 aria-label="Avatar Actions"
                 onAction={setSelectedKey}
               >

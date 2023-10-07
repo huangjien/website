@@ -24,16 +24,16 @@ import { useSettings } from '../lib/useSettings';
 import { useLocalStorageState } from 'ahooks';
 import { useTranslation } from 'react-i18next';
 
-const getAnswer = async (question, lastAnswer) => {
+const getAnswer = async (question, lastAnswer, model='gpt-4-0613', temperature=0.5) => {
   var questionArray = [{ role: 'user', content: question }];
   // if lastAnser too long or too long ago, then we don't add it.
   if (lastAnswer && lastAnswer.length < 1024) {
     questionArray.unshift({ role: 'assistant', content: lastAnswer });
   }
   const requestBody = {
-    model: 'gpt-4-0613',
+    model: model,
     messages: questionArray,
-    temperature: 0.5,
+    temperature: temperature,
   };
 
   return await fetch('/api/ai', {
@@ -60,7 +60,6 @@ export const QuestionTabs = ({ append }) => {
   const [hold, setHold] = useState(false);
   const [longPressDetected, setLongPressDetected] = useState(false);
   let pressTimer = null;
-  const { languageCode, speakerName } = useSettings();
   const { getHtml } = useGithubContent();
   const mediaRecorder = useRef(null);
   const [questionText, setQuestionText] = useState('');
@@ -72,6 +71,9 @@ export const QuestionTabs = ({ append }) => {
   const [audioSrc, setAudioSrc] = useState('');
   const [audio, setAudio] = useState(true);
   const mimeType = 'audio/mp3';
+  const [trackSpeed, setTrackSpeed] = useState(300)
+  const [model, setModel] = useState('gpt-4-0613')
+  const [temperature, setTemperature] = useState(0.5)
 
   const [stream, setStream] = useState(null);
 
@@ -150,7 +152,7 @@ export const QuestionTabs = ({ append }) => {
       setHold(true);
       setLongPressDetected(true);
       startRecording();
-    }, 300);
+    }, trackSpeed);
   };
 
   const endPress = () => {
@@ -172,7 +174,7 @@ export const QuestionTabs = ({ append }) => {
 
   function request2AI() {
     setLoading(true);
-    getAnswer(questionText, lastAnswer)
+    getAnswer(questionText, lastAnswer, model, parseFloat(temperature))
       .then((data) => {
         if (data.error) {
           error(
@@ -191,6 +193,7 @@ export const QuestionTabs = ({ append }) => {
           answer: data.choices[0].message.content,
           key: data.id,
           id: data.id,
+          temperature: temperature,
           timestamp: data.created,
           model: data.model,
           question_tokens: data.usage.prompt_tokens,
@@ -226,7 +229,7 @@ export const QuestionTabs = ({ append }) => {
         tab: 'w-fit  h-12',
       }}
     >
-      <Tab title={<h2 className=" text-xl">AI Conversation</h2>}>
+      <Tab title={<h2 className=" text-xl">{t('ai.conversation')}</h2>}>
         <Card>
           <CardBody>
             {loading && (
@@ -234,24 +237,23 @@ export const QuestionTabs = ({ append }) => {
             )}
             <div className=" inline-flex justify-items-stretch items-stretch justify-between">
               <Textarea
-                si
+                size='xl'
                 aria-label="question text area"
-                className="text-xl inline-block font-bold m-1 lg:w-10/12 sm:w-8/12 max-h-full"
+                className=" inline-flex m-1 lg:w-10/12 sm:w-8/12 max-h-full"
                 isDisabled={loading}
                 value={questionText}
                 onValueChange={(e) => setQuestionText(e)}
               />
-
               <Tooltip
                 placement="bottom"
                 content={
                   <div className="px-1 py-2">
-                    <div className="text-small">Clik to send the question</div>
-                    <div className="text-small">Hold to voice input</div>
+                    <div className="text-small">{t('ai.send_tooltip')}</div>
+                    <div className="text-small">{t('ai.hold')}</div>
                   </div>
                 }
               >
-                <Button
+                <Button size='lg'
                   type="button"
                   aria-label="send"
                   onPressStart={startPress}
@@ -272,16 +274,18 @@ export const QuestionTabs = ({ append }) => {
           </CardBody>
         </Card>
       </Tab>
-      <Tab title={<h2 className=" text-xl">Configuration</h2>}>
+      <Tab title={<h2 className=" text-xl">{t('ai.configuration')}</h2>}>
         <Card>
           <CardBody>
-            <div className="  min-h-unit-16 lg:inline-flex  items-stretch justify-evenly sm:overflow-auto">
-              <card>
-                <CardBody>
+            <div className="  min-h-unit-20 lg:inline-flex  items-stretch justify-between sm:overflow-auto">
+              <Card shadow='none' >
+                <CardBody >
                   <RadioGroup
                     label={
-                      <h3 className=" text-xl font-bold">Select AI model</h3>
+                      <h3 className=" text-xl font-bold">{t('ai.select_model')}</h3>
                     }
+                    value={model}
+                    onValueChange={setModel}
                     orientation="horizontal"
                     defaultValue={'gpt-4-0613'}
                   >
@@ -293,45 +297,49 @@ export const QuestionTabs = ({ append }) => {
                     </Radio>
                   </RadioGroup>
                 </CardBody>
-              </card>
+              </Card>
 
-              <card>
+              <Card shadow='none' >
                 <CardBody>
                   <Input
                     size="lg"
                     defaultValue={0.5}
+                    value={temperature}
+                    onChange={(e)=>setTemperature(e.target.value)}
                     type="number"
                     label={
                       <h3 className=" text-xl font-bold">
-                        Softmax Temperature
+                        {t('ai.temperature')}
                       </h3>
                     }
-                    placeholder="The value must between 0 and 1"
+                    placeholder={t('ai.value_range_0_1')}
                     labelPlacement="outside"
                     startContent={
                       <BiSolidThermometer className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                     }
                   />
                 </CardBody>
-              </card>
-              <card>
+              </Card>
+              <Card shadow='none' >
                 <CardBody>
                   <Input
                     size="lg"
-                    defaultValue={300}
+                    defaultValue={trackSpeed}
+                    value={trackSpeed}
+                    onChange={(e)=>{setTrackSpeed(e.target.value)}}
                     type="number"
-                    label={<h3 className=" text-xl font-bold">Track Speed</h3>}
-                    placeholder="The value must between 50 and 500"
+                    label={<h3 className=" text-xl font-bold">{t('ai.track_speed')}</h3>}
+                    placeholder={t('ai.value_range_50_500')}
                     labelPlacement="outside"
                     startContent={
                       <BiTimer className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                     }
                   />
                 </CardBody>
-              </card>
-              <card>
+              </Card>
+              <Card shadow='none' >
                 <CardBody>
-                  <h3 className=" text-xl font-bold">Audio Player</h3>
+                  <h3 className=" text-xl font-bold">{t('ai.audio_player')}</h3>
                   <audio
                     disabled={!audioSrc}
                     controls
@@ -339,7 +347,7 @@ export const QuestionTabs = ({ append }) => {
                     src={audioSrc}
                   />
                 </CardBody>
-              </card>
+              </Card>
             </div>
           </CardBody>
         </Card>

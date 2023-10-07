@@ -3,6 +3,16 @@
     "search": "Search..."
   },
   "ai": {
+    "track_speed": "Track Speed",
+    "conversation": "AI Conversation",
+    "send_tooltip": "Clik to send the question",
+    "hold": "Hold to voice input",
+    "configuration": "Configuration",
+    "select_model": "Select AI model",
+    "temperature": "Softmax Temperature",
+    "value_range_0_1": "The value must between 0 and 1",
+    "value_range_50_500": "The value must between 50 and 500",
+    "audio_player": "Audio Player",
     "send": "Send",
     "input_placeholder": "Input your question here ...",
     "input_helptext": "Press Ctrl+Enter to send your question",
@@ -17,6 +27,10 @@
     "ai": "AI",
     "about": "About",
     "login": "Login",
+    "login_username": "User name",
+    "login_token": "Token",
+    "login_username_placeholder": "Enter your github user name",
+    "login_token_placeholder": "Enter your github token",
     "login_promote": "Please enter your Github user name and token",
     "close": "Close",
     "acknowledge": "Acknowledge",
@@ -27,6 +41,8 @@
     "night": "Night"
   },
   "issue": {
+    "row_per_page": "Rows per page",
+    "total": "Total {{total}} items",
     "title": "Issue",
     "description": "Description",
     "issue": "Issue",

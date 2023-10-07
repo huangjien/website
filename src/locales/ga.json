@@ -3,6 +3,16 @@
     "search": "Cuardaigh..."
   },
   "ai": {
+    "track_speed": "Luas an tseirbhís",
+    "conversation": "Comhrá AI",
+    "send_tooltip": "Cliceáil chun an cheist a sheoladh",
+    "hold": "Coinnigh do ghlór a iontráil",
+    "configuration": "Cumraíocht",
+    "select_model": "Roghnaigh múnla AI",
+    "temperature": "Teocht Softmax",
+    "value_range_0_1": "Ní mór don luach a bheith idir 0 agus 1",
+    "value_range_50_500": "Ní mór don luach a bheith idir 50 agus 500",
+    "audio_player": "Seinnteoir fuaime",
     "send": "Seol",
     "input_placeholder": "Cuir do cheist anseo ...",
     "input_helptext": "Brúigh Ctrl+Enter chun do cheist a sheoladh",
@@ -16,6 +26,10 @@
     "home": "Baile",
     "settings": "Socruithe",
     "about": "Faoi",
+    "login_username": "Ainm úsáideora",
+    "login_token": "Token",
+    "login_username_placeholder": "Cuir isteach d'ainm úsáideora Github",
+    "login_token_placeholder": "Cuir isteach do thócán Github",
     "login": "Logáil isteach",
     "login_promote": "Cuir isteach d'ainm úsáideora Github agus do thóinín",
     "close": "Dún",
@@ -27,6 +41,8 @@
     "night": "Oíche"
   },
   "issue": {
+    "row_per_page": "Sraitheanna in aghaidh an leathanaigh",
+    "total": "Iomlán {{total}} míreanna",
     "title": "Gnó",
     "description": "Cur Síos",
     "issue": "Gnó",
