@@ -13,7 +13,7 @@ import { Issue } from './Issue';
 import { Chat } from './Chat';
 
 export const IssueList = ({ ComponentName, data }) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(1);
   var pages = Math.ceil(data.length / rowsPerPage);
@@ -55,7 +55,7 @@ export const IssueList = ({ ComponentName, data }) => {
         bottomContent={
           <div className="flex text-lg justify-center lg:gap-8 items-center m-4">
             <span className="text-default-400 text-small">
-              {t('issue.total', {total: data?.length})}
+              {t('issue.total', { total: data?.length })}
             </span>
             <Pagination
               isCompact

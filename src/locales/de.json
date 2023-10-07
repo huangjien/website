@@ -4,7 +4,7 @@
   },
   "ai": {
     "track_speed": "Geschwindigkeit der Strecke",
-    "conversation": "Künstliche Intelligenz Konversation", 
+    "conversation": "Künstliche Intelligenz Konversation",
     "send_tooltip": "Klicken Sie, um die Frage zu senden",
     "hold": "Halten Sie für Spracheingabe",
     "configuration": "Konfiguration",
