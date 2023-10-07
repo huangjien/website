@@ -42,7 +42,7 @@
   },
   "issue": {
     "row_per_page": "Righe per pagina",
-    "total": "Totale {{total}} articoli", 
+    "total": "Totale {{total}} articoli",
     "title": "Problema",
     "description": "Descrizione",
     "issue": "Problema",

@@ -11,8 +11,10 @@ export const Chat = ({ data }) => {
             title={
               <div className="inline-flex m-2">
                 <h2 className=" font-semibold m-2 text-2xl">{data.question}</h2>
-                <Chip className='m-2'>{data.model}</Chip>
-                {data?.temperature && <Chip className='m-2'>{data.temperature}</Chip>}
+                <Chip className="m-2">{data.model}</Chip>
+                {data?.temperature && (
+                  <Chip className="m-2">{data.temperature}</Chip>
+                )}
               </div>
             }
             subtitle={

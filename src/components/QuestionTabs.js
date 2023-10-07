@@ -24,7 +24,12 @@ import { useSettings } from '../lib/useSettings';
 import { useLocalStorageState } from 'ahooks';
 import { useTranslation } from 'react-i18next';
 
-const getAnswer = async (question, lastAnswer, model='gpt-4-0613', temperature=0.5) => {
+const getAnswer = async (
+  question,
+  lastAnswer,
+  model = 'gpt-4-0613',
+  temperature = 0.5
+) => {
   var questionArray = [{ role: 'user', content: question }];
   // if lastAnser too long or too long ago, then we don't add it.
   if (lastAnswer && lastAnswer.length < 1024) {
@@ -71,9 +76,9 @@ export const QuestionTabs = ({ append }) => {
   const [audioSrc, setAudioSrc] = useState('');
   const [audio, setAudio] = useState(true);
   const mimeType = 'audio/mp3';
-  const [trackSpeed, setTrackSpeed] = useState(300)
-  const [model, setModel] = useState('gpt-4-0613')
-  const [temperature, setTemperature] = useState(0.5)
+  const [trackSpeed, setTrackSpeed] = useState(300);
+  const [model, setModel] = useState('gpt-4-0613');
+  const [temperature, setTemperature] = useState(0.5);
 
   const [stream, setStream] = useState(null);
 
@@ -237,7 +242,7 @@ export const QuestionTabs = ({ append }) => {
             )}
             <div className=" inline-flex justify-items-stretch items-stretch justify-between">
               <Textarea
-                size='xl'
+                size="xl"
                 aria-label="question text area"
                 className=" inline-flex m-1 lg:w-10/12 sm:w-8/12 max-h-full"
                 isDisabled={loading}
@@ -253,7 +258,8 @@ export const QuestionTabs = ({ append }) => {
                   </div>
                 }
               >
-                <Button size='lg'
+                <Button
+                  size="lg"
                   type="button"
                   aria-label="send"
                   onPressStart={startPress}
@@ -278,11 +284,13 @@ export const QuestionTabs = ({ append }) => {
         <Card>
           <CardBody>
             <div className="  min-h-unit-20 lg:inline-flex  items-stretch justify-between sm:overflow-auto">
-              <Card shadow='none' >
-                <CardBody >
+              <Card shadow="none">
+                <CardBody>
                   <RadioGroup
                     label={
-                      <h3 className=" text-xl font-bold">{t('ai.select_model')}</h3>
+                      <h3 className=" text-xl font-bold">
+                        {t('ai.select_model')}
+                      </h3>
                     }
                     value={model}
                     onValueChange={setModel}
@@ -299,13 +307,13 @@ export const QuestionTabs = ({ append }) => {
                 </CardBody>
               </Card>
 
-              <Card shadow='none' >
+              <Card shadow="none">
                 <CardBody>
                   <Input
                     size="lg"
                     defaultValue={0.5}
                     value={temperature}
-                    onChange={(e)=>setTemperature(e.target.value)}
+                    onChange={(e) => setTemperature(e.target.value)}
                     type="number"
                     label={
                       <h3 className=" text-xl font-bold">
@@ -320,15 +328,21 @@ export const QuestionTabs = ({ append }) => {
                   />
                 </CardBody>
               </Card>
-              <Card shadow='none' >
+              <Card shadow="none">
                 <CardBody>
                   <Input
                     size="lg"
                     defaultValue={trackSpeed}
                     value={trackSpeed}
-                    onChange={(e)=>{setTrackSpeed(e.target.value)}}
+                    onChange={(e) => {
+                      setTrackSpeed(e.target.value);
+                    }}
                     type="number"
-                    label={<h3 className=" text-xl font-bold">{t('ai.track_speed')}</h3>}
+                    label={
+                      <h3 className=" text-xl font-bold">
+                        {t('ai.track_speed')}
+                      </h3>
+                    }
                     placeholder={t('ai.value_range_50_500')}
                     labelPlacement="outside"
                     startContent={
@@ -337,7 +351,7 @@ export const QuestionTabs = ({ append }) => {
                   />
                 </CardBody>
               </Card>
-              <Card shadow='none' >
+              <Card shadow="none">
                 <CardBody>
                   <h3 className=" text-xl font-bold">{t('ai.audio_player')}</h3>
                   <audio

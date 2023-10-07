@@ -56,7 +56,8 @@ const Login = () => {
               <BiUser size="2em" />
             </Button>
           </Tooltip>
-          <Modal size='xl'
+          <Modal
+            size="xl"
             isOpen={isOpen}
             onOpenChange={onOpenChange}
             placement="top-center"
@@ -68,7 +69,8 @@ const Login = () => {
                     {t('header.login_promote')}
                   </ModalHeader>
                   <ModalBody>
-                    <Input size='lg'
+                    <Input
+                      size="lg"
                       autoFocus
                       endContent={
                         <BiUser className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
@@ -79,7 +81,8 @@ const Login = () => {
                       placeholder={t('header.login_username_placeholder')}
                       variant="bordered"
                     />
-                    <Input size='lg'
+                    <Input
+                      size="lg"
                       endContent={
                         <button
                           className="focus:outline-none"
@@ -131,7 +134,8 @@ const Login = () => {
                   src={user.avatar_url}
                 />
               </DropdownTrigger>
-              <DropdownMenu theme={theme === 'dark' ? 'dark' : 'light'}
+              <DropdownMenu
+                theme={theme === 'dark' ? 'dark' : 'light'}
                 aria-label="Avatar Actions"
                 onAction={setSelectedKey}
               >
