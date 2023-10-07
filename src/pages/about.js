@@ -10,10 +10,7 @@ export default function About() {
 
   return (
     <RootLayout>
-      <div
-        className="prose prose-stone dark:prose-invert lg:prose-xl max-w-fit"
-        dangerouslySetInnerHTML={{ __html: about }}
-      ></div>
+      <div dangerouslySetInnerHTML={{ __html: about }}></div>
     </RootLayout>
   );
 }

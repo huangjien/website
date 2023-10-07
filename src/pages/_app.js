@@ -4,9 +4,8 @@ import { ThemeProvider as NextThemesProvider } from 'next-themes';
 import { ProvideSettings } from '../lib/useSettings';
 import NoSSR from '../lib/NoSSR';
 import { ProvideAuth } from '../lib/useAuth';
-import { languages } from '../locales/i18n';
+// import { languages } from '../locales/i18n';
 import './globals.css';
-// import '../styles/github-markdown.css';
 
 function App({ Component, pageProps }) {
   return (

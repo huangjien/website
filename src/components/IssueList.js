@@ -31,7 +31,7 @@ export const IssueList = ({ ComponentName, data }) => {
       default:
         return <pre>{JSON.stringify(itemData)}</pre>;
     }
-  });
+  }, []);
 
   const onRowsPerPageChange = useCallback((e) => {
     setRowsPerPage(Number(e.target.value));
@@ -51,7 +51,7 @@ export const IssueList = ({ ComponentName, data }) => {
         hideHeader
         aria-label="Settings"
         bottomContent={
-          <div className="flex text-lg justify-center lg:gap-8 items-center">
+          <div className="flex text-lg justify-center lg:gap-8 items-center m-4">
             <span className="text-default-400 text-small">
               Total {data?.length} items
             </span>

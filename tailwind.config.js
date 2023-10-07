@@ -46,9 +46,9 @@ module.exports = {
             black: '#000000',
 
             // background colors (light)
-            background: '$white',
+            background: `$white`,
             backgroundAlpha: 'rgba(255, 255, 255, 0.8)', // used for semi-transparent backgrounds like the navbar
-            foreground: '$black',
+            foreground: `$black`,
             backgroundContrast: '$white',
             // brand colors
             primaryLight: '$green200',

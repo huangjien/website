@@ -19,8 +19,6 @@ import {
   BiTimer,
 } from 'react-icons/bi';
 import { error, success, warn } from '../components/Notification';
-import NoSSR from '../lib/NoSSR';
-import { itemsPerPage } from '../lib/global';
 import { useGithubContent } from '../lib/useGithubContent';
 import { useSettings } from '../lib/useSettings';
 import { useLocalStorageState } from 'ahooks';
@@ -71,11 +69,79 @@ export const QuestionTabs = ({ append }) => {
   });
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
-  const [isMicOn, setIsMicOn] = useState(false);
-  const [displayContent, setDisplayContent] = useState([]);
   const [audioSrc, setAudioSrc] = useState('');
   const [audio, setAudio] = useState(true);
-  const mimeType = 'audio/mpeg';
+  const mimeType = 'audio/mp3';
+
+  const [stream, setStream] = useState(null);
+
+  const startRecording = async () => {
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      navigator.mediaDevices
+        .getUserMedia({
+          audio: true,
+        })
+        .then((stream) => {
+          setStream(stream);
+        })
+        .catch((err) => {
+          error(`The following getUserMedia error occurred: ${err}`);
+        });
+    } else {
+      warn('getUserMedia not supported on your browser!');
+    }
+    await navigator.mediaDevices
+      .getUserMedia({ audio: true })
+      .then((stream) => {
+        setStream(stream);
+        mediaRecorder.current = new MediaRecorder(stream, { type: mimeType });
+        mediaRecorder.current.start();
+        const localAudioChunks = [];
+        mediaRecorder.current.ondataavailable = (event) => {
+          if (typeof event.data == 'undefined') return;
+          if (event.data.size == 0) return;
+          localAudioChunks.push(event.data);
+        };
+        setAudio(localAudioChunks);
+      });
+  };
+  const stopRecording = async () => {
+    mediaRecorder.current.stop();
+    mediaRecorder.current.onstop = () => {
+      const audioBlob = new Blob(audio, { type: mimeType });
+
+      const audioUrl = URL.createObjectURL(audioBlob);
+      setAudioSrc(audioUrl);
+
+      setAudio([]);
+      // clear the browser status, without this line, the browser tab wil indicate that it is recording
+      stream.getTracks().forEach((track) => track.stop());
+
+      const file = new File([audioBlob], 'audio.mp3', { type: mimeType });
+
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('model', 'whisper-1');
+
+      fetch('/api/transcribe', {
+        method: 'POST',
+        body: formData,
+      })
+        .then((res) => res.json())
+        .then((response) => {
+          if (response?.error) {
+            error(response.error.message);
+          } else {
+            // setQuestionText(response.text)
+            setQuestionText(response.text);
+            // console.log(response);
+          }
+        })
+        .catch((err) => {
+          error(err.code + '\n' + err.message);
+        });
+    };
+  };
 
   const startPress = () => {
     setLongPressDetected(false);
@@ -83,6 +149,7 @@ export const QuestionTabs = ({ append }) => {
       console.log('Long Press Triggered');
       setHold(true);
       setLongPressDetected(true);
+      startRecording();
     }, 300);
   };
 
@@ -90,6 +157,7 @@ export const QuestionTabs = ({ append }) => {
     clearTimeout(pressTimer);
     if (longPressDetected) {
       console.log('Long Press Released');
+      stopRecording();
     } else {
       console.log('Short Press Triggered', questionText);
       if (questionText === undefined || questionText?.length < 5) {
@@ -161,10 +229,14 @@ export const QuestionTabs = ({ append }) => {
       <Tab title={<h2 className=" text-xl">AI Conversation</h2>}>
         <Card>
           <CardBody>
-            {loading && <Spinner size="lg" color="success" />}
+            {loading && (
+              <Spinner size="lg" color="success" className=" text-overlay" />
+            )}
             <div className=" inline-flex justify-items-stretch items-stretch justify-between">
               <Textarea
-                className="inline-block font-bold text-2xl m-1 lg:w-10/12 sm:w-8/12 max-h-full"
+                si
+                aria-label="question text area"
+                className="text-xl inline-block font-bold m-1 lg:w-10/12 sm:w-8/12 max-h-full"
                 isDisabled={loading}
                 value={questionText}
                 onValueChange={(e) => setQuestionText(e)}
@@ -203,7 +275,7 @@ export const QuestionTabs = ({ append }) => {
       <Tab title={<h2 className=" text-xl">Configuration</h2>}>
         <Card>
           <CardBody>
-            <div className="  min-h-unit-16 inline-flex  items-stretch justify-evenly">
+            <div className="  min-h-unit-16 lg:inline-flex  items-stretch justify-evenly sm:overflow-auto">
               <card>
                 <CardBody>
                   <RadioGroup

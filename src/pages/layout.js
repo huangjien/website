@@ -40,7 +40,7 @@ export default function RootLayout({ children }) {
       <NavigationBar className=" text-gray-700 bg-white dark-mode:text-gray-200 dark-mode:bg-gray-800" />
       {children}
       <BiArrowToTop
-        className=" animate-bounce fixed bottom-10 right-10 primary"
+        className=" animate-bounce fixed bottom-32 right-10 primary"
         size="2em"
         onClick={scrollToTop}
         style={{ display: show ? 'flex' : 'none' }}

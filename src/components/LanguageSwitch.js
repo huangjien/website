@@ -51,13 +51,9 @@ export const LanguageSwitch = () => {
   return (
     <Dropdown placement="bottom-left">
       <DropdownTrigger>
-        <Tooltip content={'Switch Language'}>
-          <Button light className=" bg-transparent text-success ">
-            {/* <Button flat> */}
-            <BiGlobe size="2em" />
-            {/* </Button> */}
-          </Button>
-        </Tooltip>
+        <Button light className=" bg-transparent text-success ">
+          <BiGlobe size="2em" />
+        </Button>
       </DropdownTrigger>
       <DropdownMenu
         disallowEmptySelection

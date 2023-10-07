@@ -11,22 +11,20 @@ export const Issue = ({ issue }) => {
         <Accordion shadow bordered className="m-2 w-fit">
           <AccordionItem
             title={
-              <div className="inline-block">
-                <Badge
-                  content={issue.state}
+              <div className=" inline-flex justify-items-stretch items-stretch justify-between">
+                <h2 className=" font-semibold text-2xl">{issue.title}</h2>
+                {issue['labels.name'] &&
+                  issue['labels.name'].map((label) => (
+                    <div key={label}>
+                      {/* <Spacer x={0.5} /> */}
+                      <Chip className=" m-2">{label}</Chip>
+                    </div>
+                  ))}
+                {/*  TODO: not sure how to present this part yet
+                 <Chip
                   aria-label={issue.state}
-                  placement="bottom-left"
                   color={issue.state === 'open' ? 'success' : 'error'}
-                >
-                  <h2 className=" font-semibold text-2xl">{issue.title}</h2>
-                  {issue['labels.name'] &&
-                    issue['labels.name'].map((label) => (
-                      <div key={label}>
-                        {/* <Spacer x={0.5} /> */}
-                        <Chip className=" m-2">{label}</Chip>
-                      </div>
-                    ))}
-                </Badge>
+                >{issue.state}</Chip> */}
               </div>
             }
             subtitle={

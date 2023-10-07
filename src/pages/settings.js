@@ -7,13 +7,6 @@ import {
   TableRow,
   TableCell,
   getKeyValue,
-  Input,
-  Button,
-  DropdownTrigger,
-  Dropdown,
-  DropdownMenu,
-  DropdownItem,
-  Chip,
   Pagination,
 } from '@nextui-org/react';
 import { useSettings } from '../lib/useSettings';
@@ -60,7 +53,7 @@ export default function Settings() {
         isStriped
         aria-label="Settings"
         bottomContent={
-          <div className="flex text-lg justify-center gap-8 items-center">
+          <div className="flex text-lg justify-center gap-8 items-center m-1">
             <span className="text-default-400 text-small">
               Total {settings.length} items
             </span>
