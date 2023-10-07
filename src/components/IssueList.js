@@ -16,7 +16,7 @@ export const IssueList = ({ ComponentName, data }) => {
   const { t } = useTranslation();
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(1);
-  var pages = Math.ceil(data.length / rowsPerPage);
+  var pages = Math.ceil(data?.length / rowsPerPage);
 
   useEffect(() => {
     if (data) {
@@ -27,9 +27,9 @@ export const IssueList = ({ ComponentName, data }) => {
   const renderCell = useCallback((itemData, columnKey) => {
     switch (columnKey) {
       case 'Issue':
-        return <Issue issue={itemData} />;
+        return <Issue aria-label={itemData.id} issue={itemData} />;
       case 'Chat':
-        return <Chat data={itemData} />;
+        return <Chat aria-label={itemData.id} data={itemData} />;
       default:
         return <pre>{JSON.stringify(itemData)}</pre>;
     }
