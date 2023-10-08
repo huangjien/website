@@ -45,11 +45,10 @@ export const IssueList = ({ ComponentName, data }) => {
     (itemData, columnKey) => {
       switch (columnKey) {
         case 'Issue':
-          return <Issue textValue={itemData.title} issue={itemData} />;
+          return <Issue issue={itemData} />;
         case 'Chat':
           return (
             <Chat
-              textValue={itemData.id}
               player={readText}
               name={itemData.id}
               data={itemData}
@@ -150,7 +149,7 @@ export const IssueList = ({ ComponentName, data }) => {
         <TableBody items={items}>
           {(item) => (
             <TableRow key={item.id}>
-              <TableCell textValue={item.id} className=" lg:m-4">
+              <TableCell className=" lg:m-4">
                 {renderCell(item, ComponentName)}
               </TableCell>
             </TableRow>

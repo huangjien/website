@@ -140,7 +140,7 @@ const Login = () => {
                 aria-label="Avatar Actions"
                 onAction={setSelectedKey}
               >
-                <DropdownItem key="email" textValue={user.email}>
+                <DropdownItem key="email">
                   <p color="inherit">{user.email}</p>
                 </DropdownItem>
 
@@ -148,7 +148,6 @@ const Login = () => {
                   key="logout"
                   withDivider
                   color="error"
-                  textValue="Log Out"
                 >
                   {t('header.logout')}
                 </DropdownItem>

@@ -16,7 +16,7 @@ export const Chat = ({ data, player }) => {
     <>
       {data && (
         <Accordion className="m-2 w-fit">
-          <AccordionItem
+          <AccordionItem aria-label={data.question}
             title={
               <div className="inline-flex m-2">
                 <h2 className=" font-semibold m-2 text-xl  select-text">
