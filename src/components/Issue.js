@@ -4,7 +4,6 @@ import { Comment } from './Comment';
 
 export const Issue = ({ issue }) => {
   const { t } = useTranslation();
-  console.log(issue);
   return (
     <>
       {issue && (

@@ -184,10 +184,10 @@ export const QuestionTabs = ({ append }) => {
         if (data.error) {
           error(
             t('ai.return_error') +
-            ':\n' +
-            data.error.code +
-            '\n' +
-            data.error.message
+              ':\n' +
+              data.error.code +
+              '\n' +
+              data.error.message
           );
           setLoading(false);
           throw new Error(t('ai.return_error') + ':\n' + data.error.message);
@@ -234,15 +234,23 @@ export const QuestionTabs = ({ append }) => {
         tab: 'w-fit  h-12',
       }}
     >
-      <Tab title={<h2 className=" font-semibold" size={'2em'}>{t('ai.conversation')}</h2>}>
+      <Tab
+        title={
+          <h2 className=" font-semibold" size={'2em'}>
+            {t('ai.conversation')}
+          </h2>
+        }
+      >
         <Card>
           <CardBody>
-            {loading &&
-              <Progress size="sm"
+            {loading && (
+              <Progress
+                size="sm"
                 isIndeterminate
                 aria-label="Loading..."
-                className="max-w-full" />
-            }
+                className="max-w-full"
+              />
+            )}
             <div className=" inline-flex justify-items-stretch items-stretch justify-between">
               <Textarea
                 size="xl"
@@ -250,14 +258,15 @@ export const QuestionTabs = ({ append }) => {
                 className=" inline-flex m-1 lg:w-10/12 sm:w-8/12 max-h-full"
                 isDisabled={loading}
                 value={questionText}
+                placeholder={t('ai.input_placeholder')}
                 onValueChange={(e) => setQuestionText(e)}
               />
               <Tooltip
                 placement="bottom"
                 content={
                   <div className="px-1 py-2">
-                    <div className="text-small">{t('ai.send_tooltip')}</div>
-                    <div className="text-small">{t('ai.hold')}</div>
+                    <div>{t('ai.send_tooltip')}</div>
+                    <div>{t('ai.hold')}</div>
                   </div>
                 }
               >
@@ -283,7 +292,13 @@ export const QuestionTabs = ({ append }) => {
           </CardBody>
         </Card>
       </Tab>
-      <Tab title={<h2 className=" font-semibold" size={'2em'}>{t('ai.configuration')}</h2>}>
+      <Tab
+        title={
+          <h2 className=" font-semibold" size={'2em'}>
+            {t('ai.configuration')}
+          </h2>
+        }
+      >
         <Card>
           <CardBody>
             <div className="  min-h-unit-20 lg:inline-flex  items-stretch justify-between sm:overflow-auto">

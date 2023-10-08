@@ -51,19 +51,19 @@ module.exports = {
             foreground: '#000000',
             backgroundContrast: '#ffffff',
             // brand colors
-            primaryLight: '$green200',
-            primaryLightHover: '$green300',
-            primaryLightActive: '$green400',
-            primaryLightContrast: '$green600',
+            primaryLight: '#A2E9C1',
+            primaryLightHover: '#74DFA2',
+            primaryLightActive: '#45D483',
+            primaryLightContrast: '#12A150',
             primary: '#4ADE7B',
-            primaryBorder: '$green500',
-            primaryBorderHover: '$green600',
-            primarySolidHover: '$green700',
+            primaryBorder: '#17C964',
+            primaryBorderHover: '#12A150',
+            primarySolidHover: '#0E793C',
             primarySolidContrast: '#ffffff',
-            primaryShadow: '$green500',
+            primaryShadow: '#17C964',
 
             gradient:
-              'linear-gradient(112deg, $blue100 -25%, $pink500 -10%, $purple500 80%)',
+              'linear-gradient(112deg, #CCE3FD, -25%, #FF4ECD, -10%, #7828C8, 80%)',
             link: '#5E1DAD',
           },
           shadows: {
@@ -257,16 +257,16 @@ module.exports = {
             // ...
 
             // brand colors
-            primaryLight: '$blue200',
-            primaryLightHover: '$blue300', // commonly used on hover state
-            primaryLightActive: '$blue400', // commonly used on pressed state
-            primaryLightContrast: '$blue600', // commonly used for text inside the component
-            primary: '$blue600',
-            primaryBorder: '$blue500',
-            primaryBorderHover: '$blue600',
-            primarySolidHover: '$blue700',
+            primaryLight: '#99C7FB',
+            primaryLightHover: '#66AAF9', // commonly used on hover state
+            primaryLightActive: '#338EF7', // commonly used on pressed state
+            primaryLightContrast: '#005BC4', // commonly used for text inside the component
+            primary: '#005BC4',
+            primaryBorder: '#006FEE',
+            primaryBorderHover: '#005BC4',
+            primarySolidHover: '#004493',
             primarySolidContrast: '#ffffff', // commonly used for text inside the component
-            primaryShadow: '$blue500',
+            primaryShadow: '#006FEE',
           },
           shadows: {
             xs: '0 2px 8px 1px rgb(0 0 0 / 0.07), 0 1px 1px -1px rgb(0 0 0 / 0.04)',
