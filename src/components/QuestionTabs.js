@@ -252,7 +252,7 @@ export const QuestionTabs = ({ append }) => {
               />
             )}
             <div className=" inline-flex justify-items-stretch items-stretch justify-between">
-              <Textarea
+              <Textarea type="text"
                 size="xl"
                 aria-label="question text area"
                 className=" inline-flex m-1 lg:w-10/12 sm:w-8/12 max-h-full"
@@ -277,7 +277,7 @@ export const QuestionTabs = ({ append }) => {
                   onPressStart={startPress}
                   onPressEnd={endPress}
                   isDisabled={loading}
-                  className=" justify-center text-success items-center flex flex-col m-3 lg:w-2/12 sm:w-4/12 max-h-full"
+                  className=" justify-center text-primary items-center flex flex-col m-3 lg:w-2/12 sm:w-4/12 max-h-full"
                 >
                   {hold && (
                     <BiMicrophone

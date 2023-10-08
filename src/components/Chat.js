@@ -16,7 +16,8 @@ export const Chat = ({ data, player }) => {
     <>
       {data && (
         <Accordion className="m-2 w-fit">
-          <AccordionItem aria-label={data.question}
+          <AccordionItem
+            aria-label={data.question}
             title={
               <div className="inline-flex m-2">
                 <h2 className=" font-semibold m-2 text-xl  select-text">
@@ -47,7 +48,7 @@ export const Chat = ({ data, player }) => {
                 size="lg"
                 onClick={handleCopy}
                 variant="light"
-                className="  text-success  m-3  right-6"
+                className="  text-primary  m-3  right-6"
               >
                 <BiCopyAlt />
               </Button>
@@ -55,7 +56,7 @@ export const Chat = ({ data, player }) => {
                 size="lg"
                 onClick={handlePlay}
                 variant="light"
-                className="  text-success  m-3  right-3"
+                className="  text-primary  m-3  right-3"
               >
                 <BiPlayCircle />
               </Button>

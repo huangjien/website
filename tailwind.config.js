@@ -55,7 +55,7 @@ module.exports = {
             primaryLightHover: '#74DFA2',
             primaryLightActive: '#45D483',
             primaryLightContrast: '#12A150',
-            primary: '#4ADE7B',
+            primary: '#095028',
             primaryBorder: '#17C964',
             primaryBorderHover: '#12A150',
             primarySolidHover: '#0E793C',

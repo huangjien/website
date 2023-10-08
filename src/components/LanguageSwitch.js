@@ -54,7 +54,7 @@ export const LanguageSwitch = () => {
         <Button
           aria-label="switch language"
           light
-          className=" bg-transparent text-success "
+          className=" bg-transparent text-primary "
         >
           <BiGlobe size="2em" />
         </Button>

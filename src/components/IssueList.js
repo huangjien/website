@@ -47,13 +47,7 @@ export const IssueList = ({ ComponentName, data }) => {
         case 'Issue':
           return <Issue issue={itemData} />;
         case 'Chat':
-          return (
-            <Chat
-              player={readText}
-              name={itemData.id}
-              data={itemData}
-            />
-          );
+          return <Chat player={readText} name={itemData.id} data={itemData} />;
         default:
           return <pre>{JSON.stringify(itemData)}</pre>;
       }
