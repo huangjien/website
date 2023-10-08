@@ -6,17 +6,28 @@ import {
   TableRow,
   TableCell,
   Pagination,
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  Tooltip,
+  ModalFooter,
+  useDisclosure,
 } from '@nextui-org/react';
 import { useState, useMemo, useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Issue } from './Issue';
 import { Chat } from './Chat';
+import { useSettings } from '@/lib/useSettings';
 
 export const IssueList = ({ ComponentName, data }) => {
   const { t } = useTranslation();
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(1);
+  const [audioSrc, setAudioSrc] = useState('');
   var pages = Math.ceil(data?.length / rowsPerPage);
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { languageCode, speakerName } = useSettings();
 
   useEffect(() => {
     if (data) {
@@ -30,7 +41,12 @@ export const IssueList = ({ ComponentName, data }) => {
         return <Issue textValue={itemData.title} issue={itemData} />;
       case 'Chat':
         return (
-          <Chat textValue={itemData.id} name={itemData.id} data={itemData} />
+          <Chat
+            textValue={itemData.id}
+            player={readText}
+            name={itemData.id}
+            data={itemData}
+          />
         );
       default:
         return <pre>{JSON.stringify(itemData)}</pre>;
@@ -48,9 +64,38 @@ export const IssueList = ({ ComponentName, data }) => {
     return data.slice(start, end);
   }, [page, data, rowsPerPage]);
 
+  const handleText2Speech = async (text) => {
+    const res = await fetch(
+      `/api/tts?&&languageCode=${languageCode}&&name=${speakerName}&&text=${encodeURIComponent(
+        text.replaceAll('\n', '')
+      )}`
+    );
+    const blob = await res.blob();
+    const audioUrl = URL.createObjectURL(blob);
+    setAudioSrc(audioUrl);
+  };
+
+  function readText(text) {
+    onOpen();
+    handleText2Speech(text);
+    // popup the audio play and put the text in it to read it out loud
+  }
+
+  const stopReading = () => {
+    setAudioSrc('');
+  };
+
   return (
     <div>
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange} onClose={stopReading}>
+        <ModalContent>
+          <ModalBody>
+            <audio disabled={!audioSrc} controls autoPlay src={audioSrc} />
+          </ModalBody>
+        </ModalContent>
+      </Modal>
       <Table
+        classNames={'text-large'}
         isStriped
         hideHeader
         aria-label="list"

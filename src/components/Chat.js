@@ -1,8 +1,18 @@
-import { Accordion, AccordionItem, Chip } from '@nextui-org/react';
+import { Accordion, AccordionItem, Chip, Button } from '@nextui-org/react';
 import { useTranslation } from 'react-i18next';
+import { BiCopyAlt, BiPlayCircle } from 'react-icons/bi';
 
-export const Chat = ({ data }) => {
+export const Chat = ({ data, player }) => {
+  console.log(player);
   const { t } = useTranslation();
+  const handleCopy = () => {
+    navigator.clipboard.writeText(
+      data.question + '\n\nmodel:' + data.model + '\n\n' + data.answer
+    );
+  };
+  const handlePlay = () => {
+    player(data.answer);
+  };
   return (
     <>
       {data && (
@@ -33,8 +43,27 @@ export const Chat = ({ data }) => {
               data.answer_tokens
             }
           >
-            <div className="select-text prose prose-stone dark:prose-invert lg:prose-xl max-w-fit ">
-              <div dangerouslySetInnerHTML={{ __html: data.html }}></div>
+            <div>
+              <Button
+                size="lg"
+                onClick={handleCopy}
+                variant="light"
+                className="  text-success  m-3  right-6"
+              >
+                <BiCopyAlt />
+              </Button>
+              <Button
+                size="lg"
+                onClick={handlePlay}
+                variant="light"
+                className="  text-success  m-3  right-3"
+              >
+                <BiPlayCircle />
+              </Button>
+              <div
+                className="select-text prose prose-stone dark:prose-invert lg:prose-xl max-w-fit "
+                dangerouslySetInnerHTML={{ __html: data.html }}
+              ></div>
             </div>
           </AccordionItem>
         </Accordion>
