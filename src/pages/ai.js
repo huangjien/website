@@ -43,7 +43,7 @@ export default function AI() {
 
   return (
     <RootLayout>
-      <div className="min-h-max w-auto text-lg lg:gap-8 lg:m-8 ">
+      <div className="min-h-max w-auto text-lg lg:gap-4 lg:m-4 ">
         <QuestionTabs append={append} />
         <IssueList data={content} ComponentName={'Chat'} />
       </div>

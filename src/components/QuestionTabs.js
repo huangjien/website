@@ -9,7 +9,7 @@ import {
   RadioGroup,
   Radio,
   Input,
-  Spinner,
+  Progress,
 } from '@nextui-org/react';
 import { useState, useRef } from 'react';
 import {
@@ -229,16 +229,27 @@ export const QuestionTabs = ({ append }) => {
       radius="md w-auto m-2"
       size="lg"
       classNames={{
-        tabList: 'gap-1 justify-evenly w-full relative rounded m-0 ',
+        tabList: ' justify-evenly w-full relative rounded m-0 ',
         cursor: 'w-full ',
         tab: 'w-fit  h-12',
       }}
     >
-      <Tab title={<h2 className=" text-xl">{t('ai.conversation')}</h2>}>
+      <Tab
+        title={
+          <h2 className=" font-semibold" size={'2em'}>
+            {t('ai.conversation')}
+          </h2>
+        }
+      >
         <Card>
           <CardBody>
             {loading && (
-              <Spinner size="lg" color="success" className=" text-overlay" />
+              <Progress
+                size="sm"
+                isIndeterminate
+                aria-label="Loading..."
+                className="max-w-full"
+              />
             )}
             <div className=" inline-flex justify-items-stretch items-stretch justify-between">
               <Textarea
@@ -247,14 +258,15 @@ export const QuestionTabs = ({ append }) => {
                 className=" inline-flex m-1 lg:w-10/12 sm:w-8/12 max-h-full"
                 isDisabled={loading}
                 value={questionText}
+                placeholder={t('ai.input_placeholder')}
                 onValueChange={(e) => setQuestionText(e)}
               />
               <Tooltip
                 placement="bottom"
                 content={
                   <div className="px-1 py-2">
-                    <div className="text-small">{t('ai.send_tooltip')}</div>
-                    <div className="text-small">{t('ai.hold')}</div>
+                    <div>{t('ai.send_tooltip')}</div>
+                    <div>{t('ai.hold')}</div>
                   </div>
                 }
               >
@@ -280,7 +292,13 @@ export const QuestionTabs = ({ append }) => {
           </CardBody>
         </Card>
       </Tab>
-      <Tab title={<h2 className=" text-xl">{t('ai.configuration')}</h2>}>
+      <Tab
+        title={
+          <h2 className=" font-semibold" size={'2em'}>
+            {t('ai.configuration')}
+          </h2>
+        }
+      >
         <Card>
           <CardBody>
             <div className="  min-h-unit-20 lg:inline-flex  items-stretch justify-between sm:overflow-auto">
