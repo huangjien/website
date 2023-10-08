@@ -62,8 +62,8 @@ module.exports = {
             primarySolidContrast: '#ffffff',
             primaryShadow: '#17C964',
 
-            gradient:
-              'linear-gradient(112deg, #CCE3FD, -25%, #FF4ECD, -10%, #7828C8, 80%)',
+            // gradient:
+            //   'linear-gradient(112deg, #CCE3FD, -25%, #FF4ECD, -10%, #7828C8, 80%)',
             link: '#5E1DAD',
           },
           shadows: {

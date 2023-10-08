@@ -53,7 +53,7 @@ export const IssueList = ({ ComponentName, data }) => {
       <Table
         isStriped
         hideHeader
-        aria-label="Settings"
+        aria-label="list"
         bottomContent={
           <div className="flex text-lg justify-center lg:gap-8 items-center m-4">
             <span className="text-default-400 text-small">
@@ -82,7 +82,7 @@ export const IssueList = ({ ComponentName, data }) => {
             </label>
           </div>
         }
-        className=" min-h-max w-auto text-lg lg:gap-8 lg:m-8 "
+        className=" min-h-max w-auto text-large lg:m-4 "
       >
         <TableHeader>
           <TableColumn key="id">id</TableColumn>
@@ -90,7 +90,7 @@ export const IssueList = ({ ComponentName, data }) => {
         <TableBody items={items}>
           {(item) => (
             <TableRow key={item.id}>
-              <TableCell textValue={item.id} className="lg:gap-4 lg:m-4">
+              <TableCell textValue={item.id} className=" lg:m-4">
                 {renderCell(item, ComponentName)}
               </TableCell>
             </TableRow>

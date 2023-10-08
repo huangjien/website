@@ -12,10 +12,10 @@ import {
 } from '@nextui-org/react';
 import { useSettings } from '../lib/useSettings';
 import { useAuth } from '../lib/useAuth';
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
-import { useTitle, useUpdateEffect } from 'ahooks';
+import { useTitle } from 'ahooks';
 
 export default function Settings() {
   const { settings } = useSettings();
@@ -23,18 +23,14 @@ export default function Settings() {
   const { push } = useRouter();
   const { t } = useTranslation();
   useTitle(t('header.settings'));
-  const [filterValue, setFilterValue] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [sortDescriptor, setSortDescriptor] = useState({
-    column: 'name',
-    direction: 'ascending',
-  });
   const [page, setPage] = useState(1);
   const pages = Math.ceil(settings.length / rowsPerPage);
   const onRowsPerPageChange = useCallback((e) => {
     setRowsPerPage(Number(e.target.value));
     setPage(1);
   }, []);
+
   const items = useMemo(() => {
     const start = (page - 1) * rowsPerPage;
     const end = start + rowsPerPage;
@@ -42,11 +38,11 @@ export default function Settings() {
     return settings.slice(start, end);
   }, [page, settings, rowsPerPage]);
 
-  useUpdateEffect(() => {
-    if (!isAdmin) {
+  useEffect(() => {
+    if (!user) {
       push('/');
     }
-  }, [user]);
+  }, [user, push]);
 
   return (
     <RootLayout>

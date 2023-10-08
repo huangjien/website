@@ -33,7 +33,7 @@ export const Chat = ({ data }) => {
               data.answer_tokens
             }
           >
-            <div className="prose prose-stone dark:prose-invert lg:prose-xl max-w-fit select-text">
+            <div className="select-text prose prose-stone dark:prose-invert lg:prose-xl max-w-fit ">
               <div dangerouslySetInnerHTML={{ __html: data.html }}></div>
             </div>
           </AccordionItem>
