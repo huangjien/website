@@ -1,13 +1,17 @@
-import { useRequest, useSessionStorageState } from 'ahooks';
+import {
+  useRequest,
+  useSessionStorageState,
+  useLocalStorageState,
+} from 'ahooks';
 import { useEffect, useState } from 'react';
 import { getIssues, getReadme, getValueByPath, hashCode } from './Requests';
 import { useSettings } from './useSettings';
 
 export const useGithubContent = () => {
   const { getSetting } = useSettings();
-  const [about, setAbout] = useSessionStorageState('about');
+  const [about, setAbout] = useLocalStorageState('about');
   const [rawData, setRawData] = useState();
-  const [issues, setIssues] = useSessionStorageState('issues');
+  const [issues, setIssues] = useLocalStorageState('issues');
   const [tags, setTags] = useState();
 
   useRequest(getReadme, {
@@ -101,9 +105,9 @@ export const useGithubContent = () => {
   const getHtml = async (markdown) => {
     // console.log(markdown)
     const hash = hashCode(markdown);
-    const translated = sessionStorage.getItem(`${hash}`);
+    const translated = localStorage.getItem(`${hash}`);
     if (translated) {
-      return await translated;
+      return translated;
     }
     return await fetch('/api/markdown', {
       method: 'POST',
@@ -111,7 +115,7 @@ export const useGithubContent = () => {
     })
       .then((res) => res.text())
       .then((data) => {
-        sessionStorage.setItem(`${hash}`, data);
+        localStorage.setItem(`${hash}`, data);
         return data;
       });
   };

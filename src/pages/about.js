@@ -10,7 +10,7 @@ export default function About() {
 
   return (
     <RootLayout>
-      <div dangerouslySetInnerHTML={{ __html: about }}></div>
+      <div className="prose" dangerouslySetInnerHTML={{ __html: about }}></div>
     </RootLayout>
   );
 }

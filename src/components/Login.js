@@ -48,6 +48,7 @@ const Login = () => {
         <>
           <Tooltip content={t('header.login')}>
             <Button
+              aria-label="login"
               className="bg-transparent  text-success"
               auto
               shadow
