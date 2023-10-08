@@ -35,23 +35,38 @@ export const IssueList = ({ ComponentName, data }) => {
     }
   }, [data, rowsPerPage]);
 
-  const renderCell = useCallback((itemData, columnKey) => {
-    switch (columnKey) {
-      case 'Issue':
-        return <Issue textValue={itemData.title} issue={itemData} />;
-      case 'Chat':
-        return (
-          <Chat
-            textValue={itemData.id}
-            player={readText}
-            name={itemData.id}
-            data={itemData}
-          />
-        );
-      default:
-        return <pre>{JSON.stringify(itemData)}</pre>;
-    }
-  }, []);
+  const readText = useCallback((text) => {
+    onOpen();
+    handleText2Speech(text);
+    // popup the audio play and put the text in it to read it out loud
+  });
+
+  const renderCell = useCallback(
+    (itemData, columnKey) => {
+      switch (columnKey) {
+        case 'Issue':
+          return <Issue textValue={itemData.title} issue={itemData} />;
+        case 'Chat':
+          return (
+            <Chat
+              textValue={itemData.id}
+              player={readText}
+              name={itemData.id}
+              data={itemData}
+            />
+          );
+        default:
+          return <pre>{JSON.stringify(itemData)}</pre>;
+      }
+    },
+    [readText]
+  );
+
+  // function readText(text) {
+  //   onOpen();
+  //   handleText2Speech(text);
+  //   // popup the audio play and put the text in it to read it out loud
+  // }
 
   const onRowsPerPageChange = useCallback((e) => {
     setRowsPerPage(Number(e.target.value));
@@ -75,19 +90,19 @@ export const IssueList = ({ ComponentName, data }) => {
     setAudioSrc(audioUrl);
   };
 
-  function readText(text) {
-    onOpen();
-    handleText2Speech(text);
-    // popup the audio play and put the text in it to read it out loud
-  }
-
   const stopReading = () => {
     setAudioSrc('');
   };
 
   return (
     <div>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange} onClose={stopReading}>
+      <Modal
+        isDismissable={false}
+        backdrop={'transparent'}
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        onClose={stopReading}
+      >
         <ModalContent>
           <ModalBody>
             <audio disabled={!audioSrc} controls autoPlay src={audioSrc} />

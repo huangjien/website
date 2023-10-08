@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import { BiCopyAlt, BiPlayCircle } from 'react-icons/bi';
 
 export const Chat = ({ data, player }) => {
-  console.log(player);
   const { t } = useTranslation();
   const handleCopy = () => {
     navigator.clipboard.writeText(

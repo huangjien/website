@@ -51,7 +51,11 @@ export const LanguageSwitch = () => {
   return (
     <Dropdown placement="bottom-left">
       <DropdownTrigger>
-        <Button light className=" bg-transparent text-success ">
+        <Button
+          aria-label="switch language"
+          light
+          className=" bg-transparent text-success "
+        >
           <BiGlobe size="2em" />
         </Button>
       </DropdownTrigger>

@@ -1,13 +1,29 @@
 import { Accordion, AccordionItem, Chip } from '@nextui-org/react';
 import { useTranslation } from 'react-i18next';
 import { Comment } from './Comment';
+import { useGithubContent } from '../lib/useGithubContent';
+import { useEffect, useState } from 'react';
 
 export const Issue = ({ issue }) => {
   const { t } = useTranslation();
+  const { getHtml } = useGithubContent();
+  const [html, setHtml] = useState('');
+
+  useEffect(() => {
+    if (!issue?.html) {
+      getHtml(issue.body).then((data) => setHtml(data));
+    }
+  }, [getHtml, issue.body, issue?.html]);
+
   return (
     <>
       {issue && (
-        <Accordion shadow bordered className="m-2 w-fit">
+        <Accordion
+          aria-label={issue.title}
+          shadow
+          bordered
+          className="m-2 w-fit"
+        >
           <AccordionItem
             title={
               <div className=" inline-flex justify-items-stretch items-stretch justify-between">
@@ -37,7 +53,7 @@ export const Issue = ({ issue }) => {
             }
           >
             <div className="prose prose-stone dark:prose-invert lg:prose-xl max-w-fit">
-              <div dangerouslySetInnerHTML={{ __html: issue.html }}></div>
+              <div dangerouslySetInnerHTML={{ __html: html }}></div>
             </div>
 
             {issue.commentList &&
