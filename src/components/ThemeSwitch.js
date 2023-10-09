@@ -29,7 +29,7 @@ export const ThemeSwitch = () => {
       <Button
         aria-label="switch theme"
         light
-        className=" bg-transparent text-success "
+        className=" bg-transparent text-primary "
         onClick={onChange}
       >
         {theme === 'light' && <BiMoon size={'2em'} />}

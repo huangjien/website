@@ -49,7 +49,7 @@ const Login = () => {
           <Tooltip content={t('header.login')}>
             <Button
               aria-label="login"
-              className="bg-transparent  text-success"
+              className="bg-transparent  text-primary "
               auto
               shadow
               onPress={onOpen}
@@ -140,16 +140,11 @@ const Login = () => {
                 aria-label="Avatar Actions"
                 onAction={setSelectedKey}
               >
-                <DropdownItem key="email" textValue={user.email}>
+                <DropdownItem key="email">
                   <p color="inherit">{user.email}</p>
                 </DropdownItem>
 
-                <DropdownItem
-                  key="logout"
-                  withDivider
-                  color="error"
-                  textValue="Log Out"
-                >
+                <DropdownItem key="logout" withDivider color="error">
                   {t('header.logout')}
                 </DropdownItem>
               </DropdownMenu>

@@ -36,3 +36,5 @@ package-lock.json
 yarn.lock
 storybook-static/
 googleKey.json
+public/sw.js
+public/workbox-*

@@ -25,6 +25,7 @@ export const Issue = ({ issue }) => {
           className="m-2 w-fit"
         >
           <AccordionItem
+            aria-label={issue.title}
             title={
               <div className=" inline-flex justify-items-stretch items-stretch justify-between">
                 <h2 className=" font-semibold text-xl">{issue.title}</h2>
