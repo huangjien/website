@@ -13,12 +13,14 @@ import {
   Tooltip,
   ModalFooter,
   useDisclosure,
+  Input,
 } from '@nextui-org/react';
 import { useState, useMemo, useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Issue } from './Issue';
 import { Chat } from './Chat';
 import { useSettings } from '@/lib/useSettings';
+import { BiSearch } from 'react-icons/bi';
 
 export const IssueList = ({ ComponentName, data }) => {
   const { t } = useTranslation();
@@ -28,6 +30,7 @@ export const IssueList = ({ ComponentName, data }) => {
   var pages = Math.ceil(data?.length / rowsPerPage);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { languageCode, speakerName } = useSettings();
+  const [filterValue, setFilterValue] = useState('');
 
   useEffect(() => {
     if (data) {
@@ -55,22 +58,28 @@ export const IssueList = ({ ComponentName, data }) => {
     [readText]
   );
 
-  // function readText(text) {
-  //   onOpen();
-  //   handleText2Speech(text);
-  //   // popup the audio play and put the text in it to read it out loud
-  // }
-
   const onRowsPerPageChange = useCallback((e) => {
     setRowsPerPage(Number(e.target.value));
     setPage(1);
   }, []);
+  const filterItems = useMemo(() => {
+    let filteredData = data;
+    if (filterValue) {
+      var regex = new RegExp(filterValue, 'i');
+      filteredData = filteredData.filter((oneItem) => {
+        return JSON.stringify(oneItem).search(regex) > -1;
+      });
+    }
+
+    return filteredData;
+  }, [filterValue, data]);
+
   const items = useMemo(() => {
     const start = (page - 1) * rowsPerPage;
     const end = start + rowsPerPage;
-    if (!data) return [];
-    return data.slice(start, end);
-  }, [page, data, rowsPerPage]);
+    if (!filterItems) return [];
+    return filterItems.slice(start, end);
+  }, [page, filterItems, rowsPerPage]);
 
   const handleText2Speech = async (text) => {
     const res = await fetch(
@@ -107,8 +116,17 @@ export const IssueList = ({ ComponentName, data }) => {
         isStriped
         hideHeader
         aria-label="list"
-        bottomContent={
+        topContent={
           <div className="flex text-lg justify-center lg:gap-8 items-center m-4">
+            <Input
+              isClearable
+              className="w-auto sm:max-w-[33%] mr-4"
+              placeholder={t('global.search')}
+              startContent={<BiSearch />}
+              value={filterValue}
+              onClear={() => setFilterValue('')}
+              onValueChange={setFilterValue}
+            />
             <span className="text-default-400 text-small">
               {t('issue.total', { total: data?.length })}
             </span>
