@@ -117,7 +117,7 @@ export const IssueList = ({ ComponentName, data }) => {
         hideHeader
         aria-label="list"
         topContent={
-          <div className="flex text-lg justify-center lg:gap-8 items-center m-4">
+          <div className="lg:inline-flex flex-wrap  text-lg justify-center lg:gap-8 items-center m-4">
             <Input
               isClearable
               className="w-auto sm:max-w-[33%] mr-4"

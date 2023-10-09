@@ -36,7 +36,7 @@ export const NavigationBar = () => {
         $$navbarBlurBackgroundColor: 'transparent',
       }}
     >
-      <NavbarBrand>
+      <NavbarBrand className="block">
         <Dropdown aria-label="main_dropdown">
           <DropdownTrigger>
             <Image
@@ -101,10 +101,17 @@ export const NavigationBar = () => {
             <BiDetail size="2em" /> {t('header.about')}
           </Link>
         </NavbarItem>
-        <Spacer x={2} className="hidden lg:block" />
-        <Login className="hidden lg:block" />
-        <ThemeSwitch className="hidden lg:block" />
-        <LanguageSwitch className="hidden lg:block" />
+
+        <Spacer x={2} className="sm:hidden lg:flex" />
+        <NavbarItem className="hidden lg:block">
+          <Login />
+        </NavbarItem>
+        <NavbarItem className=" lg:block">
+          <ThemeSwitch />
+        </NavbarItem>
+        <NavbarItem className="lg:block">
+          <LanguageSwitch />
+        </NavbarItem>
         <ToastContainer
           position={toast.POSITION.TOP_CENTER}
           autoClose={5000}

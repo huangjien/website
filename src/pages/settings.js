@@ -68,7 +68,7 @@ export default function Settings() {
         isStriped
         aria-label="Settings"
         topContent={
-          <div className="flex text-lg justify-center gap-8 items-center m-1">
+          <div className="lg:inline-flex flex-wrap  text-lg justify-center gap-8 items-center m-1">
             <Input
               isClearable
               className="w-auto sm:max-w-[33%] mr-4"
