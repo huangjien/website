@@ -19,7 +19,7 @@ export const Chat = ({ data, player }) => {
           <AccordionItem
             aria-label={data.question}
             title={
-              <div className="inline-flex m-2">
+              <div className="lg:inline-flex flex-wrap m-2">
                 <h2 className=" font-semibold m-2 text-xl  select-text">
                   {data.question}
                 </h2>

@@ -27,7 +27,7 @@ export const Issue = ({ issue }) => {
           <AccordionItem
             aria-label={issue.title}
             title={
-              <div className=" inline-flex justify-items-stretch items-stretch justify-between">
+              <div className=" lg:inline-flex flex-wrap justify-items-stretch items-stretch justify-between">
                 <h2 className=" font-semibold text-xl">{issue.title}</h2>
                 {issue['labels.name'] &&
                   issue['labels.name'].map((label) => (
