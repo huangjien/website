@@ -252,7 +252,8 @@ export const QuestionTabs = ({ append }) => {
               />
             )}
             <div className=" inline-flex justify-items-stretch items-stretch justify-between">
-              <Textarea type="text"
+              <Textarea
+                type="text"
                 size="xl"
                 aria-label="question text area"
                 className=" inline-flex m-1 lg:w-10/12 sm:w-8/12 max-h-full"

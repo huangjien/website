@@ -1,4 +1,4 @@
-# Block all crawlers for /accounts
+# Block all crawlers for /settings and /api
 User-agent: *
 Disallow: /settings/
 Disallow: /api/
