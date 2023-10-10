@@ -14,6 +14,7 @@ import {
   ModalFooter,
   useDisclosure,
   Input,
+  Divider,
 } from '@nextui-org/react';
 import { useState, useMemo, useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -21,10 +22,13 @@ import { Issue } from './Issue';
 import { Chat } from './Chat';
 import { useSettings } from '@/lib/useSettings';
 import { BiSearch } from 'react-icons/bi';
+import { useLocalStorageState } from 'ahooks';
 
 export const IssueList = ({ ComponentName, data }) => {
   const { t } = useTranslation();
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useLocalStorageState('RowsPerPage', {
+    defaultValue: 5,
+  });
   const [page, setPage] = useState(1);
   const [audioSrc, setAudioSrc] = useState('');
   var pages = Math.ceil(data?.length / rowsPerPage);
@@ -38,11 +42,14 @@ export const IssueList = ({ ComponentName, data }) => {
     }
   }, [data, rowsPerPage]);
 
-  const readText = useCallback((text) => {
-    onOpen();
-    handleText2Speech(text);
-    // popup the audio play and put the text in it to read it out loud
-  });
+  const readText = useCallback(
+    (text) => {
+      onOpen();
+      handleText2Speech(text);
+      // popup the audio play and put the text in it to read it out loud
+    },
+    [onOpen]
+  );
 
   const renderCell = useCallback(
     (itemData, columnKey) => {
@@ -58,10 +65,13 @@ export const IssueList = ({ ComponentName, data }) => {
     [readText]
   );
 
-  const onRowsPerPageChange = useCallback((e) => {
-    setRowsPerPage(Number(e.target.value));
-    setPage(1);
-  }, []);
+  const onRowsPerPageChange = useCallback(
+    (e) => {
+      setRowsPerPage(Number(e.target.value));
+      setPage(1);
+    },
+    [setPage, setRowsPerPage]
+  );
   const filterItems = useMemo(() => {
     let filteredData = data;
     if (filterValue) {
@@ -145,12 +155,14 @@ export const IssueList = ({ ComponentName, data }) => {
               <select
                 className="bg-transparent outline-none text-default-400 text-small"
                 onChange={onRowsPerPageChange}
+                value={rowsPerPage}
               >
                 <option value="5">5</option>
                 <option value="10">10</option>
                 <option value="15">15</option>
               </select>
             </label>
+            <Divider />
           </div>
         }
         className=" min-h-max w-auto text-large lg:m-4 "

@@ -64,7 +64,7 @@ export const LanguageSwitch = () => {
         selectionMode="single"
         selectedKeys={language}
         items={languages}
-        className='text-inherit text-primary'
+        className="text-inherit text-primary"
         onSelectionChange={chooseLanguage}
         aria-label="language"
       >
