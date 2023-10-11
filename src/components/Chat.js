@@ -1,6 +1,9 @@
 import { Accordion, AccordionItem, Chip, Button } from '@nextui-org/react';
 import { useTranslation } from 'react-i18next';
 import { BiCopyAlt, BiPlayCircle } from 'react-icons/bi';
+import Markdown from 'react-markdown';
+import rehypeRaw from 'rehype-raw';
+import remarkGfm from 'remark-gfm';
 
 export const Chat = ({ data, player }) => {
   const { t } = useTranslation();
@@ -50,7 +53,7 @@ export const Chat = ({ data, player }) => {
                 variant="light"
                 className="  text-primary  m-3  right-6"
               >
-                <BiCopyAlt />
+                <BiCopyAlt className="w-8 h-8" />
               </Button>
               <Button
                 size="lg"
@@ -58,12 +61,17 @@ export const Chat = ({ data, player }) => {
                 variant="light"
                 className="  text-primary  m-3  right-3"
               >
-                <BiPlayCircle />
+                <BiPlayCircle className="w-8 h-8" />
               </Button>
-              <div
-                className="select-text prose prose-stone dark:prose-invert lg:prose-xl max-w-fit "
-                dangerouslySetInnerHTML={{ __html: data.html }}
-              ></div>
+              <div className="select-text prose prose-stone dark:prose-invert lg:prose-xl max-w-fit ">
+                <Markdown
+                  className="select-text prose prose-stone dark:prose-invert lg:prose-xl max-w-fit "
+                  remarkPlugins={[remarkGfm]}
+                  rehypePlugins={[rehypeRaw]}
+                >
+                  {data.answer}
+                </Markdown>
+              </div>
             </div>
           </AccordionItem>
         </Accordion>

@@ -65,7 +65,6 @@ export const QuestionTabs = ({ append }) => {
   const [hold, setHold] = useState(false);
   const [longPressDetected, setLongPressDetected] = useState(false);
   let pressTimer = null;
-  const { getHtml } = useGithubContent();
   const mediaRecorder = useRef(null);
   const [questionText, setQuestionText] = useState('');
   const [lastAnswer, setLastAnswer] = useLocalStorageState('LastAnswer', {
@@ -83,7 +82,7 @@ export const QuestionTabs = ({ append }) => {
   const [stream, setStream] = useState(null);
 
   const startRecording = async () => {
-    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    if (navigator?.mediaDevices?.getUserMedia) {
       navigator.mediaDevices
         .getUserMedia({
           audio: true,
@@ -210,17 +209,9 @@ export const QuestionTabs = ({ append }) => {
         return newQandA;
       })
       .then((qAndA) => {
-        getHtml(qAndA.question).then((html) => (qAndA.questionHtml = html));
-        getHtml(qAndA.answer)
-          .then((html) => {
-            qAndA.html = html;
-            return qAndA;
-          })
-          .then((qAndA) => {
-            append(qAndA);
-            setQuestionText('');
-            setLoading(false);
-          });
+        append(qAndA);
+        setQuestionText('');
+        setLoading(false);
       });
   }
 
