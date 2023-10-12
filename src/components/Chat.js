@@ -51,7 +51,7 @@ export const Chat = ({ data, player }) => {
                 size="lg"
                 onClick={handleCopy}
                 variant="light"
-                className="  text-primary  m-3  right-6"
+                className=" bg-transparent  text-primary  m-3  right-6"
               >
                 <BiCopyAlt className="w-8 h-8" />
               </Button>
@@ -59,7 +59,7 @@ export const Chat = ({ data, player }) => {
                 size="lg"
                 onClick={handlePlay}
                 variant="light"
-                className="  text-primary  m-3  right-3"
+                className=" bg-transparent  text-primary  m-3  right-3"
               >
                 <BiPlayCircle className="w-8 h-8" />
               </Button>

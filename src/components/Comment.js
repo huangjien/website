@@ -17,14 +17,14 @@ export const Comment = ({ issue_id }) => {
 
   useEffect(() => {
     const temp_array = [];
-    console.log(issue_id);
+    // console.log(issue_id);
     fetch('/api/comments?issue_number=' + issue_id, {
       method: 'GET',
     })
       .then((res) => res.json())
       .then((comment) => {
         // foreach to handle a comments array here
-        console.log(comment);
+        // console.log(comment);
         comment.forEach((oneComment) => {
           const oneCommentContent = extractContentAccordingContentList(
             commentContentList,
@@ -42,6 +42,7 @@ export const Comment = ({ issue_id }) => {
         <Accordion shadow bordered>
           {commentList.map((oneComment) => (
             <AccordionItem
+              aria-label={oneComment.id}
               key={oneComment.id}
               title={
                 <div className="inline-flex m-4">

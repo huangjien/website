@@ -23,18 +23,21 @@ import { Chat } from './Chat';
 import { useSettings } from '@/lib/useSettings';
 import { BiSearch } from 'react-icons/bi';
 import { useLocalStorageState } from 'ahooks';
+import { useAuth } from '../lib/useAuth';
+import { IssueModal } from './IssueModal';
 
-export const IssueList = ({ ComponentName, data }) => {
+export const IssueList = ({ ComponentName, data, inTab = 'ai' }) => {
   const { t } = useTranslation();
   const [rowsPerPage, setRowsPerPage] = useLocalStorageState('RowsPerPage', {
     defaultValue: 5,
   });
   const [page, setPage] = useState(1);
   const [audioSrc, setAudioSrc] = useState('');
-  var pages = Math.ceil(data?.length / rowsPerPage);
+  let pages = Math.ceil(data?.length / rowsPerPage);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { languageCode, speakerName } = useSettings();
   const [filterValue, setFilterValue] = useState('');
+  const { user } = useAuth();
 
   useEffect(() => {
     if (data) {
@@ -75,7 +78,7 @@ export const IssueList = ({ ComponentName, data }) => {
   const filterItems = useMemo(() => {
     let filteredData = data;
     if (filterValue) {
-      var regex = new RegExp(filterValue, 'i');
+      let regex = new RegExp(filterValue, 'i');
       filteredData = filteredData.filter((oneItem) => {
         return JSON.stringify(oneItem).search(regex) > -1;
       });
@@ -128,9 +131,12 @@ export const IssueList = ({ ComponentName, data }) => {
         aria-label="list"
         topContent={
           <div className="lg:inline-flex flex-wrap  text-lg justify-center lg:gap-8 items-center m-4">
+            {user && (inTab === 'issue' || inTab === 'settings') && (
+              <IssueModal action={'new'} />
+            )}
             <Input
               isClearable
-              className="w-auto sm:max-w-[33%] mr-4"
+              className="w-auto sm:max-w-[33%] m-4"
               placeholder={t('global.search')}
               startContent={<BiSearch />}
               value={filterValue}

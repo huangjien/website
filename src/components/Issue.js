@@ -4,10 +4,13 @@ import { Comment } from './Comment';
 import Markdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
+import { IssueModal } from './IssueModal';
+import { useAuth } from '../lib/useAuth';
 
 export const Issue = ({ issue }) => {
   const { t } = useTranslation();
-  console.log(issue);
+  const { user } = useAuth();
+
   return (
     <>
       {issue && (
@@ -45,6 +48,7 @@ export const Issue = ({ issue }) => {
               issue.created_at.toString()
             }
           >
+            {user && <IssueModal issue={issue} action={'edit'} />}
             <div className="prose prose-stone dark:prose-invert lg:prose-xl max-w-fit">
               <Markdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
                 {issue.body}
