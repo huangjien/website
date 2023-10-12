@@ -1,19 +1,15 @@
 import { Accordion, AccordionItem, Chip } from '@nextui-org/react';
 import { useTranslation } from 'react-i18next';
 import { Comment } from './Comment';
-import { useGithubContent } from '../lib/useGithubContent';
-import { useEffect, useState } from 'react';
+import Markdown from 'react-markdown';
+import rehypeRaw from 'rehype-raw';
+import remarkGfm from 'remark-gfm';
+import { IssueModal } from './IssueModal';
+import { useAuth } from '../lib/useAuth';
 
 export const Issue = ({ issue }) => {
   const { t } = useTranslation();
-  const { getHtml } = useGithubContent();
-  const [html, setHtml] = useState('');
-
-  useEffect(() => {
-    if (!issue?.html) {
-      getHtml(issue.body).then((data) => setHtml(data));
-    }
-  }, [getHtml, issue.body, issue?.html]);
+  const { user } = useAuth();
 
   return (
     <>
@@ -29,13 +25,12 @@ export const Issue = ({ issue }) => {
             title={
               <div className=" lg:inline-flex flex-wrap justify-items-stretch items-stretch justify-between">
                 <h2 className=" font-semibold text-xl">{issue.title}</h2>
-                {issue['labels.name'] &&
-                  issue['labels.name'].map((label) => (
-                    <div key={label}>
-                      {/* <Spacer x={0.5} /> */}
-                      <Chip className=" m-2">{label}</Chip>
-                    </div>
-                  ))}
+                {issue['labels.name']?.map((label) => (
+                  <div key={label}>
+                    {/* <Spacer x={0.5} /> */}
+                    <Chip className=" m-2">{label}</Chip>
+                  </div>
+                ))}
                 {/*  TODO: not sure how to present this part yet
                  <Chip
                   aria-label={issue.state}
@@ -53,14 +48,15 @@ export const Issue = ({ issue }) => {
               issue.created_at.toString()
             }
           >
+            {user && <IssueModal issue={issue} action={'edit'} />}
             <div className="prose prose-stone dark:prose-invert lg:prose-xl max-w-fit">
-              <div dangerouslySetInnerHTML={{ __html: html }}></div>
+              <Markdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
+                {issue.body}
+              </Markdown>
             </div>
-
-            {issue.commentList &&
-              issue.commentList.map((commentArray) => (
-                <Comment key={commentArray.id} comment={commentArray} />
-              ))}
+            {issue.comments > 0 && (
+              <Comment className="ml-8" issue_id={issue.number} />
+            )}
           </AccordionItem>
         </Accordion>
       )}

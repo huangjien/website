@@ -6,6 +6,7 @@ import {
 import { useEffect, useState } from 'react';
 import { getIssues, getReadme, getValueByPath, hashCode } from './Requests';
 import { useSettings } from './useSettings';
+import { content } from '../../tailwind.config';
 
 export const useGithubContent = () => {
   const { getSetting } = useSettings();
@@ -16,7 +17,7 @@ export const useGithubContent = () => {
 
   useRequest(getReadme, {
     onSuccess: (result) => {
-      getHtml(result).then((content) => setAbout(content));
+      setAbout(result);
     },
   });
 
@@ -33,8 +34,7 @@ export const useGithubContent = () => {
       const blog_labels = getSetting('blog.labels');
       const issueContent = getSetting('blog.content');
       const issueContentList = issueContent.split(',');
-      const commentContent = getSetting('comment.content');
-      const commentContentList = commentContent.split(',');
+
       if (blog_labels && issueContent) {
         const list = blog_labels.split(',');
         setTags(list);
@@ -57,42 +57,9 @@ export const useGithubContent = () => {
             // then we start handle this issue: we only care the the content in the issueContent
             var content = extractContentAccordingContentList(
               issueContentList,
-              issue,
-              getHtml
+              issue
             );
             content['labels.name'] = labelArray;
-            // now, we need to check if it contains comments,
-            // if yes, then we need to add the comments to content,
-            // of course, we need to translate them into html format
-
-            if (content?.comments > 0) {
-              // get comments
-              // console.log(content)
-              const commentList = [];
-              // get comments according number
-              fetch('/api/comments?issue_number=' + content.number, {
-                method: 'GET',
-              })
-                .then((res) => res.json())
-                .then((comment) => {
-                  // console.log(comment);
-                  // foreach to handle a comments array here
-                  comment.forEach((oneComment) => {
-                    const oneCommentContent =
-                      extractContentAccordingContentList(
-                        commentContentList,
-                        oneComment,
-                        getHtml
-                      );
-                    // console.log(oneCommentContent)
-                    commentList.push(oneCommentContent);
-                  });
-                });
-
-              content['commentList'] = commentList;
-            }
-
-            // then we save this issue to the data
             // console.log(content)
             finalResult.push(content);
           }
@@ -102,49 +69,17 @@ export const useGithubContent = () => {
     }
   }, [getSetting, setIssues, rawData]);
 
-  const getHtml = async (markdown) => {
-    // console.log(markdown)
-    const hash = hashCode(markdown);
-    const translated = localStorage.getItem(`${hash}`);
-    if (translated) {
-      return translated;
-    }
-    return await fetch('/api/markdown', {
-      method: 'POST',
-      body: markdown,
-    })
-      .then((res) => res.text())
-      .then((data) => {
-        localStorage.setItem(`${hash}`, data);
-        return data;
-      });
-  };
-
-  return { tags, issues, about, getHtml };
+  return { tags, issues, about };
 };
 
 // extract a new subset from the content, according content list, then add a html field according body
-function extractContentAccordingContentList(
+export function extractContentAccordingContentList(
   contentList,
-  originalContent,
-  getHtml
+  originalContent
 ) {
   var content = {};
   contentList.forEach((key) => {
     content[key] = getValueByPath(originalContent, key);
-    if (key === 'title' && content[key].indexOf('\n') > 0) {
-      getHtml(content[key]).then((html) => {
-        // console.log(html);
-        content['titleHtml'] = html;
-      });
-    }
-    if (key === 'body') {
-      // console.log(key, issue[key]);
-      getHtml(content[key]).then((html) => {
-        // console.log(html);
-        content['html'] = html;
-      });
-    }
   });
   return content;
 }
