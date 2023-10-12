@@ -1,12 +1,10 @@
 import {
   useRequest,
-  useSessionStorageState,
   useLocalStorageState,
 } from 'ahooks';
 import { useEffect, useState } from 'react';
-import { getIssues, getReadme, getValueByPath, hashCode } from './Requests';
+import { getIssues, getReadme, getValueByPath } from './Requests';
 import { useSettings } from './useSettings';
-import { content } from '../../tailwind.config';
 
 export const useGithubContent = () => {
   const { getSetting } = useSettings();
@@ -39,23 +37,21 @@ export const useGithubContent = () => {
         const list = blog_labels.split(',');
         setTags(list);
 
-        var finalResult = [];
+        let finalResult = [];
         rawData.forEach((issue) => {
           const labels = issue['labels'];
-          var isVisible = false;
-          var labelArray = [];
+          let isVisible = false;
+          let labelArray = [];
           labels.forEach((label) => {
             // console.log(label['name'])
             if (list.includes(label['name'])) {
-              // console.log(issue);
               isVisible = true;
               labelArray.push(label.name);
             }
           });
-          // console.log(isVisible, labels);
           if (isVisible) {
             // then we start handle this issue: we only care the the content in the issueContent
-            var content = extractContentAccordingContentList(
+            let content = extractContentAccordingContentList(
               issueContentList,
               issue
             );
@@ -77,7 +73,7 @@ export function extractContentAccordingContentList(
   contentList,
   originalContent
 ) {
-  var content = {};
+  let content = {};
   contentList.forEach((key) => {
     content[key] = getValueByPath(originalContent, key);
   });

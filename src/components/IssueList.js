@@ -8,10 +8,7 @@ import {
   Pagination,
   Modal,
   ModalContent,
-  ModalHeader,
   ModalBody,
-  Tooltip,
-  ModalFooter,
   useDisclosure,
   Input,
   Divider,
@@ -26,7 +23,7 @@ import { useLocalStorageState } from 'ahooks';
 import { useAuth } from '../lib/useAuth';
 import { IssueModal } from './IssueModal';
 
-export const IssueList = ({ ComponentName, data, inTab = 'ai' }) => {
+export const IssueList = ({ tags, ComponentName, data, inTab = 'ai' }) => {
   const { t } = useTranslation();
   const [rowsPerPage, setRowsPerPage] = useLocalStorageState('RowsPerPage', {
     defaultValue: 5,
