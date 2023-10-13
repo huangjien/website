@@ -23,6 +23,16 @@ import { useLocalStorageState } from 'ahooks';
 import { useAuth } from '../lib/useAuth';
 import { IssueModal } from './IssueModal';
 
+/**
+ * Renders a table component that displays a list of issues or chats.
+ * Provides functionality for searching, filtering, pagination, and text-to-speech.
+ *
+ * @param {Array} tags - An array of tags to filter the data by.
+ * @param {string} ComponentName - The name of the component to render for each item in the table.
+ * @param {Array} data - An array of issue or chat data.
+ * @param {string} inTab - The tab name indicating the type of data being displayed. (default: 'ai')
+ * @returns {JSX.Element} - The rendered table component with the filtered and paginated data.
+ */
 export const IssueList = ({ tags, ComponentName, data, inTab = 'ai' }) => {
   const { t } = useTranslation();
   const [rowsPerPage, setRowsPerPage] = useLocalStorageState('RowsPerPage', {
@@ -30,7 +40,7 @@ export const IssueList = ({ tags, ComponentName, data, inTab = 'ai' }) => {
   });
   const [page, setPage] = useState(1);
   const [audioSrc, setAudioSrc] = useState('');
-  let pages = Math.ceil(data?.length / rowsPerPage);
+  const [pages,setPages] = useState(Math.ceil(data?.length / rowsPerPage));
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { languageCode, speakerName } = useSettings();
   const [filterValue, setFilterValue] = useState('');
@@ -38,7 +48,7 @@ export const IssueList = ({ tags, ComponentName, data, inTab = 'ai' }) => {
 
   useEffect(() => {
     if (data) {
-      Math.ceil(data.length / rowsPerPage);
+      setPages(Math.ceil(data.length / rowsPerPage));
     }
   }, [data, rowsPerPage]);
 

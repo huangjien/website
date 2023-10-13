@@ -1,6 +1,6 @@
 {
   "name": "website",
-  "version": "0.6.26",
+  "version": "0.6.27",
   "author": "huangjien@gmail.com",
   "copyright": "Copyright (c) 2023 Jien Huang",
   "description": "A blog website template",
@@ -9,6 +9,7 @@
     "prepare": "husky install",
     "dev": "cross-env NODE_OPTION='--inspect' next dev -p 8080",
     "build": "next build",
+    "test:e2e": "playwright test",
     "start": "next start -p 8080",
     "push": "docker push huangjien/website",
     "make": "docker buildx build --platform linux/amd64 -t huangjien/website .",
@@ -62,6 +63,7 @@
     "styled-components": "^6.0.8"
   },
   "devDependencies": {
+    "@playwright/test": "^1.39.0",
     "@tailwindcss/typography": "^0.5.10",
     "autoprefixer": "latest",
     "cross-env": "^7.0.3",

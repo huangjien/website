@@ -1,4 +1,6 @@
 'use client';
+import React from 'react';
+import 'react-toastify/dist/ReactToastify.css';
 import {
   Navbar,
   NavbarContent,
@@ -22,10 +24,15 @@ import { ThemeSwitch } from './ThemeSwitch';
 import { LanguageSwitch } from './LanguageSwitch';
 import { useAuth } from '../lib/useAuth';
 
+/**
+ * Renders a navigation bar with menu items and buttons.
+ * @returns {JSX.Element} The rendered navigation bar.
+ */
 export const NavigationBar = () => {
   const { theme } = useTheme();
   const { isAuthenticated } = useAuth();
   const { t } = useTranslation();
+
   return (
     <Navbar
       id="main_header"
