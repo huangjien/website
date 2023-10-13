@@ -20,7 +20,7 @@ import Login from './Login';
 import { useTheme } from 'next-themes';
 import { ThemeSwitch } from './ThemeSwitch';
 import { LanguageSwitch } from './LanguageSwitch';
-import { useAuth } from '@/lib/useAuth';
+import { useAuth } from '../lib/useAuth';
 
 export const NavigationBar = () => {
   const { theme } = useTheme();

@@ -7,8 +7,13 @@ import Markdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
 
-// just pass the issue_id, this component will handle everything else
 export const Comment = ({ issue_id }) => {
+  /**
+   * Fetches and displays comments related to a specific issue.
+   * 
+   * @param {number} issue_id - The ID of the issue for which comments should be fetched.
+   * @returns {JSX.Element} - The rendered component.
+   */
   const { t } = useTranslation();
   const { getSetting } = useSettings();
   const commentContent = getSetting('comment.content');
