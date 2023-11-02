@@ -45,7 +45,6 @@ export const IssueModal = ({ issue, action }) => {
           {(onClose) => (
             <>
               <ModalBody>
-                {/* TODO: put markdown editor here, if it is a small screen, don't show preview part */}
                 <div>
                   <div className="lg:inline-flex align-middle w-full justify-evenly gap-4 m-2">
                     <Input
