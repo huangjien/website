@@ -14,7 +14,7 @@ import {
   DropdownMenu,
   DropdownItem,
 } from '@nextui-org/react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BiHide, BiShow, BiUser } from 'react-icons/bi';
 import { useAuth } from '../lib/useAuth';
@@ -24,23 +24,12 @@ const Login = () => {
   const { t } = useTranslation();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [selectedKey, setSelectedKey] = useState();
-  const { error, user, login, isAuthenticated, logout } = useAuth();
+  const { user, login, logout } = useAuth();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [isVisible, setIsVisible] = useState(false);
   const { theme } = useTheme();
 
   const toggleVisibility = () => setIsVisible(!isVisible);
-
-  useEffect(() => {
-    if (!selectedKey) return;
-    if (selectedKey.toLowerCase() === 'logout') {
-      logout();
-      setSelectedKey(undefined);
-    }
-
-    setSelectedKey(undefined);
-  }, [selectedKey, logout]);
 
   return (
     <>
@@ -122,7 +111,7 @@ const Login = () => {
           </Modal>
         </>
       )}
-      {user && user.avatar_url
+      {user?.avatar_url
         ? user && (
             <Dropdown placement="bottom-left">
               <DropdownTrigger>
@@ -138,13 +127,12 @@ const Login = () => {
               <DropdownMenu
                 theme={theme === 'dark' ? 'dark' : 'light'}
                 aria-label="Avatar Actions"
-                onAction={setSelectedKey}
               >
                 <DropdownItem key="email">
                   <p color="inherit">{user.email}</p>
                 </DropdownItem>
 
-                <DropdownItem key="logout" withDivider color="error">
+                <DropdownItem key="logout" onClick={logout} withDivider color="error">
                   {t('header.logout')}
                 </DropdownItem>
               </DropdownMenu>
