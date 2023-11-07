@@ -308,8 +308,8 @@ export const QuestionTabs = ({ append }) => {
                     defaultValue={'gpt-4-0613'}
                   >
                     <Radio value="gpt-4-0613">GPT-4</Radio>
-                    <Radio value="gpt-3.5-turbo-16k-0613">GPT-3.5-16K</Radio>
-                    <Radio value="gpt-3.5-turbo-0613">GPT-3.5</Radio>
+                    <Radio value="gpt-4-1106-preview">GPT-4-Turbo</Radio>
+                    <Radio value="gpt-3.5-turbo-1106">GPT-3.5</Radio>
                     <Radio value="bard" isDisabled>
                       Google Bard
                     </Radio>

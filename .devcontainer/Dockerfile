@@ -6,3 +6,7 @@ FROM mcr.microsoft.com/devcontainers/javascript-node:${VARIANT}
 # [Optional] Uncomment this section to install additional OS packages.
 # RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 #     && apt-get -y install --no-install-recommends <your-package-list-here>
+RUN apt-get clean && apt-get update && npm -v && node -v && yarn -v && yarn install 
+
+# RUN apt-get clean && apt-get update \ 
+#     && yarn  install && yarn playwright install && yarn playwright install-deps
