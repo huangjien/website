@@ -10,7 +10,12 @@ export default function Home() {
   useTitle(t('header.home'));
   return (
     <RootLayout>
-      <IssueList tags={tags} data={issues} ComponentName={'Issue'} inTab="issue" />
+      <IssueList
+        tags={tags}
+        data={issues}
+        ComponentName={'Issue'}
+        inTab="issue"
+      />
     </RootLayout>
   );
 }

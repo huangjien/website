@@ -305,9 +305,9 @@ export const QuestionTabs = ({ append }) => {
                     value={model}
                     onValueChange={setModel}
                     orientation="horizontal"
-                    defaultValue={'gpt-4-0613'}
+                    defaultValue={'gpt-4-1106-preview'}
                   >
-                    <Radio value="gpt-4-0613">GPT-4</Radio>
+                    <Radio value="gpt-4-32k">GPT-4</Radio>
                     <Radio value="gpt-4-1106-preview">GPT-4-Turbo</Radio>
                     <Radio value="gpt-3.5-turbo-1106">GPT-3.5</Radio>
                     <Radio value="bard" isDisabled>
