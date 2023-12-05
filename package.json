@@ -1,6 +1,6 @@
 {
   "name": "website",
-  "version": "0.6.37",
+  "version": "0.6.38",
   "author": "huangjien@gmail.com",
   "copyright": "Copyright (c) 2023 Jien Huang",
   "description": "A blog website template",
@@ -45,7 +45,7 @@
     "@nextui-org/tooltip": "^2.0.29",
     "ahooks": "^3.7.8",
     "cherry-markdown": "^0.8.29",
-    "framer-motion": "^10.16.12",
+    "framer-motion": "^10.16.14",
     "http-proxy": "^1.18.1",
     "i18next": "^23.7.7",
     "next": "^14.0.3",
@@ -68,12 +68,12 @@
     "autoprefixer": "latest",
     "cross-env": "^7.0.3",
     "css-loader": "^6.8.1",
-    "eslint": "^8.54.0",
+    "eslint": "^8.55.0",
     "eslint-config-next": "^14.0.3",
     "husky": "^8.0.0",
-    "postcss": "^8.4.31",
+    "postcss": "^8.4.32",
     "prettier": "^3.1.0",
     "style-loader": "^3.3.3",
-    "tailwindcss": "latest"
+    "tailwindcss": "3.3.6"
   }
 }
