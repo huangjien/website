@@ -1,6 +1,6 @@
 {
   "name": "website",
-  "version": "0.6.40",
+  "version": "0.6.41",
   "author": "huangjien@gmail.com",
   "copyright": "Copyright (c) 2023 Jien Huang",
   "description": "A blog website template",
@@ -45,7 +45,7 @@
     "@nextui-org/tooltip": "^2.0.29",
     "ahooks": "^3.7.8",
     "cherry-markdown": "^0.8.31",
-    "framer-motion": "^10.16.15",
+    "framer-motion": "^10.16.16",
     "http-proxy": "^1.18.1",
     "i18next": "^23.7.8",
     "next": "^14.0.4",
