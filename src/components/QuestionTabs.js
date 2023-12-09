@@ -254,7 +254,7 @@ export const QuestionTabs = ({ append }) => {
                 onValueChange={(e) => setQuestionText(e)}
               />
               <Tooltip
-                placement="bottom"
+                placement="bottom"  color='primary'
                 content={
                   <div className="px-1 py-2">
                     <div>{t('ai.send_tooltip')}</div>

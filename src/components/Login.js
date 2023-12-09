@@ -35,7 +35,7 @@ const Login = () => {
     <>
       {!user?.name && (
         <>
-          <Tooltip content={t('header.login')}>
+          <Tooltip color='primary' content={t('header.login')}>
             <Button
               aria-label="login"
               className="bg-transparent  text-primary "

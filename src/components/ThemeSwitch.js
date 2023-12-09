@@ -25,7 +25,7 @@ export const ThemeSwitch = () => {
   };
 
   return (
-    <Tooltip content={theme !== 'light' ? t('header.day') : t('header.night')}>
+    <Tooltip color='primary' content={theme !== 'light' ? t('header.day') : t('header.night')}>
       <Button
         aria-label="switch theme"
         light
