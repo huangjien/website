@@ -254,7 +254,8 @@ export const QuestionTabs = ({ append }) => {
                 onValueChange={(e) => setQuestionText(e)}
               />
               <Tooltip
-                placement="bottom"  color='primary'
+                placement="bottom"
+                color="primary"
                 content={
                   <div className="px-1 py-2">
                     <div>{t('ai.send_tooltip')}</div>
@@ -305,9 +306,9 @@ export const QuestionTabs = ({ append }) => {
                     value={model}
                     onValueChange={setModel}
                     orientation="horizontal"
-                    defaultValue='gpt-4-1106-preview'
+                    defaultValue="gpt-4-1106-preview"
                   >
-                    <Radio value="gpt-4-32k">GPT-4</Radio>
+                    <Radio value="gpt-4-32k-0613">GPT-4</Radio>
                     <Radio value="gpt-4-1106-preview">GPT-4-Turbo</Radio>
                     <Radio value="gpt-3.5-turbo-1106">GPT-3.5</Radio>
                     <Radio value="bard" isDisabled>
