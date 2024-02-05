@@ -17,7 +17,7 @@ export const Comment = ({ issue_id }) => {
   const { t } = useTranslation();
   const { getSetting } = useSettings();
   const commentContent = getSetting('comment.content');
-  const commentContentList = commentContent.split(',');
+  const commentContentList = commentContent?.split(',');
   const [commentList, setCommentList] = useState([]);
 
   useEffect(() => {
