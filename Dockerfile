@@ -5,7 +5,7 @@ WORKDIR /app
 COPY package.json package-lock.json yarn.lock ./
 RUN  yarn install --production
 
-FROM node:18-alpine AS builder
+FROM node:21-alpine AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
@@ -15,7 +15,7 @@ ENV NEXT_TELEMETRY_DISABLED 1
 
 RUN yarn build
 
-FROM node:18-alpine AS runner
+FROM node:21-alpine AS runner
 WORKDIR /app
 
 ENV NODE_ENV production
