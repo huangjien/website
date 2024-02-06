@@ -27,7 +27,7 @@ function useProvideAuth() {
       if (!result.message) {
         // we got login info here, now we will handle it according setting
         var userInfoSetting = getSetting('user.info');
-        var userOneInfo = userInfoSetting.split(',');
+        var userOneInfo = userInfoSetting?.split(',');
         var userInfo = {};
         userOneInfo.forEach((element) => {
           userInfo[element] = result[element];

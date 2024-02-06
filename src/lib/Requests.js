@@ -5,7 +5,7 @@ export const userContext = createContext(undefined);
 export const settingContext = createContext({});
 
 export function getValueByPath(data, path) {
-  return path.split('.').reduce((obj, i) => obj?.[i], data);
+  return path?.split('.').reduce((obj, i) => obj?.[i], data);
 }
 
 export const hashCode = (string) => {
@@ -95,12 +95,12 @@ export const properties2Json = (propertiesString) => {
   if (!propertiesString) {
     return [];
   }
-  let properties = propertiesString.split('\n');
+  let properties = propertiesString?.split('\n');
   let propertiesJson = [];
   for (let i = 0; i < properties.length; i++) {
     let property = properties[i];
     let propertyJson = {};
-    property = property.split('=');
+    property = property?.split('=');
     if (property[0]) {
       propertyJson['key'] = i;
       propertyJson['name'] = property[0].trim();

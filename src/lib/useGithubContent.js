@@ -28,10 +28,10 @@ export const useGithubContent = () => {
       // console.log(rawData)
       const blog_labels = getSetting('blog.labels');
       const issueContent = getSetting('blog.content');
-      const issueContentList = issueContent.split(',');
+      const issueContentList = issueContent?.split(',');
 
       if (blog_labels && issueContent) {
-        const list = blog_labels.split(',');
+        const list = blog_labels?.split(',');
         setTags(list);
 
         let finalResult = [];
