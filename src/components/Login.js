@@ -50,7 +50,7 @@ const Login = () => {
             size="xl"
             isOpen={isOpen}
             onOpenChange={onOpenChange}
-            placement="top-center"
+            
           >
             <ModalContent>
               {(onClose) => (
