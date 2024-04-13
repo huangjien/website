@@ -46,12 +46,7 @@ const Login = () => {
               <BiUser size="2em" />
             </Button>
           </Tooltip>
-          <Modal
-            size="xl"
-            isOpen={isOpen}
-            onOpenChange={onOpenChange}
-            
-          >
+          <Modal size="xl" isOpen={isOpen} onOpenChange={onOpenChange}>
             <ModalContent>
               {(onClose) => (
                 <>

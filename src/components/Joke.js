@@ -8,11 +8,8 @@ import { IssueModal } from './IssueModal';
 import { useAuth } from '../lib/useAuth';
 
 export const Issue = () => {
-    const { t } = useTranslation();
-    const { user } = useAuth();
-  
-    return (
-      <>
-      </>
-    )
-}
+  const { t } = useTranslation();
+  const { user } = useAuth();
+
+  return <></>;
+};
