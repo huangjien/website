@@ -47,7 +47,6 @@ jobs:
         with:
           node-version: 21
 
-      - run: npm install
       - run: yarn install
       - run: yarn lint
       - run: yarn build
