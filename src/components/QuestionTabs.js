@@ -27,7 +27,7 @@ import { useTranslation } from 'react-i18next';
 const getAnswer = async (
   question,
   lastAnswer,
-  model = 'gpt-4-0613',
+  model = 'gpt-4-turbo',
   temperature = 0.5
 ) => {
   var questionArray = [{ role: 'user', content: question }];
@@ -306,10 +306,10 @@ export const QuestionTabs = ({ append }) => {
                     value={model}
                     onValueChange={setModel}
                     orientation="horizontal"
-                    defaultValue="gpt-4-0125-preview"
+                    defaultValue="gpt-4-turbo"
                   >
                     <Radio value="gpt-4-0125-preview">GPT-4</Radio>
-                    <Radio value="gpt-4-turbo-preview">GPT-4-Turbo</Radio>
+                    <Radio value="gpt-4-turbo">GPT-4-Turbo</Radio>
                     <Radio value="gpt-3.5-turbo-1106">GPT-3.5</Radio>
                     <Radio value="bard" isDisabled>
                       Google Bard
