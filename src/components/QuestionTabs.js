@@ -76,7 +76,7 @@ export const QuestionTabs = ({ append }) => {
   const [audio, setAudio] = useState(true);
   const mimeType = 'audio/mp3';
   const [trackSpeed, setTrackSpeed] = useState(300);
-  const [model, setModel] = useState('gpt-4-0613');
+  const [model, setModel] = useState('gpt-4-turbo');
   const [temperature, setTemperature] = useState(0.5);
 
   const [stream, setStream] = useState(null);
@@ -306,9 +306,9 @@ export const QuestionTabs = ({ append }) => {
                     value={model}
                     onValueChange={setModel}
                     orientation="horizontal"
-                    defaultValue="gpt-4-turbo"
+                    defaultValue="gpt-4o"
                   >
-                    <Radio value="gpt-4-0125-preview">GPT-4</Radio>
+                    <Radio value="gpt-4o">GPT-4o</Radio>
                     <Radio value="gpt-4-turbo">GPT-4-Turbo</Radio>
                     <Radio value="gpt-3.5-turbo-1106">GPT-3.5</Radio>
                     <Radio value="bard" isDisabled>
