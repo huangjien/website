@@ -27,7 +27,7 @@ import { useTranslation } from 'react-i18next';
 const getAnswer = async (
   question,
   lastAnswer,
-  model = 'gpt-4-turbo',
+  model = 'gpt-4o',
   temperature = 0.5
 ) => {
   var questionArray = [{ role: 'user', content: question }];
@@ -76,7 +76,7 @@ export const QuestionTabs = ({ append }) => {
   const [audio, setAudio] = useState(true);
   const mimeType = 'audio/mp3';
   const [trackSpeed, setTrackSpeed] = useState(300);
-  const [model, setModel] = useState('gpt-4-turbo');
+  const [model, setModel] = useState('gpt-4o');
   const [temperature, setTemperature] = useState(0.5);
 
   const [stream, setStream] = useState(null);
@@ -311,9 +311,7 @@ export const QuestionTabs = ({ append }) => {
                     <Radio value="gpt-4o">GPT-4o</Radio>
                     <Radio value="gpt-4-turbo">GPT-4-Turbo</Radio>
                     <Radio value="gpt-3.5-turbo-1106">GPT-3.5</Radio>
-                    <Radio value="bard" isDisabled>
-                      Google Bard
-                    </Radio>
+                    
                   </RadioGroup>
                 </CardBody>
               </Card>
