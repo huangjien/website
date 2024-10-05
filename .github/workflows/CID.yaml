@@ -20,7 +20,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       # Setup gcloud CLI
 
@@ -30,7 +30,7 @@ jobs:
           credentials_json: '${{ secrets.GCP_SA_KEY }}'
 
       - name: 'Set up Cloud SDK'
-        uses: 'google-github-actions/setup-gcloud@v1'
+        uses: 'google-github-actions/setup-gcloud@v2'
 
       # Print gcloud info
       - name: Info
@@ -43,9 +43,9 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: 21
+          node-version: 22
 
       - run: yarn install
       - run: yarn lint
