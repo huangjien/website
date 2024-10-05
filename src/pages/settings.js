@@ -1,5 +1,4 @@
 'use client';
-import RootLayout from './layout';
 import {
   Table,
   TableHeader,
@@ -12,16 +11,16 @@ import {
   Input,
 } from '@nextui-org/react';
 import { useSettings } from '../lib/useSettings';
-import { useAuth } from '../lib/useAuth';
 import { useState, useCallback, useMemo, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
 import { useTitle } from 'ahooks';
 import { BiSearch } from 'react-icons/bi';
+import { signIn, signOut, useSession } from 'next-auth/react';
 
 export default function Settings() {
   const { settings } = useSettings();
-  const { user, isAdmin } = useAuth();
+  const { data: session, status } = useSession();
   const { push } = useRouter();
   const { t } = useTranslation();
   useTitle(t('header.settings'));
@@ -57,75 +56,74 @@ export default function Settings() {
   }, [page, filterItems, rowsPerPage]);
 
   useEffect(() => {
-    if (!user) {
+    if (status === "unauthenticated") {
       push('/');
+      // signIn();
     }
-  }, [user, push]);
+  }, [status, push]);
 
   return (
-    <RootLayout>
-      <Table
-        isStriped
-        aria-label="Settings"
-        topContent={
-          <div className="lg:inline-flex flex-wrap  text-lg justify-center gap-8 items-center m-1">
-            <Input
-              isClearable
-              className="w-auto sm:max-w-[33%] mr-4"
-              placeholder={t('global.search')}
-              startContent={<BiSearch />}
-              value={filterValue}
-              onClear={() => setFilterValue('')}
-              onValueChange={setFilterValue}
-            />
-            <span className="text-default-400 text-small">
-              Total {settings.length} items
-            </span>
-            <Pagination
-              isCompact
-              showControls
-              showShadow
-              color="success"
-              page={page}
-              total={pages}
-              onChange={(page) => setPage(page)}
-            />
+    <Table
+      isStriped
+      aria-label="Settings"
+      topContent={
+        <div className="lg:inline-flex flex-wrap  text-lg justify-center gap-8 items-center m-1">
+          <Input
+            isClearable
+            className="w-auto sm:max-w-[33%] mr-4"
+            placeholder={t('global.search')}
+            startContent={<BiSearch />}
+            value={filterValue}
+            onClear={() => setFilterValue('')}
+            onValueChange={setFilterValue}
+          />
+          <span className="text-default-400 text-small">
+            Total {settings.length} items
+          </span>
+          <Pagination
+            isCompact
+            showControls
+            showShadow
+            color="success"
+            page={page}
+            total={pages}
+            onChange={(page) => setPage(page)}
+          />
 
-            <label className="flex items-center text-default-400 text-small">
-              Rows per page:
-              <select
-                className="bg-transparent outline-none text-default-400 text-small"
-                onChange={onRowsPerPageChange}
-              >
-                <option value="5">5</option>
-                <option value="10">10</option>
-                <option value="15">15</option>
-              </select>
-            </label>
-          </div>
-        }
-        className=" min-h-max text-lg "
-      >
-        <TableHeader>
-          <TableColumn className="text-lg" key="name">
-            {t('column.title.key')}
-          </TableColumn>
-          <TableColumn className="text-lg" key="value">
-            {t('column.title.value')}
-          </TableColumn>
-        </TableHeader>
-        <TableBody items={items}>
-          {(item) => (
-            <TableRow key={item.id}>
-              {(columnKey) => (
-                <TableCell className=" text-lg ">
-                  {getKeyValue(item, columnKey)}
-                </TableCell>
-              )}
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
-    </RootLayout>
+          <label className="flex items-center text-default-400 text-small">
+            Rows per page:
+            <select
+              className="bg-transparent outline-none text-default-400 text-small"
+              onChange={onRowsPerPageChange}
+            >
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="15">15</option>
+            </select>
+          </label>
+        </div>
+      }
+      className=" min-h-max text-lg "
+    >
+      <TableHeader>
+        <TableColumn className="text-lg" key="name">
+          {t('column.title.key')}
+        </TableColumn>
+        <TableColumn className="text-lg" key="value">
+          {t('column.title.value')}
+        </TableColumn>
+      </TableHeader>
+      <TableBody items={items}>
+        {(item) => (
+          <TableRow key={item.id}>
+            {(columnKey) => (
+              <TableCell className=" text-lg ">
+                {getKeyValue(item, columnKey)}
+              </TableCell>
+            )}
+          </TableRow>
+        )}
+      </TableBody>
+    </Table>
   );
 }

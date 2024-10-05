@@ -1,6 +1,5 @@
 'use client';
 
-import RootLayout from './layout';
 import { useLocalStorageState, useTitle, useDebounceEffect } from 'ahooks';
 import { useTranslation } from 'react-i18next';
 import { IssueList } from '../components/IssueList';
@@ -42,11 +41,9 @@ export default function AI() {
   );
 
   return (
-    <RootLayout>
-      <div className="min-h-max w-auto text-lg lg:gap-4 lg:m-4 ">
-        <QuestionTabs append={append} />
-        <IssueList data={content} ComponentName={'Chat'} />
-      </div>
-    </RootLayout>
+    <div className="min-h-max w-auto text-lg lg:gap-4 lg:m-4 ">
+      <QuestionTabs append={append} />
+      <IssueList data={content} ComponentName={'Chat'} />
+    </div>
   );
 }

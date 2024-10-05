@@ -1,4 +1,3 @@
-import RootLayout from './layout';
 import { useTitle } from 'ahooks';
 import { useTranslation } from 'react-i18next';
 import { useGithubContent } from '../lib/useGithubContent';
@@ -18,12 +17,10 @@ export default function About() {
    * @returns {JSX.Element} The rendered content of the 'about' variable.
    */
   return (
-    <RootLayout>
-      <div className="prose prose-2xl dark:prose-invert justify-center items-center gap-8 m-2 w-full">
-        <Markdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
-          {about}
-        </Markdown>
-      </div>
-    </RootLayout>
+    <div className="prose prose-2xl dark:prose-invert justify-center items-center gap-8 m-2 w-full">
+      <Markdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
+        {about}
+      </Markdown>
+    </div>
   );
 }
