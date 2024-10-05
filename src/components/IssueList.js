@@ -20,8 +20,8 @@ import { Chat } from './Chat';
 import { useSettings } from '@/lib/useSettings';
 import { BiSearch } from 'react-icons/bi';
 import { useLocalStorageState } from 'ahooks';
-import { useAuth } from '../lib/useAuth';
 import { IssueModal } from './IssueModal';
+// import { signIn, signOut, useSession } from 'next-auth/react';
 
 /**
  * Renders a table component that displays a list of issues or chats.
@@ -44,7 +44,7 @@ export const IssueList = ({ tags, ComponentName, data, inTab = 'ai' }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { languageCode, speakerName } = useSettings();
   const [filterValue, setFilterValue] = useState('');
-  const { user } = useAuth();
+  // const { data: session, status } = useSession();
 
   useEffect(() => {
     if (data) {
@@ -138,9 +138,9 @@ export const IssueList = ({ tags, ComponentName, data, inTab = 'ai' }) => {
         aria-label="list"
         topContent={
           <div className="lg:inline-flex flex-wrap  text-lg justify-center lg:gap-8 items-center m-4">
-            {user && (inTab === 'issue' || inTab === 'settings') && (
+            {/* {session && (inTab === 'issue' || inTab === 'settings') && (
               <IssueModal action={'new'} />
-            )}
+            )} */}
             <Input
               isClearable
               className="w-auto sm:max-w-[33%] m-4"

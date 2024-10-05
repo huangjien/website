@@ -5,11 +5,11 @@ import Markdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
 import { IssueModal } from './IssueModal';
-import { useAuth } from '../lib/useAuth';
+// import { signIn, signOut, useSession } from 'next-auth/react';
 
 export const Issue = ({ issue }) => {
   const { t } = useTranslation();
-  const { user } = useAuth();
+  // const { data: session } = useSession();
 
   return (
     <>
@@ -48,7 +48,7 @@ export const Issue = ({ issue }) => {
               issue.created_at.toString()
             }
           >
-            {user && <IssueModal issue={issue} action={'edit'} />}
+            {/* {session && <IssueModal issue={issue} action={'edit'} />} */}
             <div className="prose prose-stone dark:prose-invert lg:prose-xl max-w-fit">
               <Markdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
                 {issue.body}

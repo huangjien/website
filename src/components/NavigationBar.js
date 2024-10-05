@@ -22,7 +22,7 @@ import Login from './Login';
 import { useTheme } from 'next-themes';
 import { ThemeSwitch } from './ThemeSwitch';
 import { LanguageSwitch } from './LanguageSwitch';
-import { useAuth } from '../lib/useAuth';
+import { useSession } from 'next-auth/react';
 
 /**
  * Renders a navigation bar with menu items and buttons.
@@ -30,7 +30,7 @@ import { useAuth } from '../lib/useAuth';
  */
 export const NavigationBar = () => {
   const { theme } = useTheme();
-  const { isAuthenticated } = useAuth();
+  const { data: session, status } = useSession();
   const { t } = useTranslation();
 
   return (
@@ -70,7 +70,7 @@ export const NavigationBar = () => {
                 <BiChip size="2em" /> {t('header.ai')}
               </Link>
             </DropdownItem>
-            {isAuthenticated() && (
+            {status === "authenticated" && (
               <DropdownItem>
                 <Link href="/settings" underline="active">
                   <BiCog size="2em" /> {t('header.settings')}
@@ -96,7 +96,7 @@ export const NavigationBar = () => {
             <BiChip size="2em" /> {t('header.ai')}
           </Link>
         </NavbarItem>
-        {isAuthenticated() && (
+        {status === "authenticated" && (
           <NavbarItem className="hidden lg:block">
             <Link href="/settings" underline="active">
               <BiCog size="2em" /> {t('header.settings')}
