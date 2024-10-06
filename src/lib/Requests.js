@@ -72,6 +72,19 @@ export const isMember = async () => {
     });
 };
 
+export const getJoke = async () => {
+  return await fetch(
+    'https://v2.jokeapi.dev/joke/Programming?blacklistFlags=religious,racist,sexist&type=twopart',
+    {
+      method: 'GET',
+    }
+  )
+    .then((res) => res.json())
+    .then((data) => {
+      return data;
+    });
+};
+
 export const getUser = async (username, password) => {
   if (window != undefined) {
     var cached = sessionStorage.getItem(currentUser);

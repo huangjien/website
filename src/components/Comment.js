@@ -1,4 +1,4 @@
-import { Avatar, Accordion, AccordionItem, Spacer } from '@nextui-org/react';
+import { Avatar, Accordion, AccordionItem } from '@nextui-org/react';
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSettings } from '../lib/useSettings';
