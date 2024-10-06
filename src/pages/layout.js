@@ -46,20 +46,24 @@ export default function RootLayout({ children }) {
         style={{ display: show ? 'flex' : 'none' }}
       />
 
-      <footer className=" fixed bottom-0 text-center text-gray-600 right-32 ">
+      <div class="fixed bottom-0 left-0 z-50 bg-gray-500 text-white text-xs shadow-md px-2 rounded-full font-mono">
+        <span class="block sm:hidden">xs</span>
+        <span class="hidden sm:inline md:hidden">sm</span>
+        <span class="hidden md:inline lg:hidden">md</span>
+        <span class="hidden lg:inline xl:hidden">lg</span>
+        <span class="hidden xl:inline">xl</span>
+      </div>
+      <footer className=" fixed bottom-0 text-center text-gray-600 right-48 ">
         <p className=" text-xs">
-          <Link href={'mailto:' + packageJson.author} size={'sm'}>
+          <Link
+            class="hidden sm:inline"
+            href={'mailto:' + packageJson.author}
+            size={'sm'}
+          >
             {packageJson.copyright}
           </Link>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{' version: ' + packageJson.version}
         </p>
-        <div class="fixed right-0 z-50 bg-pink-500 text-white shadow-md px-2 rounded-bl ">
-          <span class="sm:hidden">default</span>
-          <span class="hidden sm:inline md:hidden">sm</span>
-          <span class="hidden md:inline lg:hidden">md</span>
-          <span class="hidden lg:inline xl:hidden">lg</span>
-          <span class="hidden xl:inline">xl</span>
-        </div>
       </footer>
     </main>
 

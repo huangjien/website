@@ -2,7 +2,7 @@
 
 import NextAuth from 'next-auth';
 import GitHubProvider from 'next-auth/providers/github';
-import GoogleProvider from 'next-auth/providers/google'
+import GoogleProvider from 'next-auth/providers/google';
 
 export default NextAuth({
   // Configure one or more authentication providers

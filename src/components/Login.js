@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import {
   Avatar,
   Button,
@@ -24,11 +24,11 @@ import { signIn, signOut, useSession } from 'next-auth/react';
 const Login = () => {
   const { data: sesssion, status } = useSession();
   const { t } = useTranslation();
-  const {theme} = useTheme();
+  const { theme } = useTheme();
 
   return (
     <>
-      {status === "unauthenticated" && (
+      {status === 'unauthenticated' && (
         <>
           <Tooltip color="primary" content={t('header.login')}>
             <Button
@@ -43,39 +43,38 @@ const Login = () => {
           </Tooltip>
         </>
       )}
-      {status ==="authenticated" && (
-            <Dropdown placement="bottom-left">
-              <DropdownTrigger>
-                <Avatar
-                  isBordered
-                  showFallback
-                  fallback={<BiUser />}
-                  alt={sesssion.user.name}
-                  text={sesssion.user.name}
-                  src={sesssion.user.image}
-                />
-              </DropdownTrigger>
-              <DropdownMenu
-                theme={theme === 'dark' ? 'dark' : 'light'}
-                aria-label="Avatar Actions"
-              >
-                <DropdownItem key="email" textValue={sesssion.user.email} >
-                  <p color="inherit">{sesssion.user.email}</p>
-                </DropdownItem>
+      {status === 'authenticated' && (
+        <Dropdown placement="bottom-left">
+          <DropdownTrigger>
+            <Avatar
+              isBordered
+              showFallback
+              fallback={<BiUser />}
+              alt={sesssion.user.name}
+              text={sesssion.user.name}
+              src={sesssion.user.image}
+            />
+          </DropdownTrigger>
+          <DropdownMenu
+            theme={theme === 'dark' ? 'dark' : 'light'}
+            aria-label="Avatar Actions"
+          >
+            <DropdownItem key="email" textValue={sesssion.user.email}>
+              <p color="inherit">{sesssion.user.email}</p>
+            </DropdownItem>
 
-                <DropdownItem
-                  key="logout"
-                  onClick={() => signOut()}
-                  withDivider
-                  color="error"
-                  textValue={t('header.logout')}
-                >
-                  <p color="inherit">{t('header.logout')}</p>
-                </DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-          )
-        }
+            <DropdownItem
+              key="logout"
+              onClick={() => signOut()}
+              withDivider
+              color="error"
+              textValue={t('header.logout')}
+            >
+              <p color="inherit">{t('header.logout')}</p>
+            </DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
+      )}
     </>
   );
 };

@@ -70,7 +70,7 @@ export const NavigationBar = () => {
                 <BiChip size="2em" /> {t('header.ai')}
               </Link>
             </DropdownItem>
-            {status === "authenticated" && (
+            {status === 'authenticated' && (
               <DropdownItem>
                 <Link href="/settings" underline="active">
                   <BiCog size="2em" /> {t('header.settings')}
@@ -96,7 +96,7 @@ export const NavigationBar = () => {
             <BiChip size="2em" /> {t('header.ai')}
           </Link>
         </NavbarItem>
-        {status === "authenticated" && (
+        {status === 'authenticated' && (
           <NavbarItem className="hidden lg:block">
             <Link href="/settings" underline="active">
               <BiCog size="2em" /> {t('header.settings')}

@@ -56,7 +56,7 @@ export default function Settings() {
   }, [page, filterItems, rowsPerPage]);
 
   useEffect(() => {
-    if (status === "unauthenticated") {
+    if (status === 'unauthenticated') {
       push('/');
       // signIn();
     }
