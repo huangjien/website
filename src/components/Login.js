@@ -3,21 +3,13 @@ import {
   Avatar,
   Button,
   Dropdown,
-  Input,
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
   Tooltip,
-  ModalFooter,
-  useDisclosure,
   DropdownTrigger,
   DropdownMenu,
   DropdownItem,
 } from '@nextui-org/react';
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { BiHide, BiShow, BiUser } from 'react-icons/bi';
+import { BiUser } from 'react-icons/bi';
 import { useTheme } from 'next-themes';
 import { signIn, signOut, useSession } from 'next-auth/react';
 
