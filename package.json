@@ -1,6 +1,6 @@
 {
   "name": "website",
-  "version": "0.8.6",
+  "version": "0.8.7",
   "author": "huangjien@gmail.com",
   "copyright": "Copyright (c) 2024 Jien Huang",
   "description": "A blog website template",
@@ -67,7 +67,7 @@
     "autoprefixer": "^10.4.20",
     "cross-env": "^7.0.3",
     "css-loader": "^7.1.2",
-    "eslint": "^9.13.0",
+    "eslint": "^8.57.1",
     "eslint-config-next": "^14.2.15",
     "husky": "^9.1.6",
     "postcss": "^8.4.47",
