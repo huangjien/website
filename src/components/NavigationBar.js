@@ -65,12 +65,14 @@ export const NavigationBar = () => {
                 <BiHome size="2em" /> {t('header.home')}
               </Link>
             </DropdownItem>
-            <DropdownItem>
-              <Link href="/ai" underline="active">
-                <BiChip size="2em" /> {t('header.ai')}
-              </Link>
-            </DropdownItem>
-            {status === "authenticated" && (
+            {status === 'authenticated' && (
+              <DropdownItem>
+                <Link href="/ai" underline="active">
+                  <BiChip size="2em" /> {t('header.ai')}
+                </Link>
+              </DropdownItem>
+            )}
+            {status === 'authenticated' && (
               <DropdownItem>
                 <Link href="/settings" underline="active">
                   <BiCog size="2em" /> {t('header.settings')}
@@ -91,12 +93,14 @@ export const NavigationBar = () => {
             <BiHome size="2em" /> {t('header.home')}
           </Link>
         </NavbarItem>
-        <NavbarItem className="hidden lg:block">
-          <Link href="/ai" underline="active">
-            <BiChip size="2em" /> {t('header.ai')}
-          </Link>
-        </NavbarItem>
-        {status === "authenticated" && (
+        {status === 'authenticated' && (
+          <NavbarItem className="hidden lg:block">
+            <Link href="/ai" underline="active">
+              <BiChip size="2em" /> {t('header.ai')}
+            </Link>
+          </NavbarItem>
+        )}
+        {status === 'authenticated' && (
           <NavbarItem className="hidden lg:block">
             <Link href="/settings" underline="active">
               <BiCog size="2em" /> {t('header.settings')}
@@ -110,10 +114,10 @@ export const NavigationBar = () => {
         </NavbarItem>
 
         <Spacer x={2} className="sm:hidden lg:flex" />
-        <NavbarItem className="hidden lg:block">
+        <NavbarItem className="lg:block">
           <Login />
         </NavbarItem>
-        <NavbarItem className=" lg:block">
+        <NavbarItem className="lg:block">
           <ThemeSwitch />
         </NavbarItem>
         <NavbarItem className="lg:block">

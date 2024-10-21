@@ -20,6 +20,7 @@ import { Chat } from './Chat';
 import { useSettings } from '@/lib/useSettings';
 import { BiSearch } from 'react-icons/bi';
 import { useLocalStorageState } from 'ahooks';
+import { Joke } from './Joke';
 import { IssueModal } from './IssueModal';
 // import { signIn, signOut, useSession } from 'next-auth/react';
 
@@ -131,6 +132,7 @@ export const IssueList = ({ tags, ComponentName, data, inTab = 'ai' }) => {
           </ModalBody>
         </ModalContent>
       </Modal>
+      <Joke />
       <Table
         classNames={'text-large'}
         isStriped
@@ -183,6 +185,7 @@ export const IssueList = ({ tags, ComponentName, data, inTab = 'ai' }) => {
         <TableHeader>
           <TableColumn key="id">id</TableColumn>
         </TableHeader>
+
         <TableBody items={items}>
           {(item) => (
             <TableRow key={item.id}>
