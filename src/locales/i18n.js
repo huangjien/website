@@ -171,7 +171,7 @@ export const languages = [
 ];
 
 initReactI18next.init({
-  resources,
+  resources: resources,
   fallbackLng: 'en',
   lng: 'en',
   debug: false,
