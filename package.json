@@ -1,6 +1,6 @@
 {
   "name": "website",
-  "version": "0.8.23",
+  "version": "0.8.24",
   "author": "huangjien@gmail.com",
   "copyright": "Copyright (c) 2024 Jien Huang",
   "description": "A blog website template",
@@ -43,10 +43,10 @@
     "@nextui-org/theme": "2.4.3",
     "@nextui-org/tooltip": "^2.2.5",
     "ahooks": "^3.8.4",
-    "framer-motion": "^11.14.4",
+    "framer-motion": "^11.15.0",
     "http-proxy": "^1.18.1",
-    "i18next": "^24.1.0",
-    "next": "^15.1.0",
+    "i18next": "^24.2.0",
+    "next": "^15.1.2",
     "next-auth": "^4.24.11",
     "next-pwa": "^5.6.0",
     "next-themes": "^0.4.4",
@@ -55,7 +55,7 @@
     "react-i18next": "^15.2.0",
     "react-icons": "^5.4.0",
     "react-markdown": "^9.0.1",
-    "react-toastify": "^10.0.6",
+    "react-toastify": "^11.0.2",
     "rehype-highlight": "^7.0.1",
     "rehype-raw": "^7.0.0",
     "remark-gfm": "^4.0.0",
@@ -68,11 +68,11 @@
     "cross-env": "^7.0.3",
     "css-loader": "^7.1.2",
     "eslint": "~8.57.1",
-    "eslint-config-next": "^15.1.0",
+    "eslint-config-next": "^15.1.2",
     "husky": "^9.1.7",
     "postcss": "^8.4.49",
     "prettier": "^3.4.2",
     "style-loader": "^4.0.0",
-    "tailwindcss": "3.4.16"
+    "tailwindcss": "3.4.17"
   }
 }

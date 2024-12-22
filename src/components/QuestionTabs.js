@@ -310,7 +310,7 @@ export const QuestionTabs = ({ append }) => {
                   >
                     <Radio value="gpt-4o-mini">GPT-4o-Mini</Radio>
                     <Radio value="gpt-4o">GPT-4o</Radio>
-                    <Radio value="gpt-4-turbo">GPT-4-Turbo</Radio>
+                    <Radio value="o1-mini">GPT-o1-mini</Radio>
                   </RadioGroup>
                 </CardBody>
               </Card>
