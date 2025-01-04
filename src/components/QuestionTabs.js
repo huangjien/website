@@ -308,9 +308,11 @@ export const QuestionTabs = ({ append }) => {
                     orientation="horizontal"
                     defaultValue="gpt-4o-mini"
                   >
-                    <Radio value="gpt-4o-mini">GPT-4o-Mini</Radio>
+                    <Radio defaultChecked value="gpt-4o-mini">
+                      GPT-4o-Mini
+                    </Radio>
                     <Radio value="gpt-4o">GPT-4o</Radio>
-                    <Radio value="o1-mini">GPT-o1-mini</Radio>
+                    <Radio value="o1-mini">o1-mini</Radio>
                   </RadioGroup>
                 </CardBody>
               </Card>
