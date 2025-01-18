@@ -45,8 +45,8 @@ const getAnswer = async (
     method: "POST",
     body: JSON.stringify(requestBody),
   })
-    .then(res => res.json())
-    .then(data => {
+    .then((res) => res.json())
+    .then((data) => {
       return data;
     });
   // .catch(err => {
@@ -87,27 +87,29 @@ export const QuestionTabs = ({ append }) => {
         .getUserMedia({
           audio: true,
         })
-        .then(stream => {
+        .then((stream) => {
           setStream(stream);
         })
-        .catch(err => {
+        .catch((err) => {
           error(`The following getUserMedia error occurred: ${err}`);
         });
     } else {
       warn("getUserMedia not supported on your browser!");
     }
-    await navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
-      setStream(stream);
-      mediaRecorder.current = new MediaRecorder(stream, { type: mimeType });
-      mediaRecorder.current.start();
-      const localAudioChunks = [];
-      mediaRecorder.current.ondataavailable = event => {
-        if (typeof event.data == "undefined") return;
-        if (event.data.size == 0) return;
-        localAudioChunks.push(event.data);
-      };
-      setAudio(localAudioChunks);
-    });
+    await navigator.mediaDevices
+      .getUserMedia({ audio: true })
+      .then((stream) => {
+        setStream(stream);
+        mediaRecorder.current = new MediaRecorder(stream, { type: mimeType });
+        mediaRecorder.current.start();
+        const localAudioChunks = [];
+        mediaRecorder.current.ondataavailable = (event) => {
+          if (typeof event.data == "undefined") return;
+          if (event.data.size == 0) return;
+          localAudioChunks.push(event.data);
+        };
+        setAudio(localAudioChunks);
+      });
   };
   const stopRecording = async () => {
     mediaRecorder.current.stop();
@@ -119,7 +121,7 @@ export const QuestionTabs = ({ append }) => {
 
       setAudio([]);
       // clear the browser status, without this line, the browser tab wil indicate that it is recording
-      stream.getTracks().forEach(track => track.stop());
+      stream.getTracks().forEach((track) => track.stop());
 
       const file = new File([audioBlob], "audio.mp3", { type: mimeType });
 
@@ -131,8 +133,8 @@ export const QuestionTabs = ({ append }) => {
         method: "POST",
         body: formData,
       })
-        .then(res => res.json())
-        .then(response => {
+        .then((res) => res.json())
+        .then((response) => {
           if (response?.error) {
             error(response.error.message);
           } else {
@@ -141,7 +143,7 @@ export const QuestionTabs = ({ append }) => {
             // console.log(response);
           }
         })
-        .catch(err => {
+        .catch((err) => {
           error(err.code + "\n" + err.message);
         });
     };
@@ -177,7 +179,7 @@ export const QuestionTabs = ({ append }) => {
   function request2AI() {
     setLoading(true);
     getAnswer(questionText, lastAnswer, model, parseFloat(temperature))
-      .then(data => {
+      .then((data) => {
         if (data.error) {
           error(
             t("ai.return_error") +
@@ -206,7 +208,7 @@ export const QuestionTabs = ({ append }) => {
         success(t("ai.return_length") + ": " + data.usage.completion_tokens);
         return newQandA;
       })
-      .then(qAndA => {
+      .then((qAndA) => {
         append(qAndA);
         setQuestionText("");
         setLoading(false);
@@ -215,8 +217,8 @@ export const QuestionTabs = ({ append }) => {
 
   return (
     <Tabs
-      radius="md w-auto m-2"
-      size="lg"
+      radius='md w-auto m-2'
+      size='lg'
       classNames={{
         tabList: " justify-evenly w-full relative rounded m-0 ",
         cursor: "w-full ",
@@ -225,7 +227,7 @@ export const QuestionTabs = ({ append }) => {
     >
       <Tab
         title={
-          <h2 className=" font-semibold" size={"2em"}>
+          <h2 className=' font-semibold' size={"2em"}>
             {t("ai.conversation")}
           </h2>
         }
@@ -234,45 +236,45 @@ export const QuestionTabs = ({ append }) => {
           <CardBody>
             {loading && (
               <Progress
-                size="sm"
+                size='sm'
                 isIndeterminate
-                aria-label="Loading..."
-                className="max-w-full"
+                aria-label='Loading...'
+                className='max-w-full'
               />
             )}
-            <div className=" inline-flex justify-items-stretch items-stretch justify-between">
+            <div className=' inline-flex justify-items-stretch items-stretch justify-between'>
               <Textarea
-                type="text"
-                size="xl"
-                aria-label="question text area"
-                className=" inline-flex m-1 lg:w-10/12 sm:w-8/12 max-h-full"
+                type='text'
+                size='xl'
+                aria-label='question text area'
+                className=' inline-flex m-1 lg:w-10/12 sm:w-8/12 max-h-full'
                 isDisabled={loading}
                 value={questionText}
                 placeholder={t("ai.input_placeholder")}
-                onValueChange={e => setQuestionText(e)}
+                onValueChange={(e) => setQuestionText(e)}
               />
               <Tooltip
-                placement="bottom"
-                color="primary"
+                placement='bottom'
+                color='primary'
                 content={
-                  <div className="px-1 py-2">
+                  <div className='px-1 py-2'>
                     <div>{t("ai.send_tooltip")}</div>
                     <div>{t("ai.hold")}</div>
                   </div>
                 }
               >
                 <Button
-                  size="lg"
-                  type="button"
-                  aria-label="send"
+                  size='lg'
+                  type='button'
+                  aria-label='send'
                   onPressStart={startPress}
                   onPressEnd={endPress}
                   isDisabled={loading}
-                  className=" justify-center text-primary items-center flex flex-col m-3 lg:w-2/12 sm:w-4/12 max-h-full"
+                  className=' justify-center text-primary items-center flex flex-col m-3 lg:w-2/12 sm:w-4/12 max-h-full'
                 >
                   {hold && (
                     <BiMicrophone
-                      className=" text-red-500 animate-ping"
+                      className=' text-red-500 animate-ping'
                       size={"2em"}
                     />
                   )}
@@ -285,83 +287,83 @@ export const QuestionTabs = ({ append }) => {
       </Tab>
       <Tab
         title={
-          <h2 className=" font-semibold" size={"2em"}>
+          <h2 className=' font-semibold' size={"2em"}>
             {t("ai.configuration")}
           </h2>
         }
       >
         <Card>
           <CardBody>
-            <div className="  min-h-unit-20 lg:inline-flex  items-stretch justify-between sm:overflow-auto">
-              <Card shadow="none">
+            <div className='  min-h-unit-20 lg:inline-flex  items-stretch justify-between sm:overflow-auto'>
+              <Card shadow='none'>
                 <CardBody>
                   <RadioGroup
                     label={
-                      <h3 className=" text-xl font-bold">
+                      <h3 className=' text-xl font-bold'>
                         {t("ai.select_model")}
                       </h3>
                     }
                     value={model}
                     onValueChange={setModel}
-                    orientation="horizontal"
-                    defaultValue="gpt-4o-mini"
+                    orientation='horizontal'
+                    defaultValue='gpt-4o-mini'
                   >
-                    <Radio defaultChecked value="gpt-4o-mini">
+                    <Radio defaultChecked value='gpt-4o-mini'>
                       GPT-4o-Mini
                     </Radio>
-                    <Radio value="gpt-4o">GPT-4o</Radio>
-                    <Radio value="o1-mini">o1-mini</Radio>
+                    <Radio value='gpt-4o'>GPT-4o</Radio>
+                    <Radio value='o1-mini'>o1-mini</Radio>
                   </RadioGroup>
                 </CardBody>
               </Card>
 
-              <Card shadow="none">
+              <Card shadow='none'>
                 <CardBody>
                   <Input
-                    size="lg"
+                    size='lg'
                     defaultValue={0.5}
                     value={temperature}
-                    onChange={e => setTemperature(e.target.value)}
-                    type="number"
+                    onChange={(e) => setTemperature(e.target.value)}
+                    type='number'
                     label={
-                      <h3 className=" text-xl font-bold">
+                      <h3 className=' text-xl font-bold'>
                         {t("ai.temperature")}
                       </h3>
                     }
                     placeholder={t("ai.value_range_0_1")}
-                    labelPlacement="outside"
+                    labelPlacement='outside'
                     startContent={
-                      <BiSolidThermometer className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                      <BiSolidThermometer className='text-2xl text-default-400 pointer-events-none flex-shrink-0' />
                     }
                   />
                 </CardBody>
               </Card>
-              <Card shadow="none">
+              <Card shadow='none'>
                 <CardBody>
                   <Input
-                    size="lg"
+                    size='lg'
                     defaultValue={trackSpeed}
                     value={trackSpeed}
-                    onChange={e => {
+                    onChange={(e) => {
                       setTrackSpeed(e.target.value);
                     }}
-                    type="number"
+                    type='number'
                     label={
-                      <h3 className=" text-xl font-bold">
+                      <h3 className=' text-xl font-bold'>
                         {t("ai.track_speed")}
                       </h3>
                     }
                     placeholder={t("ai.value_range_50_500")}
-                    labelPlacement="outside"
+                    labelPlacement='outside'
                     startContent={
-                      <BiTimer className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                      <BiTimer className='text-2xl text-default-400 pointer-events-none flex-shrink-0' />
                     }
                   />
                 </CardBody>
               </Card>
-              <Card shadow="none">
+              <Card shadow='none'>
                 <CardBody>
-                  <h3 className=" text-xl font-bold">{t("ai.audio_player")}</h3>
+                  <h3 className=' text-xl font-bold'>{t("ai.audio_player")}</h3>
                   <audio
                     disabled={!audioSrc}
                     controls

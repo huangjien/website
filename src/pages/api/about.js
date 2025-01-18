@@ -12,6 +12,6 @@ export default function handler(req, res) {
   fetch(aboutUrl, {
     method: "GET",
   })
-    .then(response => response.text())
-    .then(data => res.status(200).send(data));
+    .then((response) => response.text())
+    .then((data) => res.status(200).send(data));
 }

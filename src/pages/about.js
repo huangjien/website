@@ -17,7 +17,7 @@ export default function About() {
    * @returns {JSX.Element} The rendered content of the 'about' variable.
    */
   return (
-    <div className="prose prose-2xl dark:prose-invert justify-center items-center gap-8 m-2 w-full">
+    <div className='prose prose-2xl dark:prose-invert justify-center items-center gap-8 m-2 w-full'>
       <Markdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
         {about}
       </Markdown>

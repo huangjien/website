@@ -32,13 +32,13 @@ export default async function handler(req, res) {
   };
 
   fetch(url, options)
-    .then(data => {
+    .then((data) => {
       return data.json();
     })
-    .then(data => {
+    .then((data) => {
       return data.audioContent.toString("base64");
     })
-    .then(data => {
+    .then((data) => {
       res.setHeader("Content-Type", "audio/mpeg");
       res.status(200).send(Buffer.from(data, "base64"));
     });

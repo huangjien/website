@@ -12,8 +12,8 @@ export default function handler(req, res) {
       Authorization: `token ${process.env.GITHUB_TOKEN}`,
     },
   })
-    .then(response => response.json())
-    .then(data => {
+    .then((response) => response.json())
+    .then((data) => {
       var result = "";
       for (var i = 0; i < data.length; i++) {
         if (data[i].body != undefined) {
@@ -22,7 +22,7 @@ export default function handler(req, res) {
       }
       res.status(200).json({ result: result });
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(err.status).json({ error: err.message });
     });
 }

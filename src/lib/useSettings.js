@@ -6,8 +6,8 @@ const getSettings = async () => {
   return await fetch("/api/settings", {
     method: "GET",
   })
-    .then(res => res.json())
-    .then(data => {
+    .then((res) => res.json())
+    .then((data) => {
       return data;
     });
 };
@@ -51,7 +51,7 @@ function useProvideSettings() {
   });
 
   useRequest(getSettings, {
-    onSuccess: result => {
+    onSuccess: (result) => {
       if (result && result.result) {
         setSettings(properties2Json(result.result));
       }
@@ -59,12 +59,12 @@ function useProvideSettings() {
     cacheTime: -1,
   });
 
-  const getSetting = key => {
+  const getSetting = (key) => {
     var result = undefined;
     if (!settings) {
       return result;
     }
-    settings.forEach(setting => {
+    settings.forEach((setting) => {
       if (setting["name"] === key) {
         result = setting["value"];
       }

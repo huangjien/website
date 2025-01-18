@@ -14,7 +14,7 @@ function App({ Component, pageProps }) {
     <NoSSR>
       <NextUIProvider>
         <SessionProvider session={pageProps.session}>
-          <NextThemesProvider attribute="class" defaultTheme="dark">
+          <NextThemesProvider attribute='class' defaultTheme='dark'>
             <ProvideSettings>
               <RootLayout>
                 <Component {...pageProps} />

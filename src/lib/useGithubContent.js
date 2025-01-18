@@ -11,13 +11,13 @@ export const useGithubContent = () => {
   const [tags, setTags] = useState();
 
   useRequest(getReadme, {
-    onSuccess: result => {
+    onSuccess: (result) => {
       setAbout(result);
     },
   });
 
   useRequest(getIssues, {
-    onSuccess: result => {
+    onSuccess: (result) => {
       setRawData(JSON.parse(result));
     },
     staleTime: 1000 * 60 * 60,
@@ -35,11 +35,11 @@ export const useGithubContent = () => {
         setTags(list);
 
         let finalResult = [];
-        rawData.forEach(issue => {
+        rawData.forEach((issue) => {
           const labels = issue["labels"];
           let isVisible = false;
           let labelArray = [];
-          labels.forEach(label => {
+          labels.forEach((label) => {
             // console.log(label['name'])
             if (list.includes(label["name"])) {
               isVisible = true;
@@ -71,7 +71,7 @@ export function extractContentAccordingContentList(
   originalContent
 ) {
   let content = {};
-  contentList.forEach(key => {
+  contentList.forEach((key) => {
     content[key] = getValueByPath(originalContent, key);
   });
   return content;

@@ -26,11 +26,11 @@ export const Comment = ({ issue_id }) => {
     fetch("/api/comments?issue_number=" + issue_id, {
       method: "GET",
     })
-      .then(res => res.json())
-      .then(comment => {
+      .then((res) => res.json())
+      .then((comment) => {
         // foreach to handle a comments array here
         // console.log(comment);
-        comment.forEach(oneComment => {
+        comment.forEach((oneComment) => {
           const oneCommentContent = extractContentAccordingContentList(
             commentContentList,
             oneComment
@@ -45,12 +45,12 @@ export const Comment = ({ issue_id }) => {
     <>
       {commentList && (
         <Accordion shadow bordered>
-          {commentList.map(oneComment => (
+          {commentList.map((oneComment) => (
             <AccordionItem
               aria-label={oneComment.id}
               key={oneComment.id}
               title={
-                <div className="inline-flex m-4">
+                <div className='inline-flex m-4'>
                   <Avatar
                     zoomed
                     bordered
@@ -73,7 +73,7 @@ export const Comment = ({ issue_id }) => {
                 oneComment.created_at.toString()
               }
             >
-              <div className="prose prose-stone dark:prose-invert lg:prose-xl max-w-fit">
+              <div className='prose prose-stone dark:prose-invert lg:prose-xl max-w-fit'>
                 <Markdown
                   remarkPlugins={[remarkGfm]}
                   rehypePlugins={[rehypeRaw]}

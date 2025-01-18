@@ -54,7 +54,7 @@ export const IssueList = ({ tags, ComponentName, data, inTab = "ai" }) => {
   }, [data, rowsPerPage]);
 
   const readText = useCallback(
-    text => {
+    (text) => {
       onOpen();
       handleText2Speech(text);
       // popup the audio play and put the text in it to read it out loud
@@ -77,7 +77,7 @@ export const IssueList = ({ tags, ComponentName, data, inTab = "ai" }) => {
   );
 
   const onRowsPerPageChange = useCallback(
-    e => {
+    (e) => {
       setRowsPerPage(Number(e.target.value));
       setPage(1);
     },
@@ -87,7 +87,7 @@ export const IssueList = ({ tags, ComponentName, data, inTab = "ai" }) => {
     let filteredData = data;
     if (filterValue) {
       let regex = new RegExp(filterValue, "i");
-      filteredData = filteredData.filter(oneItem => {
+      filteredData = filteredData.filter((oneItem) => {
         return JSON.stringify(oneItem).search(regex) > -1;
       });
     }
@@ -102,7 +102,7 @@ export const IssueList = ({ tags, ComponentName, data, inTab = "ai" }) => {
     return filterItems.slice(start, end);
   }, [page, filterItems, rowsPerPage]);
 
-  const handleText2Speech = async text => {
+  const handleText2Speech = async (text) => {
     const res = await fetch(
       `/api/tts?&&languageCode=${languageCode}&&name=${speakerName}&&text=${encodeURIComponent(
         text.replaceAll("\n", "")
@@ -137,59 +137,59 @@ export const IssueList = ({ tags, ComponentName, data, inTab = "ai" }) => {
         classNames={"text-large"}
         isStriped
         hideHeader
-        aria-label="list"
+        aria-label='list'
         topContent={
-          <div className="lg:inline-flex flex-wrap  text-lg justify-center lg:gap-8 items-center m-4">
+          <div className='lg:inline-flex flex-wrap  text-lg justify-center lg:gap-8 items-center m-4'>
             {/* {session && (inTab === 'issue' || inTab === 'settings') && (
               <IssueModal action={'new'} />
             )} */}
             <Input
               isClearable
-              className="w-auto sm:max-w-[33%] m-4"
+              className='w-auto sm:max-w-[33%] m-4'
               placeholder={t("global.search")}
               startContent={<BiSearch />}
               value={filterValue}
               onClear={() => setFilterValue("")}
               onValueChange={setFilterValue}
             />
-            <span className="text-default-400 text-small">
+            <span className='text-default-400 text-small'>
               {t("issue.total", { total: data?.length })}
             </span>
             <Pagination
               isCompact
               showControls
               showShadow
-              color="success"
+              color='success'
               page={page}
               total={pages}
-              onChange={page => setPage(page)}
+              onChange={(page) => setPage(page)}
             />
 
-            <label className="flex  items-center text-default-400 text-small">
+            <label className='flex  items-center text-default-400 text-small'>
               {t("issue.row_per_page")}
               <select
-                className="bg-transparent outline-none text-default-400 text-small"
+                className='bg-transparent outline-none text-default-400 text-small'
                 onChange={onRowsPerPageChange}
                 value={rowsPerPage}
               >
-                <option value="5">5</option>
-                <option value="10">10</option>
-                <option value="15">15</option>
+                <option value='5'>5</option>
+                <option value='10'>10</option>
+                <option value='15'>15</option>
               </select>
             </label>
             <Divider />
           </div>
         }
-        className=" min-h-max w-auto text-large lg:m-4 "
+        className=' min-h-max w-auto text-large lg:m-4 '
       >
         <TableHeader>
-          <TableColumn key="id">id</TableColumn>
+          <TableColumn key='id'>id</TableColumn>
         </TableHeader>
 
         <TableBody items={items}>
-          {item => (
+          {(item) => (
             <TableRow key={item.id}>
-              <TableCell className=" lg:m-4">
+              <TableCell className=' lg:m-4'>
                 {renderCell(item, ComponentName)}
               </TableCell>
             </TableRow>

@@ -12,7 +12,7 @@ export default function Home() {
       tags={tags}
       data={issues}
       ComponentName={"Issue"}
-      inTab="issue"
+      inTab='issue'
     />
   );
 }

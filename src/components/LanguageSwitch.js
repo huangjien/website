@@ -22,7 +22,7 @@ export const LanguageSwitch = () => {
   const [language, setLanguage] = useState(new Set([currentLanguage]));
   const { t, i18n } = useTranslation();
 
-  const chooseLanguage = lang => {
+  const chooseLanguage = (lang) => {
     var it = lang.values();
     //get first entry:
     var first = it.next();
@@ -36,7 +36,7 @@ export const LanguageSwitch = () => {
     if (currentLanguage) {
       i18n.changeLanguage(currentLanguage);
       // search in languages array for the current language and set languageCode and speakerName
-      var lang = languages.find(o => o.key === currentLanguage);
+      var lang = languages.find((o) => o.key === currentLanguage);
       if (lang && lang.languageCode && lang.name) {
         setLanguageCode(lang.languageCode);
         setSpeakerName(lang.name);
@@ -48,26 +48,26 @@ export const LanguageSwitch = () => {
   }, [currentLanguage, setLanguageCode, setSpeakerName, i18n]);
 
   return (
-    <Dropdown placement="bottom-left">
+    <Dropdown placement='bottom-left'>
       <DropdownTrigger>
         <Button
-          aria-label="switch language"
+          aria-label='switch language'
           light
-          className=" bg-transparent text-primary "
+          className=' bg-transparent text-primary '
         >
-          <BiGlobe size="2em" />
+          <BiGlobe size='2em' />
         </Button>
       </DropdownTrigger>
       <DropdownMenu
         disallowEmptySelection
-        selectionMode="single"
+        selectionMode='single'
         selectedKeys={language}
         items={languages}
-        className="text-inherit text-primary"
+        className='text-inherit text-primary'
         onSelectionChange={chooseLanguage}
-        aria-label="language"
+        aria-label='language'
       >
-        {item => <DropdownItem key={item.key}>{item.value}</DropdownItem>}
+        {(item) => <DropdownItem key={item.key}>{item.value}</DropdownItem>}
       </DropdownMenu>
     </Dropdown>
   );

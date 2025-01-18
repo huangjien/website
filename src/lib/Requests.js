@@ -8,7 +8,7 @@ export function getValueByPath(data, path) {
   return path?.split(".").reduce((obj, i) => obj?.[i], data);
 }
 
-export const hashCode = string => {
+export const hashCode = (string) => {
   var hash = 0;
   if (!string) {
     return 0;
@@ -31,15 +31,15 @@ export const setMessage = (messageType, message) => {
 export const getReadme = async () => {
   return await fetch("/api/about", {
     method: "GET",
-  }).then(res => {
+  }).then((res) => {
     return res.text();
   });
 };
 
-export const getRawContent = async url => {
+export const getRawContent = async (url) => {
   return await fetch(url, {
     method: "GET",
-  }).then(res => {
+  }).then((res) => {
     return res.text();
   });
 };
@@ -47,7 +47,7 @@ export const getRawContent = async url => {
 export const getIssues = async () => {
   return await fetch("/api/issues", {
     method: "GET",
-  }).then(res => {
+  }).then((res) => {
     return res.text();
   });
 };
@@ -56,8 +56,8 @@ export const getLabels = async () => {
   return await fetch("/api/labels", {
     method: "GET",
   })
-    .then(res => res.json())
-    .then(data => {
+    .then((res) => res.json())
+    .then((data) => {
       return data;
     });
 };
@@ -66,8 +66,8 @@ export const isMember = async () => {
   return await fetch("/api/member", {
     method: "GET",
   })
-    .then(res => res.json())
-    .then(data => {
+    .then((res) => res.json())
+    .then((data) => {
       return data;
     });
 };
@@ -79,8 +79,8 @@ export const getJoke = async () => {
       method: "GET",
     }
   )
-    .then(res => res.json())
-    .then(data => {
+    .then((res) => res.json())
+    .then((data) => {
       return data;
     });
 };
@@ -98,13 +98,13 @@ export const getUser = async (username, password) => {
       Authorization: "token " + password,
     },
   })
-    .then(response => response.json())
-    .then(data => {
+    .then((response) => response.json())
+    .then((data) => {
       return data;
     });
 };
 
-export const properties2Json = propertiesString => {
+export const properties2Json = (propertiesString) => {
   if (!propertiesString) {
     return [];
   }

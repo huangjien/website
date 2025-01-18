@@ -18,19 +18,19 @@ export const Chat = ({ data, player }) => {
   return (
     <>
       {data && (
-        <Accordion className="m-2 w-fit">
+        <Accordion className='m-2 w-fit'>
           <AccordionItem
             aria-label={data.question}
             title={
-              <div className="lg:inline-flex flex-wrap m-2">
-                <h2 className=" font-semibold m-2 text-xl  select-text">
+              <div className='lg:inline-flex flex-wrap m-2'>
+                <h2 className=' font-semibold m-2 text-xl  select-text'>
                   {data.question}
                 </h2>
-                <Chip aria-label="ai model" className="m-2">
+                <Chip aria-label='ai model' className='m-2'>
                   {data.model}
                 </Chip>
                 {data?.temperature && (
-                  <Chip aria-label="temperature" className="m-2">
+                  <Chip aria-label='temperature' className='m-2'>
                     {data.temperature}
                   </Chip>
                 )}
@@ -48,24 +48,24 @@ export const Chat = ({ data, player }) => {
           >
             <div>
               <Button
-                size="lg"
+                size='lg'
                 onClick={handleCopy}
-                variant="light"
-                className=" bg-transparent  text-primary  m-3  right-6"
+                variant='light'
+                className=' bg-transparent  text-primary  m-3  right-6'
               >
-                <BiCopyAlt className="w-8 h-8" />
+                <BiCopyAlt className='w-8 h-8' />
               </Button>
               <Button
-                size="lg"
+                size='lg'
                 onClick={handlePlay}
-                variant="light"
-                className=" bg-transparent  text-primary  m-3  right-3"
+                variant='light'
+                className=' bg-transparent  text-primary  m-3  right-3'
               >
-                <BiPlayCircle className="w-8 h-8" />
+                <BiPlayCircle className='w-8 h-8' />
               </Button>
-              <div className="select-text prose prose-stone dark:prose-invert lg:prose-xl max-w-fit ">
+              <div className='select-text prose prose-stone dark:prose-invert lg:prose-xl max-w-fit '>
                 <Markdown
-                  className="select-text prose prose-stone dark:prose-invert lg:prose-xl max-w-fit "
+                  className='select-text prose prose-stone dark:prose-invert lg:prose-xl max-w-fit '
                   remarkPlugins={[remarkGfm]}
                   rehypePlugins={[rehypeRaw]}
                 >

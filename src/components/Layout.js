@@ -69,7 +69,7 @@ const Layout = ({ children }) => {
           <main>{children}</main>
 
           <Container
-            className="footer"
+            className='footer'
             style={{ position: "fixed", bottom: 0 }}
           >
             <Button
@@ -81,12 +81,12 @@ const Layout = ({ children }) => {
               style={{ marginLeft: "auto", verticalAlign: "baseline" }}
             >
               {/* <Icon name='sidebar' /> */}
-              <Image alt="menu" avatar spaced size="mini" src="favicon.ico" />
+              <Image alt='menu' avatar spaced size='mini' src='favicon.ico' />
             </Button>
 
             <Label
-              className="ui label basic"
-              size="mini"
+              className='ui label basic'
+              size='mini'
               style={{
                 marginLeft: "2em",
                 marginRight: "auto",
@@ -107,9 +107,9 @@ const Layout = ({ children }) => {
                 marginRight: "auto",
                 verticalAlign: "baseline",
               }}
-              floated="right"
+              floated='right'
             >
-              <Icon name="arrow up" />
+              <Icon name='arrow up' />
             </Button>
           </Container>
         </SidebarPusher>

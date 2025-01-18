@@ -35,92 +35,92 @@ export const NavigationBar = () => {
 
   return (
     <Navbar
-      id="main_header"
+      id='main_header'
       isBordered={theme === "dark"}
-      variant="sticky"
+      variant='sticky'
       css={{
         $$navbarBackgroundColor: "transparent",
         $$navbarBlurBackgroundColor: "transparent",
       }}
     >
-      <NavbarBrand className="block">
-        <Dropdown aria-label="main_dropdown">
+      <NavbarBrand className='block'>
+        <Dropdown aria-label='main_dropdown'>
           <DropdownTrigger>
             <Image
-              src="/favicon.png"
-              alt="brand"
+              src='/favicon.png'
+              alt='brand'
               isZoomed
               width={32}
               height={32}
             />
           </DropdownTrigger>
           <DropdownMenu
-            className="sm:block md:block lg:hidden font-bold text-inherit"
-            aria-label="main_dropdown_menu"
+            className='sm:block md:block lg:hidden font-bold text-inherit'
+            aria-label='main_dropdown_menu'
             disallowEmptySelection
-            selectionMode="single"
+            selectionMode='single'
           >
             <DropdownItem>
-              <Link href="/" underline="active">
-                <BiHome size="2em" /> {t("header.home")}
+              <Link href='/' underline='active'>
+                <BiHome size='2em' /> {t("header.home")}
               </Link>
             </DropdownItem>
             {status === "authenticated" && (
               <DropdownItem>
-                <Link href="/ai" underline="active">
-                  <BiChip size="2em" /> {t("header.ai")}
+                <Link href='/ai' underline='active'>
+                  <BiChip size='2em' /> {t("header.ai")}
                 </Link>
               </DropdownItem>
             )}
             {status === "authenticated" && (
               <DropdownItem>
-                <Link href="/settings" underline="active">
-                  <BiCog size="2em" /> {t("header.settings")}
+                <Link href='/settings' underline='active'>
+                  <BiCog size='2em' /> {t("header.settings")}
                 </Link>
               </DropdownItem>
             )}
             <DropdownItem>
-              <Link href="/about" underline="active">
-                <BiDetail size="2em" /> {t("header.about")}
+              <Link href='/about' underline='active'>
+                <BiDetail size='2em' /> {t("header.about")}
               </Link>
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>
       </NavbarBrand>
-      <NavbarContent className="font-bold text-inherit text-primary">
-        <NavbarItem className="hidden lg:block ">
-          <Link href="/">
-            <BiHome size="2em" /> {t("header.home")}
+      <NavbarContent className='font-bold text-inherit text-primary'>
+        <NavbarItem className='hidden lg:block '>
+          <Link href='/'>
+            <BiHome size='2em' /> {t("header.home")}
           </Link>
         </NavbarItem>
         {status === "authenticated" && (
-          <NavbarItem className="hidden lg:block">
-            <Link href="/ai" underline="active">
-              <BiChip size="2em" /> {t("header.ai")}
+          <NavbarItem className='hidden lg:block'>
+            <Link href='/ai' underline='active'>
+              <BiChip size='2em' /> {t("header.ai")}
             </Link>
           </NavbarItem>
         )}
         {status === "authenticated" && (
-          <NavbarItem className="hidden lg:block">
-            <Link href="/settings" underline="active">
-              <BiCog size="2em" /> {t("header.settings")}
+          <NavbarItem className='hidden lg:block'>
+            <Link href='/settings' underline='active'>
+              <BiCog size='2em' /> {t("header.settings")}
             </Link>
           </NavbarItem>
         )}
-        <NavbarItem className="hidden lg:block">
-          <Link href="/about" underline="active">
-            <BiDetail size="2em" /> {t("header.about")}
+        <NavbarItem className='hidden lg:block'>
+          <Link href='/about' underline='active'>
+            <BiDetail size='2em' /> {t("header.about")}
           </Link>
         </NavbarItem>
 
-        <Spacer x={2} className="sm:hidden lg:flex" />
-        <NavbarItem className="lg:block">
+        <Spacer x={2} className='sm:hidden lg:flex' />
+        <NavbarItem className='lg:block'>
           <Login />
         </NavbarItem>
-        <NavbarItem className="lg:block">
+        <NavbarItem className='lg:block'>
           <ThemeSwitch />
         </NavbarItem>
-        <NavbarItem className="lg:block">
+        <NavbarItem className='lg:block'>
           <LanguageSwitch />
         </NavbarItem>
         <ToastContainer

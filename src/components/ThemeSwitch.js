@@ -26,13 +26,13 @@ export const ThemeSwitch = () => {
 
   return (
     <Tooltip
-      color="primary"
+      color='primary'
       content={theme !== "light" ? t("header.day") : t("header.night")}
     >
       <Button
-        aria-label="switch theme"
+        aria-label='switch theme'
         light
-        className=" bg-transparent text-primary "
+        className=' bg-transparent text-primary '
         onClick={onChange}
       >
         {theme === "light" && <BiMoon size={"2em"} />}

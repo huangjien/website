@@ -28,7 +28,7 @@ export default function Settings() {
   const [page, setPage] = useState(1);
   const [filterValue, setFilterValue] = useState("");
   const pages = Math.ceil(settings.length / rowsPerPage);
-  const onRowsPerPageChange = useCallback(e => {
+  const onRowsPerPageChange = useCallback((e) => {
     setRowsPerPage(Number(e.target.value));
     setPage(1);
   }, []);
@@ -37,7 +37,7 @@ export default function Settings() {
     let filteredData = settings;
     if (filterValue) {
       var regex = new RegExp(filterValue, "i");
-      filteredData = filteredData.filter(oneItem => {
+      filteredData = filteredData.filter((oneItem) => {
         return (
           oneItem["name"].search(regex) > -1 ||
           oneItem["value"].search(regex) > -1
@@ -65,59 +65,59 @@ export default function Settings() {
   return (
     <Table
       isStriped
-      aria-label="Settings"
+      aria-label='Settings'
       topContent={
-        <div className="lg:inline-flex flex-wrap  text-lg justify-center gap-8 items-center m-1">
+        <div className='lg:inline-flex flex-wrap  text-lg justify-center gap-8 items-center m-1'>
           <Input
             isClearable
-            className="w-auto sm:max-w-[33%] mr-4"
+            className='w-auto sm:max-w-[33%] mr-4'
             placeholder={t("global.search")}
             startContent={<BiSearch />}
             value={filterValue}
             onClear={() => setFilterValue("")}
             onValueChange={setFilterValue}
           />
-          <span className="text-default-400 text-small">
+          <span className='text-default-400 text-small'>
             Total {settings.length} items
           </span>
           <Pagination
             isCompact
             showControls
             showShadow
-            color="success"
+            color='success'
             page={page}
             total={pages}
-            onChange={page => setPage(page)}
+            onChange={(page) => setPage(page)}
           />
 
-          <label className="flex items-center text-default-400 text-small">
+          <label className='flex items-center text-default-400 text-small'>
             Rows per page:
             <select
-              className="bg-transparent outline-none text-default-400 text-small"
+              className='bg-transparent outline-none text-default-400 text-small'
               onChange={onRowsPerPageChange}
             >
-              <option value="5">5</option>
-              <option value="10">10</option>
-              <option value="15">15</option>
+              <option value='5'>5</option>
+              <option value='10'>10</option>
+              <option value='15'>15</option>
             </select>
           </label>
         </div>
       }
-      className=" min-h-max text-lg "
+      className=' min-h-max text-lg '
     >
       <TableHeader>
-        <TableColumn className="text-lg" key="name">
+        <TableColumn className='text-lg' key='name'>
           {t("column.title.key")}
         </TableColumn>
-        <TableColumn className="text-lg" key="value">
+        <TableColumn className='text-lg' key='value'>
           {t("column.title.value")}
         </TableColumn>
       </TableHeader>
       <TableBody items={items}>
-        {item => (
+        {(item) => (
           <TableRow key={item.id}>
-            {columnKey => (
-              <TableCell className=" text-lg ">
+            {(columnKey) => (
+              <TableCell className=' text-lg '>
                 {getKeyValue(item, columnKey)}
               </TableCell>
             )}
