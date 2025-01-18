@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import {
   Table,
   TableHeader,
@@ -9,26 +9,26 @@ import {
   getKeyValue,
   Pagination,
   Input,
-} from '@nextui-org/react';
-import { useSettings } from '../lib/useSettings';
-import { useState, useCallback, useMemo, useEffect } from 'react';
-import { useRouter } from 'next/router';
-import { useTranslation } from 'react-i18next';
-import { useTitle } from 'ahooks';
-import { BiSearch } from 'react-icons/bi';
-import { signIn, signOut, useSession } from 'next-auth/react';
+} from "@nextui-org/react";
+import { useSettings } from "../lib/useSettings";
+import { useState, useCallback, useMemo, useEffect } from "react";
+import { useRouter } from "next/router";
+import { useTranslation } from "react-i18next";
+import { useTitle } from "ahooks";
+import { BiSearch } from "react-icons/bi";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 export default function Settings() {
   const { settings } = useSettings();
   const { data: session, status } = useSession();
   const { push } = useRouter();
   const { t } = useTranslation();
-  useTitle(t('header.settings'));
+  useTitle(t("header.settings"));
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(1);
-  const [filterValue, setFilterValue] = useState('');
+  const [filterValue, setFilterValue] = useState("");
   const pages = Math.ceil(settings.length / rowsPerPage);
-  const onRowsPerPageChange = useCallback((e) => {
+  const onRowsPerPageChange = useCallback(e => {
     setRowsPerPage(Number(e.target.value));
     setPage(1);
   }, []);
@@ -36,11 +36,11 @@ export default function Settings() {
   const filterItems = useMemo(() => {
     let filteredData = settings;
     if (filterValue) {
-      var regex = new RegExp(filterValue, 'i');
-      filteredData = filteredData.filter((oneItem) => {
+      var regex = new RegExp(filterValue, "i");
+      filteredData = filteredData.filter(oneItem => {
         return (
-          oneItem['name'].search(regex) > -1 ||
-          oneItem['value'].search(regex) > -1
+          oneItem["name"].search(regex) > -1 ||
+          oneItem["value"].search(regex) > -1
         );
       });
     }
@@ -56,8 +56,8 @@ export default function Settings() {
   }, [page, filterItems, rowsPerPage]);
 
   useEffect(() => {
-    if (status === 'unauthenticated') {
-      push('/');
+    if (status === "unauthenticated") {
+      push("/");
       // signIn();
     }
   }, [status, push]);
@@ -71,10 +71,10 @@ export default function Settings() {
           <Input
             isClearable
             className="w-auto sm:max-w-[33%] mr-4"
-            placeholder={t('global.search')}
+            placeholder={t("global.search")}
             startContent={<BiSearch />}
             value={filterValue}
-            onClear={() => setFilterValue('')}
+            onClear={() => setFilterValue("")}
             onValueChange={setFilterValue}
           />
           <span className="text-default-400 text-small">
@@ -87,7 +87,7 @@ export default function Settings() {
             color="success"
             page={page}
             total={pages}
-            onChange={(page) => setPage(page)}
+            onChange={page => setPage(page)}
           />
 
           <label className="flex items-center text-default-400 text-small">
@@ -107,16 +107,16 @@ export default function Settings() {
     >
       <TableHeader>
         <TableColumn className="text-lg" key="name">
-          {t('column.title.key')}
+          {t("column.title.key")}
         </TableColumn>
         <TableColumn className="text-lg" key="value">
-          {t('column.title.value')}
+          {t("column.title.value")}
         </TableColumn>
       </TableHeader>
       <TableBody items={items}>
-        {(item) => (
+        {item => (
           <TableRow key={item.id}>
-            {(columnKey) => (
+            {columnKey => (
               <TableCell className=" text-lg ">
                 {getKeyValue(item, columnKey)}
               </TableCell>

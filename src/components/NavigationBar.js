@@ -1,6 +1,6 @@
-'use client';
-import React from 'react';
-import 'react-toastify/dist/ReactToastify.css';
+"use client";
+import React from "react";
+import "react-toastify/dist/ReactToastify.css";
 import {
   Navbar,
   NavbarContent,
@@ -10,19 +10,19 @@ import {
   DropdownTrigger,
   DropdownMenu,
   DropdownItem,
-} from '@nextui-org/react';
-import { Link } from '@nextui-org/link';
-import { Spacer } from '@nextui-org/spacer';
-import { useTranslation } from 'react-i18next';
-import { Image } from '@nextui-org/image';
-import { BiChip, BiCog, BiDetail, BiHome } from 'react-icons/bi';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import Login from './Login';
-import { useTheme } from 'next-themes';
-import { ThemeSwitch } from './ThemeSwitch';
-import { LanguageSwitch } from './LanguageSwitch';
-import { useSession } from 'next-auth/react';
+} from "@nextui-org/react";
+import { Link } from "@nextui-org/link";
+import { Spacer } from "@nextui-org/spacer";
+import { useTranslation } from "react-i18next";
+import { Image } from "@nextui-org/image";
+import { BiChip, BiCog, BiDetail, BiHome } from "react-icons/bi";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Login from "./Login";
+import { useTheme } from "next-themes";
+import { ThemeSwitch } from "./ThemeSwitch";
+import { LanguageSwitch } from "./LanguageSwitch";
+import { useSession } from "next-auth/react";
 
 /**
  * Renders a navigation bar with menu items and buttons.
@@ -36,11 +36,11 @@ export const NavigationBar = () => {
   return (
     <Navbar
       id="main_header"
-      isBordered={theme === 'dark'}
+      isBordered={theme === "dark"}
       variant="sticky"
       css={{
-        $$navbarBackgroundColor: 'transparent',
-        $$navbarBlurBackgroundColor: 'transparent',
+        $$navbarBackgroundColor: "transparent",
+        $$navbarBlurBackgroundColor: "transparent",
       }}
     >
       <NavbarBrand className="block">
@@ -62,26 +62,26 @@ export const NavigationBar = () => {
           >
             <DropdownItem>
               <Link href="/" underline="active">
-                <BiHome size="2em" /> {t('header.home')}
+                <BiHome size="2em" /> {t("header.home")}
               </Link>
             </DropdownItem>
-            {status === 'authenticated' && (
+            {status === "authenticated" && (
               <DropdownItem>
                 <Link href="/ai" underline="active">
-                  <BiChip size="2em" /> {t('header.ai')}
+                  <BiChip size="2em" /> {t("header.ai")}
                 </Link>
               </DropdownItem>
             )}
-            {status === 'authenticated' && (
+            {status === "authenticated" && (
               <DropdownItem>
                 <Link href="/settings" underline="active">
-                  <BiCog size="2em" /> {t('header.settings')}
+                  <BiCog size="2em" /> {t("header.settings")}
                 </Link>
               </DropdownItem>
             )}
             <DropdownItem>
               <Link href="/about" underline="active">
-                <BiDetail size="2em" /> {t('header.about')}
+                <BiDetail size="2em" /> {t("header.about")}
               </Link>
             </DropdownItem>
           </DropdownMenu>
@@ -90,26 +90,26 @@ export const NavigationBar = () => {
       <NavbarContent className="font-bold text-inherit text-primary">
         <NavbarItem className="hidden lg:block ">
           <Link href="/">
-            <BiHome size="2em" /> {t('header.home')}
+            <BiHome size="2em" /> {t("header.home")}
           </Link>
         </NavbarItem>
-        {status === 'authenticated' && (
+        {status === "authenticated" && (
           <NavbarItem className="hidden lg:block">
             <Link href="/ai" underline="active">
-              <BiChip size="2em" /> {t('header.ai')}
+              <BiChip size="2em" /> {t("header.ai")}
             </Link>
           </NavbarItem>
         )}
-        {status === 'authenticated' && (
+        {status === "authenticated" && (
           <NavbarItem className="hidden lg:block">
             <Link href="/settings" underline="active">
-              <BiCog size="2em" /> {t('header.settings')}
+              <BiCog size="2em" /> {t("header.settings")}
             </Link>
           </NavbarItem>
         )}
         <NavbarItem className="hidden lg:block">
           <Link href="/about" underline="active">
-            <BiDetail size="2em" /> {t('header.about')}
+            <BiDetail size="2em" /> {t("header.about")}
           </Link>
         </NavbarItem>
 
@@ -128,7 +128,7 @@ export const NavigationBar = () => {
           limit={3}
           pauseOnHover
           closeOnClick
-          theme={theme === 'dark' ? 'dark' : 'light'}
+          theme={theme === "dark" ? "dark" : "light"}
           draggable
         />
       </NavbarContent>

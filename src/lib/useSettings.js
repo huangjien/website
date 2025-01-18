@@ -1,13 +1,13 @@
-import { useRequest, useSessionStorageState } from 'ahooks';
-import { createContext, useContext } from 'react';
-import { properties2Json } from './Requests';
+import { useRequest, useSessionStorageState } from "ahooks";
+import { createContext, useContext } from "react";
+import { properties2Json } from "./Requests";
 
 const getSettings = async () => {
-  return await fetch('/api/settings', {
-    method: 'GET',
+  return await fetch("/api/settings", {
+    method: "GET",
   })
-    .then((res) => res.json())
-    .then((data) => {
+    .then(res => res.json())
+    .then(data => {
       return data;
     });
 };
@@ -29,29 +29,29 @@ export const useSettings = () => {
 
 function useProvideSettings() {
   const [settings, setSettings] = useSessionStorageState(
-    'application_settings'
+    "application_settings"
   );
   const [languageCode, setLanguageCode] = useSessionStorageState(
-    'languageCode',
-    { defaultValue: 'en-US' }
+    "languageCode",
+    { defaultValue: "en-US" }
   );
-  const [speakerName, setSpeakerName] = useSessionStorageState('speakerName', {
-    defaultValue: 'en-US-Standard-A',
+  const [speakerName, setSpeakerName] = useSessionStorageState("speakerName", {
+    defaultValue: "en-US-Standard-A",
   });
 
   const [currentLanguage, setCurrentLanguage] = useSessionStorageState(
-    'Language',
+    "Language",
     {
-      defaultValue: 'en',
+      defaultValue: "en",
     }
   );
 
-  const [currentTheme, setCurrentTheme] = useSessionStorageState('theme', {
-    defaultValue: 'light',
+  const [currentTheme, setCurrentTheme] = useSessionStorageState("theme", {
+    defaultValue: "light",
   });
 
   useRequest(getSettings, {
-    onSuccess: (result) => {
+    onSuccess: result => {
       if (result && result.result) {
         setSettings(properties2Json(result.result));
       }
@@ -59,14 +59,14 @@ function useProvideSettings() {
     cacheTime: -1,
   });
 
-  const getSetting = (key) => {
+  const getSetting = key => {
     var result = undefined;
     if (!settings) {
       return result;
     }
-    settings.forEach((setting) => {
-      if (setting['name'] === key) {
-        result = setting['value'];
+    settings.forEach(setting => {
+      if (setting["name"] === key) {
+        result = setting["value"];
       }
     });
     return result;

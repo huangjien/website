@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import {
   Avatar,
   Button,
@@ -7,11 +7,11 @@ import {
   DropdownTrigger,
   DropdownMenu,
   DropdownItem,
-} from '@nextui-org/react';
-import { useTranslation } from 'react-i18next';
-import { BiUser } from 'react-icons/bi';
-import { useTheme } from 'next-themes';
-import { signIn, signOut, useSession } from 'next-auth/react';
+} from "@nextui-org/react";
+import { useTranslation } from "react-i18next";
+import { BiUser } from "react-icons/bi";
+import { useTheme } from "next-themes";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 const Login = () => {
   const { data: sesssion, status } = useSession();
@@ -20,9 +20,9 @@ const Login = () => {
 
   return (
     <>
-      {status === 'unauthenticated' && (
+      {status === "unauthenticated" && (
         <>
-          <Tooltip color="primary" content={t('header.login')}>
+          <Tooltip color="primary" content={t("header.login")}>
             <Button
               aria-label="login"
               className="bg-transparent  text-primary "
@@ -35,7 +35,7 @@ const Login = () => {
           </Tooltip>
         </>
       )}
-      {status === 'authenticated' && (
+      {status === "authenticated" && (
         <Dropdown placement="bottom-left">
           <DropdownTrigger>
             <Avatar
@@ -48,7 +48,7 @@ const Login = () => {
             />
           </DropdownTrigger>
           <DropdownMenu
-            theme={theme === 'dark' ? 'dark' : 'light'}
+            theme={theme === "dark" ? "dark" : "light"}
             aria-label="Avatar Actions"
           >
             <DropdownItem key="email" textValue={sesssion.user.email}>
@@ -60,9 +60,9 @@ const Login = () => {
               onClick={() => signOut()}
               withDivider
               color="error"
-              textValue={t('header.logout')}
+              textValue={t("header.logout")}
             >
-              <p color="inherit">{t('header.logout')}</p>
+              <p color="inherit">{t("header.logout")}</p>
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>

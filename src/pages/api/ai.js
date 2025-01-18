@@ -15,20 +15,20 @@ export const config = {
 
 export default function handler(req, res) {
   // console.log(JSON.stringify(req.body))
-  fetch('https://api.openai.com/v1/chat/completions', {
-    method: 'POST',
+  fetch("https://api.openai.com/v1/chat/completions", {
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
       Authorization: `Bearer ${process.env.OPEN_AI_KEY}`,
     },
     body: req.body,
   })
-    .then((response) => response.json())
-    .then((data) => {
+    .then(response => response.json())
+    .then(data => {
       // console.log(data)
       res.status(200).send(data);
     })
-    .catch((err) => {
+    .catch(err => {
       res.status(err.status).json({ error: err.message, body: req.body });
     });
 }

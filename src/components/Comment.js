@@ -1,11 +1,11 @@
-import { Avatar, Accordion, AccordionItem } from '@nextui-org/react';
-import { useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useSettings } from '../lib/useSettings';
-import { extractContentAccordingContentList } from '../lib/useGithubContent';
-import Markdown from 'react-markdown';
-import rehypeRaw from 'rehype-raw';
-import remarkGfm from 'remark-gfm';
+import { Avatar, Accordion, AccordionItem } from "@nextui-org/react";
+import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { useSettings } from "../lib/useSettings";
+import { extractContentAccordingContentList } from "../lib/useGithubContent";
+import Markdown from "react-markdown";
+import rehypeRaw from "rehype-raw";
+import remarkGfm from "remark-gfm";
 
 export const Comment = ({ issue_id }) => {
   /**
@@ -16,21 +16,21 @@ export const Comment = ({ issue_id }) => {
    */
   const { t } = useTranslation();
   const { getSetting } = useSettings();
-  const commentContent = getSetting('comment.content');
-  const commentContentList = commentContent?.split(',');
+  const commentContent = getSetting("comment.content");
+  const commentContentList = commentContent?.split(",");
   const [commentList, setCommentList] = useState([]);
 
   useEffect(() => {
     const temp_array = [];
     // console.log(issue_id);
-    fetch('/api/comments?issue_number=' + issue_id, {
-      method: 'GET',
+    fetch("/api/comments?issue_number=" + issue_id, {
+      method: "GET",
     })
-      .then((res) => res.json())
-      .then((comment) => {
+      .then(res => res.json())
+      .then(comment => {
         // foreach to handle a comments array here
         // console.log(comment);
-        comment.forEach((oneComment) => {
+        comment.forEach(oneComment => {
           const oneCommentContent = extractContentAccordingContentList(
             commentContentList,
             oneComment
@@ -45,7 +45,7 @@ export const Comment = ({ issue_id }) => {
     <>
       {commentList && (
         <Accordion shadow bordered>
-          {commentList.map((oneComment) => (
+          {commentList.map(oneComment => (
             <AccordionItem
               aria-label={oneComment.id}
               key={oneComment.id}
@@ -54,22 +54,22 @@ export const Comment = ({ issue_id }) => {
                   <Avatar
                     zoomed
                     bordered
-                    text={oneComment['user.login']}
-                    src={oneComment['user.avatar_url']}
+                    text={oneComment["user.login"]}
+                    src={oneComment["user.avatar_url"]}
                   />
 
-                  <i>{oneComment['user.login']}</i>
+                  <i>{oneComment["user.login"]}</i>
                 </div>
               }
               subtitle={
                 (oneComment.created_at === oneComment.updated_at
-                  ? ''
-                  : t('issue.last_update') +
-                    ': ' +
+                  ? ""
+                  : t("issue.last_update") +
+                    ": " +
                     oneComment.updated_at.toString()) +
-                ' ' +
-                t('issue.created') +
-                ': ' +
+                " " +
+                t("issue.created") +
+                ": " +
                 oneComment.created_at.toString()
               }
             >

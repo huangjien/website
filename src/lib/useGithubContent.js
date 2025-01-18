@@ -1,23 +1,23 @@
-import { useRequest, useLocalStorageState } from 'ahooks';
-import { useEffect, useState } from 'react';
-import { getIssues, getReadme, getValueByPath } from './Requests';
-import { useSettings } from './useSettings';
+import { useRequest, useLocalStorageState } from "ahooks";
+import { useEffect, useState } from "react";
+import { getIssues, getReadme, getValueByPath } from "./Requests";
+import { useSettings } from "./useSettings";
 
 export const useGithubContent = () => {
   const { getSetting } = useSettings();
-  const [about, setAbout] = useLocalStorageState('about');
+  const [about, setAbout] = useLocalStorageState("about");
   const [rawData, setRawData] = useState();
-  const [issues, setIssues] = useLocalStorageState('issues');
+  const [issues, setIssues] = useLocalStorageState("issues");
   const [tags, setTags] = useState();
 
   useRequest(getReadme, {
-    onSuccess: (result) => {
+    onSuccess: result => {
       setAbout(result);
     },
   });
 
   useRequest(getIssues, {
-    onSuccess: (result) => {
+    onSuccess: result => {
       setRawData(JSON.parse(result));
     },
     staleTime: 1000 * 60 * 60,
@@ -26,22 +26,22 @@ export const useGithubContent = () => {
   useEffect(() => {
     if (rawData) {
       // console.log(rawData)
-      const blog_labels = getSetting('blog.labels');
-      const issueContent = getSetting('blog.content');
-      const issueContentList = issueContent?.split(',');
+      const blog_labels = getSetting("blog.labels");
+      const issueContent = getSetting("blog.content");
+      const issueContentList = issueContent?.split(",");
 
       if (blog_labels && issueContent) {
-        const list = blog_labels?.split(',');
+        const list = blog_labels?.split(",");
         setTags(list);
 
         let finalResult = [];
-        rawData.forEach((issue) => {
-          const labels = issue['labels'];
+        rawData.forEach(issue => {
+          const labels = issue["labels"];
           let isVisible = false;
           let labelArray = [];
-          labels.forEach((label) => {
+          labels.forEach(label => {
             // console.log(label['name'])
-            if (list.includes(label['name'])) {
+            if (list.includes(label["name"])) {
               isVisible = true;
               labelArray.push(label.name);
             }
@@ -52,7 +52,7 @@ export const useGithubContent = () => {
               issueContentList,
               issue
             );
-            content['labels.name'] = labelArray;
+            content["labels.name"] = labelArray;
             // console.log(content)
             finalResult.push(content);
           }
@@ -71,7 +71,7 @@ export function extractContentAccordingContentList(
   originalContent
 ) {
   let content = {};
-  contentList.forEach((key) => {
+  contentList.forEach(key => {
     content[key] = getValueByPath(originalContent, key);
   });
   return content;

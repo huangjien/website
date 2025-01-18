@@ -1,15 +1,15 @@
-import { Accordion, AccordionItem, Chip } from '@nextui-org/react';
-import { useTranslation } from 'react-i18next';
-import { Comment } from './Comment';
-import Markdown from 'react-markdown';
-import rehypeRaw from 'rehype-raw';
-import remarkGfm from 'remark-gfm';
-import { IssueModal } from './IssueModal';
-import { useRequest } from 'ahooks';
-import { getJoke } from '@/lib/Requests';
-import { useState } from 'react';
-import { BiRefresh } from 'react-icons/bi';
-import { Spacer } from '@nextui-org/spacer';
+import { Accordion, AccordionItem, Chip } from "@nextui-org/react";
+import { useTranslation } from "react-i18next";
+import { Comment } from "./Comment";
+import Markdown from "react-markdown";
+import rehypeRaw from "rehype-raw";
+import remarkGfm from "remark-gfm";
+import { IssueModal } from "./IssueModal";
+import { useRequest } from "ahooks";
+import { getJoke } from "@/lib/Requests";
+import { useState } from "react";
+import { BiRefresh } from "react-icons/bi";
+import { Spacer } from "@nextui-org/spacer";
 
 export const Joke = () => {
   const { t } = useTranslation();
@@ -17,9 +17,9 @@ export const Joke = () => {
   const [content, setContent] = useState();
 
   const { refresh } = useRequest(getJoke, {
-    onSuccess: (res) => {
-      setTitle(res['setup']);
-      setContent(res['delivery']);
+    onSuccess: res => {
+      setTitle(res["setup"]);
+      setContent(res["delivery"]);
     },
   });
 

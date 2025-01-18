@@ -1,10 +1,10 @@
-import { Accordion, AccordionItem, Chip } from '@nextui-org/react';
-import { useTranslation } from 'react-i18next';
-import { Comment } from './Comment';
-import Markdown from 'react-markdown';
-import rehypeRaw from 'rehype-raw';
-import remarkGfm from 'remark-gfm';
-import { IssueModal } from './IssueModal';
+import { Accordion, AccordionItem, Chip } from "@nextui-org/react";
+import { useTranslation } from "react-i18next";
+import { Comment } from "./Comment";
+import Markdown from "react-markdown";
+import rehypeRaw from "rehype-raw";
+import remarkGfm from "remark-gfm";
+import { IssueModal } from "./IssueModal";
 // import { signIn, signOut, useSession } from 'next-auth/react';
 
 export const Issue = ({ issue }) => {
@@ -25,7 +25,7 @@ export const Issue = ({ issue }) => {
             title={
               <div className=" lg:inline-flex flex-wrap justify-items-stretch items-stretch justify-between">
                 <h2 className=" font-semibold text-xl">{issue.title}</h2>
-                {issue['labels.name']?.map((label) => (
+                {issue["labels.name"]?.map(label => (
                   <div key={label}>
                     {/* <Spacer x={0.5} /> */}
                     <Chip className=" m-2">{label}</Chip>
@@ -40,11 +40,11 @@ export const Issue = ({ issue }) => {
             }
             subtitle={
               (issue.created_at === issue.updated_at
-                ? ''
-                : t('issue.last_update') + ': ' + issue.updated_at.toString()) +
-              ' ' +
-              t('issue.created') +
-              ': ' +
+                ? ""
+                : t("issue.last_update") + ": " + issue.updated_at.toString()) +
+              " " +
+              t("issue.created") +
+              ": " +
               issue.created_at.toString()
             }
           >

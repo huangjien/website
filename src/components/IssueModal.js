@@ -10,26 +10,26 @@ import {
   Checkbox,
   Divider,
   Textarea,
-} from '@nextui-org/react';
-import { BiEdit, BiListPlus } from 'react-icons/bi';
-import Markdown from 'react-markdown';
-import rehypeRaw from 'rehype-raw';
-import remarkGfm from 'remark-gfm';
-import { useState } from 'react';
+} from "@nextui-org/react";
+import { BiEdit, BiListPlus } from "react-icons/bi";
+import Markdown from "react-markdown";
+import rehypeRaw from "rehype-raw";
+import remarkGfm from "remark-gfm";
+import { useState } from "react";
 
 export const IssueModal = ({ issue, action }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [title, setTitle] = useState(issue ? issue?.title : '');
-  const [content, setContent] = useState(issue ? issue?.body : '');
+  const [title, setTitle] = useState(issue ? issue?.title : "");
+  const [content, setContent] = useState(issue ? issue?.body : "");
 
   return (
     <>
-      {action === 'edit' && (
+      {action === "edit" && (
         <Button className="bg-transparent" onPress={onOpen}>
           <BiEdit className="h-8 w-8 bg-transparent text-primary" />
         </Button>
       )}
-      {action === 'new' && (
+      {action === "new" && (
         <Button className="bg-transparent" onPress={onOpen}>
           <BiListPlus className="h-8 w-8 bg-transparent text-primary" />
         </Button>
@@ -42,14 +42,14 @@ export const IssueModal = ({ issue, action }) => {
         onClose={onClose}
       >
         <ModalContent>
-          {(onClose) => (
+          {onClose => (
             <>
               <ModalBody>
                 <div>
                   <div className="lg:inline-flex align-middle w-full justify-evenly gap-4 m-2">
                     <Input
                       isRequired={true}
-                      label={'Title'}
+                      label={"Title"}
                       className=" w-1/2 m-2"
                       aria-label="title"
                       value={title}
@@ -57,7 +57,7 @@ export const IssueModal = ({ issue, action }) => {
                       placeholder="Please input issue title here..."
                     />
                     <CheckboxGroup
-                      label={'Select Tags'}
+                      label={"Select Tags"}
                       className="m2 w-1/2"
                       orientation="horizontal"
                     >
@@ -72,11 +72,11 @@ export const IssueModal = ({ issue, action }) => {
                   <div className="grid grid-cols-1 lg:grid-cols-2 w-full h-full m-2 gap-4 overflow-auto space-x-3 justify-evenly ">
                     <Textarea
                       className="m-2 h-full w-full resize-none "
-                      size={'lg'}
+                      size={"lg"}
                       variant="underlined"
                       value={content}
                       minRows={16}
-                      onChange={(e) => setContent(e.target.value)}
+                      onChange={e => setContent(e.target.value)}
                       placeholder="Please input issue content here, in markdown format ..."
                     ></Textarea>
 

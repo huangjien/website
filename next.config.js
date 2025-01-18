@@ -1,18 +1,18 @@
 /** @type {import('next').NextConfig} */
 
-const withPWA = require('next-pwa')({
-  dest: 'public',
+const withPWA = require("next-pwa")({
+  dest: "public",
   register: true,
   skipWaiting: true,
-  disable: process.env.NODE_ENV === 'development',
+  disable: process.env.NODE_ENV === "development",
 });
 
 // const path = require('path')
 
 const nextConfig = {
-  output: 'standalone',
+  output: "standalone",
   reactStrictMode: false,
-  transpilePackages: ['ahooks'],
+  transpilePackages: ["ahooks"],
   eslint: {
     ignoreDuringBuilds: true,
   },
@@ -23,8 +23,8 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        source: '/robots.txt',
-        destination: '/api/robots',
+        source: "/robots.txt",
+        destination: "/api/robots",
       },
     ];
   },

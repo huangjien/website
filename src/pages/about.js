@@ -1,14 +1,14 @@
-import { useTitle } from 'ahooks';
-import { useTranslation } from 'react-i18next';
-import { useGithubContent } from '../lib/useGithubContent';
-import Markdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
-import rehypeRaw from 'rehype-raw';
+import { useTitle } from "ahooks";
+import { useTranslation } from "react-i18next";
+import { useGithubContent } from "../lib/useGithubContent";
+import Markdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import rehypeRaw from "rehype-raw";
 
 export default function About() {
   const { about } = useGithubContent();
   const { t } = useTranslation();
-  useTitle(t('header.about'));
+  useTitle(t("header.about"));
 
   /**
    * Renders the content of the 'about' variable obtained from the 'useGithubContent' hook.

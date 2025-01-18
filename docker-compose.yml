@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 services:
   web:
     build:
@@ -8,6 +8,6 @@ services:
       - .:/app
     command: npm run dev
     ports:
-      - '8080:8080'
+      - "8080:8080"
     environment:
       NODE_ENV: development

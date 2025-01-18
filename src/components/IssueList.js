@@ -12,16 +12,16 @@ import {
   useDisclosure,
   Input,
   Divider,
-} from '@nextui-org/react';
-import { useState, useMemo, useCallback, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Issue } from './Issue';
-import { Chat } from './Chat';
-import { useSettings } from '@/lib/useSettings';
-import { BiSearch } from 'react-icons/bi';
-import { useLocalStorageState } from 'ahooks';
-import { Joke } from './Joke';
-import { IssueModal } from './IssueModal';
+} from "@nextui-org/react";
+import { useState, useMemo, useCallback, useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { Issue } from "./Issue";
+import { Chat } from "./Chat";
+import { useSettings } from "@/lib/useSettings";
+import { BiSearch } from "react-icons/bi";
+import { useLocalStorageState } from "ahooks";
+import { Joke } from "./Joke";
+import { IssueModal } from "./IssueModal";
 // import { signIn, signOut, useSession } from 'next-auth/react';
 
 /**
@@ -34,17 +34,17 @@ import { IssueModal } from './IssueModal';
  * @param {string} inTab - The tab name indicating the type of data being displayed. (default: 'ai')
  * @returns {JSX.Element} - The rendered table component with the filtered and paginated data.
  */
-export const IssueList = ({ tags, ComponentName, data, inTab = 'ai' }) => {
+export const IssueList = ({ tags, ComponentName, data, inTab = "ai" }) => {
   const { t } = useTranslation();
-  const [rowsPerPage, setRowsPerPage] = useLocalStorageState('RowsPerPage', {
+  const [rowsPerPage, setRowsPerPage] = useLocalStorageState("RowsPerPage", {
     defaultValue: 5,
   });
   const [page, setPage] = useState(1);
-  const [audioSrc, setAudioSrc] = useState('');
+  const [audioSrc, setAudioSrc] = useState("");
   const [pages, setPages] = useState(Math.ceil(data?.length / rowsPerPage));
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { languageCode, speakerName } = useSettings();
-  const [filterValue, setFilterValue] = useState('');
+  const [filterValue, setFilterValue] = useState("");
   // const { data: session, status } = useSession();
 
   useEffect(() => {
@@ -54,7 +54,7 @@ export const IssueList = ({ tags, ComponentName, data, inTab = 'ai' }) => {
   }, [data, rowsPerPage]);
 
   const readText = useCallback(
-    (text) => {
+    text => {
       onOpen();
       handleText2Speech(text);
       // popup the audio play and put the text in it to read it out loud
@@ -65,9 +65,9 @@ export const IssueList = ({ tags, ComponentName, data, inTab = 'ai' }) => {
   const renderCell = useCallback(
     (itemData, columnKey) => {
       switch (columnKey) {
-        case 'Issue':
+        case "Issue":
           return <Issue issue={itemData} />;
-        case 'Chat':
+        case "Chat":
           return <Chat player={readText} name={itemData.id} data={itemData} />;
         default:
           return <pre>{JSON.stringify(itemData)}</pre>;
@@ -77,7 +77,7 @@ export const IssueList = ({ tags, ComponentName, data, inTab = 'ai' }) => {
   );
 
   const onRowsPerPageChange = useCallback(
-    (e) => {
+    e => {
       setRowsPerPage(Number(e.target.value));
       setPage(1);
     },
@@ -86,8 +86,8 @@ export const IssueList = ({ tags, ComponentName, data, inTab = 'ai' }) => {
   const filterItems = useMemo(() => {
     let filteredData = data;
     if (filterValue) {
-      let regex = new RegExp(filterValue, 'i');
-      filteredData = filteredData.filter((oneItem) => {
+      let regex = new RegExp(filterValue, "i");
+      filteredData = filteredData.filter(oneItem => {
         return JSON.stringify(oneItem).search(regex) > -1;
       });
     }
@@ -102,10 +102,10 @@ export const IssueList = ({ tags, ComponentName, data, inTab = 'ai' }) => {
     return filterItems.slice(start, end);
   }, [page, filterItems, rowsPerPage]);
 
-  const handleText2Speech = async (text) => {
+  const handleText2Speech = async text => {
     const res = await fetch(
       `/api/tts?&&languageCode=${languageCode}&&name=${speakerName}&&text=${encodeURIComponent(
-        text.replaceAll('\n', '')
+        text.replaceAll("\n", "")
       )}`
     );
     const blob = await res.blob();
@@ -114,14 +114,14 @@ export const IssueList = ({ tags, ComponentName, data, inTab = 'ai' }) => {
   };
 
   const stopReading = () => {
-    setAudioSrc('');
+    setAudioSrc("");
   };
 
   return (
     <div>
       <Modal
         isDismissable={false}
-        backdrop={'transparent'}
+        backdrop={"transparent"}
         isOpen={isOpen}
         onOpenChange={onOpenChange}
         onClose={stopReading}
@@ -134,7 +134,7 @@ export const IssueList = ({ tags, ComponentName, data, inTab = 'ai' }) => {
       </Modal>
       <Joke />
       <Table
-        classNames={'text-large'}
+        classNames={"text-large"}
         isStriped
         hideHeader
         aria-label="list"
@@ -146,14 +146,14 @@ export const IssueList = ({ tags, ComponentName, data, inTab = 'ai' }) => {
             <Input
               isClearable
               className="w-auto sm:max-w-[33%] m-4"
-              placeholder={t('global.search')}
+              placeholder={t("global.search")}
               startContent={<BiSearch />}
               value={filterValue}
-              onClear={() => setFilterValue('')}
+              onClear={() => setFilterValue("")}
               onValueChange={setFilterValue}
             />
             <span className="text-default-400 text-small">
-              {t('issue.total', { total: data?.length })}
+              {t("issue.total", { total: data?.length })}
             </span>
             <Pagination
               isCompact
@@ -162,11 +162,11 @@ export const IssueList = ({ tags, ComponentName, data, inTab = 'ai' }) => {
               color="success"
               page={page}
               total={pages}
-              onChange={(page) => setPage(page)}
+              onChange={page => setPage(page)}
             />
 
             <label className="flex  items-center text-default-400 text-small">
-              {t('issue.row_per_page')}
+              {t("issue.row_per_page")}
               <select
                 className="bg-transparent outline-none text-default-400 text-small"
                 onChange={onRowsPerPageChange}
@@ -187,7 +187,7 @@ export const IssueList = ({ tags, ComponentName, data, inTab = 'ai' }) => {
         </TableHeader>
 
         <TableBody items={items}>
-          {(item) => (
+          {item => (
             <TableRow key={item.id}>
               <TableCell className=" lg:m-4">
                 {renderCell(item, ComponentName)}

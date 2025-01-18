@@ -5,12 +5,12 @@ import {
   DropdownItem,
   Button,
   Tooltip,
-} from '@nextui-org/react';
-import { useTranslation } from 'react-i18next';
-import { BiGlobe } from 'react-icons/bi';
-import { languages } from '../locales/i18n';
-import { useSettings } from '../lib/useSettings';
-import { useState, useEffect } from 'react';
+} from "@nextui-org/react";
+import { useTranslation } from "react-i18next";
+import { BiGlobe } from "react-icons/bi";
+import { languages } from "../locales/i18n";
+import { useSettings } from "../lib/useSettings";
+import { useState, useEffect } from "react";
 
 export const LanguageSwitch = () => {
   const {
@@ -22,7 +22,7 @@ export const LanguageSwitch = () => {
   const [language, setLanguage] = useState(new Set([currentLanguage]));
   const { t, i18n } = useTranslation();
 
-  const chooseLanguage = (lang) => {
+  const chooseLanguage = lang => {
     var it = lang.values();
     //get first entry:
     var first = it.next();
@@ -36,7 +36,7 @@ export const LanguageSwitch = () => {
     if (currentLanguage) {
       i18n.changeLanguage(currentLanguage);
       // search in languages array for the current language and set languageCode and speakerName
-      var lang = languages.find((o) => o.key === currentLanguage);
+      var lang = languages.find(o => o.key === currentLanguage);
       if (lang && lang.languageCode && lang.name) {
         setLanguageCode(lang.languageCode);
         setSpeakerName(lang.name);
@@ -67,7 +67,7 @@ export const LanguageSwitch = () => {
         onSelectionChange={chooseLanguage}
         aria-label="language"
       >
-        {(item) => <DropdownItem key={item.key}>{item.value}</DropdownItem>}
+        {item => <DropdownItem key={item.key}>{item.value}</DropdownItem>}
       </DropdownMenu>
     </Dropdown>
   );

@@ -1,29 +1,29 @@
-import i18n, { use } from 'i18next';
-import { initReactI18next } from 'react-i18next';
-import { resources } from './resources';
+import i18n, { use } from "i18next";
+import { initReactI18next } from "react-i18next";
+import { resources } from "./resources";
 
 export const languages = [
   {
-    key: 'en',
-    value: 'English',
-    languageCode: 'en-US',
-    name: 'en-US-Standard-A',
+    key: "en",
+    value: "English",
+    languageCode: "en-US",
+    name: "en-US-Standard-A",
   }, //英语					    English
   // {"key": "af", "value":  "Burry (Afrikaans)"}, //布尔语(南非荷兰语)       Burry (Afrikaans)
   // {"key": "sq", "value":  "shqiptar"}, //阿尔巴尼亚语                     shqiptar
   // {"key": "am", "value":  "አማርኛ"}, //阿姆哈拉语				           አማርኛ
-  { key: 'ar', value: 'عربي', languageCode: 'ar-XA', name: 'ar-XA-Standard-A' }, //阿拉伯语				                عربي
+  { key: "ar", value: "عربي", languageCode: "ar-XA", name: "ar-XA-Standard-A" }, //阿拉伯语				                عربي
   {
-    key: 'ja',
-    value: '日本語',
-    languageCode: 'ja-JP',
-    name: 'ja-JP-Standard-A',
+    key: "ja",
+    value: "日本語",
+    languageCode: "ja-JP",
+    name: "ja-JP-Standard-A",
   }, //日语				    日本語
   {
-    key: 'ko',
-    value: '한국어',
-    languageCode: 'ko-KR',
-    name: 'ko-KR-Standard-A',
+    key: "ko",
+    value: "한국어",
+    languageCode: "ko-KR",
+    name: "ko-KR-Standard-A",
   }, //韩语					    한국어
   // {"key": "hy", "value":  "Հայերեն"}, //亚美尼亚语				        Հայերեն
   // {"key": "az", "value":  "Azərbaycan"}, //阿塞拜疆语				        Azərbaycan
@@ -36,16 +36,16 @@ export const languages = [
   // {"key": "ca", "value":  "Català"}, //加泰罗尼亚语			            Català
   // {"key": "ceb", "value":  "Sugbo"}, //宿务语				                Sugbo
   {
-    key: 'zh_CN',
-    value: '中文(简体)',
-    languageCode: 'cmn-CN',
-    name: 'cmn-CN-Standard-A',
+    key: "zh_CN",
+    value: "中文(简体)",
+    languageCode: "cmn-CN",
+    name: "cmn-CN-Standard-A",
   }, //中文(简体)
   {
-    key: 'zh_TW',
-    value: '中文(繁體)',
-    languageCode: 'cmn-TW',
-    name: 'cmn-TW-Standard-A',
+    key: "zh_TW",
+    value: "中文(繁體)",
+    languageCode: "cmn-TW",
+    name: "cmn-TW-Standard-A",
   }, //中文(繁體)
   // {"key": "co", "value":  "Corsa"}, //科西嘉语				    Corsa
   // {"key": "hr", "value":  "Croata"}, //克罗地亚语				    Croata
@@ -57,19 +57,19 @@ export const languages = [
   // {"key": "et", "value":  "Eesti keel"}, //爱沙尼亚语				 Eesti keel
   // {"key": "fi", "value":  "suomalainen"}, //芬兰语				suomalainen
   {
-    key: 'fr',
-    value: 'Français',
-    languageCode: 'fr-FR',
-    name: 'fr-FR-Standard-A',
+    key: "fr",
+    value: "Français",
+    languageCode: "fr-FR",
+    name: "fr-FR-Standard-A",
   }, //法国语				    Français
   // {"key": "fy", "value":  "Frysk"}, //弗里西语				    Frysk
   // {"key": "gl", "value":  "Galego"}, //加利西亚语				    Galego
   // {"key": "ka", "value":  "ქართული"}, //格鲁吉亚语				ქართული
   {
-    key: 'de',
-    value: 'Deutsche Sprache',
-    languageCode: 'de-DE',
-    name: 'de-DE-Standard-A',
+    key: "de",
+    value: "Deutsche Sprache",
+    languageCode: "de-DE",
+    name: "de-DE-Standard-A",
   }, //德语			    Deutsche Sprache
   // {"key": "el", "value":  "Ελληνικά"}, //希腊语				    Ελληνικά
 
@@ -85,12 +85,12 @@ export const languages = [
   // {"key": "ig", "value":  "Asụsụ Ibo"}, //伊博语				    Asụsụ Ibo
 
   // {"key": "id", "value":  "Bahasa indonesia"}, //印尼语	    Bahasa indonesia
-  { key: 'ga', value: 'Gaeilge' }, //爱尔兰语				Gaeilge
+  { key: "ga", value: "Gaeilge" }, //爱尔兰语				Gaeilge
   {
-    key: 'it',
-    value: 'lingua italiana',
-    languageCode: 'it-IT',
-    name: 'it-IT-Standard-A',
+    key: "it",
+    value: "lingua italiana",
+    languageCode: "it-IT",
+    name: "it-IT-Standard-A",
   }, //意大利语		lingua italiana
 
   // {"key": "jw", "value":  "Wong Jawa"}, //印尼爪哇语			Wong Jawa
@@ -126,10 +126,10 @@ export const languages = [
   // {"key": "pa", "value":  "ਪੰਜਾਬੀ"}, //旁遮普语				   ਪੰਜਾਬੀ
   // {"key": "ro", "value":  "românesc"}, //罗马尼亚语			românesc
   {
-    key: 'ru',
-    value: 'Русский язык',
-    languageCode: 'ru-RU',
-    name: 'ru-RU-Standard-A',
+    key: "ru",
+    value: "Русский язык",
+    languageCode: "ru-RU",
+    name: "ru-RU-Standard-A",
   }, //俄语				Русский язык
   // {"key": "sm", "value":  "Samoa"}, //萨摩亚语				Samoa
   // {"key": "gd", "value":  "Gàidhlig na h-Alba"}, //苏格兰盖尔语			Gàidhlig na h-Alba
@@ -143,10 +143,10 @@ export const languages = [
   // {"key": "sl", "value":  "Slovenščina"}, //斯洛文尼亚语			Slovenščina
   // {"key": "so", "value":  "Somali"}, //索马里语				    Somali
   {
-    key: 'es',
-    value: 'Español',
-    languageCode: 'es-ES',
-    name: 'es-ES-Standard-A',
+    key: "es",
+    value: "Español",
+    languageCode: "es-ES",
+    name: "es-ES-Standard-A",
   }, //西班牙语				    Español
   // {"key": "su", "value":  "Sunda Indonesian"}, //印尼巽他语       Sunda Indonesian
   // {"key": "sw", "value":  "Kiswahili"}, //斯瓦希里语				Kiswahili
@@ -172,8 +172,8 @@ export const languages = [
 
 use(initReactI18next).init({
   resources: resources,
-  fallbackLng: 'en',
-  lng: 'en',
+  fallbackLng: "en",
+  lng: "en",
   debug: false,
   interpolation: {
     escapeValue: false, // not needed for react as it escapes by default

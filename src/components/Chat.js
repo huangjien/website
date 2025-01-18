@@ -1,15 +1,15 @@
-import { Accordion, AccordionItem, Chip, Button } from '@nextui-org/react';
-import { useTranslation } from 'react-i18next';
-import { BiCopyAlt, BiPlayCircle } from 'react-icons/bi';
-import Markdown from 'react-markdown';
-import rehypeRaw from 'rehype-raw';
-import remarkGfm from 'remark-gfm';
+import { Accordion, AccordionItem, Chip, Button } from "@nextui-org/react";
+import { useTranslation } from "react-i18next";
+import { BiCopyAlt, BiPlayCircle } from "react-icons/bi";
+import Markdown from "react-markdown";
+import rehypeRaw from "rehype-raw";
+import remarkGfm from "remark-gfm";
 
 export const Chat = ({ data, player }) => {
   const { t } = useTranslation();
   const handleCopy = () => {
     navigator.clipboard.writeText(
-      data.question + '\n\nmodel:' + data.model + '\n\n' + data.answer
+      data.question + "\n\nmodel:" + data.model + "\n\n" + data.answer
     );
   };
   const handlePlay = () => {
@@ -37,12 +37,12 @@ export const Chat = ({ data, player }) => {
               </div>
             }
             subtitle={
-              t('ai.question_length') +
-              ' :' +
+              t("ai.question_length") +
+              " :" +
               data.question_tokens +
-              ' ' +
-              t('ai.answer_length') +
-              ' :' +
+              " " +
+              t("ai.answer_length") +
+              " :" +
               data.answer_tokens
             }
           >

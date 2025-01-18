@@ -1,14 +1,14 @@
-'use client';
-import { Inter } from 'next/font/google';
-import { useSettings } from '../lib/useSettings';
-import { NavigationBar } from '../components/NavigationBar';
-import { ScrollShadow } from '@nextui-org/react';
-import { useScroll } from 'ahooks';
-import { useEffect, useState, useRef } from 'react';
-import { Link } from '@nextui-org/link';
-import { BiArrowToTop } from 'react-icons/bi';
-import packageJson from '../../package.json';
-import { triggerPx } from '../lib/global';
+"use client";
+import { Inter } from "next/font/google";
+import { useSettings } from "../lib/useSettings";
+import { NavigationBar } from "../components/NavigationBar";
+import { ScrollShadow } from "@nextui-org/react";
+import { useScroll } from "ahooks";
+import { useEffect, useState, useRef } from "react";
+import { Link } from "@nextui-org/link";
+import { BiArrowToTop } from "react-icons/bi";
+import packageJson from "../../package.json";
+import { triggerPx } from "../lib/global";
 
 export default function RootLayout({ children }) {
   const scroll = useScroll();
@@ -17,7 +17,7 @@ export default function RootLayout({ children }) {
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth',
+      behavior: "smooth",
     });
   };
 
@@ -43,7 +43,7 @@ export default function RootLayout({ children }) {
         className=" animate-bounce fixed bottom-32 right-10 primary"
         size="2em"
         onClick={scrollToTop}
-        style={{ display: show ? 'flex' : 'none' }}
+        style={{ display: show ? "flex" : "none" }}
       />
 
       <div class="fixed bottom-0 left-0 z-50 bg-gray-500 text-white text-xs shadow-md px-2 rounded-full font-mono">
@@ -57,12 +57,12 @@ export default function RootLayout({ children }) {
         <p className=" text-xs">
           <Link
             class="hidden sm:inline"
-            href={'mailto:' + packageJson.author}
-            size={'sm'}
+            href={"mailto:" + packageJson.author}
+            size={"sm"}
           >
             {packageJson.copyright}
           </Link>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{' version: ' + packageJson.version}
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" version: " + packageJson.version}
         </p>
       </footer>
     </main>
