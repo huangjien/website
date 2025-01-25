@@ -1,12 +1,6 @@
 // pages/api/ip.js
 
-export default async function handler(req, res) {
-  try {
-    const response = await fetch("https://api.ipify.org?format=json");
-    const data = await response.json();
-    res.status(200).json({ ip: data.ip });
-  } catch (error) {
-    console.error("Error fetching IP:", error);
-    res.status(500).json({ error: "Failed to fetch IP" });
+export default function handler(req, res) {
+    const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress; 
+    res.status(200).json({ ip }); 
   }
-}
