@@ -1,6 +1,13 @@
-// pages/api/ip.js
+// pages/api/get-ip.js
 
 export default function handler(req, res) {
-    const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress; 
-    res.status(200).json({ ip }); 
+    const forwardedFor = req.headers['x-forwarded-for'];
+    let ip = req.socket.remoteAddress;
+  
+    if (forwardedFor) {
+      const ips = forwardedFor.split(',');
+      ip = ips; 
+    }
+  
+    res.status(200).json({ ip });
   }
