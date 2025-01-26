@@ -1,13 +1,18 @@
-// pages/api/get-ip.js
+// pages/api/ip.js
 
 export default function handler(req, res) {
-    const forwardedFor = req.headers['x-forwarded-for'];
-    let ip = req.socket.remoteAddress;
-  
-    if (forwardedFor) {
-      const ips = forwardedFor.split(',');
-      ip = ips; 
+  const os = require("os");
+  const interfaces = os.networkInterfaces();
+  let addresses = [];
+
+  for (const k in interfaces) {
+    for (const k2 in interfaces[k]) {
+      const addressObj = interfaces[k][k2];
+      if (addressObj.family === "IPv4" && !addressObj.internal) {
+        addresses.push(addressObj.address);
+      }
     }
-  
-    res.status(200).json({ ip });
   }
+
+  res.status(200).json({ serverIp: addresses });
+}
