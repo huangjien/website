@@ -1,6 +1,6 @@
 {
   "name": "website",
-  "version": "0.8.35",
+  "version": "0.8.36",
   "author": "huangjien@gmail.com",
   "copyright": "Copyright (c) 2025 Jien Huang",
   "description": "A blog website template",
@@ -75,7 +75,7 @@
     "husky": "^9.1.7",
     "postcss": "^8.5.1",
     "style-loader": "^4.0.0",
-    "tailwindcss": "4.0.2",
+    "tailwindcss": "3.4.17",
     "typescript": "^5.7.3"
   }
 }

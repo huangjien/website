@@ -313,6 +313,8 @@ export const QuestionTabs = ({ append }) => {
                     </Radio>
                     <Radio value='gpt-4o'>GPT-4o</Radio>
                     <Radio value='o1-mini'>o1-mini</Radio>
+                    <Radio value='o1'>o1</Radio>
+                    <Radio value='o3-mini'>o3-mini</Radio>
                   </RadioGroup>
                 </CardBody>
               </Card>
@@ -321,7 +323,7 @@ export const QuestionTabs = ({ append }) => {
                 <CardBody>
                   <Input
                     size='lg'
-                    defaultValue={0.5}
+                    defaultValue={1}
                     value={temperature}
                     onChange={(e) => setTemperature(e.target.value)}
                     type='number'
