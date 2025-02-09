@@ -28,7 +28,7 @@ const getAnswer = async (
   question,
   lastAnswer,
   model = "gpt-4o-mini",
-  temperature = 0.5
+  temperature = 1
 ) => {
   var questionArray = [{ role: "user", content: question }];
   // if lastAnser too long or too long ago, then we don't add it.

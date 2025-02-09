@@ -1,3 +1,5 @@
+import { getServerSession } from "next-auth/react";
+
 export const config = {
   api: {
     externalResolver: true,
@@ -5,6 +7,11 @@ export const config = {
 };
 
 export default async function handler(req, res) {
+  const session = await getServerSession(req, res)
+  if (!session) {
+    res.status(401).json({ error: "Unauthorized" });
+    return;
+  }
   const { text, languageCode, name } = req.query;
   // console.log(languageCode, name)
   const url = `https://texttospeech.googleapis.com/v1beta1/text:synthesize?key=${process.env.GOOGLE_TEXT_SPEECH_KEY}`;
