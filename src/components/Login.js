@@ -28,7 +28,7 @@ const Login = () => {
               className='bg-transparent  text-primary '
               auto
               shadow
-              onClick={() => signIn()}
+              onPress={() => signIn()}
             >
               <BiUser size='2em' />
             </Button>
@@ -57,7 +57,7 @@ const Login = () => {
 
             <DropdownItem
               key='logout'
-              onClick={() => signOut()}
+              onPress={() => signOut()}
               withDivider
               color='error'
               textValue={t("header.logout")}
