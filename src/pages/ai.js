@@ -55,7 +55,7 @@ export default function AI() {
 
   // Render the AI page with QuestionTabs for input and IssueList for displaying content.
   return (
-    <div className="min-h-max w-auto text-lg lg:gap-4 lg:m-4 ">
+    <div className='min-h-max w-auto text-lg lg:gap-4 lg:m-4 '>
       {/* Component for managing new Q&A entries; uses the append function to update content */}
       <QuestionTabs append={append} />
       {/* Component to display the list of Q&A records or issues */}

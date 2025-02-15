@@ -7,7 +7,7 @@ export const config = {
 };
 
 export default async function handler(req, res) {
-  const session = await getServerSession(req, res)
+  const session = await getServerSession(req, res);
   if (!session) {
     res.status(401).json({ error: "Unauthorized" });
     return;
