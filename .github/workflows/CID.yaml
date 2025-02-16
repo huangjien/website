@@ -47,10 +47,6 @@ jobs:
         with:
           node-version: 23
 
-      - run: yarn install
-      - run: yarn lint
-      - run: yarn build
-
       - run: yarn make
       - run: yarn push
 
