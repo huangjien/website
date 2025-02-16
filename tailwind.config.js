@@ -3,10 +3,10 @@ const { nextui } = require("@nextui-org/react");
 
 module.exports = {
   content: [
-    './app/**/*.{js,ts,jsx,tsx,mdx}', // If you're using the app directory in Next.js 13+
-    './pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './components/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/**/*.{js,ts,jsx,tsx,mdx}', // If your source code is in a 'src' directory
+    "./app/**/*.{js,ts,jsx,tsx,mdx}", // If you're using the app directory in Next.js 13+
+    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/**/*.{js,ts,jsx,tsx,mdx}", // If your source code is in a 'src' directory
   ],
   darkMode: "class",
   plugins: [
