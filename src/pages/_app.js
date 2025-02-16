@@ -7,6 +7,7 @@ import { SessionProvider } from "next-auth/react";
 // import { languages } from '../locales/i18n';
 import "./globals.css";
 import RootLayout from "./layout";
+import "tailwindcss/tailwind.css";
 
 function App({ Component, pageProps }) {
   return (
