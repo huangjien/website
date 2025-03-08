@@ -1,16 +1,3 @@
-import {
-  Tab,
-  Tabs,
-  Card,
-  CardBody,
-  Button,
-  Textarea,
-  Tooltip,
-  RadioGroup,
-  Radio,
-  Input,
-  Progress,
-} from "@nextui-org/react";
 import { useState, useRef } from "react";
 import {
   BiMessageRoundedDetail,
@@ -243,7 +230,7 @@ export const QuestionTabs = ({ append }) => {
               />
             )}
             <div className=' inline-flex justify-items-stretch items-stretch justify-between'>
-              <Textarea
+              <textarea
                 type='text'
                 size='xl'
                 aria-label='question text area'
@@ -263,7 +250,7 @@ export const QuestionTabs = ({ append }) => {
                   </div>
                 }
               >
-                <Button
+                <button
                   size='lg'
                   type='button'
                   aria-label='send'
@@ -279,7 +266,7 @@ export const QuestionTabs = ({ append }) => {
                     />
                   )}
                   {!hold && <BiMessageRoundedDetail size={"2em"} />}
-                </Button>
+                </button>
               </Tooltip>
             </div>
           </CardBody>
@@ -321,7 +308,7 @@ export const QuestionTabs = ({ append }) => {
 
               <Card shadow='none'>
                 <CardBody>
-                  <Input
+                  <input
                     size='lg'
                     defaultValue={1}
                     value={temperature}
@@ -342,7 +329,7 @@ export const QuestionTabs = ({ append }) => {
               </Card>
               <Card shadow='none'>
                 <CardBody>
-                  <Input
+                  <input
                     size='lg'
                     defaultValue={trackSpeed}
                     value={trackSpeed}

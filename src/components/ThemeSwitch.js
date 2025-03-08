@@ -1,5 +1,5 @@
 "use client";
-import { Button, Tooltip } from "@nextui-org/react";
+
 import { useTheme } from "next-themes";
 import { useState, useEffect } from "react";
 import { BiMoon, BiSun } from "react-icons/bi";
@@ -29,7 +29,7 @@ export const ThemeSwitch = () => {
       color='primary'
       content={theme !== "light" ? t("header.day") : t("header.night")}
     >
-      <Button
+      <button
         aria-label='switch theme'
         light
         className=' bg-transparent text-primary '
@@ -37,7 +37,7 @@ export const ThemeSwitch = () => {
       >
         {theme === "light" && <BiMoon size={"2em"} />}
         {theme !== "light" && <BiSun size={"2em"} />}
-      </Button>
+      </button>
     </Tooltip>
   );
 };

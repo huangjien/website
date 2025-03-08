@@ -1,11 +1,8 @@
 "use client";
-import { Inter } from "next/font/google";
-import { useSettings } from "../lib/useSettings";
 import { NavigationBar } from "../components/NavigationBar";
-import { ScrollShadow } from "@nextui-org/react";
+import { Link } from "next/link";
 import { useScroll } from "ahooks";
-import { useEffect, useState, useRef } from "react";
-import { Link } from "@nextui-org/link";
+import { useEffect, useState } from "react";
 import { BiArrowToTop } from "react-icons/bi";
 import packageJson from "../../package.json";
 import { triggerPx } from "../lib/global";

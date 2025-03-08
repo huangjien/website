@@ -1,4 +1,3 @@
-import { Accordion, AccordionItem, Chip, Button } from "@nextui-org/react";
 import { useTranslation } from "react-i18next";
 import { BiCopyAlt, BiPlayCircle } from "react-icons/bi";
 import Markdown from "react-markdown";
@@ -47,22 +46,22 @@ export const Chat = ({ data, player }) => {
             }
           >
             <div>
-              <Button
+              <button
                 size='lg'
                 opPress={handleCopy}
                 variant='light'
                 className=' bg-transparent  text-primary  m-3  right-6'
               >
                 <BiCopyAlt className='w-8 h-8' />
-              </Button>
-              <Button
+              </button>
+              <button
                 size='lg'
                 onPress={handlePlay}
                 variant='light'
                 className=' bg-transparent  text-primary  m-3  right-3'
               >
                 <BiPlayCircle className='w-8 h-8' />
-              </Button>
+              </button>
               <div className='select-text prose prose-stone dark:prose-invert lg:prose-xl max-w-fit '>
                 <Markdown
                   className='select-text prose prose-stone dark:prose-invert lg:prose-xl max-w-fit '

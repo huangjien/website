@@ -1,15 +1,4 @@
 "use client";
-import {
-  Table,
-  TableHeader,
-  TableColumn,
-  TableBody,
-  TableRow,
-  TableCell,
-  getKeyValue,
-  Pagination,
-  Input,
-} from "@nextui-org/react";
 import { useSettings } from "../lib/useSettings";
 import { useState, useCallback, useMemo, useEffect } from "react";
 import { useRouter } from "next/router";
@@ -68,7 +57,7 @@ export default function Settings() {
       aria-label='Settings'
       topContent={
         <div className='lg:inline-flex flex-wrap  text-lg justify-center gap-8 items-center m-1'>
-          <Input
+          <input
             isClearable
             className='w-auto sm:max-w-[33%] mr-4'
             placeholder={t("global.search")}

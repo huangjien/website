@@ -1,19 +1,5 @@
-import {
-  Table,
-  TableHeader,
-  TableColumn,
-  TableBody,
-  TableRow,
-  TableCell,
-  Pagination,
-  Modal,
-  ModalContent,
-  ModalBody,
-  useDisclosure,
-  Input,
-  Divider,
-} from "@nextui-org/react";
 import { useState, useMemo, useCallback, useEffect } from "react";
+import { Description, Dialog, DialogPanel, DialogTitle } from '@headlessui/react'
 import { useTranslation } from "react-i18next";
 import { Issue } from "./Issue";
 import { Chat } from "./Chat";
@@ -42,7 +28,7 @@ export const IssueList = ({ tags, ComponentName, data, inTab = "ai" }) => {
   const [page, setPage] = useState(1);
   const [audioSrc, setAudioSrc] = useState("");
   const [pages, setPages] = useState(Math.ceil(data?.length / rowsPerPage));
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { isOpen, setIsOpen } = useState(false);
   const { languageCode, speakerName } = useSettings();
   const [filterValue, setFilterValue] = useState("");
   // const { data: session, status } = useSession();
@@ -55,11 +41,10 @@ export const IssueList = ({ tags, ComponentName, data, inTab = "ai" }) => {
 
   const readText = useCallback(
     (text) => {
-      onOpen();
       handleText2Speech(text);
       // popup the audio play and put the text in it to read it out loud
     },
-    [onOpen]
+    [isOpen]
   );
 
   const renderCell = useCallback(
@@ -119,19 +104,17 @@ export const IssueList = ({ tags, ComponentName, data, inTab = "ai" }) => {
 
   return (
     <div>
-      <Modal
+      <Dialog
         isDismissable={false}
         backdrop={"transparent"}
         isOpen={isOpen}
-        onOpenChange={onOpenChange}
-        onClose={stopReading}
+        onOpenChange={()=>{setIsOpen(!isOpen)}}
+        onClose={()=>{setIsOpen(false);stopReading();}}
       >
-        <ModalContent>
-          <ModalBody>
+        <DialogPanel>
             <audio disabled={!audioSrc} controls autoPlay src={audioSrc} />
-          </ModalBody>
-        </ModalContent>
-      </Modal>
+        </DialogPanel>
+      </Dialog>
       <Joke />
       <Table
         classNames={"text-large"}
@@ -143,7 +126,7 @@ export const IssueList = ({ tags, ComponentName, data, inTab = "ai" }) => {
             {/* {session && (inTab === 'issue' || inTab === 'settings') && (
               <IssueModal action={'new'} />
             )} */}
-            <Input
+            <input
               isClearable
               className='w-auto sm:max-w-[33%] m-4'
               placeholder={t("global.search")}
@@ -177,7 +160,7 @@ export const IssueList = ({ tags, ComponentName, data, inTab = "ai" }) => {
                 <option value='15'>15</option>
               </select>
             </label>
-            <Divider />
+            <hr />
           </div>
         }
         className=' min-h-max w-auto text-large lg:m-4 '

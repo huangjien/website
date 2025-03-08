@@ -1,13 +1,4 @@
 "use client";
-import {
-  Avatar,
-  Button,
-  Dropdown,
-  Tooltip,
-  DropdownTrigger,
-  DropdownMenu,
-  DropdownItem,
-} from "@nextui-org/react";
 import { useTranslation } from "react-i18next";
 import { BiUser } from "react-icons/bi";
 import { useTheme } from "next-themes";
@@ -23,7 +14,7 @@ const Login = () => {
       {status === "unauthenticated" && (
         <>
           <Tooltip color='primary' content={t("header.login")}>
-            <Button
+            <button
               aria-label='login'
               className='bg-transparent  text-primary '
               auto
@@ -31,7 +22,7 @@ const Login = () => {
               onPress={() => signIn()}
             >
               <BiUser size='2em' />
-            </Button>
+            </button>
           </Tooltip>
         </>
       )}
@@ -51,19 +42,18 @@ const Login = () => {
             theme={theme === "dark" ? "dark" : "light"}
             aria-label='Avatar Actions'
           >
-            <DropdownItem key='email' textValue={sesssion.user.email}>
+            <MenuItem key='email' textValue={sesssion.user.email}>
               <p color='inherit'>{sesssion.user.email}</p>
-            </DropdownItem>
+            </MenuItem>
 
-            <DropdownItem
+            <MenuItem
               key='logout'
               onPress={() => signOut()}
-              withDivider
               color='error'
               textValue={t("header.logout")}
             >
               <p color='inherit'>{t("header.logout")}</p>
-            </DropdownItem>
+            </MenuItem>
           </DropdownMenu>
         </Dropdown>
       )}

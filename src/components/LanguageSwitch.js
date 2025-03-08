@@ -1,16 +1,9 @@
-import {
-  Dropdown,
-  DropdownTrigger,
-  DropdownMenu,
-  DropdownItem,
-  Button,
-  Tooltip,
-} from "@nextui-org/react";
 import { useTranslation } from "react-i18next";
 import { BiGlobe } from "react-icons/bi";
 import { languages } from "../locales/i18n";
 import { useSettings } from "../lib/useSettings";
 import { useState, useEffect } from "react";
+import { Menu, MenuButton, MenuItems } from "@headlessui/react";
 
 export const LanguageSwitch = () => {
   const {
@@ -48,17 +41,17 @@ export const LanguageSwitch = () => {
   }, [currentLanguage, setLanguageCode, setSpeakerName, i18n]);
 
   return (
-    <Dropdown placement='bottom-left'>
-      <DropdownTrigger>
-        <Button
+    <Menu>
+      <MenuButton>
+        <button
           aria-label='switch language'
           light
           className=' bg-transparent text-primary '
         >
           <BiGlobe size='2em' />
-        </Button>
-      </DropdownTrigger>
-      <DropdownMenu
+        </button>
+      </MenuButton>
+      <MenuItems
         disallowEmptySelection
         selectionMode='single'
         selectedKeys={language}
@@ -67,8 +60,8 @@ export const LanguageSwitch = () => {
         onSelectionChange={chooseLanguage}
         aria-label='language'
       >
-        {(item) => <DropdownItem key={item.key}>{item.value}</DropdownItem>}
-      </DropdownMenu>
-    </Dropdown>
+        {(item) => <MenuItem key={item.key}>{item.value}</MenuItem>}
+      </MenuItems>
+    </Menu>
   );
 };
