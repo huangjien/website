@@ -40,6 +40,7 @@ const Login = () => {
           <DropdownTrigger>
             <Avatar
               isBordered
+              size='sm'
               showFallback
               fallback={<BiUser />}
               alt={sesssion.user.name}
