@@ -12,7 +12,7 @@ import {
   useDisclosure,
   Input,
   Divider,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { useState, useMemo, useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Issue } from "./Issue";

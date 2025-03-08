@@ -7,7 +7,7 @@ import {
   DropdownTrigger,
   DropdownMenu,
   DropdownItem,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { useTranslation } from "react-i18next";
 import { BiUser } from "react-icons/bi";
 import { useTheme } from "next-themes";

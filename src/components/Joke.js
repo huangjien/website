@@ -8,7 +8,7 @@ import { useRequest } from "ahooks";
 import { getJoke } from "@/lib/Requests";
 import { useState } from "react";
 import { BiRefresh } from "react-icons/bi";
-import { Spacer } from "@nextui-org/spacer";
+import { Spacer } from "@heroui/spacer";
 
 export const Joke = () => {
   const [title, setTitle] = useState(); // Stores the joke setup text

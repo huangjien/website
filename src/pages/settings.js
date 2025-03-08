@@ -9,7 +9,7 @@ import {
   getKeyValue,
   Pagination,
   Input,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { useSettings } from "../lib/useSettings";
 import { useState, useCallback, useMemo, useEffect } from "react";
 import { useRouter } from "next/router";

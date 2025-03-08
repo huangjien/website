@@ -1,4 +1,4 @@
-import { Accordion, AccordionItem, Chip } from "@nextui-org/react";
+import { Accordion, AccordionItem, Chip } from "@heroui/react";
 import { useTranslation } from "react-i18next";
 import { Comment } from "./Comment";
 import Markdown from "react-markdown";

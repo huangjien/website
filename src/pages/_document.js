@@ -1,4 +1,4 @@
-import { CssBaseline } from "@nextui-org/react";
+import { CssBaseline } from "@heroui/react";
 import { Head, Html, Main, NextScript } from "next/document";
 import React from "react";
 
