@@ -12,6 +12,7 @@ const withPWA = require("next-pwa")({
 const nextConfig = {
   output: "standalone",
   reactStrictMode: false,
+  devIndicators: false,
   transpilePackages: ["ahooks"],
   eslint: {
     ignoreDuringBuilds: true,
