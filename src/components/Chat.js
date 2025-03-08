@@ -1,4 +1,4 @@
-import { Accordion, AccordionItem, Chip, Button } from "@nextui-org/react";
+import { Accordion, AccordionItem, Chip, Button } from "@heroui/react";
 import { useTranslation } from "react-i18next";
 import { BiCopyAlt, BiPlayCircle } from "react-icons/bi";
 import Markdown from "react-markdown";

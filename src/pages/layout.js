@@ -2,10 +2,10 @@
 import { Inter } from "next/font/google";
 import { useSettings } from "../lib/useSettings";
 import { NavigationBar } from "../components/NavigationBar";
-import { ScrollShadow } from "@nextui-org/react";
+import { ScrollShadow } from "@heroui/react";
 import { useScroll } from "ahooks";
 import { useEffect, useState, useRef } from "react";
-import { Link } from "@nextui-org/link";
+import { Link } from "@heroui/link";
 import { BiArrowToTop } from "react-icons/bi";
 import packageJson from "../../package.json";
 import { triggerPx } from "../lib/global";
@@ -36,6 +36,8 @@ export default function RootLayout({ children }) {
   return (
     // <html lang="en" suppressHydrationWarning>
     //   <body className="bg-white dark:bg-black text-white dark:text-black">
+    //   </body>
+    // </html>
     <main className='w-full flex flex-col h-full min-h-screen bg-white dark:bg-black text-black dark:text-white '>
       <NavigationBar className=' text-gray-700 bg-white dark-mode:text-gray-200 dark-mode:bg-gray-800' />
       {children}
@@ -45,7 +47,6 @@ export default function RootLayout({ children }) {
         onClick={scrollToTop}
         style={{ display: show ? "flex" : "none" }}
       />
-
       <div class='fixed bottom-0 left-0 z-50 bg-gray-500 text-white text-xs shadow-md px-2 rounded-full font-mono'>
         <span class='block sm:hidden'>xs</span>
         <span class='hidden sm:inline md:hidden'>sm</span>
@@ -66,8 +67,5 @@ export default function RootLayout({ children }) {
         </p>
       </footer>
     </main>
-
-    //   </body>
-    // </html>
   );
 }

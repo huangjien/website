@@ -10,7 +10,7 @@ import {
   Radio,
   Input,
   Progress,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { useState, useRef } from "react";
 import {
   BiMessageRoundedDetail,

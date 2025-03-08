@@ -10,7 +10,7 @@ import {
   Checkbox,
   Divider,
   Textarea,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { BiEdit, BiListPlus } from "react-icons/bi";
 import Markdown from "react-markdown";
 import rehypeRaw from "rehype-raw";

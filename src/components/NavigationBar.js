@@ -10,11 +10,11 @@ import {
   DropdownTrigger,
   DropdownMenu,
   DropdownItem,
-} from "@nextui-org/react";
-import { Link } from "@nextui-org/link";
-import { Spacer } from "@nextui-org/spacer";
+} from "@heroui/react";
+import { Link } from "@heroui/link";
+import { Spacer } from "@heroui/spacer";
 import { useTranslation } from "react-i18next";
-import { Image } from "@nextui-org/image";
+import { Image } from "@heroui/image";
 import { BiChip, BiCog, BiDetail, BiHome } from "react-icons/bi";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

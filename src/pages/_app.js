@@ -1,5 +1,5 @@
 "use client";
-import { NextUIProvider } from "@nextui-org/react";
+import { HeroUIProvider } from "@heroui/react";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { ProvideSettings } from "../lib/useSettings";
 import NoSSR from "../lib/NoSSR";
@@ -12,7 +12,7 @@ function App({ Component, pageProps }) {
   return (
     // Use at the root of our app
     <NoSSR>
-      <NextUIProvider>
+      <HeroUIProvider>
         <SessionProvider session={pageProps.session}>
           <NextThemesProvider attribute='class' defaultTheme='dark'>
             <ProvideSettings>
@@ -22,7 +22,7 @@ function App({ Component, pageProps }) {
             </ProvideSettings>
           </NextThemesProvider>
         </SessionProvider>
-      </NextUIProvider>
+      </HeroUIProvider>
     </NoSSR>
   );
 }

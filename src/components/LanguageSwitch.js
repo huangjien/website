@@ -5,7 +5,7 @@ import {
   DropdownItem,
   Button,
   Tooltip,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { useTranslation } from "react-i18next";
 import { BiGlobe } from "react-icons/bi";
 import { languages } from "../locales/i18n";
