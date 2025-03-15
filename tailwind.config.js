@@ -15,18 +15,18 @@ module.exports = {
         light: {
           colors: {
             default: {
-              50: "#f5fcf8",
-              100: "#e8f8ed",
-              200: "#daf3e3",
-              300: "#cdefd8",
-              400: "#bfeace",
-              500: "#b2e6c3",
-              600: "#93bea1",
-              700: "#74967f",
-              800: "#556d5d",
-              900: "#35453b",
+              50: "#f6f8f7",
+              100: "#eaefec",
+              200: "#dee5e0",
+              300: "#d2dcd5",
+              400: "#c5d2c9",
+              500: "#b9c9be",
+              600: "#99a69d",
+              700: "#78837c",
+              800: "#585f5a",
+              900: "#383c39",
               foreground: "#000",
-              DEFAULT: "#b2e6c3",
+              DEFAULT: "#b9c9be",
             },
             primary: {
               50: "#ecf9f0",
@@ -230,7 +230,7 @@ module.exports = {
         },
       },
       layout: {
-        disabledOpacity: "0.2",
+        disabledOpacity: "0.5",
       },
     }),
   ],
