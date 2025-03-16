@@ -135,7 +135,6 @@ export const IssueList = ({ tags, ComponentName, data, inTab = "ai" }) => {
       <Joke />
       <Table
         classNames={"text-large"}
-        isStriped
         hideHeader
         aria-label='list'
         topContent={
