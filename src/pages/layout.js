@@ -9,6 +9,7 @@ import { Link } from "@heroui/link";
 import { BiArrowToTop } from "react-icons/bi";
 import packageJson from "../../package.json";
 import { triggerPx } from "../lib/global";
+import 'antd/dist/reset.css'
 
 export default function RootLayout({ children }) {
   const scroll = useScroll();

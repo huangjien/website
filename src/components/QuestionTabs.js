@@ -220,7 +220,7 @@ export const QuestionTabs = ({ append }) => {
       radius='md w-auto m-2'
       size='lg'
       classNames={{
-        tabList: " justify-evenly w-full relative rounded m-0 ",
+        tabList: " justify-evenly w-full relative rounded-sm m-0 ",
         cursor: "w-full ",
         tab: "w-fit  h-12",
       }}
@@ -335,7 +335,7 @@ export const QuestionTabs = ({ append }) => {
                     placeholder={t("ai.value_range_0_1")}
                     labelPlacement='outside'
                     startContent={
-                      <BiSolidThermometer className='text-2xl text-default-400 pointer-events-none flex-shrink-0' />
+                      <BiSolidThermometer className='text-2xl text-default-400 pointer-events-none shrink-0' />
                     }
                   />
                 </CardBody>
@@ -358,7 +358,7 @@ export const QuestionTabs = ({ append }) => {
                     placeholder={t("ai.value_range_50_500")}
                     labelPlacement='outside'
                     startContent={
-                      <BiTimer className='text-2xl text-default-400 pointer-events-none flex-shrink-0' />
+                      <BiTimer className='text-2xl text-default-400 pointer-events-none shrink-0' />
                     }
                   />
                 </CardBody>

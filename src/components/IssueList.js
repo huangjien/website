@@ -167,7 +167,7 @@ export const IssueList = ({ tags, ComponentName, data, inTab = "ai" }) => {
             <label className='flex  items-center text-default-400 text-small'>
               {t("issue.row_per_page")}
               <select
-                className='bg-transparent outline-none text-default-400 text-small'
+                className='bg-transparent outline-hidden text-default-400 text-small'
                 onChange={onRowsPerPageChange}
                 value={rowsPerPage}
               >
