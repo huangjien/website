@@ -1,0 +1,269 @@
+
+> website@0.9.10 dev
+> cross-env NODE_OPTION='--inspect' next dev -p 8080
+
+   ▲ Next.js 15.3.2
+   - Local:        http://localhost:8080
+   - Network:      http://192.168.0.2:8080
+
+ ✓ Starting...
+> [PWA] PWA support is disabled
+> [PWA] PWA support is disabled
+ ✓ Ready in 3.5s
+ ○ Compiling / ...
+ ✓ Compiled / in 13.4s (2889 modules)
+ GET / 200 in 16678ms
+ ○ Compiling /api/auth/[...nextauth] ...
+ ✓ Compiled /api/auth/[...nextauth] in 8s (2913 modules)
+[next-auth][warn][NEXTAUTH_URL] 
+https://next-auth.js.org/warnings#nextauth_url
+[next-auth][warn][NO_SECRET] 
+https://next-auth.js.org/warnings#no_secret
+ GET /api/auth/session 200 in 8196ms
+RangeError: Invalid status code: undefined
+    at eval (src/pages/api/issues.js:25:31)
+  23 |       })
+  24 |       .catch((err) => {
+> 25 |         res.status(err.status).json({ error: err.message });
+     |                               ^
+  26 |       });
+  27 |   } else {
+  28 |     fetch(`${process.env.GITHUB_REPO}/issues`, { {
+  code: 'ERR_HTTP_INVALID_STATUS_CODE'
+}
+ ⨯ unhandledRejection: RangeError: Invalid status code: undefined
+    at eval (src/pages/api/issues.js:25:31)
+  23 |       })
+  24 |       .catch((err) => {
+> 25 |         res.status(err.status).json({ error: err.message });
+     |                               ^
+  26 |       });
+  27 |   } else {
+  28 |     fetch(`${process.env.GITHUB_REPO}/issues`, { {
+  code: 'ERR_HTTP_INVALID_STATUS_CODE'
+}
+ ⨯ unhandledRejection:  RangeError: Invalid status code: undefined
+    at eval (src/pages/api/issues.js:25:31)
+  23 |       })
+  24 |       .catch((err) => {
+> 25 |         res.status(err.status).json({ error: err.message });
+     |                               ^
+  26 |       });
+  27 |   } else {
+  28 |     fetch(`${process.env.GITHUB_REPO}/issues`, { {
+  code: 'ERR_HTTP_INVALID_STATUS_CODE'
+}
+RangeError: Invalid status code: undefined
+    at eval (src/pages/api/settings.js:26:29)
+  24 |     })
+  25 |     .catch((err) => {
+> 26 |       res.status(err.status).json({ error: err.message });
+     |                             ^
+  27 |     });
+  28 | }
+  29 | {
+  code: 'ERR_HTTP_INVALID_STATUS_CODE'
+}
+ ⨯ unhandledRejection: RangeError: Invalid status code: undefined
+    at eval (src/pages/api/settings.js:26:29)
+  24 |     })
+  25 |     .catch((err) => {
+> 26 |       res.status(err.status).json({ error: err.message });
+     |                             ^
+  27 |     });
+  28 | }
+  29 | {
+  code: 'ERR_HTTP_INVALID_STATUS_CODE'
+}
+ ⨯ unhandledRejection:  RangeError: Invalid status code: undefined
+    at eval (src/pages/api/settings.js:26:29)
+  24 |     })
+  25 |     .catch((err) => {
+> 26 |       res.status(err.status).json({ error: err.message });
+     |                             ^
+  27 |     });
+  28 | }
+  29 | {
+  code: 'ERR_HTTP_INVALID_STATUS_CODE'
+}
+ GET /api/about 200 in 8874ms
+ GET / 200 in 9935ms
+[TypeError: Cannot read properties of undefined (reading 'toString')]
+ ⨯ uncaughtException: [TypeError: Cannot read properties of undefined (reading 'toString')]
+ ⨯ uncaughtException:  [TypeError: Cannot read properties of undefined (reading 'toString')]
+[TypeError: Cannot read properties of undefined (reading 'toString')]
+ ⨯ uncaughtException: [TypeError: Cannot read properties of undefined (reading 'toString')]
+ ⨯ uncaughtException:  [TypeError: Cannot read properties of undefined (reading 'toString')]
+RangeError: Invalid status code: undefined
+    at eval (src/pages/api/issues.js:25:31)
+  23 |       })
+  24 |       .catch((err) => {
+> 25 |         res.status(err.status).json({ error: err.message });
+     |                               ^
+  26 |       });
+  27 |   } else {
+  28 |     fetch(`${process.env.GITHUB_REPO}/issues`, { {
+  code: 'ERR_HTTP_INVALID_STATUS_CODE'
+}
+ ⨯ unhandledRejection: RangeError: Invalid status code: undefined
+    at eval (src/pages/api/issues.js:25:31)
+  23 |       })
+  24 |       .catch((err) => {
+> 25 |         res.status(err.status).json({ error: err.message });
+     |                               ^
+  26 |       });
+  27 |   } else {
+  28 |     fetch(`${process.env.GITHUB_REPO}/issues`, { {
+  code: 'ERR_HTTP_INVALID_STATUS_CODE'
+}
+ ⨯ unhandledRejection:  RangeError: Invalid status code: undefined
+    at eval (src/pages/api/issues.js:25:31)
+  23 |       })
+  24 |       .catch((err) => {
+> 25 |         res.status(err.status).json({ error: err.message });
+     |                               ^
+  26 |       });
+  27 |   } else {
+  28 |     fetch(`${process.env.GITHUB_REPO}/issues`, { {
+  code: 'ERR_HTTP_INVALID_STATUS_CODE'
+}
+ GET /api/about 304 in 133ms
+RangeError: Invalid status code: undefined
+    at eval (src/pages/api/settings.js:26:29)
+  24 |     })
+  25 |     .catch((err) => {
+> 26 |       res.status(err.status).json({ error: err.message });
+     |                             ^
+  27 |     });
+  28 | }
+  29 | {
+  code: 'ERR_HTTP_INVALID_STATUS_CODE'
+}
+ ⨯ unhandledRejection: RangeError: Invalid status code: undefined
+    at eval (src/pages/api/settings.js:26:29)
+  24 |     })
+  25 |     .catch((err) => {
+> 26 |       res.status(err.status).json({ error: err.message });
+     |                             ^
+  27 |     });
+  28 | }
+  29 | {
+  code: 'ERR_HTTP_INVALID_STATUS_CODE'
+}
+ ⨯ unhandledRejection:  RangeError: Invalid status code: undefined
+    at eval (src/pages/api/settings.js:26:29)
+  24 |     })
+  25 |     .catch((err) => {
+> 26 |       res.status(err.status).json({ error: err.message });
+     |                             ^
+  27 |     });
+  28 | }
+  29 | {
+  code: 'ERR_HTTP_INVALID_STATUS_CODE'
+}
+ ○ Compiling /about ...
+ GET /api/auth/session 304 in 24ms
+ ✓ Compiled /about in 2.7s (2917 modules)
+ GET /about 200 in 3036ms
+[TypeError: Cannot read properties of undefined (reading 'toString')]
+ ⨯ uncaughtException: [TypeError: Cannot read properties of undefined (reading 'toString')]
+ ⨯ uncaughtException:  [TypeError: Cannot read properties of undefined (reading 'toString')]
+[TypeError: Cannot read properties of undefined (reading 'toString')]
+ ⨯ uncaughtException: [TypeError: Cannot read properties of undefined (reading 'toString')]
+ ⨯ uncaughtException:  [TypeError: Cannot read properties of undefined (reading 'toString')]
+RangeError: Invalid status code: undefined
+    at eval (src/pages/api/issues.js:25:31)
+  23 |       })
+  24 |       .catch((err) => {
+> 25 |         res.status(err.status).json({ error: err.message });
+     |                               ^
+  26 |       });
+  27 |   } else {
+  28 |     fetch(`${process.env.GITHUB_REPO}/issues`, { {
+  code: 'ERR_HTTP_INVALID_STATUS_CODE'
+}
+ ⨯ unhandledRejection: RangeError: Invalid status code: undefined
+    at eval (src/pages/api/issues.js:25:31)
+  23 |       })
+  24 |       .catch((err) => {
+> 25 |         res.status(err.status).json({ error: err.message });
+     |                               ^
+  26 |       });
+  27 |   } else {
+  28 |     fetch(`${process.env.GITHUB_REPO}/issues`, { {
+  code: 'ERR_HTTP_INVALID_STATUS_CODE'
+}
+ ⨯ unhandledRejection:  RangeError: Invalid status code: undefined
+    at eval (src/pages/api/issues.js:25:31)
+  23 |       })
+  24 |       .catch((err) => {
+> 25 |         res.status(err.status).json({ error: err.message });
+     |                               ^
+  26 |       });
+  27 |   } else {
+  28 |     fetch(`${process.env.GITHUB_REPO}/issues`, { {
+  code: 'ERR_HTTP_INVALID_STATUS_CODE'
+}
+[TypeError: fetch failed] {
+  [cause]: [Error: read ECONNRESET] {
+    errno: -104,
+    code: 'ECONNRESET',
+    syscall: 'read'
+  }
+}
+ ⨯ unhandledRejection: [TypeError: fetch failed] {
+  [cause]: [Error: read ECONNRESET] {
+    errno: -104,
+    code: 'ECONNRESET',
+    syscall: 'read'
+  }
+}
+ ⨯ unhandledRejection:  [TypeError: fetch failed] {
+  [cause]: [Error: read ECONNRESET] {
+    errno: -104,
+    code: 'ECONNRESET',
+    syscall: 'read'
+  }
+}
+RangeError: Invalid status code: undefined
+    at eval (src/pages/api/settings.js:26:29)
+  24 |     })
+  25 |     .catch((err) => {
+> 26 |       res.status(err.status).json({ error: err.message });
+     |                             ^
+  27 |     });
+  28 | }
+  29 | {
+  code: 'ERR_HTTP_INVALID_STATUS_CODE'
+}
+ ⨯ unhandledRejection: RangeError: Invalid status code: undefined
+    at eval (src/pages/api/settings.js:26:29)
+  24 |     })
+  25 |     .catch((err) => {
+> 26 |       res.status(err.status).json({ error: err.message });
+     |                             ^
+  27 |     });
+  28 | }
+  29 | {
+  code: 'ERR_HTTP_INVALID_STATUS_CODE'
+}
+ ⨯ unhandledRejection:  RangeError: Invalid status code: undefined
+    at eval (src/pages/api/settings.js:26:29)
+  24 |     })
+  25 |     .catch((err) => {
+> 26 |       res.status(err.status).json({ error: err.message });
+     |                             ^
+  27 |     });
+  28 | }
+  29 | {
+  code: 'ERR_HTTP_INVALID_STATUS_CODE'
+}
+ GET /api/auth/session 304 in 103ms
+[TypeError: Cannot read properties of undefined (reading 'toString')]
+ ⨯ uncaughtException: [TypeError: Cannot read properties of undefined (reading 'toString')]
+ ⨯ uncaughtException:  [TypeError: Cannot read properties of undefined (reading 'toString')]
+ GET /api/about 200 in 222458ms
+[TypeError: Cannot read properties of undefined (reading 'toString')]
+ ⨯ uncaughtException: [TypeError: Cannot read properties of undefined (reading 'toString')]
+ ⨯ uncaughtException:  [TypeError: Cannot read properties of undefined (reading 'toString')]
+[?25h

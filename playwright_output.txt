@@ -1,0 +1,29 @@
+Playwright navigation successful.
+Browser console messages:
+[
+  {
+    "text": "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold",
+    "type": "info",
+    "args": [
+      "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools",
+      "font-weight:bold"
+    ],
+    "location": {
+      "url": "webpack-internal:///(pages-dir-browser)/./node_modules/react-dom/cjs/react-dom-client.development.js",
+      "lineNumber": 24868,
+      "columnNumber": 16
+    }
+  },
+  {
+    "text": "[HMR] connected",
+    "type": "log",
+    "args": [
+      "[HMR] connected"
+    ],
+    "location": {
+      "url": "webpack-internal:///(pages-dir-browser)/./node_modules/next/dist/client/components/react-dev-overlay/pages/websocket.js",
+      "lineNumber": 41,
+      "columnNumber": 27
+    }
+  }
+]

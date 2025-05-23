@@ -41,7 +41,7 @@ export const IssueList = ({ tags, ComponentName, data, inTab = "ai" }) => {
   });
   const [page, setPage] = useState(1);
   const [audioSrc, setAudioSrc] = useState("");
-  const [pages, setPages] = useState(Math.ceil(data?.length / rowsPerPage));
+  const [pages, setPages] = useState(data ? Math.ceil(data.length / rowsPerPage) : 0);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { languageCode, speakerName } = useSettings();
   const [filterValue, setFilterValue] = useState("");
@@ -117,6 +117,35 @@ export const IssueList = ({ tags, ComponentName, data, inTab = "ai" }) => {
     setAudioSrc("");
   };
 
+  // Handle loading and empty states
+  if (data === undefined) { // Data is still loading (issues is undefined from useGithubContent)
+    return <div className="p-4 text-center">{t('global.loading')}</div>;
+  }
+
+  if (!Array.isArray(data) || data.length === 0) { 
+    // Data is loaded, but it's empty (or was an error, now an empty array from useGithubContent)
+    // Also render the search bar and other controls so user knows it's not completely broken
+    return (
+      <div className="p-4">
+        <div className='lg:inline-flex flex-wrap text-lg justify-center lg:gap-8 items-center m-4'>
+          <Input
+            isClearable
+            className='w-auto sm:max-w-[33%] m-4'
+            placeholder={t("global.search")}
+            startContent={<BiSearch />}
+            value={filterValue}
+            onClear={() => setFilterValue("")}
+            onValueChange={setFilterValue}
+          />
+          <span className='text-default-400 text-small'>
+            {t("issue.total", { total: 0 })}
+          </span>
+        </div>
+        <div className="p-4 text-center">{t('issue.no_issues_found')}</div>
+      </div>
+    );
+  }
+
   return (
     <div>
       <Modal
@@ -185,9 +214,10 @@ export const IssueList = ({ tags, ComponentName, data, inTab = "ai" }) => {
           <TableColumn key='id'>id</TableColumn>
         </TableHeader>
 
-        <TableBody items={items}>
+        <TableBody items={items} emptyContent={t('issue.no_issues_found_in_filter')}>
           {(item) => (
-            <TableRow key={item.id}>
+            // Assuming item has a unique 'id' or 'number' field after processing in useGithubContent
+            <TableRow key={item.id || item.number}>
               <TableCell className=' lg:m-4'>
                 {renderCell(item, ComponentName)}
               </TableCell>

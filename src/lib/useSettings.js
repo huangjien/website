@@ -3,13 +3,20 @@ import { createContext, useContext } from "react";
 import { properties2Json } from "./Requests";
 
 const getSettings = async () => {
-  return await fetch("/api/settings", {
-    method: "GET",
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      return data;
-    });
+  const response = await fetch("/api/settings", { method: "GET" });
+  if (!response.ok) {
+    let errorData;
+    try {
+      errorData = await response.json(); // Server now sends { error: "message" }
+    } catch (e) {
+      // If error response is not JSON for some reason
+      throw new Error(`HTTP error! status: ${response.status} - ${response.statusText}`);
+    }
+    // Throw an error that ahooks' useRequest can catch in its onError
+    // The message from errorData.error will be available in the error object in onError
+    throw new Error(errorData.error || `Failed to fetch settings. Status: ${response.status}`);
+  }
+  return await response.json(); // Success: returns { result: "settings_string..." }
 };
 
 const settingContext = createContext();
