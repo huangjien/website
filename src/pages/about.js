@@ -10,6 +10,10 @@ export default function About() {
   const { t } = useTranslation();
   useTitle(t("header.about"));
 
+  if (about === undefined) { // Check if about is still undefined (initial load, before localStorage or fetch completes)
+    return <div className='p-4 text-center'>{t('global.loading')}</div>;
+  }
+
   /**
    * Renders the content of the 'about' variable obtained from the 'useGithubContent' hook.
    * The content is displayed using the 'Markdown' component with the 'remark-gfm' and 'rehype-raw' plugins.

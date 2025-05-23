@@ -22,7 +22,7 @@ export default function handler(req, res, action = "GET") {
         res.status(200).send(data);
       })
       .catch((err) => {
-        res.status(err.status).json({ error: err.message });
+        res.status(err.status || 500).json({ error: (err && err.message) || 'An unexpected error occurred' });
       });
   } else {
     fetch(`${process.env.GITHUB_REPO}/issues`, {
@@ -38,7 +38,7 @@ export default function handler(req, res, action = "GET") {
         res.status(200).send(data);
       })
       .catch((err) => {
-        res.status(err.status).json({ error: err.message });
+        res.status(err.status || 500).json({ error: (err && err.message) || 'An unexpected error occurred' });
       });
   }
 }

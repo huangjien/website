@@ -12,13 +12,34 @@ export const useGithubContent = () => {
 
   useRequest(getReadme, {
     onSuccess: (result) => {
+      // result should be the markdown text on success
       setAbout(result);
     },
+    onError: (error) => {
+      console.error("Error fetching readme in useGithubContent:", error.message);
+      setAbout("Failed to load about content. Please try again later."); // Set an error message for display
+    }
   });
 
   useRequest(getIssues, {
     onSuccess: (result) => {
-      setRawData(JSON.parse(result));
+      if (result && !result.error) { // Check if result is not an error object and has data
+        setRawData(result); // result is already a JS object/array
+      } else if (result && result.error) {
+        console.error("Failed to fetch issues in useGithubContent:", result.message);
+        setRawData([]); // Set to empty array or handle error state appropriately
+        setIssues([]); // Also clear issues
+      } else {
+        // Handle unexpected result structure, though getIssues should prevent this
+        console.error("Unexpected result from getIssues:", result);
+        setRawData([]);
+        setIssues([]);
+      }
+    },
+    onError: (error) => { // Good practice to add onError for useRequest
+      console.error("Error in useRequest for getIssues:", error.message);
+      setRawData([]);
+      setIssues([]);
     },
     staleTime: 1000 * 60 * 60,
   });
