@@ -1,8 +1,51 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Personal Website Template
+
+A modern, feature-rich blog website template built with Next.js and React. This project includes multilingual support, authentication, dark mode, and more.
+
+## Features
+
+- 🌐 Multi-language support (i18n)
+- 🌙 Dark/Light theme switching
+- 🔐 Authentication with GitHub and Google providers
+- 💬 Comments and issue management
+- 🤖 AI-powered features
+- 📱 Progressive Web App (PWA) support
+- 🎨 Modern UI with Tailwind CSS
+- ✅ E2E testing with Playwright
+
+## Tech Stack
+
+- **Framework:** Next.js 15.x
+- **UI Library:** React 19.x
+- **Styling:** Tailwind CSS, Styled Components
+- **State Management:** React Hooks, ahooks
+- **Authentication:** NextAuth.js
+- **Internationalization:** i18next
+- **Testing:** Playwright
+- **Development Tools:** ESLint, Prettier
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js (Latest LTS version recommended)
+- npm, yarn, or pnpm
+
+### Installation
+
+1. Clone the repository
+2. Install dependencies:
+```bash
+npm install
+# or
+yarn install
+# or
+pnpm install
+```
+
+### Development
+
+Run the development server:
 
 ```bash
 npm run dev
@@ -10,27 +53,34 @@ npm run dev
 yarn dev
 # or
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:8080](http://localhost:8080) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+### Testing
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Run E2E tests:
 
-## Learn More
+```bash
+npm run test:e2e
+```
 
-To learn more about Next.js, take a look at the following resources:
+### Docker Support
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Build and run with Docker:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+```bash
+# Build the image
+npm run make
 
-## Deploy on Vercel
+# Run the container
+npm run exe
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## License
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Copyright (c) 2025 Jien Huang
+
+## Bug Reports
+
+If you find any issues, please report them [here](https://github.com/huangjien/blog/issues).
