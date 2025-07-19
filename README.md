@@ -11,7 +11,8 @@ A modern, feature-rich blog website template built with Next.js and React. This 
 - 🤖 AI-powered features
 - 📱 Progressive Web App (PWA) support
 - 🎨 Modern UI with Tailwind CSS
-- ✅ E2E testing with Playwright
+- ✅ Comprehensive testing suite with Jest and Playwright
+- 🧪 Unit tests for all components and utilities
 
 ## Tech Stack
 
@@ -21,7 +22,7 @@ A modern, feature-rich blog website template built with Next.js and React. This 
 - **State Management:** React Hooks, ahooks
 - **Authentication:** NextAuth.js
 - **Internationalization:** i18next
-- **Testing:** Playwright
+- **Testing:** Jest (unit tests), Playwright (E2E tests)
 - **Development Tools:** ESLint, Prettier
 
 ## Getting Started
@@ -59,11 +60,22 @@ Open [http://localhost:8080](http://localhost:8080) with your browser to see the
 
 ### Testing
 
+Run unit tests:
+
+```bash
+npm test
+```
+
 Run E2E tests:
 
 ```bash
 npm run test:e2e
 ```
+
+**Test Coverage:**
+- 369 unit tests across 29 test suites
+- All components and utilities fully tested
+- E2E tests for critical user journeys
 
 ### Docker Support
 
