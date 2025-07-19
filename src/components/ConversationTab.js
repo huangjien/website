@@ -17,7 +17,8 @@ const ConversationTab = ({
   trackSpeed = 300,
 }) => {
   const { t } = useTranslation();
-  const { startRecording, stopRecording, audioSrc, isRecording } = useAudioRecording();
+  const { startRecording, stopRecording, audioSrc, isRecording } =
+    useAudioRecording();
   const [hold, setHold] = useState(false);
   const [longPressDetected, setLongPressDetected] = useState(false);
   let pressTimer = null;
@@ -49,50 +50,50 @@ const ConversationTab = ({
   };
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className='flex flex-col gap-4'>
       {loading && (
         <Progress
-          size="sm"
+          size='sm'
           isIndeterminate
-          aria-label="Loading..."
-          className="max-w-full"
+          aria-label='Loading...'
+          className='max-w-full'
         />
       )}
-      
-      <div className="inline-flex justify-items-stretch items-stretch justify-between">
+
+      <div className='inline-flex justify-items-stretch items-stretch justify-between'>
         <Textarea
-          type="text"
-          size="xl"
-          aria-label="question text area"
-          className="inline-flex m-1 lg:w-10/12 sm:w-8/12 max-h-full"
+          type='text'
+          size='xl'
+          aria-label='question text area'
+          className='inline-flex m-1 lg:w-10/12 sm:w-8/12 max-h-full'
           isDisabled={loading}
           value={questionText}
           placeholder={t("ai.input_placeholder")}
           onValueChange={(e) => setQuestionText(e)}
         />
-        
+
         <Tooltip
-          placement="bottom"
-          color="primary"
+          placement='bottom'
+          color='primary'
           content={
-            <div className="px-1 py-2">
+            <div className='px-1 py-2'>
               <div>{t("ai.send_tooltip")}</div>
               <div>{t("ai.hold")}</div>
             </div>
           }
         >
           <Button
-            size="lg"
-            type="button"
-            aria-label="send"
+            size='lg'
+            type='button'
+            aria-label='send'
             onPressStart={startPress}
             onPressEnd={endPress}
             isDisabled={loading}
-            className="justify-center text-primary items-center flex flex-col m-3 lg:w-2/12 sm:w-4/12 max-h-full"
+            className='justify-center text-primary items-center flex flex-col m-3 lg:w-2/12 sm:w-4/12 max-h-full'
           >
             {hold && (
               <BiMicrophone
-                className="text-red-500 animate-ping"
+                className='text-red-500 animate-ping'
                 size={"2em"}
               />
             )}
@@ -100,16 +101,11 @@ const ConversationTab = ({
           </Button>
         </Tooltip>
       </div>
-      
+
       {audioSrc && (
-        <div className="mt-4">
-          <h3 className="text-xl font-bold">{t("ai.audio_player")}</h3>
-          <audio
-            controls
-            autoPlay
-            src={audioSrc}
-            className="w-full"
-          />
+        <div className='mt-4'>
+          <h3 className='text-xl font-bold'>{t("ai.audio_player")}</h3>
+          <audio controls autoPlay src={audioSrc} className='w-full' />
         </div>
       )}
     </div>

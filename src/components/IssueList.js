@@ -80,7 +80,7 @@ export const IssueList = ({ tags, ComponentName, data, inTab = "ai" }) => {
     },
     [setPage, setRowsPerPage]
   );
-  
+
   const filterItems = useMemo(() => {
     let filteredData = data || [];
     if (filterValue && filteredData.length > 0) {

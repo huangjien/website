@@ -1,26 +1,34 @@
-import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { Joke } from '../Joke';
-import { useRequest } from 'ahooks';
-import { useTranslation } from 'react-i18next';
+import React from "react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { Joke } from "../Joke";
+import { useRequest } from "ahooks";
+import { useTranslation } from "react-i18next";
 
 // Mock react-i18next
-jest.mock('react-i18next', () => ({
+jest.mock("react-i18next", () => ({
   useTranslation: () => ({
     t: (key) => key,
   }),
 }));
 
 // Mock ahooks
-jest.mock('ahooks', () => ({
+jest.mock("ahooks", () => ({
   useRequest: jest.fn(),
 }));
 
 // Mock @heroui/react components
-jest.mock('@heroui/react', () => ({
-  Button: ({ children, color, variant, onPress, isLoading, isDisabled, startContent }) => (
+jest.mock("@heroui/react", () => ({
+  Button: ({
+    children,
+    color,
+    variant,
+    onPress,
+    isLoading,
+    isDisabled,
+    startContent,
+  }) => (
     <button
-      data-testid="button"
+      data-testid='button'
       data-color={color}
       data-variant={variant}
       onClick={onPress}
@@ -31,18 +39,18 @@ jest.mock('@heroui/react', () => ({
       {children}
     </button>
   ),
-  Spacer: () => <div data-testid="spacer" />,
+  Spacer: () => <div data-testid='spacer' />,
 }));
 
 // Mock react-icons
-jest.mock('react-icons/md', () => ({
-  MdRefresh: () => <div data-testid="refresh-icon" />,
+jest.mock("react-icons/md", () => ({
+  MdRefresh: () => <div data-testid='refresh-icon' />,
 }));
 
 // Mock fetch
 global.fetch = jest.fn();
 
-describe('Joke Component', () => {
+describe("Joke Component", () => {
   const mockRefresh = jest.fn();
   const mockUseRequest = useRequest;
 
@@ -51,10 +59,10 @@ describe('Joke Component', () => {
     fetch.mockClear();
   });
 
-  it('should render joke when data is available', () => {
+  it("should render joke when data is available", () => {
     mockUseRequest.mockReturnValue({
       data: {
-        joke: 'Why did the chicken cross the road? To get to the other side!',
+        joke: "Why did the chicken cross the road? To get to the other side!",
       },
       loading: false,
       error: null,
@@ -63,12 +71,16 @@ describe('Joke Component', () => {
 
     render(<Joke />);
 
-    expect(screen.getByText('Why did the chicken cross the road? To get to the other side!')).toBeInTheDocument();
-    expect(screen.getByTestId('button')).toBeInTheDocument();
-    expect(screen.getByTestId('refresh-icon')).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        "Why did the chicken cross the road? To get to the other side!"
+      )
+    ).toBeInTheDocument();
+    expect(screen.getByTestId("button")).toBeInTheDocument();
+    expect(screen.getByTestId("refresh-icon")).toBeInTheDocument();
   });
 
-  it('should show loading state', () => {
+  it("should show loading state", () => {
     mockUseRequest.mockReturnValue({
       data: null,
       loading: true,
@@ -78,25 +90,25 @@ describe('Joke Component', () => {
 
     render(<Joke />);
 
-    const button = screen.getByTestId('button');
-    expect(button).toHaveAttribute('data-loading', 'true');
+    const button = screen.getByTestId("button");
+    expect(button).toHaveAttribute("data-loading", "true");
     expect(button).toBeDisabled();
   });
 
-  it('should show error message when there is an error', () => {
+  it("should show error message when there is an error", () => {
     mockUseRequest.mockReturnValue({
       data: null,
       loading: false,
-      error: new Error('Failed to fetch joke'),
+      error: new Error("Failed to fetch joke"),
       refresh: mockRefresh,
     });
 
     render(<Joke />);
 
-    expect(screen.getByText('joke.error')).toBeInTheDocument();
+    expect(screen.getByText("joke.error")).toBeInTheDocument();
   });
 
-  it('should show loading message when loading and no data', () => {
+  it("should show loading message when loading and no data", () => {
     mockUseRequest.mockReturnValue({
       data: null,
       loading: true,
@@ -106,13 +118,13 @@ describe('Joke Component', () => {
 
     render(<Joke />);
 
-    expect(screen.getByText('joke.loading')).toBeInTheDocument();
+    expect(screen.getByText("joke.loading")).toBeInTheDocument();
   });
 
-  it('should call refresh when button is clicked', () => {
+  it("should call refresh when button is clicked", () => {
     mockUseRequest.mockReturnValue({
       data: {
-        joke: 'A joke',
+        joke: "A joke",
       },
       loading: false,
       error: null,
@@ -121,13 +133,13 @@ describe('Joke Component', () => {
 
     render(<Joke />);
 
-    const refreshButton = screen.getByTestId('button');
+    const refreshButton = screen.getByTestId("button");
     fireEvent.click(refreshButton);
 
     expect(mockRefresh).toHaveBeenCalledTimes(1);
   });
 
-  it('should configure useRequest correctly', () => {
+  it("should configure useRequest correctly", () => {
     mockUseRequest.mockReturnValue({
       data: null,
       loading: false,
@@ -137,16 +149,13 @@ describe('Joke Component', () => {
 
     render(<Joke />);
 
-    expect(mockUseRequest).toHaveBeenCalledWith(
-      expect.any(Function),
-      {
-        manual: false,
-        refreshDeps: [],
-      }
-    );
+    expect(mockUseRequest).toHaveBeenCalledWith(expect.any(Function), {
+      manual: false,
+      refreshDeps: [],
+    });
   });
 
-  it('should call the correct API endpoint', async () => {
+  it("should call the correct API endpoint", async () => {
     let fetchFunction;
     mockUseRequest.mockImplementation((fn, options) => {
       fetchFunction = fn;
@@ -160,7 +169,7 @@ describe('Joke Component', () => {
 
     fetch.mockResolvedValueOnce({
       ok: true,
-      json: async () => ({ joke: 'Test joke' }),
+      json: async () => ({ joke: "Test joke" }),
     });
 
     render(<Joke />);
@@ -168,10 +177,10 @@ describe('Joke Component', () => {
     // Call the fetch function that was passed to useRequest
     await fetchFunction();
 
-    expect(fetch).toHaveBeenCalledWith('/api/joke');
+    expect(fetch).toHaveBeenCalledWith("/api/joke");
   });
 
-  it('should handle API response correctly', async () => {
+  it("should handle API response correctly", async () => {
     let fetchFunction;
     mockUseRequest.mockImplementation((fn, options) => {
       fetchFunction = fn;
@@ -183,7 +192,7 @@ describe('Joke Component', () => {
       };
     });
 
-    const mockJokeData = { joke: 'API joke response' };
+    const mockJokeData = { joke: "API joke response" };
     fetch.mockResolvedValueOnce({
       ok: true,
       json: async () => mockJokeData,
@@ -195,7 +204,7 @@ describe('Joke Component', () => {
     expect(result).toEqual(mockJokeData);
   });
 
-  it('should handle API error correctly', async () => {
+  it("should handle API error correctly", async () => {
     let fetchFunction;
     mockUseRequest.mockImplementation((fn, options) => {
       fetchFunction = fn;
@@ -207,16 +216,16 @@ describe('Joke Component', () => {
       };
     });
 
-    fetch.mockRejectedValueOnce(new Error('Network error'));
+    fetch.mockRejectedValueOnce(new Error("Network error"));
 
     render(<Joke />);
 
-    await expect(fetchFunction()).rejects.toThrow('Network error');
+    await expect(fetchFunction()).rejects.toThrow("Network error");
   });
 
-  it('should render button with correct props', () => {
+  it("should render button with correct props", () => {
     mockUseRequest.mockReturnValue({
-      data: { joke: 'Test joke' },
+      data: { joke: "Test joke" },
       loading: false,
       error: null,
       refresh: mockRefresh,
@@ -224,15 +233,15 @@ describe('Joke Component', () => {
 
     render(<Joke />);
 
-    const button = screen.getByTestId('button');
-    expect(button).toHaveAttribute('data-color', 'primary');
-    expect(button).toHaveAttribute('data-variant', 'flat');
+    const button = screen.getByTestId("button");
+    expect(button).toHaveAttribute("data-color", "primary");
+    expect(button).toHaveAttribute("data-variant", "flat");
     expect(button).not.toBeDisabled();
   });
 
-  it('should render spacer component', () => {
+  it("should render spacer component", () => {
     mockUseRequest.mockReturnValue({
-      data: { joke: 'Test joke' },
+      data: { joke: "Test joke" },
       loading: false,
       error: null,
       refresh: mockRefresh,
@@ -240,12 +249,12 @@ describe('Joke Component', () => {
 
     render(<Joke />);
 
-    expect(screen.getByTestId('spacer')).toBeInTheDocument();
+    expect(screen.getByTestId("spacer")).toBeInTheDocument();
   });
 
-  it('should handle empty joke data', () => {
+  it("should handle empty joke data", () => {
     mockUseRequest.mockReturnValue({
-      data: { joke: '' },
+      data: { joke: "" },
       loading: false,
       error: null,
       refresh: mockRefresh,
@@ -255,11 +264,11 @@ describe('Joke Component', () => {
 
     // When joke is empty string, it should not render the joke text
     // but should still render the button
-    expect(screen.getByTestId('button')).toBeInTheDocument();
-    expect(screen.getByTestId('spacer')).toBeInTheDocument();
+    expect(screen.getByTestId("button")).toBeInTheDocument();
+    expect(screen.getByTestId("spacer")).toBeInTheDocument();
   });
 
-  it('should handle null joke data', () => {
+  it("should handle null joke data", () => {
     mockUseRequest.mockReturnValue({
       data: { joke: null },
       loading: false,
@@ -269,10 +278,10 @@ describe('Joke Component', () => {
 
     render(<Joke />);
 
-    expect(screen.getByTestId('button')).toBeInTheDocument();
+    expect(screen.getByTestId("button")).toBeInTheDocument();
   });
 
-  it('should handle data without joke property', () => {
+  it("should handle data without joke property", () => {
     mockUseRequest.mockReturnValue({
       data: {},
       loading: false,
@@ -282,12 +291,12 @@ describe('Joke Component', () => {
 
     render(<Joke />);
 
-    expect(screen.getByTestId('button')).toBeInTheDocument();
+    expect(screen.getByTestId("button")).toBeInTheDocument();
   });
 
-  it('should not be disabled when not loading', () => {
+  it("should not be disabled when not loading", () => {
     mockUseRequest.mockReturnValue({
-      data: { joke: 'Test joke' },
+      data: { joke: "Test joke" },
       loading: false,
       error: null,
       refresh: mockRefresh,
@@ -295,8 +304,8 @@ describe('Joke Component', () => {
 
     render(<Joke />);
 
-    const button = screen.getByTestId('button');
+    const button = screen.getByTestId("button");
     expect(button).not.toBeDisabled();
-    expect(button).toHaveAttribute('data-loading', 'false');
+    expect(button).toHaveAttribute("data-loading", "false");
   });
 });

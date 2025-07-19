@@ -7,7 +7,7 @@ export default function Error({ error, reset }) {
   }, [error]);
 
   const handleReset = () => {
-    if (typeof reset === 'function') {
+    if (typeof reset === "function") {
       reset();
     }
   };
@@ -15,9 +15,7 @@ export default function Error({ error, reset }) {
   return (
     <div>
       <h2>Something went wrong!</h2>
-      <button onClick={handleReset}>
-        Try again
-      </button>
+      <button onClick={handleReset}>Try again</button>
     </div>
   );
 }

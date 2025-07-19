@@ -18,11 +18,11 @@ const Login = () => {
 
   const handleDropdownAction = (key) => {
     switch (key) {
-      case 'logout':
+      case "logout":
         signOut();
         break;
-      case 'settings':
-        window.open('/settings', '_blank');
+      case "settings":
+        window.open("/settings", "_blank");
         break;
       default:
         break;
@@ -32,11 +32,11 @@ const Login = () => {
   if (status === "unauthenticated" || status === "loading" || !session?.user) {
     return (
       <Button
-        variant="flat"
-        onPress={() => signIn('github')}
+        variant='flat'
+        onPress={() => signIn("github")}
         startContent={<MdLogin />}
       >
-        {t('login.login')}
+        {t("login.login")}
       </Button>
     );
   }
@@ -45,26 +45,20 @@ const Login = () => {
     <Dropdown>
       <DropdownTrigger>
         <User
-          name={session.user.name || ''}
-          description={session.user.email || ''}
+          name={session.user.name || ""}
+          description={session.user.email || ""}
           avatarProps={{
-            src: session.user.image || ''
+            src: session.user.image || "",
           }}
         />
       </DropdownTrigger>
       <DropdownMenu onAction={handleDropdownAction}>
-        <DropdownSection title={t('login.actions')}>
-          <DropdownItem
-            key="settings"
-            startContent={<MdSettings />}
-          >
-            {t('login.settings')}
+        <DropdownSection title={t("login.actions")}>
+          <DropdownItem key='settings' startContent={<MdSettings />}>
+            {t("login.settings")}
           </DropdownItem>
-          <DropdownItem
-            key="logout"
-            startContent={<MdLogout />}
-          >
-            {t('login.logout')}
+          <DropdownItem key='logout' startContent={<MdLogout />}>
+            {t("login.logout")}
           </DropdownItem>
         </DropdownSection>
       </DropdownMenu>

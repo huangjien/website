@@ -18,6 +18,8 @@ export default function handler(req, res) {
       res.status(200).send(data);
     })
     .catch((err) => {
-      res.status(err.status || 500).json({ error: err.message || 'Internal Server Error' });
+      res
+        .status(err.status || 500)
+        .json({ error: err.message || "Internal Server Error" });
     });
 }

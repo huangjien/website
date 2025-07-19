@@ -36,6 +36,7 @@ A modern, feature-rich blog website template built with Next.js and React. This 
 
 1. Clone the repository
 2. Install dependencies:
+
 ```bash
 npm install
 # or
@@ -73,6 +74,7 @@ npm run test:e2e
 ```
 
 **Test Coverage:**
+
 - 369 unit tests across 29 test suites
 - All components and utilities fully tested
 - E2E tests for critical user journeys

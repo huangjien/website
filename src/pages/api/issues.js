@@ -22,7 +22,9 @@ export default function handler(req, res, action = "GET") {
         res.status(200).send(data);
       })
       .catch((err) => {
-        res.status(err.status || 500).json({ error: err.message || 'Internal Server Error' });
+        res
+          .status(err.status || 500)
+          .json({ error: err.message || "Internal Server Error" });
       });
   } else {
     fetch(`${process.env.GITHUB_REPO}/issues`, {
@@ -38,7 +40,9 @@ export default function handler(req, res, action = "GET") {
         res.status(200).send(data);
       })
       .catch((err) => {
-        res.status(err.status || 500).json({ error: err.message || 'Internal Server Error' });
+        res
+          .status(err.status || 500)
+          .json({ error: err.message || "Internal Server Error" });
       });
   }
 }

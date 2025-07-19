@@ -8,7 +8,7 @@ export function getValueByPath(data, path) {
   if (path === null || path === undefined) {
     return undefined;
   }
-  if (path === '') {
+  if (path === "") {
     return data;
   }
   return path.split(".").reduce((obj, i) => obj?.[i], data);

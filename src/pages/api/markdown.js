@@ -12,15 +12,15 @@ export default async function handler(req, res) {
       method: "POST",
       headers: {
         Authorization: `token ${process.env.GITHUB_TOKEN}`,
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({ text: req.body }),
     });
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
-      res.status(response.status).json({ 
-        error: errorData.message || 'GitHub API Error' 
+      res.status(response.status).json({
+        error: errorData.message || "GitHub API Error",
       });
       return;
     }
@@ -28,6 +28,6 @@ export default async function handler(req, res) {
     const data = await response.text();
     res.status(200).send(data);
   } catch (err) {
-    res.status(500).json({ error: err.message || 'Network error' });
+    res.status(500).json({ error: err.message || "Network error" });
   }
 }

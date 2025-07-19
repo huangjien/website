@@ -28,7 +28,7 @@ export const useAudioRecording = () => {
       warn("getUserMedia not supported on your browser!");
       return; // Exit early if getUserMedia is not supported
     }
-    
+
     // Second getUserMedia call with proper error handling
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
       await navigator.mediaDevices
@@ -53,7 +53,7 @@ export const useAudioRecording = () => {
 
   const stopRecording = async (onTranscriptionComplete) => {
     if (!mediaRecorder.current) {
-      console.warn('MediaRecorder not initialized');
+      console.warn("MediaRecorder not initialized");
       return;
     }
     mediaRecorder.current.stop();
@@ -62,7 +62,7 @@ export const useAudioRecording = () => {
       const audioUrl = URL.createObjectURL(audioBlob);
       setAudioSrc(audioUrl);
       setAudio([]);
-      
+
       // clear the browser status, without this line, the browser tab will indicate that it is recording
       stream.getTracks().forEach((track) => track.stop());
 

@@ -42,7 +42,7 @@ export const Comment = ({ issue_id }) => {
         }
       })
       .catch((error) => {
-        console.error('Error fetching comments:', error);
+        console.error("Error fetching comments:", error);
         setCommentList([]);
       });
   }, [commentContentList, issue_id]);

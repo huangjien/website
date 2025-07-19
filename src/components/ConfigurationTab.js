@@ -5,13 +5,13 @@ import { Input, Select, SelectItem } from "@heroui/react";
 /**
  * Configuration tab component for AI settings
  */
-const ConfigurationTab = ({ 
-  model, 
-  setModel, 
-  temperature, 
-  setTemperature, 
-  trackSpeed, 
-  setTrackSpeed 
+const ConfigurationTab = ({
+  model,
+  setModel,
+  temperature,
+  setTemperature,
+  trackSpeed,
+  setTrackSpeed,
 }) => {
   const { t } = useTranslation();
 
@@ -24,13 +24,13 @@ const ConfigurationTab = ({
   ];
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className='flex flex-col gap-4'>
       <Select
         label={t("ai.select_model")}
         placeholder={t("ai.select_model")}
         selectedKeys={[model]}
         onSelectionChange={(keys) => setModel(Array.from(keys)[0])}
-        className="max-w-xs"
+        className='max-w-xs'
       >
         {models.map((modelOption) => (
           <SelectItem key={modelOption.key} value={modelOption.key}>
@@ -38,9 +38,9 @@ const ConfigurationTab = ({
           </SelectItem>
         ))}
       </Select>
-      
+
       <Input
-        type="number"
+        type='number'
         label={t("ai.temperature")}
         placeholder={t("ai.value_range_0_1")}
         value={temperature.toString()}
@@ -48,11 +48,11 @@ const ConfigurationTab = ({
         min={0}
         max={2}
         step={0.1}
-        className="max-w-xs"
+        className='max-w-xs'
       />
-      
+
       <Input
-        type="number"
+        type='number'
         label={t("ai.track_speed")}
         placeholder={t("ai.value_range_50_500")}
         value={trackSpeed.toString()}
@@ -60,7 +60,7 @@ const ConfigurationTab = ({
         min={50}
         max={500}
         step={10}
-        className="max-w-xs"
+        className='max-w-xs'
       />
     </div>
   );

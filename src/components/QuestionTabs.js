@@ -1,18 +1,11 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import {
-  Tabs,
-  Tab,
-  Card,
-  CardBody,
-} from "@heroui/react";
+import { Tabs, Tab, Card, CardBody } from "@heroui/react";
 import { success, error } from "./Notification";
 import { useLocalStorageState } from "ahooks";
 import { getAnswer } from "../lib/aiService";
 import ConversationTab from "./ConversationTab";
 import ConfigurationTab from "./ConfigurationTab";
-
-
 
 export const QuestionTabs = ({ append }) => {
   // append is the method add Q and A to parent content list
@@ -32,14 +25,17 @@ export const QuestionTabs = ({ append }) => {
     defaultValue: 300,
   });
 
-
-
   const handleSubmit = async (question) => {
     if (!question.trim()) return;
 
     setLoading(true);
     try {
-      const data = await getAnswer(question, lastAnswer, model, parseFloat(temperature));
+      const data = await getAnswer(
+        question,
+        lastAnswer,
+        model,
+        parseFloat(temperature)
+      );
       if (data.error) {
         error(
           t("ai.return_error") +

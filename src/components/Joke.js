@@ -13,9 +13,9 @@ export const Joke = () => {
 
   // Fetch joke data from API
   const fetchJoke = async () => {
-    const response = await fetch('/api/joke');
+    const response = await fetch("/api/joke");
     if (!response.ok) {
-      throw new Error('Failed to fetch joke');
+      throw new Error("Failed to fetch joke");
     }
     return response.json();
   };
@@ -29,16 +29,16 @@ export const Joke = () => {
   if (error) {
     return (
       <div>
-        <span>{t('joke.error')}</span>
+        <span>{t("joke.error")}</span>
         <Spacer />
         <Button
-          color="primary"
-          variant="flat"
+          color='primary'
+          variant='flat'
           onPress={refresh}
           isLoading={loading}
           startContent={<MdRefresh />}
         >
-          {t('joke.refresh')}
+          {t("joke.refresh")}
         </Button>
       </div>
     );
@@ -48,16 +48,16 @@ export const Joke = () => {
   if (loading && !data) {
     return (
       <div>
-        <span>{t('joke.loading')}</span>
+        <span>{t("joke.loading")}</span>
         <Spacer />
         <Button
-          color="primary"
-          variant="flat"
+          color='primary'
+          variant='flat'
           onPress={refresh}
           isLoading={loading}
           startContent={<MdRefresh />}
         >
-          {t('joke.refresh')}
+          {t("joke.refresh")}
         </Button>
       </div>
     );
@@ -68,13 +68,13 @@ export const Joke = () => {
       {data?.joke && <span>{data.joke}</span>}
       <Spacer />
       <Button
-        color="primary"
-        variant="flat"
+        color='primary'
+        variant='flat'
         onPress={refresh}
         isLoading={loading}
         startContent={<MdRefresh />}
       >
-        {t('joke.refresh')}
+        {t("joke.refresh")}
       </Button>
     </div>
   );
