@@ -11,7 +11,7 @@ jest.mock("next-auth/next", () => ({
 global.fetch = jest.fn();
 
 // Mock environment variables
-process.env.OPEN_API_KEY = "test-openai-key";
+process.env.OPEN_AI_KEY = "test-openai-key";
 
 describe("/api/ai", () => {
   beforeEach(() => {
@@ -117,8 +117,8 @@ describe("/api/ai", () => {
 
   it("should handle missing OpenAI API key", async () => {
     // Temporarily remove API key
-    const originalKey = process.env.OPEN_API_KEY;
-    delete process.env.OPEN_API_KEY;
+    const originalKey = process.env.OPEN_AI_KEY;
+    delete process.env.OPEN_AI_KEY;
 
     // Mock authenticated session
     getServerSession.mockResolvedValueOnce({
@@ -141,7 +141,7 @@ describe("/api/ai", () => {
     });
 
     // Restore API key
-    process.env.OPEN_API_KEY = originalKey;
+    process.env.OPEN_AI_KEY = originalKey;
   });
 
   it("should only accept POST method", async () => {

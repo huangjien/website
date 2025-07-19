@@ -24,10 +24,10 @@ export default NextAuth({
       }
       return token;
     },
-  },
-  async session({ session, token }) {
-    session.user.avatar_url = token.avatar_url;
-    return session;
+    async session({ session, token }) {
+      session.user.avatar_url = token.avatar_url;
+      return session;
+    },
   },
   secret: process.env.NEXTAUTH_SECRET,
   // Optional: Customize pages, callbacks, etc.

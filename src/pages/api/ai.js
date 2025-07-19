@@ -1,7 +1,7 @@
 // curl command to test api
 // curl https://api.openai.com/v1/chat/completions \
 //   -H "Content-Type: application/json" \
-//   -H "Authorization: Bearer $OPEN_API_KEY" \
+//   -H "Authorization: Bearer $OPEN_AI_KEY" \
 //   -d '{
 //     "model": "gpt-3.5-turbo",
 //     "messages": [{"role": "user", "content": "write a hello world with java, and explain how to run it"}]
@@ -29,7 +29,7 @@ export default async function handler(req, res) {
   }
 
   // Check for API key
-  if (!process.env.OPEN_API_KEY) {
+  if (!process.env.OPEN_AI_KEY) {
     res.status(500).json({ error: "Internal Server Error" });
     return;
   }
@@ -45,7 +45,7 @@ export default async function handler(req, res) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.OPEN_API_KEY}`,
+        Authorization: `Bearer ${process.env.OPEN_AI_KEY}`,
       },
       body: JSON.stringify({
         model: req.body.model || "gpt-3.5-turbo",
