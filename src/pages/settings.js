@@ -27,14 +27,14 @@ export default function Settings() {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(1);
   const [filterValue, setFilterValue] = useState("");
-  const pages = Math.ceil(settings.length / rowsPerPage);
+  const pages = Math.ceil((settings || []).length / rowsPerPage);
   const onRowsPerPageChange = useCallback((e) => {
     setRowsPerPage(Number(e.target.value));
     setPage(1);
   }, []);
 
   const filterItems = useMemo(() => {
-    let filteredData = settings;
+    let filteredData = settings || [];
     if (filterValue) {
       var regex = new RegExp(filterValue, "i");
       filteredData = filteredData.filter((oneItem) => {
@@ -78,7 +78,7 @@ export default function Settings() {
             onValueChange={setFilterValue}
           />
           <span className='text-default-400 text-small'>
-            Total {settings.length} items
+            Total {(settings || []).length} items
           </span>
           <Pagination
             isCompact

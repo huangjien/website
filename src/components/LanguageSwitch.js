@@ -29,11 +29,15 @@ export const LanguageSwitch = () => {
     //get value out of the iterator entry:
     var value = first.value;
     setLanguage(lang);
-    setCurrentLanguage(value);
+    try {
+      setCurrentLanguage(value);
+    } catch (error) {
+      console.error("Failed to change language", error);
+    }
   };
 
   useEffect(() => {
-    if (currentLanguage) {
+    if (i18n && currentLanguage) {
       i18n.changeLanguage(currentLanguage);
       // search in languages array for the current language and set languageCode and speakerName
       var lang = languages.find((o) => o.key === currentLanguage);
@@ -53,6 +57,7 @@ export const LanguageSwitch = () => {
         <Button
           aria-label='switch language'
           light
+          isIconOnly
           className=' bg-transparent text-primary '
         >
           <BiGlobe size='2em' />

@@ -43,6 +43,9 @@ const getAnswer = async (
 
   return await fetch("/api/ai", {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify(requestBody),
   })
     .then((res) => res.json())
@@ -95,23 +98,35 @@ export const QuestionTabs = ({ append }) => {
         });
     } else {
       warn("getUserMedia not supported on your browser!");
+      return; // Exit early if getUserMedia is not supported
     }
-    await navigator.mediaDevices
-      .getUserMedia({ audio: true })
-      .then((stream) => {
-        setStream(stream);
-        mediaRecorder.current = new MediaRecorder(stream, { type: mimeType });
-        mediaRecorder.current.start();
-        const localAudioChunks = [];
-        mediaRecorder.current.ondataavailable = (event) => {
-          if (typeof event.data == "undefined") return;
-          if (event.data.size == 0) return;
-          localAudioChunks.push(event.data);
-        };
-        setAudio(localAudioChunks);
-      });
+    
+    // Second getUserMedia call with proper error handling
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      await navigator.mediaDevices
+        .getUserMedia({ audio: true })
+        .then((stream) => {
+          setStream(stream);
+          mediaRecorder.current = new MediaRecorder(stream, { type: mimeType });
+          mediaRecorder.current.start();
+          const localAudioChunks = [];
+          mediaRecorder.current.ondataavailable = (event) => {
+            if (typeof event.data == "undefined") return;
+            if (event.data.size == 0) return;
+            localAudioChunks.push(event.data);
+          };
+          setAudio(localAudioChunks);
+        })
+        .catch((err) => {
+          error(`The following getUserMedia error occurred: ${err}`);
+        });
+    }
   };
   const stopRecording = async () => {
+    if (!mediaRecorder.current) {
+      console.warn('MediaRecorder not initialized');
+      return;
+    }
     mediaRecorder.current.stop();
     mediaRecorder.current.onstop = () => {
       const audioBlob = new Blob(audio, { type: mimeType });
@@ -151,21 +166,19 @@ export const QuestionTabs = ({ append }) => {
 
   const startPress = () => {
     setLongPressDetected(false);
-    pressTimer = setTimeout(() => {
-      console.log("Long Press Triggered");
+    pressTimer = setTimeout(async () => {
       setHold(true);
       setLongPressDetected(true);
-      startRecording();
+      await startRecording();
     }, trackSpeed);
   };
 
   const endPress = () => {
     clearTimeout(pressTimer);
     if (longPressDetected) {
-      console.log("Long Press Released");
       stopRecording();
     } else {
-      console.log("Short Press Triggered", questionText);
+
       if (questionText === undefined || questionText?.length < 5) {
         warn("Please input a meaningful question");
       } else {
@@ -211,6 +224,11 @@ export const QuestionTabs = ({ append }) => {
       .then((qAndA) => {
         append(qAndA);
         setQuestionText("");
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Error in request2AI:", err);
+        error("Request failed: " + err.message);
         setLoading(false);
       });
   }

@@ -5,35 +5,77 @@
  */
 import { useTranslation } from "react-i18next";
 import { useRequest } from "ahooks";
-import { getJoke } from "@/lib/Requests";
-import { useState } from "react";
-import { BiRefresh } from "react-icons/bi";
-import { Spacer } from "@heroui/spacer";
+import { Button, Spacer } from "@heroui/react";
+import { MdRefresh } from "react-icons/md";
 
 export const Joke = () => {
-  const [title, setTitle] = useState(); // Stores the joke setup text
-  const [content, setContent] = useState(); // Stores the joke delivery text
+  const { t } = useTranslation();
 
-  // useRequest hook to fetch jokes from API
-  const { refresh } = useRequest(getJoke, {
-    onSuccess: (res) => {
-      // Update state with new joke data
-      setTitle(res["setup"]);
-      setContent(res["delivery"]);
-    },
+  // Fetch joke data from API
+  const fetchJoke = async () => {
+    const response = await fetch('/api/joke');
+    if (!response.ok) {
+      throw new Error('Failed to fetch joke');
+    }
+    return response.json();
+  };
+
+  const { data, loading, error, refresh } = useRequest(fetchJoke, {
+    manual: false,
+    refreshDeps: [],
   });
 
+  // Show error message if there's an error
+  if (error) {
+    return (
+      <div>
+        <span>{t('joke.error')}</span>
+        <Spacer />
+        <Button
+          color="primary"
+          variant="flat"
+          onPress={refresh}
+          isLoading={loading}
+          startContent={<MdRefresh />}
+        >
+          {t('joke.refresh')}
+        </Button>
+      </div>
+    );
+  }
+
+  // Show loading message when loading and no data
+  if (loading && !data) {
+    return (
+      <div>
+        <span>{t('joke.loading')}</span>
+        <Spacer />
+        <Button
+          color="primary"
+          variant="flat"
+          onPress={refresh}
+          isLoading={loading}
+          startContent={<MdRefresh />}
+        >
+          {t('joke.refresh')}
+        </Button>
+      </div>
+    );
+  }
+
   return (
-    <div class='z-50 flex justify-center items-center text-xs shadow-md m-2 px-2 rounded-full font-mono'>
-      <BiRefresh size='2em' onClick={refresh} />
-      <Spacer x={2} />
-
-      <span className='inline-block italic'>{title}</span>
-      <Spacer x={2} />
-
-      <span className='inline-block '>
-        <b>{content}</b>
-      </span>
+    <div>
+      {data?.joke && <span>{data.joke}</span>}
+      <Spacer />
+      <Button
+        color="primary"
+        variant="flat"
+        onPress={refresh}
+        isLoading={loading}
+        startContent={<MdRefresh />}
+      >
+        {t('joke.refresh')}
+      </Button>
     </div>
   );
 };

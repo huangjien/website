@@ -30,14 +30,20 @@ export const Comment = ({ issue_id }) => {
       .then((comment) => {
         // foreach to handle a comments array here
         // console.log(comment);
-        comment.forEach((oneComment) => {
-          const oneCommentContent = extractContentAccordingContentList(
-            commentContentList,
-            oneComment
-          );
-          temp_array.push(oneCommentContent);
-        });
-        setCommentList(temp_array);
+        if (comment && Array.isArray(comment)) {
+          comment.forEach((oneComment) => {
+            const oneCommentContent = extractContentAccordingContentList(
+              commentContentList,
+              oneComment
+            );
+            temp_array.push(oneCommentContent);
+          });
+          setCommentList(temp_array);
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching comments:', error);
+        setCommentList([]);
       });
   }, [commentContentList, issue_id]);
 

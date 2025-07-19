@@ -49,7 +49,7 @@ export const Chat = ({ data, player }) => {
             <div>
               <Button
                 size='lg'
-                opPress={handleCopy}
+                onPress={handleCopy}
                 variant='light'
                 className=' bg-transparent  text-primary  m-3  right-6'
               >

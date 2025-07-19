@@ -36,22 +36,19 @@ import { IssueModal } from "./IssueModal";
  */
 export const IssueList = ({ tags, ComponentName, data, inTab = "ai" }) => {
   const { t } = useTranslation();
-  const [rowsPerPage, setRowsPerPage] = useLocalStorageState("RowsPerPage", {
-    defaultValue: 5,
-  });
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(1);
   const [audioSrc, setAudioSrc] = useState("");
-  const [pages, setPages] = useState(Math.ceil(data?.length / rowsPerPage));
+  const [pages, setPages] = useState(1);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { languageCode, speakerName } = useSettings();
   const [filterValue, setFilterValue] = useState("");
   // const { data: session, status } = useSession();
 
+  // Reset page when data changes
   useEffect(() => {
-    if (data) {
-      setPages(Math.ceil(data.length / rowsPerPage));
-    }
-  }, [data, rowsPerPage]);
+    setPage(1);
+  }, [data]);
 
   const readText = useCallback(
     (text) => {
@@ -83,9 +80,10 @@ export const IssueList = ({ tags, ComponentName, data, inTab = "ai" }) => {
     },
     [setPage, setRowsPerPage]
   );
+  
   const filterItems = useMemo(() => {
-    let filteredData = data;
-    if (filterValue) {
+    let filteredData = data || [];
+    if (filterValue && filteredData.length > 0) {
       let regex = new RegExp(filterValue, "i");
       filteredData = filteredData.filter((oneItem) => {
         return JSON.stringify(oneItem).search(regex) > -1;
@@ -94,6 +92,20 @@ export const IssueList = ({ tags, ComponentName, data, inTab = "ai" }) => {
 
     return filteredData;
   }, [filterValue, data]);
+
+  useEffect(() => {
+    if (filterItems && filterItems.length > 0) {
+      const calculatedPages = Math.ceil(filterItems.length / rowsPerPage);
+      setPages(calculatedPages > 0 ? calculatedPages : 1);
+      // Reset to page 1 if current page exceeds total pages
+      if (page > calculatedPages) {
+        setPage(1);
+      }
+    } else {
+      setPages(1);
+      setPage(1);
+    }
+  }, [filterItems, rowsPerPage, page]);
 
   const items = useMemo(() => {
     const start = (page - 1) * rowsPerPage;
@@ -127,9 +139,11 @@ export const IssueList = ({ tags, ComponentName, data, inTab = "ai" }) => {
         onClose={stopReading}
       >
         <ModalContent>
-          <ModalBody>
-            <audio disabled={!audioSrc} controls autoPlay src={audioSrc} />
-          </ModalBody>
+          {(onClose) => (
+            <ModalBody>
+              <audio disabled={!audioSrc} controls autoPlay src={audioSrc} />
+            </ModalBody>
+          )}
         </ModalContent>
       </Modal>
       <Joke />
@@ -152,7 +166,7 @@ export const IssueList = ({ tags, ComponentName, data, inTab = "ai" }) => {
               onValueChange={setFilterValue}
             />
             <span className='text-default-400 text-small'>
-              {t("issue.total", { total: data?.length })}
+              {t("issue.total", { total: data?.length || 0 })}
             </span>
             <Pagination
               isCompact
@@ -186,8 +200,8 @@ export const IssueList = ({ tags, ComponentName, data, inTab = "ai" }) => {
         </TableHeader>
 
         <TableBody items={items}>
-          {(item) => (
-            <TableRow key={item.id}>
+          {(item, index) => (
+            <TableRow key={item.id || `item-${index}`}>
               <TableCell className=' lg:m-4'>
                 {renderCell(item, ComponentName)}
               </TableCell>

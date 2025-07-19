@@ -5,7 +5,13 @@ export const userContext = createContext(undefined);
 export const settingContext = createContext({});
 
 export function getValueByPath(data, path) {
-  return path?.split(".").reduce((obj, i) => obj?.[i], data);
+  if (path === null || path === undefined) {
+    return undefined;
+  }
+  if (path === '') {
+    return data;
+  }
+  return path.split(".").reduce((obj, i) => obj?.[i], data);
 }
 
 export const hashCode = (string) => {
