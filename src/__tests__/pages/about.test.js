@@ -1,6 +1,6 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
-import About from "../about";
+import About from "../../pages/about";
 import { useTitle } from "ahooks";
 import { useTranslation } from "react-i18next";
 import { useGithubContent } from "../../lib/useGithubContent";

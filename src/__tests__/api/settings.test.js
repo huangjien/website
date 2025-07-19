@@ -1,4 +1,4 @@
-import handler from "../settings";
+import handler from "../../pages/api/settings";
 import { createMocks } from "node-mocks-http";
 
 // Mock fetch globally

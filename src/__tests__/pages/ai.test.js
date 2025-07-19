@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import AI from "../ai";
+import AI from "../../pages/ai";
 import { useTranslation } from "react-i18next";
 import { useTitle } from "ahooks";
 

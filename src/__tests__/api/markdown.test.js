@@ -1,4 +1,4 @@
-import handler from "../markdown";
+import handler from "../../pages/api/markdown";
 import { createMocks } from "node-mocks-http";
 
 // Mock fetch globally

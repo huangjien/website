@@ -9,7 +9,7 @@ describe("Error page", () => {
 
   beforeAll(async () => {
     // Dynamically import the Error component to avoid module-level execution issues
-    const errorModule = await import("../error");
+    const errorModule = await import("../../pages/error");
     ErrorComponent = errorModule.default;
   });
 

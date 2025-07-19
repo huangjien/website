@@ -1,4 +1,4 @@
-import handler from "../ai";
+import handler from "../../pages/api/ai";
 import { createMocks } from "node-mocks-http";
 import { getServerSession } from "next-auth/next";
 

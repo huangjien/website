@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import Settings from "../settings";
+import Settings from "../../pages/settings";
 import { useTranslation } from "react-i18next";
 import { useSession } from "next-auth/react";
 import { useTitle } from "ahooks";
