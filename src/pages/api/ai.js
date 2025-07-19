@@ -36,6 +36,6 @@ export default async function handler(req, res) {
       res.status(200).send(data);
     })
     .catch((err) => {
-      res.status(err.status).json({ error: err.message, body: req.body });
+      res.status(err.status || 500).json({ error: err.message || 'Internal Server Error', body: req.body });
     });
 }
