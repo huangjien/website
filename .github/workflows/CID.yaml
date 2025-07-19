@@ -46,8 +46,14 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 24
+          registry-url: 'https://registry.npmjs.org'
 
-      - run: yarn install
+      - name: Install dependencies with fallback
+        run: |
+          yarn install --network-timeout 100000 --registry https://registry.npmjs.org || \
+          yarn install --network-timeout 100000 --registry https://registry.yarnpkg.com || \
+          npm install
+
       - run: yarn lint
       - run: yarn build
 
