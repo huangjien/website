@@ -15,7 +15,15 @@ jest.mock("next-auth/react", () => ({
 // Mock react-i18next
 jest.mock("react-i18next", () => ({
   useTranslation: () => ({
-    t: (key) => key,
+    t: (key) => {
+      const translations = {
+        'header.login': 'Login',
+        'login.settings': 'login.settings',
+        'login.logout': 'login.logout',
+        'login.actions': 'login.actions'
+      };
+      return translations[key] || key;
+    },
   }),
 }));
 
@@ -101,7 +109,7 @@ describe("Login Component", () => {
 
     render(<Login />);
 
-    expect(screen.getByText("login.login")).toBeInTheDocument();
+    expect(screen.getByText("Login")).toBeInTheDocument();
     expect(screen.getByTestId("login-icon")).toBeInTheDocument();
     expect(screen.getByTestId("button")).toBeInTheDocument();
   });
@@ -239,7 +247,7 @@ describe("Login Component", () => {
     render(<Login />);
 
     // Should render login button during loading
-    expect(screen.getByText("login.login")).toBeInTheDocument();
+    expect(screen.getByText("Login")).toBeInTheDocument();
   });
 
   it("should handle user without image", () => {
@@ -341,7 +349,7 @@ describe("Login Component", () => {
 
     render(<Login />);
 
-    expect(screen.getByText("login.login")).toBeInTheDocument();
+    expect(screen.getByText("Login")).toBeInTheDocument();
   });
 
   it("should handle session with missing user", () => {
@@ -353,7 +361,7 @@ describe("Login Component", () => {
     render(<Login />);
 
     // Should fall back to login button if user is missing
-    expect(screen.getByText("login.login")).toBeInTheDocument();
+    expect(screen.getByText("Login")).toBeInTheDocument();
   });
 
   it("should handle unknown dropdown action gracefully", async () => {

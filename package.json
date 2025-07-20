@@ -17,7 +17,8 @@
     "make": "docker buildx build --platform linux/amd64 -t huangjien/website .",
     "exe": "docker run --env-file .env.local -ti -d -p 8080:8080 huangjien/website",
     "lint": "next lint",
-    "prettier": "prettier --write ."
+    "prettier": "prettier --write .",
+    "prepare": "husky"
   },
   "bugs": {
     "url": "https://github.com/huangjien/blog/issues"

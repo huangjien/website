@@ -5,7 +5,7 @@
  */
 import { useTranslation } from "react-i18next";
 import { useRequest } from "ahooks";
-import { Button, Spacer } from "@heroui/react";
+import { Button } from "@heroui/react";
 import { MdRefresh } from "react-icons/md";
 
 export const Joke = () => {
@@ -28,18 +28,16 @@ export const Joke = () => {
   // Show error message if there's an error
   if (error) {
     return (
-      <div>
-        <span>{t("joke.error")}</span>
-        <Spacer />
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
         <Button
-          color='primary'
-          variant='flat'
+          variant='light'
           onPress={refresh}
           isLoading={loading}
-          startContent={<MdRefresh />}
+          isIconOnly
         >
-          {t("joke.refresh")}
+          <MdRefresh />
         </Button>
+        <span>{t("joke.error")}</span>
       </div>
     );
   }
@@ -47,35 +45,31 @@ export const Joke = () => {
   // Show loading message when loading and no data
   if (loading && !data) {
     return (
-      <div>
-        <span>{t("joke.loading")}</span>
-        <Spacer />
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
         <Button
-          color='primary'
-          variant='flat'
+          variant='light'
           onPress={refresh}
           isLoading={loading}
-          startContent={<MdRefresh />}
+          isIconOnly
         >
-          {t("joke.refresh")}
+          <MdRefresh />
         </Button>
+        <span>{t("joke.loading")}</span>
       </div>
     );
   }
 
   return (
-    <div>
-      {data?.joke && <span>{data.joke}</span>}
-      <Spacer />
+    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
       <Button
-        color='primary'
-        variant='flat'
+        variant='light'
         onPress={refresh}
         isLoading={loading}
-        startContent={<MdRefresh />}
+        isIconOnly
       >
-        {t("joke.refresh")}
+        <MdRefresh />
       </Button>
+      {data?.joke && <span>{data.joke}</span>}
     </div>
   );
 };

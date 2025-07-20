@@ -234,23 +234,11 @@ describe("Joke Component", () => {
     render(<Joke />);
 
     const button = screen.getByTestId("button");
-    expect(button).toHaveAttribute("data-color", "primary");
-    expect(button).toHaveAttribute("data-variant", "flat");
+    expect(button).toHaveAttribute("data-variant", "light");
     expect(button).not.toBeDisabled();
   });
 
-  it("should render spacer component", () => {
-    mockUseRequest.mockReturnValue({
-      data: { joke: "Test joke" },
-      loading: false,
-      error: null,
-      refresh: mockRefresh,
-    });
 
-    render(<Joke />);
-
-    expect(screen.getByTestId("spacer")).toBeInTheDocument();
-  });
 
   it("should handle empty joke data", () => {
     mockUseRequest.mockReturnValue({
@@ -265,7 +253,6 @@ describe("Joke Component", () => {
     // When joke is empty string, it should not render the joke text
     // but should still render the button
     expect(screen.getByTestId("button")).toBeInTheDocument();
-    expect(screen.getByTestId("spacer")).toBeInTheDocument();
   });
 
   it("should handle null joke data", () => {

@@ -36,7 +36,7 @@ const Login = () => {
         onPress={() => signIn("github")}
         startContent={<MdLogin />}
       >
-        {t("login.login")}
+        {t("header.login")}
       </Button>
     );
   }

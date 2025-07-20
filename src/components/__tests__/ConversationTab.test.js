@@ -244,7 +244,9 @@ describe("ConversationTab Component", () => {
     fireEvent.mouseDown(button);
 
     // Advance timers to trigger long press
-    jest.advanceTimersByTime(300);
+    await act(async () => {
+      jest.advanceTimersByTime(300);
+    });
 
     expect(mockStartRecording).toHaveBeenCalled();
   });
@@ -262,7 +264,9 @@ describe("ConversationTab Component", () => {
     fireEvent.mouseDown(button);
 
     // Advance timers to trigger long press
-    jest.advanceTimersByTime(300);
+    await act(async () => {
+      jest.advanceTimersByTime(300);
+    });
 
     await waitFor(() => {
       expect(screen.getByTestId("microphone-icon")).toBeInTheDocument();
@@ -380,7 +384,9 @@ describe("ConversationTab Component", () => {
     expect(mockStartRecording).not.toHaveBeenCalled();
 
     // Advance timers to reach trackSpeed
-    jest.advanceTimersByTime(100);
+    await act(async () => {
+      jest.advanceTimersByTime(100);
+    });
 
     expect(mockStartRecording).toHaveBeenCalled();
   });
@@ -414,7 +420,9 @@ describe("ConversationTab Component", () => {
     fireEvent.touchStart(button);
 
     // Advance timers to trigger long press
-    jest.advanceTimersByTime(300);
+    await act(async () => {
+      jest.advanceTimersByTime(300);
+    });
 
     expect(mockStartRecording).toHaveBeenCalled();
 
