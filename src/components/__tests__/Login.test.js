@@ -18,9 +18,9 @@ jest.mock("react-i18next", () => ({
     t: (key) => {
       const translations = {
         'header.login': 'Login',
-        'login.settings': 'login.settings',
-        'login.logout': 'login.logout',
-        'login.actions': 'login.actions'
+        'header.settings': 'Settings',
+        'header.logout': 'Logout',
+        'header.message': 'Message'
       };
       return translations[key] || key;
     },
@@ -173,8 +173,8 @@ describe("Login Component", () => {
 
     render(<Login />);
 
-    expect(screen.getByText("login.settings")).toBeInTheDocument();
-    expect(screen.getByText("login.logout")).toBeInTheDocument();
+    expect(screen.getByText("Settings")).toBeInTheDocument();
+    expect(screen.getByText("Logout")).toBeInTheDocument();
     expect(screen.getByTestId("settings-icon")).toBeInTheDocument();
     expect(screen.getByTestId("logout-icon")).toBeInTheDocument();
   });
@@ -337,7 +337,7 @@ describe("Login Component", () => {
 
     expect(screen.getByTestId("dropdown-section")).toBeInTheDocument();
     expect(screen.getByTestId("section-title")).toHaveTextContent(
-      "login.actions"
+      "Message"
     );
   });
 

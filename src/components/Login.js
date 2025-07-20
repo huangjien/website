@@ -53,12 +53,12 @@ const Login = () => {
         />
       </DropdownTrigger>
       <DropdownMenu onAction={handleDropdownAction}>
-        <DropdownSection title={t("login.actions")}>
+        <DropdownSection title={t("header.message")}>
           <DropdownItem key='settings' startContent={<MdSettings />}>
-            {t("login.settings")}
+            {t("header.settings")}
           </DropdownItem>
           <DropdownItem key='logout' startContent={<MdLogout />}>
-            {t("login.logout")}
+            {t("header.logout")}
           </DropdownItem>
         </DropdownSection>
       </DropdownMenu>

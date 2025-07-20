@@ -60,5 +60,12 @@
       "key": "Key",
       "value": "Value"
     }
+  },
+  "layout": {
+    "version": "Version"
+  },
+  "joke": {
+    "error": "Error loading joke",
+    "loading": "Loading joke..."
   }
 }
