@@ -1,1 +1,4 @@
-npm test && npm --no-git-tag-version version patch && git add .
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+npx lint-staged

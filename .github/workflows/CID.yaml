@@ -57,8 +57,8 @@ jobs:
       - run: yarn lint
       - run: yarn build
 
-      - run: yarn make
-      - run: yarn push
+      - run: yarn docker:build
+      - run: yarn docker:push
 
       # Deploy image to Cloud Run
       - name: Deploy

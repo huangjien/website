@@ -1,27 +1,58 @@
 {
   "name": "website",
   "version": "1.0.3",
-  "author": "huangjien@gmail.com",
-  "copyright": "Copyright (c) 2025 Jien Huang",
-  "description": "A blog website template",
+  "description": "A modern, responsive blog website template built with Next.js, React, and Tailwind CSS",
+  "author": {
+    "name": "Jien Huang",
+    "email": "huangjien@gmail.com"
+  },
+  "license": "MIT",
   "private": true,
-  "scripts": {
-    "dev": "cross-env NODE_OPTION='--inspect' next dev -p 8080",
-    "build": "next build",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage",
-    "test:e2e": "playwright test",
-    "start": "next start -p 8080",
-    "push": "docker push huangjien/website",
-    "make": "docker buildx build --platform linux/amd64 -t huangjien/website .",
-    "exe": "docker run --env-file .env.local -ti -d -p 8080:8080 huangjien/website",
-    "lint": "next lint",
-    "prettier": "prettier --write .",
-    "prepare": "husky"
+  "keywords": [
+    "nextjs",
+    "react",
+    "blog",
+    "website",
+    "tailwindcss",
+    "typescript",
+    "pwa",
+    "i18n"
+  ],
+  "homepage": "https://github.com/huangjien/blog#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/huangjien/blog.git"
   },
   "bugs": {
     "url": "https://github.com/huangjien/blog/issues"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0",
+    "yarn": ">=1.22.0"
+  },
+  "scripts": {
+    "dev": "next dev -p 8080",
+    "build": "next build",
+    "start": "next start -p 8080",
+    "lint": "next lint",
+    "lint:fix": "next lint --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "type-check": "tsc --noEmit",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "test:ci": "jest --ci --coverage --watchAll=false",
+    "e2e": "playwright test",
+    "e2e:ui": "playwright test --ui",
+    "e2e:headed": "playwright test --headed",
+    "prepare": "husky install",
+    "docker:build": "docker buildx build --platform linux/amd64 -t huangjien/website .",
+    "docker:push": "docker push huangjien/website",
+    "docker:run": "docker run --env-file .env.local -ti -d -p 8080:8080 huangjien/website",
+    "clean": "rm -rf .next out node_modules/.cache",
+    "analyze": "cross-env ANALYZE=true next build"
   },
   "dependencies": {
     "@heroui/accordion": "2.2.20",
@@ -49,17 +80,17 @@
     "@tailwindcss/postcss": "^4.1.11",
     "ahooks": "^3.9.0",
     "eslint-config-prettier": "^10.1.8",
-    "framer-motion": "^12.23.6",
+    "framer-motion": "^12.23.7",
     "http-proxy": "^1.18.1",
     "i18next": "^25.3.2",
-    "next": "^15.4.2",
+    "next": "^15.4.3",
     "next-auth": "^4.24.11",
     "next-pwa": "^5.6.0",
     "next-themes": "^0.4.6",
     "prettier": "^3.6.2",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "react-i18next": "^15.6.0",
+    "react-i18next": "^15.6.1",
     "react-icons": "^5.5.0",
     "react-markdown": "^10.1.0",
     "react-toastify": "^11.0.5",
@@ -70,20 +101,29 @@
     "tailwind-variants": "^1.0.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.26.0",
+    "@next/bundle-analyzer": "^15.4.3",
     "@playwright/test": "^1.54.1",
     "@tailwindcss/typography": "^0.5.16",
+    "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^22.10.7",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
     "autoprefixer": "^10.4.21",
+    "babel-jest": "^29.7.0",
     "cross-env": "^7.0.3",
     "css-loader": "^7.1.2",
     "eslint": "^9.31.0",
-    "eslint-config-next": "^15.4.2",
+    "eslint-config-next": "^15.4.3",
     "eslint-plugin-prettier": "^5.5.3",
     "husky": "^9.1.7",
-    "jest": "^30.0.4",
-    "jest-environment-jsdom": "^30.0.4",
+    "jest": "^30.0.5",
+    "jest-environment-jsdom": "^30.0.5",
+    "lint-staged": "^15.3.0",
     "node-mocks-http": "^1.17.2",
     "postcss": "^8.5.6",
     "style-loader": "^4.0.0",
@@ -95,5 +135,26 @@
       "react": "$react",
       "react-dom": "$react-dom"
     }
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,css,scss}": [
+      "prettier --write"
+    ]
   }
 }
