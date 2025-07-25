@@ -11,6 +11,14 @@ jest.mock("react-i18next", () => ({
   }),
 }));
 
+// Mock useSettings hook
+const mockGetSetting = jest.fn();
+jest.mock("@/lib/useSettings", () => ({
+  useSettings: () => ({
+    getSetting: mockGetSetting,
+  }),
+}));
+
 // Mock @heroui/react components
 jest.mock("@heroui/react", () => ({
   Input: ({
@@ -83,7 +91,7 @@ jest.mock("@heroui/react", () => ({
 
 describe("ConfigurationTab Component", () => {
   const defaultProps = {
-    model: "gpt-4o-mini",
+    model: "gpt-4.1-mini",
     setModel: jest.fn(),
     temperature: 0.7,
     setTemperature: jest.fn(),
@@ -93,6 +101,7 @@ describe("ConfigurationTab Component", () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
+    mockGetSetting.mockReturnValue(null);
   });
 
   it("should render all configuration inputs", () => {
@@ -131,17 +140,17 @@ describe("ConfigurationTab Component", () => {
     // Should have placeholder + 5 model options
     expect(options).toHaveLength(6);
 
-    const modelLabels = ["GPT-4o Mini", "GPT-4o", "o1-mini", "o1", "o3-mini"];
+    const modelLabels = ["GPT-4.1 Mini", "GPT-4.1", "o1-mini", "o1", "o3-mini"];
     modelLabels.forEach((label) => {
       expect(screen.getByText(label)).toBeInTheDocument();
     });
   });
 
   it("should show selected model correctly", () => {
-    render(<ConfigurationTab {...defaultProps} model='gpt-4o' />);
+    render(<ConfigurationTab {...defaultProps} />);
 
     const select = screen.getByTestId("select");
-    expect(select.value).toBe("gpt-4o");
+    expect(select.value).toBe("gpt-4.1-mini");
   });
 
   it("should call setModel when model selection changes", async () => {
@@ -151,9 +160,9 @@ describe("ConfigurationTab Component", () => {
     render(<ConfigurationTab {...defaultProps} setModel={mockSetModel} />);
 
     const select = screen.getByTestId("select");
-    await user.selectOptions(select, "gpt-4o");
+    await user.selectOptions(select, "gpt-4.1");
 
-    expect(mockSetModel).toHaveBeenCalledWith("gpt-4o");
+    expect(mockSetModel).toHaveBeenCalledWith("gpt-4.1");
   });
 
   it("should call setTemperature when temperature input changes", async () => {
@@ -308,5 +317,128 @@ describe("ConfigurationTab Component", () => {
     await user.clear(trackSpeedInput);
 
     expect(mockSetTrackSpeed).toHaveBeenCalledWith(300);
+  });
+
+  describe("useSettings integration", () => {
+    it("should use models from settings when available as JSON string", () => {
+      const customModels = [
+        { key: "custom-model-1", label: "Custom Model 1" },
+        { key: "custom-model-2", label: "Custom Model 2" },
+      ];
+      mockGetSetting.mockReturnValue(JSON.stringify(customModels));
+
+      render(<ConfigurationTab {...defaultProps} />);
+
+      expect(screen.getByText("Custom Model 1")).toBeInTheDocument();
+      expect(screen.getByText("Custom Model 2")).toBeInTheDocument();
+      expect(screen.queryByText("GPT-4.1 Mini")).not.toBeInTheDocument();
+    });
+
+    it("should use models from settings when available as parsed objects", () => {
+      const customModels = [
+        { key: "parsed-model-1", label: "Parsed Model 1" },
+        { key: "parsed-model-2", label: "Parsed Model 2" },
+      ];
+      mockGetSetting.mockReturnValue(customModels);
+
+      render(<ConfigurationTab {...defaultProps} />);
+
+      expect(screen.getByText("Parsed Model 1")).toBeInTheDocument();
+      expect(screen.getByText("Parsed Model 2")).toBeInTheDocument();
+      expect(screen.queryByText("GPT-4.1 Mini")).not.toBeInTheDocument();
+    });
+
+    it("should fall back to default models when settings models are invalid JSON", () => {
+      mockGetSetting.mockReturnValue("invalid json string");
+      const consoleSpy = jest
+        .spyOn(console, "warn")
+        .mockImplementation(() => {});
+
+      render(<ConfigurationTab {...defaultProps} />);
+
+      expect(screen.getByText("GPT-4.1 Mini")).toBeInTheDocument();
+      expect(consoleSpy).toHaveBeenCalledWith(
+        "Failed to parse models from settings:",
+        expect.any(Error)
+      );
+
+      consoleSpy.mockRestore();
+    });
+
+    it("should fall back to default models when settings models have invalid structure", () => {
+      const invalidModels = [
+        { key: "valid-model", label: "Valid Model" },
+        { key: "invalid-model" }, // Missing label
+        { label: "Another Invalid" }, // Missing key
+      ];
+      mockGetSetting.mockReturnValue(invalidModels);
+
+      render(<ConfigurationTab {...defaultProps} />);
+
+      expect(screen.getByText("GPT-4.1 Mini")).toBeInTheDocument();
+      expect(screen.queryByText("Valid Model")).not.toBeInTheDocument();
+    });
+
+    it("should call getSetting with correct parameter", () => {
+      render(<ConfigurationTab {...defaultProps} />);
+
+      expect(mockGetSetting).toHaveBeenCalledWith("models");
+    });
+
+    it("should fall back to default models when getSetting returns null", () => {
+      mockGetSetting.mockReturnValue(null);
+
+      render(<ConfigurationTab {...defaultProps} />);
+
+      expect(screen.getByText("GPT-4.1 Mini")).toBeInTheDocument();
+      expect(screen.getByText("GPT-4.1")).toBeInTheDocument();
+      expect(screen.getByText("o1-mini")).toBeInTheDocument();
+      expect(screen.getByText("o1")).toBeInTheDocument();
+      expect(screen.getByText("o3-mini")).toBeInTheDocument();
+    });
+
+    it("should fall back to default models when getSetting returns undefined", () => {
+      mockGetSetting.mockReturnValue(undefined);
+
+      render(<ConfigurationTab {...defaultProps} />);
+
+      expect(screen.getByText("GPT-4.1 Mini")).toBeInTheDocument();
+      expect(screen.getByText("GPT-4.1")).toBeInTheDocument();
+      expect(screen.getByText("o1-mini")).toBeInTheDocument();
+      expect(screen.getByText("o1")).toBeInTheDocument();
+      expect(screen.getByText("o3-mini")).toBeInTheDocument();
+    });
+
+    it("should handle empty array from settings", () => {
+      mockGetSetting.mockReturnValue([]);
+
+      render(<ConfigurationTab {...defaultProps} />);
+
+      // Should fall back to default models when empty array is provided
+      expect(screen.getByText("GPT-4.1 Mini")).toBeInTheDocument();
+      expect(screen.getByText("GPT-4.1")).toBeInTheDocument();
+      expect(screen.getByText("o1-mini")).toBeInTheDocument();
+      expect(screen.getByText("o1")).toBeInTheDocument();
+      expect(screen.getByText("o3-mini")).toBeInTheDocument();
+    });
+
+    it("should handle non-array value from settings", () => {
+      mockGetSetting.mockReturnValue("not an array");
+      const consoleSpy = jest
+        .spyOn(console, "warn")
+        .mockImplementation(() => {});
+
+      render(<ConfigurationTab {...defaultProps} />);
+
+      // Should fall back to default models when non-array value is provided
+      expect(screen.getByText("GPT-4.1 Mini")).toBeInTheDocument();
+      expect(screen.getByText("GPT-4.1")).toBeInTheDocument();
+      expect(screen.getByText("o1-mini")).toBeInTheDocument();
+      expect(screen.getByText("o1")).toBeInTheDocument();
+      expect(screen.getByText("o3-mini")).toBeInTheDocument();
+      expect(consoleSpy).toHaveBeenCalled();
+
+      consoleSpy.mockRestore();
+    });
   });
 });

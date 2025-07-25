@@ -16,7 +16,7 @@ export const QuestionTabs = ({ append }) => {
   });
   const [loading, setLoading] = useState(false);
   const [model, setModel] = useLocalStorageState("ai-model", {
-    defaultValue: "gpt-4o-mini",
+    defaultValue: "gpt-4.1-mini",
   });
   const [temperature, setTemperature] = useLocalStorageState("ai-temperature", {
     defaultValue: 0.5,

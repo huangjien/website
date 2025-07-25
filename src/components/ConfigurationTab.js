@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Input, Select, SelectItem } from "@heroui/react";
+import { useSettings } from "@/lib/useSettings";
 
 /**
  * Configuration tab component for AI settings
@@ -14,14 +15,42 @@ const ConfigurationTab = ({
   setTrackSpeed,
 }) => {
   const { t } = useTranslation();
+  const { getSetting } = useSettings();
 
-  const models = [
-    { key: "gpt-4o-mini", label: "GPT-4o Mini" },
-    { key: "gpt-4o", label: "GPT-4o" },
-    { key: "o1-mini", label: "o1-mini" },
-    { key: "o1", label: "o1" },
-    { key: "o3-mini", label: "o3-mini" },
-  ];
+  const models = useMemo(() => {
+    const defaultModels = [
+      { key: "gpt-4.1-mini", label: "GPT-4.1 Mini" },
+      { key: "gpt-4.1", label: "GPT-4.1" },
+      { key: "o1-mini", label: "o1-mini" },
+      { key: "o1", label: "o1" },
+      { key: "o3-mini", label: "o3-mini" },
+    ];
+
+    // Get models from settings if available
+    const settingsModels = getSetting("models");
+    if (settingsModels) {
+      try {
+        // Parse if it's a JSON string, otherwise use as is
+        const parsedModels =
+          typeof settingsModels === "string"
+            ? JSON.parse(settingsModels)
+            : settingsModels;
+
+        // Validate that it's an array with proper structure and not empty
+        if (
+          Array.isArray(parsedModels) &&
+          parsedModels.length > 0 &&
+          parsedModels.every((m) => m.key && m.label)
+        ) {
+          return parsedModels;
+        }
+      } catch (error) {
+        console.warn("Failed to parse models from settings:", error);
+      }
+    }
+
+    return defaultModels;
+  }, [getSetting]);
 
   return (
     <div className='flex flex-col gap-4'>

@@ -355,7 +355,7 @@ describe("QuestionTabs Component", () => {
       choices: [{ message: { content: "AI is artificial intelligence" } }],
       id: "test-id",
       created: 1234567890,
-      model: "gpt-4o-mini",
+      model: "gpt-4.1-mini",
       usage: {
         prompt_tokens: 5,
         completion_tokens: 10,
@@ -375,7 +375,7 @@ describe("QuestionTabs Component", () => {
       expect(getAnswer).toHaveBeenCalledWith(
         "What is AI?",
         "",
-        "gpt-4o-mini",
+        "gpt-4.1-mini",
         0.5
       );
     });
@@ -388,7 +388,7 @@ describe("QuestionTabs Component", () => {
         id: "test-id",
         temperature: 0.5,
         timestamp: 1234567890,
-        model: "gpt-4o-mini",
+        model: "gpt-4.1-mini",
         question_tokens: 5,
         answer_tokens: 10,
         total_tokens: 15,
@@ -495,7 +495,7 @@ describe("QuestionTabs Component", () => {
                 choices: [{ message: { content: "Test response" } }],
                 id: "test-id",
                 created: 1234567890,
-                model: "gpt-4o-mini",
+                model: "gpt-4.1-mini",
                 usage: {
                   prompt_tokens: 5,
                   completion_tokens: 10,
@@ -520,7 +520,7 @@ describe("QuestionTabs Component", () => {
       expect(getAnswer).toHaveBeenCalledWith(
         "Test question",
         expect.any(String),
-        "gpt-4o-mini",
+        "gpt-4.1-mini",
         0.5
       );
     });
@@ -624,7 +624,7 @@ describe("QuestionTabs Component", () => {
         choices: [{ message: { content: "Test answer" } }],
         id: "test-id",
         created: 1234567890,
-        model: "gpt-4o-mini",
+        model: "gpt-4.1-mini",
         usage: {
           prompt_tokens: 5,
           completion_tokens: 10,
@@ -711,7 +711,7 @@ describe("QuestionTabs Component", () => {
       choices: [{ message: { content: "Audio response" } }],
       id: "audio-test-id",
       created: 1234567890,
-      model: "gpt-4o-mini",
+      model: "gpt-4.1-mini",
       usage: {
         prompt_tokens: 5,
         completion_tokens: 10,
@@ -735,7 +735,7 @@ describe("QuestionTabs Component", () => {
       expect(getAnswer).toHaveBeenCalledWith(
         "Transcribed audio question",
         expect.any(String),
-        "gpt-4o-mini",
+        "gpt-4.1-mini",
         0.5
       );
     });
@@ -748,7 +748,7 @@ describe("QuestionTabs Component", () => {
         id: "audio-test-id",
         temperature: 0.5,
         timestamp: 1234567890,
-        model: "gpt-4o-mini",
+        model: "gpt-4.1-mini",
         question_tokens: 5,
         answer_tokens: 10,
         total_tokens: 15,
