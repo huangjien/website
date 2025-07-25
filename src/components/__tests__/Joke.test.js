@@ -238,8 +238,6 @@ describe("Joke Component", () => {
     expect(button).not.toBeDisabled();
   });
 
-
-
   it("should handle empty joke data", () => {
     mockUseRequest.mockReturnValue({
       data: { joke: "" },

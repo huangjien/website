@@ -8,6 +8,18 @@ module.exports = {
     "./node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}",
   ],
   darkMode: "class",
+  theme: {
+    extend: {
+      borderRadius: {
+        DEFAULT: "12px",
+        sm: "8px",
+        md: "12px",
+        lg: "16px",
+        xl: "20px",
+        "2xl": "24px",
+      },
+    },
+  },
   plugins: [
     require("@tailwindcss/typography"),
     heroui({
@@ -231,6 +243,11 @@ module.exports = {
       },
       layout: {
         disabledOpacity: "0.5",
+        radius: {
+          small: "8px",
+          medium: "12px",
+          large: "16px",
+        },
       },
     }),
   ],

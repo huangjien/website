@@ -1,6 +1,55 @@
 @import "tailwindcss";
 @config "../../tailwind.config.js";
 
+/* Global border radius for consistent rounded corners */
+/* HeroUI/NextUI component overrides */
+[data-slot="base"],
+[data-slot="input"],
+[data-slot="inputWrapper"],
+[data-slot="innerWrapper"],
+[data-slot="trigger"],
+[data-slot="listbox"],
+[data-slot="popoverContent"],
+[data-slot="content"],
+.nextui-input,
+.nextui-select,
+.nextui-button,
+.nextui-card,
+.nextui-modal,
+.nextui-popover,
+.nextui-dropdown,
+.nextui-user,
+input,
+select,
+textarea,
+button,
+.card,
+.modal,
+.dropdown,
+.popover {
+  border-radius: 12px !important;
+}
+
+/* Smaller elements get smaller radius */
+[data-slot="chip"],
+[data-slot="badge"],
+.nextui-chip,
+.nextui-badge,
+.chip,
+.badge {
+  border-radius: 8px !important;
+}
+
+/* Larger containers get larger radius */
+[data-slot="wrapper"],
+[data-slot="container"],
+.nextui-modal-content,
+.nextui-card-body,
+.container,
+.wrapper {
+  border-radius: 16px !important;
+}
+
 /* :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;

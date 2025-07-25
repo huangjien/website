@@ -28,7 +28,7 @@ export const Joke = () => {
   // Show error message if there's an error
   if (error) {
     return (
-      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+      <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
         <Button
           variant='light'
           onPress={refresh}
@@ -45,7 +45,7 @@ export const Joke = () => {
   // Show loading message when loading and no data
   if (loading && !data) {
     return (
-      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+      <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
         <Button
           variant='light'
           onPress={refresh}
@@ -60,13 +60,8 @@ export const Joke = () => {
   }
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-      <Button
-        variant='light'
-        onPress={refresh}
-        isLoading={loading}
-        isIconOnly
-      >
+    <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+      <Button variant='light' onPress={refresh} isLoading={loading} isIconOnly>
         <MdRefresh />
       </Button>
       {data?.joke && <span>{data.joke}</span>}

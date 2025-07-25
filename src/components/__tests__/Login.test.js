@@ -17,10 +17,10 @@ jest.mock("react-i18next", () => ({
   useTranslation: () => ({
     t: (key) => {
       const translations = {
-        'header.login': 'Login',
-        'header.settings': 'Settings',
-        'header.logout': 'Logout',
-        'header.message': 'Message'
+        "header.login": "Login",
+        "header.settings": "Settings",
+        "header.logout": "Logout",
+        "header.message": "Message",
       };
       return translations[key] || key;
     },
@@ -336,9 +336,7 @@ describe("Login Component", () => {
     render(<Login />);
 
     expect(screen.getByTestId("dropdown-section")).toBeInTheDocument();
-    expect(screen.getByTestId("section-title")).toHaveTextContent(
-      "Message"
-    );
+    expect(screen.getByTestId("section-title")).toHaveTextContent("Message");
   });
 
   it("should handle missing session data gracefully", () => {
