@@ -25,7 +25,12 @@ beforeAll(() => {
       return;
     }
     // Suppress jsdom navigation errors
-    if (args[0] && args[0].type === 'not implemented' && args[0].message && args[0].message.includes('navigation')) {
+    if (
+      args[0] &&
+      args[0].type === "not implemented" &&
+      args[0].message &&
+      args[0].message.includes("navigation")
+    ) {
       return;
     }
     originalError.call(console, ...args);

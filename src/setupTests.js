@@ -1,4 +1,4 @@
-import '@testing-library/jest-dom';
+import "@testing-library/jest-dom";
 
 // Mock IntersectionObserver
 global.IntersectionObserver = class IntersectionObserver {
@@ -17,9 +17,9 @@ global.ResizeObserver = class ResizeObserver {
 };
 
 // Mock window.matchMedia
-Object.defineProperty(window, 'matchMedia', {
+Object.defineProperty(window, "matchMedia", {
   writable: true,
-  value: jest.fn().mockImplementation(query => ({
+  value: jest.fn().mockImplementation((query) => ({
     matches: false,
     media: query,
     onchange: null,
@@ -32,9 +32,9 @@ Object.defineProperty(window, 'matchMedia', {
 });
 
 // Mock window.getComputedStyle
-Object.defineProperty(window, 'getComputedStyle', {
+Object.defineProperty(window, "getComputedStyle", {
   value: () => ({
-    getPropertyValue: () => '',
+    getPropertyValue: () => "",
   }),
 });
 
@@ -45,7 +45,7 @@ HTMLElement.prototype.scrollIntoView = jest.fn();
 document.elementFromPoint = jest.fn();
 
 // Mock createPortal for modals
-jest.mock('react-dom', () => ({
-  ...jest.requireActual('react-dom'),
+jest.mock("react-dom", () => ({
+  ...jest.requireActual("react-dom"),
   createPortal: (node) => node,
 }));

@@ -79,7 +79,7 @@ export const QuestionTabs = ({ append }) => {
     <Tabs
       radius='md w-auto m-2'
       size='lg'
-      classNames={{
+      className={{
         tabList: " justify-evenly w-full relative rounded m-0 ",
         cursor: "w-full ",
         tab: "w-fit  h-12",

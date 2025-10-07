@@ -148,7 +148,7 @@ export const IssueList = ({ tags, ComponentName, data, inTab = "ai" }) => {
       </Modal>
       <Joke />
       <Table
-        classNames={"text-large"}
+        className={"text-large"}
         hideHeader
         aria-label='list'
         topContent={

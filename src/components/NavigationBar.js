@@ -23,6 +23,8 @@ import { useTheme } from "next-themes";
 import { ThemeSwitch } from "./ThemeSwitch";
 import { LanguageSwitch } from "./LanguageSwitch";
 import { useSession } from "next-auth/react";
+import { Avatar } from "@heroui/avatar";
+import { Button } from "@heroui/button";
 
 /**
  * Renders a navigation bar with menu items and buttons.
@@ -34,95 +36,44 @@ export const NavigationBar = () => {
   const { t } = useTranslation();
 
   return (
-    <Navbar
-      id='main_header'
-      isBordered={theme === "dark"}
-      variant='sticky'
-      css={{
-        $$navbarBackgroundColor: "transparent",
-        $$navbarBlurBackgroundColor: "transparent",
-      }}
-    >
-      <NavbarBrand className='block'>
-        <Dropdown aria-label='main_dropdown'>
-          <DropdownTrigger>
-            <Image
-              src='/favicon.png'
-              alt='brand'
-              isZoomed
-              width={32}
-              height={32}
-            />
-          </DropdownTrigger>
-          <DropdownMenu
-            className='sm:block md:block lg:hidden font-bold text-inherit'
-            aria-label='main_dropdown_menu'
-            disallowEmptySelection
-            selectionMode='single'
-          >
-            <DropdownItem>
-              <Link href='/' underline='active'>
-                <BiHome size='2em' /> {t("header.home")}
-              </Link>
-            </DropdownItem>
-            {status === "authenticated" && (
-              <DropdownItem>
-                <Link href='/ai' underline='active'>
-                  <BiChip size='2em' /> {t("header.ai")}
-                </Link>
-              </DropdownItem>
-            )}
-            {status === "authenticated" && (
-              <DropdownItem>
-                <Link href='/settings' underline='active'>
-                  <BiCog size='2em' /> {t("header.settings")}
-                </Link>
-              </DropdownItem>
-            )}
-            <DropdownItem>
-              <Link href='/about' underline='active'>
-                <BiDetail size='2em' /> {t("header.about")}
-              </Link>
-            </DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
-      </NavbarBrand>
-      <NavbarContent className='font-bold text-inherit text-primary'>
-        <NavbarItem className='hidden lg:block '>
-          <Link href='/'>
-            <BiHome size='2em' /> {t("header.home")}
+    <Navbar className='w-full'>
+      <NavbarContent className='w-full flex items-center justify-between'>
+        <NavbarItem>
+          <Link href='/' className='flex items-center'>
+            <Avatar alt='Logo' className='mr-2' src='/favicon.png' />
           </Link>
         </NavbarItem>
-        {status === "authenticated" && (
-          <NavbarItem className='hidden lg:block'>
-            <Link href='/ai' underline='active'>
-              <BiChip size='2em' /> {t("header.ai")}
+        <div className='lg:flex items-center gap-6 hidden'>
+          <NavbarItem>
+            <Link href='/'>
+              <BiHome size='2em' /> {t("header.home")}
             </Link>
           </NavbarItem>
-        )}
-        {status === "authenticated" && (
-          <NavbarItem className='hidden lg:block'>
-            <Link href='/settings' underline='active'>
-              <BiCog size='2em' /> {t("header.settings")}
+          {status === "authenticated" && (
+            <NavbarItem>
+              <Link href='/ai'>
+                <BiChip size='2em' /> {t("header.ai")}
+              </Link>
+            </NavbarItem>
+          )}
+          {status === "authenticated" && (
+            <NavbarItem>
+              <Link href='/settings'>
+                <BiCog size='2em' /> {t("header.settings")}
+              </Link>
+            </NavbarItem>
+          )}
+          <NavbarItem>
+            <Link href='/about'>
+              <BiDetail size='2em' /> {t("header.about")}
             </Link>
           </NavbarItem>
-        )}
-        <NavbarItem className='hidden lg:block'>
-          <Link href='/about' underline='active'>
-            <BiDetail size='2em' /> {t("header.about")}
-          </Link>
-        </NavbarItem>
-
-        <Spacer x={2} className='sm:hidden lg:flex' />
-        <NavbarItem className='lg:block'>
+        </div>
+        <NavbarContent className='flex items-center gap-2' justify='end'>
           <Login />
-        </NavbarItem>
-        <NavbarItem className='lg:block'>
           <ThemeSwitch />
-        </NavbarItem>
-        <NavbarItem className='lg:block'>
           <LanguageSwitch />
-        </NavbarItem>
+        </NavbarContent>
         <ToastContainer
           autoClose={5000}
           limit={3}

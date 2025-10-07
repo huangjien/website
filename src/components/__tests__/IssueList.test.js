@@ -25,10 +25,10 @@ jest.mock("../Chat", () => ({
   Chat: ({ data, player }) => (
     <div data-testid='chat-component'>
       <span>{data.question || data.title}</span>
-      <button 
+      <button
         className='text-primary'
         onClick={() => {
-          if (player && typeof player === 'function') {
+          if (player && typeof player === "function") {
             player(data.answer || data.body);
           }
         }}
@@ -129,7 +129,12 @@ describe("IssueList", () => {
 
   it("renders chat components when ComponentName is Chat", () => {
     render(
-      <IssueList tags={[]} ComponentName='Chat' data={mockChatData} inTab='ai' />
+      <IssueList
+        tags={[]}
+        ComponentName='Chat'
+        data={mockChatData}
+        inTab='ai'
+      />
     );
 
     expect(screen.getAllByTestId("chat-component")).toHaveLength(3);
@@ -200,13 +205,18 @@ describe("IssueList", () => {
 
   it("handles text-to-speech functionality", async () => {
     render(
-      <IssueList tags={[]} ComponentName='Chat' data={mockChatData} inTab='ai' />
+      <IssueList
+        tags={[]}
+        ComponentName='Chat'
+        data={mockChatData}
+        inTab='ai'
+      />
     );
 
     // Verify that Chat components are rendered with play buttons
     const playButtons = screen.getAllByRole("button");
-    const chatPlayButtons = playButtons.filter(button => 
-      button.className.includes('text-primary')
+    const chatPlayButtons = playButtons.filter((button) =>
+      button.className.includes("text-primary")
     );
     expect(chatPlayButtons.length).toBeGreaterThan(0);
   });
@@ -280,12 +290,7 @@ describe("IssueList", () => {
 
   it("handles null data gracefully", () => {
     render(
-      <IssueList
-        tags={[]}
-        ComponentName='Issue'
-        data={null}
-        inTab='issue'
-      />
+      <IssueList tags={[]} ComponentName='Issue' data={null} inTab='issue' />
     );
 
     expect(screen.getByRole("grid")).toBeInTheDocument();
@@ -306,14 +311,11 @@ describe("IssueList", () => {
     fireEvent.click(nextButton);
 
     // Change data
-    const newData = [{ id: 4, title: "New Issue", body: "New content", labels: [] }];
+    const newData = [
+      { id: 4, title: "New Issue", body: "New content", labels: [] },
+    ];
     rerender(
-      <IssueList
-        tags={[]}
-        ComponentName='Issue'
-        data={newData}
-        inTab='issue'
-      />
+      <IssueList tags={[]} ComponentName='Issue' data={newData} inTab='issue' />
     );
 
     // Should reset to page 1
@@ -361,19 +363,24 @@ describe("IssueList", () => {
 
   it("handles TTS modal opening and closing", async () => {
     render(
-      <IssueList tags={[]} ComponentName='Chat' data={mockChatData} inTab='ai' />
+      <IssueList
+        tags={[]}
+        ComponentName='Chat'
+        data={mockChatData}
+        inTab='ai'
+      />
     );
 
     // Test that the component renders without errors
     expect(screen.getByText("First Question")).toBeInTheDocument();
-    
+
     // Test that play buttons are present
     const playButtons = screen.getAllByRole("button");
-    const chatPlayButtons = playButtons.filter(button => 
-      button.className.includes('text-primary')
+    const chatPlayButtons = playButtons.filter((button) =>
+      button.className.includes("text-primary")
     );
     expect(chatPlayButtons.length).toBeGreaterThan(0);
-    
+
     // Test that modal structure exists (even if not open)
     // The modal is always rendered but may not be visible
     expect(screen.getByRole("grid")).toBeInTheDocument();
@@ -381,38 +388,50 @@ describe("IssueList", () => {
 
   it("calls TTS API with correct parameters", async () => {
     render(
-      <IssueList tags={[]} ComponentName='Chat' data={mockChatData} inTab='ai' />
+      <IssueList
+        tags={[]}
+        ComponentName='Chat'
+        data={mockChatData}
+        inTab='ai'
+      />
     );
 
     // Test that the component renders without errors
     expect(screen.getByText("First Question")).toBeInTheDocument();
-    
+
     // Test that play buttons are present
     const playButtons = screen.getAllByRole("button");
-    const chatPlayButtons = playButtons.filter(button => 
-      button.className.includes('text-primary')
+    const chatPlayButtons = playButtons.filter((button) =>
+      button.className.includes("text-primary")
     );
     expect(chatPlayButtons.length).toBeGreaterThan(0);
-    
+
     // Test TTS URL construction logic directly
     const testText = "Hello world";
     const expectedUrl = `/api/tts?&&languageCode=en-US&&name=en-US-Standard-A&&text=${encodeURIComponent(testText.replaceAll("\n", ""))}`;
-    expect(expectedUrl).toContain("/api/tts?&&languageCode=en-US&&name=en-US-Standard-A&&text=");
+    expect(expectedUrl).toContain(
+      "/api/tts?&&languageCode=en-US&&name=en-US-Standard-A&&text="
+    );
   });
 
   it("handles TTS API error gracefully", async () => {
     render(
-      <IssueList tags={[]} ComponentName='Chat' data={mockChatData} inTab='ai' />
+      <IssueList
+        tags={[]}
+        ComponentName='Chat'
+        data={mockChatData}
+        inTab='ai'
+      />
     );
 
     // Test that the component renders without errors
     expect(screen.getByText("First Question")).toBeInTheDocument();
     expect(screen.getByRole("grid")).toBeInTheDocument();
-    
+
     // Test that play buttons are present
     const playButtons = screen.getAllByRole("button");
-    const chatPlayButtons = playButtons.filter(button => 
-      button.className.includes('text-primary')
+    const chatPlayButtons = playButtons.filter((button) =>
+      button.className.includes("text-primary")
     );
     expect(chatPlayButtons.length).toBeGreaterThan(0);
   });
@@ -538,37 +557,49 @@ describe("IssueList", () => {
 
     // Test that the component renders without errors
     expect(screen.getByText("Question with special chars")).toBeInTheDocument();
-    
+
     // Test URL encoding logic directly
     const testText = "Text with & symbols and\nnewlines";
-    const encodedText = encodeURIComponent(testText.replace(/\n/g, ' '));
-    expect(encodedText).toContain("Text%20with%20%26%20symbols%20and%20newlines");
+    const encodedText = encodeURIComponent(testText.replace(/\n/g, " "));
+    expect(encodedText).toContain(
+      "Text%20with%20%26%20symbols%20and%20newlines"
+    );
   });
 
   it("creates audio URL from blob response", async () => {
     render(
-      <IssueList tags={[]} ComponentName='Chat' data={mockChatData} inTab='ai' />
+      <IssueList
+        tags={[]}
+        ComponentName='Chat'
+        data={mockChatData}
+        inTab='ai'
+      />
     );
 
     // Test that the component renders without errors
     expect(screen.getByText("First Question")).toBeInTheDocument();
-    
+
     // Test that URL.createObjectURL is available for blob handling
     expect(URL.createObjectURL).toBeDefined();
-    expect(typeof URL.createObjectURL).toBe('function');
+    expect(typeof URL.createObjectURL).toBe("function");
   });
 
   it("stops audio when modal is closed", async () => {
     render(
-      <IssueList tags={[]} ComponentName='Chat' data={mockChatData} inTab='ai' />
+      <IssueList
+        tags={[]}
+        ComponentName='Chat'
+        data={mockChatData}
+        inTab='ai'
+      />
     );
 
     // Test that the component renders without errors
     expect(screen.getByText("First Question")).toBeInTheDocument();
-    
+
     // Test escape key handling
-    fireEvent.keyDown(document, { key: 'Escape', code: 'Escape' });
-    
+    fireEvent.keyDown(document, { key: "Escape", code: "Escape" });
+
     // Component should still be rendered after escape key
     expect(screen.getByText("First Question")).toBeInTheDocument();
   });
@@ -594,7 +625,7 @@ describe("IssueList", () => {
 
     expect(screen.getByText("Issue without ID")).toBeInTheDocument();
     expect(screen.getByText("Another issue")).toBeInTheDocument();
-    
+
     // Restore console.error
     console.error = originalError;
   });
@@ -626,7 +657,7 @@ describe("IssueList", () => {
     );
 
     const nextButton = screen.getByRole("button", { name: /next/i });
-    
+
     // Rapid clicks
     await user.click(nextButton);
     await user.click(nextButton);
