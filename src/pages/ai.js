@@ -12,7 +12,6 @@ import Response from "../components/ai-elements/response";
 import PromptInput from "../components/ai-elements/prompt-input";
 import SettingsPanel from "../components/ai-elements/settings-panel";
 import TTSButton from "../components/ai-elements/tts-button";
-import { BiCog } from "react-icons/bi";
 
 // Helpers to serialize/hydrate UI messages for localStorage
 function uiMessageText(message) {
@@ -51,7 +50,7 @@ export default function AI() {
 
   // Settings persisted under ai:* per spec
   const [settings, setSettings] = useLocalStorageState("ai:settings", {
-    defaultValue: { model: "gpt-4o-mini", temperature: 1, trackSpeed: 300 },
+    defaultValue: { model: "gpt-4o-mini", temperature: 1, trackSpeed: 300, ttsVoice: "alloy" },
   });
 
   // Persisted message thread under ai:* per spec
@@ -117,9 +116,10 @@ export default function AI() {
   } = useChat({
     transport: new DefaultChatTransport({
       api: "/api/chat",
-      prepareSendMessagesRequest: () => {
+      prepareSendMessagesRequest: ({ messages: outgoing }) => {
         return {
           body: {
+            messages: outgoing,
             model: settings?.model,
             temperature: parseFloat(settings?.temperature ?? 1),
             system: settings?.systemPrompt || undefined,
@@ -162,7 +162,13 @@ export default function AI() {
     // Include last answer in the prompt optionally (kept for parity with previous behavior)
     const composed = lastAnswer ? `${question}\n\n${lastAnswer}` : question;
     try {
-      await sendMessage(composed);
+      // Vercel AI SDK v5 expects a UI message with parts when not passing a raw string.
+      // Passing a string can cause internal checks like `'text' in message` to throw on primitives.
+      const userMessage = {
+        role: "user",
+        parts: [{ type: "text", text: composed }],
+      };
+      await sendMessage(userMessage);
       setPrompt("");
     } catch (err) {
       console.error("sendMessage failed:", err);
@@ -201,49 +207,44 @@ export default function AI() {
 
   return (
     <div className="min-h-max w-auto text-lg lg:gap-4 lg:m-4" data-testid="ai-container">
-      <div className="w-full mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 mt-2 mb-4 flex justify-end">
-        <button
-          type="button"
-          onClick={() => setShowSettings((s) => !s)}
-          className="inline-flex items-center gap-2 rounded-md bg-neutral-100 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-100 px-3 py-2 text-sm"
-        >
-          <BiCog /> {t("ai.settings", { defaultValue: "Settings" })}
-        </button>
+      <div className="mx-auto w-[90vw]">
+        <Conversation>
+          <ConversationContent>
+            {(messages || []).map((m) => {
+              const text = uiMessageText(m);
+              return (
+                <Message key={m.id} role={m.role}>
+                  <MessageContent>
+                    {m.role === "assistant" ? <Response>{text}</Response> : text}
+                    {m.role === "assistant" ? (
+                      <div className="mt-2">
+                        <TTSButton text={text} voice={settings?.ttsVoice || "alloy"} />
+                      </div>
+                    ) : null}
+                  </MessageContent>
+                </Message>
+              );
+            })}
+          </ConversationContent>
+        </Conversation>
       </div>
-      {showSettings ? <SettingsPanel settings={settings} setSettings={setSettings} /> : null}
-      <Conversation>
-        <ConversationContent>
-          {(messages || []).map((m) => {
-            const text = uiMessageText(m);
-            return (
-              <Message key={m.id} role={m.role}>
-                <MessageContent>
-                  {m.role === "assistant" ? <Response>{text}</Response> : text}
-                  {m.role === "assistant" ? (
-                    <div className="mt-2">
-                      <TTSButton text={text} />
-                    </div>
-                  ) : null}
-                </MessageContent>
-              </Message>
-            );
-          })}
-        </ConversationContent>
-      </Conversation>
 
-      {/* Remove standalone Stop/Clear buttons; they are inside the composer now */}
+      <div className="mx-auto w-[90vw] mt-6">
+        <PromptInput
+          value={prompt}
+          onChange={setPrompt}
+          onSubmit={handleSend}
+          onStop={handleStop}
+          onToggleSettings={() => setShowSettings((s) => !s)}
+          className="max-w-none px-0 sm:px-0 lg:px-0"
+        />
+      </div>
 
-      <PromptInput
-        value={prompt}
-        onChange={setPrompt}
-        onSubmit={handleSend}
-        onStop={handleStop}
-        onClear={handleClear}
-        onTranscribed={(text) => setPrompt((prev) => (prev ? `${prev}\n${text}` : text))}
-        streaming={loading}
-        disabled={loading}
-        placeholder={t("ai.prompt", { defaultValue: "Type your prompt…" })}
-      />
+      {showSettings ? (
+        <div className="mx-auto w-[90vw] mt-2">
+          <SettingsPanel settings={settings} setSettings={setSettings} />
+        </div>
+      ) : null}
     </div>
   );
 }

@@ -4,7 +4,7 @@ import NextAuth from "next-auth";
 import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 
-export default NextAuth({
+export const authOptions = {
   // Configure one or more authentication providers
   providers: [
     GitHubProvider({
@@ -34,4 +34,6 @@ export default NextAuth({
   // pages: {
   //   signIn: '/auth/signin',
   // },
-});
+};
+
+export default NextAuth(authOptions);

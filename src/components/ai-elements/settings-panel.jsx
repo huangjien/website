@@ -7,11 +7,12 @@ export default function SettingsPanel({ settings, setSettings }) {
   const temperature = Number(settings?.temperature ?? 1);
   const trackSpeed = Number(settings?.trackSpeed ?? 300);
   const systemPrompt = settings?.systemPrompt || '';
+  const ttsVoice = settings?.ttsVoice || 'alloy';
 
   const update = (next) => setSettings?.((prev) => ({ ...prev, ...next }));
 
   return (
-    <div className="w-full mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 mb-4" data-testid="settings-panel">
+    <div className="w-full mb-4" data-testid="settings-panel">
       <div className="rounded-lg border border-neutral-200 dark:border-neutral-800 p-4">
         <h2 className="text-base font-semibold mb-3">{t('ai.settings', { defaultValue: 'Settings' })}</h2>
 
@@ -26,6 +27,10 @@ export default function SettingsPanel({ settings, setSettings }) {
               <option value="gpt-4o-mini">gpt-4o-mini</option>
               <option value="gpt-4o">gpt-4o</option>
               <option value="gpt-4.1-mini">gpt-4.1-mini</option>
+              <option value="gpt-4.1">gpt-4.1</option>
+              <option value="o3-mini">o3-mini</option>
+              <option value="o1-mini">o1-mini</option>
+              <option value="o1">o1</option>
             </select>
           </div>
 
@@ -69,6 +74,22 @@ export default function SettingsPanel({ settings, setSettings }) {
             />
             <div className="text-xs text-neutral-500 mt-1">
               {t('ai.value_range_50_500', { defaultValue: 'The value must between 50 and 500' })}
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-1">{t('ai.select_voice', { defaultValue: 'Select TTS voice' })}</label>
+            <select
+              value={ttsVoice}
+              onChange={(e) => update({ ttsVoice: e.target.value })}
+              className="w-full rounded-md border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 p-2 text-sm"
+            >
+              <option value="alloy">alloy</option>
+              <option value="aria">aria</option>
+              <option value="verse">verse</option>
+            </select>
+            <div className="text-xs text-neutral-500 mt-1">
+              {t('ai.voice_note', { defaultValue: 'Voice applies to text-to-speech playback only.' })}
             </div>
           </div>
         </div>

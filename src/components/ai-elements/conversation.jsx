@@ -3,7 +3,7 @@ import React from 'react';
 // Conversation: simple layout wrapper for a chat thread
 export function Conversation({ children, className = '' }) {
   return (
-    <div className={`w-full mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 ${className}`}>
+    <div className={`w-full ${className}`}>
       <div className="flex flex-col gap-4" data-testid="conversation">
         {children}
       </div>

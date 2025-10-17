@@ -12,9 +12,29 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { messages, model, temperature, system } = req.body ?? {};
+    // Debug incoming request body to diagnose empty messages
+    // Note: In production, you may want to remove or reduce this logging.
+    const body = req.body ?? {};
+    console.log('[api/chat] incoming body keys:', Object.keys(body || {}));
+    console.log('[api/chat] messages length:', Array.isArray(body.messages) ? body.messages.length : 'n/a');
 
-    const coreMessages = convertToCoreMessages(messages ?? []);
+    const { messages, model, temperature, system, input, prompt } = body;
+
+    // Build core messages from UI messages, or fallback to raw input/prompt strings
+    let coreMessages;
+    if (Array.isArray(messages) && messages.length > 0) {
+      coreMessages = convertToCoreMessages(messages);
+    } else if (typeof input === 'string' && input.trim().length > 0) {
+      coreMessages = convertToCoreMessages([
+        { role: 'user', parts: [{ type: 'text', text: input.trim() }] },
+      ]);
+    } else if (typeof prompt === 'string' && prompt.trim().length > 0) {
+      coreMessages = convertToCoreMessages([
+        { role: 'user', parts: [{ type: 'text', text: prompt.trim() }] },
+      ]);
+    } else {
+      throw new Error('Invalid prompt: messages must not be empty');
+    }
 
     const result = await streamText({
       model: openai(model || 'gpt-4o-mini'),

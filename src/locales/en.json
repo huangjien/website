@@ -1,6 +1,10 @@
 {
   "global": {
-    "search": "Search..."
+    "search": "Search...",
+    "prev": "Prev",
+    "next": "Next",
+    "page": "Page",
+    "empty": "No settings to display"
   },
   "ai": {
     "track_speed": "Track Speed",
