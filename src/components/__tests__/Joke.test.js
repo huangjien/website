@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import { Joke } from "../Joke";
 import { useRequest } from "ahooks";
 import { useTranslation } from "react-i18next";
@@ -14,32 +14,6 @@ jest.mock("react-i18next", () => ({
 // Mock ahooks
 jest.mock("ahooks", () => ({
   useRequest: jest.fn(),
-}));
-
-// Mock @heroui/react components
-jest.mock("@heroui/react", () => ({
-  Button: ({
-    children,
-    color,
-    variant,
-    onPress,
-    isLoading,
-    isDisabled,
-    startContent,
-  }) => (
-    <button
-      data-testid='button'
-      data-color={color}
-      data-variant={variant}
-      onClick={onPress}
-      disabled={isDisabled || isLoading}
-      data-loading={isLoading}
-    >
-      {startContent}
-      {children}
-    </button>
-  ),
-  Spacer: () => <div data-testid='spacer' />,
 }));
 
 // Mock react-icons
@@ -76,7 +50,9 @@ describe("Joke Component", () => {
         "Why did the chicken cross the road? To get to the other side!"
       )
     ).toBeInTheDocument();
-    expect(screen.getByTestId("button")).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "joke.refresh" })
+    ).toBeInTheDocument();
     expect(screen.getByTestId("refresh-icon")).toBeInTheDocument();
   });
 
@@ -90,8 +66,8 @@ describe("Joke Component", () => {
 
     render(<Joke />);
 
-    const button = screen.getByTestId("button");
-    expect(button).toHaveAttribute("data-loading", "true");
+    const button = screen.getByRole("button", { name: "joke.refresh" });
+    expect(button).toHaveAttribute("aria-busy", "true");
     expect(button).toBeDisabled();
   });
 
@@ -133,7 +109,7 @@ describe("Joke Component", () => {
 
     render(<Joke />);
 
-    const refreshButton = screen.getByTestId("button");
+    const refreshButton = screen.getByRole("button", { name: "joke.refresh" });
     fireEvent.click(refreshButton);
 
     expect(mockRefresh).toHaveBeenCalledTimes(1);
@@ -233,8 +209,8 @@ describe("Joke Component", () => {
 
     render(<Joke />);
 
-    const button = screen.getByTestId("button");
-    expect(button).toHaveAttribute("data-variant", "light");
+    const button = screen.getByRole("button", { name: "joke.refresh" });
+    expect(button).toHaveAttribute("title", "joke.refresh");
     expect(button).not.toBeDisabled();
   });
 
@@ -250,7 +226,9 @@ describe("Joke Component", () => {
 
     // When joke is empty string, it should not render the joke text
     // but should still render the button
-    expect(screen.getByTestId("button")).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "joke.refresh" })
+    ).toBeInTheDocument();
   });
 
   it("should handle null joke data", () => {
@@ -263,7 +241,9 @@ describe("Joke Component", () => {
 
     render(<Joke />);
 
-    expect(screen.getByTestId("button")).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "joke.refresh" })
+    ).toBeInTheDocument();
   });
 
   it("should handle data without joke property", () => {
@@ -276,7 +256,9 @@ describe("Joke Component", () => {
 
     render(<Joke />);
 
-    expect(screen.getByTestId("button")).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "joke.refresh" })
+    ).toBeInTheDocument();
   });
 
   it("should not be disabled when not loading", () => {
@@ -289,8 +271,8 @@ describe("Joke Component", () => {
 
     render(<Joke />);
 
-    const button = screen.getByTestId("button");
+    const button = screen.getByRole("button", { name: "joke.refresh" });
     expect(button).not.toBeDisabled();
-    expect(button).toHaveAttribute("data-loading", "false");
+    expect(button).not.toHaveAttribute("aria-busy", "true");
   });
 });

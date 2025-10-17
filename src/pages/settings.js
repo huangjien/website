@@ -1,22 +1,13 @@
 "use client";
-import {
-  Table,
-  TableHeader,
-  TableColumn,
-  TableBody,
-  TableRow,
-  TableCell,
-  getKeyValue,
-  Pagination,
-  Input,
-} from "@heroui/react";
+import React, { useState, useCallback, useMemo } from "react";
 import { useSettings } from "../lib/useSettings";
-import { useState, useCallback, useMemo, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 import { useTitle } from "ahooks";
 import { BiSearch } from "react-icons/bi";
 import { signIn, signOut, useSession } from "next-auth/react";
+import Input from "../components/ui/input";
+import Button from "../components/ui/button";
 
 export default function Settings() {
   const { settings } = useSettings();
@@ -27,7 +18,8 @@ export default function Settings() {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(1);
   const [filterValue, setFilterValue] = useState("");
-  const pages = Math.ceil((settings || []).length / rowsPerPage);
+  const pages = Math.ceil((settings || []).length / rowsPerPage) || 1;
+
   const onRowsPerPageChange = useCallback((e) => {
     setRowsPerPage(Number(e.target.value));
     setPage(1);
@@ -36,7 +28,7 @@ export default function Settings() {
   const filterItems = useMemo(() => {
     let filteredData = settings || [];
     if (filterValue) {
-      var regex = new RegExp(filterValue, "i");
+      const regex = new RegExp(filterValue, "i");
       filteredData = filteredData.filter((oneItem) => {
         return (
           oneItem["name"].search(regex) > -1 ||
@@ -55,75 +47,99 @@ export default function Settings() {
     return filterItems.slice(start, end);
   }, [page, filterItems, rowsPerPage]);
 
-  useEffect(() => {
-    if (status === "unauthenticated") {
-      push("/");
-      // signIn();
-    }
-  }, [status, push]);
-
   return (
-    <Table
-      isStriped
-      aria-label='Settings'
-      topContent={
-        <div className='lg:inline-flex flex-wrap  text-lg justify-center gap-8 items-center m-1'>
-          <Input
-            isClearable
-            className='w-auto sm:max-w-[33%] mr-4'
-            placeholder={t("global.search")}
-            startContent={<BiSearch />}
-            value={filterValue}
-            onClear={() => setFilterValue("")}
-            onValueChange={setFilterValue}
-          />
-          <span className='text-default-400 text-small'>
-            Total {(settings || []).length} items
-          </span>
-          <Pagination
-            isCompact
-            showControls
-            showShadow
-            color='success'
-            page={page}
-            total={pages}
-            onChange={(page) => setPage(page)}
-          />
+    <div className="min-h-max text-lg">
+      <div className="lg:inline-flex flex-wrap text-lg justify-center gap-8 items-center m-1">
+        <Input
+          isClearable
+          className="w-auto sm:max-w-[33%] mr-4"
+          placeholder={t("global.search")}
+          startContent={<BiSearch />}
+          value={filterValue}
+          onClear={() => setFilterValue("")}
+          onChange={(e) => setFilterValue(e.target.value)}
+        />
+        <span className="text-muted-foreground text-sm">
+          Total {(settings || []).length} items
+        </span>
 
-          <label className='flex items-center text-default-400 text-small'>
-            Rows per page:
-            <select
-              className='bg-transparent outline-none text-default-400 text-small'
-              onChange={onRowsPerPageChange}
-            >
-              <option value='5'>5</option>
-              <option value='10'>10</option>
-              <option value='15'>15</option>
-            </select>
-          </label>
+        <div data-testid="pagination" className="flex items-center gap-2">
+          <Button
+            data-testid="prev-page"
+            variant="outline"
+            size="sm"
+            onClick={() => setPage((p) => Math.max(1, p - 1))}
+            disabled={page === 1}
+          >
+            {t("global.prev") || "Prev"}
+          </Button>
+          <span className="text-sm">
+            {t("global.page") || "Page"} <span data-testid="current-page">{page}</span> / <span data-testid="total-pages">{pages}</span>
+          </span>
+          <Button
+            data-testid="next-page"
+            variant="outline"
+            size="sm"
+            onClick={() => setPage((p) => Math.min(pages, p + 1))}
+            disabled={page >= pages}
+          >
+            {t("global.next") || "Next"}
+          </Button>
         </div>
-      }
-      className=' min-h-max text-lg '
-    >
-      <TableHeader>
-        <TableColumn className='text-lg' key='name'>
-          {t("column.title.key")}
-        </TableColumn>
-        <TableColumn className='text-lg' key='value'>
-          {t("column.title.value")}
-        </TableColumn>
-      </TableHeader>
-      <TableBody items={items}>
-        {(item) => (
-          <TableRow key={item.id}>
-            {(columnKey) => (
-              <TableCell className=' text-lg '>
-                {getKeyValue(item, columnKey)}
-              </TableCell>
+
+        <label className="flex items-center text-muted-foreground text-sm">
+          Rows per page:
+          <select
+            className="ml-2 bg-transparent outline-none text-foreground text-sm border border-input rounded-md px-2 py-1"
+            onChange={onRowsPerPageChange}
+            value={rowsPerPage}
+          >
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+          </select>
+        </label>
+      </div>
+
+      <div className="overflow-x-auto rounded-md border">
+        <table data-testid="table" aria-label='Settings' className="w-full text-left min-h-max text-lg">
+          <thead className="bg-muted">
+            <tr>
+              <th className="p-3 text-lg font-semibold">{t("column.title.key")}</th>
+              <th className="p-3 text-lg font-semibold">{t("column.title.value")}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {items.map((item) => (
+              <tr key={item.id} className="odd:bg-muted/40">
+                <td className="p-3 text-lg">{item.name}</td>
+                <td className="p-3 text-lg">{item.value}</td>
+              </tr>
+            ))}
+            {items.length === 0 && (
+              <tr>
+                <td className="p-3" colSpan={2}>
+                  {t("global.empty") || "No settings to display"}
+                </td>
+              </tr>
             )}
-          </TableRow>
-        )}
-      </TableBody>
-    </Table>
+          </tbody>
+        </table>
+      </div>
+
+      {/* Numeric pagination (optional) */}
+      <div className="mt-4 flex flex-wrap items-center gap-2 justify-center">
+        {Array.from({ length: pages }, (_, i) => i + 1).map((p) => (
+          <Button
+            key={p}
+            variant={p === page ? "secondary" : "outline"}
+            size="sm"
+            onClick={() => setPage(p)}
+          >
+            {p}
+          </Button>
+        ))}
+      </div>
+    </div>
   );
 }

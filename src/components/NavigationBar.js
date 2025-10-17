@@ -1,30 +1,17 @@
 "use client";
 import React from "react";
 import "react-toastify/dist/ReactToastify.css";
-import {
-  Navbar,
-  NavbarContent,
-  NavbarBrand,
-  NavbarItem,
-  Dropdown,
-  DropdownTrigger,
-  DropdownMenu,
-  DropdownItem,
-} from "@heroui/react";
-import { Link } from "@heroui/link";
-import { Spacer } from "@heroui/spacer";
+import Link from "next/link";
 import { useTranslation } from "react-i18next";
-import { Image } from "@heroui/image";
 import { BiChip, BiCog, BiDetail, BiHome } from "react-icons/bi";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Login from "./Login";
 import { useTheme } from "next-themes";
 import { ThemeSwitch } from "./ThemeSwitch";
 import { LanguageSwitch } from "./LanguageSwitch";
 import { useSession } from "next-auth/react";
-import { Avatar } from "@heroui/avatar";
-import { Button } from "@heroui/button";
+import Avatar from "./ui/avatar";
 
 /**
  * Renders a navigation bar with menu items and buttons.
@@ -36,44 +23,36 @@ export const NavigationBar = () => {
   const { t } = useTranslation();
 
   return (
-    <Navbar className='w-full'>
-      <NavbarContent className='w-full flex items-center justify-between'>
-        <NavbarItem>
+    <nav className='w-full border-b bg-background text-foreground'>
+      <div className='w-full flex items-center justify-between h-14 px-4'>
+        <div className='flex items-center'>
           <Link href='/' className='flex items-center'>
-            <Avatar alt='Logo' className='mr-2' src='/favicon.png' />
+            <Avatar alt='Logo' className='mr-2 h-8 w-8' src='/favicon.png' />
           </Link>
-        </NavbarItem>
-        <div className='lg:flex items-center gap-6 hidden'>
-          <NavbarItem>
-            <Link href='/'>
-              <BiHome size='2em' /> {t("header.home")}
-            </Link>
-          </NavbarItem>
-          {status === "authenticated" && (
-            <NavbarItem>
-              <Link href='/ai'>
-                <BiChip size='2em' /> {t("header.ai")}
-              </Link>
-            </NavbarItem>
-          )}
-          {status === "authenticated" && (
-            <NavbarItem>
-              <Link href='/settings'>
-                <BiCog size='2em' /> {t("header.settings")}
-              </Link>
-            </NavbarItem>
-          )}
-          <NavbarItem>
-            <Link href='/about'>
-              <BiDetail size='2em' /> {t("header.about")}
-            </Link>
-          </NavbarItem>
         </div>
-        <NavbarContent className='flex items-center gap-2' justify='end'>
+        <div className='lg:flex items-center gap-6 hidden'>
+          <Link className='flex items-center gap-2 hover:underline' href='/'>
+            <BiHome size='1.5em' /> {t("header.home")}
+          </Link>
+          {/* {status === "authenticated" && ( */}
+            <Link className='flex items-center gap-2 hover:underline' href='/ai'>
+              <BiChip size='1.5em' /> {t("header.ai")}
+            </Link>
+          {/* )} */}
+          {/* {status === "authenticated" && ( */}
+            <Link className='flex items-center gap-2 hover:underline' href='/settings'>
+              <BiCog size='1.5em' /> {t("header.settings")}
+            </Link>
+          {/* )} */}
+          <Link className='flex items-center gap-2 hover:underline' href='/about'>
+            <BiDetail size='1.5em' /> {t("header.about")}
+          </Link>
+        </div>
+        <div className='flex items-center gap-2'>
           <Login />
           <ThemeSwitch />
           <LanguageSwitch />
-        </NavbarContent>
+        </div>
         <ToastContainer
           autoClose={5000}
           limit={3}
@@ -82,7 +61,7 @@ export const NavigationBar = () => {
           theme={theme === "dark" ? "dark" : "light"}
           draggable
         />
-      </NavbarContent>
-    </Navbar>
+      </div>
+    </nav>
   );
 };

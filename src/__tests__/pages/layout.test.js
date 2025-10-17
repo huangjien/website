@@ -34,31 +34,6 @@ jest.mock("../../components/NavigationBar", () => ({
   NavigationBar: () => <div data-testid='navigation-bar'>Navigation Bar</div>,
 }));
 
-// Mock @heroui/react components
-jest.mock("@heroui/react", () => ({
-  Button: ({
-    children,
-    onPress,
-    isIconOnly,
-    variant,
-    color,
-    size,
-    className,
-  }) => (
-    <button
-      data-testid='button'
-      onClick={onPress}
-      data-icon-only={isIconOnly}
-      data-variant={variant}
-      data-color={color}
-      data-size={size}
-      className={className}
-    >
-      {children}
-    </button>
-  ),
-  Spacer: () => <div data-testid='spacer' />,
-}));
 
 // Mock react-icons
 jest.mock("react-icons/md", () => ({
@@ -138,7 +113,8 @@ describe("Layout Component", () => {
       });
     }
 
-    expect(screen.getByTestId("button")).toBeInTheDocument();
+    const button = screen.getByRole("button", { name: "Scroll to top" });
+    expect(button).toBeInTheDocument();
     expect(screen.getByTestId("arrow-up-icon")).toBeInTheDocument();
   });
 
@@ -161,7 +137,7 @@ describe("Layout Component", () => {
       });
     }
 
-    expect(screen.queryByTestId("button")).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Scroll to top" })).not.toBeInTheDocument();
   });
 
   it("should scroll to top when scroll button is clicked", async () => {
@@ -184,7 +160,7 @@ describe("Layout Component", () => {
       });
     }
 
-    const scrollButton = screen.getByTestId("button");
+    const scrollButton = screen.getByRole("button", { name: "Scroll to top" });
     await user.click(scrollButton);
 
     expect(window.scrollTo).toHaveBeenCalledWith({
@@ -256,17 +232,14 @@ describe("Layout Component", () => {
       });
     }
 
-    const button = screen.getByTestId("button");
-    expect(button).toHaveAttribute("data-icon-only", "true");
-    expect(button).toHaveAttribute("data-variant", "flat");
-    expect(button).toHaveAttribute("data-color", "primary");
-    expect(button).toHaveAttribute("data-size", "lg");
+    const button = screen.getByRole("button", { name: "Scroll to top" });
     expect(button).toHaveClass(
       "fixed",
       "bottom-8",
       "right-8",
       "z-50",
-      "shadow-lg"
+      "shadow-lg",
+      "rounded-full"
     );
   });
 
@@ -289,7 +262,7 @@ describe("Layout Component", () => {
       });
     }
 
-    expect(screen.queryByTestId("button")).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Scroll to top" })).not.toBeInTheDocument();
 
     // Scroll down - button should be visible
     Object.defineProperty(window, "scrollY", {
@@ -303,7 +276,7 @@ describe("Layout Component", () => {
       });
     }
 
-    expect(screen.getByTestId("button")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Scroll to top" })).toBeInTheDocument();
   });
 
   it("should render layout with correct CSS classes", () => {
@@ -314,11 +287,6 @@ describe("Layout Component", () => {
     expect(layoutDiv).toHaveClass("min-h-screen", "flex", "flex-col");
   });
 
-  it("should render spacer component", () => {
-    render(<Layout>{mockChildren}</Layout>);
-
-    expect(screen.getByTestId("spacer")).toBeInTheDocument();
-  });
 
   it("should handle multiple scroll events", () => {
     render(<Layout>{mockChildren}</Layout>);

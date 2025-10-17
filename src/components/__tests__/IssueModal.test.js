@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { IssueModal } from "../IssueModal";
 
@@ -21,80 +21,6 @@ jest.mock("react-markdown", () => {
 jest.mock("rehype-raw", () => ({}));
 jest.mock("remark-gfm", () => ({}));
 
-// Mock @heroui/react components
-jest.mock("@heroui/react", () => ({
-  Modal: ({ children, isOpen, onClose, size, scrollBehavior }) =>
-    isOpen ? (
-      <div
-        data-testid='modal'
-        data-size={size}
-        data-scroll-behavior={scrollBehavior}
-      >
-        {children}
-      </div>
-    ) : null,
-  ModalContent: ({ children }) => (
-    <div data-testid='modal-content'>
-      {typeof children === "function" ? children(() => {}) : children}
-    </div>
-  ),
-  ModalBody: ({ children }) => <div data-testid='modal-body'>{children}</div>,
-  ModalFooter: ({ children }) => (
-    <div data-testid='modal-footer'>{children}</div>
-  ),
-  Input: ({ label, value, onChange, placeholder, isRequired, ...props }) => (
-    <input
-      data-testid='input'
-      placeholder={placeholder}
-      value={value}
-      onChange={(e) => onChange(e.target.value)}
-      required={isRequired}
-      {...props}
-    />
-  ),
-  Textarea: ({ value, onChange, placeholder, minRows }) => (
-    <textarea
-      data-testid='textarea'
-      placeholder={placeholder}
-      value={value}
-      onChange={onChange}
-      rows={minRows}
-    />
-  ),
-  Button: ({ children, color, variant, onPress, className }) => (
-    <button
-      data-testid='button'
-      data-color={color}
-      data-variant={variant}
-      className={className}
-      onClick={onPress}
-    >
-      {children}
-    </button>
-  ),
-  CheckboxGroup: ({ children, label, orientation }) => (
-    <div
-      data-testid='checkbox-group'
-      data-label={label}
-      data-orientation={orientation}
-    >
-      {children}
-    </div>
-  ),
-  Checkbox: ({ children, value }) => (
-    <label data-testid='checkbox' data-value={value}>
-      <input type='checkbox' value={value} />
-      {children}
-    </label>
-  ),
-  Divider: () => <hr data-testid='divider' />,
-  useDisclosure: () => ({
-    isOpen: true,
-    onOpen: jest.fn(),
-    onClose: jest.fn(),
-  }),
-}));
-
 // Mock react-icons
 jest.mock("react-icons/bi", () => ({
   BiEdit: () => <div data-testid='edit-icon' />,
@@ -115,18 +41,18 @@ describe("IssueModal Component", () => {
 
   it("should render edit button for edit action", () => {
     render(<IssueModal issue={mockIssue} action='edit' />);
-
     expect(screen.getByTestId("edit-icon")).toBeInTheDocument();
   });
 
   it("should render new button for new action", () => {
     render(<IssueModal action='new' />);
-
     expect(screen.getByTestId("list-plus-icon")).toBeInTheDocument();
   });
 
-  it("should render modal with correct structure", () => {
+  it("should render modal with correct structure", async () => {
+    const user = userEvent.setup();
     render(<IssueModal action='new' />);
+    await user.click(screen.getByTestId("list-plus-icon"));
 
     expect(screen.getByTestId("modal")).toBeInTheDocument();
     expect(screen.getByTestId("modal-content")).toBeInTheDocument();
@@ -134,15 +60,19 @@ describe("IssueModal Component", () => {
     expect(screen.getByTestId("modal-footer")).toBeInTheDocument();
   });
 
-  it("should render input and textarea fields", () => {
+  it("should render input and textarea fields", async () => {
+    const user = userEvent.setup();
     render(<IssueModal action='new' />);
+    await user.click(screen.getByTestId("list-plus-icon"));
 
     expect(screen.getByTestId("input")).toBeInTheDocument();
     expect(screen.getByTestId("textarea")).toBeInTheDocument();
   });
 
-  it("should render checkbox group with tags", () => {
+  it("should render checkbox group with tags", async () => {
+    const user = userEvent.setup();
     render(<IssueModal action='new' />);
+    await user.click(screen.getByTestId("list-plus-icon"));
 
     expect(screen.getByTestId("checkbox-group")).toBeInTheDocument();
     expect(screen.getByText("blog")).toBeInTheDocument();
@@ -152,23 +82,27 @@ describe("IssueModal Component", () => {
     expect(screen.getByText("novel")).toBeInTheDocument();
   });
 
-  it("should render markdown preview area", () => {
+  it("should render markdown preview area", async () => {
+    const user = userEvent.setup();
     render(<IssueModal action='new' />);
+    await user.click(screen.getByTestId("list-plus-icon"));
 
     expect(screen.getByTestId("markdown")).toBeInTheDocument();
   });
 
-  it("should render close and save buttons", () => {
+  it("should render close and save buttons", async () => {
+    const user = userEvent.setup();
     render(<IssueModal action='new' />);
+    await user.click(screen.getByTestId("list-plus-icon"));
 
-    const buttons = screen.getAllByTestId("button");
-    expect(buttons).toHaveLength(3); // new button + close + save
     expect(screen.getByText("Close")).toBeInTheDocument();
     expect(screen.getByText("Save")).toBeInTheDocument();
   });
 
-  it("should populate fields when issue is provided", () => {
+  it("should populate fields when issue is provided", async () => {
+    const user = userEvent.setup();
     render(<IssueModal issue={mockIssue} action='edit' />);
+    await user.click(screen.getByTestId("edit-icon"));
 
     const titleInput = screen.getByTestId("input");
     const contentTextarea = screen.getByTestId("textarea");
@@ -180,6 +114,7 @@ describe("IssueModal Component", () => {
   it("should handle title input change", async () => {
     const user = userEvent.setup();
     render(<IssueModal action='new' />);
+    await user.click(screen.getByTestId("list-plus-icon"));
 
     const titleInput = screen.getByTestId("input");
     await user.type(titleInput, "New Issue Title");
@@ -190,6 +125,7 @@ describe("IssueModal Component", () => {
   it("should handle content textarea change", async () => {
     const user = userEvent.setup();
     render(<IssueModal action='new' />);
+    await user.click(screen.getByTestId("list-plus-icon"));
 
     const contentTextarea = screen.getByTestId("textarea");
     await user.type(contentTextarea, "New issue content");

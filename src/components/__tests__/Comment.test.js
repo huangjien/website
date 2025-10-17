@@ -1,9 +1,44 @@
 import React from "react";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { Comment } from "../Comment";
 import { useTranslation } from "react-i18next";
 import { useSettings } from "../../lib/useSettings";
 import { extractContentAccordingContentList } from "../../lib/useGithubContent";
+
+// Stub local Accordion wrapper to simple HTML elements for reliable testing
+jest.mock("../ui/accordion", () => {
+  const React = require("react");
+  return {
+    Root: ({ children, className, ...props }) => {
+      // Filter out non-DOM props
+      const { type: _type, collapsible: _collapsible, value: _value, ...rest } = props;
+      return (
+        <div data-testid="accordion" className={className} {...rest}>
+          {children}
+        </div>
+      );
+    },
+    Item: ({ children, className, ...props }) => (
+      <div data-testid="accordion-item" className={className} {...props}>
+        {children}
+      </div>
+    ),
+    Header: ({ children, className, ...props }) => (
+      <div data-testid="accordion-header" className={className} {...props}>{children}</div>
+    ),
+    Trigger: React.forwardRef(({ children, className, ...props }, ref) => (
+      <button ref={ref} data-testid="accordion-trigger" className={className} {...props}>
+        {children}
+      </button>
+    )),
+    Content: React.forwardRef(({ children, className, ...props }, ref) => (
+      <div ref={ref} data-testid="accordion-content" className={className} {...props}>
+        {children}
+      </div>
+    )),
+  };
+});
 
 // Mock react-i18next
 jest.mock("react-i18next", () => ({
@@ -33,35 +68,24 @@ jest.mock("react-markdown", () => {
 jest.mock("rehype-raw", () => ({}));
 jest.mock("remark-gfm", () => ({}));
 
-// Mock @heroui/react components
-jest.mock("@heroui/react", () => ({
-  Avatar: ({ text, src, zoomed, bordered }) => (
-    <div
-      data-testid='avatar'
-      data-text={text}
-      data-src={src}
-      data-zoomed={zoomed}
-      data-bordered={bordered}
-    >
-      {text}
-    </div>
-  ),
-  Accordion: ({ children, shadow, bordered }) => (
-    <div data-testid='accordion' data-shadow={shadow} data-bordered={bordered}>
-      {children}
-    </div>
-  ),
-  AccordionItem: ({ children, title, subtitle, "aria-label": ariaLabel }) => (
-    <div data-testid='accordion-item' aria-label={ariaLabel}>
-      <div data-testid='accordion-title'>{title}</div>
-      <div data-testid='accordion-subtitle'>{subtitle}</div>
-      <div data-testid='accordion-content'>{children}</div>
-    </div>
-  ),
-}));
-
 // Mock fetch
 global.fetch = jest.fn();
+
+// Mock @radix-ui/react-avatar to make Image accessible in tests
+jest.mock("@radix-ui/react-avatar", () => {
+  const React = require("react");
+  return {
+    Root: ({ children, className, ...props }) => (
+      <span data-testid="avatar" className={className} {...props}>{children}</span>
+    ),
+    Image: ({ src, alt, ...props }) => (
+      <img data-testid="avatar-image" src={src} alt={alt} {...props} />
+    ),
+    Fallback: ({ children, className, ...props }) => (
+      <span data-testid="avatar-fallback" className={className} {...props}>{children}</span>
+    ),
+  };
+});
 
 describe("Comment Component", () => {
   const mockGetSetting = jest.fn();
@@ -110,12 +134,12 @@ describe("Comment Component", () => {
   beforeEach(() => {
     // Reset and setup fetch mock
     jest.clearAllMocks();
-    global.fetch = jest.fn(() =>
-      Promise.resolve({
-        ok: true,
-        json: () => Promise.resolve([]),
-      })
-    );
+    if (!global.fetch || !jest.isMockFunction(global.fetch)) {
+      global.fetch = jest.fn();
+    }
+    global.fetch.mockReset();
+    // Provide a benign default fetch implementation to avoid undefined res in tests not mocking fetch explicitly
+    global.fetch.mockImplementation(() => Promise.resolve({ ok: true, json: async () => [] }));
     useSettings.mockReturnValue({
       getSetting: mockGetSetting,
     });
@@ -124,44 +148,53 @@ describe("Comment Component", () => {
     );
     extractContentAccordingContentList.mockImplementation(
       (contentList, comment) => {
-        const index = mockComments.findIndex((c) => c.id === comment.id);
-        return mockExtractedComments[index];
+        return {
+          id: comment.id,
+          body: comment.body,
+          created_at: comment.created_at,
+          updated_at: comment.updated_at,
+          "user.login": comment.user?.login,
+          "user.avatar_url": comment.user?.avatar_url,
+        };
       }
     );
   });
 
+// Removed duplicated variable block and beforeEach
+
   it("should render comments correctly", async () => {
-    global.fetch.mockResolvedValueOnce({
-      ok: true,
-      json: async () => mockComments,
-    });
+    global.fetch.mockImplementationOnce(() =>
+      Promise.resolve({
+        ok: true,
+        json: async () => mockComments,
+      })
+    );
 
     render(<Comment issue_id={123} />);
 
+    // Ensure fetch was called
     await waitFor(() => {
-      expect(screen.getByTestId("accordion")).toBeInTheDocument();
+      expect(global.fetch).toHaveBeenCalledTimes(1);
+      expect(global.fetch).toHaveBeenCalledWith(
+        "/api/comments?issue_number=123",
+        { method: "GET" }
+      );
     });
 
-    // Wait for the accordion items to be rendered
+    // Wait for comment texts to appear (avoid reliance on accordion internals)
     await waitFor(() => {
-      const accordionItems = screen.getAllByTestId("accordion-item");
-      expect(accordionItems).toHaveLength(2);
-    });
-
-    // Check for user names in the accordion items
-    expect(screen.getAllByText("testuser")).toHaveLength(2); // Avatar and italic text
-    expect(screen.getAllByText("anotheruser")).toHaveLength(2); // Avatar and italic text
-
-    // Check for comment content
-    expect(screen.getByText("This is a test comment")).toBeInTheDocument();
-    expect(screen.getByText("Another test comment")).toBeInTheDocument();
+      expect(screen.getByText("This is a test comment")).toBeInTheDocument();
+      expect(screen.getByText("Another test comment")).toBeInTheDocument();
+    }, { timeout: 3000 });
   });
 
   it("should fetch comments with correct API endpoint", async () => {
-    global.fetch.mockResolvedValueOnce({
-      ok: true,
-      json: async () => mockComments,
-    });
+    global.fetch.mockImplementationOnce(() =>
+      Promise.resolve({
+        ok: true,
+        json: async () => mockComments,
+      })
+    );
 
     render(<Comment issue_id={456} />);
 
@@ -176,10 +209,12 @@ describe("Comment Component", () => {
   });
 
   it("should display created and updated dates correctly", async () => {
-    global.fetch.mockResolvedValueOnce({
-      ok: true,
-      json: async () => mockComments,
-    });
+    global.fetch.mockImplementationOnce(() =>
+      Promise.resolve({
+        ok: true,
+        json: async () => mockComments,
+      })
+    );
 
     render(<Comment issue_id={123} />);
 
@@ -196,33 +231,39 @@ describe("Comment Component", () => {
         )
       ).toBeInTheDocument();
     });
+    // Debug DOM after dates render
+    // eslint-disable-next-line no-console
+    screen.debug(undefined, 20000);
   });
 
   it("should render avatars with correct props", async () => {
-    global.fetch.mockResolvedValueOnce({
-      ok: true,
-      json: async () => mockComments,
-    });
+    global.fetch.mockImplementationOnce(() =>
+      Promise.resolve({
+        ok: true,
+        json: async () => mockComments,
+      })
+    );
 
     render(<Comment issue_id={123} />);
 
-    await waitFor(() => {
-      const avatars = screen.getAllByTestId("avatar");
-      expect(avatars[0]).toHaveAttribute("data-text", "testuser");
-      expect(avatars[0]).toHaveAttribute(
-        "data-src",
-        "https://example.com/avatar.jpg"
-      );
-      expect(avatars[0]).toHaveAttribute("data-zoomed", "true");
-      expect(avatars[0]).toHaveAttribute("data-bordered", "true");
-    });
+    // Verify avatars and their image src via accessible role/name
+    const avatars = await screen.findAllByTestId("avatar");
+    expect(avatars).toHaveLength(2);
+
+    const img1 = within(avatars[0]).getByRole("img", { name: "testuser" });
+    expect(img1).toHaveAttribute("src", "https://example.com/avatar.jpg");
+
+    const img2 = within(avatars[1]).getByRole("img", { name: "anotheruser" });
+    expect(img2).toHaveAttribute("src", "https://example.com/avatar2.jpg");
   });
 
   it("should call extractContentAccordingContentList for each comment", async () => {
-    global.fetch.mockResolvedValueOnce({
-      ok: true,
-      json: async () => mockComments,
-    });
+    global.fetch.mockImplementationOnce(() =>
+      Promise.resolve({
+        ok: true,
+        json: async () => mockComments,
+      })
+    );
 
     render(<Comment issue_id={123} />);
 
@@ -254,10 +295,12 @@ describe("Comment Component", () => {
   });
 
   it("should handle empty comments array", async () => {
-    global.fetch.mockResolvedValueOnce({
-      ok: true,
-      json: async () => [],
-    });
+    global.fetch.mockImplementationOnce(() =>
+      Promise.resolve({
+        ok: true,
+        json: async () => [],
+      })
+    );
 
     render(<Comment issue_id={123} />);
 
@@ -276,10 +319,12 @@ describe("Comment Component", () => {
   });
 
   it("should not render when commentList is null", () => {
-    global.fetch.mockResolvedValueOnce({
-      ok: true,
-      json: async () => null,
-    });
+    global.fetch.mockImplementationOnce(() =>
+      Promise.resolve({
+        ok: true,
+        json: async () => null,
+      })
+    );
 
     const { container } = render(<Comment issue_id={123} />);
     expect(container.firstChild).toBeEmptyDOMElement();
@@ -288,10 +333,12 @@ describe("Comment Component", () => {
   it("should use comment content settings correctly", async () => {
     mockGetSetting.mockReturnValue("id,body,user.login");
 
-    global.fetch.mockResolvedValueOnce({
-      ok: true,
-      json: async () => mockComments,
-    });
+    global.fetch.mockImplementationOnce(() =>
+      Promise.resolve({
+        ok: true,
+        json: async () => mockComments,
+      })
+    );
 
     render(<Comment issue_id={123} />);
 

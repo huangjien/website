@@ -1,3 +1,6 @@
+import dotenv from "dotenv";
+dotenv.config({ path: ".env" });
+dotenv.config({ path: ".env.local" });
 import { defineConfig, devices } from "@playwright/test";
 import path from "path";
 

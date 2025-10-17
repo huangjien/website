@@ -5,7 +5,7 @@
  */
 import { useTranslation } from "react-i18next";
 import { useRequest } from "ahooks";
-import { Button } from "@heroui/react";
+import Button from "./ui/button";
 import { MdRefresh } from "react-icons/md";
 
 export const Joke = () => {
@@ -30,10 +30,13 @@ export const Joke = () => {
     return (
       <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
         <Button
-          variant='light'
-          onPress={refresh}
-          isLoading={loading}
-          isIconOnly
+          variant='ghost'
+          size='icon'
+          onClick={refresh}
+          disabled={loading}
+          aria-busy={loading ? "true" : undefined}
+          aria-label={t("joke.refresh")}
+          title={t("joke.refresh")}
         >
           <MdRefresh />
         </Button>
@@ -47,10 +50,13 @@ export const Joke = () => {
     return (
       <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
         <Button
-          variant='light'
-          onPress={refresh}
-          isLoading={loading}
-          isIconOnly
+          variant='ghost'
+          size='icon'
+          onClick={refresh}
+          disabled={loading}
+          aria-busy={loading ? "true" : undefined}
+          aria-label={t("joke.refresh")}
+          title={t("joke.refresh")}
         >
           <MdRefresh />
         </Button>
@@ -61,7 +67,15 @@ export const Joke = () => {
 
   return (
     <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-      <Button variant='light' onPress={refresh} isLoading={loading} isIconOnly>
+      <Button
+        variant='ghost'
+        size='icon'
+        onClick={refresh}
+        disabled={loading}
+        aria-busy={loading ? "true" : undefined}
+        aria-label={t("joke.refresh")}
+        title={t("joke.refresh")}
+      >
         <MdRefresh />
       </Button>
       {data?.joke && <span>{data.joke}</span>}

@@ -5,6 +5,7 @@ import {
   fireEvent,
   waitFor,
   act,
+  within,
 } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import ConversationTab from "../ConversationTab";
@@ -29,59 +30,7 @@ jest.mock("../Notification", () => ({
   warn: jest.fn(),
 }));
 
-// Mock @heroui/react components
-jest.mock("@heroui/react", () => ({
-  Textarea: ({
-    value,
-    onValueChange,
-    placeholder,
-    isDisabled,
-    className,
-    ...props
-  }) => (
-    <textarea
-      data-testid='textarea'
-      value={value}
-      onChange={(e) => onValueChange && onValueChange(e.target.value)}
-      placeholder={placeholder}
-      disabled={isDisabled}
-      className={className}
-      {...props}
-    />
-  ),
-  Button: ({
-    children,
-    onPressStart,
-    onPressEnd,
-    isDisabled,
-    className,
-    ...props
-  }) => (
-    <button
-      data-testid='button'
-      onMouseDown={() => onPressStart && onPressStart()}
-      onMouseUp={() => onPressEnd && onPressEnd()}
-      onTouchStart={() => onPressStart && onPressStart()}
-      onTouchEnd={() => onPressEnd && onPressEnd()}
-      disabled={isDisabled}
-      className={className}
-      {...props}
-    >
-      {children}
-    </button>
-  ),
-  Tooltip: ({ children, content }) => (
-    <div data-testid='tooltip'>
-      <div data-testid='tooltip-content'>{content}</div>
-      {children}
-    </div>
-  ),
-  Progress: ({ isIndeterminate, className, ...props }) => (
-    <div data-testid='progress' className={className} {...props}>
-      Loading...
-    </div>
-  ),
-}));
+// Removed legacy @heroui/react mocks. Tests now exercise actual shadcn-ui components under src/components/ui/* with built-in testIDs.
 
 // Mock react-icons
 jest.mock("react-icons/bi", () => ({
@@ -394,8 +343,13 @@ describe("ConversationTab Component", () => {
   it("should display tooltip with correct content", () => {
     render(<ConversationTab {...defaultProps} />);
 
-    expect(screen.getByText("ai.send_tooltip")).toBeInTheDocument();
-    expect(screen.getByText("ai.hold")).toBeInTheDocument();
+    const tooltip = screen.getByTestId("tooltip");
+    const sendNodes = within(tooltip).getAllByText("ai.send_tooltip");
+    const holdNodes = within(tooltip).getAllByText("ai.hold");
+    const sendVisible = sendNodes.find((el) => el.closest('[role="tooltip"]') === null);
+    const holdVisible = holdNodes.find((el) => el.closest('[role="tooltip"]') === null);
+    expect(sendVisible).toBeInTheDocument();
+    expect(holdVisible).toBeInTheDocument();
   });
 
   it("should use correct placeholder text", () => {

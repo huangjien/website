@@ -3,28 +3,32 @@ import { useSettings, ProvideSettings } from "../useSettings";
 import React from "react";
 
 // Mock ahooks
-jest.mock("ahooks", () => ({
-  useRequest: jest.fn((fn, options) => {
-    // Simulate the onSuccess callback being called with proper structure
-    if (options?.onSuccess) {
-      setTimeout(() => {
-        options.onSuccess({
-          result: "theme=dark\nlanguage=en",
-        });
-      }, 0);
-    }
-    return {
-      data: { result: "theme=dark\nlanguage=en" },
-      loading: false,
-      error: null,
-    };
-  }),
-  useSessionStorageState: jest.fn((key, options) => {
-    const defaultValue = options?.defaultValue;
-    const [state, setState] = React.useState(defaultValue);
-    return [state, setState];
-  }),
-}));
+jest.mock("ahooks", () => {
+  // Use a locally required React within the mock factory to avoid out-of-scope variable access
+  const mockReact = require("react");
+  return {
+    useRequest: jest.fn((fn, options) => {
+      // Simulate the onSuccess callback being called with proper structure
+      if (options?.onSuccess) {
+        setTimeout(() => {
+          options.onSuccess({
+            result: "theme=dark\nlanguage=en",
+          });
+        }, 0);
+      }
+      return {
+        data: { result: "theme=dark\nlanguage=en" },
+        loading: false,
+        error: null,
+      };
+    }),
+    useSessionStorageState: jest.fn((key, options) => {
+      const defaultValue = options?.defaultValue;
+      const [state, setState] = mockReact.useState(defaultValue);
+      return [state, setState];
+    }),
+  };
+});
 
 // Mock fetch
 global.fetch = jest.fn();

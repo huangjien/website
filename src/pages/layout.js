@@ -2,9 +2,8 @@
 import { Inter } from "next/font/google";
 import { useSettings } from "../lib/useSettings";
 import { NavigationBar } from "../components/NavigationBar";
-import { Button, Spacer } from "@heroui/react";
+import Button from "../components/ui/button";
 import { useEffect, useState } from "react";
-import { Link } from "@heroui/link";
 import { MdKeyboardArrowUp } from "react-icons/md";
 import packageJson from "../../package.json";
 import { useTranslation } from "react-i18next";
@@ -34,15 +33,14 @@ export default function RootLayout({ children }) {
     <div className='min-h-screen flex flex-col'>
       <NavigationBar />
       <main className='flex-1 p-4'>{children}</main>
-      <Spacer />
       {showScrollButton && (
         <Button
-          isIconOnly
-          variant='flat'
-          color='primary'
-          size='lg'
-          className='fixed bottom-8 right-8 z-50 shadow-lg'
-          onPress={scrollToTop}
+          variant='default'
+          size='icon'
+          className='fixed bottom-8 right-8 z-50 shadow-lg rounded-full'
+          onClick={scrollToTop}
+          aria-label='Scroll to top'
+          title='Scroll to top'
         >
           <MdKeyboardArrowUp />
         </Button>
