@@ -34,7 +34,6 @@ jest.mock("../../components/NavigationBar", () => ({
   NavigationBar: () => <div data-testid='navigation-bar'>Navigation Bar</div>,
 }));
 
-
 // Mock react-icons
 jest.mock("react-icons/md", () => ({
   MdKeyboardArrowUp: () => <div data-testid='arrow-up-icon' />,
@@ -137,7 +136,9 @@ describe("Layout Component", () => {
       });
     }
 
-    expect(screen.queryByRole("button", { name: "Scroll to top" })).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "Scroll to top" })
+    ).not.toBeInTheDocument();
   });
 
   it("should scroll to top when scroll button is clicked", async () => {
@@ -262,7 +263,9 @@ describe("Layout Component", () => {
       });
     }
 
-    expect(screen.queryByRole("button", { name: "Scroll to top" })).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "Scroll to top" })
+    ).not.toBeInTheDocument();
 
     // Scroll down - button should be visible
     Object.defineProperty(window, "scrollY", {
@@ -276,7 +279,9 @@ describe("Layout Component", () => {
       });
     }
 
-    expect(screen.getByRole("button", { name: "Scroll to top" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Scroll to top" })
+    ).toBeInTheDocument();
   });
 
   it("should render layout with correct CSS classes", () => {
@@ -286,7 +291,6 @@ describe("Layout Component", () => {
       .parentElement.parentElement;
     expect(layoutDiv).toHaveClass("min-h-screen", "flex", "flex-col");
   });
-
 
   it("should handle multiple scroll events", () => {
     render(<Layout>{mockChildren}</Layout>);

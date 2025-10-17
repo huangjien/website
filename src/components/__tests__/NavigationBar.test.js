@@ -6,7 +6,9 @@ import { useSession } from "next-auth/react";
 import { useTranslation } from "react-i18next";
 
 // Stub CSS imports used by react-toastify
-jest.mock("react-toastify/dist/ReactToastify.css", () => ({}), { virtual: true });
+jest.mock("react-toastify/dist/ReactToastify.css", () => ({}), {
+  virtual: true,
+});
 
 // Mock next-auth/react
 jest.mock("next-auth/react", () => ({
@@ -37,7 +39,8 @@ jest.mock("react-toastify", () => {
       info: jest.fn(),
       warning: jest.fn(),
     },
-    ToastContainer: () => React.createElement("div", { "data-testid": "toast-container" }),
+    ToastContainer: () =>
+      React.createElement("div", { "data-testid": "toast-container" }),
   };
 });
 
@@ -47,7 +50,8 @@ jest.mock("react-icons/bi", () => {
   return {
     BiChip: () => React.createElement("div", { "data-testid": "chip-icon" }),
     BiCog: () => React.createElement("div", { "data-testid": "cog-icon" }),
-    BiDetail: () => React.createElement("div", { "data-testid": "detail-icon" }),
+    BiDetail: () =>
+      React.createElement("div", { "data-testid": "detail-icon" }),
     BiHome: () => React.createElement("div", { "data-testid": "home-icon" }),
   };
 });
@@ -55,30 +59,44 @@ jest.mock("react-icons/bi", () => {
 // Mock child components
 jest.mock("../Login", () => {
   const React = require("react");
-  const MockLogin = () => React.createElement("div", { "data-testid": "login-component" });
+  const MockLogin = () =>
+    React.createElement("div", { "data-testid": "login-component" });
   return MockLogin;
 });
 
 jest.mock("../ThemeSwitch", () => {
   const React = require("react");
-  return { ThemeSwitch: () => React.createElement("div", { "data-testid": "theme-switch-component" }) };
+  return {
+    ThemeSwitch: () =>
+      React.createElement("div", { "data-testid": "theme-switch-component" }),
+  };
 });
 
 jest.mock("../LanguageSwitch", () => {
   const React = require("react");
-  return { LanguageSwitch: () => React.createElement("div", { "data-testid": "language-switch-component" }) };
+  return {
+    LanguageSwitch: () =>
+      React.createElement("div", {
+        "data-testid": "language-switch-component",
+      }),
+  };
 });
 
 // Mock Avatar to ensure accessible image is present
 jest.mock("../ui/avatar", () => {
   const React = require("react");
-  const MockAvatar = ({ src, alt, className }) => React.createElement("img", { src, alt, className });
+  const MockAvatar = ({ src, alt, className }) =>
+    React.createElement("img", { src, alt, className });
   return {
     __esModule: true,
     default: MockAvatar,
     Avatar: MockAvatar,
     AvatarImage: (props) => React.createElement("img", props),
-    AvatarFallback: (props) => React.createElement("div", { ...props, "data-testid": "avatar-fallback" }),
+    AvatarFallback: (props) =>
+      React.createElement("div", {
+        ...props,
+        "data-testid": "avatar-fallback",
+      }),
   };
 });
 
@@ -86,7 +104,11 @@ jest.mock("../ui/avatar", () => {
 jest.mock("next/link", () => {
   const React = require("react");
   return function MockLink({ children, href, ...props }) {
-    return React.createElement("a", { "data-testid": "next-link", href, ...props }, children);
+    return React.createElement(
+      "a",
+      { "data-testid": "next-link", href, ...props },
+      children
+    );
   };
 });
 
@@ -154,7 +176,10 @@ describe("NavigationBar Component (shadcn/ui)", () => {
   });
 
   it("renders same links when authenticated", () => {
-    mockUseSession.mockReturnValue({ data: { user: { name: "John Doe" } }, status: "authenticated" });
+    mockUseSession.mockReturnValue({
+      data: { user: { name: "John Doe" } },
+      status: "authenticated",
+    });
 
     render(<NavigationBar />);
 

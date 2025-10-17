@@ -1,7 +1,14 @@
 import React from "react";
 import { cn } from "../../lib/cn";
 
-export function Select({ label, placeholder, selectedKeys = [], onSelectionChange, className, children }) {
+export function Select({
+  label,
+  placeholder,
+  selectedKeys = [],
+  onSelectionChange,
+  className,
+  children,
+}) {
   const value = selectedKeys?.[0] ?? "";
   const handleChange = (e) => {
     const next = e.target.value;
@@ -9,14 +16,17 @@ export function Select({ label, placeholder, selectedKeys = [], onSelectionChang
   };
 
   return (
-    <div data-testid="select-wrapper" className={cn("grid gap-2", className)}>
+    <div data-testid='select-wrapper' className={cn("grid gap-2", className)}>
       {label && (
-        <label data-testid="select-label" className="text-sm font-medium text-foreground">
+        <label
+          data-testid='select-label'
+          className='text-sm font-medium text-foreground'
+        >
           {label}
         </label>
       )}
       <select
-        data-testid="select"
+        data-testid='select'
         value={value}
         onChange={handleChange}
         className={cn(
@@ -26,7 +36,7 @@ export function Select({ label, placeholder, selectedKeys = [], onSelectionChang
         )}
       >
         {placeholder && (
-          <option value="" disabled>
+          <option value='' disabled>
             {placeholder}
           </option>
         )}
@@ -38,7 +48,7 @@ export function Select({ label, placeholder, selectedKeys = [], onSelectionChang
 
 export function SelectItem({ children, value }) {
   return (
-    <option data-testid="select-item" value={value}>
+    <option data-testid='select-item' value={value}>
       {children}
     </option>
   );

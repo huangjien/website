@@ -48,38 +48,40 @@ export default function Settings() {
   }, [page, filterItems, rowsPerPage]);
 
   return (
-    <div className="min-h-max text-lg">
-      <div className="lg:inline-flex flex-wrap text-lg justify-center gap-8 items-center m-1">
+    <div className='min-h-max text-lg'>
+      <div className='lg:inline-flex flex-wrap text-lg justify-center gap-8 items-center m-1'>
         <Input
           isClearable
-          className="w-auto sm:max-w-[33%] mr-4"
+          className='w-auto sm:max-w-[33%] mr-4'
           placeholder={t("global.search")}
           startContent={<BiSearch />}
           value={filterValue}
           onClear={() => setFilterValue("")}
           onChange={(e) => setFilterValue(e.target.value)}
         />
-        <span className="text-muted-foreground text-sm">
+        <span className='text-muted-foreground text-sm'>
           Total {(settings || []).length} items
         </span>
 
-        <div data-testid="pagination" className="flex items-center gap-2">
+        <div data-testid='pagination' className='flex items-center gap-2'>
           <Button
-            data-testid="prev-page"
-            variant="outline"
-            size="sm"
+            data-testid='prev-page'
+            variant='outline'
+            size='sm'
             onClick={() => setPage((p) => Math.max(1, p - 1))}
             disabled={page === 1}
           >
             {t("global.prev") || "Prev"}
           </Button>
-          <span className="text-sm">
-            {t("global.page") || "Page"} <span data-testid="current-page">{page}</span> / <span data-testid="total-pages">{pages}</span>
+          <span className='text-sm'>
+            {t("global.page") || "Page"}{" "}
+            <span data-testid='current-page'>{page}</span> /{" "}
+            <span data-testid='total-pages'>{pages}</span>
           </span>
           <Button
-            data-testid="next-page"
-            variant="outline"
-            size="sm"
+            data-testid='next-page'
+            variant='outline'
+            size='sm'
             onClick={() => setPage((p) => Math.min(pages, p + 1))}
             disabled={page >= pages}
           >
@@ -87,38 +89,46 @@ export default function Settings() {
           </Button>
         </div>
 
-        <label className="flex items-center text-muted-foreground text-sm">
+        <label className='flex items-center text-muted-foreground text-sm'>
           Rows per page:
           <select
-            className="ml-2 bg-transparent outline-none text-foreground text-sm border border-input rounded-md px-2 py-1"
+            className='ml-2 bg-transparent outline-none text-foreground text-sm border border-input rounded-md px-2 py-1'
             onChange={onRowsPerPageChange}
             value={rowsPerPage}
           >
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="15">15</option>
+            <option value='5'>5</option>
+            <option value='10'>10</option>
+            <option value='15'>15</option>
           </select>
         </label>
       </div>
 
-      <div className="overflow-x-auto rounded-md border">
-        <table data-testid="table" aria-label='Settings' className="w-full text-left min-h-max text-lg">
-          <thead className="bg-muted">
+      <div className='overflow-x-auto rounded-md border'>
+        <table
+          data-testid='table'
+          aria-label='Settings'
+          className='w-full text-left min-h-max text-lg'
+        >
+          <thead className='bg-muted'>
             <tr>
-              <th className="p-3 text-lg font-semibold">{t("column.title.key")}</th>
-              <th className="p-3 text-lg font-semibold">{t("column.title.value")}</th>
+              <th className='p-3 text-lg font-semibold'>
+                {t("column.title.key")}
+              </th>
+              <th className='p-3 text-lg font-semibold'>
+                {t("column.title.value")}
+              </th>
             </tr>
           </thead>
           <tbody>
             {items.map((item) => (
-              <tr key={item.id} className="odd:bg-muted/40">
-                <td className="p-3 text-lg">{item.name}</td>
-                <td className="p-3 text-lg">{item.value}</td>
+              <tr key={item.id} className='odd:bg-muted/40'>
+                <td className='p-3 text-lg'>{item.name}</td>
+                <td className='p-3 text-lg'>{item.value}</td>
               </tr>
             ))}
             {items.length === 0 && (
               <tr>
-                <td className="p-3" colSpan={2}>
+                <td className='p-3' colSpan={2}>
                   {t("global.empty") || "No settings to display"}
                 </td>
               </tr>
@@ -128,12 +138,12 @@ export default function Settings() {
       </div>
 
       {/* Numeric pagination (optional) */}
-      <div className="mt-4 flex flex-wrap items-center gap-2 justify-center">
+      <div className='mt-4 flex flex-wrap items-center gap-2 justify-center'>
         {Array.from({ length: pages }, (_, i) => i + 1).map((p) => (
           <Button
             key={p}
             variant={p === page ? "secondary" : "outline"}
-            size="sm"
+            size='sm'
             onClick={() => setPage(p)}
           >
             {p}

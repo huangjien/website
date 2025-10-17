@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import React from "react";
 import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
@@ -12,28 +13,45 @@ jest.mock("../ui/accordion", () => {
   return {
     Root: ({ children, className, ...props }) => {
       // Filter out non-DOM props
-      const { type: _type, collapsible: _collapsible, value: _value, ...rest } = props;
+      const {
+        type: _type,
+        collapsible: _collapsible,
+        value: _value,
+        ...rest
+      } = props;
       return (
-        <div data-testid="accordion" className={className} {...rest}>
+        <div data-testid='accordion' className={className} {...rest}>
           {children}
         </div>
       );
     },
     Item: ({ children, className, ...props }) => (
-      <div data-testid="accordion-item" className={className} {...props}>
+      <div data-testid='accordion-item' className={className} {...props}>
         {children}
       </div>
     ),
     Header: ({ children, className, ...props }) => (
-      <div data-testid="accordion-header" className={className} {...props}>{children}</div>
+      <div data-testid='accordion-header' className={className} {...props}>
+        {children}
+      </div>
     ),
     Trigger: React.forwardRef(({ children, className, ...props }, ref) => (
-      <button ref={ref} data-testid="accordion-trigger" className={className} {...props}>
+      <button
+        ref={ref}
+        data-testid='accordion-trigger'
+        className={className}
+        {...props}
+      >
         {children}
       </button>
     )),
     Content: React.forwardRef(({ children, className, ...props }, ref) => (
-      <div ref={ref} data-testid="accordion-content" className={className} {...props}>
+      <div
+        ref={ref}
+        data-testid='accordion-content'
+        className={className}
+        {...props}
+      >
         {children}
       </div>
     )),
@@ -76,13 +94,17 @@ jest.mock("@radix-ui/react-avatar", () => {
   const React = require("react");
   return {
     Root: ({ children, className, ...props }) => (
-      <span data-testid="avatar" className={className} {...props}>{children}</span>
+      <span data-testid='avatar' className={className} {...props}>
+        {children}
+      </span>
     ),
     Image: ({ src, alt, ...props }) => (
-      <img data-testid="avatar-image" src={src} alt={alt} {...props} />
+      <img data-testid='avatar-image' src={src} alt={alt} {...props} />
     ),
     Fallback: ({ children, className, ...props }) => (
-      <span data-testid="avatar-fallback" className={className} {...props}>{children}</span>
+      <span data-testid='avatar-fallback' className={className} {...props}>
+        {children}
+      </span>
     ),
   };
 });
@@ -139,7 +161,9 @@ describe("Comment Component", () => {
     }
     global.fetch.mockReset();
     // Provide a benign default fetch implementation to avoid undefined res in tests not mocking fetch explicitly
-    global.fetch.mockImplementation(() => Promise.resolve({ ok: true, json: async () => [] }));
+    global.fetch.mockImplementation(() =>
+      Promise.resolve({ ok: true, json: async () => [] })
+    );
     useSettings.mockReturnValue({
       getSetting: mockGetSetting,
     });
@@ -160,7 +184,7 @@ describe("Comment Component", () => {
     );
   });
 
-// Removed duplicated variable block and beforeEach
+  // Removed duplicated variable block and beforeEach
 
   it("should render comments correctly", async () => {
     global.fetch.mockImplementationOnce(() =>
@@ -182,10 +206,13 @@ describe("Comment Component", () => {
     });
 
     // Wait for comment texts to appear (avoid reliance on accordion internals)
-    await waitFor(() => {
-      expect(screen.getByText("This is a test comment")).toBeInTheDocument();
-      expect(screen.getByText("Another test comment")).toBeInTheDocument();
-    }, { timeout: 3000 });
+    await waitFor(
+      () => {
+        expect(screen.getByText("This is a test comment")).toBeInTheDocument();
+        expect(screen.getByText("Another test comment")).toBeInTheDocument();
+      },
+      { timeout: 3000 }
+    );
   });
 
   it("should fetch comments with correct API endpoint", async () => {
@@ -232,7 +259,6 @@ describe("Comment Component", () => {
       ).toBeInTheDocument();
     });
     // Debug DOM after dates render
-    // eslint-disable-next-line no-console
     screen.debug(undefined, 20000);
   });
 

@@ -7,12 +7,14 @@ import TTSPlayer from "./TTSPlayer";
  */
 export default function ChatTranscript({ messages = [] }) {
   return (
-    <div className="space-y-3">
+    <div className='space-y-3'>
       {messages.length === 0 ? (
-        <div className="text-sm text-gray-500 dark:text-gray-400">No messages yet. Ask something above to start.</div>
+        <div className='text-sm text-gray-500 dark:text-gray-400'>
+          No messages yet. Ask something above to start.
+        </div>
       ) : (
         messages.map((m, idx) => (
-          <div key={idx} className="flex w-full">
+          <div key={idx} className='flex w-full'>
             <div
               className={
                 m.role === "user"
@@ -20,12 +22,12 @@ export default function ChatTranscript({ messages = [] }) {
                   : "mr-auto max-w-[80%] rounded-md bg-white px-3 py-2 text-sm shadow-sm dark:bg-gray-900"
               }
             >
-              <div className="mb-1 text-[11px] uppercase tracking-wider text-gray-400">
+              <div className='mb-1 text-[11px] uppercase tracking-wider text-gray-400'>
                 {m.role}
               </div>
-              <div className="whitespace-pre-wrap">{m.content}</div>
+              <div className='whitespace-pre-wrap'>{m.content}</div>
               {m.role === "assistant" ? (
-                <div className="mt-2">
+                <div className='mt-2'>
                   <TTSPlayer text={m.content} />
                 </div>
               ) : null}

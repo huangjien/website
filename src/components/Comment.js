@@ -23,19 +23,20 @@ export const Comment = ({ issue_id }) => {
 
   useEffect(() => {
     const temp_array = [];
-    // eslint-disable-next-line no-console
-    console.log("DEBUG useEffect start, issue_id:", issue_id, "commentContentList:", commentContentList);
+    console.log(
+      "DEBUG useEffect start, issue_id:",
+      issue_id,
+      "commentContentList:",
+      commentContentList
+    );
     async function fetchComments() {
       try {
-        // eslint-disable-next-line no-console
         console.log("DEBUG before fetch call");
         const res = await fetch("/api/comments?issue_number=" + issue_id, {
           method: "GET",
         });
-        // eslint-disable-next-line no-console
         console.log("DEBUG after fetch call, res.ok:", res?.ok);
         const comment = await res.json();
-        // eslint-disable-next-line no-console
         console.log("DEBUG after res.json, comment:", comment);
         if (comment && Array.isArray(comment)) {
           for (const oneComment of comment) {
@@ -46,7 +47,6 @@ export const Comment = ({ issue_id }) => {
             temp_array.push(oneCommentContent);
           }
           setCommentList(temp_array);
-          // eslint-disable-next-line no-console
           console.log("DEBUG setCommentList:", temp_array);
         } else if (comment === null) {
           // Explicitly set null to allow tests to assert no rendering
@@ -65,7 +65,6 @@ export const Comment = ({ issue_id }) => {
 
   if (commentList === null) return null;
 
-  // eslint-disable-next-line no-console
   console.log("DEBUG render Comment, commentList:", commentList);
   return (
     <>
@@ -73,16 +72,23 @@ export const Comment = ({ issue_id }) => {
         className='m-2 w-fit'
         type='multiple'
         collapsible
-        value={Array.isArray(commentList) ? commentList.map((c) => String(c.id)) : []}
+        value={
+          Array.isArray(commentList) ? commentList.map((c) => String(c.id)) : []
+        }
         data-testid='accordion'
       >
         {Array.isArray(commentList) &&
-          (console.log("DEBUG render mapping, commentList length:", commentList.length),
+          (console.log(
+            "DEBUG render mapping, commentList length:",
+            commentList.length
+          ),
           commentList.map((oneComment) => {
             const subtitleText =
               (oneComment.created_at === oneComment.updated_at
                 ? ""
-                : t("issue.last_update") + ": " + oneComment.updated_at.toString()) +
+                : t("issue.last_update") +
+                  ": " +
+                  oneComment.updated_at.toString()) +
               " " +
               t("issue.created") +
               ": " +
@@ -95,20 +101,29 @@ export const Comment = ({ issue_id }) => {
                 aria-label={String(oneComment.id)}
               >
                 <Accordion.Header>
-                  <Accordion.Trigger className='inline-flex m-4 items-center gap-3' data-testid='accordion-trigger'>
+                  <Accordion.Trigger
+                    className='inline-flex m-4 items-center gap-3'
+                    data-testid='accordion-trigger'
+                  >
                     <Avatar
                       src={oneComment["user.avatar_url"]}
                       alt={oneComment["user.login"]}
-                      fallback={(oneComment["user.login"] || "?")[0]?.toUpperCase()}
+                      fallback={(oneComment["user.login"] ||
+                        "?")[0]?.toUpperCase()}
                       aria-label='avatar'
                     />
                     <i>{oneComment["user.login"]}</i>
-                    <span className='ml-2 text-sm text-muted-foreground'>{subtitleText}</span>
+                    <span className='ml-2 text-sm text-muted-foreground'>
+                      {subtitleText}
+                    </span>
                   </Accordion.Trigger>
                 </Accordion.Header>
                 <Accordion.Content>
                   <div className='prose prose-stone dark:prose-invert lg:prose-xl max-w-fit'>
-                    <Markdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
+                    <Markdown
+                      remarkPlugins={[remarkGfm]}
+                      rehypePlugins={[rehypeRaw]}
+                    >
                       {oneComment.body}
                     </Markdown>
                   </div>

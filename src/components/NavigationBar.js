@@ -35,16 +35,22 @@ export const NavigationBar = () => {
             <BiHome size='1.5em' /> {t("header.home")}
           </Link>
           {/* {status === "authenticated" && ( */}
-            <Link className='flex items-center gap-2 hover:underline' href='/ai'>
-              <BiChip size='1.5em' /> {t("header.ai")}
-            </Link>
+          <Link className='flex items-center gap-2 hover:underline' href='/ai'>
+            <BiChip size='1.5em' /> {t("header.ai")}
+          </Link>
           {/* )} */}
           {/* {status === "authenticated" && ( */}
-            <Link className='flex items-center gap-2 hover:underline' href='/settings'>
-              <BiCog size='1.5em' /> {t("header.settings")}
-            </Link>
+          <Link
+            className='flex items-center gap-2 hover:underline'
+            href='/settings'
+          >
+            <BiCog size='1.5em' /> {t("header.settings")}
+          </Link>
           {/* )} */}
-          <Link className='flex items-center gap-2 hover:underline' href='/about'>
+          <Link
+            className='flex items-center gap-2 hover:underline'
+            href='/about'
+          >
             <BiDetail size='1.5em' /> {t("header.about")}
           </Link>
         </div>

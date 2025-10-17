@@ -26,7 +26,9 @@ export const Chat = ({ data, player }) => {
           collapsible
           data-testid='accordion'
         >
-          <Accordion.Item value={String(data.question || data.id || "chat-item")}>
+          <Accordion.Item
+            value={String(data.question || data.id || "chat-item")}
+          >
             <Accordion.Header>
               <Accordion.Trigger className='lg:inline-flex flex-wrap m-2 items-center'>
                 <h2 className='font-semibold m-2 text-xl select-text'>
@@ -40,8 +42,12 @@ export const Chat = ({ data, player }) => {
                     {data.temperature}
                   </Badge>
                 )}
-                <span data-testid='accordion-subtitle' className='ml-2 text-sm text-muted-foreground'>
-                  {t("ai.question_length")} :{data.question_tokens} {t("ai.answer_length")} :{data.answer_tokens}
+                <span
+                  data-testid='accordion-subtitle'
+                  className='ml-2 text-sm text-muted-foreground'
+                >
+                  {t("ai.question_length")} :{data.question_tokens}{" "}
+                  {t("ai.answer_length")} :{data.answer_tokens}
                 </span>
               </Accordion.Trigger>
             </Accordion.Header>

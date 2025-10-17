@@ -3,7 +3,12 @@ import * as AccordionPrimitive from "@radix-ui/react-accordion";
 import { cn } from "../../lib/cn";
 
 // Root wrapper with sensible defaults, overridable via props
-export function Root({ className, type = "single", collapsible = true, ...props }) {
+export function Root({
+  className,
+  type = "single",
+  collapsible = true,
+  ...props
+}) {
   return (
     <AccordionPrimitive.Root
       type={type}

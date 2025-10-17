@@ -116,7 +116,7 @@ export const IssueList = ({ tags, ComponentName, data, inTab = "ai" }) => {
   return (
     <div>
       <Dialog open={open} onOpenChange={handleOpenChange}>
-        <DialogContent className="m-2">
+        <DialogContent className='m-2'>
           <DialogBody>
             <audio controls autoPlay src={audioSrc} />
           </DialogBody>
@@ -124,64 +124,67 @@ export const IssueList = ({ tags, ComponentName, data, inTab = "ai" }) => {
       </Dialog>
       <Joke />
       <div className={" min-h-max w-auto text-large lg:m-4 "}>
-        <div className="lg:inline-flex flex-wrap  text-lg justify-center lg:gap-8 items-center m-4">
+        <div className='lg:inline-flex flex-wrap  text-lg justify-center lg:gap-8 items-center m-4'>
           {/* {session && (inTab === 'issue' || inTab === 'settings') && (
             <IssueModal action={'new'} />
           )} */}
           <Input
             isClearable
-            className="w-auto sm:max-w-[33%] m-4"
+            className='w-auto sm:max-w-[33%] m-4'
             placeholder={t("global.search")}
             startContent={<BiSearch />}
             value={filterValue}
             onClear={() => setFilterValue("")}
             onChange={(e) => setFilterValue(e.target.value)}
           />
-          <span className="text-default-400 text-small">
+          <span className='text-default-400 text-small'>
             {t("issue.total", { total: data?.length || 0 })}
           </span>
-          <div className="inline-flex items-center gap-2">
+          <div className='inline-flex items-center gap-2'>
             <button
-              type="button"
-              className="px-3 py-1 rounded-md border"
+              type='button'
+              className='px-3 py-1 rounded-md border'
               onClick={() => setPage((p) => Math.max(1, p - 1))}
-              aria-label="Previous"
+              aria-label='Previous'
             >
               Prev
             </button>
-            <span className="text-small">{page} / {pages}</span>
+            <span className='text-small'>
+              {page} / {pages}
+            </span>
             <button
-              type="button"
-              className="px-3 py-1 rounded-md border"
+              type='button'
+              className='px-3 py-1 rounded-md border'
               onClick={() => setPage((p) => Math.min(pages, p + 1))}
-              aria-label="Next"
+              aria-label='Next'
             >
               Next
             </button>
           </div>
 
-          <label className="flex  items-center text-default-400 text-small">
+          <label className='flex  items-center text-default-400 text-small'>
             {t("issue.row_per_page")}
             <select
-              className="bg-transparent outline-none text-default-400 text-small"
+              className='bg-transparent outline-none text-default-400 text-small'
               onChange={onRowsPerPageChange}
               value={rowsPerPage}
             >
-              <option value="5">5</option>
-              <option value="10">10</option>
-              <option value="15">15</option>
+              <option value='5'>5</option>
+              <option value='10'>10</option>
+              <option value='15'>15</option>
             </select>
           </label>
           <Divider />
         </div>
 
-        <div role="grid" aria-label="list" className="text-large">
+        <div role='grid' aria-label='list' className='text-large'>
           {items.map((item, index) => (
-            <div role="row" key={item.id || `item-${index}`}
-              className=" lg:m-4">
-              <div role="gridcell">
-                {renderCell(item, ComponentName)}
-              </div>
+            <div
+              role='row'
+              key={item.id || `item-${index}`}
+              className=' lg:m-4'
+            >
+              <div role='gridcell'>{renderCell(item, ComponentName)}</div>
             </div>
           ))}
         </div>

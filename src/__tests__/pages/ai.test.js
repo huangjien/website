@@ -34,16 +34,32 @@ jest.mock("ai", () => ({
 jest.mock("../../components/ai-elements/conversation", () => {
   const React = require("react");
   return {
-    Conversation: ({ children }) => React.createElement("div", { "data-testid": "conversation" }, children),
-    ConversationContent: ({ children }) => React.createElement("div", { "data-testid": "conversation-content" }, children),
+    Conversation: ({ children }) =>
+      React.createElement("div", { "data-testid": "conversation" }, children),
+    ConversationContent: ({ children }) =>
+      React.createElement(
+        "div",
+        { "data-testid": "conversation-content" },
+        children
+      ),
   };
 });
 
 jest.mock("../../components/ai-elements/message", () => {
   const React = require("react");
   return {
-    Message: ({ children, role }) => React.createElement("div", { "data-testid": `message-${role}` }, children),
-    MessageContent: ({ children }) => React.createElement("div", { "data-testid": "message-content" }, children),
+    Message: ({ children, role }) =>
+      React.createElement(
+        "div",
+        { "data-testid": `message-${role}` },
+        children
+      ),
+    MessageContent: ({ children }) =>
+      React.createElement(
+        "div",
+        { "data-testid": "message-content" },
+        children
+      ),
   };
 });
 
@@ -51,7 +67,8 @@ jest.mock("../../components/ai-elements/response", () => {
   const React = require("react");
   return {
     __esModule: true,
-    default: ({ children }) => React.createElement("div", { "data-testid": "response" }, children),
+    default: ({ children }) =>
+      React.createElement("div", { "data-testid": "response" }, children),
   };
 });
 
@@ -59,7 +76,12 @@ jest.mock("../../components/ai-elements/tts-button", () => {
   const React = require("react");
   return {
     __esModule: true,
-    default: ({ text }) => React.createElement("button", { "data-testid": "tts-button" }, text ? "Speak" : "")
+    default: ({ text }) =>
+      React.createElement(
+        "button",
+        { "data-testid": "tts-button" },
+        text ? "Speak" : ""
+      ),
   };
 });
 
@@ -67,24 +89,45 @@ jest.mock("../../components/ai-elements/prompt-input", () => {
   const React = require("react");
   return {
     __esModule: true,
-    default: ({ value, onChange, onSubmit, onStop }) => (
-      React.createElement("div", { "data-testid": "prompt-input" },
+    default: ({ value, onChange, onSubmit, onStop, onToggleSettings }) =>
+      React.createElement(
+        "div",
+        { "data-testid": "prompt-input" },
         React.createElement("input", {
           "data-testid": "prompt-field",
           value: value || "",
           onChange: (e) => onChange && onChange(e.target.value),
         }),
         // For test stability, clicking submit also ensures onChange is invoked with latest value
-        React.createElement("button", {
-          "data-testid": "submit-btn",
-          onClick: () => {
-            try { onChange && onChange(value || ""); } catch {}
-            onSubmit && onSubmit();
-          }
-        }, "Submit"),
-        React.createElement("button", { "data-testid": "stop-btn", onClick: () => onStop && onStop() }, "Stop"),
-      )
-    ),
+        React.createElement(
+          "button",
+          {
+            "data-testid": "submit-btn",
+            onClick: () => {
+              try {
+                onChange && onChange(value || "");
+              } catch {}
+              onSubmit && onSubmit();
+            },
+          },
+          "Submit"
+        ),
+        React.createElement(
+          "button",
+          { "data-testid": "stop-btn", onClick: () => onStop && onStop() },
+          "Stop"
+        ),
+        // Settings toggle button inside PromptInput toolbar
+        React.createElement(
+          "button",
+          {
+            "data-testid": "settings-btn",
+            onClick: () => onToggleSettings && onToggleSettings(),
+            "aria-label": "ai.settings",
+          },
+          "ai.settings"
+        )
+      ),
   };
 });
 
@@ -92,7 +135,12 @@ jest.mock("../../components/ai-elements/settings-panel", () => {
   const React = require("react");
   return {
     __esModule: true,
-    default: ({ settings }) => React.createElement("div", { "data-testid": "settings-panel" }, JSON.stringify(settings || {})),
+    default: ({ settings }) =>
+      React.createElement(
+        "div",
+        { "data-testid": "settings-panel" },
+        JSON.stringify(settings || {})
+      ),
   };
 });
 
@@ -113,7 +161,10 @@ describe("AI Page Component (v5)", () => {
     // Default mocks for storage (stable across re-renders)
     useLocalStorageState.mockReset().mockImplementation((key, opts) => {
       if (key === "ai:settings") {
-        return [{ model: "gpt-4o-mini", temperature: 1, trackSpeed: 300 }, setSettings];
+        return [
+          { model: "gpt-4o-mini", temperature: 1, trackSpeed: 300 },
+          setSettings,
+        ];
       }
       if (key === "ai:conversations") {
         return [[], setSavedMessages];
@@ -123,7 +174,9 @@ describe("AI Page Component (v5)", () => {
 
     // Debounce effect runs immediately for tests
     useDebounceEffect.mockImplementation((fn) => {
-      try { fn?.(); } catch {}
+      try {
+        fn?.();
+      } catch {}
     });
 
     // Default useChat implementation
@@ -143,7 +196,10 @@ describe("AI Page Component (v5)", () => {
   it("should render main container and basic structure", () => {
     render(<AI />);
     expect(screen.getByTestId("ai-container")).toBeInTheDocument();
-    expect(screen.getByText("ai.settings")).toBeInTheDocument();
+    // Settings button is rendered inside PromptInput toolbar
+    expect(
+      screen.getByRole("button", { name: "ai.settings" })
+    ).toBeInTheDocument();
     expect(screen.getByTestId("conversation")).toBeInTheDocument();
     expect(screen.getByTestId("prompt-input")).toBeInTheDocument();
   });
@@ -156,11 +212,20 @@ describe("AI Page Component (v5)", () => {
   it("should initialize local storage states for settings and conversations", () => {
     render(<AI />);
     expect(useLocalStorageState).toHaveBeenNthCalledWith(1, "ai:settings", {
-      defaultValue: { model: "gpt-4o-mini", temperature: 1, trackSpeed: 300 },
+      defaultValue: {
+        model: "gpt-4o-mini",
+        temperature: 1,
+        trackSpeed: 300,
+        ttsVoice: "alloy",
+      },
     });
-    expect(useLocalStorageState).toHaveBeenNthCalledWith(2, "ai:conversations", {
-      defaultValue: [],
-    });
+    expect(useLocalStorageState).toHaveBeenNthCalledWith(
+      2,
+      "ai:conversations",
+      {
+        defaultValue: [],
+      }
+    );
   });
 
   it("should toggle settings panel when settings button is clicked", () => {
@@ -179,7 +244,6 @@ describe("AI Page Component (v5)", () => {
     // experimental_throttle should use settings.trackSpeed
     expect(call.experimental_throttle).toBe(300);
   });
-
 
   it("should call stop when stop button is clicked", async () => {
     render(<AI />);
@@ -213,7 +277,8 @@ describe("AI Page Component (v5)", () => {
 
     // Expect serialization persisted
     expect(setSavedMessages).toHaveBeenCalled();
-    const saved = setSavedMessages.mock.calls[setSavedMessages.mock.calls.length - 1][0];
+    const saved =
+      setSavedMessages.mock.calls[setSavedMessages.mock.calls.length - 1][0];
     expect(Array.isArray(saved)).toBe(true);
     expect(saved.length).toBe(2);
     expect(saved[0]).toHaveProperty("role");

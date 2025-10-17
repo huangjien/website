@@ -1,9 +1,11 @@
 # Refactor UI Framework to shadcn/ui — Implementation Report
 
 ## Summary
+
 This update continues the migration to shadcn/ui (Tailwind + Radix) by refactoring additional components and removing more HeroUI usage. In addition to the earlier Tailwind configuration and Button component work, ThemeSwitch and LanguageSwitch are migrated, new foundational Tooltip and Avatar primitives are added, and the NavigationBar is refactored to use semantic HTML + Tailwind.
 
 ## Scope Implemented
+
 - Tailwind & Theming
   - Removed HeroUI plugin references from `tailwind.config.js`
   - Added `tailwindcss-animate` plugin
@@ -22,6 +24,7 @@ This update continues the migration to shadcn/ui (Tailwind + Radix) by refactori
   - Refactored `src/components/NavigationBar.js` to semantic `nav` + Tailwind styles, using Next.js `Link` and the new `Avatar`
 
 ## Files Changed / Added
+
 - Changed
   - `tailwind.config.js`: add variable-backed colors; keep typography plugin; include `tailwindcss-animate`
   - `src/pages/globals.css`: add CSS variables (`:root`, `.dark`) and base body colors
@@ -37,6 +40,7 @@ This update continues the migration to shadcn/ui (Tailwind + Radix) by refactori
   - Updated `openspec/changes/refactor-ui-framework-to-shadcn/tasks.md` to toggle completed items (2.3, 3.2, 4.10)
 
 ## Validation
+
 - Dev Server
   - Started Next.js dev server at `http://localhost:8081/`
   - Opened preview and observed no browser errors; terminal warnings are unrelated to Tailwind changes
@@ -50,6 +54,7 @@ This update continues the migration to shadcn/ui (Tailwind + Radix) by refactori
   - `globals.css` `@config` directive resolves to project `tailwind.config.js`
 
 ## Remaining Work (Next Steps)
+
 - Migrate remaining HeroUI components to shadcn/ui or Tailwind + Radix
   - Login, IssueList, IssueModal, Chat
   - ConfigurationTab, ConversationTab, Comment, Issue, Joke
@@ -58,10 +63,12 @@ This update continues the migration to shadcn/ui (Tailwind + Radix) by refactori
 - Documentation updates: README and openspec project styling conventions
 
 ## Risks / Notes
+
 - Removing HeroUI prematurely may break pages still depending on it; migration should proceed component-by-component
 - Web styling tokens are now variable-backed; ensure components use `bg-primary`, `text-primary-foreground`, etc.
 
 ## Checklist Status
+
 - 2.3 Define CSS variables in `globals.css`: Completed
 - 3.2 Remove `CssBaseline` in `_document.js`: Completed
 - 4.10 Migrate `layout.js`: Completed

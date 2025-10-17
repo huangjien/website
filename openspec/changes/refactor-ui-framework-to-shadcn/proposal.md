@@ -1,7 +1,9 @@
 ## Why
+
 HeroUI has served us well, but we want a Tailwind-first, locally owned component approach that is more customizable and accessible. shadcn/ui (Radix + Tailwind) aligns with our styling conventions, simplifies theming via next-themes + CSS variables, and reduces external dependency footprint.
 
 ## What Changes
+
 - Big-bang migration: replace all HeroUI usage with shadcn/ui in a single PR
 - Keep Tailwind v4 and follow the latest shadcn guidance for v4; add `tailwindcss-animate`; remove the heroui plugin
 - Provide `cn` utility (clsx + tailwind-merge) for class composition
@@ -15,10 +17,11 @@ HeroUI has served us well, but we want a Tailwind-first, locally owned component
 **BREAKING**: Removes all `@heroui/*` packages and changes component imports and DOM structure throughout the UI.
 
 ## Impact
+
 - Affected specs: ui-framework (new capability)
 - Affected code (non-exhaustive):
-  - src/pages/_app.js (HeroUIProvider removal)
-  - src/pages/_document.js (CssBaseline removal)
+  - src/pages/\_app.js (HeroUIProvider removal)
+  - src/pages/\_document.js (CssBaseline removal)
   - src/pages/layout.js (buttons/spacing/link: @heroui → shadcn/Tailwind)
   - src/components/NavigationBar.js (use NavigationMenu/Menubar)
   - src/components/ThemeSwitch.js (shadcn Button/Tooltip)
@@ -32,12 +35,14 @@ HeroUI has served us well, but we want a Tailwind-first, locally owned component
   - package.json (dependencies/devDependencies changes)
 
 ## Validation Plan
+
 - Build locally and run jest + playwright E2E suite (desktop + mobile)
 - Verify flows: navigation (NavigationMenu/Menubar), language switch, theme switch, login/logout, issues list (Table/pagination), AI page
 - Ensure dark/light themes apply consistently via next-themes and CSS vars
 - Visual sanity checks via Playwright screenshots/videos
 
 ## Rollout
+
 - Branch: `refactor/ui-to-shadcn`
 - Single big-bang PR with comprehensive migration + tests
 - Deploy after merge; archive change under `openspec/changes/archive/YYYY-MM-DD-refactor-ui-framework-to-shadcn/`

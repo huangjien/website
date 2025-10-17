@@ -4,7 +4,11 @@ import { cn } from "../../lib/cn";
 
 export function Tabs({ className, children, ...props }) {
   return (
-    <TabsPrimitive.Root data-testid="tabs" className={cn("w-full", className)} {...props}>
+    <TabsPrimitive.Root
+      data-testid='tabs'
+      className={cn("w-full", className)}
+      {...props}
+    >
       {children}
     </TabsPrimitive.Root>
   );

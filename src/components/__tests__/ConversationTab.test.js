@@ -340,16 +340,20 @@ describe("ConversationTab Component", () => {
     expect(mockStartRecording).toHaveBeenCalled();
   });
 
-  it("should display tooltip with correct content", () => {
+  it("should display tooltip with correct content", async () => {
     render(<ConversationTab {...defaultProps} />);
 
+    const button = screen.getByTestId("button");
+    await act(async () => {
+      userEvent.hover(button);
+      jest.advanceTimersByTime(200); // account for Tooltip delayDuration
+    });
+
     const tooltip = screen.getByTestId("tooltip");
-    const sendNodes = within(tooltip).getAllByText("ai.send_tooltip");
-    const holdNodes = within(tooltip).getAllByText("ai.hold");
-    const sendVisible = sendNodes.find((el) => el.closest('[role="tooltip"]') === null);
-    const holdVisible = holdNodes.find((el) => el.closest('[role="tooltip"]') === null);
-    expect(sendVisible).toBeInTheDocument();
-    expect(holdVisible).toBeInTheDocument();
+    expect(
+      within(tooltip).getAllByText("ai.send_tooltip").length
+    ).toBeGreaterThan(0);
+    expect(within(tooltip).getAllByText("ai.hold").length).toBeGreaterThan(0);
   });
 
   it("should use correct placeholder text", () => {

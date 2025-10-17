@@ -6,7 +6,10 @@ import { useTranslation } from "react-i18next";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
 
-import { Conversation, ConversationContent } from "../components/ai-elements/conversation";
+import {
+  Conversation,
+  ConversationContent,
+} from "../components/ai-elements/conversation";
 import { Message, MessageContent } from "../components/ai-elements/message";
 import Response from "../components/ai-elements/response";
 import PromptInput from "../components/ai-elements/prompt-input";
@@ -50,7 +53,12 @@ export default function AI() {
 
   // Settings persisted under ai:* per spec
   const [settings, setSettings] = useLocalStorageState("ai:settings", {
-    defaultValue: { model: "gpt-4o-mini", temperature: 1, trackSpeed: 300, ttsVoice: "alloy" },
+    defaultValue: {
+      model: "gpt-4o-mini",
+      temperature: 1,
+      trackSpeed: 300,
+      ttsVoice: "alloy",
+    },
   });
 
   // Persisted message thread under ai:* per spec
@@ -70,7 +78,11 @@ export default function AI() {
       const legacyConvs = JSON.parse(
         localStorage.getItem("ai-elements/conversations") || "null"
       );
-      if (Array.isArray(legacyConvs) && legacyConvs.length && savedMessages?.length === 0) {
+      if (
+        Array.isArray(legacyConvs) &&
+        legacyConvs.length &&
+        savedMessages?.length === 0
+      ) {
         // Take the latest conversation's messages if available
         const latest = legacyConvs[0]?.messages || [];
         setSavedMessages(
@@ -87,10 +99,24 @@ export default function AI() {
     try {
       // Migrate from QandA/LastAnswer (very old schema)
       const legacyQandA = JSON.parse(localStorage.getItem("QandA") || "null");
-      if (Array.isArray(legacyQandA) && legacyQandA.length && savedMessages?.length === 0) {
+      if (
+        Array.isArray(legacyQandA) &&
+        legacyQandA.length &&
+        savedMessages?.length === 0
+      ) {
         const migrated = legacyQandA.flatMap((item) => [
-          { id: item.id || Math.random().toString(36).slice(2), role: "user", content: item.question, timestamp: item.timestamp || Date.now() },
-          { id: Math.random().toString(36).slice(2), role: "assistant", content: item.answer, timestamp: item.timestamp || Date.now() },
+          {
+            id: item.id || Math.random().toString(36).slice(2),
+            role: "user",
+            content: item.question,
+            timestamp: item.timestamp || Date.now(),
+          },
+          {
+            id: Math.random().toString(36).slice(2),
+            role: "assistant",
+            content: item.answer,
+            timestamp: item.timestamp || Date.now(),
+          },
         ]);
         setSavedMessages(migrated);
       }
@@ -106,14 +132,7 @@ export default function AI() {
   }, []);
 
   // Initialize useChat with initial messages and backend API
-  const {
-    id,
-    messages,
-    sendMessage,
-    stop,
-    status,
-    clearError,
-  } = useChat({
+  const { id, messages, sendMessage, stop, status, clearError } = useChat({
     transport: new DefaultChatTransport({
       api: "/api/chat",
       prepareSendMessagesRequest: ({ messages: outgoing }) => {
@@ -149,7 +168,9 @@ export default function AI() {
 
   // Keep last assistant answer under 1024 chars for optional context in future
   const lastAnswer = useMemo(() => {
-    const latest = [...(messages || [])].reverse().find((m) => m.role === "assistant");
+    const latest = [...(messages || [])]
+      .reverse()
+      .find((m) => m.role === "assistant");
     const content = uiMessageText(latest || {});
     return content.length < 1024 ? content : "";
   }, [messages]);
@@ -195,9 +216,13 @@ export default function AI() {
       const list = savedMessages || [];
       if (list.length > 2000) {
         const now = new Date();
-        const oneMonthAgo = new Date(now.getTime() - 1000 * 60 * 60 * 24 * 30).getTime();
+        const oneMonthAgo = new Date(
+          now.getTime() - 1000 * 60 * 60 * 24 * 30
+        ).getTime();
         const oneMonthTimestamp = Math.round(oneMonthAgo / 1000);
-        const filtered = list.filter((item) => (item.timestamp || 0) > oneMonthTimestamp);
+        const filtered = list.filter(
+          (item) => (item.timestamp || 0) > oneMonthTimestamp
+        );
         setSavedMessages(filtered);
       }
     },
@@ -206,8 +231,11 @@ export default function AI() {
   );
 
   return (
-    <div className="min-h-max w-auto text-lg lg:gap-4 lg:m-4" data-testid="ai-container">
-      <div className="mx-auto w-[90vw]">
+    <div
+      className='min-h-max w-auto text-lg lg:gap-4 lg:m-4'
+      data-testid='ai-container'
+    >
+      <div className='mx-auto w-[90vw]'>
         <Conversation>
           <ConversationContent>
             {(messages || []).map((m) => {
@@ -215,10 +243,17 @@ export default function AI() {
               return (
                 <Message key={m.id} role={m.role}>
                   <MessageContent>
-                    {m.role === "assistant" ? <Response>{text}</Response> : text}
                     {m.role === "assistant" ? (
-                      <div className="mt-2">
-                        <TTSButton text={text} voice={settings?.ttsVoice || "alloy"} />
+                      <Response>{text}</Response>
+                    ) : (
+                      text
+                    )}
+                    {m.role === "assistant" ? (
+                      <div className='mt-2'>
+                        <TTSButton
+                          text={text}
+                          voice={settings?.ttsVoice || "alloy"}
+                        />
                       </div>
                     ) : null}
                   </MessageContent>
@@ -229,19 +264,19 @@ export default function AI() {
         </Conversation>
       </div>
 
-      <div className="mx-auto w-[90vw] mt-6">
+      <div className='mx-auto w-[90vw] mt-6'>
         <PromptInput
           value={prompt}
           onChange={setPrompt}
           onSubmit={handleSend}
           onStop={handleStop}
           onToggleSettings={() => setShowSettings((s) => !s)}
-          className="max-w-none px-0 sm:px-0 lg:px-0"
+          className='max-w-none px-0 sm:px-0 lg:px-0'
         />
       </div>
 
       {showSettings ? (
-        <div className="mx-auto w-[90vw] mt-2">
+        <div className='mx-auto w-[90vw] mt-2'>
           <SettingsPanel settings={settings} setSettings={setSettings} />
         </div>
       ) : null}

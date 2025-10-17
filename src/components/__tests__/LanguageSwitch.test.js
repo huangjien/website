@@ -171,7 +171,9 @@ describe("LanguageSwitch", () => {
     await userEvent.click(screen.getByText("中文(简体)"));
 
     // Component should still render the button
-    expect(screen.getByRole("button", { name: /switch language/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: /switch language/i })
+    ).toBeInTheDocument();
   });
 
   it("does not crash if i18n is missing", () => {

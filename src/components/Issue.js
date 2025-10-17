@@ -43,7 +43,9 @@ export const Issue = ({ issue }) => {
                 </Badge>
               </div>
             ))}
-            <span className='ml-2 text-sm text-muted-foreground'>{subtitleText}</span>
+            <span className='ml-2 text-sm text-muted-foreground'>
+              {subtitleText}
+            </span>
           </Accordion.Trigger>
         </Accordion.Header>
         <Accordion.Content>

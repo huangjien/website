@@ -76,21 +76,21 @@ export const QuestionTabs = ({ append }) => {
   };
 
   return (
-    <Tabs defaultValue="conversation" className="w-auto m-2">
-      <TabsList className="justify-evenly w-full rounded-md bg-muted p-1">
-        <TabsTrigger value="conversation" className="h-12">
-          <h2 className="font-semibold" size={"2em"}>
+    <Tabs defaultValue='conversation' className='w-auto m-2'>
+      <TabsList className='justify-evenly w-full rounded-md bg-muted p-1'>
+        <TabsTrigger value='conversation' className='h-12'>
+          <h2 className='font-semibold' size={"2em"}>
             {t("ai.conversation")}
           </h2>
         </TabsTrigger>
-        <TabsTrigger value="configuration" className="h-12">
-          <h2 className="font-semibold" size={"2em"}>
+        <TabsTrigger value='configuration' className='h-12'>
+          <h2 className='font-semibold' size={"2em"}>
             {t("ai.configuration")}
           </h2>
         </TabsTrigger>
       </TabsList>
-      <TabsContent value="conversation" className="mt-2">
-        <div className="rounded-md border bg-background p-4 shadow-sm">
+      <TabsContent value='conversation' className='mt-2'>
+        <div className='rounded-md border bg-background p-4 shadow-sm'>
           <ConversationTab
             questionText={questionText}
             setQuestionText={setQuestionText}
@@ -101,8 +101,8 @@ export const QuestionTabs = ({ append }) => {
           />
         </div>
       </TabsContent>
-      <TabsContent value="configuration" className="mt-2">
-        <div className="rounded-md border bg-background p-4 shadow-sm">
+      <TabsContent value='configuration' className='mt-2'>
+        <div className='rounded-md border bg-background p-4 shadow-sm'>
           <ConfigurationTab
             model={model}
             setModel={setModel}
