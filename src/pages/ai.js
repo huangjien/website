@@ -1,68 +1,249 @@
 "use client";
 
-// Import hooks from ahooks and react-i18next, and UI components
+import React, { useEffect, useMemo, useState } from "react";
 import { useLocalStorageState, useTitle, useDebounceEffect } from "ahooks";
 import { useTranslation } from "react-i18next";
-import { IssueList } from "../components/IssueList";
-import { QuestionTabs } from "../components/QuestionTabs";
+import { useChat } from "@ai-sdk/react";
+import { DefaultChatTransport } from "ai";
 
-// Main AI component: manages Q&A content stored in local storage and displays UI components.
+import { Conversation, ConversationContent } from "../components/ai-elements/conversation";
+import { Message, MessageContent } from "../components/ai-elements/message";
+import Response from "../components/ai-elements/response";
+import PromptInput from "../components/ai-elements/prompt-input";
+import SettingsPanel from "../components/ai-elements/settings-panel";
+import TTSButton from "../components/ai-elements/tts-button";
+import { BiCog } from "react-icons/bi";
+
+// Helpers to serialize/hydrate UI messages for localStorage
+function uiMessageText(message) {
+  // Attempt to get text from parts for AI SDK v5
+  if (Array.isArray(message?.parts)) {
+    return message.parts
+      .map((p) => (p?.type === "text" ? p.text : ""))
+      .join("");
+  }
+  // Fallbacks
+  if (typeof message?.content === "string") return message.content;
+  if (typeof message?.text === "string") return message.text;
+  return "";
+}
+
+function serializeMessages(messages) {
+  return (messages || []).map((m) => ({
+    id: m.id,
+    role: m.role,
+    content: uiMessageText(m),
+    timestamp: Date.now(),
+  }));
+}
+
+function hydrateMessages(serialized) {
+  return (serialized || []).map((m) => ({
+    id: m.id || Math.random().toString(36).slice(2),
+    role: m.role,
+    parts: [{ type: "text", text: String(m.content || "") }],
+  }));
+}
+
 export default function AI() {
-  // Retrieve 'QandA' content from local storage; initialize with an empty array if not available.
-  const [content, setContent] = useLocalStorageState("QandA", {
-    defaultValue: [],
-  });
-
-  // Initialize translation hook and set the document title using the 'header.ai' translation key.
   const { t } = useTranslation();
   useTitle(t("header.ai"));
 
-  // Function to append a new Q&A record into the content.
-  const append = (qandA) => {
-    if (!content) {
-      // If content is empty, start with the new Q&A record.
-      setContent([qandA]);
-    } else {
-      // Otherwise, add the new Q&A record to the beginning of the array.
-      setContent([qandA, ...content]);
+  // Settings persisted under ai:* per spec
+  const [settings, setSettings] = useLocalStorageState("ai:settings", {
+    defaultValue: { model: "gpt-4o-mini", temperature: 1, trackSpeed: 300 },
+  });
+
+  // Persisted message thread under ai:* per spec
+  const [savedMessages, setSavedMessages] = useLocalStorageState(
+    "ai:conversations",
+    { defaultValue: [] }
+  );
+
+  // Controlled prompt input (AI SDK v5 does not manage input state)
+  const [prompt, setPrompt] = useState("");
+  const [showSettings, setShowSettings] = useState(false);
+
+  // Migrate legacy keys to ai:* per spec
+  useEffect(() => {
+    try {
+      // Migrate from ai-elements/conversations (previous iteration)
+      const legacyConvs = JSON.parse(
+        localStorage.getItem("ai-elements/conversations") || "null"
+      );
+      if (Array.isArray(legacyConvs) && legacyConvs.length && savedMessages?.length === 0) {
+        // Take the latest conversation's messages if available
+        const latest = legacyConvs[0]?.messages || [];
+        setSavedMessages(
+          latest.map((m) => ({
+            id: m.id || Math.random().toString(36).slice(2),
+            role: m.role,
+            content: m.content,
+            timestamp: Date.now(),
+          }))
+        );
+      }
+    } catch {}
+
+    try {
+      // Migrate from QandA/LastAnswer (very old schema)
+      const legacyQandA = JSON.parse(localStorage.getItem("QandA") || "null");
+      if (Array.isArray(legacyQandA) && legacyQandA.length && savedMessages?.length === 0) {
+        const migrated = legacyQandA.flatMap((item) => [
+          { id: item.id || Math.random().toString(36).slice(2), role: "user", content: item.question, timestamp: item.timestamp || Date.now() },
+          { id: Math.random().toString(36).slice(2), role: "assistant", content: item.answer, timestamp: item.timestamp || Date.now() },
+        ]);
+        setSavedMessages(migrated);
+      }
+    } catch {}
+
+    // Remove legacy keys regardless
+    localStorage.removeItem("QandA");
+    localStorage.removeItem("LastAnswer");
+    localStorage.removeItem("ai-model");
+    localStorage.removeItem("ai-temperature");
+    localStorage.removeItem("ai-elements/conversations");
+    localStorage.removeItem("ai-elements/settings");
+  }, []);
+
+  // Initialize useChat with initial messages and backend API
+  const {
+    id,
+    messages,
+    sendMessage,
+    stop,
+    status,
+    clearError,
+  } = useChat({
+    transport: new DefaultChatTransport({
+      api: "/api/chat",
+      prepareSendMessagesRequest: () => {
+        return {
+          body: {
+            model: settings?.model,
+            temperature: parseFloat(settings?.temperature ?? 1),
+            system: settings?.systemPrompt || undefined,
+          },
+        };
+      },
+    }),
+    id: "ai-page",
+    messages: hydrateMessages(savedMessages),
+    experimental_throttle: settings?.trackSpeed || undefined,
+    onError: (err) => {
+      console.error("useChat error:", err);
+    },
+    onFinish: ({ messages: finalMessages }) => {
+      setSavedMessages(serializeMessages(finalMessages));
+    },
+  });
+
+  // Persist messages on changes (debounced)
+  useDebounceEffect(
+    () => {
+      setSavedMessages(serializeMessages(messages));
+    },
+    [messages],
+    { wait: 500 }
+  );
+
+  // Keep last assistant answer under 1024 chars for optional context in future
+  const lastAnswer = useMemo(() => {
+    const latest = [...(messages || [])].reverse().find((m) => m.role === "assistant");
+    const content = uiMessageText(latest || {});
+    return content.length < 1024 ? content : "";
+  }, [messages]);
+
+  const loading = status === "streaming" || status === "submitted";
+
+  const handleSend = async () => {
+    const question = prompt.trim();
+    if (!question) return;
+    // Include last answer in the prompt optionally (kept for parity with previous behavior)
+    const composed = lastAnswer ? `${question}\n\n${lastAnswer}` : question;
+    try {
+      await sendMessage(composed);
+      setPrompt("");
+    } catch (err) {
+      console.error("sendMessage failed:", err);
+      clearError?.();
     }
   };
 
-  // Debounce effect to limit the frequency of running cleanup logic.
-  // This effect cleans up local storage content if it exceeds 1000 records.
+  const handleStop = () => {
+    try {
+      stop();
+    } catch {}
+  };
+
+  const handleClear = () => {
+    // Clear the message thread
+    setSavedMessages([]);
+    // Reset useChat by reloading the page or clearing persisted initial messages
+    // Minimal approach: update local storage; useChat will reflect on next load
+  };
+
+  // Cleanup policy: if more than 2000 messages, keep last month
   useDebounceEffect(
     () => {
-      // Check if the content array has more than 1000 items.
-      if (content.length > 1000) {
+      const list = savedMessages || [];
+      if (list.length > 2000) {
         const now = new Date();
-        // Calculate the timestamp for one month ago.
-        const oneMonthAgo = new Date(
-          now.getTime() - 1000 * 60 * 60 * 24 * 30
-        ).getTime();
-        // Convert timestamp to seconds.
+        const oneMonthAgo = new Date(now.getTime() - 1000 * 60 * 60 * 24 * 30).getTime();
         const oneMonthTimestamp = Math.round(oneMonthAgo / 1000);
-        // Filter out records older than one month.
-        const newArray = content.filter((item) => {
-          return item.timestamp > oneMonthTimestamp;
-        });
-        // Update the content with the filtered array.
-        setContent(newArray);
+        const filtered = list.filter((item) => (item.timestamp || 0) > oneMonthTimestamp);
+        setSavedMessages(filtered);
       }
     },
-    [content],
-    { wait: 200000 } // Debounce wait time in milliseconds.
+    [savedMessages],
+    { wait: 200000 }
   );
 
-  // Render the AI page with QuestionTabs for input and IssueList for displaying content.
   return (
-    <div
-      className='min-h-max w-auto text-lg lg:gap-4 lg:m-4 '
-      data-testid='ai-container'
-    >
-      {/* Component for managing new Q&A entries; uses the append function to update content */}
-      <QuestionTabs append={append} />
-      {/* Component to display the list of Q&A records or issues */}
-      <IssueList data={content} ComponentName={"Chat"} />
+    <div className="min-h-max w-auto text-lg lg:gap-4 lg:m-4" data-testid="ai-container">
+      <div className="w-full mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 mt-2 mb-4 flex justify-end">
+        <button
+          type="button"
+          onClick={() => setShowSettings((s) => !s)}
+          className="inline-flex items-center gap-2 rounded-md bg-neutral-100 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-100 px-3 py-2 text-sm"
+        >
+          <BiCog /> {t("ai.settings", { defaultValue: "Settings" })}
+        </button>
+      </div>
+      {showSettings ? <SettingsPanel settings={settings} setSettings={setSettings} /> : null}
+      <Conversation>
+        <ConversationContent>
+          {(messages || []).map((m) => {
+            const text = uiMessageText(m);
+            return (
+              <Message key={m.id} role={m.role}>
+                <MessageContent>
+                  {m.role === "assistant" ? <Response>{text}</Response> : text}
+                  {m.role === "assistant" ? (
+                    <div className="mt-2">
+                      <TTSButton text={text} />
+                    </div>
+                  ) : null}
+                </MessageContent>
+              </Message>
+            );
+          })}
+        </ConversationContent>
+      </Conversation>
+
+      {/* Remove standalone Stop/Clear buttons; they are inside the composer now */}
+
+      <PromptInput
+        value={prompt}
+        onChange={setPrompt}
+        onSubmit={handleSend}
+        onStop={handleStop}
+        onClear={handleClear}
+        onTranscribed={(text) => setPrompt((prev) => (prev ? `${prev}\n${text}` : text))}
+        streaming={loading}
+        disabled={loading}
+        placeholder={t("ai.prompt", { defaultValue: "Type your prompt…" })}
+      />
     </div>
   );
 }

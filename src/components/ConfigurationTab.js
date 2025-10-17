@@ -1,7 +1,8 @@
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Input, Select, SelectItem } from "@heroui/react";
-import { useSettings } from "@/lib/useSettings";
+import Input from "./ui/input";
+import { Select, SelectItem } from "./ui/select";
+import { useSettings } from "../lib/useSettings";
 
 /**
  * Configuration tab component for AI settings

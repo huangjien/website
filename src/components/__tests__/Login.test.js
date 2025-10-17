@@ -27,63 +27,6 @@ jest.mock("react-i18next", () => ({
   }),
 }));
 
-// Mock @heroui/react components
-jest.mock("@heroui/react", () => ({
-  Dropdown: ({ children }) => <div data-testid='dropdown'>{children}</div>,
-  DropdownTrigger: ({ children }) => (
-    <div data-testid='dropdown-trigger'>{children}</div>
-  ),
-  DropdownMenu: ({ children, onAction }) => {
-    return (
-      <div
-        data-testid='dropdown-menu'
-        data-onaction={onAction ? "true" : "false"}
-      >
-        {React.Children.map(children, (child) => {
-          if (React.isValidElement(child)) {
-            return React.cloneElement(child, { onAction });
-          }
-          return child;
-        })}
-      </div>
-    );
-  },
-  DropdownItem: ({ children, keyValue, startContent, onAction }) => (
-    <div
-      data-testid='dropdown-item'
-      data-action={keyValue}
-      onClick={() => onAction && onAction(keyValue)}
-    >
-      {startContent}
-      {children}
-    </div>
-  ),
-  DropdownSection: ({ children, title, onAction }) => (
-    <div data-testid='dropdown-section'>
-      <div data-testid='section-title'>{title}</div>
-      {React.Children.map(children, (child) => {
-        if (React.isValidElement(child)) {
-          return React.cloneElement(child, { onAction, keyValue: child.key });
-        }
-        return child;
-      })}
-    </div>
-  ),
-
-  Button: ({ children, variant, onPress, startContent }) => (
-    <button data-testid='button' data-variant={variant} onClick={onPress}>
-      {startContent}
-      {children}
-    </button>
-  ),
-  User: ({ name, description, avatarProps }) => (
-    <div data-testid='user'>
-      <div data-testid='user-avatar' data-src={avatarProps?.src} />
-      <div data-testid='user-name'>{name}</div>
-      <div data-testid='user-description'>{description}</div>
-    </div>
-  ),
-}));
 
 // Mock react-icons
 jest.mock("react-icons/md", () => ({
@@ -111,7 +54,7 @@ describe("Login Component", () => {
 
     expect(screen.getByText("Login")).toBeInTheDocument();
     expect(screen.getByTestId("login-icon")).toBeInTheDocument();
-    expect(screen.getByTestId("button")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /login/i })).toBeInTheDocument();
   });
 
   it("should render user dropdown when authenticated", () => {
@@ -130,16 +73,10 @@ describe("Login Component", () => {
 
     render(<Login />);
 
-    expect(screen.getByTestId("dropdown")).toBeInTheDocument();
-    expect(screen.getByTestId("user")).toBeInTheDocument();
-    expect(screen.getByTestId("user-name")).toHaveTextContent("John Doe");
-    expect(screen.getByTestId("user-description")).toHaveTextContent(
-      "john@example.com"
-    );
-    expect(screen.getByTestId("user-avatar")).toHaveAttribute(
-      "data-src",
-      "https://example.com/avatar.jpg"
-    );
+    const trigger = screen.getByRole("button", { name: /user menu/i });
+    expect(trigger).toBeInTheDocument();
+    expect(screen.getByText("John Doe")).toBeInTheDocument();
+    expect(screen.getByText("john@example.com")).toBeInTheDocument();
   });
 
   it("should call signIn when login button is clicked", async () => {
@@ -151,13 +88,13 @@ describe("Login Component", () => {
 
     render(<Login />);
 
-    const loginButton = screen.getByTestId("button");
+    const loginButton = screen.getByRole("button", { name: /login/i });
     await user.click(loginButton);
 
     expect(mockSignIn).toHaveBeenCalledWith("github");
   });
 
-  it("should render dropdown menu items when authenticated", () => {
+  it("should render dropdown menu items when authenticated", async () => {
     const mockSession = {
       user: {
         name: "John Doe",
@@ -173,8 +110,12 @@ describe("Login Component", () => {
 
     render(<Login />);
 
+    const trigger = screen.getByRole("button", { name: /user menu/i });
+    await userEvent.click(trigger);
+
     expect(screen.getByText("Settings")).toBeInTheDocument();
     expect(screen.getByText("Logout")).toBeInTheDocument();
+    expect(screen.getByText("Message")).toBeInTheDocument();
     expect(screen.getByTestId("settings-icon")).toBeInTheDocument();
     expect(screen.getByTestId("logout-icon")).toBeInTheDocument();
   });
@@ -196,11 +137,10 @@ describe("Login Component", () => {
 
     render(<Login />);
 
-    const logoutItem = Array.from(screen.getAllByTestId("dropdown-item")).find(
-      (item) => item.getAttribute("data-action") === "logout"
-    );
+    const trigger = screen.getByRole("button", { name: /user menu/i });
+    await user.click(trigger);
 
-    await user.click(logoutItem);
+    await user.click(screen.getByText("Logout"));
 
     expect(mockSignOut).toHaveBeenCalled();
   });
@@ -229,11 +169,10 @@ describe("Login Component", () => {
 
     render(<Login />);
 
-    const settingsItem = Array.from(
-      screen.getAllByTestId("dropdown-item")
-    ).find((item) => item.getAttribute("data-action") === "settings");
+    const trigger = screen.getByRole("button", { name: /user menu/i });
+    await user.click(trigger);
 
-    await user.click(settingsItem);
+    await user.click(screen.getByText("Settings"));
 
     expect(mockOpen).toHaveBeenCalledWith("/settings", "_blank");
   });
@@ -266,7 +205,8 @@ describe("Login Component", () => {
 
     render(<Login />);
 
-    expect(screen.getByTestId("user-avatar")).toHaveAttribute("data-src", "");
+    // Fallback initial should render
+    expect(screen.getByText(/^J$/)).toBeInTheDocument();
   });
 
   it("should handle user without email", () => {
@@ -285,7 +225,8 @@ describe("Login Component", () => {
 
     render(<Login />);
 
-    expect(screen.getByTestId("user-description")).toHaveTextContent("");
+    // Email text should not render
+    expect(screen.queryByText("john@example.com")).not.toBeInTheDocument();
   });
 
   it("should handle user without name", () => {
@@ -304,7 +245,8 @@ describe("Login Component", () => {
 
     render(<Login />);
 
-    expect(screen.getByTestId("user-name")).toHaveTextContent("");
+    // Fallback should be '?'
+    expect(screen.getByText("?")) .toBeInTheDocument();
   });
 
   it("should render button with correct variant", () => {
@@ -315,11 +257,11 @@ describe("Login Component", () => {
 
     render(<Login />);
 
-    const button = screen.getByTestId("button");
-    expect(button).toHaveAttribute("data-variant", "flat");
+    const button = screen.getByRole("button", { name: /login/i });
+    expect(button).toHaveAttribute("title", "Login");
   });
 
-  it("should handle dropdown section correctly", () => {
+  it("should handle dropdown section correctly", async () => {
     const mockSession = {
       user: {
         name: "John Doe",
@@ -335,8 +277,11 @@ describe("Login Component", () => {
 
     render(<Login />);
 
-    expect(screen.getByTestId("dropdown-section")).toBeInTheDocument();
-    expect(screen.getByTestId("section-title")).toHaveTextContent("Message");
+    const trigger = screen.getByRole("button", { name: /user menu/i });
+    await userEvent.click(trigger);
+
+    // The menu label should render
+    expect(screen.getByText("Message")).toBeInTheDocument();
   });
 
   it("should handle missing session data gracefully", () => {
@@ -379,18 +324,10 @@ describe("Login Component", () => {
 
     render(<Login />);
 
-    const dropdownMenu = screen.getByTestId("dropdown-menu");
+    const trigger = screen.getByRole("button", { name: /user menu/i });
+    await user.click(trigger);
 
-    // Simulate clicking with unknown action
-    const mockEvent = {
-      target: {
-        getAttribute: () => "unknown-action",
-      },
-    };
-
-    fireEvent.click(dropdownMenu, mockEvent);
-
-    // Should not crash or call any auth functions
-    expect(mockSignOut).not.toHaveBeenCalled();
+    // No action selected; should not sign out
+    expect(signOut).not.toHaveBeenCalled();
   });
 });

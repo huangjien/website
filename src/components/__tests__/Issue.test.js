@@ -4,6 +4,7 @@ import { Issue } from "../Issue";
 import { useTranslation } from "react-i18next";
 import { useSettings } from "../../lib/useSettings";
 import { extractContentAccordingContentList } from "../../lib/useGithubContent";
+import userEvent from "@testing-library/user-event";
 
 // Mock react-i18next
 jest.mock("react-i18next", () => ({
@@ -36,41 +37,18 @@ jest.mock("react-markdown", () => {
 jest.mock("rehype-raw", () => ({}));
 jest.mock("remark-gfm", () => ({}));
 
-// Mock @heroui/react components
-jest.mock("@heroui/react", () => ({
-  Accordion: ({ children, className, shadow, bordered }) => (
-    <div
-      data-testid='accordion'
-      className={className}
-      data-shadow={shadow}
-      data-bordered={bordered}
-    >
-      {children}
-    </div>
-  ),
-  AccordionItem: ({ children, title, subtitle, "aria-label": ariaLabel }) => (
-    <div data-testid='accordion-item' aria-label={ariaLabel}>
-      <div data-testid='accordion-title'>{title}</div>
-      <div data-testid='accordion-subtitle'>{subtitle}</div>
-      <div data-testid='accordion-content'>{children}</div>
-    </div>
-  ),
-  Chip: ({ children, color, variant, size, className }) => (
-    <span
-      data-testid='chip'
-      data-color={color}
-      data-variant={variant}
-      data-size={size}
-      className={className}
-    >
-      {children}
-    </span>
-  ),
-}));
+// Using real Radix Accordion and shadcn local components; no HeroUI mocks.
 
 // Mock react-icons
 jest.mock("react-icons/md", () => ({
   MdComment: () => <div data-testid='comment-icon' />,
+}));
+
+// Mock Comment component to avoid dependency on HeroUI within Comment
+jest.mock("../Comment", () => ({
+  Comment: ({ issue_id }) => (
+    <div data-testid='comment-component' data-issue-id={issue_id} />
+  ),
 }));
 
 describe("Issue Component", () => {
@@ -101,6 +79,10 @@ describe("Issue Component", () => {
     render(<Issue issue={mockIssue} />);
 
     expect(screen.getByText("Test Issue Title")).toBeInTheDocument();
+
+    // Expand accordion to reveal body content
+    fireEvent.click(screen.getByText("Test Issue Title"));
+
     expect(
       screen.getByText("This is a test issue body with some content.")
     ).toBeInTheDocument();
@@ -114,8 +96,8 @@ describe("Issue Component", () => {
     expect(screen.getByText("bug")).toBeInTheDocument();
     expect(screen.getByText("enhancement")).toBeInTheDocument();
 
-    const chips = screen.getAllByTestId("chip");
-    expect(chips.length).toBeGreaterThanOrEqual(2);
+    const labels = screen.getAllByLabelText("label");
+    expect(labels.length).toBeGreaterThanOrEqual(2);
   });
 
   it("should render issue state information", () => {
@@ -197,8 +179,26 @@ describe("Issue Component", () => {
     expect(accordions.length).toBe(1); // Only the main issue accordion
   });
 
-  it("should render markdown content in body", () => {
+  it("should render issue correctly when expanded", async () => {
     render(<Issue issue={mockIssue} />);
+
+    expect(screen.getByText("Test Issue Title")).toBeInTheDocument();
+
+    // Expand accordion to reveal body content
+    await userEvent.click(screen.getByText("Test Issue Title"));
+
+    expect(
+      screen.getByText("This is a test issue body with some content.")
+    ).toBeInTheDocument();
+    const accordions = screen.getAllByTestId("accordion");
+    expect(accordions.length).toBeGreaterThanOrEqual(1);
+  });
+
+  it("should render markdown content in body", async () => {
+    render(<Issue issue={mockIssue} />);
+
+    // Expand accordion to reveal markdown content
+    await userEvent.click(screen.getByText("Test Issue Title"));
 
     expect(screen.getByTestId("markdown")).toBeInTheDocument();
     expect(screen.getByTestId("markdown")).toHaveTextContent(

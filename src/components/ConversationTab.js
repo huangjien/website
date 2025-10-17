@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Textarea, Button, Tooltip, Progress } from "@heroui/react";
+import Textarea from "./ui/textarea";
+import Button from "./ui/button";
+import Tooltip from "./ui/tooltip";
+import Progress from "./ui/progress";
 import { BiMessageRoundedDetail, BiMicrophone } from "react-icons/bi";
 import { useAudioRecording } from "../hooks/useAudioRecording";
 import { warn } from "./Notification";
@@ -63,18 +66,15 @@ const ConversationTab = ({
       <div className='inline-flex justify-items-stretch items-stretch justify-between'>
         <Textarea
           type='text'
-          size='xl'
           aria-label='question text area'
           className='inline-flex m-1 lg:w-10/12 sm:w-8/12 max-h-full'
-          isDisabled={loading}
+          disabled={loading}
           value={questionText}
           placeholder={t("ai.input_placeholder")}
-          onValueChange={(e) => setQuestionText(e)}
+          onChange={(e) => setQuestionText(e.target.value)}
         />
 
         <Tooltip
-          placement='bottom'
-          color='primary'
           content={
             <div className='px-1 py-2'>
               <div>{t("ai.send_tooltip")}</div>
@@ -86,9 +86,11 @@ const ConversationTab = ({
             size='lg'
             type='button'
             aria-label='send'
-            onPressStart={startPress}
-            onPressEnd={endPress}
-            isDisabled={loading}
+            onMouseDown={startPress}
+            onMouseUp={endPress}
+            onTouchStart={startPress}
+            onTouchEnd={endPress}
+            disabled={loading}
             className='justify-center text-primary items-center flex flex-col m-3 lg:w-2/12 sm:w-4/12 max-h-full'
           >
             {hold && (

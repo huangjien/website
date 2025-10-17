@@ -21,37 +21,7 @@ jest.mock("react-markdown", () => {
 jest.mock("rehype-raw", () => ({}));
 jest.mock("remark-gfm", () => ({}));
 
-// Mock @heroui/react components
-jest.mock("@heroui/react", () => ({
-  Accordion: ({ children, className }) => (
-    <div data-testid='accordion' className={className}>
-      {children}
-    </div>
-  ),
-  AccordionItem: ({ children, title, subtitle, "aria-label": ariaLabel }) => (
-    <div data-testid='accordion-item' aria-label={ariaLabel}>
-      <div data-testid='accordion-title'>{title}</div>
-      <div data-testid='accordion-subtitle'>{subtitle}</div>
-      <div data-testid='accordion-content'>{children}</div>
-    </div>
-  ),
-  Chip: ({ children, className, "aria-label": ariaLabel }) => (
-    <span data-testid='chip' className={className} aria-label={ariaLabel}>
-      {children}
-    </span>
-  ),
-  Button: ({ children, onPress, className, size, variant }) => (
-    <button
-      data-testid='button'
-      onClick={onPress}
-      className={className}
-      data-size={size}
-      data-variant={variant}
-    >
-      {children}
-    </button>
-  ),
-}));
+// Using real Radix Accordion and shadcn local components; no HeroUI mocks.
 
 // Mock react-icons
 jest.mock("react-icons/bi", () => ({
@@ -82,12 +52,16 @@ describe("Chat Component", () => {
     jest.clearAllMocks();
   });
 
-  it("should render chat data correctly", () => {
+  it("should render chat data correctly when expanded", () => {
     render(<Chat data={mockData} player={mockPlayer} />);
 
     expect(screen.getByText("What is React?")).toBeInTheDocument();
     expect(screen.getByText("gpt-4")).toBeInTheDocument();
     expect(screen.getByText("0.7")).toBeInTheDocument();
+
+    // Expand accordion to reveal the answer content
+    fireEvent.click(screen.getByText("What is React?"));
+
     expect(
       screen.getByText(
         "React is a JavaScript library for building user interfaces."
@@ -124,7 +98,10 @@ describe("Chat Component", () => {
   it("should handle copy button click", () => {
     render(<Chat data={mockData} player={mockPlayer} />);
 
-    const copyButton = screen.getByTestId("copy-icon").closest("button");
+    // Open accordion to reveal content buttons
+    fireEvent.click(screen.getByText("What is React?"));
+
+    const copyButton = screen.getByRole("button", { name: "copy" });
     fireEvent.click(copyButton);
 
     expect(navigator.clipboard.writeText).toHaveBeenCalledWith(
@@ -135,10 +112,26 @@ describe("Chat Component", () => {
   it("should handle play button click", () => {
     render(<Chat data={mockData} player={mockPlayer} />);
 
-    const playButton = screen.getByTestId("play-icon").closest("button");
+    // Open accordion to reveal content buttons
+    fireEvent.click(screen.getByText("What is React?"));
+
+    const playButton = screen.getByRole("button", { name: "play" });
     fireEvent.click(playButton);
 
     expect(mockPlayer).toHaveBeenCalledWith(
+      "React is a JavaScript library for building user interfaces."
+    );
+  });
+
+  it("should render markdown content correctly", () => {
+    render(<Chat data={mockData} player={mockPlayer} />);
+
+    // Open accordion to reveal content
+    fireEvent.click(screen.getByText("What is React?"));
+
+    const markdownElement = screen.getByTestId("markdown");
+    expect(markdownElement).toBeInTheDocument();
+    expect(markdownElement).toHaveTextContent(
       "React is a JavaScript library for building user interfaces."
     );
   });
@@ -151,16 +144,6 @@ describe("Chat Component", () => {
   it("should not render anything when data is undefined", () => {
     const { container } = render(<Chat data={undefined} player={mockPlayer} />);
     expect(container).toBeEmptyDOMElement();
-  });
-
-  it("should render markdown content correctly", () => {
-    render(<Chat data={mockData} player={mockPlayer} />);
-
-    const markdownElement = screen.getByTestId("markdown");
-    expect(markdownElement).toBeInTheDocument();
-    expect(markdownElement).toHaveTextContent(
-      "React is a JavaScript library for building user interfaces."
-    );
   });
 
   it("should have correct CSS classes", () => {

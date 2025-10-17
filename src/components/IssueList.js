@@ -1,38 +1,24 @@
-import {
-  Table,
-  TableHeader,
-  TableColumn,
-  TableBody,
-  TableRow,
-  TableCell,
-  Pagination,
-  Modal,
-  ModalContent,
-  ModalBody,
-  useDisclosure,
-  Input,
-  Divider,
-} from "@heroui/react";
-import { useState, useMemo, useCallback, useEffect } from "react";
+import React, { useState, useMemo, useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Issue } from "./Issue";
 import { Chat } from "./Chat";
-import { useSettings } from "@/lib/useSettings";
+import { useSettings } from "../lib/useSettings";
 import { BiSearch } from "react-icons/bi";
-import { useLocalStorageState } from "ahooks";
+import Input from "./ui/input";
+import Divider from "./ui/divider";
+import { Dialog, DialogContent, DialogBody } from "./ui/dialog";
 import { Joke } from "./Joke";
 import { IssueModal } from "./IssueModal";
-// import { signIn, signOut, useSession } from 'next-auth/react';
 
 /**
- * Renders a table component that displays a list of issues or chats.
+ * Renders a list component that displays a list of issues or chats.
  * Provides functionality for searching, filtering, pagination, and text-to-speech.
  *
  * @param {Array} tags - An array of tags to filter the data by.
- * @param {string} ComponentName - The name of the component to render for each item in the table.
+ * @param {string} ComponentName - The name of the component to render for each item in the list.
  * @param {Array} data - An array of issue or chat data.
  * @param {string} inTab - The tab name indicating the type of data being displayed. (default: 'ai')
- * @returns {JSX.Element} - The rendered table component with the filtered and paginated data.
+ * @returns {JSX.Element} - The rendered list component with the filtered and paginated data.
  */
 export const IssueList = ({ tags, ComponentName, data, inTab = "ai" }) => {
   const { t } = useTranslation();
@@ -40,23 +26,28 @@ export const IssueList = ({ tags, ComponentName, data, inTab = "ai" }) => {
   const [page, setPage] = useState(1);
   const [audioSrc, setAudioSrc] = useState("");
   const [pages, setPages] = useState(1);
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { languageCode, speakerName } = useSettings();
   const [filterValue, setFilterValue] = useState("");
-  // const { data: session, status } = useSession();
+  const [open, setOpen] = useState(false);
 
   // Reset page when data changes
   useEffect(() => {
     setPage(1);
   }, [data]);
 
+  const handleOpenChange = useCallback((nextOpen) => {
+    setOpen(nextOpen);
+    if (!nextOpen) {
+      setAudioSrc("");
+    }
+  }, []);
+
   const readText = useCallback(
     (text) => {
-      onOpen();
+      setOpen(true);
       handleText2Speech(text);
-      // popup the audio play and put the text in it to read it out loud
     },
-    [onOpen]
+    [setOpen]
   );
 
   const renderCell = useCallback(
@@ -73,13 +64,10 @@ export const IssueList = ({ tags, ComponentName, data, inTab = "ai" }) => {
     [readText]
   );
 
-  const onRowsPerPageChange = useCallback(
-    (e) => {
-      setRowsPerPage(Number(e.target.value));
-      setPage(1);
-    },
-    [setPage, setRowsPerPage]
-  );
+  const onRowsPerPageChange = useCallback((e) => {
+    setRowsPerPage(Number(e.target.value));
+    setPage(1);
+  }, []);
 
   const filterItems = useMemo(() => {
     let filteredData = data || [];
@@ -125,90 +113,79 @@ export const IssueList = ({ tags, ComponentName, data, inTab = "ai" }) => {
     setAudioSrc(audioUrl);
   };
 
-  const stopReading = () => {
-    setAudioSrc("");
-  };
-
   return (
     <div>
-      <Modal
-        isDismissable={false}
-        backdrop={"transparent"}
-        isOpen={isOpen}
-        onOpenChange={onOpenChange}
-        onClose={stopReading}
-      >
-        <ModalContent>
-          {(onClose) => (
-            <ModalBody>
-              <audio disabled={!audioSrc} controls autoPlay src={audioSrc} />
-            </ModalBody>
-          )}
-        </ModalContent>
-      </Modal>
+      <Dialog open={open} onOpenChange={handleOpenChange}>
+        <DialogContent className="m-2">
+          <DialogBody>
+            <audio controls autoPlay src={audioSrc} />
+          </DialogBody>
+        </DialogContent>
+      </Dialog>
       <Joke />
-      <Table
-        className={"text-large"}
-        hideHeader
-        aria-label='list'
-        topContent={
-          <div className='lg:inline-flex flex-wrap  text-lg justify-center lg:gap-8 items-center m-4'>
-            {/* {session && (inTab === 'issue' || inTab === 'settings') && (
-              <IssueModal action={'new'} />
-            )} */}
-            <Input
-              isClearable
-              className='w-auto sm:max-w-[33%] m-4'
-              placeholder={t("global.search")}
-              startContent={<BiSearch />}
-              value={filterValue}
-              onClear={() => setFilterValue("")}
-              onValueChange={setFilterValue}
-            />
-            <span className='text-default-400 text-small'>
-              {t("issue.total", { total: data?.length || 0 })}
-            </span>
-            <Pagination
-              isCompact
-              showControls
-              showShadow
-              color='success'
-              page={page}
-              total={pages}
-              onChange={(page) => setPage(page)}
-            />
-
-            <label className='flex  items-center text-default-400 text-small'>
-              {t("issue.row_per_page")}
-              <select
-                className='bg-transparent outline-none text-default-400 text-small'
-                onChange={onRowsPerPageChange}
-                value={rowsPerPage}
-              >
-                <option value='5'>5</option>
-                <option value='10'>10</option>
-                <option value='15'>15</option>
-              </select>
-            </label>
-            <Divider />
+      <div className={" min-h-max w-auto text-large lg:m-4 "}>
+        <div className="lg:inline-flex flex-wrap  text-lg justify-center lg:gap-8 items-center m-4">
+          {/* {session && (inTab === 'issue' || inTab === 'settings') && (
+            <IssueModal action={'new'} />
+          )} */}
+          <Input
+            isClearable
+            className="w-auto sm:max-w-[33%] m-4"
+            placeholder={t("global.search")}
+            startContent={<BiSearch />}
+            value={filterValue}
+            onClear={() => setFilterValue("")}
+            onChange={(e) => setFilterValue(e.target.value)}
+          />
+          <span className="text-default-400 text-small">
+            {t("issue.total", { total: data?.length || 0 })}
+          </span>
+          <div className="inline-flex items-center gap-2">
+            <button
+              type="button"
+              className="px-3 py-1 rounded-md border"
+              onClick={() => setPage((p) => Math.max(1, p - 1))}
+              aria-label="Previous"
+            >
+              Prev
+            </button>
+            <span className="text-small">{page} / {pages}</span>
+            <button
+              type="button"
+              className="px-3 py-1 rounded-md border"
+              onClick={() => setPage((p) => Math.min(pages, p + 1))}
+              aria-label="Next"
+            >
+              Next
+            </button>
           </div>
-        }
-        className=' min-h-max w-auto text-large lg:m-4 '
-      >
-        <TableHeader>
-          <TableColumn key='id'>id</TableColumn>
-        </TableHeader>
 
-        <TableBody items={items}>
-          {(item, index) => (
-            <TableRow key={item.id || `item-${index}`}>
-              <TableCell className=' lg:m-4'>
+          <label className="flex  items-center text-default-400 text-small">
+            {t("issue.row_per_page")}
+            <select
+              className="bg-transparent outline-none text-default-400 text-small"
+              onChange={onRowsPerPageChange}
+              value={rowsPerPage}
+            >
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="15">15</option>
+            </select>
+          </label>
+          <Divider />
+        </div>
+
+        <div role="grid" aria-label="list" className="text-large">
+          {items.map((item, index) => (
+            <div role="row" key={item.id || `item-${index}`}
+              className=" lg:m-4">
+              <div role="gridcell">
                 {renderCell(item, ComponentName)}
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };

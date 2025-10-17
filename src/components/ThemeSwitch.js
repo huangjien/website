@@ -1,5 +1,6 @@
 "use client";
-import { Button, Tooltip } from "@heroui/react";
+import Button from "./ui/button";
+import Tooltip from "./ui/tooltip";
 import { useTheme } from "next-themes";
 import { useState, useEffect } from "react";
 import { BiMoon, BiSun } from "react-icons/bi";
@@ -25,18 +26,17 @@ export const ThemeSwitch = () => {
   };
 
   return (
-    <Tooltip
-      color='primary'
-      content={theme !== "light" ? t("header.day") : t("header.night")}
-    >
+    <Tooltip content={theme !== "light" ? t("header.day") : t("header.night")}>
       <Button
         aria-label='switch theme'
-        light
-        className=' bg-transparent text-primary '
-        onPress={onChange}
+        variant='ghost'
+        size='icon'
+        className='bg-transparent text-foreground'
+        onClick={onChange}
+        title={theme !== "light" ? t("header.day") : t("header.night")}
       >
-        {theme === "light" && <BiMoon size={"2em"} />}
-        {theme !== "light" && <BiSun size={"2em"} />}
+        {theme === "light" && <BiMoon size={"1.5em"} />}
+        {theme !== "light" && <BiSun size={"1.5em"} />}
       </Button>
     </Tooltip>
   );

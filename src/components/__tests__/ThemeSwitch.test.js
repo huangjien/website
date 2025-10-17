@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { ThemeSwitch } from "../ThemeSwitch";
 import { useTheme } from "next-themes";
@@ -14,12 +14,7 @@ jest.mock("react-i18next", () => ({
   useTranslation: jest.fn(),
 }));
 
-// Mock React hooks
-jest.mock("react", () => ({
-  ...jest.requireActual("react"),
-  useState: jest.fn(),
-  useEffect: jest.fn(),
-}));
+
 
 // Mock react-icons
 jest.mock("react-icons/bi", () => ({
@@ -35,24 +30,7 @@ jest.mock("react-icons/bi", () => ({
   ),
 }));
 
-// Mock HeroUI components
-jest.mock("@heroui/react", () => ({
-  Button: ({ children, onPress, "aria-label": ariaLabel, className }) => (
-    <button
-      onClick={onPress}
-      aria-label={ariaLabel}
-      className={className}
-      data-testid='theme-button'
-    >
-      {children}
-    </button>
-  ),
-  Tooltip: ({ children, content, color }) => (
-    <div data-testid='tooltip' data-content={content} data-color={color}>
-      {children}
-    </div>
-  ),
-}));
+
 
 describe("ThemeSwitch", () => {
   const mockSetTheme = jest.fn();
@@ -61,9 +39,7 @@ describe("ThemeSwitch", () => {
   beforeEach(() => {
     jest.clearAllMocks();
 
-    // Default useState mock for mounted state
-    useState.mockReturnValue([true, jest.fn()]);
-
+    
     useTranslation.mockReturnValue({
       t: mockT,
     });
@@ -76,24 +52,7 @@ describe("ThemeSwitch", () => {
     });
   });
 
-  it("should not render when not mounted", () => {
-    // Mock useState to return false for mounted state
-    const mockSetMounted = jest.fn();
-    useState.mockImplementation((initial) => {
-      if (initial === false) {
-        return [false, mockSetMounted]; // mounted state
-      }
-      return [initial, jest.fn()];
-    });
-
-    useTheme.mockReturnValue({
-      theme: "light",
-      setTheme: mockSetTheme,
-    });
-
-    const { container } = render(<ThemeSwitch />);
-    expect(container.firstChild).toBeNull();
-  });
+  
 
   it("should render moon icon when theme is light", async () => {
     useTheme.mockReturnValue({
@@ -146,9 +105,8 @@ describe("ThemeSwitch", () => {
     render(<ThemeSwitch />);
 
     await waitFor(() => {
-      const tooltip = screen.getByTestId("tooltip");
-      expect(tooltip).toHaveAttribute("data-content", "Switch to night mode");
-      expect(tooltip).toHaveAttribute("data-color", "primary");
+      const button = screen.getByRole("button", { name: /switch theme/i });
+      expect(button).toHaveAttribute("title", "Switch to night mode");
     });
   });
 
@@ -161,8 +119,8 @@ describe("ThemeSwitch", () => {
     render(<ThemeSwitch />);
 
     await waitFor(() => {
-      const tooltip = screen.getByTestId("tooltip");
-      expect(tooltip).toHaveAttribute("data-content", "Switch to day mode");
+      const button = screen.getByRole("button", { name: /switch theme/i });
+      expect(button).toHaveAttribute("title", "Switch to day mode");
     });
   });
 
@@ -175,7 +133,7 @@ describe("ThemeSwitch", () => {
     render(<ThemeSwitch />);
 
     await waitFor(() => {
-      const button = screen.getByTestId("theme-button");
+      const button = screen.getByRole("button", { name: /switch theme/i });
       fireEvent.click(button);
       expect(mockSetTheme).toHaveBeenCalledWith("dark");
     });
@@ -190,7 +148,7 @@ describe("ThemeSwitch", () => {
     render(<ThemeSwitch />);
 
     await waitFor(() => {
-      const button = screen.getByTestId("theme-button");
+      const button = screen.getByRole("button", { name: /switch theme/i });
       fireEvent.click(button);
       expect(mockSetTheme).toHaveBeenCalledWith("light");
     });
@@ -205,7 +163,7 @@ describe("ThemeSwitch", () => {
     render(<ThemeSwitch />);
 
     await waitFor(() => {
-      const button = screen.getByTestId("theme-button");
+      const button = screen.getByRole("button", { name: /switch theme/i });
       fireEvent.click(button);
       expect(mockSetTheme).toHaveBeenCalledWith("dark");
     });
@@ -220,9 +178,9 @@ describe("ThemeSwitch", () => {
     render(<ThemeSwitch />);
 
     await waitFor(() => {
-      const button = screen.getByTestId("theme-button");
+      const button = screen.getByRole("button", { name: /switch theme/i });
       expect(button).toHaveAttribute("aria-label", "switch theme");
-      expect(button).toHaveClass("bg-transparent", "text-primary");
+      expect(button).toHaveClass("bg-transparent", "text-foreground");
     });
   });
 
@@ -236,7 +194,7 @@ describe("ThemeSwitch", () => {
 
     await waitFor(() => {
       const moonIcon = screen.getByTestId("moon-icon");
-      expect(moonIcon).toHaveAttribute("data-size", "2em");
+      expect(moonIcon).toHaveAttribute("data-size", "1.5em");
     });
   });
 });

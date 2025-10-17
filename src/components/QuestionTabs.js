@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Tabs, Tab, Card, CardBody } from "@heroui/react";
 import { success, error } from "./Notification";
 import { useLocalStorageState } from "ahooks";
 import { getAnswer } from "../lib/aiService";
 import ConversationTab from "./ConversationTab";
 import ConfigurationTab from "./ConfigurationTab";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "./ui/tabs";
 
 export const QuestionTabs = ({ append }) => {
   // append is the method add Q and A to parent content list
@@ -76,55 +76,43 @@ export const QuestionTabs = ({ append }) => {
   };
 
   return (
-    <Tabs
-      radius='md w-auto m-2'
-      size='lg'
-      className={{
-        tabList: " justify-evenly w-full relative rounded m-0 ",
-        cursor: "w-full ",
-        tab: "w-fit  h-12",
-      }}
-    >
-      <Tab
-        title={
-          <h2 className=' font-semibold' size={"2em"}>
+    <Tabs defaultValue="conversation" className="w-auto m-2">
+      <TabsList className="justify-evenly w-full rounded-md bg-muted p-1">
+        <TabsTrigger value="conversation" className="h-12">
+          <h2 className="font-semibold" size={"2em"}>
             {t("ai.conversation")}
           </h2>
-        }
-      >
-        <Card>
-          <CardBody>
-            <ConversationTab
-              questionText={questionText}
-              setQuestionText={setQuestionText}
-              loading={loading}
-              onSubmit={handleSubmit}
-              onClear={clearText}
-              trackSpeed={trackSpeed}
-            />
-          </CardBody>
-        </Card>
-      </Tab>
-      <Tab
-        title={
-          <h2 className=' font-semibold' size={"2em"}>
+        </TabsTrigger>
+        <TabsTrigger value="configuration" className="h-12">
+          <h2 className="font-semibold" size={"2em"}>
             {t("ai.configuration")}
           </h2>
-        }
-      >
-        <Card>
-          <CardBody>
-            <ConfigurationTab
-              model={model}
-              setModel={setModel}
-              temperature={temperature}
-              setTemperature={setTemperature}
-              trackSpeed={trackSpeed}
-              setTrackSpeed={setTrackSpeed}
-            />
-          </CardBody>
-        </Card>
-      </Tab>
+        </TabsTrigger>
+      </TabsList>
+      <TabsContent value="conversation" className="mt-2">
+        <div className="rounded-md border bg-background p-4 shadow-sm">
+          <ConversationTab
+            questionText={questionText}
+            setQuestionText={setQuestionText}
+            loading={loading}
+            onSubmit={handleSubmit}
+            onClear={clearText}
+            trackSpeed={trackSpeed}
+          />
+        </div>
+      </TabsContent>
+      <TabsContent value="configuration" className="mt-2">
+        <div className="rounded-md border bg-background p-4 shadow-sm">
+          <ConfigurationTab
+            model={model}
+            setModel={setModel}
+            temperature={temperature}
+            setTemperature={setTemperature}
+            trackSpeed={trackSpeed}
+            setTrackSpeed={setTrackSpeed}
+          />
+        </div>
+      </TabsContent>
     </Tabs>
   );
 };

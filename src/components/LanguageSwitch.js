@@ -1,16 +1,10 @@
-import {
-  Dropdown,
-  DropdownTrigger,
-  DropdownMenu,
-  DropdownItem,
-  Button,
-  Tooltip,
-} from "@heroui/react";
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { useTranslation } from "react-i18next";
 import { BiGlobe } from "react-icons/bi";
 import { languages } from "../locales/i18n";
 import { useSettings } from "../lib/useSettings";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
+import Button from "./ui/button";
 
 export const LanguageSwitch = () => {
   const {
@@ -19,18 +13,16 @@ export const LanguageSwitch = () => {
     currentLanguage,
     setSpeakerName,
   } = useSettings();
-  const [language, setLanguage] = useState(new Set([currentLanguage]));
   const { t, i18n } = useTranslation();
 
-  const chooseLanguage = (lang) => {
-    var it = lang.values();
-    //get first entry:
-    var first = it.next();
-    //get value out of the iterator entry:
-    var value = first.value;
-    setLanguage(lang);
+  const chooseLanguageKey = (key) => {
     try {
-      setCurrentLanguage(value);
+      const selected = languages.find((l) => l.key === key);
+      if (selected) {
+        setLanguageCode(selected.languageCode);
+        setSpeakerName(selected.name);
+      }
+      setCurrentLanguage(key);
     } catch (error) {
       console.error("Failed to change language", error);
     }
@@ -52,28 +44,35 @@ export const LanguageSwitch = () => {
   }, [currentLanguage, setLanguageCode, setSpeakerName, i18n]);
 
   return (
-    <Dropdown placement='bottom-left'>
-      <DropdownTrigger>
+    <DropdownMenu.Root>
+      <DropdownMenu.Trigger asChild>
         <Button
           aria-label='switch language'
-          light
-          isIconOnly
-          className=' bg-transparent text-primary '
+          variant='ghost'
+          size='icon'
+          className='bg-transparent text-foreground'
+          title={t("header.language")}
         >
-          <BiGlobe size='2em' />
+          <BiGlobe size='1.5em' />
         </Button>
-      </DropdownTrigger>
-      <DropdownMenu
-        disallowEmptySelection
-        selectionMode='single'
-        selectedKeys={language}
-        items={languages}
-        className='text-inherit text-primary'
-        onSelectionChange={chooseLanguage}
-        aria-label='language'
+      </DropdownMenu.Trigger>
+      <DropdownMenu.Content
+        sideOffset={6}
+        className='z-50 min-w-[10rem] rounded-md border bg-popover p-1 text-popover-foreground shadow-md'
       >
-        {(item) => <DropdownItem key={item.key}>{item.value}</DropdownItem>}
-      </DropdownMenu>
-    </Dropdown>
+        {languages.map((item) => (
+          <DropdownMenu.Item
+            key={item.key}
+            className='flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground'
+            onSelect={() => chooseLanguageKey(item.key)}
+          >
+            {item.value}
+            {currentLanguage === item.key && (
+              <span className='ml-auto text-xs text-muted-foreground'>✓</span>
+            )}
+          </DropdownMenu.Item>
+        ))}
+      </DropdownMenu.Content>
+    </DropdownMenu.Root>
   );
 };

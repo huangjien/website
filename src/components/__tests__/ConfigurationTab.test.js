@@ -13,82 +13,13 @@ jest.mock("react-i18next", () => ({
 
 // Mock useSettings hook
 const mockGetSetting = jest.fn();
-jest.mock("@/lib/useSettings", () => ({
+jest.mock("../../lib/useSettings", () => ({
   useSettings: () => ({
     getSetting: mockGetSetting,
   }),
 }));
 
-// Mock @heroui/react components
-jest.mock("@heroui/react", () => ({
-  Input: ({
-    label,
-    placeholder,
-    value,
-    onChange,
-    type,
-    min,
-    max,
-    step,
-    className,
-    ...props
-  }) => (
-    <div data-testid='input-wrapper' className={className}>
-      <label data-testid='input-label'>{label}</label>
-      <input
-        data-testid='input'
-        type={type}
-        placeholder={placeholder}
-        value={value}
-        onChange={onChange}
-        min={min}
-        max={max}
-        step={step}
-        {...props}
-      />
-    </div>
-  ),
-  Select: ({
-    label,
-    placeholder,
-    selectedKeys,
-    onSelectionChange,
-    className,
-    children,
-  }) => (
-    <div data-testid='select-wrapper' className={className}>
-      <label data-testid='select-label'>{label}</label>
-      <select
-        data-testid='select'
-        value={selectedKeys?.[0] || ""}
-        onChange={(e) =>
-          onSelectionChange && onSelectionChange(new Set([e.target.value]))
-        }
-        placeholder={placeholder}
-      >
-        <option value='' disabled>
-          {placeholder}
-        </option>
-        {React.Children.map(children, (child) => {
-          if (React.isValidElement(child)) {
-            return (
-              <option key={child.key} value={child.key}>
-                {child.props.children}
-              </option>
-            );
-          }
-          return null;
-        })}
-      </select>
-    </div>
-  ),
-  SelectItem: ({ children, value }) => (
-    <option data-testid='select-item' value={value}>
-      {children}
-    </option>
-  ),
-}));
-
+// Removed legacy @heroui/react component mocks. Tests now rely on actual shadcn-ui Input and Select components in src/components/ui/* which provide the same testIDs.
 describe("ConfigurationTab Component", () => {
   const defaultProps = {
     model: "gpt-4.1-mini",

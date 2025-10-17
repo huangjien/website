@@ -19,7 +19,20 @@
     "question_length": "Length of question",
     "answer_length": "Length of answer",
     "return_error": "AI request return error",
-    "return_length": "We receive an answer from AI.\nAnswer length"
+    "return_length": "We receive an answer from AI.\nAnswer length",
+    "prompt": "Ask anything...",
+    "stop": "Stop",
+    "clear": "Clear",
+    "settings": "Settings",
+    "history": "History",
+    "stream": "Stream",
+    "system_prompt": "System prompt",
+    "mic": "Mic",
+    "recording": "Recording…",
+    "play": "Play",
+    "loading": "Loading…",
+    "login_required": "Login required to use TTS",
+    "tts_failed": "Text-to-speech failed"
   },
   "header": {
     "herohub": "HeroHub",
