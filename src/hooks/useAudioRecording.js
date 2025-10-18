@@ -9,45 +9,70 @@ export const useAudioRecording = () => {
   const mediaRecorder = useRef(null);
   const [stream, setStream] = useState(null);
   const [audioSrc, setAudioSrc] = useState("");
-  const [audio, setAudio] = useState(true);
-  const mimeType = "audio/mp3";
+  const [audio, setAudio] = useState([]);
+  const mimeTypeRef = useRef("");
+
+  const pickSupportedMimeType = () => {
+    const candidates = [
+      "audio/webm;codecs=opus",
+      "audio/webm",
+      "audio/ogg;codecs=opus",
+      "audio/ogg",
+    ];
+    if (typeof MediaRecorder?.isTypeSupported === "function") {
+      for (const t of candidates) {
+        try {
+          if (MediaRecorder.isTypeSupported(t)) return t;
+        } catch {}
+      }
+    }
+    return ""; // Let the browser choose default
+  };
 
   const startRecording = async () => {
-    if (navigator?.mediaDevices?.getUserMedia) {
-      navigator.mediaDevices
-        .getUserMedia({
-          audio: true,
-        })
-        .then((stream) => {
-          setStream(stream);
-        })
-        .catch((err) => {
-          error(`The following getUserMedia error occurred: ${err}`);
-        });
-    } else {
+    if (!navigator?.mediaDevices?.getUserMedia) {
       warn("getUserMedia not supported on your browser!");
-      return; // Exit early if getUserMedia is not supported
+      return;
     }
 
-    // Second getUserMedia call with proper error handling
-    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      await navigator.mediaDevices
-        .getUserMedia({ audio: true })
-        .then((stream) => {
-          setStream(stream);
-          mediaRecorder.current = new MediaRecorder(stream, { type: mimeType });
-          mediaRecorder.current.start();
-          const localAudioChunks = [];
-          mediaRecorder.current.ondataavailable = (event) => {
-            if (typeof event.data == "undefined") return;
-            if (event.data.size == 0) return;
-            localAudioChunks.push(event.data);
-          };
-          setAudio(localAudioChunks);
-        })
-        .catch((err) => {
-          error(`The following getUserMedia error occurred: ${err}`);
-        });
+    // First call remains to preserve existing behavior
+    navigator.mediaDevices
+      .getUserMedia({ audio: true })
+      .then((s) => {
+        setStream(s);
+      })
+      .catch((err) => {
+        error(`The following getUserMedia error occurred: ${err}`);
+      });
+
+    // Second call initializes the recorder
+    try {
+      const s2 = await navigator.mediaDevices.getUserMedia({ audio: true });
+      setStream(s2);
+
+      // Choose a supported mimeType if available
+      mimeTypeRef.current = pickSupportedMimeType();
+
+      try {
+        mediaRecorder.current = mimeTypeRef.current
+          ? new MediaRecorder(s2, { mimeType: mimeTypeRef.current })
+          : new MediaRecorder(s2);
+      } catch (err) {
+        error(err?.message || "MediaRecorder initialization failed");
+        return;
+      }
+
+      mediaRecorder.current.start();
+      const localAudioChunks = [];
+      mediaRecorder.current.ondataavailable = (event) => {
+        if (typeof event.data === "undefined") return;
+        if (event.data.size === 0) return;
+        localAudioChunks.push(event.data);
+      };
+      // Store reference to chunks for use on stop
+      setAudio(localAudioChunks);
+    } catch (err) {
+      error(`The following getUserMedia error occurred: ${err}`);
     }
   };
 
@@ -58,7 +83,8 @@ export const useAudioRecording = () => {
     }
     mediaRecorder.current.stop();
     mediaRecorder.current.onstop = async () => {
-      const audioBlob = new Blob(audio, { type: mimeType });
+      const mime = mimeTypeRef.current || "audio/webm";
+      const audioBlob = new Blob(audio, { type: mime });
       const audioUrl = URL.createObjectURL(audioBlob);
       setAudioSrc(audioUrl);
       setAudio([]);

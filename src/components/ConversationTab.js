@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import Textarea from "./ui/textarea";
 import Button from "./ui/button";
@@ -24,24 +24,34 @@ const ConversationTab = ({
     useAudioRecording();
   const [hold, setHold] = useState(false);
   const [longPressDetected, setLongPressDetected] = useState(false);
-  let pressTimer = null;
+  const pressTimerRef = useRef(null);
 
-  const startPress = () => {
+  const startPress = (e) => {
+    e?.preventDefault?.();
     setLongPressDetected(false);
-    pressTimer = setTimeout(async () => {
+    // Use a ref to store the timer across renders
+    pressTimerRef.current = setTimeout(async () => {
       setHold(true);
       setLongPressDetected(true);
       await startRecording();
     }, trackSpeed);
   };
 
-  const endPress = () => {
-    clearTimeout(pressTimer);
+  const endPress = (e) => {
+    e?.preventDefault?.();
+    // Clear any pending long-press timer safely
+    if (pressTimerRef.current) {
+      clearTimeout(pressTimerRef.current);
+      pressTimerRef.current = null;
+    }
+
     if (longPressDetected) {
+      // End recording and update the textarea with transcribed text
       stopRecording((transcribedText) => {
         setQuestionText(transcribedText);
       });
     } else {
+      // Treat as a normal click: submit text
       if (questionText === undefined || questionText?.length < 5) {
         warn("Please input a meaningful question");
       } else {
@@ -88,8 +98,11 @@ const ConversationTab = ({
             aria-label='send'
             onMouseDown={startPress}
             onMouseUp={endPress}
+            onMouseLeave={endPress}
             onTouchStart={startPress}
             onTouchEnd={endPress}
+            onTouchCancel={endPress}
+            onContextMenu={(e) => e.preventDefault()}
             disabled={loading}
             className='justify-center text-primary items-center flex flex-col m-3 lg:w-2/12 sm:w-4/12 max-h-full'
           >
