@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import { BiChip, BiCog, BiDetail, BiHome } from "react-icons/bi";
 import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import Login from "./Login";
 import { useTheme } from "next-themes";
 import { ThemeSwitch } from "./ThemeSwitch";
@@ -34,19 +33,15 @@ export const NavigationBar = () => {
           <Link className='flex items-center gap-2 hover:underline' href='/'>
             <BiHome size='1.5em' /> {t("header.home")}
           </Link>
-          {/* {status === "authenticated" && ( */}
           <Link className='flex items-center gap-2 hover:underline' href='/ai'>
             <BiChip size='1.5em' /> {t("header.ai")}
           </Link>
-          {/* )} */}
-          {/* {status === "authenticated" && ( */}
           <Link
             className='flex items-center gap-2 hover:underline'
             href='/settings'
           >
             <BiCog size='1.5em' /> {t("header.settings")}
           </Link>
-          {/* )} */}
           <Link
             className='flex items-center gap-2 hover:underline'
             href='/about'
