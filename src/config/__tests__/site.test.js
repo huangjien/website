@@ -6,7 +6,7 @@ describe("siteConfig", () => {
   });
 
   it("should have correct description", () => {
-    expect(siteConfig.description).toBe("Copyright (c) 2013 Jien Huang");
+    expect(siteConfig.description).toBe("Copyright (c) 2025 Jien Huang");
   });
 
   it("should have all required navigation items", () => {
