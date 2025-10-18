@@ -21,6 +21,8 @@ export const NavigationBar = () => {
   const { data: session, status } = useSession();
   const { t } = useTranslation();
 
+  const isAuthenticated = status === "authenticated" && !!session?.user;
+
   return (
     <nav className='w-full bg-background/80 backdrop-blur-md text-foreground border-b ring-1 ring-border'>
       <div className='w-full flex items-center justify-between h-14 px-4 mx-2 my-2 rounded-xl shadow-xs'>
@@ -42,12 +44,14 @@ export const NavigationBar = () => {
           >
             <BiChip size='1.5em' /> {t("header.ai")}
           </Link>
-          <Link
-            className='flex items-center gap-2 rounded-md px-2 py-1 hover:bg-accent/40 hover:text-accent-foreground transition-colors'
-            href='/settings'
-          >
-            <BiCog size='1.5em' /> {t("header.settings")}
-          </Link>
+          {isAuthenticated && (
+            <Link
+              className='flex items-center gap-2 rounded-md px-2 py-1 hover:bg-accent/40 hover:text-accent-foreground transition-colors'
+              href='/settings'
+            >
+              <BiCog size='1.5em' /> {t("header.settings")}
+            </Link>
+          )}
           <Link
             className='flex items-center gap-2 rounded-md px-2 py-1 hover:bg-accent/40 hover:text-accent-foreground transition-colors'
             href='/about'

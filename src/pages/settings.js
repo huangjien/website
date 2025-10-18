@@ -47,6 +47,29 @@ export default function Settings() {
     return filterItems.slice(start, end);
   }, [page, filterItems, rowsPerPage]);
 
+  // Client-side guard (fallback). Server-side guard below ensures URL access is blocked when unauthenticated.
+  if (status === "loading") {
+    return (
+      <div className='p-6 text-center text-sm text-muted-foreground'>
+        Loading...
+      </div>
+    );
+  }
+  if (status !== "authenticated" || !session?.user) {
+    return (
+      <div className='min-h-max text-lg p-6 text-center'>
+        <p className='mb-4'>
+          {t("global.unauthorized", {
+            defaultValue: "Please login to access Settings.",
+          })}
+        </p>
+        <Button variant='secondary' onClick={() => signIn()}>
+          {t("header.login") || "Login"}
+        </Button>
+      </div>
+    );
+  }
+
   return (
     <div className='min-h-max text-lg'>
       <div className='lg:inline-flex flex-wrap text-lg justify-center gap-8 items-center m-1'>
@@ -74,8 +97,8 @@ export default function Settings() {
             {t("global.prev") || "Prev"}
           </Button>
           <span className='text-sm'>
-            {t("global.page") || "Page"}{" "}
-            <span data-testid='current-page'>{page}</span> /{" "}
+            {t("global.page") || "Page"} {""}
+            <span data-testid='current-page'>{page}</span> / {""}
             <span data-testid='total-pages'>{pages}</span>
           </span>
           <Button
@@ -152,4 +175,26 @@ export default function Settings() {
       </div>
     </div>
   );
+}
+
+// Server-side guard: redirect unauthenticated users away from /settings
+export async function getServerSideProps(ctx) {
+  try {
+    const { getServerSession } = await import("next-auth/next");
+    const { authOptions } = await import("./api/auth/[...nextauth]");
+    const session = await getServerSession(ctx.req, ctx.res, authOptions);
+
+    if (!session) {
+      return {
+        redirect: { destination: "/", permanent: false },
+      };
+    }
+
+    return { props: {} };
+  } catch (err) {
+    // On error, default to blocking access
+    return {
+      redirect: { destination: "/", permanent: false },
+    };
+  }
 }
