@@ -8,14 +8,23 @@ export const config = {
   },
 };
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-
 export default async function handler(req, res) {
   const session = await getServerSession(req, res, authOptions);
   if (!session) {
     res.status(401).json({ error: "Unauthorized" });
     return;
   }
+
+  // Ensure API key availability (prefer OPEN_AI_KEY, fallback to OPENAI_API_KEY)
+  const key = process.env.OPEN_AI_KEY || process.env.OPENAI_API_KEY;
+  if (!key) {
+    console.error(
+      "[api/tts] missing OpenAI API key: set OPEN_AI_KEY (preferred) or OPENAI_API_KEY"
+    );
+    res.status(500).json({ error: "OpenAI API key not configured" });
+    return;
+  }
+  const openai = new OpenAI({ apiKey: key });
 
   // Support the existing GET query contract: text, languageCode, name
   const {

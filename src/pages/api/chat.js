@@ -13,9 +13,11 @@ export default async function handler(req, res) {
 
   try {
     // Ensure OpenAI API key is available in production (supports both env var names)
-    const apiKey = process.env.OPENAI_API_KEY || process.env.OPEN_AI_KEY;
+    const apiKey = process.env.OPEN_AI_KEY || process.env.OPENAI_API_KEY;
     if (!apiKey) {
-      console.error("[api/chat] missing OpenAI API key: set OPENAI_API_KEY or OPEN_AI_KEY");
+      console.error(
+        "[api/chat] missing OpenAI API key: set OPEN_AI_KEY (preferred) or OPENAI_API_KEY"
+      );
       return res.status(500).json({ error: "OpenAI API key not configured" });
     }
     const openaiClient = createOpenAI({ apiKey });

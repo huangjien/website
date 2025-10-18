@@ -65,13 +65,13 @@ const ConversationTab = ({
 
       <div className='inline-flex justify-items-stretch items-stretch justify-between'>
         <Textarea
-          type='text'
           aria-label='question text area'
           className='inline-flex m-1 lg:w-10/12 sm:w-8/12 max-h-full'
           disabled={loading}
           value={questionText}
           placeholder={t("ai.input_placeholder")}
           onChange={(e) => setQuestionText(e.target.value)}
+          minRows={3}
         />
 
         <Tooltip
