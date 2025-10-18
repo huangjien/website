@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState, useRef } from "react";
 import { useLocalStorageState, useTitle, useDebounceEffect } from "ahooks";
 import { useTranslation } from "react-i18next";
 import { useChat } from "@ai-sdk/react";
@@ -70,6 +70,9 @@ export default function AI() {
   // Controlled prompt input (AI SDK v5 does not manage input state)
   const [prompt, setPrompt] = useState("");
   const [showSettings, setShowSettings] = useState(false);
+
+  // Scroll anchor to keep recent info visible
+  const bottomRef = useRef(null);
 
   // Migrate legacy keys to ai:* per spec
   useEffect(() => {
@@ -177,6 +180,13 @@ export default function AI() {
 
   const loading = status === "streaming" || status === "submitted";
 
+  // Auto-scroll to bottom to show recent info
+  useEffect(() => {
+    try {
+      bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    } catch {}
+  }, [messages, status]);
+
   const handleSend = async () => {
     const question = prompt.trim();
     if (!question) return;
@@ -189,6 +199,8 @@ export default function AI() {
       };
       await sendMessage(userMessage);
       setPrompt("");
+      // Scroll down after sending
+      bottomRef.current?.scrollIntoView({ behavior: "smooth" });
     } catch (err) {
       console.error("sendMessage failed:", err);
       clearError?.();
@@ -228,15 +240,23 @@ export default function AI() {
     { wait: 200000 }
   );
 
+  // Optionally limit rendering to recent N messages to keep UI snappy
+  const visibleMessages = useMemo(() => {
+    const all = messages || [];
+    const N = 300; // show up to latest 300 messages
+    return all.length > N ? all.slice(all.length - N) : all;
+  }, [messages]);
+
   return (
     <div
-      className='min-h-max w-auto text-lg lg:gap-4 lg:m-4'
+      className='min-h-screen w-full text-lg lg:gap-4 lg:m-4'
       data-testid='ai-container'
     >
-      <div className='mx-auto w-[90vw]'>
+      {/* Messages area with bottom padding to avoid overlap with fixed input */}
+      <div className='mx-auto w-[90vw] pb-28'>
         <Conversation>
           <ConversationContent>
-            {(messages || []).map((m) => {
+            {(visibleMessages || []).map((m) => {
               const text = uiMessageText(m);
               return (
                 <Message key={m.id} role={m.role}>
@@ -258,19 +278,24 @@ export default function AI() {
                 </Message>
               );
             })}
+            {/* Scroll anchor */}
+            <div ref={bottomRef} />
           </ConversationContent>
         </Conversation>
       </div>
 
-      <div className='mx-auto w-[90vw] mt-6'>
-        <PromptInput
-          value={prompt}
-          onChange={setPrompt}
-          onSubmit={handleSend}
-          onStop={handleStop}
-          onToggleSettings={() => setShowSettings((s) => !s)}
-          className='max-w-none px-0 sm:px-0 lg:px-0'
-        />
+      {/* Fixed bottom input bar */}
+      <div className='fixed bottom-0 left-0 right-0 bg-background/95 backdrop-blur-sm border-t ring-1 ring-border'>
+        <div className='mx-auto w-[90vw] py-2'>
+          <PromptInput
+            value={prompt}
+            onChange={setPrompt}
+            onSubmit={handleSend}
+            onStop={handleStop}
+            onToggleSettings={() => setShowSettings((s) => !s)}
+            className='max-w-none px-0 sm:px-0 lg:px-0'
+          />
+        </div>
       </div>
 
       {showSettings ? (
