@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { BiStop, BiSend, BiCog, BiXCircle } from "react-icons/bi";
+import { BiStop, BiSend, BiCog, BiXCircle, BiMicrophone } from "react-icons/bi";
+import { useAudioRecording } from "../../hooks/useAudioRecording";
 
 export default function PromptInput({
   value,
@@ -12,8 +13,10 @@ export default function PromptInput({
 }) {
   const { t } = useTranslation();
   const [isComposing, setIsComposing] = useState(false);
+  const [recording, setRecording] = useState(false);
   const textareaRef = useRef(null);
   const sendButtonRef = useRef(null);
+  const { startRecording, stopRecording } = useAudioRecording();
 
   useEffect(() => {
     if (textareaRef.current) {
@@ -34,6 +37,26 @@ export default function PromptInput({
     if (onChange) onChange("");
     if (textareaRef.current) {
       textareaRef.current.focus();
+    }
+  };
+
+  const handleMicToggle = async () => {
+    try {
+      if (!recording) {
+        await startRecording();
+        setRecording(true);
+      } else {
+        await stopRecording((transcribedText) => {
+          // Replace current input with transcribed text
+          if (onChange) onChange(transcribedText || "");
+          setRecording(false);
+          // Focus textarea after transcription for quick edits
+          textareaRef.current?.focus();
+        });
+      }
+    } catch (err) {
+      console.error("Mic toggle failed:", err);
+      setRecording(false);
     }
   };
 
@@ -65,6 +88,25 @@ export default function PromptInput({
             className='inline-flex items-center justify-center rounded-md border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 disabled:opacity-50 p-2'
           >
             <BiXCircle size={18} />
+          </button>
+
+          {/* Mic recording toggle */}
+          <button
+            type='button'
+            onClick={handleMicToggle}
+            title={
+              recording
+                ? t("ai.stop_recording", { defaultValue: "Stop Recording" })
+                : t("ai.start_recording", { defaultValue: "Start Recording" })
+            }
+            aria-label={
+              recording
+                ? t("ai.stop_recording", { defaultValue: "Stop Recording" })
+                : t("ai.start_recording", { defaultValue: "Start Recording" })
+            }
+            className={`inline-flex items-center justify-center rounded-md p-2 ${recording ? "bg-red-600 text-white animate-pulse" : "border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100"}`}
+          >
+            <BiMicrophone size={18} />
           </button>
 
           {onStop && (
