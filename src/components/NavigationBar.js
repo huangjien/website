@@ -22,28 +22,34 @@ export const NavigationBar = () => {
   const { t } = useTranslation();
 
   return (
-    <nav className='w-full border-b bg-background text-foreground'>
-      <div className='w-full flex items-center justify-between h-14 px-4'>
+    <nav className='w-full bg-background/80 backdrop-blur-md text-foreground border-b ring-1 ring-border'>
+      <div className='w-full flex items-center justify-between h-14 px-4 mx-2 my-2 rounded-xl shadow-xs'>
         <div className='flex items-center'>
           <Link href='/' className='flex items-center'>
             <Avatar alt='Logo' className='mr-2 h-8 w-8' src='/favicon.png' />
           </Link>
         </div>
-        <div className='lg:flex items-center gap-6 hidden'>
-          <Link className='flex items-center gap-2 hover:underline' href='/'>
+        <div className='lg:flex items-center gap-2 hidden'>
+          <Link
+            className='flex items-center gap-2 rounded-md px-2 py-1 hover:bg-accent/40 hover:text-accent-foreground transition-colors'
+            href='/'
+          >
             <BiHome size='1.5em' /> {t("header.home")}
           </Link>
-          <Link className='flex items-center gap-2 hover:underline' href='/ai'>
+          <Link
+            className='flex items-center gap-2 rounded-md px-2 py-1 hover:bg-accent/40 hover:text-accent-foreground transition-colors'
+            href='/ai'
+          >
             <BiChip size='1.5em' /> {t("header.ai")}
           </Link>
           <Link
-            className='flex items-center gap-2 hover:underline'
+            className='flex items-center gap-2 rounded-md px-2 py-1 hover:bg-accent/40 hover:text-accent-foreground transition-colors'
             href='/settings'
           >
             <BiCog size='1.5em' /> {t("header.settings")}
           </Link>
           <Link
-            className='flex items-center gap-2 hover:underline'
+            className='flex items-center gap-2 rounded-md px-2 py-1 hover:bg-accent/40 hover:text-accent-foreground transition-colors'
             href='/about'
           >
             <BiDetail size='1.5em' /> {t("header.about")}

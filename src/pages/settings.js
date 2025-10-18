@@ -121,7 +121,7 @@ export default function Settings() {
           </thead>
           <tbody>
             {items.map((item) => (
-              <tr key={item.id} className='odd:bg-muted/40'>
+              <tr key={item.key ?? item.name} className='odd:bg-muted/40'>
                 <td className='p-3 text-lg'>{item.name}</td>
                 <td className='p-3 text-lg'>{item.value}</td>
               </tr>

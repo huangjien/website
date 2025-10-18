@@ -19,7 +19,7 @@ export default function Progress({
     <ProgressPrimitive.Root
       data-testid='progress'
       className={cn(
-        "relative overflow-hidden rounded-full bg-muted",
+        "relative overflow-hidden rounded-full bg-muted ring-1 ring-border shadow-xs",
         sizes[size],
         className
       )}

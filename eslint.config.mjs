@@ -8,6 +8,18 @@ import prettierConfig from "eslint-config-prettier";
 
 export default [
   {
+    // Global ignore patterns for the project (ESLint flat config)
+    ignores: [
+      "**/.next/**",
+      "node_modules/**",
+      "public/**",
+      "dist/**",
+      "build/**",
+      "coverage/**",
+      "out/**",
+    ],
+  },
+  {
     name: "ESLint Config - nextjs",
     languageOptions: {
       parserOptions: {

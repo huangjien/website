@@ -32,6 +32,17 @@
   --ring: 215 20.2% 65.1%;
 
   --radius: 12px;
+  /* New gradient tokens for modern accents */
+  --gradient-primary: linear-gradient(
+    90deg,
+    hsl(var(--primary)) 0%,
+    hsl(var(--accent)) 100%
+  );
+  --gradient-accent: linear-gradient(
+    90deg,
+    hsl(var(--accent)) 0%,
+    hsl(var(--primary)) 100%
+  );
 }
 
 .dark {
@@ -64,6 +75,17 @@
   --ring: 215 20.2% 65.1%;
 
   --radius: 12px;
+  /* New gradient tokens for modern accents (dark theme) */
+  --gradient-primary: linear-gradient(
+    90deg,
+    hsl(var(--primary)) 0%,
+    hsl(var(--accent)) 100%
+  );
+  --gradient-accent: linear-gradient(
+    90deg,
+    hsl(var(--accent)) 0%,
+    hsl(var(--primary)) 100%
+  );
 }
 
 body {
@@ -71,54 +93,7 @@ body {
   color: hsl(var(--foreground));
 }
 
-/* Global border radius for consistent rounded corners */
-/* HeroUI/NextUI component overrides */
-[data-slot="base"],
-[data-slot="input"],
-[data-slot="inputWrapper"],
-[data-slot="innerWrapper"],
-[data-slot="trigger"],
-[data-slot="listbox"],
-[data-slot="popoverContent"],
-[data-slot="content"],
-.nextui-input,
-.nextui-select,
-.nextui-button,
-.nextui-card,
-.nextui-modal,
-.nextui-popover,
-.nextui-dropdown,
-.nextui-user,
-input,
-select,
-textarea,
-button,
-.card,
-.modal,
-.dropdown,
-.popover {
-  border-radius: 12px !important;
-}
-
-/* Smaller elements get smaller radius */
-[data-slot="chip"],
-[data-slot="badge"],
-.nextui-chip,
-.nextui-badge,
-.chip,
-.badge {
-  border-radius: 8px !important;
-}
-
-/* Larger containers get larger radius */
-[data-slot="wrapper"],
-[data-slot="container"],
-.nextui-modal-content,
-.nextui-card-body,
-.container,
-.wrapper {
-  border-radius: 16px !important;
-}
+/* Legacy NextUI/HeroUI radius overrides removed — radii now controlled per component via Tailwind classes */
 
 /* :root {
   --foreground-rgb: 0, 0, 0;

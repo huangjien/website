@@ -1,4 +1,3 @@
-import React from "react";
 import { cn } from "../../lib/cn";
 
 export default function Input({
@@ -39,9 +38,9 @@ export default function Input({
           data-testid='input'
           type={type}
           className={cn(
-            "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background",
-            "placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-            "disabled:cursor-not-allowed disabled:opacity-50",
+            "flex h-10 w-full rounded-lg ring-1 ring-border border-0 bg-background/60 backdrop-blur-sm px-3 py-2 text-sm ring-offset-background",
+            "placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary",
+            "hover:bg-accent/5 transition-colors disabled:cursor-not-allowed disabled:opacity-50",
             startContent ? "pl-8" : ""
           )}
           value={value}
@@ -52,7 +51,7 @@ export default function Input({
           <button
             type='button'
             aria-label='clear'
-            className='absolute right-2 inline-flex items-center rounded-md px-2 py-1 text-xs text-muted-foreground hover:bg-muted'
+            className='absolute right-2 inline-flex items-center rounded-lg px-2 py-1 text-xs text-muted-foreground hover:bg-accent'
             onClick={handleClear}
           >
             Clear

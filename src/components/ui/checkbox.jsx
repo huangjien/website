@@ -35,7 +35,12 @@ export function Checkbox({ children, value, className, ...props }) {
       data-value={value}
       className={cn("inline-flex items-center gap-2", className)}
     >
-      <input type='checkbox' value={value} {...props} />
+      <input
+        type='checkbox'
+        value={value}
+        className='h-4 w-4 rounded-md border border-input ring-1 ring-border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary hover:bg-accent/20 transition-colors'
+        {...props}
+      />
       <span>{children}</span>
     </label>
   );
