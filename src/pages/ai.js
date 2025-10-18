@@ -15,6 +15,7 @@ import Response from "../components/ai-elements/response";
 import PromptInput from "../components/ai-elements/prompt-input";
 import SettingsPanel from "../components/ai-elements/settings-panel";
 import TTSButton from "../components/ai-elements/tts-button";
+import CopyButton from "../components/ai-elements/copy-button";
 
 // Helpers to serialize/hydrate UI messages for localStorage
 function uiMessageText(message) {
@@ -267,7 +268,8 @@ export default function AI() {
                       text
                     )}
                     {m.role === "assistant" ? (
-                      <div className='mt-2'>
+                      <div className='mt-2 flex gap-2'>
+                        <CopyButton text={text} />
                         <TTSButton
                           text={text}
                           voice={settings?.ttsVoice || "alloy"}
