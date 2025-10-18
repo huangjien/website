@@ -1,6 +1,6 @@
 export const siteConfig = {
   name: "Jien Huang Personal Website",
-  description: "Copyright (c) 2025 Jien Huang",
+  description: "Copyright (c) 202 Jien Huang",
   navItems: [
     {
       label: "Home",
