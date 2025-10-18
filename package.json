@@ -1,6 +1,6 @@
 {
   "name": "website",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "A modern, responsive blog website template built with Next.js, React, and Tailwind CSS",
   "author": {
     "name": "Jien Huang",
@@ -90,7 +90,8 @@
     "styled-components": "^6.1.19",
     "tailwind-merge": "^3.3.1",
     "tailwind-variants": "^3.1.1",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "zod": "^3.25.76"
   },
   "devDependencies": {
     "@babel/core": "^7.28.4",
