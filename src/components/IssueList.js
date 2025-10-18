@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Issue } from "./Issue";
 import { Chat } from "./Chat";
 import { useSettings } from "../lib/useSettings";
-import { BiSearch } from "react-icons/bi";
+import { BiSearch, BiChevronLeft, BiChevronRight } from "react-icons/bi";
 import Input from "./ui/input";
 import Divider from "./ui/divider";
 import { Dialog, DialogContent, DialogBody } from "./ui/dialog";
@@ -143,22 +143,24 @@ export const IssueList = ({ tags, ComponentName, data, inTab = "ai" }) => {
           <div className='inline-flex items-center gap-2'>
             <button
               type='button'
-              className='px-3 py-1 rounded-md border'
+              className='px-3 py-1 rounded-md'
               onClick={() => setPage((p) => Math.max(1, p - 1))}
               aria-label='Previous'
+              title='Previous'
             >
-              Prev
+              <BiChevronLeft size={18} />
             </button>
             <span className='text-small'>
               {page} / {pages}
             </span>
             <button
               type='button'
-              className='px-3 py-1 rounded-md border'
+              className='px-3 py-1 rounded-md'
               onClick={() => setPage((p) => Math.min(pages, p + 1))}
               aria-label='Next'
+              title='Next'
             >
-              Next
+              <BiChevronRight size={18} />
             </button>
           </div>
 
