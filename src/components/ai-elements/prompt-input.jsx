@@ -17,6 +17,7 @@ export default function PromptInput({
   const textareaRef = useRef(null);
   const sendButtonRef = useRef(null);
   const { startRecording, stopRecording } = useAudioRecording();
+  const trimmedValue = (value || "").trim();
 
   useEffect(() => {
     if (textareaRef.current) {
@@ -29,7 +30,7 @@ export default function PromptInput({
     if (isComposing) return;
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
-      if (onSubmit) onSubmit();
+      if (trimmedValue && onSubmit) onSubmit();
     }
   };
 
@@ -82,10 +83,10 @@ export default function PromptInput({
           <button
             type='button'
             onClick={clearInput}
-            disabled={!value}
+            disabled={!trimmedValue}
             title={t("ai.clear_input", { defaultValue: "Clear input" })}
             aria-label={t("ai.clear_input", { defaultValue: "Clear input" })}
-            className='inline-flex items-center justify-center rounded-md border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 disabled:opacity-50 p-2'
+            className='inline-flex items-center justify-center rounded-md border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 disabled:opacity-50 disabled:cursor-not-allowed p-2'
           >
             <BiXCircle size={18} />
           </button>
@@ -94,6 +95,7 @@ export default function PromptInput({
           <button
             type='button'
             onClick={handleMicToggle}
+            disabled={!!trimmedValue && !recording}
             title={
               recording
                 ? t("ai.stop_recording", { defaultValue: "Stop Recording" })
@@ -104,7 +106,11 @@ export default function PromptInput({
                 ? t("ai.stop_recording", { defaultValue: "Stop Recording" })
                 : t("ai.start_recording", { defaultValue: "Start Recording" })
             }
-            className={`inline-flex items-center justify-center rounded-md p-2 ${recording ? "bg-red-600 text-white animate-pulse" : "border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100"}`}
+            className={`inline-flex items-center justify-center rounded-md p-2 ${
+              recording
+                ? "bg-red-600 text-white animate-pulse"
+                : "border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 disabled:opacity-50 disabled:cursor-not-allowed"
+            }`}
           >
             <BiMicrophone size={18} />
           </button>
@@ -125,9 +131,10 @@ export default function PromptInput({
             ref={sendButtonRef}
             type='button'
             onClick={onSubmit}
+            disabled={!trimmedValue}
             title={t("ai.send", { defaultValue: "Send" })}
             aria-label={t("ai.send", { defaultValue: "Send" })}
-            className='inline-flex items-center justify-center rounded-md bg-blue-600 hover:bg-blue-700 text-white p-2'
+            className='inline-flex items-center justify-center rounded-md bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed disabled:opacity-50 text-white p-2'
           >
             <BiSend size={18} />
           </button>
