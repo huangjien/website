@@ -24,7 +24,7 @@ export function Item({ className, ...props }) {
   return (
     <AccordionPrimitive.Item
       className={cn(
-        "rounded-xl border p-3 my-2 shadow-xs hover:shadow-md transition-shadow",
+        "rounded-xl p-3 my-2 shadow-xs hover:shadow-md transition-shadow",
         className
       )}
       {...props}

@@ -92,7 +92,7 @@ export default function Settings() {
         <label className='flex items-center text-muted-foreground text-sm'>
           Rows per page:
           <select
-            className='ml-2 bg-transparent outline-none text-foreground text-sm border border-input rounded-md px-2 py-1'
+            className='ml-2 bg-transparent outline-none text-foreground text-sm rounded-md px-2 py-1'
             onChange={onRowsPerPageChange}
             value={rowsPerPage}
           >

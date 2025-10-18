@@ -13,7 +13,7 @@ export default function Tooltip({ content, children, className, ...props }) {
             forceMount
             sideOffset={6}
             className={cn(
-              "z-50 overflow-hidden rounded-lg border bg-popover px-3 py-1.5 text-sm text-popover-foreground shadow-md",
+              "z-50 overflow-hidden rounded-lg bg-popover px-3 py-1.5 text-sm text-popover-foreground shadow-md",
               "data-[state=delayed-open]:animate-in data-[state=delayed-open]:fade-in-0 data-[side=bottom]:slide-in-from-top-1 data-[side=top]:slide-in-from-bottom-1 data-[side=left]:slide-in-from-right-1 data-[side=right]:slide-in-from-left-1",
               className
             )}

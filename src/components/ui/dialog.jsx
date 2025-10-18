@@ -32,7 +32,7 @@ export function DialogContent({ className, children, ...props }) {
       >
         <div
           data-testid='modal-content'
-          className='max-h-[90vh] w-full max-w-4xl overflow-auto rounded-2xl border bg-background p-4 shadow-lg'
+          className='max-h-[90vh] w-full max-w-4xl overflow-auto rounded-2xl bg-background p-4 shadow-lg'
         >
           {children}
         </div>

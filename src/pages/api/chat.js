@@ -1,5 +1,5 @@
 import { streamText, convertToCoreMessages } from "ai";
-import { openai } from "@ai-sdk/openai";
+import { createOpenAI } from "@ai-sdk/openai";
 
 /**
  * Chat streaming endpoint using Vercel AI SDK (Pages Router, Node runtime)
@@ -12,6 +12,14 @@ export default async function handler(req, res) {
   }
 
   try {
+    // Ensure OpenAI API key is available in production (supports both env var names)
+    const apiKey = process.env.OPENAI_API_KEY || process.env.OPEN_AI_KEY;
+    if (!apiKey) {
+      console.error("[api/chat] missing OpenAI API key: set OPENAI_API_KEY or OPEN_AI_KEY");
+      return res.status(500).json({ error: "OpenAI API key not configured" });
+    }
+    const openaiClient = createOpenAI({ apiKey });
+
     // Debug incoming request body to diagnose empty messages
     // Note: In production, you may want to remove or reduce this logging.
     const body = req.body ?? {};
@@ -40,7 +48,7 @@ export default async function handler(req, res) {
     }
 
     const result = await streamText({
-      model: openai(model || "gpt-4o-mini"),
+      model: openaiClient(model || "gpt-4o-mini"),
       messages: coreMessages,
       temperature: typeof temperature === "number" ? temperature : undefined,
       system: typeof system === "string" ? system : undefined,

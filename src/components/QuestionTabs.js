@@ -90,7 +90,7 @@ export const QuestionTabs = ({ append }) => {
         </TabsTrigger>
       </TabsList>
       <TabsContent value='conversation' className='mt-2'>
-        <div className='rounded-md border bg-background p-4 shadow-sm'>
+        <div className='rounded-md bg-background p-4 shadow-sm'>
           <ConversationTab
             questionText={questionText}
             setQuestionText={setQuestionText}
@@ -102,7 +102,7 @@ export const QuestionTabs = ({ append }) => {
         </div>
       </TabsContent>
       <TabsContent value='configuration' className='mt-2'>
-        <div className='rounded-md border bg-background p-4 shadow-sm'>
+        <div className='rounded-md bg-background p-4 shadow-sm'>
           <ConfigurationTab
             model={model}
             setModel={setModel}

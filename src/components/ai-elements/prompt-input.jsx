@@ -42,7 +42,7 @@ export default function PromptInput({
       <div className='relative'>
         <textarea
           ref={textareaRef}
-          className='w-full rounded-md border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 p-3 pr-56 focus:outline-none'
+          className='w-full rounded-md border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 p-3 pr-56 focus:outline-none'
           rows={1}
           placeholder={t("ai.prompt_placeholder", {
             defaultValue: "Type your message…",
@@ -62,7 +62,7 @@ export default function PromptInput({
             disabled={!value}
             title={t("ai.clear_input", { defaultValue: "Clear input" })}
             aria-label={t("ai.clear_input", { defaultValue: "Clear input" })}
-            className='inline-flex items-center justify-center rounded-md border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 disabled:opacity-50 p-2'
+            className='inline-flex items-center justify-center rounded-md border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 disabled:opacity-50 p-2'
           >
             <BiXCircle size={18} />
           </button>
@@ -73,7 +73,7 @@ export default function PromptInput({
               onClick={onStop}
               title={t("ai.stop", { defaultValue: "Stop" })}
               aria-label={t("ai.stop", { defaultValue: "Stop" })}
-              className='inline-flex items-center justify-center rounded-md border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 p-2'
+              className='inline-flex items-center justify-center rounded-md border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 p-2'
             >
               <BiStop size={18} />
             </button>
@@ -96,7 +96,7 @@ export default function PromptInput({
               onClick={onToggleSettings}
               title={t("ai.settings", { defaultValue: "Settings" })}
               aria-label={t("ai.settings", { defaultValue: "Settings" })}
-              className='inline-flex items-center justify-center rounded-md border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 p-2'
+              className='inline-flex items-center justify-center rounded-md border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 p-2'
             >
               <BiCog size={18} />
             </button>
