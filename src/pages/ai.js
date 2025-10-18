@@ -180,14 +180,12 @@ export default function AI() {
   const handleSend = async () => {
     const question = prompt.trim();
     if (!question) return;
-    // Include last answer in the prompt optionally (kept for parity with previous behavior)
-    const composed = lastAnswer ? `${question}\n\n${lastAnswer}` : question;
     try {
-      // Vercel AI SDK v5 expects a UI message with parts when not passing a raw string.
-      // Passing a string can cause internal checks like `'text' in message` to throw on primitives.
+      // Send ONLY the current prompt as the user's message.
+      // The conversation history (including any previous assistant answers) is already maintained by useChat.
       const userMessage = {
         role: "user",
-        parts: [{ type: "text", text: composed }],
+        parts: [{ type: "text", text: question }],
       };
       await sendMessage(userMessage);
       setPrompt("");
