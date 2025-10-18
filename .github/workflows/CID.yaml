@@ -60,6 +60,17 @@ jobs:
       - run: yarn docker:build
       - run: yarn docker:push
 
+      - name: Ensure OPEN_AI_KEY secret exists
+        run: |-
+          if [ -z "${{ secrets.OPEN_AI_KEY }}" ]; then
+            echo "OPEN_AI_KEY secret not set in GitHub Actions"; exit 1;
+          fi
+          if gcloud secrets describe OPEN_AI_KEY --project "$PROJECT_ID" >/dev/null 2>&1; then
+            echo -n "${{ secrets.OPEN_AI_KEY }}" | gcloud secrets versions add OPEN_AI_KEY --project "$PROJECT_ID" --data-file=-
+          else
+            echo -n "${{ secrets.OPEN_AI_KEY }}" | gcloud secrets create OPEN_AI_KEY --project "$PROJECT_ID" --data-file=-
+          fi
+
       # Deploy image to Cloud Run
       - name: Deploy
         id: deploy
@@ -70,7 +81,7 @@ jobs:
             --image "docker.io/huangjien/website:latest" \
             --platform "managed" \
             --port 8080 \
-            --update-env-vars OPEN_AI_KEY=${{ secrets.OPEN_AI_KEY }} \
+            --update-secrets OPEN_AI_KEY=OPEN_AI_KEY:latest \
             --allow-unauthenticated
 
       # If required, use the Cloud Run url output in later steps
