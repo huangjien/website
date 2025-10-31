@@ -46,7 +46,7 @@ const Login = () => {
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
         <button
-          className='flex items-center gap-2 rounded-md bg-background px-2 py-1 text-foreground shadow-sm hover:bg-accent hover:text-accent-foreground'
+          className='flex items-center gap-2 rounded-md border bg-background px-2 py-1 text-foreground shadow-sm hover:bg-accent hover:text-accent-foreground'
           aria-label='user menu'
         >
           <Avatar className='h-8 w-8'>
@@ -61,7 +61,7 @@ const Login = () => {
       </DropdownMenu.Trigger>
       <DropdownMenu.Content
         sideOffset={6}
-        className='z-50 min-w-[12rem] rounded-md bg-popover p-1 text-popover-foreground shadow-md'
+        className='z-50 min-w-[12rem] rounded-md border bg-popover p-1 text-popover-foreground shadow-md'
       >
         <DropdownMenu.Label className='px-2 py-1.5 text-xs text-muted-foreground'>
           {t("header.message")}

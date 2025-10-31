@@ -350,9 +350,7 @@ describe("ConversationTab Component", () => {
     });
 
     const tooltip = screen.getByTestId("tooltip");
-    expect(
-      within(tooltip).getAllByText("ai.send_tooltip").length
-    ).toBeGreaterThan(0);
+    expect(within(tooltip).getAllByText("ai.send_tooltip").length).toBeGreaterThan(0);
     expect(within(tooltip).getAllByText("ai.hold").length).toBeGreaterThan(0);
   });
 

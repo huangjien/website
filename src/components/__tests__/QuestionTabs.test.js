@@ -71,12 +71,8 @@ describe("QuestionTabs (Radix/Shadcn)", () => {
     expect(screen.getByText("Configuration")).toBeInTheDocument();
 
     // Tab triggers should be accessible
-    const conversationTrigger = screen.getByRole("tab", {
-      name: /Conversation/i,
-    });
-    const configurationTrigger = screen.getByRole("tab", {
-      name: /Configuration/i,
-    });
+    const conversationTrigger = screen.getByRole("tab", { name: /Conversation/i });
+    const configurationTrigger = screen.getByRole("tab", { name: /Configuration/i });
     expect(conversationTrigger).toBeInTheDocument();
     expect(configurationTrigger).toBeInTheDocument();
   });
@@ -229,12 +225,8 @@ describe("QuestionTabs (Radix/Shadcn)", () => {
     const user = userEvent.setup();
     render(<QuestionTabs append={mockAppend} />);
 
-    const conversationTrigger = screen.getByRole("tab", {
-      name: /Conversation/i,
-    });
-    const configurationTrigger = screen.getByRole("tab", {
-      name: /Configuration/i,
-    });
+    const conversationTrigger = screen.getByRole("tab", { name: /Conversation/i });
+    const configurationTrigger = screen.getByRole("tab", { name: /Configuration/i });
 
     // Click configuration tab
     await user.click(configurationTrigger);
@@ -244,9 +236,7 @@ describe("QuestionTabs (Radix/Shadcn)", () => {
     expect(conversationTrigger).toHaveAttribute("data-state", "inactive");
 
     // Configuration UI should be present
-    expect(screen.getByTestId("select-label")).toHaveTextContent(
-      "Select model"
-    );
+    expect(screen.getByTestId("select-label")).toHaveTextContent("Select model");
     const select = screen.getByTestId("select");
     expect(select).toBeInTheDocument();
     expect(select).toHaveValue("gpt-4.1-mini");
@@ -279,9 +269,8 @@ describe("QuestionTabs (Radix/Shadcn)", () => {
     await waitFor(() => {
       // Error is invoked with a message containing the translated "Return error"
       expect(
-        error.mock.calls.some(
-          (call) =>
-            typeof call[0] === "string" && call[0].includes("Return error")
+        error.mock.calls.some((call) =>
+          typeof call[0] === "string" && call[0].includes("Return error")
         )
       ).toBe(true);
     });
@@ -322,9 +311,6 @@ describe("QuestionTabs (Radix/Shadcn)", () => {
   it("renders textarea with correct placeholder", () => {
     render(<QuestionTabs append={mockAppend} />);
     const textarea = screen.getByTestId("textarea");
-    expect(textarea).toHaveAttribute(
-      "placeholder",
-      "Enter your question here..."
-    );
+    expect(textarea).toHaveAttribute("placeholder", "Enter your question here...");
   });
 });
