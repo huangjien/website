@@ -14,9 +14,6 @@ const nextConfig = {
   reactStrictMode: false,
   devIndicators: false,
   transpilePackages: ["ahooks"],
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
   compiler: {
     styledComponents: true,
     // removeConsole: { exclude: ['error'] },

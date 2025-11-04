@@ -57,7 +57,7 @@ jobs:
         run: pnpm install --color=true
 
       - run: pnpm lint
-      - run: pnpm build
+      - run: pnpm run build:webpack
 
       - run: pnpm docker:build
       - run: pnpm docker:push
