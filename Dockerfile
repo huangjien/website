@@ -4,9 +4,10 @@ WORKDIR /app
 
 COPY package.json ./
 COPY pnpm-lock.yaml ./
+ENV HUSKY=0
 RUN corepack enable \
   && corepack prepare pnpm@10.20.0 --activate \
-  && pnpm install --prod --frozen-lockfile
+  && pnpm install --prod --frozen-lockfile --ignore-scripts
 
 FROM node:24-alpine AS builder
 WORKDIR /app
