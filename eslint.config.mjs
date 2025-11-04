@@ -1,8 +1,6 @@
 import pluginNext from "@next/eslint-plugin-next";
 import parser from "@typescript-eslint/parser";
-import globals from "globals";
 import js from "@eslint/js";
-import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
 import prettier from "eslint-plugin-prettier";
 import prettierConfig from "eslint-config-prettier";
 
