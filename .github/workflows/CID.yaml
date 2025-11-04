@@ -48,17 +48,19 @@ jobs:
           node-version: 24
           registry-url: "https://registry.npmjs.org"
 
-      - name: Install dependencies with fallback
+      - name: Enable Corepack and activate pnpm
         run: |
-          yarn install --network-timeout 100000 --registry https://registry.npmjs.org || \
-          yarn install --network-timeout 100000 --registry https://registry.yarnpkg.com || \
-          npm install
+          corepack enable
+          corepack prepare pnpm@10.20.0 --activate
 
-      - run: yarn lint
-      - run: yarn build
+      - name: Install dependencies (pnpm)
+        run: pnpm install --color=true
 
-      - run: yarn docker:build
-      - run: yarn docker:push
+      - run: pnpm lint
+      - run: pnpm build
+
+      - run: pnpm docker:build
+      - run: pnpm docker:push
 
       # Deploy image to Cloud Run
       - name: Deploy
