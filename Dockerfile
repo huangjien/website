@@ -3,7 +3,10 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
 COPY package.json ./
-RUN  yarn install --production
+COPY pnpm-lock.yaml ./
+RUN corepack enable \
+  && corepack prepare pnpm@10.20.0 --activate \
+  && pnpm install --prod --frozen-lockfile
 
 FROM node:24-alpine AS builder
 WORKDIR /app
@@ -13,7 +16,8 @@ COPY . .
 
 ENV NEXT_TELEMETRY_DISABLED=1
 
-RUN yarn build
+# Use webpack for Next.js build to ensure compatibility with next-pwa
+RUN npm run build:webpack
 
 FROM node:24-alpine AS runner
 WORKDIR /app
