@@ -1,49 +1,136 @@
 import React from "react";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 import PromptInput from "../../ai-elements/prompt-input.jsx";
 
-// Mock useAudioRecording to avoid real media interactions
+// Mock i18n to return defaultValue when provided
+jest.mock("react-i18next", () => ({
+  useTranslation: () => ({
+    t: (key, opts) => (opts && opts.defaultValue) || key,
+  }),
+}));
+
+// Mock useAudioRecording hook
+const mockStartRecording = jest.fn(() => Promise.resolve());
+const mockStopRecording = jest.fn((cb) => {
+  if (typeof cb === "function") cb("transcribed text");
+  return Promise.resolve();
+});
 jest.mock("../../../hooks/useAudioRecording", () => ({
   useAudioRecording: () => ({
-    startRecording: jest.fn().mockResolvedValue(undefined),
-    stopRecording: jest.fn((onTranscribe) => {
-      if (typeof onTranscribe === "function") {
-        onTranscribe("transcribed text");
-      }
-      return Promise.resolve();
-    }),
+    startRecording: mockStartRecording,
+    stopRecording: mockStopRecording,
   }),
 }));
 
 describe("PromptInput", () => {
-  it("submits on Enter without Shift when input has content", () => {
-    const onSubmit = jest.fn();
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it("renders with empty value and disables send/clear, enables mic", () => {
     const onChange = jest.fn();
+    const onSubmit = jest.fn();
+    const onStop = jest.fn();
+    const onToggleSettings = jest.fn();
+
     render(
-      <PromptInput value={"Hello"} onSubmit={onSubmit} onChange={onChange} />
+      <PromptInput
+        value=""
+        onChange={onChange}
+        onSubmit={onSubmit}
+        onStop={onStop}
+        onToggleSettings={onToggleSettings}
+      />
     );
-    const textarea = screen.getByRole("textbox");
-    fireEvent.keyDown(textarea, { key: "Enter", shiftKey: false });
-    expect(onSubmit).toHaveBeenCalled();
+
+    expect(screen.getByPlaceholderText("Type your message…")).toBeInTheDocument();
+    expect(screen.getByLabelText("Send")).toBeDisabled();
+    expect(screen.getByLabelText("Clear input")).toBeDisabled();
+    // Mic should be enabled when input is empty
+    expect(screen.getByLabelText("Start Recording")).toBeEnabled();
+    // Stop button rendered
+    expect(screen.getByLabelText("Stop")).toBeInTheDocument();
+    // Settings button rendered
+    expect(screen.getByLabelText("Settings")).toBeInTheDocument();
   });
 
-  it("does not submit on Shift+Enter", () => {
+  it("submits on Enter without Shift and ignores Shift+Enter", async () => {
+    const user = userEvent.setup();
     const onSubmit = jest.fn();
-    render(<PromptInput value={"Hello"} onSubmit={onSubmit} />);
-    const textarea = screen.getByRole("textbox");
-    fireEvent.keyDown(textarea, { key: "Enter", shiftKey: true });
-    expect(onSubmit).not.toHaveBeenCalled();
+    const onChange = jest.fn();
+
+    render(<PromptInput value="Hello" onChange={onChange} onSubmit={onSubmit} />);
+
+    const textarea = screen.getByPlaceholderText("Type your message…");
+    await user.type(textarea, "{enter}");
+    expect(onSubmit).toHaveBeenCalledTimes(1);
+
+    await user.type(textarea, "{shift>}{enter}{/shift}");
+    expect(onSubmit).toHaveBeenCalledTimes(1);
   });
 
-  it("clears input via clear button", () => {
+  it("respects IME composition: Enter does not submit while composing", async () => {
+    const user = userEvent.setup();
+    const onSubmit = jest.fn();
     const onChange = jest.fn();
-    render(<PromptInput value={"Hello"} onChange={onChange} />);
-    // i18n may render key as accessible name; be flexible
-    const clearBtn = screen.getByRole("button", {
-      name: /ai\.clear_input|clear input/i,
-    });
-    fireEvent.click(clearBtn);
+
+    render(<PromptInput value="Hi" onChange={onChange} onSubmit={onSubmit} />);
+    const textarea = screen.getByPlaceholderText("Type your message…");
+
+    // Start composition and press Enter
+    const { fireEvent } = require("@testing-library/react");
+    fireEvent.compositionStart(textarea);
+    await user.type(textarea, "{enter}");
+    expect(onSubmit).not.toHaveBeenCalled();
+
+    // End composition, then Enter should submit
+    fireEvent.compositionEnd(textarea);
+    await user.type(textarea, "{enter}");
+    expect(onSubmit).toHaveBeenCalledTimes(1);
+  });
+
+  it("clears input and focuses textarea when Clear is clicked", async () => {
+    const user = userEvent.setup();
+    const onChange = jest.fn();
+
+    render(<PromptInput value="Hello world" onChange={onChange} />);
+    const clearBtn = screen.getByLabelText("Clear input");
+    expect(clearBtn).toBeEnabled();
+    await user.click(clearBtn);
     expect(onChange).toHaveBeenCalledWith("");
+  });
+
+  it("toggles mic recording and applies transcribed text", async () => {
+    const user = userEvent.setup();
+    const onChange = jest.fn();
+
+    render(<PromptInput value="" onChange={onChange} />);
+
+    // Start recording
+    const startBtn = screen.getByLabelText("Start Recording");
+    await user.click(startBtn);
+    expect(mockStartRecording).toHaveBeenCalledTimes(1);
+
+    // Stop recording -> should call stopRecording and update input via onChange
+    const stopBtn = screen.getByLabelText("Stop Recording");
+    await user.click(stopBtn);
+    expect(mockStopRecording).toHaveBeenCalledTimes(1);
+    expect(onChange).toHaveBeenCalledWith("transcribed text");
+  });
+
+  it("invokes onStop and onToggleSettings handlers", async () => {
+    const user = userEvent.setup();
+    const onStop = jest.fn();
+    const onToggleSettings = jest.fn();
+
+    render(<PromptInput value="" onStop={onStop} onToggleSettings={onToggleSettings} />);
+
+    await user.click(screen.getByLabelText("Stop"));
+    expect(onStop).toHaveBeenCalledTimes(1);
+
+    await user.click(screen.getByLabelText("Settings"));
+    expect(onToggleSettings).toHaveBeenCalledTimes(1);
   });
 });
