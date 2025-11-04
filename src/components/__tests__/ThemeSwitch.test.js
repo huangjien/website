@@ -14,8 +14,6 @@ jest.mock("react-i18next", () => ({
   useTranslation: jest.fn(),
 }));
 
-
-
 // Mock react-icons
 jest.mock("react-icons/bi", () => ({
   BiMoon: ({ size }) => (
@@ -30,8 +28,6 @@ jest.mock("react-icons/bi", () => ({
   ),
 }));
 
-
-
 describe("ThemeSwitch", () => {
   const mockSetTheme = jest.fn();
   const mockT = jest.fn();
@@ -39,7 +35,6 @@ describe("ThemeSwitch", () => {
   beforeEach(() => {
     jest.clearAllMocks();
 
-    
     useTranslation.mockReturnValue({
       t: mockT,
     });
@@ -51,8 +46,6 @@ describe("ThemeSwitch", () => {
       return translations[key] || key;
     });
   });
-
-  
 
   it("should render moon icon when theme is light", async () => {
     useTheme.mockReturnValue({

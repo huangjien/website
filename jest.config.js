@@ -23,6 +23,10 @@ module.exports = {
   coverageReporters: ["text", "lcov", "html"],
   moduleNameMapper: {
     "^@/(.*)$": "<rootDir>/src/$1",
+    "^react-markdown$": "<rootDir>/test-mocks/react-markdown.js",
+    "^remark-gfm$": "<rootDir>/test-mocks/empty-module.js",
+    "^rehype-raw$": "<rootDir>/test-mocks/empty-module.js",
+    "^rehype-highlight$": "<rootDir>/test-mocks/empty-module.js",
   },
   moduleFileExtensions: ["js", "jsx", "ts", "tsx", "json", "node"],
   transform: {

@@ -27,7 +27,6 @@ jest.mock("react-i18next", () => ({
   }),
 }));
 
-
 // Mock react-icons
 jest.mock("react-icons/md", () => ({
   MdLogin: () => <div data-testid='login-icon' />,
@@ -246,7 +245,7 @@ describe("Login Component", () => {
     render(<Login />);
 
     // Fallback should be '?'
-    expect(screen.getByText("?")) .toBeInTheDocument();
+    expect(screen.getByText("?")).toBeInTheDocument();
   });
 
   it("should render button with correct variant", () => {
