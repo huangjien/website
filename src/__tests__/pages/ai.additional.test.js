@@ -14,7 +14,12 @@ jest.mock("ahooks", () => ({
   useLocalStorageState: jest.fn().mockImplementation((key, opts) => {
     if (key === "ai:settings") {
       return [
-        { model: "gpt-4o-mini", temperature: 1, trackSpeed: 300, ttsVoice: "alloy" },
+        {
+          model: "gpt-4o-mini",
+          temperature: 1,
+          trackSpeed: 300,
+          ttsVoice: "alloy",
+        },
         jest.fn(),
       ];
     }
@@ -24,7 +29,9 @@ jest.mock("ahooks", () => ({
     return [undefined, jest.fn()];
   }),
   useDebounceEffect: jest.fn((fn) => {
-    try { fn?.(); } catch {}
+    try {
+      fn?.();
+    } catch {}
   }),
 }));
 
@@ -43,23 +50,41 @@ jest.mock("@ai-sdk/react", () => ({
 
 // Mock transport
 jest.mock("ai", () => ({
-  DefaultChatTransport: function (opts) { return { api: opts?.api }; },
+  DefaultChatTransport: function (opts) {
+    return { api: opts?.api };
+  },
 }));
 
 // Mock child components used by AI page for stable selectors
 jest.mock("../../components/ai-elements/conversation", () => {
   const React = require("react");
   return {
-    Conversation: ({ children }) => React.createElement("div", { "data-testid": "conversation" }, children),
-    ConversationContent: ({ children }) => React.createElement("div", { "data-testid": "conversation-content" }, children),
+    Conversation: ({ children }) =>
+      React.createElement("div", { "data-testid": "conversation" }, children),
+    ConversationContent: ({ children }) =>
+      React.createElement(
+        "div",
+        { "data-testid": "conversation-content" },
+        children
+      ),
   };
 });
 
 jest.mock("../../components/ai-elements/message", () => {
   const React = require("react");
   return {
-    Message: ({ children, role }) => React.createElement("div", { "data-testid": `message-${role}` }, children),
-    MessageContent: ({ children }) => React.createElement("div", { "data-testid": "message-content" }, children),
+    Message: ({ children, role }) =>
+      React.createElement(
+        "div",
+        { "data-testid": `message-${role}` },
+        children
+      ),
+    MessageContent: ({ children }) =>
+      React.createElement(
+        "div",
+        { "data-testid": "message-content" },
+        children
+      ),
   };
 });
 
@@ -70,19 +95,25 @@ jest.mock("../../components/ai-elements/response", () => ({
 
 jest.mock("../../components/ai-elements/copy-button", () => ({
   __esModule: true,
-  default: ({ text }) => <button data-testid='copy-button'>{text ? "Copy" : ""}</button>,
+  default: ({ text }) => (
+    <button data-testid='copy-button'>{text ? "Copy" : ""}</button>
+  ),
 }));
 
 jest.mock("../../components/ai-elements/tts-button", () => ({
   __esModule: true,
   default: ({ text, voice }) => (
-    <button data-testid='tts-button' data-voice={voice || ""}>{text ? "Speak" : ""}</button>
+    <button data-testid='tts-button' data-voice={voice || ""}>
+      {text ? "Speak" : ""}
+    </button>
   ),
 }));
 
 jest.mock("../../components/ai-elements/settings-panel", () => ({
   __esModule: true,
-  default: ({ settings }) => <div data-testid='settings-panel'>{settings ? "Settings" : ""}</div>,
+  default: ({ settings }) => (
+    <div data-testid='settings-panel'>{settings ? "Settings" : ""}</div>
+  ),
 }));
 
 jest.mock("../../components/ai-elements/prompt-input", () => {
@@ -96,9 +127,18 @@ jest.mock("../../components/ai-elements/prompt-input", () => {
           value={value || ""}
           onChange={(e) => onChange && onChange(e.target.value)}
         />
-        <button data-testid='submit-btn' onClick={() => onSubmit && onSubmit()}>Submit</button>
-        <button data-testid='stop-btn' onClick={() => onStop && onStop()}>Stop</button>
-        <button aria-label='ai.settings' onClick={() => onToggleSettings && onToggleSettings()}>ai.settings</button>
+        <button data-testid='submit-btn' onClick={() => onSubmit && onSubmit()}>
+          Submit
+        </button>
+        <button data-testid='stop-btn' onClick={() => onStop && onStop()}>
+          Stop
+        </button>
+        <button
+          aria-label='ai.settings'
+          onClick={() => onToggleSettings && onToggleSettings()}
+        >
+          ai.settings
+        </button>
       </div>
     ),
   };
@@ -115,7 +155,11 @@ describe("AI Page additional coverage", () => {
       id: "ai-page",
       messages: [
         { id: "1", role: "user", parts: [{ type: "text", text: "Hi" }] },
-        { id: "2", role: "assistant", parts: [{ type: "text", text: "Hello" }] },
+        {
+          id: "2",
+          role: "assistant",
+          parts: [{ type: "text", text: "Hello" }],
+        },
       ],
       sendMessage: mockSendMessage,
       stop: jest.fn(),
@@ -173,8 +217,12 @@ describe("AI Page additional coverage", () => {
     }));
 
     render(<AI />);
-    expect(screen.getByTestId("message-assistant")).toHaveTextContent("Assistant via content");
-    expect(screen.getByTestId("message-user")).toHaveTextContent("User via text");
+    expect(screen.getByTestId("message-assistant")).toHaveTextContent(
+      "Assistant via content"
+    );
+    expect(screen.getByTestId("message-user")).toHaveTextContent(
+      "User via text"
+    );
   });
 
   it("toggles settings panel and covers default tts voice and undefined throttle", async () => {
@@ -189,13 +237,19 @@ describe("AI Page additional coverage", () => {
       clearError: jest.fn(),
     }));
     const serialized = [
-      { id: "s1", role: "assistant", content: "Persisted answer", timestamp: Math.round(Date.now()/1000) },
+      {
+        id: "s1",
+        role: "assistant",
+        content: "Persisted answer",
+        timestamp: Math.round(Date.now() / 1000),
+      },
     ];
     const { useLocalStorageState } = require("ahooks");
     // For this test only, override local storage hooks to provide custom settings and messages
     useLocalStorageState
       .mockImplementationOnce((key) => {
-        if (key === "ai:settings") return [{ model: "test-model", temperature: 1 }, jest.fn()];
+        if (key === "ai:settings")
+          return [{ model: "test-model", temperature: 1 }, jest.fn()];
         return [undefined, jest.fn()];
       })
       .mockImplementationOnce((key) => {
@@ -206,7 +260,9 @@ describe("AI Page additional coverage", () => {
     const user = userEvent.setup();
     render(<AI />);
     // Assistant message rendered from hydrated savedMessages
-    expect(screen.getByTestId("message-assistant")).toHaveTextContent("Persisted answer");
+    expect(screen.getByTestId("message-assistant")).toHaveTextContent(
+      "Persisted answer"
+    );
     // Toggle settings panel
     await user.click(screen.getByLabelText("ai.settings"));
     expect(screen.getByTestId("settings-panel")).toBeInTheDocument();
@@ -265,7 +321,11 @@ describe("AI Page additional coverage", () => {
     useChat.mockImplementation((options) => ({
       id: options?.id || "ai-page",
       messages: [
-        { id: "a4", role: "assistant", parts: [{ type: "text", text: "Hello" }] },
+        {
+          id: "a4",
+          role: "assistant",
+          parts: [{ type: "text", text: "Hello" }],
+        },
       ],
       sendMessage: mockSendMessage,
       stop: jest.fn(),
@@ -277,7 +337,8 @@ describe("AI Page additional coverage", () => {
     // First call: settings without ttsVoice -> should fallback to 'alloy'
     useLocalStorageState
       .mockImplementationOnce((key) => {
-        if (key === "ai:settings") return [{ model: "x", temperature: 0.5 }, jest.fn()];
+        if (key === "ai:settings")
+          return [{ model: "x", temperature: 0.5 }, jest.fn()];
         return [undefined, jest.fn()];
       })
       // Second call: conversations empty
@@ -288,12 +349,18 @@ describe("AI Page additional coverage", () => {
 
     const { rerender } = render(<AI />);
     // TTS button should receive alloy
-    expect(screen.getByTestId("tts-button").getAttribute("data-voice")).toBe("alloy");
+    expect(screen.getByTestId("tts-button").getAttribute("data-voice")).toBe(
+      "alloy"
+    );
 
     // Now provide a custom voice (mismatch scenario is handled downstream, AI page passes through)
     useLocalStorageState
       .mockImplementationOnce((key) => {
-        if (key === "ai:settings") return [{ model: "x", temperature: 0.5, ttsVoice: "celeste" }, jest.fn()];
+        if (key === "ai:settings")
+          return [
+            { model: "x", temperature: 0.5, ttsVoice: "celeste" },
+            jest.fn(),
+          ];
         return [undefined, jest.fn()];
       })
       .mockImplementationOnce((key) => {
@@ -302,6 +369,8 @@ describe("AI Page additional coverage", () => {
       });
 
     rerender(<AI />);
-    expect(screen.getByTestId("tts-button").getAttribute("data-voice")).toBe("celeste");
+    expect(screen.getByTestId("tts-button").getAttribute("data-voice")).toBe(
+      "celeste"
+    );
   });
 });

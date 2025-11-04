@@ -32,7 +32,13 @@ describe("Login additional tests", () => {
 
   it("shows first initial in AvatarFallback when name is present", async () => {
     useSession.mockReturnValue({
-      data: { user: { name: "Alice", email: "alice@example.com", image: "https://example.com/a.jpg" } },
+      data: {
+        user: {
+          name: "Alice",
+          email: "alice@example.com",
+          image: "https://example.com/a.jpg",
+        },
+      },
       status: "authenticated",
     });
 

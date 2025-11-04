@@ -37,7 +37,7 @@ describe("PromptInput", () => {
 
     render(
       <PromptInput
-        value=""
+        value=''
         onChange={onChange}
         onSubmit={onSubmit}
         onStop={onStop}
@@ -45,7 +45,9 @@ describe("PromptInput", () => {
       />
     );
 
-    expect(screen.getByPlaceholderText("Type your message…")).toBeInTheDocument();
+    expect(
+      screen.getByPlaceholderText("Type your message…")
+    ).toBeInTheDocument();
     expect(screen.getByLabelText("Send")).toBeDisabled();
     expect(screen.getByLabelText("Clear input")).toBeDisabled();
     // Mic should be enabled when input is empty
@@ -61,7 +63,9 @@ describe("PromptInput", () => {
     const onSubmit = jest.fn();
     const onChange = jest.fn();
 
-    render(<PromptInput value="Hello" onChange={onChange} onSubmit={onSubmit} />);
+    render(
+      <PromptInput value='Hello' onChange={onChange} onSubmit={onSubmit} />
+    );
 
     const textarea = screen.getByPlaceholderText("Type your message…");
     await user.type(textarea, "{enter}");
@@ -76,7 +80,7 @@ describe("PromptInput", () => {
     const onSubmit = jest.fn();
     const onChange = jest.fn();
 
-    render(<PromptInput value="Hi" onChange={onChange} onSubmit={onSubmit} />);
+    render(<PromptInput value='Hi' onChange={onChange} onSubmit={onSubmit} />);
     const textarea = screen.getByPlaceholderText("Type your message…");
 
     // Start composition and press Enter
@@ -95,7 +99,7 @@ describe("PromptInput", () => {
     const user = userEvent.setup();
     const onChange = jest.fn();
 
-    render(<PromptInput value="Hello world" onChange={onChange} />);
+    render(<PromptInput value='Hello world' onChange={onChange} />);
     const clearBtn = screen.getByLabelText("Clear input");
     expect(clearBtn).toBeEnabled();
     await user.click(clearBtn);
@@ -106,7 +110,7 @@ describe("PromptInput", () => {
     const user = userEvent.setup();
     const onChange = jest.fn();
 
-    render(<PromptInput value="" onChange={onChange} />);
+    render(<PromptInput value='' onChange={onChange} />);
 
     // Start recording
     const startBtn = screen.getByLabelText("Start Recording");
@@ -125,7 +129,13 @@ describe("PromptInput", () => {
     const onStop = jest.fn();
     const onToggleSettings = jest.fn();
 
-    render(<PromptInput value="" onStop={onStop} onToggleSettings={onToggleSettings} />);
+    render(
+      <PromptInput
+        value=''
+        onStop={onStop}
+        onToggleSettings={onToggleSettings}
+      />
+    );
 
     await user.click(screen.getByLabelText("Stop"));
     expect(onStop).toHaveBeenCalledTimes(1);

@@ -5,13 +5,15 @@ import Settings, { getServerSideProps } from "../../pages/settings";
 
 // Mocks
 jest.mock("react-i18next", () => ({
-  useTranslation: () => ({ t: (k, opts) => (opts?.defaultValue ?? k) }),
+  useTranslation: () => ({ t: (k, opts) => opts?.defaultValue ?? k }),
 }));
 
 jest.mock("ahooks", () => ({ useTitle: jest.fn() }));
 
 jest.mock("../../lib/useSettings", () => ({
-  useSettings: jest.fn().mockReturnValue({ settings: [], updateSetting: jest.fn() }),
+  useSettings: jest
+    .fn()
+    .mockReturnValue({ settings: [], updateSetting: jest.fn() }),
 }));
 
 // next-auth client hook for component rendering
@@ -58,7 +60,9 @@ describe("Settings Page additional coverage", () => {
     getServerSession.mockResolvedValueOnce(null);
     const ctx = { req: {}, res: {} };
     const result = await getServerSideProps(ctx);
-    expect(result).toMatchObject({ redirect: { destination: "/", permanent: false } });
+    expect(result).toMatchObject({
+      redirect: { destination: "/", permanent: false },
+    });
   });
 
   it("getServerSideProps returns props when authenticated", async () => {
