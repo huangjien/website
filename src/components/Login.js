@@ -61,7 +61,7 @@ const Login = () => {
       </DropdownMenu.Trigger>
       <DropdownMenu.Content
         sideOffset={6}
-        className='z-50 min-w-[12rem] rounded-md border bg-popover p-1 text-popover-foreground shadow-md'
+        className='z-50 min-w-[12rem] rounded-md border bg-popover p-1 text-popover-foreground shadow-md animate-slide-down transition-all duration-fast ease-out'
       >
         <DropdownMenu.Label className='px-2 py-1.5 text-xs text-muted-foreground'>
           {t("header.message")}

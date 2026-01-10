@@ -60,7 +60,7 @@ export const Content = React.forwardRef(({ className, ...props }, ref) => {
     <AccordionPrimitive.Content
       ref={ref}
       className={cn(
-        "overflow-hidden pt-2 data-[state=open]:animate-accordion-down data-[state=closed]:animate-accordion-up",
+        "overflow-hidden pt-2 data-[state=open]:animate-accordion-down data-[state=closed]:animate-accordion-up transition-all duration-slow ease-out",
         className
       )}
       {...props}

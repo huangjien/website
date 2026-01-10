@@ -21,18 +21,18 @@ export function DialogTrigger({ children, asChild = true }) {
 export function DialogContent({ className, children, ...props }) {
   return (
     <DialogPrimitive.Portal>
-      <DialogPrimitive.Overlay className='fixed inset-0 z-50 bg-black/50 data-[state=open]:animate-in data-[state=open]:fade-in-0' />
+      <DialogPrimitive.Overlay className='fixed inset-0 z-50 bg-black/50 data-[state=open]:animate-in data-[state=open]:fade-in-0 transition-opacity duration-fast ease-out' />
       <DialogPrimitive.Content
         data-testid='modal'
         className={cn(
-          "fixed inset-0 z-50 m-4 flex items-center justify-center data-[state=open]:animate-in data-[state=open]:fade-in-0",
+          "fixed inset-0 z-50 m-4 flex items-center justify-center",
           className
         )}
         {...props}
       >
         <div
           data-testid='modal-content'
-          className='max-h-[90vh] w-full max-w-4xl overflow-auto rounded-2xl bg-background p-4 shadow-lg'
+          className='max-h-[90vh] w-full max-w-4xl overflow-auto rounded-2xl bg-background p-4 shadow-lg animate-scale-in data-[state=closed]:animate-scale-out transition-all duration-normal ease-out'
         >
           {children}
         </div>

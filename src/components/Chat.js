@@ -28,17 +28,18 @@ export const Chat = ({ data, player }) => {
         >
           <Accordion.Item
             value={String(data.question || data.id || "chat-item")}
+            className='transition-all duration-fast ease-out hover:shadow-md hover:-translate-y-0.5 rounded-xl'
           >
             <Accordion.Header>
               <Accordion.Trigger className='lg:inline-flex flex-wrap m-2 items-center'>
                 <h2 className='font-semibold m-2 text-xl select-text'>
                   {data.question}
                 </h2>
-                <Badge aria-label='ai model' className='m-2'>
+                <Badge aria-label='ai model' className='m-2 hover:scale-110 transition-transform duration-fast'>
                   {data.model}
                 </Badge>
                 {data?.temperature && (
-                  <Badge aria-label='temperature' className='m-2'>
+                  <Badge aria-label='temperature' className='m-2 hover:scale-110 transition-transform duration-fast'>
                     {data.temperature}
                   </Badge>
                 )}

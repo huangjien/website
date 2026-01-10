@@ -37,7 +37,7 @@ export default function RootLayout({ children }) {
         <Button
           variant='default'
           size='icon'
-          className='fixed bottom-8 right-8 z-50 shadow-lg rounded-full'
+          className='fixed bottom-8 right-8 z-50 shadow-lg rounded-full animate-slide-up hover:scale-110 hover:shadow-xl transition-all duration-fast ease-out'
           onClick={scrollToTop}
           aria-label='Scroll to top'
           title='Scroll to top'

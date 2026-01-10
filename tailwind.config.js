@@ -9,6 +9,33 @@ module.exports = {
   darkMode: "class",
   theme: {
     extend: {
+      animation: {
+        "fade-in": "fade-in 200ms ease-out",
+        "fade-out": "fade-out 150ms ease-in",
+        "slide-up": "slide-up 300ms ease-out",
+        "slide-down": "slide-down 300ms ease-out",
+        "slide-left": "slide-left 300ms ease-out",
+        "slide-right": "slide-right 300ms ease-out",
+        "scale-in": "scale-in 200ms ease-out",
+        "scale-out": "scale-out 150ms ease-in",
+        "bounce-subtle": "bounce-subtle 1s ease-in-out infinite",
+        "pulse-slow": "pulse-slow 2s ease-in-out infinite",
+        "spin-slow": "spin-slow 1s linear infinite",
+        "shimmer": "shimmer 2s linear infinite",
+        "accordion-down": "accordion-down 300ms ease-out",
+        "accordion-up": "accordion-up 300ms ease-out",
+      },
+      transitionDuration: {
+        fast: "150ms",
+        normal: "200ms",
+        slow: "300ms",
+      },
+      transitionTimingFunction: {
+        "ease-out": "cubic-bezier(0, 0, 0.2, 1)",
+        "ease-in": "cubic-bezier(0.4, 0, 1, 1)",
+        "ease-in-out": "cubic-bezier(0.4, 0, 0.2, 1)",
+        "bounce": "cubic-bezier(0.68, -0.55, 0.265, 1.55)",
+      },
       borderRadius: {
         DEFAULT: "12px",
         sm: "8px",

@@ -32,13 +32,14 @@ export const Issue = ({ issue }) => {
         value={String(issue.title || issue.number || issue.id || "issue-item")}
         data-testid='accordion-item'
         aria-label={issue.title}
+        className='transition-all duration-fast ease-out hover:shadow-md hover:-translate-y-0.5 rounded-xl'
       >
         <Accordion.Header>
           <Accordion.Trigger className='lg:inline-flex flex-wrap justify-items-stretch items-stretch justify-between'>
             <h2 className='font-semibold text-xl select-text'>{issue.title}</h2>
             {issue["labels.name"]?.map((label) => (
               <div key={label}>
-                <Badge aria-label='label' className='m-2'>
+                <Badge aria-label='label' className='m-2 hover:scale-110 transition-transform duration-fast'>
                   {label}
                 </Badge>
               </div>

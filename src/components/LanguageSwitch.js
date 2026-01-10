@@ -58,7 +58,7 @@ export const LanguageSwitch = () => {
       </DropdownMenu.Trigger>
       <DropdownMenu.Content
         sideOffset={6}
-        className='z-50 min-w-[10rem] rounded-md border bg-popover p-1 text-popover-foreground shadow-md'
+        className='z-50 min-w-[10rem] rounded-md border bg-popover p-1 text-popover-foreground shadow-md animate-slide-down transition-all duration-fast ease-out'
         role='menu'
         aria-label='language menu'
       >

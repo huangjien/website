@@ -5,15 +5,15 @@ export function Message({ role = "assistant", children, className = "" }) {
   const isUser = role === "user" || role === "system-user";
   return (
     <div
-      className={`flex items-start gap-3 w-full ${className}`}
+      className={`flex items-start gap-3 w-full animate-slide-up ${className}`}
       data-role={role}
       data-testid={`message-${role}`}
     >
       <div
-        className={`rounded-lg px-3 py-2 text-sm leading-relaxed w-full whitespace-pre-wrap break-words ${
+        className={`rounded-lg px-3 py-2 text-sm leading-relaxed w-full whitespace-pre-wrap break-words transition-all duration-fast ${
           isUser
-            ? "bg-blue-600 text-white dark:bg-blue-500"
-            : "bg-neutral-100 text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100"
+            ? "bg-blue-600 text-white dark:bg-blue-500 hover:shadow-md"
+            : "bg-neutral-100 text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100 hover:shadow-md"
         }`}
       >
         {children}

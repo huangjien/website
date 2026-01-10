@@ -143,7 +143,7 @@ export const IssueList = ({ tags, ComponentName, data, inTab = "ai" }) => {
           <div className='inline-flex items-center gap-2'>
             <button
               type='button'
-              className='px-3 py-1 rounded-md'
+              className='px-3 py-1 rounded-md hover:bg-accent hover:scale-105 hover:shadow-sm transition-all duration-fast ease-out active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed'
               onClick={() => setPage((p) => Math.max(1, p - 1))}
               aria-label='Previous'
               title='Previous'
@@ -155,7 +155,7 @@ export const IssueList = ({ tags, ComponentName, data, inTab = "ai" }) => {
             </span>
             <button
               type='button'
-              className='px-3 py-1 rounded-md'
+              className='px-3 py-1 rounded-md hover:bg-accent hover:scale-105 hover:shadow-sm transition-all duration-fast ease-out active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed'
               onClick={() => setPage((p) => Math.min(pages, p + 1))}
               aria-label='Next'
               title='Next'

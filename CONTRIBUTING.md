@@ -80,6 +80,7 @@ Follow the [Conventional Commits](https://www.conventionalcommits.org/) specific
 - `chore:` Maintenance tasks
 
 Example:
+
 ```
 feat: add dark mode toggle to settings page
 fix: resolve authentication redirect issue
