@@ -39,7 +39,10 @@ export const Issue = ({ issue }) => {
             <h2 className='font-semibold text-xl select-text'>{issue.title}</h2>
             {issue["labels.name"]?.map((label) => (
               <div key={label}>
-                <Badge aria-label='label' className='m-2 hover:scale-110 transition-transform duration-fast'>
+                <Badge
+                  aria-label='label'
+                  className='m-2 hover:scale-110 transition-transform duration-fast'
+                >
                   {label}
                 </Badge>
               </div>

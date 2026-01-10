@@ -35,11 +35,17 @@ export const Chat = ({ data, player }) => {
                 <h2 className='font-semibold m-2 text-xl select-text'>
                   {data.question}
                 </h2>
-                <Badge aria-label='ai model' className='m-2 hover:scale-110 transition-transform duration-fast'>
+                <Badge
+                  aria-label='ai model'
+                  className='m-2 hover:scale-110 transition-transform duration-fast'
+                >
                   {data.model}
                 </Badge>
                 {data?.temperature && (
-                  <Badge aria-label='temperature' className='m-2 hover:scale-110 transition-transform duration-fast'>
+                  <Badge
+                    aria-label='temperature'
+                    className='m-2 hover:scale-110 transition-transform duration-fast'
+                  >
                     {data.temperature}
                   </Badge>
                 )}

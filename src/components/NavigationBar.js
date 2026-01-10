@@ -35,28 +35,41 @@ export const NavigationBar = () => {
             className='group relative flex items-center gap-2 rounded-md px-2 py-1 hover:bg-accent/40 hover:text-accent-foreground transition-all duration-fast ease-out hover:scale-105'
             href='/'
           >
-            <BiHome size='1.5em' className='group-hover:animate-bounce-subtle' /> {t("header.home")}
+            <BiHome
+              size='1.5em'
+              className='group-hover:animate-bounce-subtle'
+            />{" "}
+            {t("header.home")}
             <span className='absolute bottom-0 left-0 h-0.5 w-0 bg-primary transition-all duration-fast group-hover:w-full' />
           </Link>
           <Link
             className='group relative flex items-center gap-2 rounded-md px-2 py-1 hover:bg-accent/40 hover:text-accent-foreground transition-all duration-fast ease-out hover:scale-105'
             href='/ai'
           >
-            <BiChip size='1.5em' className='group-hover:animate-bounce-subtle' /> {t("header.ai")}
+            <BiChip
+              size='1.5em'
+              className='group-hover:animate-bounce-subtle'
+            />{" "}
+            {t("header.ai")}
             <span className='absolute bottom-0 left-0 h-0.5 w-0 bg-primary transition-all duration-fast group-hover:w-full' />
           </Link>
           <Link
             className='group relative flex items-center gap-2 rounded-md px-2 py-1 hover:bg-accent/40 hover:text-accent-foreground transition-all duration-fast ease-out hover:scale-105'
             href='/settings'
           >
-            <BiCog size='1.5em' className='group-hover:animate-bounce-subtle' /> {t("header.settings")}
+            <BiCog size='1.5em' className='group-hover:animate-bounce-subtle' />{" "}
+            {t("header.settings")}
             <span className='absolute bottom-0 left-0 h-0.5 w-0 bg-primary transition-all duration-fast group-hover:w-full' />
           </Link>
           <Link
             className='group relative flex items-center gap-2 rounded-md px-2 py-1 hover:bg-accent/40 hover:text-accent-foreground transition-all duration-fast ease-out hover:scale-105'
             href='/about'
           >
-            <BiDetail size='1.5em' className='group-hover:animate-bounce-subtle' /> {t("header.about")}
+            <BiDetail
+              size='1.5em'
+              className='group-hover:animate-bounce-subtle'
+            />{" "}
+            {t("header.about")}
             <span className='absolute bottom-0 left-0 h-0.5 w-0 bg-primary transition-all duration-fast group-hover:w-full' />
           </Link>
         </div>

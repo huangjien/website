@@ -71,7 +71,10 @@ export const LanguageSwitch = () => {
           >
             {item.value}
             {currentLanguage === item.key && (
-              <span className='ml-auto text-xs text-muted-foreground' aria-label='selected'>
+              <span
+                className='ml-auto text-xs text-muted-foreground'
+                aria-label='selected'
+              >
                 ✓
               </span>
             )}

@@ -37,7 +37,7 @@ export const Joke = () => {
           aria-busy={loading ? "true" : undefined}
           aria-label={t("joke.refresh")}
           title={t("joke.refresh")}
-          className={`${loading ? 'animate-spin-slow' : 'hover:rotate-180'} transition-transform duration-normal ease-out`}
+          className={`${loading ? "animate-spin-slow" : "hover:rotate-180"} transition-transform duration-normal ease-out`}
         >
           <MdRefresh />
         </Button>
@@ -58,7 +58,7 @@ export const Joke = () => {
           aria-busy={loading ? "true" : undefined}
           aria-label={t("joke.refresh")}
           title={t("joke.refresh")}
-          className={`${loading ? 'animate-spin-slow' : 'hover:rotate-180'} transition-transform duration-normal ease-out`}
+          className={`${loading ? "animate-spin-slow" : "hover:rotate-180"} transition-transform duration-normal ease-out`}
         >
           <MdRefresh />
         </Button>
@@ -77,7 +77,7 @@ export const Joke = () => {
         aria-busy={loading ? "true" : undefined}
         aria-label={t("joke.refresh")}
         title={t("joke.refresh")}
-        className={`${loading ? 'animate-spin-slow' : 'hover:rotate-180'} transition-transform duration-normal ease-out`}
+        className={`${loading ? "animate-spin-slow" : "hover:rotate-180"} transition-transform duration-normal ease-out`}
       >
         <MdRefresh />
       </Button>

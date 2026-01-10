@@ -8,9 +8,12 @@ const buttonVariants = tv({
     variant: {
       default:
         "bg-primary text-primary-foreground hover:bg-primary/90 hover:shadow-md hover:scale-105 active:scale-95",
-      outline: "bg-background hover:bg-accent hover:text-accent-foreground hover:shadow-sm hover:scale-105 active:scale-95",
-      ghost: "hover:bg-accent hover:text-accent-foreground hover:scale-105 active:scale-95",
-      secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80 hover:shadow-sm hover:scale-105 active:scale-95",
+      outline:
+        "bg-background hover:bg-accent hover:text-accent-foreground hover:shadow-sm hover:scale-105 active:scale-95",
+      ghost:
+        "hover:bg-accent hover:text-accent-foreground hover:scale-105 active:scale-95",
+      secondary:
+        "bg-secondary text-secondary-foreground hover:bg-secondary/80 hover:shadow-sm hover:scale-105 active:scale-95",
       destructive:
         "bg-destructive text-destructive-foreground hover:bg-destructive/90 hover:shadow-md hover:scale-105 active:scale-95",
       gradient:

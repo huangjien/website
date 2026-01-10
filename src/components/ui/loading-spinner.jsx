@@ -37,18 +37,15 @@ export default function LoadingSpinner({
         {[0, 1, 2].map((i) => (
           <span
             key={i}
-            className={cn(
-              "rounded-full bg-current animate-bounce-subtle",
-              {
-                "h-1 w-1": size === "sm",
-                "h-2 w-2": size === "md",
-                "h-3 w-3": size === "lg",
-              }
-            )}
+            className={cn("rounded-full bg-current animate-bounce-subtle", {
+              "h-1 w-1": size === "sm",
+              "h-2 w-2": size === "md",
+              "h-3 w-3": size === "lg",
+            })}
             style={{
               animationDelay: `${i * 150}ms`,
             }}
-            aria-hidden="true"
+            aria-hidden='true'
           />
         ))}
       </div>
@@ -73,7 +70,7 @@ export default function LoadingSpinner({
           className
         )}
         {...props}
-        aria-label="Loading"
+        aria-label='Loading'
       />
     );
   }
@@ -88,7 +85,7 @@ export default function LoadingSpinner({
         className
       )}
       {...props}
-      aria-label="Loading"
+      aria-label='Loading'
     />
   );
 }

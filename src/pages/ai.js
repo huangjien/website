@@ -301,8 +301,10 @@ export default function AI() {
       </div>
 
       {showSettings ? (
-        <div className='mx-auto w-[90vw] mt-2'>
-          <SettingsPanel settings={settings} setSettings={setSettings} />
+        <div className='fixed bottom-20 left-0 right-0 z-50'>
+          <div className='mx-auto w-[90vw]'>
+            <SettingsPanel settings={settings} setSettings={setSettings} />
+          </div>
         </div>
       ) : null}
     </div>

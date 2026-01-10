@@ -32,14 +32,14 @@ export default function Skeleton({
           className
         )}
         {...props}
-        aria-hidden="true"
+        aria-hidden='true'
       />
     );
   }
 
   if (variant === "text") {
     return (
-      <div className={cn("space-y-2", className)} {...props} aria-hidden="true">
+      <div className={cn("space-y-2", className)} {...props} aria-hidden='true'>
         {Array.from({ length: lines }).map((_, i) => (
           <div
             key={i}
@@ -65,7 +65,7 @@ export default function Skeleton({
         className
       )}
       {...props}
-      aria-hidden="true"
+      aria-hidden='true'
     />
   );
 }
