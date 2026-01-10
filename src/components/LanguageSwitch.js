@@ -32,7 +32,7 @@ export const LanguageSwitch = () => {
     if (i18n && currentLanguage) {
       i18n.changeLanguage(currentLanguage);
       // search in languages array for the current language and set languageCode and speakerName
-      var lang = languages.find((o) => o.key === currentLanguage);
+      const lang = languages.find((o) => o.key === currentLanguage);
       if (lang && lang.languageCode && lang.name) {
         setLanguageCode(lang.languageCode);
         setSpeakerName(lang.name);
@@ -53,22 +53,27 @@ export const LanguageSwitch = () => {
           className='bg-transparent text-foreground'
           title={t("header.language")}
         >
-          <BiGlobe size='1.5em' />
+          <BiGlobe size='1.5em' aria-hidden='true' />
         </Button>
       </DropdownMenu.Trigger>
       <DropdownMenu.Content
         sideOffset={6}
         className='z-50 min-w-[10rem] rounded-md border bg-popover p-1 text-popover-foreground shadow-md'
+        role='menu'
+        aria-label='language menu'
       >
         {languages.map((item) => (
           <DropdownMenu.Item
             key={item.key}
             className='flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground'
             onSelect={() => chooseLanguageKey(item.key)}
+            role='menuitem'
           >
             {item.value}
             {currentLanguage === item.key && (
-              <span className='ml-auto text-xs text-muted-foreground'>✓</span>
+              <span className='ml-auto text-xs text-muted-foreground' aria-label='selected'>
+                ✓
+              </span>
             )}
           </DropdownMenu.Item>
         ))}

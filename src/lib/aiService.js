@@ -8,7 +8,7 @@ export const getAnswer = async (
   model = "gpt-4o-mini",
   temperature = 1
 ) => {
-  var questionArray = [{ role: "user", content: question }];
+  const questionArray = [{ role: "user", content: question }];
   // if lastAnswer too long or too long ago, then we don't add it.
   if (lastAnswer && lastAnswer.length < 1024) {
     questionArray.unshift({ role: "assistant", content: lastAnswer });

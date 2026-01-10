@@ -16,7 +16,7 @@ A modern, feature-rich blog website template built with Next.js and React. This 
 
 ## Tech Stack
 
-- **Framework:** Next.js 15.x
+- **Framework:** Next.js 16.x
 - **UI Library:** React 19.x
 - **Styling:** Tailwind CSS, Styled Components
 - **State Management:** React Hooks, ahooks
@@ -70,7 +70,7 @@ npm test
 Run E2E tests:
 
 ```bash
-npm run test:e2e
+npm run e2e
 ```
 
 **Test Coverage:**
@@ -85,10 +85,10 @@ Build and run with Docker:
 
 ```bash
 # Build the image
-npm run make
+npm run docker:build
 
 # Run the container
-npm run exe
+npm run docker:run
 ```
 
 ## License

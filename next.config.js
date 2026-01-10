@@ -11,7 +11,7 @@ const withPWA = require("next-pwa")({
 
 const nextConfig = {
   output: "standalone",
-  reactStrictMode: false,
+  reactStrictMode: true,
   devIndicators: false,
   transpilePackages: ["ahooks"],
   compiler: {
@@ -23,6 +23,30 @@ const nextConfig = {
       {
         source: "/robots.txt",
         destination: "/api/robots",
+      },
+    ];
+  },
+  async headers() {
+    return [
+      {
+        source: "/:all*(svg|jpg|jpeg|png|gif|webp|ico|woff|woff2|ttf|eot)",
+        locale: false,
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+      {
+        source: "/:all*(js|css)",
+        locale: false,
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
       },
     ];
   },

@@ -15,12 +15,12 @@ export function getValueByPath(data, path) {
 }
 
 export const hashCode = (string) => {
-  var hash = 0;
+  let hash = 0;
   if (!string) {
     return 0;
   }
-  for (var i = 0; i < string.length; i++) {
-    var code = string.charCodeAt(i);
+  for (let i = 0; i < string.length; i++) {
+    const code = string.charCodeAt(i);
     hash = (hash << 5) - hash + code;
     hash = hash & hash; // Convert to 32bit integer
   }
@@ -28,7 +28,7 @@ export const hashCode = (string) => {
 };
 
 export const setMessage = (messageType, message) => {
-  var msg = {};
+  const msg = {};
   msg["messageType"] = messageType;
   msg["message"] = message;
   sessionStorage.setItem("message", JSON.stringify(msg));
@@ -93,7 +93,7 @@ export const getJoke = async () => {
 
 export const getUser = async (username, password) => {
   if (window != undefined) {
-    var cached = sessionStorage.getItem(currentUser);
+    const cached = sessionStorage.getItem(currentUser);
     if (cached) {
       return await JSON.parse(cached);
     }
@@ -114,11 +114,11 @@ export const properties2Json = (propertiesString) => {
   if (!propertiesString) {
     return [];
   }
-  let properties = propertiesString?.split("\n");
-  let propertiesJson = [];
+  const properties = propertiesString?.split("\n");
+  const propertiesJson = [];
   for (let i = 0; i < properties.length; i++) {
     let property = properties[i];
-    let propertyJson = {};
+    const propertyJson = {};
     property = property?.split("=");
     if (property[0]) {
       propertyJson["key"] = i;

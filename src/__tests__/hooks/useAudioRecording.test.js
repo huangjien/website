@@ -129,7 +129,7 @@ describe("useAudioRecording Hook", () => {
       });
 
       expect(mockGetUserMedia).toHaveBeenCalledWith({ audio: true });
-      expect(mockGetUserMedia).toHaveBeenCalledTimes(2); // Called twice in the implementation
+      expect(mockGetUserMedia).toHaveBeenCalledTimes(1);
     });
 
     it("should handle getUserMedia not supported", async () => {
@@ -150,26 +150,9 @@ describe("useAudioRecording Hook", () => {
       );
     });
 
-    it("should handle getUserMedia error in first call", async () => {
+    it("should handle getUserMedia error", async () => {
       const mockError = new Error("Permission denied");
       mockGetUserMedia.mockRejectedValueOnce(mockError);
-
-      const { result } = renderHook(() => useAudioRecording());
-
-      await act(async () => {
-        await result.current.startRecording();
-      });
-
-      expect(error).toHaveBeenCalledWith(
-        `The following getUserMedia error occurred: ${mockError}`
-      );
-    });
-
-    it("should handle getUserMedia error in second call", async () => {
-      const mockError = new Error("Device busy");
-      mockGetUserMedia
-        .mockResolvedValueOnce(mockStream) // First call succeeds
-        .mockRejectedValueOnce(mockError); // Second call fails
 
       const { result } = renderHook(() => useAudioRecording());
 

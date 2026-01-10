@@ -1,5 +1,7 @@
 import { streamText, convertToCoreMessages } from "ai";
 import { createOpenAI } from "@ai-sdk/openai";
+import { z } from "zod";
+import { checkRateLimit } from "../../lib/rateLimit";
 
 /**
  * Chat streaming endpoint using Vercel AI SDK (Pages Router, Node runtime)
@@ -11,26 +13,54 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "Method Not Allowed" });
   }
 
+  // Rate limiting based on IP address
+  const ip =
+    req.headers["x-forwarded-for"]?.split(",")[0] ||
+    req.headers["x-real-ip"] ||
+    "unknown";
+  const rateLimitResult = checkRateLimit(ip, 30, 60000); // 30 requests per minute
+
+  if (!rateLimitResult.allowed) {
+    res.setHeader("X-RateLimit-Limit", "30");
+    res.setHeader("X-RateLimit-Remaining", "0");
+    res.setHeader("X-RateLimit-Reset", rateLimitResult.resetAt.toString());
+    return res.status(429).json({
+      error: "Too many requests",
+      retryAfter: Math.ceil((rateLimitResult.resetAt - Date.now()) / 1000),
+    });
+  }
+
+  res.setHeader("X-RateLimit-Limit", "30");
+  res.setHeader("X-RateLimit-Remaining", rateLimitResult.remaining.toString());
+  res.setHeader("X-RateLimit-Reset", rateLimitResult.resetAt.toString());
+
   try {
     // Ensure OpenAI API key is available in production (supports both env var names)
     const apiKey = process.env.OPEN_AI_KEY || process.env.OPENAI_API_KEY;
     if (!apiKey) {
-      console.error(
-        "[api/chat] missing OpenAI API key: set OPEN_AI_KEY (preferred) or OPENAI_API_KEY"
-      );
       return res.status(500).json({ error: "OpenAI API key not configured" });
     }
     const openaiClient = createOpenAI({ apiKey });
 
-    // Debug incoming request body to diagnose empty messages
-    // Note: In production, you may want to remove or reduce this logging.
-    const body = req.body ?? {};
-    console.log("[api/chat] incoming body keys:", Object.keys(body || {}));
-    console.log(
-      "[api/chat] messages length:",
-      Array.isArray(body.messages) ? body.messages.length : "n/a"
-    );
+    // Validate request body using Zod
+    const chatRequestSchema = z.object({
+      messages: z.array(z.any()).optional(),
+      model: z.string().optional(),
+      temperature: z.number().min(0).max(2).optional(),
+      system: z.string().optional(),
+      input: z.string().optional(),
+      prompt: z.string().optional(),
+    });
 
+    const validationResult = chatRequestSchema.safeParse(req.body);
+    if (!validationResult.success) {
+      return res.status(400).json({
+        error: "Invalid request body",
+        details: validationResult.error.errors,
+      });
+    }
+
+    const body = validationResult.data;
     const { messages, model, temperature, system, input, prompt } = body;
 
     // Build core messages from UI messages, or fallback to raw input/prompt strings

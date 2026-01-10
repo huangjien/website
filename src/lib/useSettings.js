@@ -60,7 +60,7 @@ function useProvideSettings() {
   });
 
   const getSetting = (key) => {
-    var result = undefined;
+    let result = undefined;
     if (!settings) {
       return result;
     }

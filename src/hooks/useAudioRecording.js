@@ -35,28 +35,17 @@ export const useAudioRecording = () => {
       return;
     }
 
-    // First call remains to preserve existing behavior
-    navigator.mediaDevices
-      .getUserMedia({ audio: true })
-      .then((s) => {
-        setStream(s);
-      })
-      .catch((err) => {
-        error(`The following getUserMedia error occurred: ${err}`);
-      });
-
-    // Second call initializes the recorder
     try {
-      const s2 = await navigator.mediaDevices.getUserMedia({ audio: true });
-      setStream(s2);
+      const s = await navigator.mediaDevices.getUserMedia({ audio: true });
+      setStream(s);
 
       // Choose a supported mimeType if available
       mimeTypeRef.current = pickSupportedMimeType();
 
       try {
         mediaRecorder.current = mimeTypeRef.current
-          ? new MediaRecorder(s2, { mimeType: mimeTypeRef.current })
-          : new MediaRecorder(s2);
+          ? new MediaRecorder(s, { mimeType: mimeTypeRef.current })
+          : new MediaRecorder(s);
       } catch (err) {
         error(err?.message || "MediaRecorder initialization failed");
         return;

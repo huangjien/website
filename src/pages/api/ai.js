@@ -8,6 +8,7 @@
 //   }'
 
 import { getServerSession } from "next-auth/next";
+import { checkRateLimit } from "../../lib/rateLimit";
 
 export const config = {
   api: {
@@ -21,6 +22,27 @@ export default async function handler(req, res) {
     res.status(405).json({ error: "Method not allowed" });
     return;
   }
+
+  // Rate limiting based on IP address
+  const ip =
+    req.headers["x-forwarded-for"]?.split(",")[0] ||
+    req.headers["x-real-ip"] ||
+    "unknown";
+  const rateLimitResult = checkRateLimit(ip, 20, 60000); // 20 requests per minute for authenticated users
+
+  if (!rateLimitResult.allowed) {
+    res.setHeader("X-RateLimit-Limit", "20");
+    res.setHeader("X-RateLimit-Remaining", "0");
+    res.setHeader("X-RateLimit-Reset", rateLimitResult.resetAt.toString());
+    return res.status(429).json({
+      error: "Too many requests",
+      retryAfter: Math.ceil((rateLimitResult.resetAt - Date.now()) / 1000),
+    });
+  }
+
+  res.setHeader("X-RateLimit-Limit", "20");
+  res.setHeader("X-RateLimit-Remaining", rateLimitResult.remaining.toString());
+  res.setHeader("X-RateLimit-Reset", rateLimitResult.resetAt.toString());
 
   const session = await getServerSession(req, res);
   if (!session) {

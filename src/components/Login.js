@@ -81,7 +81,7 @@ const Login = () => {
       </DropdownMenu.Content>
     </DropdownMenu.Root>
   );
-};
+}
 
 export { Login };
 export default Login;

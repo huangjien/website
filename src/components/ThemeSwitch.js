@@ -35,8 +35,10 @@ export const ThemeSwitch = () => {
         onClick={onChange}
         title={theme !== "light" ? t("header.day") : t("header.night")}
       >
-        {theme === "light" && <BiMoon size={"1.5em"} />}
-        {theme !== "light" && <BiSun size={"1.5em"} />}
+        <span aria-hidden='true'>
+          {theme === "light" && <BiMoon size={"1.5em"} />}
+          {theme !== "light" && <BiSun size={"1.5em"} />}
+        </span>
       </Button>
     </Tooltip>
   );

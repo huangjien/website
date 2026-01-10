@@ -6,7 +6,7 @@ COPY package.json ./
 COPY pnpm-lock.yaml ./
 ENV HUSKY=0
 RUN corepack enable \
-  && corepack prepare pnpm@10.20.0 --activate \
+  && corepack prepare pnpm@10.27.0 --activate \
   && pnpm install --prod --frozen-lockfile --ignore-scripts
 
 FROM node:24-alpine AS builder
@@ -30,17 +30,19 @@ RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
 
-# COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
-# COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 USER nextjs
 
 EXPOSE 8080
 
 ENV PORT=8080
+
+# Health check endpoint
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD node -e "require('http').get('http://localhost:8080/api/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})" || exit 1
 
 CMD ["npm", "start"]

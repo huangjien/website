@@ -26,8 +26,8 @@ export default async function handler(req, res) {
     }
 
     const data = await response.json();
-    var result = "";
-    for (var i = 0; i < data.length; i++) {
+    let result = "";
+    for (let i = 0; i < data.length; i++) {
       if (data[i].body != undefined) {
         result += data[i].body + "\n";
       }
