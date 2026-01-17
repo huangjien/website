@@ -10,6 +10,8 @@ RUN corepack enable \
   && pnpm install --frozen-lockfile --ignore-scripts
 
 FROM node:24-alpine AS builder
+RUN corepack enable \
+  && corepack prepare pnpm@10.27.0 --activate
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
