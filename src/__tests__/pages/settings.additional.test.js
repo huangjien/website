@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import Settings, { getServerSideProps } from "../../pages/settings";
+import Settings from "../../pages/settings";
 
 // Mocks
 jest.mock("react-i18next", () => ({
@@ -22,19 +22,8 @@ jest.mock("next-auth/react", () => ({
   signIn: jest.fn(),
 }));
 
-// next-auth server helpers for getServerSideProps
-jest.mock("next-auth/next", () => ({
-  getServerSession: jest.fn(),
-}));
-
-// auth options module used by GSSP
-jest.mock("../../pages/api/auth/[...nextauth]", () => ({
-  authOptions: {},
-}));
-
 describe("Settings Page additional coverage", () => {
   const { useSession, signIn } = require("next-auth/react");
-  const { getServerSession } = require("next-auth/next");
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -54,21 +43,5 @@ describe("Settings Page additional coverage", () => {
     const btn = screen.getByRole("button", { name: /Login/i });
     await user.click(btn);
     expect(signIn).toHaveBeenCalled();
-  });
-
-  it("getServerSideProps redirects unauthenticated users", async () => {
-    getServerSession.mockResolvedValueOnce(null);
-    const ctx = { req: {}, res: {} };
-    const result = await getServerSideProps(ctx);
-    expect(result).toMatchObject({
-      redirect: { destination: "/", permanent: false },
-    });
-  });
-
-  it("getServerSideProps returns props when authenticated", async () => {
-    getServerSession.mockResolvedValueOnce({ user: { name: "u" } });
-    const ctx = { req: {}, res: {} };
-    const result = await getServerSideProps(ctx);
-    expect(result).toMatchObject({ props: {} });
   });
 });

@@ -177,24 +177,4 @@ export default function Settings() {
   );
 }
 
-// Server-side guard: redirect unauthenticated users away from /settings
-export async function getServerSideProps(ctx) {
-  try {
-    const { getServerSession } = await import("next-auth/next");
-    const { authOptions } = await import("./api/auth/[...nextauth]");
-    const session = await getServerSession(ctx.req, ctx.res, authOptions);
 
-    if (!session) {
-      return {
-        redirect: { destination: "/", permanent: false },
-      };
-    }
-
-    return { props: {} };
-  } catch (err) {
-    // On error, default to blocking access
-    return {
-      redirect: { destination: "/", permanent: false },
-    };
-  }
-}
