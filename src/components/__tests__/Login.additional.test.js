@@ -52,6 +52,28 @@ describe("Login additional tests", () => {
     expect(screen.getByText("alice@example.com")).toBeInTheDocument();
   });
 
+  it("toggles aria-expanded when opening the dropdown", async () => {
+    useSession.mockReturnValue({
+      data: {
+        user: {
+          name: "Alice",
+          email: "alice@example.com",
+          image: "https://example.com/a.jpg",
+        },
+      },
+      status: "authenticated",
+    });
+
+    render(<Login />);
+
+    const trigger = screen.getByRole("button", { name: /user menu/i });
+    expect(trigger).toHaveAttribute("aria-expanded", "false");
+
+    await userEvent.click(trigger);
+    expect(trigger).toHaveAttribute("aria-expanded", "true");
+    expect(screen.getByText("header.settings")).toBeInTheDocument();
+  });
+
   it("dropdown content label renders and logout item triggers signOut", async () => {
     useSession.mockReturnValue({
       data: { user: { name: "Bob", email: "bob@example.com", image: null } },
