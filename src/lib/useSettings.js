@@ -55,6 +55,13 @@ function useProvideSettings() {
     defaultValue: "light",
   });
 
+  const [currentStyle, setCurrentStyle] = useSessionStorageState(
+    "designStyle",
+    {
+      defaultValue: "glassmorphism",
+    }
+  );
+
   useRequest(getSettings, {
     onSuccess: (result) => {
       if (result && result.result) {
@@ -84,6 +91,8 @@ function useProvideSettings() {
     setCurrentLanguage,
     currentTheme: mounted ? currentTheme : "light",
     setCurrentTheme,
+    currentStyle: mounted ? currentStyle : "glassmorphism",
+    setCurrentStyle,
     speakerName: mounted ? speakerName : "en-US-Standard-A",
     setSpeakerName,
     languageCode: mounted ? languageCode : "en-US",

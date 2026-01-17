@@ -11,6 +11,7 @@ import Layout from "../../pages/layout";
 import { useTranslation } from "react-i18next";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import { useSettings } from "../../lib/useSettings";
 
 // Mock react-i18next
 jest.mock("react-i18next", () => ({
@@ -27,6 +28,10 @@ jest.mock("next-auth/react", () => ({
 // Mock next/router
 jest.mock("next/router", () => ({
   useRouter: jest.fn(),
+}));
+
+jest.mock("../../lib/useSettings", () => ({
+  useSettings: jest.fn(),
 }));
 
 // Mock NavigationBar component
@@ -75,6 +80,9 @@ describe("Layout Component", () => {
       query: {},
       asPath: "/",
     });
+    useSettings.mockReturnValue({
+      currentStyle: "glassmorphism",
+    });
     window.scrollTo.mockClear();
     mockAddEventListener.mockClear();
     mockRemoveEventListener.mockClear();
@@ -91,6 +99,20 @@ describe("Layout Component", () => {
     expect(screen.getByTestId("children")).toBeInTheDocument();
     expect(screen.getByRole("contentinfo")).toHaveTextContent("layout.version");
     expect(screen.getByRole("contentinfo")).toHaveTextContent("1.0.0");
+  });
+
+  it("applies design style attribute to html element", async () => {
+    useSettings.mockReturnValue({
+      currentStyle: "brutalism",
+    });
+
+    render(<Layout>{mockChildren}</Layout>);
+
+    await waitFor(() => {
+      expect(document.documentElement.getAttribute("data-design-style")).toBe(
+        "brutalism"
+      );
+    });
   });
 
   it("should render scroll to top button when scrolled down", async () => {

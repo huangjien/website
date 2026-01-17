@@ -40,6 +40,18 @@
     "day": "Lá",
     "night": "Oíche"
   },
+  "design_style": {
+    "label": "Stíl dearaidh",
+    "glassmorphism": "Glassmorphism",
+    "neumorphism": "Neumorphism",
+    "claymorphism": "Claymorphism",
+    "minimalism": "Íoslaghdachas",
+    "brutalism": "Brutalachas",
+    "skeuomorphism": "Skeuomorphism",
+    "bento_grid": "Greille bento",
+    "responsive": "Freagrúil",
+    "flat_design": "Dearadh cothrom"
+  },
   "issue": {
     "row_per_page": "Sraitheanna in aghaidh an leathanaigh",
     "total": "Iomlán {{total}} míreanna",

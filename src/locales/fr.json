@@ -40,6 +40,18 @@
     "day": "Jour",
     "night": "Nuit"
   },
+  "design_style": {
+    "label": "Style de design",
+    "glassmorphism": "Glassmorphism",
+    "neumorphism": "Neumorphism",
+    "claymorphism": "Claymorphism",
+    "minimalism": "Minimalisme",
+    "brutalism": "Brutalisme",
+    "skeuomorphism": "Skeuomorphisme",
+    "bento_grid": "Grille bento",
+    "responsive": "Adaptatif",
+    "flat_design": "Design plat"
+  },
   "issue": {
     "row_per_page": "Lignes par page",
     "total": "Total {{total}} articles",

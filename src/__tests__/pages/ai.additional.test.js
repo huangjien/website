@@ -227,15 +227,18 @@ describe("AI Page additional coverage", () => {
 
   it("toggles settings panel and covers default tts voice and undefined throttle", async () => {
     const { useChat } = require("@ai-sdk/react");
-    // Ensure useChat respects options.messages (hydrated from savedMessages)
-    useChat.mockImplementation((options) => ({
-      id: options?.id || "ai-page",
-      messages: options?.messages || [],
-      sendMessage: jest.fn(),
-      stop: jest.fn(),
-      status: "idle",
-      clearError: jest.fn(),
-    }));
+    useChat.mockImplementation((options) => {
+      const [messages, setMessages] = React.useState(options?.messages || []);
+      return {
+        id: options?.id || "ai-page",
+        messages,
+        setMessages,
+        sendMessage: jest.fn(),
+        stop: jest.fn(),
+        status: "idle",
+        clearError: jest.fn(),
+      };
+    });
     const serialized = [
       {
         id: "s1",
@@ -245,27 +248,24 @@ describe("AI Page additional coverage", () => {
       },
     ];
     const { useLocalStorageState } = require("ahooks");
-    // For this test only, override local storage hooks to provide custom settings and messages
-    useLocalStorageState
-      .mockImplementationOnce((key) => {
-        if (key === "ai:settings")
-          return [{ model: "test-model", temperature: 1 }, jest.fn()];
-        return [undefined, jest.fn()];
-      })
-      .mockImplementationOnce((key) => {
-        if (key === "ai:conversations") return [serialized, jest.fn()];
-        return [undefined, jest.fn()];
-      });
+    const defaultUseLocalStorageStateImpl =
+      useLocalStorageState.getMockImplementation();
+    useLocalStorageState.mockImplementation((key) => {
+      if (key === "ai:settings")
+        return [{ model: "test-model", temperature: 1 }, jest.fn()];
+      if (key === "ai:conversations") return [serialized, jest.fn()];
+      return [undefined, jest.fn()];
+    });
 
     const user = userEvent.setup();
     render(<AI />);
-    // Assistant message rendered from hydrated savedMessages
-    expect(screen.getByTestId("message-assistant")).toHaveTextContent(
+    expect(await screen.findByTestId("message-assistant")).toHaveTextContent(
       "Persisted answer"
     );
     // Toggle settings panel
     await user.click(screen.getByLabelText("ai.settings"));
     expect(screen.getByTestId("settings-panel")).toBeInTheDocument();
+    useLocalStorageState.mockImplementation(defaultUseLocalStorageStateImpl);
   });
 
   it("handles alternative message parts (image/audio) and still shows Copy/TTS buttons", () => {

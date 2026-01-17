@@ -40,6 +40,18 @@
     "day": "Modalità diurna",
     "night": "Modalità notturna"
   },
+  "design_style": {
+    "label": "Stile di design",
+    "glassmorphism": "Glassmorphism",
+    "neumorphism": "Neumorphism",
+    "claymorphism": "Claymorphism",
+    "minimalism": "Minimalismo",
+    "brutalism": "Brutalismo",
+    "skeuomorphism": "Skeuomorfismo",
+    "bento_grid": "Bento grid",
+    "responsive": "Reattivo",
+    "flat_design": "Design piatto"
+  },
   "issue": {
     "row_per_page": "Righe per pagina",
     "total": "Totale {{total}} articoli",

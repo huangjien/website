@@ -40,6 +40,18 @@
     "day": "Дневной режим",
     "night": "Ночной режим"
   },
+  "design_style": {
+    "label": "Стиль дизайна",
+    "glassmorphism": "Glassmorphism",
+    "neumorphism": "Neumorphism",
+    "claymorphism": "Claymorphism",
+    "minimalism": "Минимализм",
+    "brutalism": "Брутализм",
+    "skeuomorphism": "Скейоморфизм",
+    "bento_grid": "Bento grid",
+    "responsive": "Адаптивный",
+    "flat_design": "Плоский дизайн"
+  },
   "issue": {
     "row_per_page": "Строк на страницу",
     "total": "Всего {{total}} предметов",

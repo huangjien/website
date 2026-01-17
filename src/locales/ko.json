@@ -40,6 +40,18 @@
     "day": "주간 모드",
     "night": "야간 모드"
   },
+  "design_style": {
+    "label": "디자인 스타일",
+    "glassmorphism": "Glassmorphism",
+    "neumorphism": "Neumorphism",
+    "claymorphism": "Claymorphism",
+    "minimalism": "미니멀리즘",
+    "brutalism": "브루탈리즘",
+    "skeuomorphism": "스큐어모피즘",
+    "bento_grid": "벤토 그리드",
+    "responsive": "반응형",
+    "flat_design": "플랫 디자인"
+  },
   "issue": {
     "row_per_page": "페이지 당 행",
     "total": "총 {{total}} 항목",

@@ -40,6 +40,18 @@
     "day": "وضع النهار",
     "night": "وضع الليل"
   },
+  "design_style": {
+    "label": "نمط التصميم",
+    "glassmorphism": "Glassmorphism",
+    "neumorphism": "Neumorphism",
+    "claymorphism": "Claymorphism",
+    "minimalism": "Minimalism",
+    "brutalism": "Brutalism",
+    "skeuomorphism": "Skeuomorphism",
+    "bento_grid": "Bento grid",
+    "responsive": "Responsive",
+    "flat_design": "Flat design"
+  },
   "issue": {
     "row_per_page": "الصفوف في كل صفحة",
     "total": "إجمالي {{total}} عناصر",

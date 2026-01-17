@@ -40,6 +40,18 @@
     "day": "デイモード",
     "night": "ナイトモード"
   },
+  "design_style": {
+    "label": "デザインスタイル",
+    "glassmorphism": "Glassmorphism",
+    "neumorphism": "Neumorphism",
+    "claymorphism": "Claymorphism",
+    "minimalism": "ミニマリズム",
+    "brutalism": "ブルータリズム",
+    "skeuomorphism": "スキューモーフィズム",
+    "bento_grid": "Bentoグリッド",
+    "responsive": "レスポンシブ",
+    "flat_design": "フラットデザイン"
+  },
   "issue": {
     "row_per_page": "ページごとの行",
     "total": "合計 {{total}} アイテム",

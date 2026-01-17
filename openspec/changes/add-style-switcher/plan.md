@@ -1,9 +1,11 @@
 # Design Style Switcher Plan
 
 ## Goal
+
 Add a new "Design Style" switcher to the navigation bar that allows users to toggle between different UI design trends.
 
 ## Requirements
+
 - **Location**: Beside 'language' on the navigation bar.
 - **Options**:
   - Glassmorphism (Default)
@@ -20,16 +22,20 @@ Add a new "Design Style" switcher to the navigation bar that allows users to tog
 ## Architecture
 
 ### 1. `ui-ux-pro-max` Library
+
 Since `ui-ux-pro-max` does not exist in the codebase, we will create it as a utility library: `src/lib/ui-ux-pro-max.js`.
+
 - It will export the list of available styles.
 - It will provide the CSS class definitions or variable mappings for each style.
 - It will handle the logic of applying the style (e.g., setting a `data-design-style` attribute on the `<html>` or `<body>` tag).
 
 ### 2. State Management
+
 - Update `src/lib/useSettings.js` to store `currentStyle` in session/local storage.
 - Default value: `glassmorphism`.
 
 ### 3. Components
+
 - **`StyleSwitch.js`**: A new component similar to `LanguageSwitch.js`.
   - Uses `ui-ux-pro-max` to get the list of styles.
   - Uses `useSettings` to get/set the current style.
@@ -37,6 +43,7 @@ Since `ui-ux-pro-max` does not exist in the codebase, we will create it as a uti
 - **`NavigationBar.js`**: Add `StyleSwitch` component beside `LanguageSwitch`.
 
 ### 4. Global Styling
+
 - Update `src/styles/globals.css` (or `globals.css`) to define the visual rules for each `data-design-style`.
 - Alternatively, `ui-ux-pro-max` can inject these styles or we can use Tailwind's arbitrary variants if possible, but CSS variables are cleaner for switching themes.
 - **Style Definitions**:
@@ -71,3 +78,5 @@ Since `ui-ux-pro-max` does not exist in the codebase, we will create it as a uti
 - [ ] 7. Verification
   - [ ] Verify switching styles changes the UI appearance.
   - [ ] Verify persistence on reload.
+- [ ] 8. L10N
+  - [ ] Add translation keys for style options.

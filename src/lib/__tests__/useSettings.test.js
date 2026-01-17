@@ -61,11 +61,13 @@ describe("useSettings hook", () => {
     expect(result.current).toHaveProperty("speakerName");
     expect(result.current).toHaveProperty("currentLanguage");
     expect(result.current).toHaveProperty("currentTheme");
+    expect(result.current).toHaveProperty("currentStyle");
     expect(result.current).toHaveProperty("getSetting");
     expect(result.current).toHaveProperty("setLanguageCode");
     expect(result.current).toHaveProperty("setSpeakerName");
     expect(result.current).toHaveProperty("setCurrentLanguage");
     expect(result.current).toHaveProperty("setCurrentTheme");
+    expect(result.current).toHaveProperty("setCurrentStyle");
   });
 
   it("should have correct default values", () => {
@@ -75,6 +77,7 @@ describe("useSettings hook", () => {
     expect(result.current.speakerName).toBe("en-US-Standard-A");
     expect(result.current.currentLanguage).toBe("en");
     expect(result.current.currentTheme).toBe("light");
+    expect(result.current.currentStyle).toBe("glassmorphism");
   });
 
   it("should update languageCode when setLanguageCode is called", () => {
@@ -115,6 +118,16 @@ describe("useSettings hook", () => {
     });
 
     expect(result.current.currentTheme).toBe("dark");
+  });
+
+  it("should update currentStyle when setCurrentStyle is called", () => {
+    const { result } = renderHook(() => useSettings(), { wrapper });
+
+    act(() => {
+      result.current.setCurrentStyle("brutalism");
+    });
+
+    expect(result.current.currentStyle).toBe("brutalism");
   });
 
   it("should provide getSetting function that returns setting value", async () => {

@@ -58,6 +58,18 @@
     "day": "Day",
     "night": "Night"
   },
+  "design_style": {
+    "label": "Design style",
+    "glassmorphism": "Glassmorphism",
+    "neumorphism": "Neumorphism",
+    "claymorphism": "Claymorphism",
+    "minimalism": "Minimalism",
+    "brutalism": "Brutalism",
+    "skeuomorphism": "Skeuomorphism",
+    "bento_grid": "Bento grid",
+    "responsive": "Responsive",
+    "flat_design": "Flat design"
+  },
   "issue": {
     "row_per_page": "Rows per page",
     "total": "Total {{total}} items",

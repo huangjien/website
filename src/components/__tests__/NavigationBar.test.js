@@ -82,6 +82,16 @@ jest.mock("../LanguageSwitch", () => {
   };
 });
 
+jest.mock("../StyleSwitch", () => {
+  const React = require("react");
+  return {
+    StyleSwitch: () =>
+      React.createElement("div", {
+        "data-testid": "style-switch-component",
+      }),
+  };
+});
+
 // Mock Avatar to ensure accessible image is present
 jest.mock("../ui/avatar", () => {
   const React = require("react");
@@ -151,6 +161,7 @@ describe("NavigationBar Component (shadcn/ui)", () => {
 
     expect(screen.getByTestId("login-component")).toBeInTheDocument();
     expect(screen.getByTestId("theme-switch-component")).toBeInTheDocument();
+    expect(screen.getByTestId("style-switch-component")).toBeInTheDocument();
     expect(screen.getByTestId("language-switch-component")).toBeInTheDocument();
   });
 

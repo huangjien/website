@@ -364,6 +364,336 @@ body {
   box-shadow: var(--glass-shadow);
 }
 
+html[data-design-style="neumorphism"] body,
+html[data-design-style="minimalism"] body,
+html[data-design-style="flat_design"] body,
+html[data-design-style="brutalism"] body,
+html[data-design-style="skeuomorphism"] body,
+html[data-design-style="claymorphism"] body {
+  background-image: none;
+}
+
+html[data-design-style="neumorphism"] {
+  --radius: 20px;
+  --glass-bg: 220 14% 94% / 1;
+  --glass-bg-hover: 220 14% 92% / 1;
+  --glass-border: 220 14% 94% / 1;
+  --glass-shadow:
+    14px 14px 28px rgba(0, 0, 0, 0.12),
+    -14px -14px 28px rgba(255, 255, 255, 0.75);
+  --glass-shadow-hover:
+    18px 18px 34px rgba(0, 0, 0, 0.14),
+    -18px -18px 34px rgba(255, 255, 255, 0.8);
+}
+
+html.dark[data-design-style="neumorphism"] {
+  --glass-bg: 217.2 32.6% 16% / 1;
+  --glass-bg-hover: 217.2 32.6% 18% / 1;
+  --glass-border: 217.2 32.6% 22% / 1;
+  --glass-shadow:
+    14px 14px 28px rgba(0, 0, 0, 0.55),
+    -14px -14px 28px rgba(255, 255, 255, 0.06);
+  --glass-shadow-hover:
+    18px 18px 34px rgba(0, 0, 0, 0.6),
+    -18px -18px 34px rgba(255, 255, 255, 0.08);
+}
+
+html[data-design-style="neumorphism"] .glass,
+html[data-design-style="neumorphism"] .glass-card,
+html[data-design-style="neumorphism"] .glass-input,
+html[data-design-style="neumorphism"] .glass-nav,
+html[data-design-style="neumorphism"] .glass-modal,
+html[data-design-style="neumorphism"] .glass-message-user,
+html[data-design-style="neumorphism"] .glass-message-assistant {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+html[data-design-style="claymorphism"] {
+  --radius: 24px;
+  --glass-bg: 225 70% 98% / 1;
+  --glass-bg-hover: 225 70% 96% / 1;
+  --glass-border: 225 70% 92% / 1;
+  --glass-shadow: 0 18px 40px rgba(0, 0, 0, 0.16);
+  --glass-shadow-hover: 0 22px 52px rgba(0, 0, 0, 0.2);
+}
+
+html.dark[data-design-style="claymorphism"] {
+  --glass-bg: 217.2 32.6% 16% / 1;
+  --glass-bg-hover: 217.2 32.6% 18% / 1;
+  --glass-border: 217.2 32.6% 22% / 1;
+  --glass-shadow: 0 18px 40px rgba(0, 0, 0, 0.55);
+  --glass-shadow-hover: 0 22px 52px rgba(0, 0, 0, 0.65);
+}
+
+html[data-design-style="claymorphism"] .glass,
+html[data-design-style="claymorphism"] .glass-card,
+html[data-design-style="claymorphism"] .glass-input,
+html[data-design-style="claymorphism"] .glass-nav,
+html[data-design-style="claymorphism"] .glass-modal,
+html[data-design-style="claymorphism"] .glass-message-user,
+html[data-design-style="claymorphism"] .glass-message-assistant {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+html[data-design-style="claymorphism"] .glass,
+html[data-design-style="claymorphism"] .glass-card,
+html[data-design-style="claymorphism"] .glass-nav,
+html[data-design-style="claymorphism"] .glass-modal,
+html[data-design-style="claymorphism"] .glass-message-assistant {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), #eef2ff);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow:
+    0 22px 48px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+html.dark[data-design-style="claymorphism"] .glass,
+html.dark[data-design-style="claymorphism"] .glass-card,
+html.dark[data-design-style="claymorphism"] .glass-nav,
+html.dark[data-design-style="claymorphism"] .glass-modal,
+html.dark[data-design-style="claymorphism"] .glass-message-assistant {
+  background: linear-gradient(180deg, hsl(217.2 32.6% 20% / 0.95), #0b1220);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow:
+    0 22px 48px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+html[data-design-style="minimalism"] {
+  --radius: 12px;
+  --glass-bg: 0 0% 100% / 1;
+  --glass-bg-hover: 0 0% 100% / 1;
+  --glass-border: 214.3 31.8% 86% / 1;
+  --glass-shadow: none;
+  --glass-shadow-hover: none;
+  --gradient-mesh: none;
+}
+
+html.dark[data-design-style="minimalism"] {
+  --glass-bg: 222.2 84% 6% / 1;
+  --glass-bg-hover: 222.2 84% 6% / 1;
+  --glass-border: 217.2 32.6% 22% / 1;
+}
+
+html[data-design-style="minimalism"] .glass,
+html[data-design-style="minimalism"] .glass-card,
+html[data-design-style="minimalism"] .glass-input,
+html[data-design-style="minimalism"] .glass-nav,
+html[data-design-style="minimalism"] .glass-modal,
+html[data-design-style="minimalism"] .glass-message-user,
+html[data-design-style="minimalism"] .glass-message-assistant {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+html[data-design-style="minimalism"] .glass-button,
+html[data-design-style="minimalism"] .glass-message-user {
+  background: hsl(var(--primary));
+  border: 1px solid hsl(var(--border));
+  box-shadow: none;
+}
+
+html.dark[data-design-style="minimalism"] .glass-button,
+html.dark[data-design-style="minimalism"] .glass-message-user {
+  background: hsl(var(--primary));
+  border: 1px solid hsl(var(--border));
+}
+
+html[data-design-style="brutalism"] {
+  --radius: 0px;
+  --background: 0 0% 100%;
+  --foreground: 0 0% 0%;
+  --primary: 53 100% 50%;
+  --primary-foreground: 0 0% 0%;
+  --border: 0 0% 0%;
+  --input: 0 0% 0%;
+  --ring: 0 0% 0%;
+  --gradient-mesh: none;
+  --glass-bg: 0 0% 100% / 1;
+  --glass-bg-hover: 0 0% 100% / 1;
+  --glass-border: 0 0% 0% / 1;
+  --glass-shadow: 6px 6px 0 rgba(0, 0, 0, 1);
+  --glass-shadow-hover: 8px 8px 0 rgba(0, 0, 0, 1);
+}
+
+html.dark[data-design-style="brutalism"] {
+  --background: 0 0% 0%;
+  --foreground: 0 0% 100%;
+  --primary: 53 100% 50%;
+  --primary-foreground: 0 0% 0%;
+  --border: 0 0% 100%;
+  --input: 0 0% 100%;
+  --ring: 0 0% 100%;
+  --glass-bg: 0 0% 0% / 1;
+  --glass-bg-hover: 0 0% 0% / 1;
+  --glass-border: 0 0% 100% / 1;
+  --glass-shadow: 6px 6px 0 rgba(255, 255, 255, 1);
+  --glass-shadow-hover: 8px 8px 0 rgba(255, 255, 255, 1);
+}
+
+html[data-design-style="brutalism"] .glass,
+html[data-design-style="brutalism"] .glass-card,
+html[data-design-style="brutalism"] .glass-input,
+html[data-design-style="brutalism"] .glass-nav,
+html[data-design-style="brutalism"] .glass-modal,
+html[data-design-style="brutalism"] .glass-message-user,
+html[data-design-style="brutalism"] .glass-message-assistant {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-width: 2px;
+}
+
+html[data-design-style="brutalism"] .glass-button,
+html[data-design-style="brutalism"] .glass-message-user {
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  border: 2px solid hsl(var(--border));
+  box-shadow: 6px 6px 0 rgba(0, 0, 0, 1);
+}
+
+html.dark[data-design-style="brutalism"] .glass-button,
+html.dark[data-design-style="brutalism"] .glass-message-user {
+  box-shadow: 6px 6px 0 rgba(255, 255, 255, 1);
+}
+
+html[data-design-style="skeuomorphism"] {
+  --radius: 16px;
+  --background: 50 25% 93%;
+  --foreground: 25 15% 16%;
+  --border: 35 18% 65%;
+  --input: 35 18% 65%;
+  --ring: 35 18% 45%;
+  --gradient-mesh: none;
+  --glass-bg: 0 0% 100% / 1;
+  --glass-bg-hover: 0 0% 98% / 1;
+  --glass-border: 35 18% 65% / 1;
+  --glass-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+  --glass-shadow-hover: 0 16px 40px rgba(0, 0, 0, 0.22);
+}
+
+html.dark[data-design-style="skeuomorphism"] {
+  --background: 30 12% 8%;
+  --foreground: 40 15% 92%;
+  --border: 30 10% 22%;
+  --input: 30 10% 22%;
+  --ring: 30 10% 45%;
+  --glass-bg: 30 10% 12% / 1;
+  --glass-bg-hover: 30 10% 14% / 1;
+  --glass-border: 30 10% 22% / 1;
+  --glass-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+  --glass-shadow-hover: 0 20px 50px rgba(0, 0, 0, 0.7);
+}
+
+html[data-design-style="skeuomorphism"] .glass,
+html[data-design-style="skeuomorphism"] .glass-card,
+html[data-design-style="skeuomorphism"] .glass-input,
+html[data-design-style="skeuomorphism"] .glass-nav,
+html[data-design-style="skeuomorphism"] .glass-modal,
+html[data-design-style="skeuomorphism"] .glass-message-user,
+html[data-design-style="skeuomorphism"] .glass-message-assistant {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+html[data-design-style="skeuomorphism"] .glass,
+html[data-design-style="skeuomorphism"] .glass-card,
+html[data-design-style="skeuomorphism"] .glass-nav,
+html[data-design-style="skeuomorphism"] .glass-modal,
+html[data-design-style="skeuomorphism"] .glass-message-assistant {
+  background: linear-gradient(180deg, #ffffff 0%, #e7e2d4 100%);
+  border: 1px solid rgba(120, 95, 60, 0.35);
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.22),
+    inset 0 2px 0 rgba(255, 255, 255, 0.9);
+}
+
+html.dark[data-design-style="skeuomorphism"] .glass,
+html.dark[data-design-style="skeuomorphism"] .glass-card,
+html.dark[data-design-style="skeuomorphism"] .glass-nav,
+html.dark[data-design-style="skeuomorphism"] .glass-modal,
+html.dark[data-design-style="skeuomorphism"] .glass-message-assistant {
+  background: linear-gradient(180deg, #2a241c 0%, #14110e 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.65),
+    inset 0 2px 0 rgba(255, 255, 255, 0.05);
+}
+
+html[data-design-style="skeuomorphism"] .glass-button,
+html[data-design-style="skeuomorphism"] .glass-message-user {
+  background: linear-gradient(180deg, #6c4cf6 0%, #3a2bbd 100%);
+  border: 1px solid rgba(20, 18, 60, 0.35);
+  box-shadow:
+    0 10px 22px rgba(0, 0, 0, 0.22),
+    inset 0 2px 0 rgba(255, 255, 255, 0.25);
+}
+
+html[data-design-style="bento_grid"] {
+  --radius: 22px;
+  --glass-bg: 0 0% 100% / 0.9;
+  --glass-bg-hover: 0 0% 100% / 0.95;
+  --glass-border: 214.3 31.8% 86% / 1;
+  --glass-shadow: 0 10px 22px rgba(0, 0, 0, 0.08);
+  --glass-shadow-hover: 0 14px 28px rgba(0, 0, 0, 0.12);
+}
+
+html.dark[data-design-style="bento_grid"] {
+  --glass-bg: 217.2 32.6% 14% / 0.9;
+  --glass-bg-hover: 217.2 32.6% 14% / 0.95;
+  --glass-border: 217.2 32.6% 22% / 1;
+}
+
+html[data-design-style="bento_grid"] .glass-card:hover {
+  transform: translateY(-3px);
+}
+
+html[data-design-style="responsive"] body {
+  font-size: clamp(1rem, 0.35vw + 0.95rem, 1.125rem);
+}
+
+html[data-design-style="responsive"] main {
+  width: 100%;
+  max-width: 72rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+html[data-design-style="flat_design"] {
+  --radius: 12px;
+  --gradient-mesh: none;
+  --glass-bg: 0 0% 100% / 1;
+  --glass-bg-hover: 0 0% 100% / 1;
+  --glass-border: 214.3 31.8% 86% / 1;
+  --glass-shadow: none;
+  --glass-shadow-hover: none;
+}
+
+html.dark[data-design-style="flat_design"] {
+  --glass-bg: 217.2 32.6% 17.5% / 1;
+  --glass-bg-hover: 217.2 32.6% 17.5% / 1;
+  --glass-border: 217.2 32.6% 22% / 1;
+}
+
+html[data-design-style="flat_design"] .glass,
+html[data-design-style="flat_design"] .glass-card,
+html[data-design-style="flat_design"] .glass-input,
+html[data-design-style="flat_design"] .glass-nav,
+html[data-design-style="flat_design"] .glass-modal,
+html[data-design-style="flat_design"] .glass-message-user,
+html[data-design-style="flat_design"] .glass-message-assistant {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+html[data-design-style="flat_design"] .glass-button,
+html[data-design-style="flat_design"] .glass-message-user {
+  background: hsl(var(--primary));
+  border: 1px solid hsl(var(--border));
+  box-shadow: none;
+}
+
 /* Legacy NextUI/HeroUI radius overrides removed — radii now controlled per component via Tailwind classes */
 
 /* :root {

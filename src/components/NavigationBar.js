@@ -9,6 +9,7 @@ import Login from "./Login";
 import { useTheme } from "next-themes";
 import { ThemeSwitch } from "./ThemeSwitch";
 import { LanguageSwitch } from "./LanguageSwitch";
+import { StyleSwitch } from "./StyleSwitch";
 import { useSession } from "next-auth/react";
 import Avatar from "./ui/avatar";
 
@@ -81,6 +82,7 @@ export const NavigationBar = () => {
         <div className='flex items-center gap-2'>
           <Login />
           <ThemeSwitch />
+          <StyleSwitch />
           <LanguageSwitch />
         </div>
         <ToastContainer

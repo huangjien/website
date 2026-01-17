@@ -40,6 +40,18 @@
     "day": "日間模式",
     "night": "夜間模式"
   },
+  "design_style": {
+    "label": "設計風格",
+    "glassmorphism": "玻璃擬態",
+    "neumorphism": "新擬物",
+    "claymorphism": "黏土擬態",
+    "minimalism": "極簡主義",
+    "brutalism": "粗野主義",
+    "skeuomorphism": "擬物風格",
+    "bento_grid": "便當格",
+    "responsive": "響應式",
+    "flat_design": "扁平化"
+  },
   "issue": {
     "row_per_page": "每頁行數",
     "total": "總計 {{total}} 項",

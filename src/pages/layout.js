@@ -1,4 +1,3 @@
-import { Inter } from "next/font/google";
 import { useSettings } from "../lib/useSettings";
 import { NavigationBar } from "../components/NavigationBar";
 import Button from "../components/ui/button";
@@ -6,10 +5,12 @@ import { useEffect, useState } from "react";
 import { MdKeyboardArrowUp } from "react-icons/md";
 import packageJson from "../../package.json";
 import { useTranslation } from "react-i18next";
+import { applyDesignStyleToDocument } from "../lib/ui-ux-pro-max";
 
 export default function RootLayout({ children }) {
   const { t } = useTranslation();
   const [showScrollButton, setShowScrollButton] = useState(false);
+  const { currentStyle } = useSettings();
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -27,6 +28,10 @@ export default function RootLayout({ children }) {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    applyDesignStyleToDocument(document, currentStyle);
+  }, [currentStyle]);
 
   return (
     <div className='min-h-screen flex flex-col'>
