@@ -1,7 +1,5 @@
 import React from "react";
 
-const DefaultOnSSR = () => <div></div>;
-
 class NoSSR extends React.Component {
   constructor(...args) {
     super(...args);
@@ -15,10 +13,10 @@ class NoSSR extends React.Component {
   }
 
   render() {
-    const { children, onSSR = <DefaultOnSSR /> } = this.props;
+    const { children } = this.props;
     const { canRender } = this.state;
 
-    return canRender ? children : onSSR;
+    return canRender ? children : null;
   }
 }
 
