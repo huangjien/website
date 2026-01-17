@@ -60,8 +60,10 @@ module.exports = {
       backgroundImage: {
         "gradient-primary": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
         "gradient-accent": "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
-        "gradient-glass": "linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)",
-        "gradient-mesh": "radial-gradient(at 40% 20%, hsla(228,100%,74%,0.3) 0px, transparent 50%), radial-gradient(at 80% 0%, hsla(189,100%,56%,0.2) 0px, transparent 50%), radial-gradient(at 0% 50%, hsla(355,100%,93%,0.2) 0px, transparent 50%), radial-gradient(at 80% 50%, hsla(340,100%,76%,0.2) 0px, transparent 50%), radial-gradient(at 0% 100%, hsla(269,100%,77%,0.2) 0px, transparent 50%)",
+        "gradient-glass":
+          "linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)",
+        "gradient-mesh":
+          "radial-gradient(at 40% 20%, hsla(228,100%,74%,0.3) 0px, transparent 50%), radial-gradient(at 80% 0%, hsla(189,100%,56%,0.2) 0px, transparent 50%), radial-gradient(at 0% 50%, hsla(355,100%,93%,0.2) 0px, transparent 50%), radial-gradient(at 80% 50%, hsla(340,100%,76%,0.2) 0px, transparent 50%), radial-gradient(at 0% 100%, hsla(269,100%,77%,0.2) 0px, transparent 50%)",
       },
       backdropBlur: {
         xs: "2px",

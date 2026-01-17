@@ -8,8 +8,10 @@ const badgeVariants = tv({
     variant: {
       default:
         "glass bg-secondary/80 text-secondary-foreground hover:bg-secondary/90",
-      outline: "glass border border-border/50 text-foreground hover:bg-white/10",
-      success: "bg-gradient-to-r from-green-500 to-green-600 text-white hover:from-green-600 hover:to-green-700 shadow-sm",
+      outline:
+        "glass border border-border/50 text-foreground hover:bg-white/10",
+      success:
+        "bg-gradient-to-r from-green-500 to-green-600 text-white hover:from-green-600 hover:to-green-700 shadow-sm",
       warning:
         "bg-gradient-to-r from-yellow-400 to-yellow-500 text-black hover:from-yellow-500 hover:to-yellow-600 shadow-sm",
     },

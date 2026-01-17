@@ -28,7 +28,7 @@ export const Joke = () => {
   // Show error message if there's an error
   if (error) {
     return (
-      <div className="flex items-center gap-2 glass-card rounded-2xl p-3">
+      <div className='flex items-center gap-2 glass-card rounded-2xl p-3'>
         <Button
           variant='ghost'
           size='icon'
@@ -41,7 +41,7 @@ export const Joke = () => {
         >
           <MdRefresh />
         </Button>
-        <span className="text-sm text-foreground">{t("joke.error")}</span>
+        <span className='text-sm text-foreground'>{t("joke.error")}</span>
       </div>
     );
   }
@@ -49,7 +49,7 @@ export const Joke = () => {
   // Show loading message when loading and no data
   if (loading && !data) {
     return (
-      <div className="flex items-center gap-2 glass-card rounded-2xl p-3">
+      <div className='flex items-center gap-2 glass-card rounded-2xl p-3'>
         <Button
           variant='ghost'
           size='icon'
@@ -62,13 +62,13 @@ export const Joke = () => {
         >
           <MdRefresh />
         </Button>
-        <span className="text-sm text-foreground">{t("joke.loading")}</span>
+        <span className='text-sm text-foreground'>{t("joke.loading")}</span>
       </div>
     );
   }
 
   return (
-    <div className="flex items-center gap-2 glass-card rounded-2xl p-3">
+    <div className='flex items-center gap-2 glass-card rounded-2xl p-3'>
       <Button
         variant='ghost'
         size='icon'
@@ -81,7 +81,11 @@ export const Joke = () => {
       >
         <MdRefresh />
       </Button>
-      {data?.joke && <span className='animate-slide-up text-sm text-foreground'>{data.joke}</span>}
+      {data?.joke && (
+        <span className='animate-slide-up text-sm text-foreground'>
+          {data.joke}
+        </span>
+      )}
     </div>
   );
 };

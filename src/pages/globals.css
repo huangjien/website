@@ -184,23 +184,28 @@
   --ring: 215 20.2% 65.1%;
 
   --radius: 16px;
-  
+
   /* Glassmorphism tokens - Light mode */
   --glass-bg: 255 255 255 / 0.7;
   --glass-bg-hover: 255 255 255 / 0.85;
   --glass-border: 255 255 255 / 0.4;
   --glass-shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
   --glass-shadow-hover: 0 12px 48px rgba(31, 38, 135, 0.15);
-  
+
   /* Gradient tokens for modern accents */
   --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   --gradient-accent: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-  --gradient-glass: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
-  --gradient-mesh: radial-gradient(at 40% 20%, hsla(228,100%,74%,0.3) 0px, transparent 50%),
-                   radial-gradient(at 80% 0%, hsla(189,100%,56%,0.2) 0px, transparent 50%),
-                   radial-gradient(at 0% 50%, hsla(355,100%,93%,0.2) 0px, transparent 50%),
-                   radial-gradient(at 80% 50%, hsla(340,100%,76%,0.2) 0px, transparent 50%),
-                   radial-gradient(at 0% 100%, hsla(269,100%,77%,0.2) 0px, transparent 50%);
+  --gradient-glass: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
+  --gradient-mesh:
+    radial-gradient(at 40% 20%, hsla(228, 100%, 74%, 0.3) 0px, transparent 50%),
+    radial-gradient(at 80% 0%, hsla(189, 100%, 56%, 0.2) 0px, transparent 50%),
+    radial-gradient(at 0% 50%, hsla(355, 100%, 93%, 0.2) 0px, transparent 50%),
+    radial-gradient(at 80% 50%, hsla(340, 100%, 76%, 0.2) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, hsla(269, 100%, 77%, 0.2) 0px, transparent 50%);
 }
 
 .dark {
@@ -233,23 +238,32 @@
   --ring: 215 20.2% 65.1%;
 
   --radius: 16px;
-  
+
   /* Glassmorphism tokens - Dark mode */
   --glass-bg: 0 0% 0% / 0.6;
   --glass-bg-hover: 0 0% 0% / 0.75;
   --glass-border: 255 255 255 / 0.1;
   --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
   --glass-shadow-hover: 0 12px 48px rgba(0, 0, 0, 0.5);
-  
+
   /* Gradient tokens for modern accents (dark theme) */
   --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   --gradient-accent: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-  --gradient-glass: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 100%);
-  --gradient-mesh: radial-gradient(at 40% 20%, hsla(228,100%,74%,0.15) 0px, transparent 50%),
-                   radial-gradient(at 80% 0%, hsla(189,100%,56%,0.1) 0px, transparent 50%),
-                   radial-gradient(at 0% 50%, hsla(355,100%,93%,0.1) 0px, transparent 50%),
-                   radial-gradient(at 80% 50%, hsla(340,100%,76%,0.1) 0px, transparent 50%),
-                   radial-gradient(at 0% 100%, hsla(269,100%,77%,0.1) 0px, transparent 50%);
+  --gradient-glass: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(255, 255, 255, 0.03) 100%
+  );
+  --gradient-mesh:
+    radial-gradient(
+      at 40% 20%,
+      hsla(228, 100%, 74%, 0.15) 0px,
+      transparent 50%
+    ),
+    radial-gradient(at 80% 0%, hsla(189, 100%, 56%, 0.1) 0px, transparent 50%),
+    radial-gradient(at 0% 50%, hsla(355, 100%, 93%, 0.1) 0px, transparent 50%),
+    radial-gradient(at 80% 50%, hsla(340, 100%, 76%, 0.1) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, hsla(269, 100%, 77%, 0.1) 0px, transparent 50%);
 }
 
 body {
@@ -292,7 +306,11 @@ body {
 }
 
 .glass-button {
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(102, 126, 234, 0.8) 0%,
+    rgba(118, 75, 162, 0.8) 100%
+  );
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -301,7 +319,11 @@ body {
 }
 
 .glass-button:hover {
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.9) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(102, 126, 234, 0.9) 0%,
+    rgba(118, 75, 162, 0.9) 100%
+  );
   box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
   transform: translateY(-1px);
 }
@@ -323,7 +345,11 @@ body {
 }
 
 .glass-message-user {
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.9) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(102, 126, 234, 0.9) 0%,
+    rgba(118, 75, 162, 0.9) 100%
+  );
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   border: 1px solid rgba(255, 255, 255, 0.2);

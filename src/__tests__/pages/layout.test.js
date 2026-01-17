@@ -239,7 +239,7 @@ describe("Layout Component", () => {
       "bottom-8",
       "right-8",
       "z-50",
-      "shadow-lg",
+      "shadow-glass-glow",
       "rounded-full"
     );
   });

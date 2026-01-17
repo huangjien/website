@@ -59,8 +59,8 @@ export const Chat = ({ data, player }) => {
               </Accordion.Trigger>
             </Accordion.Header>
             <Accordion.Content>
-              <div className="relative">
-                <div className="absolute top-2 right-2 flex gap-2">
+              <div className='relative'>
+                <div className='absolute top-2 right-2 flex gap-2'>
                   <Button
                     size='icon'
                     onClick={handleCopy}
