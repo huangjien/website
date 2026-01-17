@@ -10,10 +10,10 @@ export function Message({ role = "assistant", children, className = "" }) {
       data-testid={`message-${role}`}
     >
       <div
-        className={`rounded-lg px-3 py-2 text-sm leading-relaxed w-full whitespace-pre-wrap break-words transition-all duration-fast ${
+        className={`rounded-2xl px-4 py-3 text-sm leading-relaxed w-full whitespace-pre-wrap break-words transition-all duration-fast cursor-pointer ${
           isUser
-            ? "bg-blue-600 text-white dark:bg-blue-500 hover:shadow-md"
-            : "bg-neutral-100 text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100 hover:shadow-md"
+            ? "glass-message-user text-white hover:shadow-glass-glow-hover hover:scale-[1.01]"
+            : "glass-message-assistant text-foreground hover:shadow-glass-hover hover:scale-[1.01]"
         }`}
       >
         {children}

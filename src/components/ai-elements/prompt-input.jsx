@@ -66,7 +66,7 @@ export default function PromptInput({
       <div className='relative'>
         <textarea
           ref={textareaRef}
-          className='w-full rounded-md ring-1 ring-border border-0 bg-background/60 backdrop-blur-sm text-foreground p-3 pr-56 focus:outline-none focus:ring-2 focus:ring-primary focus:shadow-lg transition-all duration-fast ease-out'
+          className='w-full rounded-2xl ring-1 ring-border/50 border-0 glass-input text-foreground p-4 pr-56 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:shadow-glass-glow transition-all duration-fast ease-out placeholder:text-muted-foreground/70'
           rows={1}
           placeholder={t("ai.prompt_placeholder", {
             defaultValue: "Type your message…",
@@ -86,7 +86,7 @@ export default function PromptInput({
             disabled={!trimmedValue}
             title={t("ai.clear_input", { defaultValue: "Clear input" })}
             aria-label={t("ai.clear_input", { defaultValue: "Clear input" })}
-            className='inline-flex items-center justify-center rounded-md ring-1 ring-border bg-background/60 backdrop-blur-sm text-foreground hover:bg-accent/20 hover:scale-105 hover:shadow-sm disabled:opacity-50 disabled:cursor-not-allowed p-2 transition-all duration-fast ease-out'
+            className='inline-flex items-center justify-center rounded-xl glass text-foreground hover:bg-white/10 hover:scale-105 hover:shadow-glass disabled:opacity-50 disabled:cursor-not-allowed p-2 transition-all duration-fast ease-out cursor-pointer'
           >
             <BiXCircle size={18} />
           </button>
@@ -106,10 +106,10 @@ export default function PromptInput({
                 ? t("ai.stop_recording", { defaultValue: "Stop Recording" })
                 : t("ai.start_recording", { defaultValue: "Start Recording" })
             }
-            className={`inline-flex items-center justify-center rounded-md p-2 transition-all duration-fast ease-out ${
+            className={`inline-flex items-center justify-center rounded-xl p-2 transition-all duration-fast ease-out cursor-pointer ${
               recording
-                ? "bg-red-600 text-white animate-pulse hover:scale-110"
-                : "ring-1 ring-border bg-background/60 backdrop-blur-sm text-foreground hover:bg-accent/20 hover:scale-105 hover:shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                ? "bg-gradient-to-r from-red-500 to-red-600 text-white animate-pulse hover:scale-110 shadow-lg"
+                : "glass text-foreground hover:bg-white/10 hover:scale-105 hover:shadow-glass disabled:opacity-50 disabled:cursor-not-allowed"
             }`}
           >
             <BiMicrophone size={18} />
@@ -121,7 +121,7 @@ export default function PromptInput({
               onClick={onStop}
               title={t("ai.stop", { defaultValue: "Stop" })}
               aria-label={t("ai.stop", { defaultValue: "Stop" })}
-              className='inline-flex items-center justify-center rounded-md ring-1 ring-border bg-background/60 backdrop-blur-sm text-foreground hover:bg-accent/20 hover:scale-105 hover:shadow-sm p-2 transition-all duration-fast ease-out'
+              className='inline-flex items-center justify-center rounded-xl glass text-foreground hover:bg-white/10 hover:scale-105 hover:shadow-glass p-2 transition-all duration-fast ease-out cursor-pointer'
             >
               <BiStop size={18} />
             </button>
@@ -134,7 +134,7 @@ export default function PromptInput({
             disabled={!trimmedValue}
             title={t("ai.send", { defaultValue: "Send" })}
             aria-label={t("ai.send", { defaultValue: "Send" })}
-            className='inline-flex items-center justify-center rounded-md bg-blue-600 hover:bg-blue-700 hover:scale-105 hover:shadow-md active:scale-95 disabled:bg-blue-400 disabled:cursor-not-allowed disabled:opacity-50 text-white p-2 transition-all duration-fast ease-out'
+            className='inline-flex items-center justify-center rounded-xl glass-button text-white hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed p-2 transition-all duration-fast ease-out cursor-pointer'
           >
             <BiSend size={18} />
           </button>
@@ -145,7 +145,7 @@ export default function PromptInput({
               onClick={onToggleSettings}
               title={t("ai.settings", { defaultValue: "Settings" })}
               aria-label={t("ai.settings", { defaultValue: "Settings" })}
-              className='inline-flex items-center justify-center rounded-md ring-1 ring-border bg-background/60 backdrop-blur-sm text-foreground hover:bg-accent/20 hover:scale-105 hover:shadow-sm p-2 transition-all duration-fast ease-out'
+              className='inline-flex items-center justify-center rounded-xl glass text-foreground hover:bg-white/10 hover:scale-105 hover:shadow-glass p-2 transition-all duration-fast ease-out cursor-pointer'
             >
               <BiCog size={18} />
             </button>

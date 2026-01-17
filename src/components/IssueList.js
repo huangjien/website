@@ -124,7 +124,7 @@ export const IssueList = ({ tags, ComponentName, data, inTab = "ai" }) => {
       </Dialog>
       <Joke />
       <div className={" min-h-max w-auto text-large lg:m-4 "}>
-        <div className='lg:inline-flex flex-wrap  text-lg justify-center lg:gap-8 items-center m-4'>
+        <div className='lg:inline-flex flex-wrap  text-lg justify-center lg:gap-8 items-center m-4 glass-card rounded-2xl p-4'>
           {/* {session && (inTab === 'issue' || inTab === 'settings') && (
             <IssueModal action={'new'} />
           )} */}
@@ -143,19 +143,19 @@ export const IssueList = ({ tags, ComponentName, data, inTab = "ai" }) => {
           <div className='inline-flex items-center gap-2'>
             <button
               type='button'
-              className='px-3 py-1 rounded-md hover:bg-accent hover:scale-105 hover:shadow-sm transition-all duration-fast ease-out active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed'
+              className='px-3 py-1.5 rounded-xl glass hover:bg-white/10 hover:scale-105 hover:shadow-glass transition-all duration-fast ease-out active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer'
               onClick={() => setPage((p) => Math.max(1, p - 1))}
               aria-label='Previous'
               title='Previous'
             >
               <BiChevronLeft size={18} />
             </button>
-            <span className='text-small'>
+            <span className='text-small px-2 py-1.5 rounded-lg glass px-3'>
               {page} / {pages}
             </span>
             <button
               type='button'
-              className='px-3 py-1 rounded-md hover:bg-accent hover:scale-105 hover:shadow-sm transition-all duration-fast ease-out active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed'
+              className='px-3 py-1.5 rounded-xl glass hover:bg-white/10 hover:scale-105 hover:shadow-glass transition-all duration-fast ease-out active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer'
               onClick={() => setPage((p) => Math.min(pages, p + 1))}
               aria-label='Next'
               title='Next'

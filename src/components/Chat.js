@@ -28,11 +28,11 @@ export const Chat = ({ data, player }) => {
         >
           <Accordion.Item
             value={String(data.question || data.id || "chat-item")}
-            className='transition-all duration-fast ease-out hover:shadow-md hover:-translate-y-0.5 rounded-xl'
+            className='transition-all duration-fast ease-out hover:shadow-glass hover:-translate-y-0.5 rounded-2xl glass-card'
           >
             <Accordion.Header>
               <Accordion.Trigger className='lg:inline-flex flex-wrap m-2 items-center'>
-                <h2 className='font-semibold m-2 text-xl select-text'>
+                <h2 className='font-semibold m-2 text-xl select-text text-foreground'>
                   {data.question}
                 </h2>
                 <Badge
@@ -59,27 +59,29 @@ export const Chat = ({ data, player }) => {
               </Accordion.Trigger>
             </Accordion.Header>
             <Accordion.Content>
-              <div>
-                <Button
-                  size='lg'
-                  onClick={handleCopy}
-                  variant='ghost'
-                  className='bg-transparent text-primary m-3 right-6'
-                  aria-label='copy'
-                  title='copy'
-                >
-                  <BiCopyAlt className='w-8 h-8' />
-                </Button>
-                <Button
-                  size='lg'
-                  onClick={handlePlay}
-                  variant='ghost'
-                  className='bg-transparent text-primary m-3 right-3'
-                  aria-label='play'
-                  title='play'
-                >
-                  <BiPlayCircle className='w-8 h-8' />
-                </Button>
+              <div className="relative">
+                <div className="absolute top-2 right-2 flex gap-2">
+                  <Button
+                    size='icon'
+                    onClick={handleCopy}
+                    variant='ghost'
+                    className='glass hover:bg-white/10'
+                    aria-label='copy'
+                    title='copy'
+                  >
+                    <BiCopyAlt size={18} />
+                  </Button>
+                  <Button
+                    size='icon'
+                    onClick={handlePlay}
+                    variant='ghost'
+                    className='glass hover:bg-white/10'
+                    aria-label='play'
+                    title='play'
+                  >
+                    <BiPlayCircle size={18} />
+                  </Button>
+                </div>
                 <div className='select-text prose prose-stone dark:prose-invert lg:prose-xl max-w-fit '>
                   <Markdown
                     className='select-text prose prose-stone dark:prose-invert lg:prose-xl max-w-fit '

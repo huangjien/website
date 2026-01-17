@@ -153,18 +153,18 @@
   }
 }
 
-/* Theme tokens for shadcn/ui */
+/* Theme tokens for shadcn/ui with Glassmorphism */
 :root {
-  --background: 0 0% 100%;
-  --foreground: 222.2 84% 4.9%;
+  --background: 220 40% 96%;
+  --foreground: 222.2 47.4% 11.2%;
 
   --card: 0 0% 100%;
-  --card-foreground: 222.2 84% 4.9%;
+  --card-foreground: 222.2 47.4% 11.2%;
 
   --popover: 0 0% 100%;
-  --popover-foreground: 222.2 84% 4.9%;
+  --popover-foreground: 222.2 47.4% 11.2%;
 
-  --primary: 222.2 47.4% 11.2%;
+  --primary: 221 83% 53%;
   --primary-foreground: 210 40% 98%;
 
   --secondary: 210 40% 96.1%;
@@ -183,28 +183,34 @@
   --input: 214.3 31.8% 91.4%;
   --ring: 215 20.2% 65.1%;
 
-  --radius: 12px;
-  /* New gradient tokens for modern accents */
-  --gradient-primary: linear-gradient(
-    90deg,
-    hsl(var(--primary)) 0%,
-    hsl(var(--accent)) 100%
-  );
-  --gradient-accent: linear-gradient(
-    90deg,
-    hsl(var(--accent)) 0%,
-    hsl(var(--primary)) 100%
-  );
+  --radius: 16px;
+  
+  /* Glassmorphism tokens - Light mode */
+  --glass-bg: 255 255 255 / 0.7;
+  --glass-bg-hover: 255 255 255 / 0.85;
+  --glass-border: 255 255 255 / 0.4;
+  --glass-shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
+  --glass-shadow-hover: 0 12px 48px rgba(31, 38, 135, 0.15);
+  
+  /* Gradient tokens for modern accents */
+  --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --gradient-accent: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  --gradient-glass: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+  --gradient-mesh: radial-gradient(at 40% 20%, hsla(228,100%,74%,0.3) 0px, transparent 50%),
+                   radial-gradient(at 80% 0%, hsla(189,100%,56%,0.2) 0px, transparent 50%),
+                   radial-gradient(at 0% 50%, hsla(355,100%,93%,0.2) 0px, transparent 50%),
+                   radial-gradient(at 80% 50%, hsla(340,100%,76%,0.2) 0px, transparent 50%),
+                   radial-gradient(at 0% 100%, hsla(269,100%,77%,0.2) 0px, transparent 50%);
 }
 
 .dark {
   --background: 222.2 84% 4.9%;
   --foreground: 210 40% 98%;
 
-  --card: 222.2 84% 4.9%;
+  --card: 217.2 32.6% 17.5%;
   --card-foreground: 210 40% 98%;
 
-  --popover: 222.2 84% 4.9%;
+  --popover: 217.2 32.6% 17.5%;
   --popover-foreground: 210 40% 98%;
 
   --primary: 210 40% 98%;
@@ -226,23 +232,110 @@
   --input: 217.2 32.6% 17.5%;
   --ring: 215 20.2% 65.1%;
 
-  --radius: 12px;
-  /* New gradient tokens for modern accents (dark theme) */
-  --gradient-primary: linear-gradient(
-    90deg,
-    hsl(var(--primary)) 0%,
-    hsl(var(--accent)) 100%
-  );
-  --gradient-accent: linear-gradient(
-    90deg,
-    hsl(var(--accent)) 0%,
-    hsl(var(--primary)) 100%
-  );
+  --radius: 16px;
+  
+  /* Glassmorphism tokens - Dark mode */
+  --glass-bg: 0 0% 0% / 0.6;
+  --glass-bg-hover: 0 0% 0% / 0.75;
+  --glass-border: 255 255 255 / 0.1;
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  --glass-shadow-hover: 0 12px 48px rgba(0, 0, 0, 0.5);
+  
+  /* Gradient tokens for modern accents (dark theme) */
+  --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --gradient-accent: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  --gradient-glass: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 100%);
+  --gradient-mesh: radial-gradient(at 40% 20%, hsla(228,100%,74%,0.15) 0px, transparent 50%),
+                   radial-gradient(at 80% 0%, hsla(189,100%,56%,0.1) 0px, transparent 50%),
+                   radial-gradient(at 0% 50%, hsla(355,100%,93%,0.1) 0px, transparent 50%),
+                   radial-gradient(at 80% 50%, hsla(340,100%,76%,0.1) 0px, transparent 50%),
+                   radial-gradient(at 0% 100%, hsla(269,100%,77%,0.1) 0px, transparent 50%);
 }
 
 body {
   background-color: hsl(var(--background));
   color: hsl(var(--foreground));
+  background-image: var(--gradient-mesh);
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+/* Glassmorphism utility classes */
+.glass {
+  background: hsla(var(--glass-bg));
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid hsla(var(--glass-border));
+  box-shadow: var(--glass-shadow);
+}
+
+.glass-card {
+  background: hsla(var(--glass-bg));
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid hsla(var(--glass-border));
+  box-shadow: var(--glass-shadow);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+  background: hsla(var(--glass-bg-hover));
+  box-shadow: var(--glass-shadow-hover);
+  transform: translateY(-2px);
+}
+
+.glass-input {
+  background: hsla(var(--glass-bg));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid hsla(var(--glass-border));
+}
+
+.glass-button {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-button:hover {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.9) 100%);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+  transform: translateY(-1px);
+}
+
+.glass-nav {
+  background: hsla(var(--glass-bg));
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid hsla(var(--glass-border));
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.glass-modal {
+  background: hsla(var(--glass-bg));
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid hsla(var(--glass-border));
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.glass-message-user {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.9) 100%);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+}
+
+.glass-message-assistant {
+  background: hsla(var(--glass-bg));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid hsla(var(--glass-border));
+  box-shadow: var(--glass-shadow);
 }
 
 /* Legacy NextUI/HeroUI radius overrides removed — radii now controlled per component via Tailwind classes */

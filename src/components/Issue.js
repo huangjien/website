@@ -32,7 +32,7 @@ export const Issue = ({ issue }) => {
         value={String(issue.title || issue.number || issue.id || "issue-item")}
         data-testid='accordion-item'
         aria-label={issue.title}
-        className='transition-all duration-fast ease-out hover:shadow-md hover:-translate-y-0.5 rounded-xl'
+        className='transition-all duration-fast ease-out hover:shadow-glass hover:-translate-y-0.5 rounded-2xl glass-card'
       >
         <Accordion.Header>
           <Accordion.Trigger className='lg:inline-flex flex-wrap justify-items-stretch items-stretch justify-between'>

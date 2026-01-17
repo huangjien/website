@@ -254,7 +254,7 @@ export default function AI() {
       data-testid='ai-container'
     >
       {/* Messages area with bottom padding to avoid overlap with fixed input */}
-      <div className='mx-auto w-[90vw] pb-28'>
+      <div className='mx-auto w-[90vw] pb-28 pt-4'>
         <Conversation>
           <ConversationContent>
             {(visibleMessages || []).map((m) => {
@@ -287,8 +287,8 @@ export default function AI() {
       </div>
 
       {/* Fixed bottom input bar */}
-      <div className='fixed bottom-0 left-0 right-0 bg-background/95 backdrop-blur-sm border-t ring-1 ring-border'>
-        <div className='mx-auto w-[90vw] py-2'>
+      <div className='fixed bottom-0 left-0 right-0 glass-nav border-t border-border/50'>
+        <div className='mx-auto w-[90vw] py-3'>
           <PromptInput
             value={prompt}
             onChange={setPrompt}
@@ -301,8 +301,8 @@ export default function AI() {
       </div>
 
       {showSettings ? (
-        <div className='fixed bottom-20 left-0 right-0 z-50'>
-          <div className='mx-auto w-[90vw]'>
+        <div className='fixed bottom-24 left-0 right-0 z-50 px-4'>
+          <div className='mx-auto w-[90vw] max-w-2xl'>
             <SettingsPanel settings={settings} setSettings={setSettings} />
           </div>
         </div>

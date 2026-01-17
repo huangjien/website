@@ -38,10 +38,10 @@ export default function Input({
           data-testid='input'
           type={type}
           className={cn(
-            "flex h-10 w-full rounded-lg ring-1 ring-border border-0 bg-background/60 backdrop-blur-sm px-3 py-2 text-sm ring-offset-background",
-            "placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:scale-[1.01]",
-            "hover:bg-accent/5 hover:shadow-sm transition-all duration-fast ease-out disabled:cursor-not-allowed disabled:opacity-50",
-            startContent ? "pl-8" : ""
+            "flex h-11 w-full rounded-xl ring-1 ring-border/50 border-0 glass-input px-4 py-2.5 text-sm",
+            "placeholder:text-muted-foreground/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:scale-[1.01] focus-visible:shadow-glow",
+            "hover:bg-white/10 hover:shadow-glass transition-all duration-fast ease-out disabled:cursor-not-allowed disabled:opacity-50",
+            startContent ? "pl-10" : ""
           )}
           value={value}
           onChange={onChange}

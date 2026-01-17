@@ -3,27 +3,27 @@ import { tv } from "tailwind-variants";
 import { cn } from "../../lib/cn";
 
 const buttonVariants = tv({
-  base: "inline-flex items-center justify-center rounded-md text-sm font-medium transition-all duration-fast ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
+  base: "inline-flex items-center justify-center rounded-xl text-sm font-medium transition-all duration-fast ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 cursor-pointer",
   variants: {
     variant: {
       default:
-        "bg-primary text-primary-foreground hover:bg-primary/90 hover:shadow-md hover:scale-105 active:scale-95",
+        "glass-button text-primary-foreground hover:scale-105 active:scale-95",
       outline:
-        "bg-background hover:bg-accent hover:text-accent-foreground hover:shadow-sm hover:scale-105 active:scale-95",
+        "glass hover:bg-white/10 hover:text-accent-foreground hover:shadow-glass hover:scale-105 active:scale-95",
       ghost:
-        "hover:bg-accent hover:text-accent-foreground hover:scale-105 active:scale-95",
+        "hover:bg-white/10 hover:text-accent-foreground hover:scale-105 active:scale-95",
       secondary:
-        "bg-secondary text-secondary-foreground hover:bg-secondary/80 hover:shadow-sm hover:scale-105 active:scale-95",
+        "glass hover:bg-white/10 text-secondary-foreground hover:shadow-glass hover:scale-105 active:scale-95",
       destructive:
-        "bg-destructive text-destructive-foreground hover:bg-destructive/90 hover:shadow-md hover:scale-105 active:scale-95",
+        "bg-gradient-to-r from-red-500 to-red-600 text-destructive-foreground hover:from-red-600 hover:to-red-700 hover:shadow-lg hover:scale-105 active:scale-95",
       gradient:
-        "bg-gradient-to-r from-primary to-accent text-primary-foreground hover:from-primary/90 hover:to-accent/90 hover:shadow-md hover:scale-105 active:scale-95",
+        "bg-gradient-to-r from-primary to-accent text-primary-foreground hover:from-primary/90 hover:to-accent/90 hover:shadow-glow hover:scale-105 active:scale-95",
     },
     size: {
-      sm: "h-8 px-2",
-      md: "h-10 px-4 py-2",
-      lg: "h-12 px-6",
-      icon: "h-10 w-10",
+      sm: "h-9 px-3",
+      md: "h-11 px-5 py-2.5",
+      lg: "h-13 px-7",
+      icon: "h-11 w-11",
     },
   },
   defaultVariants: {

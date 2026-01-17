@@ -3,15 +3,15 @@ import { tv } from "tailwind-variants";
 import { cn } from "../../lib/cn";
 
 const badgeVariants = tv({
-  base: "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold transition-all duration-fast ease-out focus:outline-none focus:ring-2 focus:ring-ring hover:scale-110 hover:shadow-sm active:scale-95",
+  base: "inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold transition-all duration-fast ease-out focus:outline-none focus:ring-2 focus:ring-primary/50 hover:scale-110 hover:shadow-glass active:scale-95 cursor-pointer",
   variants: {
     variant: {
       default:
-        "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
-      outline: "bg-transparent text-foreground",
-      success: "border-transparent bg-green-600 text-white hover:bg-green-700",
+        "glass bg-secondary/80 text-secondary-foreground hover:bg-secondary/90",
+      outline: "glass border border-border/50 text-foreground hover:bg-white/10",
+      success: "bg-gradient-to-r from-green-500 to-green-600 text-white hover:from-green-600 hover:to-green-700 shadow-sm",
       warning:
-        "border-transparent bg-yellow-500 text-black hover:bg-yellow-600",
+        "bg-gradient-to-r from-yellow-400 to-yellow-500 text-black hover:from-yellow-500 hover:to-yellow-600 shadow-sm",
     },
   },
   defaultVariants: {

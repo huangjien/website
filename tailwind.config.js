@@ -49,6 +49,23 @@ module.exports = {
         sm: "0 1px 2px rgba(0,0,0,0.06)",
         md: "0 4px 6px rgba(0,0,0,0.08)",
         lg: "0 10px 15px rgba(0,0,0,0.10)",
+        glass: "0 8px 32px rgba(31, 38, 135, 0.1)",
+        "glass-hover": "0 12px 48px rgba(31, 38, 135, 0.15)",
+        "glass-dark": "0 8px 32px rgba(0, 0, 0, 0.4)",
+        "glass-dark-hover": "0 12px 48px rgba(0, 0, 0, 0.5)",
+        "glass-glow": "0 4px 20px rgba(102, 126, 234, 0.3)",
+        "glass-glow-hover": "0 6px 25px rgba(102, 126, 234, 0.4)",
+        "inner-glow": "inset 0 1px 0 rgba(255, 255, 255, 0.1)",
+      },
+      backgroundImage: {
+        "gradient-primary": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+        "gradient-accent": "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
+        "gradient-glass": "linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)",
+        "gradient-mesh": "radial-gradient(at 40% 20%, hsla(228,100%,74%,0.3) 0px, transparent 50%), radial-gradient(at 80% 0%, hsla(189,100%,56%,0.2) 0px, transparent 50%), radial-gradient(at 0% 50%, hsla(355,100%,93%,0.2) 0px, transparent 50%), radial-gradient(at 80% 50%, hsla(340,100%,76%,0.2) 0px, transparent 50%), radial-gradient(at 0% 100%, hsla(269,100%,77%,0.2) 0px, transparent 50%)",
+      },
+      backdropBlur: {
+        xs: "2px",
+        "3xl": "64px",
       },
       colors: {
         border: "hsl(var(--border))",

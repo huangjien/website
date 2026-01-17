@@ -24,7 +24,7 @@ export function Item({ className, ...props }) {
   return (
     <AccordionPrimitive.Item
       className={cn(
-        "rounded-xl p-3 my-2 shadow-xs hover:shadow-md transition-shadow",
+        "rounded-2xl p-4 my-2 glass-card hover:shadow-glass-hover transition-all duration-fast ease-out",
         className
       )}
       {...props}
@@ -45,7 +45,7 @@ export const Trigger = React.forwardRef(({ className, ...props }, ref) => {
     <AccordionPrimitive.Trigger
       ref={ref}
       className={cn(
-        "flex w-full items-center justify-between gap-2 py-2 text-left outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 hover:bg-accent/30 rounded-lg",
+        "flex w-full items-center justify-between gap-2 py-2.5 text-left outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 hover:bg-white/10 rounded-xl transition-all duration-fast ease-out cursor-pointer",
         className
       )}
       {...props}
