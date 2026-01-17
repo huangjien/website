@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { success, error } from "./Notification";
 import { useLocalStorageState } from "ahooks";
@@ -9,6 +9,11 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "./ui/tabs";
 
 export const QuestionTabs = ({ append }) => {
   // append is the method add Q and A to parent content list
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const { t } = useTranslation();
   const [questionText, setQuestionText] = useState("");
   const [lastAnswer, setLastAnswer] = useLocalStorageState("LastAnswer", {
@@ -97,18 +102,18 @@ export const QuestionTabs = ({ append }) => {
             loading={loading}
             onSubmit={handleSubmit}
             onClear={clearText}
-            trackSpeed={trackSpeed}
+            trackSpeed={mounted ? trackSpeed : 300}
           />
         </div>
       </TabsContent>
       <TabsContent value='configuration' className='mt-2'>
         <div className='rounded-md bg-background p-4 shadow-sm'>
           <ConfigurationTab
-            model={model}
+            model={mounted ? model : "gpt-4.1-mini"}
             setModel={setModel}
-            temperature={temperature}
+            temperature={mounted ? temperature : 0.5}
             setTemperature={setTemperature}
-            trackSpeed={trackSpeed}
+            trackSpeed={mounted ? trackSpeed : 300}
             setTrackSpeed={setTrackSpeed}
           />
         </div>

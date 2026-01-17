@@ -1,5 +1,5 @@
 import { useRequest, useSessionStorageState } from "ahooks";
-import { createContext, useContext } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import { properties2Json } from "./Requests";
 
 const getSettings = async () => {
@@ -28,6 +28,11 @@ export const useSettings = () => {
 };
 
 function useProvideSettings() {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const [settings, setSettings] = useSessionStorageState(
     "application_settings"
   );
@@ -73,15 +78,15 @@ function useProvideSettings() {
   };
 
   return {
-    settings,
+    settings: mounted ? settings : undefined,
     getSetting,
-    currentLanguage,
+    currentLanguage: mounted ? currentLanguage : "en",
     setCurrentLanguage,
-    currentTheme,
+    currentTheme: mounted ? currentTheme : "light",
     setCurrentTheme,
-    speakerName,
+    speakerName: mounted ? speakerName : "en-US-Standard-A",
     setSpeakerName,
-    languageCode,
+    languageCode: mounted ? languageCode : "en-US",
     setLanguageCode,
   };
 }

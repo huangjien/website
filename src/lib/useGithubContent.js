@@ -4,6 +4,11 @@ import { getIssues, getReadme, getValueByPath } from "./Requests";
 import { useSettings } from "./useSettings";
 
 export const useGithubContent = () => {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const { getSetting } = useSettings();
   const [about, setAbout] = useLocalStorageState("about");
   const [rawData, setRawData] = useState();
@@ -62,7 +67,11 @@ export const useGithubContent = () => {
     }
   }, [getSetting, setIssues, rawData]);
 
-  return { tags, issues, about };
+  return {
+    tags,
+    issues: mounted ? issues : undefined,
+    about: mounted ? about : undefined,
+  };
 };
 
 // extract a new subset from the content, according content list, then add a html field according body

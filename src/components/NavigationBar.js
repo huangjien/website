@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
@@ -17,9 +17,14 @@ import Avatar from "./ui/avatar";
  * @returns {JSX.Element} The rendered navigation bar.
  */
 export const NavigationBar = () => {
+  const [mounted, setMounted] = useState(false);
   const { theme } = useTheme();
   const { data: session, status } = useSession();
   const { t } = useTranslation();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Inside the navigation links rendering, ensure Settings link is always visible
   return (
@@ -83,7 +88,7 @@ export const NavigationBar = () => {
           limit={3}
           pauseOnHover
           closeOnClick
-          theme={theme === "dark" ? "dark" : "light"}
+          theme={mounted && theme === "dark" ? "dark" : "light"}
           draggable
         />
       </div>

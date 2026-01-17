@@ -21,7 +21,7 @@ const withSerwist = require("@serwist/next").default({
 // const path = require('path')
 
 const nextConfig = {
-  output: "standalone",
+  // output: "standalone",
   reactStrictMode: true,
   devIndicators: false,
   transpilePackages: ["ahooks"],

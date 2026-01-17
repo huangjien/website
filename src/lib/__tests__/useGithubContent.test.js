@@ -44,20 +44,21 @@ describe("useGithubContent", () => {
     // Mock useLocalStorageState
     useLocalStorageState.mockImplementation((key) => {
       if (key === "about") {
-        return [null, mockSetAbout];
+        return [undefined, mockSetAbout];
       }
       if (key === "issues") {
-        return [null, mockSetIssues];
+        return [undefined, mockSetIssues];
       }
-      return [null, jest.fn()];
+      return [undefined, jest.fn()];
     });
 
     // Mock useState
     let stateIndex = 0;
     useState.mockImplementation((initial) => {
       const states = [
+        [true, jest.fn()], // mounted state - set to true to simulate component mounted
         [null, mockSetRawData], // rawData state
-        [null, mockSetTags], // tags state
+        [undefined, mockSetTags], // tags state
       ];
       return states[stateIndex++] || [initial, jest.fn()];
     });
@@ -112,9 +113,9 @@ describe("useGithubContent", () => {
   it("should initialize with correct default values", () => {
     const { result } = renderHook(() => useGithubContent());
 
-    expect(result.current.tags).toBeNull();
-    expect(result.current.issues).toBeNull();
-    expect(result.current.about).toBeNull();
+    expect(result.current.tags).toBeUndefined();
+    expect(result.current.issues).toBeUndefined();
+    expect(result.current.about).toBeUndefined();
   });
 
   it("should call useRequest for readme and issues", () => {
@@ -156,13 +157,15 @@ describe("useGithubContent", () => {
       },
     ];
 
-    // Mock useState calls in order: rawData, tags, issues
+    // Mock useState calls in order: mounted, rawData, tags, issues
     let callCount = 0;
     useState.mockImplementation((initial) => {
       callCount++;
       if (callCount === 1) {
-        return [mockRawData, mockSetRawData]; // rawData state
+        return [true, jest.fn()]; // mounted state
       } else if (callCount === 2) {
+        return [mockRawData, mockSetRawData]; // rawData state
+      } else if (callCount === 3) {
         return [null, mockSetTags]; // tags state
       } else {
         return [null, mockSetIssues]; // issues state
@@ -193,8 +196,10 @@ describe("useGithubContent", () => {
     useState.mockImplementation((initial) => {
       callCount++;
       if (callCount === 1) {
-        return [mockRawData, mockSetRawData];
+        return [true, jest.fn()]; // mounted state
       } else if (callCount === 2) {
+        return [mockRawData, mockSetRawData];
+      } else if (callCount === 3) {
         return [null, mockSetTags];
       } else {
         return [null, mockSetIssues];
@@ -225,8 +230,10 @@ describe("useGithubContent", () => {
     useState.mockImplementation((initial) => {
       callCount++;
       if (callCount === 1) {
-        return [mockRawData, mockSetRawData];
+        return [true, jest.fn()]; // mounted state
       } else if (callCount === 2) {
+        return [mockRawData, mockSetRawData];
+      } else if (callCount === 3) {
         return [null, mockSetTags];
       } else {
         return [null, mockSetIssues];
@@ -265,8 +272,10 @@ describe("useGithubContent", () => {
     useState.mockImplementation((initial) => {
       callCount++;
       if (callCount === 1) {
-        return [mockRawData, mockSetRawData];
+        return [true, jest.fn()]; // mounted state
       } else if (callCount === 2) {
+        return [mockRawData, mockSetRawData];
+      } else if (callCount === 3) {
         return [null, mockSetTags];
       } else {
         return [null, mockSetIssues];

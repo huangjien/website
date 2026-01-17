@@ -49,6 +49,11 @@ function hydrateMessages(serialized) {
 }
 
 export default function AI() {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const { t } = useTranslation();
   useTitle(t("header.ai"));
 
@@ -136,30 +141,40 @@ export default function AI() {
   }, []);
 
   // Initialize useChat with initial messages and backend API
-  const { id, messages, sendMessage, stop, status, clearError } = useChat({
-    transport: new DefaultChatTransport({
-      api: "/api/chat",
-      prepareSendMessagesRequest: ({ messages: outgoing }) => {
-        return {
-          body: {
-            messages: outgoing,
-            model: settings?.model,
-            temperature: parseFloat(settings?.temperature ?? 1),
-            system: settings?.systemPrompt || undefined,
-          },
-        };
+  const { id, messages, sendMessage, stop, status, clearError, setMessages } =
+    useChat({
+      transport: new DefaultChatTransport({
+        api: "/api/chat",
+        prepareSendMessagesRequest: ({ messages: outgoing }) => {
+          return {
+            body: {
+              messages: outgoing,
+              model: settings?.model,
+              temperature: parseFloat(settings?.temperature ?? 1),
+              system: settings?.systemPrompt || undefined,
+            },
+          };
+        },
+      }),
+      id: "ai-page",
+      messages: [], // Start empty to match server SSR
+      experimental_throttle: settings?.trackSpeed || undefined,
+      onError: (err) => {
+        console.error("useChat error:", err);
       },
-    }),
-    id: "ai-page",
-    messages: hydrateMessages(savedMessages),
-    experimental_throttle: settings?.trackSpeed || undefined,
-    onError: (err) => {
-      console.error("useChat error:", err);
-    },
-    onFinish: ({ messages: finalMessages }) => {
-      setSavedMessages(serializeMessages(finalMessages));
-    },
-  });
+      onFinish: ({ messages: finalMessages }) => {
+        setSavedMessages(serializeMessages(finalMessages));
+      },
+    });
+
+  // Load saved messages on mount
+  const [initialLoaded, setInitialLoaded] = useState(false);
+  useEffect(() => {
+    if (mounted && !initialLoaded && savedMessages?.length > 0) {
+      setMessages(hydrateMessages(savedMessages));
+      setInitialLoaded(true);
+    }
+  }, [mounted, initialLoaded, savedMessages, setMessages]);
 
   // Persist messages on changes (debounced)
   useDebounceEffect(
@@ -303,7 +318,19 @@ export default function AI() {
       {showSettings ? (
         <div className='fixed bottom-24 left-0 right-0 z-50 px-4'>
           <div className='mx-auto w-[90vw] max-w-2xl'>
-            <SettingsPanel settings={settings} setSettings={setSettings} />
+            <SettingsPanel
+              settings={
+                mounted
+                  ? settings
+                  : {
+                      model: "gpt-4o-mini",
+                      temperature: 1,
+                      trackSpeed: 300,
+                      ttsVoice: "alloy",
+                    }
+              }
+              setSettings={setSettings}
+            />
           </div>
         </div>
       ) : null}
