@@ -1,6 +1,6 @@
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { ProvideSettings } from "../lib/useSettings";
-// import NoSSR from "../lib/NoSSR";
+import NoSSR from "../lib/NoSSR";
 import { SessionProvider } from "next-auth/react";
 // import { languages } from '../locales/i18n';
 import "./globals.css";
@@ -14,7 +14,9 @@ function App({ Component, pageProps }) {
     <SessionProvider session={pageProps.session}>
       <NextThemesProvider attribute='class' defaultTheme='dark'>
         <ProvideSettings>
-          <PwaRegister />
+          <NoSSR>
+            <PwaRegister />
+          </NoSSR>
           <RootLayout>
             <Component {...pageProps} />
           </RootLayout>

@@ -5,6 +5,17 @@ const withSerwist = require("@serwist/next").default({
   swDest: "public/sw.js",
   disable: process.env.NODE_ENV === "development",
   register: false,
+  exclude: [
+    ({ asset }) => {
+      const excludeList = [
+        /\.map$/,
+        /^manifest.*\.js$/,
+        /^server\//,
+        /^(((app-)?build-manifest|react-loadable-manifest|dynamic-css-manifest)\.json)$/,
+      ];
+      return excludeList.some((r) => r.test(asset.name));
+    },
+  ],
 });
 
 // const path = require('path')

@@ -14,14 +14,14 @@ describe("sw", () => {
     jest.resetModules();
   });
 
-  it("filters out dynamic-css-manifest.json from precache entries", () => {
+  it("passes manifest to installSerwist with correct options", () => {
+    const testManifest = [
+      { url: "/favicon.ico" },
+      "/manifest.json",
+      { url: "/_next/static/chunks/main.js" },
+    ];
     global.self = {
-      __SW_MANIFEST: [
-        { url: "/_next/dynamic-css-manifest.json" },
-        { url: "/favicon.ico" },
-        "/_next/dynamic-css-manifest.json",
-        "/manifest.json",
-      ],
+      __SW_MANIFEST: testManifest,
     };
 
     require("../sw");
@@ -29,9 +29,10 @@ describe("sw", () => {
     expect(mockInstallSerwist).toHaveBeenCalledTimes(1);
     const options = mockInstallSerwist.mock.calls[0][0];
 
-    expect(options.precacheEntries).toEqual([
-      { url: "/favicon.ico" },
-      "/manifest.json",
-    ]);
+    expect(options.precacheEntries).toBe(testManifest);
+    expect(options.skipWaiting).toBe(true);
+    expect(options.clientsClaim).toBe(true);
+    expect(options.navigationPreload).toBe(true);
+    expect(options.runtimeCaching).toBe("defaultCache");
   });
 });
