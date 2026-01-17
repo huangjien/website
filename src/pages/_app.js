@@ -1,4 +1,3 @@
-"use client";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { ProvideSettings } from "../lib/useSettings";
 import NoSSR from "../lib/NoSSR";

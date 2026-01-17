@@ -1,4 +1,3 @@
-"use client";
 import { Inter } from "next/font/google";
 import { useSettings } from "../lib/useSettings";
 import { NavigationBar } from "../components/NavigationBar";
