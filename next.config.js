@@ -1,10 +1,10 @@
 /** @type {import('next').NextConfig} */
 
-const withPWA = require("next-pwa")({
-  dest: "public",
-  register: true,
-  skipWaiting: true,
+const withSerwist = require("@serwist/next").default({
+  swSrc: "src/sw.js",
+  swDest: "public/sw.js",
   disable: process.env.NODE_ENV === "development",
+  register: false,
 });
 
 // const path = require('path')
@@ -52,4 +52,5 @@ const nextConfig = {
   },
 };
 
-module.exports = withPWA(nextConfig);
+module.exports = withSerwist(nextConfig);
+// module.exports = nextConfig;
