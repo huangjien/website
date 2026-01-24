@@ -19,7 +19,11 @@
     "question_length": "Länge der Frage",
     "answer_length": "Länge der Antwort",
     "return_error": "Der AI-Request gibt einen Fehler zurück",
-    "return_length": "Wir haben eine Antwort vom AI erhalten.\nLänge der Antwort"
+    "return_length": "Wir haben eine Antwort vom AI erhalten.\nLänge der Antwort",
+    "error_message": "Nachricht konnte nicht gesendet werden. Bitte versuchen Sie es erneut.",
+    "timestamp_now": "Gerade eben",
+    "timestamp_mins_ago": "min(s) vor",
+    "timestamp_hours_ago": "h(s) vor"
   },
   "header": {
     "ai": "Künstliche Intelligenz",
@@ -50,22 +54,24 @@
     "skeuomorphism": "Skeuomorphismus",
     "bento_grid": "Bento-Grid",
     "responsive": "Responsiv",
-    "flat_design": "Flat Design"
+    "flat_design": "Flat Design",
+    "liquid_glass": "Flüssiges Glas"
   },
   "issue": {
     "row_per_page": "Zeilen pro Seite",
-    "total": "Insgesamt {{total}} Artikel",
+    "total": "Insgesamt {{total}} Elemente",
     "title": "Problem",
     "description": "Beschreibung",
     "issue": "Problem",
     "issue_id": "Problem-ID",
-    "issue_id_placeholder": "Problem-ID eingeben",
-    "issue_id_error": "Problem-ID erforderlich",
-    "issue_id_error_message": "Problem-ID erforderlich",
-    "issue_id_error_message_placeholder": "Problem-ID eingeben",
-    "issue_id_error_message_error": "Problem-ID erforderlich",
+    "issue_id_placeholder": "Geben Sie die Problem-ID ein",
+    "issue_id_error": "Problem-ID ist erforderlich",
+    "issue_id_error_message": "Problem-ID ist erforderlich",
+    "issue_id_error_message_placeholder": "Geben Sie die Problem-ID ein",
+    "issue_id_error_message_error": "Problem-ID ist erforderlich",
     "last_update": "Letzte Aktualisierung",
-    "created": "Erstellt"
+    "created": "Erstellt",
+    "empty": "Keine Probleme anzuzeigen"
   },
   "column": {
     "title": {

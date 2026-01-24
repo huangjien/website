@@ -8,7 +8,17 @@ jest.mock("react-i18next", () => ({
   useTranslation: () => ({ t: (k, opts) => opts?.defaultValue ?? k }),
 }));
 
-jest.mock("ahooks", () => ({ useTitle: jest.fn() }));
+jest.mock("ahooks", () => ({
+  useTitle: jest.fn(),
+  useDebounceEffect: jest.fn((effect, deps) => {
+    const React = require("react");
+    React.useEffect(effect, deps);
+  }),
+}));
+
+jest.mock("next/navigation", () => ({
+  usePathname: jest.fn(),
+}));
 
 jest.mock("../../lib/useSettings", () => ({
   useSettings: jest
@@ -24,9 +34,11 @@ jest.mock("next-auth/react", () => ({
 
 describe("Settings Page additional coverage", () => {
   const { useSession, signIn } = require("next-auth/react");
+  const { usePathname } = require("next/navigation");
 
   beforeEach(() => {
     jest.clearAllMocks();
+    usePathname.mockReturnValue("/");
   });
 
   it("shows loading state when session status is loading", () => {

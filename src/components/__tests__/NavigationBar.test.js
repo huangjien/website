@@ -57,6 +57,16 @@ jest.mock("react-icons/bi", () => {
 });
 
 // Mock child components
+jest.mock("../MobileMenu", () => {
+  const React = require("react");
+  const MockMobileMenu = () =>
+    React.createElement("div", { "data-testid": "mobile-menu-component" });
+  return {
+    MobileMenu: MockMobileMenu,
+    default: MockMobileMenu,
+  };
+});
+
 jest.mock("../Login", () => {
   const React = require("react");
   const MockLogin = () =>

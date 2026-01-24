@@ -1,5 +1,6 @@
 import { useSettings } from "../lib/useSettings";
 import { NavigationBar } from "../components/NavigationBar";
+import Breadcrumb from "../components/Breadcrumb";
 import Button from "../components/ui/button";
 import { useEffect, useState } from "react";
 import { MdKeyboardArrowUp } from "react-icons/md";
@@ -36,7 +37,10 @@ export default function RootLayout({ children }) {
   return (
     <div className='min-h-screen flex flex-col'>
       <NavigationBar />
-      <main className='flex-1 p-4'>{children}</main>
+      <div className='flex-1 p-4'>
+        <Breadcrumb />
+        <main>{children}</main>
+      </div>
       {showScrollButton && (
         <Button
           variant='default'

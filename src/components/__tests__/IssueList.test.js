@@ -10,6 +10,17 @@ jest.mock("@/lib/useSettings", () => ({
   }),
 }));
 
+// Mock ahooks
+jest.mock("ahooks", () => ({
+  useDebounceEffect: jest.fn(),
+  useRequest: jest.fn(() => ({
+    data: null,
+    loading: false,
+    error: null,
+    refresh: jest.fn(),
+  })),
+}));
+
 // Mock fetch for TTS API
 global.fetch = jest.fn();
 
@@ -17,12 +28,20 @@ global.fetch = jest.fn();
 global.URL.createObjectURL = jest.fn(() => "mock-audio-url");
 
 // Mock components
-jest.mock("../Issue", () => ({
-  Issue: ({ issue }) => <div data-testid='issue-component'>{issue.title}</div>,
-}));
+jest.mock("../Issue", () => {
+  const React = require("react");
+  const MockIssue = ({ issue }) => (
+    <div data-testid='issue-component'>{issue.title}</div>
+  );
+  return {
+    Issue: MockIssue,
+    default: MockIssue,
+  };
+});
 
-jest.mock("../Chat", () => ({
-  Chat: ({ data, player }) => (
+jest.mock("../Chat", () => {
+  const React = require("react");
+  const MockChat = ({ data, player }) => (
     <div data-testid='chat-component'>
       <span>{data.question || data.title}</span>
       <button
@@ -36,16 +55,59 @@ jest.mock("../Chat", () => ({
         <svg>Play Icon</svg>
       </button>
     </div>
-  ),
-}));
+  );
+  return {
+    Chat: MockChat,
+    default: MockChat,
+  };
+});
 
-jest.mock("../Joke", () => ({
-  Joke: () => <div data-testid='joke-component'>Joke Component</div>,
-}));
+jest.mock("../Joke", () => {
+  const React = require("react");
+  const MockJoke = () => <div data-testid='joke-component'>Joke Component</div>;
+  return {
+    Joke: MockJoke,
+    default: MockJoke,
+  };
+});
 
-jest.mock("../IssueModal", () => ({
-  IssueModal: () => <div data-testid='issue-modal'>Issue Modal</div>,
-}));
+jest.mock("../IssueModal", () => {
+  const React = require("react");
+  const MockIssueModal = () => <div data-testid='issue-modal'>Issue Modal</div>;
+  return {
+    IssueModal: MockIssueModal,
+    default: MockIssueModal,
+  };
+});
+
+jest.mock("../EmptyState", () => {
+  const React = require("react");
+  return {
+    __esModule: true,
+    default: () => <div data-testid='empty-state'>No issues to display</div>,
+    EmptyState: () => <div data-testid='empty-state'>No issues to display</div>,
+  };
+});
+
+jest.mock("../Comment", () => {
+  const React = require("react");
+  const MockComment = () => <div data-testid='comment-component'>Comment</div>;
+  return {
+    Comment: MockComment,
+    default: MockComment,
+  };
+});
+
+jest.mock("react-markdown", () => {
+  const React = require("react");
+  const MockMarkdown = ({ children }) => (
+    <div data-testid='markdown'>{children}</div>
+  );
+  return MockMarkdown;
+});
+
+jest.mock("rehype-raw", () => ({}));
+jest.mock("remark-gfm", () => ({}));
 
 const mockData = [
   {

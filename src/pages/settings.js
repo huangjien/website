@@ -3,7 +3,7 @@ import React, { useState, useCallback, useMemo } from "react";
 import { useSettings } from "../lib/useSettings";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
-import { useTitle } from "ahooks";
+import { useTitle, useDebounceEffect } from "ahooks";
 import { BiSearch } from "react-icons/bi";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Input from "../components/ui/input";
@@ -25,10 +25,20 @@ export default function Settings() {
     setPage(1);
   }, []);
 
+  const [debouncedFilterValue, setDebouncedFilterValue] = useState("");
+
+  useDebounceEffect(
+    () => {
+      setDebouncedFilterValue(filterValue);
+    },
+    [filterValue],
+    { wait: 500 }
+  );
+
   const filterItems = useMemo(() => {
     let filteredData = settings || [];
-    if (filterValue) {
-      const regex = new RegExp(filterValue, "i");
+    if (debouncedFilterValue) {
+      const regex = new RegExp(debouncedFilterValue, "i");
       filteredData = filteredData.filter((oneItem) => {
         return (
           oneItem["name"].search(regex) > -1 ||
@@ -38,7 +48,7 @@ export default function Settings() {
     }
 
     return filteredData;
-  }, [filterValue, settings]);
+  }, [debouncedFilterValue, settings]);
 
   const items = useMemo(() => {
     const start = (page - 1) * rowsPerPage;
@@ -126,7 +136,7 @@ export default function Settings() {
         </label>
       </div>
 
-      <div className='overflow-x-auto rounded-md border'>
+      <div className='hidden lg:block overflow-x-auto rounded-md border'>
         <table
           data-testid='table'
           aria-label='Settings'
@@ -158,6 +168,37 @@ export default function Settings() {
             )}
           </tbody>
         </table>
+      </div>
+
+      <div className='lg:hidden space-y-4'>
+        {items.map((item) => (
+          <div
+            key={item.key ?? item.name}
+            className='rounded-xl glass p-4 shadow-sm'
+          >
+            <div className='flex justify-between items-start'>
+              <div className='flex-1'>
+                <div className='text-sm font-semibold text-foreground'>
+                  {t("column.title.key")}
+                </div>
+                <div className='text-lg text-foreground mt-1'>{item.name}</div>
+              </div>
+              <div className='flex-1 text-right'>
+                <div className='text-sm font-semibold text-foreground'>
+                  {t("column.title.value")}
+                </div>
+                <div className='text-lg text-foreground mt-1'>{item.value}</div>
+              </div>
+            </div>
+          </div>
+        ))}
+        {items.length === 0 && (
+          <div className='rounded-xl glass p-8 text-center'>
+            <p className='text-muted-foreground'>
+              {t("global.empty") || "No settings to display"}
+            </p>
+          </div>
+        )}
       </div>
 
       {/* Numeric pagination (optional) */}

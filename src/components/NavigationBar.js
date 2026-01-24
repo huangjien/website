@@ -12,6 +12,7 @@ import { LanguageSwitch } from "./LanguageSwitch";
 import { StyleSwitch } from "./StyleSwitch";
 import { useSession } from "next-auth/react";
 import Avatar from "./ui/avatar";
+import { MobileMenu } from "./MobileMenu";
 
 /**
  * Renders a navigation bar with menu items and buttons.
@@ -19,6 +20,7 @@ import Avatar from "./ui/avatar";
  */
 export const NavigationBar = () => {
   const [mounted, setMounted] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { theme } = useTheme();
   const { data: session, status } = useSession();
   const { t } = useTranslation();
@@ -27,7 +29,7 @@ export const NavigationBar = () => {
     setMounted(true);
   }, []);
 
-  // Inside the navigation links rendering, ensure Settings link is always visible
+  // Inside navigation links rendering, ensure Settings link is always visible
   return (
     <nav className='w-full glass-nav text-foreground border-b border-border/50'>
       <div className='w-full flex items-center justify-between h-14 px-4 mx-4 my-3 rounded-2xl glass shadow-sm'>
@@ -35,6 +37,7 @@ export const NavigationBar = () => {
           <Link href='/' className='flex items-center'>
             <Avatar alt='Logo' className='mr-2 h-8 w-8' src='/favicon.png' />
           </Link>
+          <MobileMenu />
         </div>
         <div className='lg:flex items-center gap-2 hidden'>
           <Link

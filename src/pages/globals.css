@@ -1,6 +1,38 @@
 @import "tailwindcss";
 @config "../../tailwind.config.js";
 
+/* Design Tokens System */
+:root {
+  /* Spacing System */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+
+  /* Font System */
+  --font-xs: 0.75rem;
+  --font-sm: 0.875rem;
+  --font-md: 1rem;
+  --font-lg: 1.125rem;
+  --font-xl: 1.25rem;
+  --font-2xl: 1.5rem;
+
+  /* Radius System */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-2xl: 24px;
+
+  /* Transition Duration */
+  --duration-fast: 150ms;
+  --duration-normal: 200ms;
+  --duration-slow: 300ms;
+  --duration-slower: 500ms;
+}
+
 /* Global animation keyframes */
 @keyframes fade-in {
   from {
@@ -407,6 +439,7 @@ html[data-design-style="neumorphism"] .glass-message-user,
 html[data-design-style="neumorphism"] .glass-message-assistant {
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
+  background: hsla(var(--glass-bg));
 }
 
 html[data-design-style="claymorphism"] {
@@ -637,6 +670,12 @@ html[data-design-style="bento_grid"] {
   --glass-border: 214.3 31.8% 86% / 1;
   --glass-shadow: 0 10px 22px rgba(0, 0, 0, 0.08);
   --glass-shadow-hover: 0 14px 28px rgba(0, 0, 0, 0.12);
+  --primary-gradient: linear-gradient(
+    135deg,
+    rgb(102, 126, 234) 0%,
+    rgb(118, 75, 162) 100%
+  );
+  --primary-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
 }
 
 html.dark[data-design-style="bento_grid"] {
@@ -692,6 +731,78 @@ html[data-design-style="flat_design"] .glass-message-user {
   background: hsl(var(--primary));
   border: 1px solid hsl(var(--border));
   box-shadow: none;
+}
+
+html[data-design-style="liquid_glass"] {
+  --radius: 20px;
+  --glass-bg: 255 255 255 / 0.5;
+  --glass-bg-hover: 255 255 255 / 0.65;
+  --glass-border: 255 255 255 / 0.3;
+  --glass-shadow: 0 8px 32px rgba(31, 38, 135, 0.08);
+  --glass-shadow-hover: 0 12px 48px rgba(31, 38, 135, 0.12);
+}
+
+html.dark[data-design-style="liquid_glass"] {
+  --glass-bg: 0 0% 0% / 0.4;
+  --glass-bg-hover: 0 0% 0% / 0.55;
+  --glass-border: 255 255 255 / 0.08;
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+  --glass-shadow-hover: 0 12px 48px rgba(0, 0, 0, 0.45);
+}
+
+html[data-design-style="liquid_glass"] .glass-card {
+  background: linear-gradient(
+    135deg,
+    hsla(var(--glass-bg)),
+    hsla(var(--glass-bg-hover))
+  );
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid hsla(var(--glass-border));
+  box-shadow: var(--glass-shadow);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+html[data-design-style="liquid_glass"] .glass-card:hover {
+  background: linear-gradient(
+    135deg,
+    hsla(var(--glass-bg-hover)),
+    hsla(var(--glass-bg))
+  );
+  box-shadow: var(--glass-shadow-hover);
+  transform: translateY(-3px);
+}
+
+html[data-design-style="liquid_glass"] .glass-button {
+  background: linear-gradient(
+    135deg,
+    rgba(102, 126, 234, 0.75) 0%,
+    rgba(118, 75, 162, 0.75) 100%
+  );
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.25);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+html.dark[data-design-style="liquid_glass"] .glass-button {
+  background: linear-gradient(
+    135deg,
+    rgba(102, 126, 234, 0.85) 0%,
+    rgba(118, 75, 162, 0.85) 100%
+  );
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.35);
+}
+
+html[data-design-style="liquid_glass"] .glass-button:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(102, 126, 234, 0.9) 0%,
+    rgba(118, 75, 162, 0.9) 100%
+  );
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.35);
+  transform: translateY(-2px);
 }
 
 /* Legacy NextUI/HeroUI radius overrides removed — radii now controlled per component via Tailwind classes */

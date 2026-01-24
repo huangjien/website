@@ -11,6 +11,7 @@ import Layout from "../../pages/layout";
 import { useTranslation } from "react-i18next";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import { useSettings } from "../../lib/useSettings";
 
 // Mock react-i18next
@@ -28,6 +29,11 @@ jest.mock("next-auth/react", () => ({
 // Mock next/router
 jest.mock("next/router", () => ({
   useRouter: jest.fn(),
+}));
+
+// Mock next/navigation
+jest.mock("next/navigation", () => ({
+  usePathname: jest.fn(),
 }));
 
 jest.mock("../../lib/useSettings", () => ({
@@ -80,6 +86,7 @@ describe("Layout Component", () => {
       query: {},
       asPath: "/",
     });
+    usePathname.mockReturnValue("/");
     useSettings.mockReturnValue({
       currentStyle: "glassmorphism",
     });
@@ -217,7 +224,8 @@ describe("Layout Component", () => {
 
     const main = screen.getByRole("main");
     expect(main).toBeInTheDocument();
-    expect(main).toHaveClass("flex-1", "p-4");
+    const mainContainer = screen.getByRole("main").parentElement;
+    expect(mainContainer).toHaveClass("flex-1", "p-4");
     expect(main).toContainElement(screen.getByTestId("children"));
   });
 
@@ -309,8 +317,8 @@ describe("Layout Component", () => {
   it("should render layout with correct CSS classes", () => {
     render(<Layout>{mockChildren}</Layout>);
 
-    const layoutDiv = screen.getByTestId("children").closest("div")
-      .parentElement.parentElement;
+    const main = screen.getByRole("main");
+    const layoutDiv = main.closest("div.min-h-screen");
     expect(layoutDiv).toHaveClass("min-h-screen", "flex", "flex-col");
   });
 

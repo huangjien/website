@@ -19,7 +19,11 @@
     "question_length": "질문 길이",
     "answer_length": "답변 길이",
     "return_error": "AI 요청 오류 반환",
-    "return_length": "AI에서 답변을 받았습니다.\n답변 길이"
+    "return_length": "AI에서 답변을 받았습니다.\n답변 길이",
+    "error_message": "메시지를 보내지 못했습니다. 다시 시도해 주세요.",
+    "timestamp_now": "방금",
+    "timestamp_mins_ago": "분 전",
+    "timestamp_hours_ago": "시간 전"
   },
   "header": {
     "ai": "인공지능",
@@ -50,7 +54,8 @@
     "skeuomorphism": "스큐어모피즘",
     "bento_grid": "벤토 그리드",
     "responsive": "반응형",
-    "flat_design": "플랫 디자인"
+    "flat_design": "플랫 디자인",
+    "liquid_glass": "리퀴드 글라스"
   },
   "issue": {
     "row_per_page": "페이지 당 행",
@@ -65,7 +70,8 @@
     "issue_id_error_message_placeholder": "문제 ID를 입력하세요",
     "issue_id_error_message_error": "문제 ID가 필요합니다",
     "last_update": "최근 업데이트",
-    "created": "생성"
+    "created": "생성",
+    "empty": "표시할 문제가 없습니다"
   },
   "column": {
     "title": {

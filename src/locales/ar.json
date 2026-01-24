@@ -19,7 +19,11 @@
     "question_length": "طول السؤال",
     "answer_length": "طول الإجابة",
     "return_error": "طلب الذكاء الاصطناعي يعيد خطأ",
-    "return_length": "لقد تلقينا إجابة من الذكاء الاصطناعي.\nطول الإجابة"
+    "return_length": "لقد تلقينا إجابة من الذكاء الاصطناعي.\nطول الإجابة",
+    "error_message": "فشل إرسال الرسالة. يرجى المحاولة مرة أخرى.",
+    "timestamp_now": "الآن",
+    "timestamp_mins_ago": "دقيقة(ق) مضت",
+    "timestamp_hours_ago": "ساعة(ات) مضت"
   },
   "header": {
     "ai": "الذكاء الاصطناعي ",
@@ -50,7 +54,8 @@
     "skeuomorphism": "Skeuomorphism",
     "bento_grid": "Bento grid",
     "responsive": "Responsive",
-    "flat_design": "Flat design"
+    "flat_design": "Flat design",
+    "liquid_glass": "Liquid glass"
   },
   "issue": {
     "row_per_page": "الصفوف في كل صفحة",
@@ -65,7 +70,8 @@
     "issue_id_error_message_placeholder": "أدخل معرف المسألة",
     "issue_id_error_message_error": "معرف المسألة مطلوب",
     "last_update": "آخر تحديث",
-    "created": "تم الإنشاء"
+    "created": "تم الإنشاء",
+    "empty": "لا توجد مشاكل للعرض"
   },
   "column": {
     "title": {

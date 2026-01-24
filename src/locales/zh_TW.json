@@ -19,7 +19,11 @@
     "question_length": "問題長度",
     "answer_length": "答案長度",
     "return_error": "AI 請求返回錯誤",
-    "return_length": "我們從 AI 收到了答案。\n答案長度"
+    "return_length": "我們從 AI 收到了答案。\n答案長度",
+    "error_message": "發送訊息失敗，請重試。",
+    "timestamp_now": "剛剛",
+    "timestamp_mins_ago": "分鐘前",
+    "timestamp_hours_ago": "小時前"
   },
   "header": {
     "ai": "人工智慧",
@@ -50,7 +54,8 @@
     "skeuomorphism": "擬物風格",
     "bento_grid": "便當格",
     "responsive": "響應式",
-    "flat_design": "扁平化"
+    "flat_design": "扁平化",
+    "liquid_glass": "液態玻璃"
   },
   "issue": {
     "row_per_page": "每頁行數",
@@ -65,7 +70,8 @@
     "issue_id_error_message_placeholder": "輸入問題 ID",
     "issue_id_error_message_error": "需要問題 ID",
     "last_update": "最後更新",
-    "created": "建立"
+    "created": "建立",
+    "empty": "無問題顯示"
   },
   "column": {
     "title": {

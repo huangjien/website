@@ -9,7 +9,7 @@
   "ai": {
     "track_speed": "Track Speed",
     "conversation": "AI Conversation",
-    "send_tooltip": "Clik to send the question",
+    "send_tooltip": "Clik to send question",
     "hold": "Hold to voice input",
     "configuration": "Configuration",
     "select_model": "Select AI model",
@@ -36,7 +36,11 @@
     "play": "Play",
     "loading": "Loading…",
     "login_required": "Login required to use TTS",
-    "tts_failed": "Text-to-speech failed"
+    "tts_failed": "Text-to-speech failed",
+    "error_message": "Failed to send message. Please try again.",
+    "timestamp_now": "Just now",
+    "timestamp_mins_ago": "min(s) ago",
+    "timestamp_hours_ago": "h(s) ago"
   },
   "header": {
     "herohub": "HeroHub",
@@ -68,7 +72,8 @@
     "skeuomorphism": "Skeuomorphism",
     "bento_grid": "Bento grid",
     "responsive": "Responsive",
-    "flat_design": "Flat design"
+    "flat_design": "Flat design",
+    "liquid_glass": "Liquid glass"
   },
   "issue": {
     "row_per_page": "Rows per page",
@@ -83,7 +88,8 @@
     "issue_id_error_message_placeholder": "Enter issue id",
     "issue_id_error_message_error": "Issue ID is required",
     "last_update": "Last Update",
-    "created": "Created"
+    "created": "Created",
+    "empty": "No issues to display"
   },
   "column": {
     "title": {

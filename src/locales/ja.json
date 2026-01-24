@@ -19,7 +19,11 @@
     "question_length": "質問の長さ",
     "answer_length": "回答の長さ",
     "return_error": "AI 要求がエラーを返しました",
-    "return_length": "AI から回答がありました。\n回答の長さ"
+    "return_length": "AI から回答がありました。\n回答の長さ",
+    "error_message": "メッセージの送信に失敗しました。もう一度お試しください。",
+    "timestamp_now": "たった今",
+    "timestamp_mins_ago": "分前",
+    "timestamp_hours_ago": "時間前"
   },
   "header": {
     "ai": "AI（人工知能）",
@@ -50,11 +54,12 @@
     "skeuomorphism": "スキューモーフィズム",
     "bento_grid": "Bentoグリッド",
     "responsive": "レスポンシブ",
-    "flat_design": "フラットデザイン"
+    "flat_design": "フラットデザイン",
+    "liquid_glass": "リキッドグラス"
   },
   "issue": {
-    "row_per_page": "ページごとの行",
-    "total": "合計 {{total}} アイテム",
+    "row_per_page": "1ページあたりの行数",
+    "total": "合計 {{total}} 項目",
     "title": "問題",
     "description": "説明",
     "issue": "問題",
@@ -65,7 +70,8 @@
     "issue_id_error_message_placeholder": "問題IDを入力してください",
     "issue_id_error_message_error": "問題IDが必要です",
     "last_update": "最終更新",
-    "created": "作成"
+    "created": "作成日",
+    "empty": "表示する問題がありません"
   },
   "column": {
     "title": {

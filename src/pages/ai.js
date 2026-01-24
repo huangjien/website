@@ -3,6 +3,7 @@
 import React, { useEffect, useMemo, useState, useRef } from "react";
 import { useLocalStorageState, useTitle, useDebounceEffect } from "ahooks";
 import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
 
@@ -161,6 +162,10 @@ export default function AI() {
       experimental_throttle: settings?.trackSpeed || undefined,
       onError: (err) => {
         console.error("useChat error:", err);
+        toast.error(t("ai.error_message"), {
+          position: "top-center",
+          autoClose: 5000,
+        });
       },
       onFinish: ({ messages: finalMessages }) => {
         setSavedMessages(serializeMessages(finalMessages));
@@ -195,6 +200,22 @@ export default function AI() {
   }, [messages]);
 
   const loading = status === "streaming" || status === "submitted";
+
+  const formatTimestamp = (timestamp) => {
+    if (!timestamp) return "";
+    const date = new Date(timestamp * 1000);
+    const now = new Date();
+    const diffMs = now - date;
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMs / 3600000);
+
+    if (diffMins < 1) return t("ai.timestamp_now") || "Just now";
+    if (diffMins < 60)
+      return `${diffMins} ${t("ai.timestamp_mins_ago") || "min(s) ago"}`;
+    if (diffHours < 24)
+      return `${diffHours} ${t("ai.timestamp_hours_ago") || "h(s) ago"}`;
+    return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  };
 
   // Auto-scroll to bottom to show recent info
   useEffect(() => {
@@ -269,7 +290,7 @@ export default function AI() {
       data-testid='ai-container'
     >
       {/* Messages area with bottom padding to avoid overlap with fixed input */}
-      <div className='mx-auto w-[90vw] pb-28 pt-4'>
+      <div className='mx-auto w-[90vw] pb-36 pt-4'>
         <Conversation>
           <ConversationContent>
             {(visibleMessages || []).map((m) => {
@@ -277,11 +298,18 @@ export default function AI() {
               return (
                 <Message key={m.id} role={m.role}>
                   <MessageContent>
-                    {m.role === "assistant" ? (
-                      <Response>{text}</Response>
-                    ) : (
-                      text
-                    )}
+                    <div className='flex items-start gap-3'>
+                      <div className='flex-1'>
+                        {m.role === "assistant" ? (
+                          <Response>{text}</Response>
+                        ) : (
+                          text
+                        )}
+                      </div>
+                      <div className='text-xs text-muted-foreground whitespace-nowrap'>
+                        {formatTimestamp(m.createdAt)}
+                      </div>
+                    </div>
                     {m.role === "assistant" ? (
                       <div className='mt-2 flex gap-2'>
                         <CopyButton text={text} />

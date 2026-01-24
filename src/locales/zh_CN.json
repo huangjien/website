@@ -19,7 +19,11 @@
     "question_length": "问题长度",
     "answer_length": "答案长度",
     "return_error": "AI 请求返回错误",
-    "return_length": "我们从 AI 收到了答案。\n答案长度"
+    "return_length": "我们从 AI 收到了答案。\n答案长度",
+    "error_message": "发送消息失败，请重试。",
+    "timestamp_now": "刚刚",
+    "timestamp_mins_ago": "分钟前",
+    "timestamp_hours_ago": "小时前"
   },
   "header": {
     "ai": "人工智能",
@@ -50,7 +54,8 @@
     "skeuomorphism": "拟物风格",
     "bento_grid": "便当格",
     "responsive": "响应式",
-    "flat_design": "扁平化"
+    "flat_design": "扁平化",
+    "liquid_glass": "液态玻璃"
   },
   "issue": {
     "row_per_page": "每页行数",
@@ -65,7 +70,8 @@
     "issue_id_error_message_placeholder": "输入问题 ID",
     "issue_id_error_message_error": "需要问题 ID",
     "last_update": "最后更新",
-    "created": "创建"
+    "created": "创建",
+    "empty": "无问题显示"
   },
   "column": {
     "title": {

@@ -19,7 +19,11 @@
     "question_length": "Longitud de la pregunta",
     "answer_length": "Longitud de la respuesta",
     "return_error": "El pedido de AI devuelve un error",
-    "return_length": "Recibimos una respuesta de AI.\nLongitud de la respuesta"
+    "return_length": "Recibimos una respuesta de AI.\nLongitud de la respuesta",
+    "error_message": "Error al enviar mensaje. Inténtelo de nuevo.",
+    "timestamp_now": "Ahora mismo",
+    "timestamp_mins_ago": "min(s) hace",
+    "timestamp_hours_ago": "h(s) hace"
   },
   "header": {
     "ai": "Inteligencia artificial",
@@ -50,22 +54,24 @@
     "skeuomorphism": "Skeuomorfismo",
     "bento_grid": "Bento grid",
     "responsive": "Responsivo",
-    "flat_design": "Diseño plano"
+    "flat_design": "Diseño plano",
+    "liquid_glass": "Vidrio líquido"
   },
   "issue": {
     "row_per_page": "Filas por página",
-    "total": "Total de {{total}} artículos",
+    "total": "Total {{total}} elementos",
     "title": "Problema",
     "description": "Descripción",
     "issue": "Problema",
     "issue_id": "ID del problema",
-    "issue_id_placeholder": "Ingresa el ID del problema",
+    "issue_id_placeholder": "Ingrese el ID del problema",
     "issue_id_error": "Se requiere el ID del problema",
     "issue_id_error_message": "Se requiere el ID del problema",
-    "issue_id_error_message_placeholder": "Ingresa el ID del problema",
+    "issue_id_error_message_placeholder": "Ingrese el ID del problema",
     "issue_id_error_message_error": "Se requiere el ID del problema",
     "last_update": "Última actualización",
-    "created": "Creado"
+    "created": "Creado",
+    "empty": "No hay problemas para mostrar"
   },
   "column": {
     "title": {

@@ -1,10 +1,25 @@
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { cn } from "../../lib/cn";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 
-export function Dialog({ open, onOpenChange, children }) {
+export function Dialog({ open, onOpenChange, children, triggerRef }) {
+  const previousActiveElement = useRef(null);
+
+  useEffect(() => {
+    if (open) {
+      previousActiveElement.current = document.activeElement;
+    }
+  }, [open]);
+
+  const handleOpenChange = (isOpen) => {
+    if (!isOpen && previousActiveElement.current) {
+      previousActiveElement.current.focus();
+    }
+    onOpenChange?.(isOpen);
+  };
+
   return (
-    <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
+    <DialogPrimitive.Root open={open} onOpenChange={handleOpenChange}>
       {children}
     </DialogPrimitive.Root>
   );

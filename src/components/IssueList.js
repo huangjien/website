@@ -9,6 +9,7 @@ import Divider from "./ui/divider";
 import { Dialog, DialogContent, DialogBody } from "./ui/dialog";
 import { Joke } from "./Joke";
 import { IssueModal } from "./IssueModal";
+import EmptyState from "./EmptyState";
 
 /**
  * Renders a list component that displays a list of issues or chats.
@@ -143,19 +144,19 @@ export const IssueList = ({ tags, ComponentName, data, inTab = "ai" }) => {
           <div className='inline-flex items-center gap-2'>
             <button
               type='button'
-              className='px-3 py-1.5 rounded-xl glass hover:bg-white/10 hover:scale-105 hover:shadow-glass transition-all duration-fast ease-out active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer'
+              className='min-w-[44px] min-h-[44px] px-3 py-2 rounded-xl glass hover:bg-white/10 hover:scale-105 hover:shadow-glass transition-all duration-fast ease-out active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer'
               onClick={() => setPage((p) => Math.max(1, p - 1))}
               aria-label='Previous'
               title='Previous'
             >
               <BiChevronLeft size={18} />
             </button>
-            <span className='text-small px-2 py-1.5 rounded-lg glass px-3'>
+            <span className='text-small min-w-[44px] min-h-[44px] flex items-center justify-center px-3 py-2 rounded-lg glass'>
               {page} / {pages}
             </span>
             <button
               type='button'
-              className='px-3 py-1.5 rounded-xl glass hover:bg-white/10 hover:scale-105 hover:shadow-glass transition-all duration-fast ease-out active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer'
+              className='min-w-[44px] min-h-[44px] px-3 py-2 rounded-xl glass hover:bg-white/10 hover:scale-105 hover:shadow-glass transition-all duration-fast ease-out active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer'
               onClick={() => setPage((p) => Math.min(pages, p + 1))}
               aria-label='Next'
               title='Next'
@@ -180,15 +181,25 @@ export const IssueList = ({ tags, ComponentName, data, inTab = "ai" }) => {
         </div>
 
         <div role='grid' aria-label='list' className='text-large'>
-          {items.map((item, index) => (
-            <div
-              role='row'
-              key={item.id || `item-${index}`}
-              className=' lg:m-4'
-            >
-              <div role='gridcell'>{renderCell(item, ComponentName)}</div>
+          {items.length > 0 ? (
+            items.map((item, index) => (
+              <div
+                role='row'
+                key={item.id || `item-${index}`}
+                className=' lg:m-4'
+              >
+                <div role='gridcell'>{renderCell(item, ComponentName)}</div>
+              </div>
+            ))
+          ) : (
+            <div className='lg:m-4'>
+              <EmptyState
+                message={t("issue.empty", {
+                  defaultValue: "No issues to display",
+                })}
+              />
             </div>
-          ))}
+          )}
         </div>
       </div>
     </div>

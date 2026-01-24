@@ -19,7 +19,11 @@
     "question_length": "Длина вопроса",
     "answer_length": "Длина ответа",
     "return_error": "AI запрос возвращает ошибку",
-    "return_length": "Мы получили ответ от AI.\nДлина ответа"
+    "return_length": "Мы получили ответ от AI.\nДлина ответа",
+    "error_message": "Не удалось отправить сообщение. Попробуйте еще раз.",
+    "timestamp_now": "Только что",
+    "timestamp_mins_ago": "мин(ов) назад",
+    "timestamp_hours_ago": "ч(ов) назад"
   },
   "header": {
     "ai": "искусственный интеллект",
@@ -50,11 +54,12 @@
     "skeuomorphism": "Скейоморфизм",
     "bento_grid": "Bento grid",
     "responsive": "Адаптивный",
-    "flat_design": "Плоский дизайн"
+    "flat_design": "Плоский дизайн",
+    "liquid_glass": "Жидкое стекло"
   },
   "issue": {
-    "row_per_page": "Строк на страницу",
-    "total": "Всего {{total}} предметов",
+    "row_per_page": "Строк на странице",
+    "total": "Всего {{total}} элементов",
     "title": "Проблема",
     "description": "Описание",
     "issue": "Проблема",
@@ -65,7 +70,8 @@
     "issue_id_error_message_placeholder": "Введите ID проблемы",
     "issue_id_error_message_error": "Требуется ID проблемы",
     "last_update": "Последнее обновление",
-    "created": "Создано"
+    "created": "Создано",
+    "empty": "Нет проблем для отображения"
   },
   "column": {
     "title": {

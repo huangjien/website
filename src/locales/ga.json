@@ -19,7 +19,11 @@
     "question_length": "Fad na ceiste",
     "answer_length": "Fad na freagra",
     "return_error": "D'fhág an iarratas AI earráid",
-    "return_length": "Fuair muid freagra ó AI.\nFad na freagra"
+    "return_length": "Fuair muid freagra ó AI.\nFad na freagra",
+    "error_message": "Theip ar sheoladh na teachtaireachta. Déan iarracht eile.",
+    "timestamp_now": "Anois",
+    "timestamp_mins_ago": "nóim(í) ó shin",
+    "timestamp_hours_ago": "uair(e) ó shin"
   },
   "header": {
     "ai": "Inteallacht fhíorchliste",
@@ -50,7 +54,8 @@
     "skeuomorphism": "Skeuomorphism",
     "bento_grid": "Greille bento",
     "responsive": "Freagrúil",
-    "flat_design": "Dearadh cothrom"
+    "flat_design": "Dearadh cothrom",
+    "liquid_glass": "Gloine leachtach"
   },
   "issue": {
     "row_per_page": "Sraitheanna in aghaidh an leathanaigh",
@@ -65,7 +70,8 @@
     "issue_id_error_message_placeholder": "Iontráil ID na gnó",
     "issue_id_error_message_error": "ID na gnó riachtanach",
     "last_update": "Último atualização",
-    "created": "Cruthaithe"
+    "created": "Cruthaithe",
+    "empty": "Níl aon ghnó le taispeáint"
   },
   "column": {
     "title": {

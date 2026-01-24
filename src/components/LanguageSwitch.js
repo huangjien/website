@@ -65,14 +65,19 @@ export const LanguageSwitch = () => {
         {languages.map((item) => (
           <DropdownMenu.Item
             key={item.key}
-            className='flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground'
+            className={`flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-all duration-fast ease-out ${
+              currentLanguage === item.key
+                ? "bg-accent text-accent-foreground"
+                : "hover:bg-accent/80 hover:text-accent-foreground"
+            }`}
             onSelect={() => chooseLanguageKey(item.key)}
             role='menuitem'
+            aria-current={currentLanguage === item.key ? "true" : undefined}
           >
             {item.value}
             {currentLanguage === item.key && (
               <span
-                className='ml-auto text-xs text-muted-foreground'
+                className='ml-auto text-xs font-semibold'
                 aria-label='selected'
               >
                 ✓

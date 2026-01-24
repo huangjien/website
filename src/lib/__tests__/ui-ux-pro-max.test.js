@@ -9,7 +9,8 @@ import {
 describe("ui-ux-pro-max", () => {
   it("exports design styles list", () => {
     expect(Array.isArray(DESIGN_STYLES)).toBe(true);
-    expect(DESIGN_STYLES.length).toBeGreaterThan(0);
+    expect(DESIGN_STYLES.length).toBe(10);
+    expect(DESIGN_STYLES.map((s) => s.key)).toContain("liquid_glass");
   });
 
   it("resolveDesignStyle returns default when invalid", () => {

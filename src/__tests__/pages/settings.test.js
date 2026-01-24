@@ -22,6 +22,10 @@ jest.mock("next-auth/react", () => ({
 // Mock ahooks
 jest.mock("ahooks", () => ({
   useTitle: jest.fn(),
+  useDebounceEffect: jest.fn((effect, deps) => {
+    const React = require("react");
+    React.useEffect(effect, deps);
+  }),
 }));
 
 // Mock useSettings
@@ -82,19 +86,19 @@ describe("Settings Page Component (shadcn/ui)", () => {
     expect(table).toHaveAttribute("aria-label", "Settings");
 
     // Column titles
-    expect(screen.getByText("column.title.key")).toBeInTheDocument();
-    expect(screen.getByText("column.title.value")).toBeInTheDocument();
+    expect(screen.getAllByText("column.title.key").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("column.title.value").length).toBeGreaterThan(0);
   });
 
   it("displays settings in the table (first page)", () => {
     render(<Settings />);
 
     // First page shows first 5 items
-    expect(screen.getByText("theme")).toBeInTheDocument();
-    expect(screen.getByText("language")).toBeInTheDocument();
-    expect(screen.getByText("autoSave")).toBeInTheDocument();
-    expect(screen.getByText("notifications")).toBeInTheDocument();
-    expect(screen.getByText("fontSize")).toBeInTheDocument();
+    expect(screen.getAllByText("theme").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("language").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("autoSave").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("notifications").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("fontSize").length).toBeGreaterThan(0);
     // layout is on page 2
     expect(screen.queryByText("layout")).not.toBeInTheDocument();
   });
@@ -102,11 +106,11 @@ describe("Settings Page Component (shadcn/ui)", () => {
   it("displays setting values correctly (first page)", () => {
     render(<Settings />);
 
-    expect(screen.getByText("light")).toBeInTheDocument();
-    expect(screen.getByText("en")).toBeInTheDocument();
-    expect(screen.getByText("true")).toBeInTheDocument();
-    expect(screen.getByText("false")).toBeInTheDocument();
-    expect(screen.getByText("medium")).toBeInTheDocument();
+    expect(screen.getAllByText("light").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("en").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("true").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("false").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("medium").length).toBeGreaterThan(0);
     // grid is on page 2
     expect(screen.queryByText("grid")).not.toBeInTheDocument();
   });
@@ -118,7 +122,7 @@ describe("Settings Page Component (shadcn/ui)", () => {
     const input = screen.getByTestId("input");
     await user.type(input, "lang");
 
-    expect(screen.getByText("language")).toBeInTheDocument();
+    expect(screen.getAllByText("language").length).toBeGreaterThan(0);
     expect(screen.queryByText("theme")).not.toBeInTheDocument();
   });
 
@@ -132,7 +136,7 @@ describe("Settings Page Component (shadcn/ui)", () => {
     await user.click(clearBtn);
 
     // After clearing, the first page returns
-    expect(screen.getByText("theme")).toBeInTheDocument();
+    expect(screen.getAllByText("theme").length).toBeGreaterThan(0);
   });
 
   it("paginates with Prev/Next and shows total pages", async () => {
@@ -145,7 +149,7 @@ describe("Settings Page Component (shadcn/ui)", () => {
     // Go to next page
     await user.click(screen.getByTestId("next-page"));
     expect(screen.getByTestId("current-page")).toHaveTextContent("2");
-    expect(screen.getByText("layout")).toBeInTheDocument();
+    expect(screen.getAllByText("layout").length).toBeGreaterThan(0);
 
     // Go back to prev page
     await user.click(screen.getByTestId("prev-page"));
@@ -174,13 +178,13 @@ describe("Settings Page Component (shadcn/ui)", () => {
     await user.type(input, "lay");
 
     // Filter narrows to 'layout'
-    expect(screen.getByText("layout")).toBeInTheDocument();
+    expect(screen.getAllByText("layout").length).toBeGreaterThan(0);
 
     // Re-render by changing rows per page
     const selector = screen.getByRole("combobox");
     fireEvent.change(selector, { target: { value: "5" } });
 
     // Search should persist
-    expect(screen.getByText("layout")).toBeInTheDocument();
+    expect(screen.getAllByText("layout").length).toBeGreaterThan(0);
   });
 });
