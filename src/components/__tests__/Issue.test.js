@@ -225,4 +225,54 @@ describe("Issue Component", () => {
     const accordions = screen.getAllByTestId("accordion");
     expect(accordions.length).toBeGreaterThanOrEqual(1);
   });
+
+  it("should sanitize markdown with backtick-wrapped GitHub attachment URLs", async () => {
+    const issueWithBacktickImages = {
+      ...mockIssue,
+      body: "![Screenshot](`https://github.com/user-attachments/assets/703be3d9-a2ce-495f-9656-ef38a53c5978`)\n![Another Image](`https://github.com/user-attachments/assets/abc123-def4-5678-90ab-cdef12345678`)",
+    };
+
+    render(<Issue issue={issueWithBacktickImages} />);
+
+    expect(screen.getByText("Test Issue Title")).toBeInTheDocument();
+
+    await userEvent.click(screen.getByText("Test Issue Title"));
+
+    const markdownContent = screen.getByTestId("markdown");
+    expect(markdownContent).toBeInTheDocument();
+
+    expect(markdownContent.textContent).not.toContain("`");
+    expect(markdownContent.textContent).toContain("![Screenshot]");
+    expect(markdownContent.textContent).toContain("![Another Image]");
+    expect(markdownContent.textContent).toContain(
+      "703be3d9-a2ce-495f-9656-ef38a53c5978"
+    );
+    expect(markdownContent.textContent).toContain(
+      "abc123-def4-5678-90ab-cdef12345678"
+    );
+  });
+
+  it("should sanitize markdown with backtick-wrapped standalone URLs", async () => {
+    const issueWithBacktickUrls = {
+      ...mockIssue,
+      body: "See this image: `https://github.com/user-attachments/assets/12345678-90ab-cdef-1234-567890abcdef`\nAnother one: `https://github.com/user-attachments/assets/abcdef12-3456-7890-abcd-ef1234567890`",
+    };
+
+    render(<Issue issue={issueWithBacktickUrls} />);
+
+    expect(screen.getByText("Test Issue Title")).toBeInTheDocument();
+
+    await userEvent.click(screen.getByText("Test Issue Title"));
+
+    const markdownContent = screen.getByTestId("markdown");
+    expect(markdownContent).toBeInTheDocument();
+
+    expect(markdownContent.textContent).not.toContain("`");
+    expect(markdownContent.textContent).toContain(
+      "https://github.com/user-attachments/assets/12345678-90ab-cdef-1234-567890abcdef"
+    );
+    expect(markdownContent.textContent).toContain(
+      "https://github.com/user-attachments/assets/abcdef12-3456-7890-abcd-ef1234567890"
+    );
+  });
 });

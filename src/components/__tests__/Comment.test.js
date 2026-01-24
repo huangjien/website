@@ -376,4 +376,71 @@ describe("Comment Component", () => {
       );
     });
   });
+
+  it("should sanitize markdown with backtick-wrapped GitHub attachment URLs in comments", async () => {
+    const commentsWithBacktickImages = [
+      {
+        id: 1,
+        body: "![Screenshot](`https://github.com/user-attachments/assets/703be3d9-a2ce-495f-9656-ef38a53c5978`)",
+        created_at: "2023-01-01T00:00:00Z",
+        updated_at: "2023-01-01T00:00:00Z",
+        user: {
+          login: "testuser",
+          avatar_url: "https://example.com/avatar.jpg",
+        },
+      },
+    ];
+
+    global.fetch.mockImplementationOnce(() =>
+      Promise.resolve({
+        ok: true,
+        json: async () => commentsWithBacktickImages,
+      })
+    );
+
+    render(<Comment issue_id={123} />);
+
+    await waitFor(() => {
+      const markdownContent = screen.getByTestId("markdown");
+      expect(markdownContent).toBeInTheDocument();
+      expect(markdownContent.textContent).not.toContain("`");
+      expect(markdownContent.textContent).toContain("![Screenshot]");
+      expect(markdownContent.textContent).toContain(
+        "703be3d9-a2ce-495f-9656-ef38a53c5978"
+      );
+    });
+  });
+
+  it("should sanitize markdown with backtick-wrapped standalone URLs in comments", async () => {
+    const commentsWithBacktickUrls = [
+      {
+        id: 1,
+        body: "See this image: `https://github.com/user-attachments/assets/12345678-90ab-cdef-1234-567890abcdef`",
+        created_at: "2023-01-01T00:00:00Z",
+        updated_at: "2023-01-01T00:00:00Z",
+        user: {
+          login: "testuser",
+          avatar_url: "https://example.com/avatar.jpg",
+        },
+      },
+    ];
+
+    global.fetch.mockImplementationOnce(() =>
+      Promise.resolve({
+        ok: true,
+        json: async () => commentsWithBacktickUrls,
+      })
+    );
+
+    render(<Comment issue_id={123} />);
+
+    await waitFor(() => {
+      const markdownContent = screen.getByTestId("markdown");
+      expect(markdownContent).toBeInTheDocument();
+      expect(markdownContent.textContent).not.toContain("`");
+      expect(markdownContent.textContent).toContain(
+        "https://github.com/user-attachments/assets/12345678-90ab-cdef-1234-567890abcdef"
+      );
+    });
+  });
 });

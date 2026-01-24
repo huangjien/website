@@ -7,12 +7,13 @@ import { extractContentAccordingContentList } from "../lib/useGithubContent";
 import Markdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
+import { sanitizeMarkdown } from "../lib/markdown-utils";
 
-export const Comment = ({ issue_id }) => {
+export function Comment({ issue_id }) {
   /**
    * Fetches and displays comments related to a specific issue.
    *
-   * @param {number} issue_id - The ID of the issue for which comments should be fetched.
+   * @param {number} issue_id - The ID of issue for which comments should be fetched.
    * @returns {JSX.Element} - The rendered component.
    */
   const { t } = useTranslation();
@@ -124,7 +125,7 @@ export const Comment = ({ issue_id }) => {
                       remarkPlugins={[remarkGfm]}
                       rehypePlugins={[rehypeRaw]}
                     >
-                      {oneComment.body}
+                      {sanitizeMarkdown(oneComment.body)}
                     </Markdown>
                   </div>
                 </Accordion.Content>

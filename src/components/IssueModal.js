@@ -11,7 +11,7 @@ import Textarea from "./ui/textarea";
 import { CheckboxGroup, Checkbox } from "./ui/checkbox";
 import Divider from "./ui/divider";
 
-export const IssueModal = ({ issue, action }) => {
+export function IssueModal({ issue, action }) {
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState(issue ? issue?.title : "");
   const [content, setContent] = useState(issue ? issue?.body : "");

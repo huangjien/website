@@ -6,24 +6,15 @@ import Markdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
 import { IssueModal } from "./IssueModal";
+import { CustomImage } from "./CustomImage";
+import { sanitizeMarkdown } from "../lib/markdown-utils";
 
-export const Issue = ({ issue }) => {
+export function Issue({ issue }) {
   const { t } = useTranslation();
 
   if (!issue) return null;
 
-  const CustomImage = ({ src, alt, ...props }) => {
-    return (
-      /* eslint-disable-next-line @next/next/no-img-element */
-      <img
-        src={src}
-        alt={alt || ""}
-        className='rounded-lg shadow-md my-4 max-w-full h-auto'
-        loading='lazy'
-        {...props}
-      />
-    );
-  };
+  const sanitizedBody = sanitizeMarkdown(issue.body);
 
   const subtitleText =
     (issue.created_at === issue.updated_at
@@ -75,7 +66,7 @@ export const Issue = ({ issue }) => {
                 img: CustomImage,
               }}
             >
-              {issue.body}
+              {sanitizedBody}
             </Markdown>
           </div>
           {issue.comments > 0 && (
