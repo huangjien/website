@@ -12,7 +12,7 @@ export const DESIGN_STYLES = [
   { key: "bento_grid", i18nKey: "design_style.bento_grid" },
   { key: "responsive", i18nKey: "design_style.responsive" },
   { key: "flat_design", i18nKey: "design_style.flat_design" },
-  { key: "liquid_glass", i18nKey: "design_style.liquid_glass" },
+  { key: "liquidglass", i18nKey: "design_style.liquid_glass" },
 ];
 
 export function resolveDesignStyle(input) {

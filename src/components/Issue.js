@@ -12,6 +12,19 @@ export const Issue = ({ issue }) => {
 
   if (!issue) return null;
 
+  const CustomImage = ({ src, alt, ...props }) => {
+    return (
+      /* eslint-disable-next-line @next/next/no-img-element */
+      <img
+        src={src}
+        alt={alt || ""}
+        className='rounded-lg shadow-md my-4 max-w-full h-auto'
+        loading='lazy'
+        {...props}
+      />
+    );
+  };
+
   const subtitleText =
     (issue.created_at === issue.updated_at
       ? ""
@@ -55,7 +68,13 @@ export const Issue = ({ issue }) => {
         <Accordion.Content>
           {/* {session && <IssueModal issue={issue} action={'edit'} />} */}
           <div className='prose prose-stone dark:prose-invert lg:prose-xl max-w-fit'>
-            <Markdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
+            <Markdown
+              remarkPlugins={[remarkGfm]}
+              rehypePlugins={[rehypeRaw]}
+              components={{
+                img: CustomImage,
+              }}
+            >
               {issue.body}
             </Markdown>
           </div>

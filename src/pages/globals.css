@@ -733,24 +733,24 @@ html[data-design-style="flat_design"] .glass-message-user {
   box-shadow: none;
 }
 
-html[data-design-style="liquid_glass"] {
+html[data-design-style="liquidglass"] {
   --radius: 20px;
   --glass-bg: 255 255 255 / 0.5;
   --glass-bg-hover: 255 255 255 / 0.65;
-  --glass-border: 255 255 255 / 0.3;
-  --glass-shadow: 0 8px 32px rgba(31, 38, 135, 0.08);
-  --glass-shadow-hover: 0 12px 48px rgba(31, 38, 135, 0.12);
+  --glass-border: 200 200 255 / 0.3;
+  --glass-shadow: 0 8px 32px rgba(100, 116, 139, 0.08);
+  --glass-shadow-hover: 0 12px 48px rgba(100, 116, 139, 0.12);
 }
 
-html.dark[data-design-style="liquid_glass"] {
-  --glass-bg: 0 0% 0% / 0.4;
-  --glass-bg-hover: 0 0% 0% / 0.55;
-  --glass-border: 255 255 255 / 0.08;
+html.dark[data-design-style="liquidglass"] {
+  --glass-bg: 30 30 40 / 0.4;
+  --glass-bg-hover: 40 40 50 / 0.55;
+  --glass-border: 150 150 200 / 0.08;
   --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
   --glass-shadow-hover: 0 12px 48px rgba(0, 0, 0, 0.45);
 }
 
-html[data-design-style="liquid_glass"] .glass-card {
+html[data-design-style="liquidglass"] .glass-card {
   background: linear-gradient(
     135deg,
     hsla(var(--glass-bg)),
@@ -763,7 +763,7 @@ html[data-design-style="liquid_glass"] .glass-card {
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-html[data-design-style="liquid_glass"] .glass-card:hover {
+html[data-design-style="liquidglass"] .glass-card:hover {
   background: linear-gradient(
     135deg,
     hsla(var(--glass-bg-hover)),
@@ -773,36 +773,60 @@ html[data-design-style="liquid_glass"] .glass-card:hover {
   transform: translateY(-3px);
 }
 
-html[data-design-style="liquid_glass"] .glass-button {
+html[data-design-style="liquidglass"] .glass-button {
   background: linear-gradient(
     135deg,
-    rgba(102, 126, 234, 0.75) 0%,
-    rgba(118, 75, 162, 0.75) 100%
+    rgba(100, 116, 139, 0.75) 0%,
+    rgba(79, 70, 229, 0.75) 100%
   );
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.25);
-  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.25);
+  box-shadow: 0 6px 20px rgba(100, 116, 139, 0.25);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-html.dark[data-design-style="liquid_glass"] .glass-button {
+html.dark[data-design-style="liquidglass"] .glass-button {
   background: linear-gradient(
     135deg,
-    rgba(102, 126, 234, 0.85) 0%,
-    rgba(118, 75, 162, 0.85) 100%
+    rgba(100, 116, 139, 0.85) 0%,
+    rgba(79, 70, 229, 0.85) 100%
   );
-  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.35);
+  box-shadow: 0 6px 20px rgba(100, 116, 139, 0.35);
 }
 
-html[data-design-style="liquid_glass"] .glass-button:hover {
+html[data-design-style="liquidglass"] .glass-button:hover {
   background: linear-gradient(
     135deg,
-    rgba(102, 126, 234, 0.9) 0%,
-    rgba(118, 75, 162, 0.9) 100%
+    rgba(100, 116, 139, 0.9) 0%,
+    rgba(79, 70, 229, 0.9) 100%
   );
-  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.35);
+  box-shadow: 0 8px 25px rgba(100, 116, 139, 0.35);
   transform: translateY(-2px);
+}
+
+html[data-design-style="liquidglass"] .glass-nav {
+  background: linear-gradient(
+    135deg,
+    hsla(var(--glass-bg)),
+    hsla(var(--glass-bg-hover))
+  );
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid hsla(var(--glass-border));
+  box-shadow: 0 4px 20px rgba(100, 116, 139, 0.05);
+}
+
+html.dark[data-design-style="liquidglass"] .glass-nav {
+  background: linear-gradient(
+    135deg,
+    hsla(var(--glass-bg)),
+    hsla(var(--glass-bg-hover))
+  );
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid hsla(var(--glass-border));
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 }
 
 /* Legacy NextUI/HeroUI radius overrides removed — radii now controlled per component via Tailwind classes */
