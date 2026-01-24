@@ -1,7 +1,7 @@
 import React from "react";
-import { BiInbox } from "react-icons/bi";
+import { BiBox } from "react-icons/bi";
 
-export const EmptyState = ({ message, icon: Icon = BiInbox }) => {
+export const EmptyState = ({ message, icon: Icon = BiBox }) => {
   return (
     <div className='flex flex-col items-center justify-center py-12 text-center'>
       <div className='text-muted-foreground mb-4'>
