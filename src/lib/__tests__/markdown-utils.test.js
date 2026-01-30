@@ -25,8 +25,16 @@ describe("sanitizeMarkdown", () => {
   });
 
   it("should handle GitHub user attachments with backticks", () => {
-    const input = "![image](`https://github.com/user-attachments/assets/12345678-1234-1234-1234-1234567890ab`)";
-    const expected = "![image](https://github.com/user-attachments/assets/12345678-1234-1234-1234-1234567890ab)";
+    const input =
+      "![image](`https://github.com/user-attachments/assets/12345678-1234-1234-1234-1234567890ab`)";
+    const expected =
+      "![image](https://github.com/user-attachments/assets/12345678-1234-1234-1234-1234567890ab)";
+    expect(sanitizeMarkdown(input)).toBe(expected);
+  });
+
+  it("should convert HTML img tags to Markdown syntax", () => {
+    const input = '<img width="696" height="1284" alt="Image" src=" `https://github.com/user-attachments/assets/703be3d9-a2ce-495f-9656-ef38a53c5978` " />';
+    const expected = "![Image](https://github.com/user-attachments/assets/703be3d9-a2ce-495f-9656-ef38a53c5978)";
     expect(sanitizeMarkdown(input)).toBe(expected);
   });
 });

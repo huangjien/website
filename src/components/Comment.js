@@ -8,6 +8,7 @@ import Markdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
 import { sanitizeMarkdown } from "../lib/markdown-utils";
+import { SmartImage } from "./SmartImage";
 
 export function Comment({ issue_id }) {
   /**
@@ -123,7 +124,10 @@ export function Comment({ issue_id }) {
                   <div className='prose prose-stone dark:prose-invert lg:prose-xl max-w-fit'>
                     <Markdown
                       remarkPlugins={[remarkGfm]}
-                      rehypePlugins={[rehypeRaw]}
+                      // rehypePlugins={[rehypeRaw]}
+                      components={{
+                        img: SmartImage,
+                      }}
                     >
                       {sanitizeMarkdown(oneComment.body)}
                     </Markdown>
@@ -135,4 +139,4 @@ export function Comment({ issue_id }) {
       </Accordion.Root>
     </>
   );
-};
+}

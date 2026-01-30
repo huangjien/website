@@ -6,7 +6,7 @@ import Markdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
 import { IssueModal } from "./IssueModal";
-import { CustomImage } from "./CustomImage";
+import { SmartImage } from "./SmartImage";
 import { sanitizeMarkdown } from "../lib/markdown-utils";
 
 export function Issue({ issue }) {
@@ -61,9 +61,9 @@ export function Issue({ issue }) {
           <div className='prose prose-stone dark:prose-invert lg:prose-xl max-w-fit'>
             <Markdown
               remarkPlugins={[remarkGfm]}
-              rehypePlugins={[rehypeRaw]}
+              // rehypePlugins={[rehypeRaw]}
               components={{
-                img: CustomImage,
+                img: SmartImage,
               }}
             >
               {sanitizedBody}
@@ -76,4 +76,4 @@ export function Issue({ issue }) {
       </Accordion.Item>
     </Accordion.Root>
   );
-};
+}

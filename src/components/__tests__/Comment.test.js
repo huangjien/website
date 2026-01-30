@@ -405,9 +405,7 @@ describe("Comment Component", () => {
       expect(markdownContent).toBeInTheDocument();
       expect(markdownContent.textContent).not.toContain("`");
       expect(markdownContent.textContent).toContain("![Screenshot]");
-      expect(markdownContent.textContent).toContain(
-        "703be3d9-a2ce-495f-9656-ef38a53c5978"
-      );
+      expect(markdownContent.textContent).toContain("703be3d9-a2ce-495f-9656-ef38a53c5978");
     });
   });
 
@@ -438,9 +436,7 @@ describe("Comment Component", () => {
       const markdownContent = screen.getByTestId("markdown");
       expect(markdownContent).toBeInTheDocument();
       expect(markdownContent.textContent).not.toContain("`");
-      expect(markdownContent.textContent).toContain(
-        "https://github.com/user-attachments/assets/12345678-90ab-cdef-1234-567890abcdef"
-      );
+      expect(markdownContent.textContent).toContain("https://github.com/user-attachments/assets/12345678-90ab-cdef-1234-567890abcdef");
     });
   });
 });

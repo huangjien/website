@@ -13,5 +13,19 @@ export const sanitizeMarkdown = (markdown) => {
     .replace(
       /!\[([^\]]*)\]\(https:\/\/github\.com\/user-attachments\/assets\/([a-f0-9-]+)\)/g,
       (match, alt, id) => `![${alt}](https://github.com/user-attachments/assets/${id})`
-    );
+    )
+    .replace(/<img[^>]+>/g, (imgTag) => {
+      const srcMatch = imgTag.match(/src=["'](.*?)["']/);
+      const altMatch = imgTag.match(/alt=["'](.*?)["']/);
+
+      if (srcMatch) {
+        let src = srcMatch[1];
+        // Clean src: remove backticks and whitespace
+        src = src.replace(/[`\s]/g, "");
+
+        const alt = altMatch ? altMatch[1] : "";
+        return `![${alt}](${src})`;
+      }
+      return imgTag;
+    });
 };
