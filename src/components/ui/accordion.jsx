@@ -45,7 +45,7 @@ export const Trigger = React.forwardRef(({ className, ...props }, ref) => {
     <AccordionPrimitive.Trigger
       ref={ref}
       className={cn(
-        "flex w-full items-center justify-between gap-2 py-2.5 text-left outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 hover:bg-white/10 rounded-xl transition-all duration-fast ease-out cursor-pointer",
+        "flex w-full items-center justify-between gap-2 py-2.5 text-left outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 hover:bg-[hsla(var(--glass-bg-hover))] rounded-xl transition-all duration-fast ease-out cursor-pointer",
         className
       )}
       {...props}

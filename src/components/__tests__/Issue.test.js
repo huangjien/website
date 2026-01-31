@@ -244,8 +244,12 @@ describe("Issue Component", () => {
     expect(markdownContent.textContent).not.toContain("`");
     expect(markdownContent.textContent).toContain("![Screenshot]");
     expect(markdownContent.textContent).toContain("![Another Image]");
-    expect(markdownContent.textContent).toContain("703be3d9-a2ce-495f-9656-ef38a53c5978");
-    expect(markdownContent.textContent).toContain("abc123-def4-5678-90ab-cdef12345678");
+    expect(markdownContent.textContent).toContain(
+      "703be3d9-a2ce-495f-9656-ef38a53c5978"
+    );
+    expect(markdownContent.textContent).toContain(
+      "abc123-def4-5678-90ab-cdef12345678"
+    );
   });
 
   it("should sanitize markdown with backtick-wrapped standalone URLs", async () => {
@@ -264,7 +268,11 @@ describe("Issue Component", () => {
     expect(markdownContent).toBeInTheDocument();
 
     expect(markdownContent.textContent).not.toContain("`");
-    expect(markdownContent.textContent).toContain("https://github.com/user-attachments/assets/12345678-90ab-cdef-1234-567890abcdef");
-    expect(markdownContent.textContent).toContain("https://github.com/user-attachments/assets/abcdef12-3456-7890-abcd-ef1234567890");
+    expect(markdownContent.textContent).toContain(
+      "https://github.com/user-attachments/assets/12345678-90ab-cdef-1234-567890abcdef"
+    );
+    expect(markdownContent.textContent).toContain(
+      "https://github.com/user-attachments/assets/abcdef12-3456-7890-abcd-ef1234567890"
+    );
   });
 });

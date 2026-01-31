@@ -101,6 +101,7 @@ export function Comment({ issue_id }) {
                 value={String(oneComment.id)}
                 data-testid='accordion-item'
                 aria-label={String(oneComment.id)}
+                className='transition-all duration-fast ease-out hover:shadow-glass hover:-translate-y-0.5 rounded-2xl glass-card'
               >
                 <Accordion.Header>
                   <Accordion.Trigger

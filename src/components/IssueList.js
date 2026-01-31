@@ -144,7 +144,7 @@ export const IssueList = ({ tags, ComponentName, data, inTab = "ai" }) => {
           <div className='inline-flex items-center gap-2'>
             <button
               type='button'
-              className='min-w-[44px] min-h-[44px] px-3 py-2 rounded-xl glass hover:bg-white/10 hover:scale-105 hover:shadow-glass transition-all duration-fast ease-out active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer'
+              className='min-w-[44px] min-h-[44px] px-3 py-2 rounded-xl glass hover:bg-[hsla(var(--glass-bg-hover))] hover:scale-105 hover:shadow-glass transition-all duration-fast ease-out active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer'
               onClick={() => setPage((p) => Math.max(1, p - 1))}
               aria-label='Previous'
               title='Previous'
@@ -156,7 +156,7 @@ export const IssueList = ({ tags, ComponentName, data, inTab = "ai" }) => {
             </span>
             <button
               type='button'
-              className='min-w-[44px] min-h-[44px] px-3 py-2 rounded-xl glass hover:bg-white/10 hover:scale-105 hover:shadow-glass transition-all duration-fast ease-out active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer'
+              className='min-w-[44px] min-h-[44px] px-3 py-2 rounded-xl glass hover:bg-[hsla(var(--glass-bg-hover))] hover:scale-105 hover:shadow-glass transition-all duration-fast ease-out active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer'
               onClick={() => setPage((p) => Math.min(pages, p + 1))}
               aria-label='Next'
               title='Next'

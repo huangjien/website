@@ -44,14 +44,14 @@ export const StyleSwitch = () => {
       </DropdownMenu.Trigger>
       <DropdownMenu.Content
         sideOffset={6}
-        className='z-50 min-w-48 rounded-md border bg-popover p-1 text-popover-foreground shadow-md animate-slide-down transition-all duration-fast ease-out'
+        className='z-50 min-w-48 rounded-xl glass-card p-1 text-popover-foreground shadow-lg animate-slide-down transition-all duration-fast ease-out'
         role='menu'
         aria-label='design style menu'
       >
         {DESIGN_STYLES.map((item) => (
           <DropdownMenu.Item
             key={item.key}
-            className='flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground'
+            className='flex cursor-pointer select-none items-center rounded-lg px-2.5 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground'
             onSelect={() => chooseStyle(item.key)}
             role='menuitem'
           >

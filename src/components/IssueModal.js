@@ -95,4 +95,4 @@ export function IssueModal({ issue, action }) {
       </Dialog>
     </>
   );
-};
+}

@@ -46,7 +46,7 @@ const Login = () => {
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
         <button
-          className='flex items-center gap-2 rounded-xl glass px-3 py-1.5 text-foreground shadow-sm hover:bg-white/10 hover:text-accent-foreground transition-all duration-fast ease-out hover:scale-105 cursor-pointer'
+          className='flex items-center gap-2 rounded-xl glass px-3 py-1.5 text-foreground shadow-sm hover:bg-[hsla(var(--glass-bg-hover))] hover:text-accent-foreground transition-all duration-fast ease-out hover:scale-105 cursor-pointer'
           aria-label='user menu'
         >
           <Avatar className='h-8 w-8'>
@@ -67,13 +67,13 @@ const Login = () => {
           {t("header.message")}
         </DropdownMenu.Label>
         <DropdownMenu.Item
-          className='flex cursor-pointer select-none items-center gap-2 rounded-lg px-2.5 py-1.5 text-sm outline-none hover:bg-white/10 hover:text-accent-foreground transition-all duration-fast ease-out'
+          className='flex cursor-pointer select-none items-center gap-2 rounded-lg px-2.5 py-1.5 text-sm outline-none hover:bg-[hsla(var(--glass-bg-hover))] hover:text-accent-foreground transition-all duration-fast ease-out'
           onSelect={() => window.open("/settings", "_blank")}
         >
           <MdSettings /> {t("header.settings")}
         </DropdownMenu.Item>
         <DropdownMenu.Item
-          className='flex cursor-pointer select-none items-center gap-2 rounded-lg px-2.5 py-1.5 text-sm outline-none hover:bg-white/10 hover:text-accent-foreground transition-all duration-fast ease-out'
+          className='flex cursor-pointer select-none items-center gap-2 rounded-lg px-2.5 py-1.5 text-sm outline-none hover:bg-[hsla(var(--glass-bg-hover))] hover:text-accent-foreground transition-all duration-fast ease-out'
           onSelect={() => signOut()}
         >
           <MdLogout /> {t("header.logout")}

@@ -65,7 +65,7 @@ export const Chat = ({ data, player }) => {
                     size='icon'
                     onClick={handleCopy}
                     variant='ghost'
-                    className='glass hover:bg-white/10'
+                    className='glass hover:bg-[hsla(var(--glass-bg-hover))]'
                     aria-label='copy'
                     title='copy'
                   >
@@ -75,7 +75,7 @@ export const Chat = ({ data, player }) => {
                     size='icon'
                     onClick={handlePlay}
                     variant='ghost'
-                    className='glass hover:bg-white/10'
+                    className='glass hover:bg-[hsla(var(--glass-bg-hover))]'
                     aria-label='play'
                     title='play'
                   >

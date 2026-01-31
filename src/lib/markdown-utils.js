@@ -12,7 +12,8 @@ export const sanitizeMarkdown = (markdown) => {
     )
     .replace(
       /!\[([^\]]*)\]\(https:\/\/github\.com\/user-attachments\/assets\/([a-f0-9-]+)\)/g,
-      (match, alt, id) => `![${alt}](https://github.com/user-attachments/assets/${id})`
+      (match, alt, id) =>
+        `![${alt}](https://github.com/user-attachments/assets/${id})`
     )
     .replace(/<img[^>]+>/g, (imgTag) => {
       const srcMatch = imgTag.match(/src=["'](.*?)["']/);

@@ -7,13 +7,13 @@ const badgeVariants = tv({
   variants: {
     variant: {
       default:
-        "glass bg-secondary/80 text-secondary-foreground hover:bg-secondary/90",
+        "glass bg-secondary/80 text-secondary-foreground hover:bg-[hsla(var(--glass-bg-hover))]",
       outline:
-        "glass border border-border/50 text-foreground hover:bg-white/10",
+        "glass border border-border/50 text-foreground hover:bg-[hsla(var(--glass-bg-hover))]",
       success:
-        "bg-gradient-to-r from-green-500 to-green-600 text-white hover:from-green-600 hover:to-green-700 shadow-sm",
+        "bg-primary text-primary-foreground hover:bg-primary/90 shadow-sm hover:shadow-glass",
       warning:
-        "bg-gradient-to-r from-yellow-400 to-yellow-500 text-black hover:from-yellow-500 hover:to-yellow-600 shadow-sm",
+        "glass bg-destructive text-destructive-foreground hover:bg-destructive/90 shadow-sm hover:shadow-glass",
     },
   },
   defaultVariants: {

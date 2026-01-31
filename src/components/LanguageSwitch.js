@@ -58,17 +58,17 @@ export const LanguageSwitch = () => {
       </DropdownMenu.Trigger>
       <DropdownMenu.Content
         sideOffset={6}
-        className='z-50 min-w-[10rem] rounded-md border bg-popover p-1 text-popover-foreground shadow-md animate-slide-down transition-all duration-fast ease-out'
+        className='z-50 min-w-[10rem] rounded-xl glass-card p-1 text-popover-foreground shadow-lg animate-slide-down transition-all duration-fast ease-out'
         role='menu'
         aria-label='language menu'
       >
         {languages.map((item) => (
           <DropdownMenu.Item
             key={item.key}
-            className={`flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-all duration-fast ease-out ${
+            className={`flex cursor-pointer select-none items-center rounded-lg px-2.5 py-1.5 text-sm outline-none transition-all duration-fast ease-out ${
               currentLanguage === item.key
                 ? "bg-accent text-accent-foreground"
-                : "hover:bg-accent/80 hover:text-accent-foreground"
+                : "hover:bg-[hsla(var(--glass-bg-hover))] hover:text-accent-foreground"
             }`}
             onSelect={() => chooseLanguageKey(item.key)}
             role='menuitem'

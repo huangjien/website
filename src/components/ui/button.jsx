@@ -9,11 +9,11 @@ const buttonVariants = tv({
       default:
         "glass-button text-primary-foreground hover:scale-105 active:scale-95",
       outline:
-        "glass hover:bg-white/10 hover:text-accent-foreground hover:shadow-glass hover:scale-105 active:scale-95",
+        "glass hover:bg-[hsla(var(--glass-bg-hover))] hover:text-accent-foreground hover:shadow-glass hover:scale-105 active:scale-95",
       ghost:
-        "hover:bg-white/10 hover:text-accent-foreground hover:scale-105 active:scale-95",
+        "hover:bg-[hsla(var(--glass-bg-hover))] hover:text-accent-foreground hover:scale-105 active:scale-95",
       secondary:
-        "glass hover:bg-white/10 text-secondary-foreground hover:shadow-glass hover:scale-105 active:scale-95",
+        "glass hover:bg-[hsla(var(--glass-bg-hover))] text-secondary-foreground hover:shadow-glass hover:scale-105 active:scale-95",
       destructive:
         "bg-gradient-to-r from-red-500 to-red-600 text-destructive-foreground hover:from-red-600 hover:to-red-700 hover:shadow-lg hover:scale-105 active:scale-95",
       gradient:

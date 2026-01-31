@@ -86,7 +86,7 @@ export default function PromptInput({
             disabled={!trimmedValue}
             title={t("ai.clear_input", { defaultValue: "Clear input" })}
             aria-label={t("ai.clear_input", { defaultValue: "Clear input" })}
-            className='inline-flex items-center justify-center rounded-xl glass text-foreground hover:bg-white/10 hover:scale-105 hover:shadow-glass disabled:opacity-50 disabled:cursor-not-allowed p-2 transition-all duration-fast ease-out cursor-pointer'
+            className='inline-flex items-center justify-center rounded-xl glass text-foreground hover:bg-[hsla(var(--glass-bg-hover))] hover:scale-105 hover:shadow-glass disabled:opacity-50 disabled:cursor-not-allowed p-2 transition-all duration-fast ease-out cursor-pointer'
           >
             <BiXCircle size={18} />
           </button>
@@ -109,7 +109,7 @@ export default function PromptInput({
             className={`inline-flex items-center justify-center rounded-xl p-2 transition-all duration-fast ease-out cursor-pointer ${
               recording
                 ? "bg-gradient-to-r from-red-500 to-red-600 text-white animate-pulse hover:scale-110 shadow-lg"
-                : "glass text-foreground hover:bg-white/10 hover:scale-105 hover:shadow-glass disabled:opacity-50 disabled:cursor-not-allowed"
+                : "glass text-foreground hover:bg-[hsla(var(--glass-bg-hover))] hover:scale-105 hover:shadow-glass disabled:opacity-50 disabled:cursor-not-allowed"
             }`}
           >
             <BiMicrophone size={18} />
@@ -121,7 +121,7 @@ export default function PromptInput({
               onClick={onStop}
               title={t("ai.stop", { defaultValue: "Stop" })}
               aria-label={t("ai.stop", { defaultValue: "Stop" })}
-              className='inline-flex items-center justify-center rounded-xl glass text-foreground hover:bg-white/10 hover:scale-105 hover:shadow-glass p-2 transition-all duration-fast ease-out cursor-pointer'
+              className='inline-flex items-center justify-center rounded-xl glass text-foreground hover:bg-[hsla(var(--glass-bg-hover))] hover:scale-105 hover:shadow-glass p-2 transition-all duration-fast ease-out cursor-pointer'
             >
               <BiStop size={18} />
             </button>
@@ -145,7 +145,7 @@ export default function PromptInput({
               onClick={onToggleSettings}
               title={t("ai.settings", { defaultValue: "Settings" })}
               aria-label={t("ai.settings", { defaultValue: "Settings" })}
-              className='inline-flex items-center justify-center rounded-xl glass text-foreground hover:bg-white/10 hover:scale-105 hover:shadow-glass p-2 transition-all duration-fast ease-out cursor-pointer'
+              className='inline-flex items-center justify-center rounded-xl glass text-foreground hover:bg-[hsla(var(--glass-bg-hover))] hover:scale-105 hover:shadow-glass p-2 transition-all duration-fast ease-out cursor-pointer'
             >
               <BiCog size={18} />
             </button>

@@ -22,7 +22,7 @@ export default function CopyButton({ text = "", className = "" }) {
       onClick={handleCopy}
       aria-label={t("ai.copy", { defaultValue: "Copy" })}
       title={t("ai.copy", { defaultValue: "Copy" })}
-      className={`shrink-0 inline-flex items-center justify-center rounded-md ring-1 ring-border bg-background/60 backdrop-blur-sm text-foreground hover:bg-accent/20 hover:scale-105 hover:shadow-sm active:scale-95 disabled:opacity-50 p-2 transition-all duration-fast ease-out ${className}`}
+      className={`shrink-0 inline-flex items-center justify-center rounded-md glass text-foreground hover:bg-[hsla(var(--glass-bg-hover))] hover:scale-105 hover:shadow-glass active:scale-95 disabled:opacity-50 p-2 transition-all duration-fast ease-out ${className}`}
     >
       <BiCopyAlt size={18} />
     </button>
