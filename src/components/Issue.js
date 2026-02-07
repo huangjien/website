@@ -61,7 +61,7 @@ export function Issue({ issue }) {
           <div className='prose prose-stone dark:prose-invert lg:prose-xl max-w-fit'>
             <Markdown
               remarkPlugins={[remarkGfm]}
-              // rehypePlugins={[rehypeRaw]}
+              rehypePlugins={[rehypeRaw]}
               components={{
                 img: SmartImage,
               }}
