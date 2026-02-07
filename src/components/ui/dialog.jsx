@@ -2,7 +2,7 @@ import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { cn } from "../../lib/cn";
 import React, { useEffect, useRef } from "react";
 
-export function Dialog({ open, onOpenChange, children, triggerRef }) {
+export function Dialog({ open, onOpenChange, children }) {
   const previousActiveElement = useRef(null);
 
   useEffect(() => {
@@ -13,7 +13,9 @@ export function Dialog({ open, onOpenChange, children, triggerRef }) {
 
   const handleOpenChange = (isOpen) => {
     if (!isOpen && previousActiveElement.current) {
-      previousActiveElement.current.focus();
+      setTimeout(() => {
+        previousActiveElement.current?.focus();
+      }, 0);
     }
     onOpenChange?.(isOpen);
   };
@@ -37,11 +39,16 @@ export function DialogTrigger({ children, asChild = true }) {
 export function DialogContent({ className, children, ...props }) {
   return (
     <DialogPrimitive.Portal>
-      <DialogPrimitive.Overlay className='fixed inset-0 z-50 bg-black/40 backdrop-blur-sm data-[state=open]:animate-in data-[state=open]:fade-in-0 transition-opacity duration-fast ease-out' />
+      <DialogPrimitive.Overlay
+        className='fixed inset-0 z-50 bg-black/40 backdrop-blur-sm data-[state=open]:animate-in data-[state=open]:fade-in-0 transition-opacity duration-fast ease-out'
+        aria-hidden='true'
+      />
       <DialogPrimitive.Content
         className={cn(
           "fixed inset-0 z-50 m-4 flex items-center justify-center"
         )}
+        aria-modal='true'
+        role='dialog'
         {...props}
       >
         <div
