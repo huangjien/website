@@ -6,12 +6,12 @@ COPY package.json ./
 COPY pnpm-lock.yaml ./
 ENV HUSKY=0
 RUN corepack enable \
-  && corepack prepare pnpm@10.27.0 --activate \
+  && corepack prepare pnpm@10.28.2 --activate \
   && pnpm install --frozen-lockfile --ignore-scripts
 
 FROM node:25-alpine AS builder
 RUN corepack enable \
-  && corepack prepare pnpm@10.27.0 --activate
+  && corepack prepare pnpm@10.28.2 --activate
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
