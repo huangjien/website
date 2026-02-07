@@ -1,17 +1,9 @@
 import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { Issue } from "../Issue";
-import { useTranslation } from "react-i18next";
 import { useSettings } from "../../lib/useSettings";
 import { extractContentAccordingContentList } from "../../lib/useGithubContent";
 import userEvent from "@testing-library/user-event";
-
-// Mock react-i18next
-jest.mock("react-i18next", () => ({
-  useTranslation: () => ({
-    t: (key) => key,
-  }),
-}));
 
 // Mock useSettings hook
 const mockGetSetting = jest.fn();
@@ -96,7 +88,7 @@ describe("Issue Component", () => {
     expect(screen.getByText("bug")).toBeInTheDocument();
     expect(screen.getByText("enhancement")).toBeInTheDocument();
 
-    const labels = screen.getAllByLabelText("label");
+    const labels = screen.getAllByLabelText("Label");
     expect(labels.length).toBeGreaterThanOrEqual(2);
   });
 

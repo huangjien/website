@@ -3,13 +3,6 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { IssueModal } from "../IssueModal";
 
-// Mock react-i18next
-jest.mock("react-i18next", () => ({
-  useTranslation: () => ({
-    t: (key) => key,
-  }),
-}));
-
 // Mock react-markdown
 jest.mock("react-markdown", () => {
   return function MockMarkdown({ children }) {
@@ -56,8 +49,8 @@ describe("IssueModal Component", () => {
 
     expect(screen.getByTestId("modal")).toBeInTheDocument();
     expect(screen.getByTestId("modal-content")).toBeInTheDocument();
-    expect(screen.getByTestId("modal-body")).toBeInTheDocument();
-    expect(screen.getByTestId("modal-footer")).toBeInTheDocument();
+    expect(screen.getByTestId("dialog-body")).toBeInTheDocument();
+    expect(screen.getByTestId("dialog-footer")).toBeInTheDocument();
   });
 
   it("should render input and textarea fields", async () => {

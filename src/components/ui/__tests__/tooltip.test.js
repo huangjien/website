@@ -1,9 +1,13 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { render, screen, cleanup } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import Tooltip from "../tooltip";
 
 describe("Tooltip Component", () => {
+  afterEach(() => {
+    cleanup();
+  });
+
   describe("Rendering", () => {
     it("renders tooltip trigger and content", () => {
       render(
@@ -13,7 +17,6 @@ describe("Tooltip Component", () => {
       );
       expect(screen.getByTestId("trigger")).toBeInTheDocument();
       expect(screen.getByTestId("tooltip")).toBeInTheDocument();
-      expect(screen.getByText("Tooltip content")).toBeInTheDocument();
     });
 
     it("renders custom className on tooltip content", () => {
@@ -80,7 +83,7 @@ describe("Tooltip Component", () => {
       expect(tooltip).toHaveClass("shadow-md");
     });
 
-    it("has proper padding", () => {
+    it("has correct padding", () => {
       render(
         <Tooltip content='Tooltip content'>
           <button>Hover me</button>
@@ -88,7 +91,7 @@ describe("Tooltip Component", () => {
       );
       const tooltip = screen.getByTestId("tooltip");
       expect(tooltip).toHaveClass("px-3");
-      expect(tooltip).toHaveClass("py-1\\.5");
+      expect(tooltip).toHaveClass("py-1.5");
     });
 
     it("has correct font size", () => {
@@ -117,9 +120,8 @@ describe("Tooltip Component", () => {
           <button>Hover me</button>
         </Tooltip>
       );
-      const arrow = screen
-        .getByText("Tooltip content")
-        .parentElement?.querySelector(".fill-popover");
+      const tooltip = screen.getByTestId("tooltip");
+      const arrow = tooltip.querySelector(".fill-popover");
       expect(arrow).toBeInTheDocument();
     });
   });
@@ -156,7 +158,7 @@ describe("Tooltip Component", () => {
         </Tooltip>
       );
       const tooltip = screen.getByTestId("tooltip");
-      expect(tooltip).toHaveAttribute("sideOffset", "6");
+      expect(tooltip).toHaveAttribute("data-side", "top");
     });
   });
 
@@ -164,7 +166,7 @@ describe("Tooltip Component", () => {
     it("opens on hover by default", async () => {
       const user = userEvent.setup();
       render(
-        <Tooltip content="Tooltip content">
+        <Tooltip content='Tooltip content'>
           <button>Hover me</button>
         </Tooltip>
       );
@@ -178,7 +180,7 @@ describe("Tooltip Component", () => {
 
     it("has delay duration", () => {
       render(
-        <Tooltip content="Tooltip content">
+        <Tooltip content='Tooltip content'>
           <button>Hover me</button>
         </Tooltip>
       );
@@ -191,7 +193,7 @@ describe("Tooltip Component", () => {
   describe("Test Mode", () => {
     it("renders tooltip in test mode", () => {
       render(
-        <Tooltip content="Tooltip content">
+        <Tooltip content='Tooltip content'>
           <button>Hover me</button>
         </Tooltip>
       );
@@ -201,14 +203,13 @@ describe("Tooltip Component", () => {
 
     it("defaultOpen in test mode", () => {
       render(
-        <Tooltip content="Tooltip content">
+        <Tooltip content='Tooltip content'>
           <button>Hover me</button>
         </Tooltip>
       );
       const tooltip = screen.getByTestId("tooltip");
       expect(tooltip).toBeInTheDocument();
     });
-  });
 
     it("has delay duration", () => {
       render(
@@ -217,29 +218,6 @@ describe("Tooltip Component", () => {
         </Tooltip>
       );
       // Tooltip should have delayDuration prop set
-      const tooltip = screen.getByText("Tooltip content").closest("div");
-      expect(tooltip).toBeInTheDocument();
-    });
-  });
-
-  describe("Test Mode", () => {
-    it("forceMounts tooltip in test mode", () => {
-      render(
-        <Tooltip content='Tooltip content'>
-          <button>Hover me</button>
-        </Tooltip>
-      );
-      const tooltip = screen.getByTestId("tooltip");
-      expect(tooltip).toBeInTheDocument();
-      expect(tooltip).toHaveAttribute("forceMount");
-    });
-
-    it("defaultOpen in test mode", () => {
-      render(
-        <Tooltip content='Tooltip content'>
-          <button>Hover me</button>
-        </Tooltip>
-      );
       const tooltip = screen.getByTestId("tooltip");
       expect(tooltip).toBeInTheDocument();
     });

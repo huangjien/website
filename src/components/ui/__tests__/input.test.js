@@ -38,7 +38,7 @@ describe("Input Component", () => {
       render(<Input startContent={<span data-testid='icon'>🔍</span>} />);
       const icon = screen.getByTestId("icon");
       expect(icon).toBeInTheDocument();
-      expect(icon).toHaveAttribute("aria-hidden", "true");
+      expect(icon.parentElement).toHaveAttribute("aria-hidden", "true");
     });
   });
 
@@ -53,37 +53,14 @@ describe("Input Component", () => {
       render(<Input />);
       const input = screen.getByTestId("input");
       expect(input).toHaveClass("focus-visible:ring-2");
+      expect(input).toHaveClass("focus-visible:ring-primary/50");
       expect(input).toHaveClass("focus-visible:shadow-glow");
     });
 
     it("applies hover background animation", () => {
       render(<Input />);
       const input = screen.getByTestId("input");
-      expect(input).toHaveClass("hover:shadow-glass");
-    });
-
-    it("applies transition classes", () => {
-      render(<Input />);
-      const input = screen.getByTestId("input");
-      expect(input).toHaveClass("transition-all");
-      expect(input).toHaveClass("duration-fast");
-    });
-  });
-
-    it("applies focus ring animation", () => {
-      render(<Input />);
-      const input = screen.getByTestId("input");
-      expect(input).toHaveClass("focus-visible:ring-2");
-      expect(input).toHaveClass("focus-visible:ring-primary\\/50");
-      expect(input).toHaveClass("focus-visible:shadow-glow");
-    });
-
-    it("applies hover background animation", () => {
-      render(<Input />);
-      const input = screen.getByTestId("input");
-      expect(input).toHaveClass(
-        "hover:bg-\\[hsla\\(var\\(--glass-bg-hover\\)\\)\\]"
-      );
+      expect(input).toHaveClass("hover:bg-[hsla(var(--glass-bg-hover))]");
       expect(input).toHaveClass("hover:shadow-glass");
     });
 
@@ -141,7 +118,7 @@ describe("Input Component", () => {
 
     it("shows clear button when isClearable and has value", () => {
       render(<Input isClearable value='test' />);
-      const clearButton = screen.queryByRole("button", { name: "clear" });
+      const clearButton = screen.queryByRole("button", { name: "Clear" });
       expect(clearButton).toBeInTheDocument();
     });
 
@@ -150,7 +127,7 @@ describe("Input Component", () => {
       const user = userEvent.setup();
       render(<Input isClearable value='test' onClear={handleClear} />);
 
-      const clearButton = screen.getByRole("button", { name: "clear" });
+      const clearButton = screen.getByRole("button", { name: "Clear" });
       await user.click(clearButton);
 
       expect(handleClear).toHaveBeenCalledTimes(1);

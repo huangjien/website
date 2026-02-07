@@ -3,28 +3,12 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Login } from "../Login";
 import { useSession, signIn, signOut } from "next-auth/react";
-import { useTranslation } from "react-i18next";
 
 // Mock next-auth/react
 jest.mock("next-auth/react", () => ({
   useSession: jest.fn(),
   signIn: jest.fn(),
   signOut: jest.fn(),
-}));
-
-// Mock react-i18next
-jest.mock("react-i18next", () => ({
-  useTranslation: () => ({
-    t: (key) => {
-      const translations = {
-        "header.login": "Login",
-        "header.settings": "Settings",
-        "header.logout": "Logout",
-        "header.message": "Message",
-      };
-      return translations[key] || key;
-    },
-  }),
 }));
 
 // Mock react-icons
@@ -72,7 +56,7 @@ describe("Login Component", () => {
 
     render(<Login />);
 
-    const trigger = screen.getByRole("button", { name: /user menu/i });
+    const trigger = screen.getByRole("button", { name: "User menu" });
     expect(trigger).toBeInTheDocument();
     expect(screen.getByText("John Doe")).toBeInTheDocument();
     expect(screen.getByText("john@example.com")).toBeInTheDocument();

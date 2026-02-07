@@ -2,17 +2,9 @@ import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import Settings from "../../pages/settings";
-import { useTranslation } from "react-i18next";
 import { useSession } from "next-auth/react";
 import { useTitle } from "ahooks";
 import { useSettings } from "../../lib/useSettings";
-
-// Mock react-i18next
-jest.mock("react-i18next", () => ({
-  useTranslation: () => ({
-    t: (key) => key,
-  }),
-}));
 
 // Mock next-auth/react
 jest.mock("next-auth/react", () => ({
@@ -132,7 +124,7 @@ describe("Settings Page Component (shadcn/ui)", () => {
 
     const input = screen.getByTestId("input");
     await user.type(input, "theme");
-    const clearBtn = screen.getByLabelText("clear");
+    const clearBtn = screen.getByLabelText("Clear");
     await user.click(clearBtn);
 
     // After clearing, the first page returns

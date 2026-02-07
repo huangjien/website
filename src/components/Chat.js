@@ -6,6 +6,7 @@ import { BiCopyAlt, BiPlayCircle } from "react-icons/bi";
 import Markdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
+import { SmartImage } from "./SmartImage";
 
 export const Chat = ({ data, player }) => {
   const { t } = useTranslation();
@@ -89,6 +90,9 @@ export const Chat = ({ data, player }) => {
                     className='select-text prose prose-stone dark:prose-invert lg:prose-xl max-w-fit '
                     remarkPlugins={[remarkGfm]}
                     rehypePlugins={[rehypeRaw]}
+                    components={{
+                      img: SmartImage,
+                    }}
                   >
                     {data.answer}
                   </Markdown>

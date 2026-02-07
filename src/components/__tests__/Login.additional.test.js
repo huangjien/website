@@ -11,11 +11,6 @@ jest.mock("next-auth/react", () => ({
   signOut: jest.fn(),
 }));
 
-// Mock react-i18next
-jest.mock("react-i18next", () => ({
-  useTranslation: () => ({ t: (k) => k }),
-}));
-
 // Mock react-icons
 jest.mock("react-icons/md", () => ({
   MdLogin: () => <div data-testid='login-icon' />,
@@ -44,7 +39,7 @@ describe("Login additional tests", () => {
 
     render(<Login />);
     // Trigger dropdown to ensure content renders
-    const trigger = screen.getByRole("button", { name: /user menu/i });
+    const trigger = screen.getByRole("button", { name: "User menu" });
     await userEvent.click(trigger);
     // AvatarFallback should show first letter 'A'
     expect(screen.getByText(/^A$/)).toBeInTheDocument();
@@ -66,12 +61,12 @@ describe("Login additional tests", () => {
 
     render(<Login />);
 
-    const trigger = screen.getByRole("button", { name: /user menu/i });
+    const trigger = screen.getByRole("button", { name: "User menu" });
     expect(trigger).toHaveAttribute("aria-expanded", "false");
 
     await userEvent.click(trigger);
     expect(trigger).toHaveAttribute("aria-expanded", "true");
-    expect(screen.getByText("header.settings")).toBeInTheDocument();
+    expect(screen.getByText("Settings")).toBeInTheDocument();
   });
 
   it("dropdown content label renders and logout item triggers signOut", async () => {
@@ -81,14 +76,14 @@ describe("Login additional tests", () => {
     });
 
     render(<Login />);
-    const trigger = screen.getByRole("button", { name: /user menu/i });
+    const trigger = screen.getByRole("button", { name: "User menu" });
     await userEvent.click(trigger);
 
     // Label should render (uses t("header.message"))
-    expect(screen.getByText("header.message")).toBeInTheDocument();
+    expect(screen.getByText("Message")).toBeInTheDocument();
 
     // Click Logout
-    await userEvent.click(screen.getByText("header.logout"));
+    await userEvent.click(screen.getByText("Logout"));
     expect(signOut).toHaveBeenCalledTimes(1);
   });
 });

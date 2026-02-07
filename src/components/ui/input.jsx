@@ -1,5 +1,6 @@
 import { cn } from "../../lib/cn";
 import { useTranslation } from "react-i18next";
+import { useId } from "react";
 
 export default function Input({
   label,
@@ -10,9 +11,12 @@ export default function Input({
   isClearable = false,
   onClear,
   startContent,
+  id,
   ...props
 }) {
   const { t } = useTranslation();
+  const inputId = useId();
+  const finalId = id || inputId;
 
   const handleClear = (e) => {
     if (onClear) onClear(e);
@@ -23,6 +27,7 @@ export default function Input({
       {label && (
         <label
           data-testid='input-label'
+          htmlFor={finalId}
           className='text-sm font-medium text-foreground'
         >
           {label}
@@ -38,6 +43,7 @@ export default function Input({
           </span>
         )}
         <input
+          id={finalId}
           data-testid='input'
           type={type}
           className={cn(
@@ -48,6 +54,7 @@ export default function Input({
           )}
           value={value}
           onChange={onChange}
+          aria-label={label || props["aria-label"]}
           {...props}
         />
         {isClearable && value && value.length > 0 && (

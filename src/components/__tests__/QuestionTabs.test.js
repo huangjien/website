@@ -8,7 +8,10 @@ import { getAnswer } from "../../lib/aiService";
 // Mock react-i18next
 jest.mock("react-i18next", () => ({
   useTranslation: () => ({
-    t: (key) => {
+    t: (key, options) => {
+      if (options?.defaultValue) {
+        return options.defaultValue;
+      }
       const translations = {
         "ai.text_input": "Text Input",
         "ai.audio_input": "Audio Input",
@@ -31,6 +34,7 @@ jest.mock("react-i18next", () => ({
         "ai.value_range_0_1": "Value range 0~1",
         "ai.track_speed": "Track speed",
         "ai.value_range_50_500": "Value range 50~500",
+        "ai.send": "Send",
       };
       return translations[key] || key;
     },
@@ -85,7 +89,7 @@ describe("QuestionTabs (Radix/Shadcn)", () => {
     render(<QuestionTabs append={mockAppend} />);
 
     expect(screen.getByTestId("textarea")).toBeInTheDocument();
-    expect(screen.getByLabelText("send")).toBeInTheDocument();
+    expect(screen.getByLabelText("Send")).toBeInTheDocument();
   });
 
   it("handles text input change", async () => {
@@ -116,7 +120,7 @@ describe("QuestionTabs (Radix/Shadcn)", () => {
 
     const textarea = screen.getByTestId("textarea");
     await user.type(textarea, "What is AI?");
-    await user.click(screen.getByLabelText("send"));
+    await user.click(screen.getByLabelText("Send"));
 
     await waitFor(() => {
       expect(getAnswer).toHaveBeenCalledWith(
@@ -162,7 +166,7 @@ describe("QuestionTabs (Radix/Shadcn)", () => {
 
     const textarea = screen.getByTestId("textarea");
     await user.type(textarea, "Test question that is long enough");
-    await user.click(screen.getByLabelText("send"));
+    await user.click(screen.getByLabelText("Send"));
 
     await waitFor(() => {
       expect(mockAppend).toHaveBeenCalled();
@@ -174,38 +178,22 @@ describe("QuestionTabs (Radix/Shadcn)", () => {
 
   it("does not disable submit button when text is empty", () => {
     render(<QuestionTabs append={mockAppend} />);
-    const submitButton = screen.getByLabelText("send");
+    const submitButton = screen.getByLabelText("Send");
     expect(submitButton).not.toBeDisabled();
   });
 
   it("shows loading state (progress + disabled controls) during submission", async () => {
     const user = userEvent.setup();
-
-    getAnswer.mockImplementation(
-      () =>
-        new Promise((resolve) =>
-          setTimeout(
-            () =>
-              resolve({
-                choices: [{ message: { content: "Test response" } }],
-                id: "test-id",
-                created: 1234567890,
-                model: "gpt-4.1-mini",
-                usage: {
-                  prompt_tokens: 5,
-                  completion_tokens: 10,
-                  total_tokens: 15,
-                },
-              }),
-            100
-          )
-        )
-    );
+    let resolvePromise;
+    const mockPromise = new Promise((resolve) => {
+      resolvePromise = resolve;
+    });
+    getAnswer.mockReturnValue(mockPromise);
 
     render(<QuestionTabs append={mockAppend} />);
 
     const textarea = screen.getByTestId("textarea");
-    const submitButton = screen.getByLabelText("send");
+    const submitButton = screen.getByLabelText("Send");
 
     await user.type(textarea, "Test question");
     await user.click(submitButton);
@@ -215,6 +203,19 @@ describe("QuestionTabs (Radix/Shadcn)", () => {
       expect(screen.getByTestId("progress")).toBeInTheDocument();
       expect(textarea).toBeDisabled();
       expect(submitButton).toBeDisabled();
+    });
+
+    // Resolve the promise
+    resolvePromise({
+      choices: [{ message: { content: "Test response" } }],
+      id: "test-id",
+      created: 1234567890,
+      model: "gpt-4.1-mini",
+      usage: {
+        prompt_tokens: 5,
+        completion_tokens: 10,
+        total_tokens: 15,
+      },
     });
 
     // After resolution, progress disappears and controls are enabled
@@ -274,7 +275,7 @@ describe("QuestionTabs (Radix/Shadcn)", () => {
 
     const textarea = screen.getByTestId("textarea");
     await user.type(textarea, "Test question that is long enough");
-    await user.click(screen.getByLabelText("send"));
+    await user.click(screen.getByLabelText("Send"));
 
     await waitFor(() => {
       // Error is invoked with a message containing the translated "Return error"
@@ -308,7 +309,7 @@ describe("QuestionTabs (Radix/Shadcn)", () => {
     await user.type(textarea, "Test question that is long enough");
     expect(textarea).toHaveValue("Test question that is long enough");
 
-    await user.click(screen.getByLabelText("send"));
+    await user.click(screen.getByLabelText("Send"));
 
     await waitFor(() => {
       expect(mockAppend).toHaveBeenCalled();

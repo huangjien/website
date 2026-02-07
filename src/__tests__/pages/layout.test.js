@@ -8,18 +8,10 @@ import {
 } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import Layout from "../../pages/layout";
-import { useTranslation } from "react-i18next";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { usePathname } from "next/navigation";
 import { useSettings } from "../../lib/useSettings";
-
-// Mock react-i18next
-jest.mock("react-i18next", () => ({
-  useTranslation: () => ({
-    t: (key) => key,
-  }),
-}));
 
 // Mock next-auth/react
 jest.mock("next-auth/react", () => ({

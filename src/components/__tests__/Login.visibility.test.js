@@ -11,21 +11,6 @@ jest.mock("next-auth/react", () => ({
   signOut: jest.fn(),
 }));
 
-// Mock react-i18next
-jest.mock("react-i18next", () => ({
-  useTranslation: () => ({
-    t: (key) => {
-      const translations = {
-        "header.login": "Login",
-        "header.settings": "Settings",
-        "header.logout": "Logout",
-        "header.message": "Message",
-      };
-      return translations[key] || key;
-    },
-  }),
-}));
-
 // Mock react-icons
 jest.mock("react-icons/md", () => ({
   MdLogin: () => <div data-testid='login-icon' />,
@@ -59,7 +44,7 @@ describe("Login visibility & attributes", () => {
     expect(screen.queryByText("Logout")).not.toBeInTheDocument();
 
     // Open menu
-    const trigger = screen.getByRole("button", { name: /user menu/i });
+    const trigger = screen.getByRole("button", { name: "User menu" });
     await userEvent.click(trigger);
 
     // Menu items appear after opening
@@ -94,7 +79,7 @@ describe("Login visibility & attributes", () => {
     render(<Login />);
 
     const btn = screen.getByRole("button", { name: /login/i });
-    expect(btn).toHaveAttribute("aria-label", "login");
+    expect(btn).toHaveAttribute("aria-label", "Login");
     await user.click(btn);
 
     expect(signIn).toHaveBeenCalledWith("github");

@@ -4,13 +4,6 @@ import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 import PromptInput from "../../ai-elements/prompt-input.jsx";
 
-// Mock i18n to return defaultValue when provided
-jest.mock("react-i18next", () => ({
-  useTranslation: () => ({
-    t: (key, opts) => (opts && opts.defaultValue) || key,
-  }),
-}));
-
 // Mock useAudioRecording hook
 const mockStartRecording = jest.fn(() => Promise.resolve());
 const mockStopRecording = jest.fn((cb) => {
@@ -29,7 +22,7 @@ describe("PromptInput", () => {
     jest.clearAllMocks();
   });
 
-  it("renders with empty value and disables send/clear, enables mic", () => {
+  it("renders with empty value and disables send, enables mic", () => {
     const onChange = jest.fn();
     const onSubmit = jest.fn();
     const onStop = jest.fn();
@@ -49,7 +42,8 @@ describe("PromptInput", () => {
       screen.getByPlaceholderText("Type your message…")
     ).toBeInTheDocument();
     expect(screen.getByLabelText("Send")).toBeDisabled();
-    expect(screen.getByLabelText("Clear input")).toBeDisabled();
+    // Clear button is not rendered when input is empty
+    expect(screen.queryByLabelText("Clear input")).not.toBeInTheDocument();
     // Mic should be enabled when input is empty
     expect(screen.getByLabelText("Start Recording")).toBeEnabled();
     // Stop button rendered

@@ -4,13 +4,13 @@
 
 **核心发现：**
 
-* 10种设计风格支持完善，但部分暗色模式存在显示问题（已修复）
+- 10种设计风格支持完善，但部分暗色模式存在显示问题（已修复）
 
-* 导航结构清晰，但移动端交互体验可优化
+- 导航结构清晰，但移动端交互体验可优化
 
-* 基础可访问性良好，但存在部分改进空间
+- 基础可访问性良好，但存在部分改进空间
 
-* 组件库使用Radix UI + shadcn/ui，架构合理
+- 组件库使用Radix UI + shadcn/ui，架构合理
 
 **主要目标：**
 
@@ -21,15 +21,15 @@
 
 **预期收益：**
 
-* 移动端转化率提升20-30%
+- 移动端转化率提升20-30%
 
-* 任务完成率提升15%
+- 任务完成率提升15%
 
-* 键盘导航效率提升40%
+- 键盘导航效率提升40%
 
-* 跨浏览器一致性达到99%
+- 跨浏览器一致性达到99%
 
-***
+---
 
 ## 二、优先级问题清单
 
@@ -61,7 +61,7 @@
 \| L1 | Joke组件与上下文无关 | [IssueList.js:125](file:///Users/huangjien/workspace/website/src/components/IssueList.js#L125) | Joke组件在IssueList中显示，功能关联性弱 |
 \| L2 | 滚动到顶部按钮动画过慢 | [layout.js:44](file:///Users/huangjien/workspace/website/src/pages/layout.js#L44) | `animate-slide-up` 300ms，可优化至200ms |
 
-***
+---
 
 ## 三、具体改进建议
 
@@ -84,9 +84,9 @@
 const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
 // 添加汉堡按钮
-<Button 
-  variant="ghost" 
-  size="icon" 
+<Button
+  variant="ghost"
+  size="icon"
   className="lg:hidden"
   aria-label="Toggle menu"
   onClick={() => setMobileMenuOpen(true)}
@@ -116,11 +116,11 @@ Home > AI > Settings
 
 **现状：**
 
-* 固定底部输入框（305-316行）
+- 固定底部输入框（305-316行）
 
-* 自动滚动到最新消息（200-204行）
+- 自动滚动到最新消息（200-204行）
 
-* 消息持久化（171-177行）
+- 消息持久化（171-177行）
 
 **优化方案：**
 
@@ -130,21 +130,21 @@ Home > AI > Settings
 // 在Message组件中添加时间显示
 const timestamp = new Date(message.timestamp).toLocaleTimeString();
 
-<div className="text-xs text-muted-foreground">
-  {timestamp}
-</div>
+<div className='text-xs text-muted-foreground'>{timestamp}</div>;
 ```
 
 1. **优化加载状态**
 
 ```jsx
 // 使用骨架屏替代文本
-{loading && (
-  <div className="space-y-4">
-    <Skeleton className="h-16 w-full" />
-    <Skeleton className="h-16 w-3/4" />
-  </div>
-)}
+{
+  loading && (
+    <div className='space-y-4'>
+      <Skeleton className='h-16 w-full' />
+      <Skeleton className='h-16 w-3/4' />
+    </div>
+  );
+}
 ```
 
 1. **错误提示优化**
@@ -163,15 +163,13 @@ if (error) {
 
 ```jsx
 // 在输入时显示停止按钮
-{loading && (
-  <Button 
-    variant="outline" 
-    size="sm"
-    onClick={handleStop}
-  >
-    <BiStop />
-  </Button>
-)}
+{
+  loading && (
+    <Button variant='outline' size='sm' onClick={handleStop}>
+      <BiStop />
+    </Button>
+  );
+}
 ```
 
 #### 设置管理流程
@@ -198,9 +196,9 @@ if (error) {
 
 1. **搜索优化**
 
-* 添加防抖（500ms）
+- 添加防抖（500ms）
 
-* 搜索高亮匹配文本
+- 搜索高亮匹配文本
 
 #### 问题列表流程
 
@@ -209,12 +207,14 @@ if (error) {
 1. **空状态优化**
 
 ```jsx
-{items.length === 0 && (
-  <div className="text-center py-12">
-    <BiInbox className="text-4xl text-muted-foreground mb-4" />
-    <p>{t("issue.empty")}</p>
-  </div>
-)}
+{
+  items.length === 0 && (
+    <div className='text-center py-12'>
+      <BiInbox className='text-4xl text-muted-foreground mb-4' />
+      <p>{t("issue.empty")}</p>
+    </div>
+  );
+}
 ```
 
 ### 3.3 视觉与交互设计
@@ -234,14 +234,14 @@ if (error) {
   --spacing-md: 16px;
   --spacing-lg: 24px;
   --spacing-xl: 32px;
-  
+
   /* 字体系统 */
   --font-xs: 0.75rem;
   --font-sm: 0.875rem;
   --font-md: 1rem;
   --font-lg: 1.125rem;
   --font-xl: 1.25rem;
-  
+
   /* 圆角系统 */
   --radius-sm: 8px;
   --radius-md: 12px;
@@ -252,13 +252,13 @@ if (error) {
 
 #### 微交互规范
 
-| 交互类型     | 当前                | 优化方案          |
-| -------- | ----------------- | ------------- |
-| 按钮点击     | `active:scale-95` | 保持不变（符合规范）    |
-| 按钮 hover | `hover:scale-105` | 保持不变          |
-| 加载       | 文本                | 骨架屏 + Spinner |
-| 错误       | console.error     | Toast通知       |
-| 成功       | 无通知               | Toast成功提示     |
+| 交互类型   | 当前              | 优化方案             |
+| ---------- | ----------------- | -------------------- |
+| 按钮点击   | `active:scale-95` | 保持不变（符合规范） |
+| 按钮 hover | `hover:scale-105` | 保持不变             |
+| 加载       | 文本              | 骨架屏 + Spinner     |
+| 错误       | console.error     | Toast通知            |
+| 成功       | 无通知            | Toast成功提示        |
 
 #### 按钮组件增强
 
@@ -280,24 +280,26 @@ const buttonVariants = tv({
 
 ```jsx
 // 添加字符计数器
-{maxLength && (
-  <div className="text-xs text-muted-foreground text-right">
-    {value.length} / {maxLength}
-  </div>
-)}
+{
+  maxLength && (
+    <div className='text-xs text-muted-foreground text-right'>
+      {value.length} / {maxLength}
+    </div>
+  );
+}
 ```
 
 ### 3.4 响应式与可访问性
 
 #### 响应式断点策略
 
-| 断点    | 尺寸     | 用途       |
-| ----- | ------ | -------- |
-| `sm`  | 640px  | 手机横屏     |
-| `md`  | 768px  | 平板竖屏     |
+| 断点  | 尺寸   | 用途            |
+| ----- | ------ | --------------- |
+| `sm`  | 640px  | 手机横屏        |
+| `md`  | 768px  | 平板竖屏        |
 | `lg`  | 1024px | 平板横屏/小桌面 |
-| `xl`  | 1280px | 标准桌面     |
-| `2xl` | 1536px | 大桌面      |
+| `xl`  | 1280px | 标准桌面        |
+| `2xl` | 1536px | 大桌面          |
 
 **优化建议：**
 
@@ -307,14 +309,14 @@ const buttonVariants = tv({
 
 #### 可访问性修复清单
 
-| 问题     | 当前状态          | 修复方案                          | 优先级 |
-| ------ | ------------- | ----------------------------- | --- |
-| 键盘焦点   | ring-2太细      | 改为ring-4，添加ring-offset-2      | 高   |
-| 触摸目标   | 分页按钮<44px     | 改为至少44x44px                   | 高   |
-| ARIA标签 | 部分缺失          | 添加aria-label/aria-describedby | 中   |
-| 焦点陷阱   | Dialog关闭未返回焦点 | 实现focus返回                     | 中   |
-| 颜色对比度  | 需验证           | 确保所有文本4.5:1                   | 高   |
-| 屏幕阅读器  | 未测试           | 添加测试用例                        | 高   |
+| 问题       | 当前状态             | 修复方案                        | 优先级 |
+| ---------- | -------------------- | ------------------------------- | ------ |
+| 键盘焦点   | ring-2太细           | 改为ring-4，添加ring-offset-2   | 高     |
+| 触摸目标   | 分页按钮<44px        | 改为至少44x44px                 | 高     |
+| ARIA标签   | 部分缺失             | 添加aria-label/aria-describedby | 中     |
+| 焦点陷阱   | Dialog关闭未返回焦点 | 实现focus返回                   | 中     |
+| 颜色对比度 | 需验证               | 确保所有文本4.5:1               | 高     |
+| 屏幕阅读器 | 未测试               | 添加测试用例                    | 高     |
 
 **具体修复：**
 
@@ -322,27 +324,29 @@ const buttonVariants = tv({
 // Dialog焦点管理
 export function Dialog({ open, onOpenChange, children, triggerRef }) {
   const triggerElement = triggerRef?.current;
-  
+
   useEffect(() => {
     if (!open && triggerElement) {
       triggerElement.focus();
     }
   }, [open, triggerElement]);
-  
+
   return (
-    <DialogPrimitive.Root onOpenChange={(isOpen) => {
-      if (!isOpen && triggerElement) {
-        triggerElement.focus();
-      }
-      onOpenChange?.(isOpen);
-    }}>
+    <DialogPrimitive.Root
+      onOpenChange={(isOpen) => {
+        if (!isOpen && triggerElement) {
+          triggerElement.focus();
+        }
+        onOpenChange?.(isOpen);
+      }}
+    >
       {children}
     </DialogPrimitive.Root>
   );
 }
 ```
 
-***
+---
 
 ## 四、实施路线图
 
@@ -350,14 +354,14 @@ export function Dialog({ open, onOpenChange, children, triggerRef }) {
 
 **目标：** 修复高优先级可访问性问题
 
-| 任务              | 工作量   | 文件               | 说明                     |
-| --------------- | ----- | ---------------- | ---------------------- |
-| A1: 添加移动端汉堡菜单   | 0.5天  | NavigationBar.js | 移动端导航                  |
-| A4: 增强按钮焦点样式    | 0.25天 | button.jsx       | ring-4 + ring-offset-2 |
-| A5: 添加错误Toast提示 | 0.5天  | ai.js            | 错误UI反馈                 |
-| A2: 修复输入框遮挡内容   | 0.25天 | ai.js            | 调整padding-bottom       |
+| 任务                   | 工作量 | 文件             | 说明                   |
+| ---------------------- | ------ | ---------------- | ---------------------- |
+| A1: 添加移动端汉堡菜单 | 0.5天  | NavigationBar.js | 移动端导航             |
+| A4: 增强按钮焦点样式   | 0.25天 | button.jsx       | ring-4 + ring-offset-2 |
+| A5: 添加错误Toast提示  | 0.5天  | ai.js            | 错误UI反馈             |
+| A2: 修复输入框遮挡内容 | 0.25天 | ai.js            | 调整padding-bottom     |
 | A3: 表格移动端滚动     | 0.25天 | settings.js      | overflow-x-auto        |
-| M1: 分页按钮触摸目标    | 0.25天 | IssueList.js     | 最小44x44px              |
+| M1: 分页按钮触摸目标   | 0.25天 | IssueList.js     | 最小44x44px            |
 
 **总计：** 2天（1人）
 
@@ -365,16 +369,16 @@ export function Dialog({ open, onOpenChange, children, triggerRef }) {
 
 **目标：** 优化核心用户流程
 
-| 任务               | 工作量   | 文件                      | 说明             |
-| ---------------- | ----- | ----------------------- | -------------- |
-| AI-1: 添加消息时间戳    | 0.5天  | ai.js, message.jsx      | 显示发送时间         |
-| AI-2: 骨架屏加载状态    | 0.75天 | ai.js                   | 替代Loading文本    |
-| AI-3: 停止生成按钮     | 0.5天  | ai.js, prompt-input.jsx | 流程控制           |
-| AI-4: 错误处理优化     | 0.5天  | ai.js                   | Toast通知        |
-| Set-1: 表格移动端卡片视图 | 1天    | settings.js             | 响应式表格          |
-| Set-2: 搜索防抖      | 0.25天 | settings.js             | 500ms debounce |
-| Set-3: 空状态UI     | 0.25天 | IssueList.js            | 图标+提示          |
-| Nav-1: 面包屑导航     | 0.5天  | layout.js               | 路径显示           |
+| 任务                      | 工作量 | 文件                    | 说明            |
+| ------------------------- | ------ | ----------------------- | --------------- |
+| AI-1: 添加消息时间戳      | 0.5天  | ai.js, message.jsx      | 显示发送时间    |
+| AI-2: 骨架屏加载状态      | 0.75天 | ai.js                   | 替代Loading文本 |
+| AI-3: 停止生成按钮        | 0.5天  | ai.js, prompt-input.jsx | 流程控制        |
+| AI-4: 错误处理优化        | 0.5天  | ai.js                   | Toast通知       |
+| Set-1: 表格移动端卡片视图 | 1天    | settings.js             | 响应式表格      |
+| Set-2: 搜索防抖           | 0.25天 | settings.js             | 500ms debounce  |
+| Set-3: 空状态UI           | 0.25天 | IssueList.js            | 图标+提示       |
+| Nav-1: 面包屑导航         | 0.5天  | layout.js               | 路径显示        |
 
 **总计：** 4.25天（1人）
 
@@ -382,14 +386,14 @@ export function Dialog({ open, onOpenChange, children, triggerRef }) {
 
 **目标：** 统一视觉规范，提升一致性
 
-| 任务                | 工作量   | 文件                     | 说明        |
-| ----------------- | ----- | ---------------------- | --------- |
-| V-1: 设计令牌系统       | 0.5天  | globals.css            | CSS变量     |
-| V-2: 微交互文档        | 0.5天  | 新建docs/interactions.md | 规范说明      |
-| V-3: Dialog焦点陷阱修复 | 0.5天  | dialog.jsx             | A11y      |
-| V-4: 语言切换视觉反馈     | 0.25天 | LanguageSwitch.js      | 选中高亮      |
-| V-5: 动画优化         | 0.25天 | layout.js              | 滚动按钮200ms |
-| V-6: 空状态统一        | 0.25天 | 多文件                    | 一致空状态     |
+| 任务                    | 工作量 | 文件                     | 说明          |
+| ----------------------- | ------ | ------------------------ | ------------- |
+| V-1: 设计令牌系统       | 0.5天  | globals.css              | CSS变量       |
+| V-2: 微交互文档         | 0.5天  | 新建docs/interactions.md | 规范说明      |
+| V-3: Dialog焦点陷阱修复 | 0.5天  | dialog.jsx               | A11y          |
+| V-4: 语言切换视觉反馈   | 0.25天 | LanguageSwitch.js        | 选中高亮      |
+| V-5: 动画优化           | 0.25天 | layout.js                | 滚动按钮200ms |
+| V-6: 空状态统一         | 0.25天 | 多文件                   | 一致空状态    |
 
 **总计：** 2.25天（1人）
 
@@ -404,54 +408,54 @@ export function Dialog({ open, onOpenChange, children, triggerRef }) {
 
 **总计：** 1.75天
 
-***
+---
 
 ## 五、成功度量标准
 
 ### 关键指标
 
-| 指标      | 当前   | 目标            | 测量方法       |
-| ------- | ---- | ------------- | ---------- |
-| 任务完成率   | 基准未知 | +15%          | 分析用户操作日志   |
-| 用户错误率   | 基准未知 | -30%          | Toast错误统计  |
-| 平均会话时长  | 基准未知 | ±10%          | AI会话时间追踪   |
-| 移动端停留时间 | 基准未知 | +20%          | GA4事件追踪    |
-| 键盘导航效率  | 基准未知 | +40%          | Tab键点击次数   |
-| 可访问性评分  | 未知   | WCAG AA (90+) | axe-core扫描 |
+| 指标           | 当前     | 目标          | 测量方法         |
+| -------------- | -------- | ------------- | ---------------- |
+| 任务完成率     | 基准未知 | +15%          | 分析用户操作日志 |
+| 用户错误率     | 基准未知 | -30%          | Toast错误统计    |
+| 平均会话时长   | 基准未知 | ±10%          | AI会话时间追踪   |
+| 移动端停留时间 | 基准未知 | +20%          | GA4事件追踪      |
+| 键盘导航效率   | 基准未知 | +40%          | Tab键点击次数    |
+| 可访问性评分   | 未知     | WCAG AA (90+) | axe-core扫描     |
 
 ### A/B测试方案
 
 **测试1：** 移动端菜单布局
 
-* A组：汉堡菜单（全屏侧滑）
+- A组：汉堡菜单（全屏侧滑）
 
-* B组：底部导航栏（Tab切换）
+- B组：底部导航栏（Tab切换）
 
-* 指标：菜单点击率、任务完成率
+- 指标：菜单点击率、任务完成率
 
-* 时长：2周
+- 时长：2周
 
 **测试2：** 加载状态展示
 
-* A组：骨架屏
+- A组：骨架屏
 
-* B组：文本提示（当前）
+- B组：文本提示（当前）
 
-* 指标：感知加载时间、用户满意度
+- 指标：感知加载时间、用户满意度
 
-* 时长：1周
+- 时长：1周
 
 **测试3：** 错误反馈方式
 
-* A组：Toast通知（推荐）
+- A组：Toast通知（推荐）
 
-* B组：Modal弹窗
+- B组：Modal弹窗
 
-* 指标：错误恢复时间、再次错误率
+- 指标：错误恢复时间、再次错误率
 
-* 时长：1周
+- 时长：1周
 
-***
+---
 
 ## 六、实施技术细节
 
@@ -490,18 +494,18 @@ src/__tests__/a11y/keyboard-nav.test.js
 src/__tests__/a11y/screen-reader.test.js
 ```
 
-***
+---
 
 ## 七、风险与依赖
 
-| 风险       | 影响        | 缓解措施                |
-| -------- | --------- | ------------------- |
-| 移动菜单布局影响 | 可能需要调整间距  | 在多设备测试              |
-| 骨架屏增加包体积 | 轻微（\~2KB） | 已有loading-spinner组件 |
-| 焦点管理复杂   | 可能引入bug   | 充分测试键盘导航            |
-| 设计令牌迁移   | 需更新大量CSS  | 逐步迁移，分PR合并          |
+| 风险             | 影响             | 缓解措施                |
+| ---------------- | ---------------- | ----------------------- |
+| 移动菜单布局影响 | 可能需要调整间距 | 在多设备测试            |
+| 骨架屏增加包体积 | 轻微（\~2KB）    | 已有loading-spinner组件 |
+| 焦点管理复杂     | 可能引入bug      | 充分测试键盘导航        |
+| 设计令牌迁移     | 需更新大量CSS    | 逐步迁移，分PR合并      |
 
-***
+---
 
 ## 八、交付物
 
@@ -510,4 +514,3 @@ src/__tests__/a11y/screen-reader.test.js
 3. **代码实现**（Phase 1-4）
 4. **测试报告**（A11y + 跨浏览器）
 5. **用户手册更新**（如适用）
-

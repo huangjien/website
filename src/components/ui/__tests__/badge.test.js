@@ -111,7 +111,7 @@ describe("Badge Component", () => {
       render(<Badge>Test</Badge>);
       const badge = screen.getByText("Test");
       expect(badge).toHaveClass("focus:ring-2");
-      expect(badge).toHaveClass("focus:ring-primary\\/50");
+      expect(badge).toHaveClass("focus:ring-primary/50");
     });
   });
 

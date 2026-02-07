@@ -1,6 +1,23 @@
 // Global test setup file
 import "@testing-library/jest-dom";
 
+// Global mock for react-i18next
+jest.mock("react-i18next", () => ({
+  useTranslation: () => ({
+    t: (key, options) => {
+      if (options?.defaultValue) {
+        return options.defaultValue;
+      }
+      return key;
+    },
+    i18n: {
+      changeLanguage: jest.fn(),
+      language: "en",
+    },
+  }),
+  initReactI18next: jest.fn(),
+}));
+
 // Mock environment variables for tests
 process.env.GITHUB_REPO = "https://api.github.com/repos/test/repo";
 process.env.GITHUB_TOKEN = "test-token";

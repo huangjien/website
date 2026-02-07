@@ -2,13 +2,7 @@ import React from "react";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { LanguageSwitch } from "../LanguageSwitch";
-import { useTranslation } from "react-i18next";
 import { useSettings } from "../../lib/useSettings";
-
-// Mock react-i18next
-jest.mock("react-i18next", () => ({
-  useTranslation: jest.fn(),
-}));
 
 // Mock useSettings hook
 jest.mock("../../lib/useSettings", () => ({
@@ -46,7 +40,6 @@ jest.mock("react-icons/bi", () => ({
 
 describe("LanguageSwitch", () => {
   const mockChangeLanguage = jest.fn();
-  const mockUseTranslation = useTranslation;
   const mockUseSettings = useSettings;
 
   let mockSetCurrentLanguage;
@@ -64,14 +57,6 @@ describe("LanguageSwitch", () => {
     mockSetLanguageCode = jest.fn();
     mockSetSpeakerName = jest.fn();
 
-    mockUseTranslation.mockReturnValue({
-      t: (key) => key,
-      i18n: {
-        language: "en",
-        changeLanguage: mockChangeLanguage,
-      },
-    });
-
     mockUseSettings.mockImplementation(() => ({
       setLanguageCode: mockSetLanguageCode,
       setCurrentLanguage: mockSetCurrentLanguage,
@@ -83,7 +68,7 @@ describe("LanguageSwitch", () => {
   it("renders trigger button with label and icon", async () => {
     render(<LanguageSwitch />);
 
-    const trigger = screen.getByRole("button", { name: /switch language/i });
+    const trigger = screen.getByRole("button", { name: "Switch language" });
     expect(trigger).toBeInTheDocument();
     expect(trigger).toHaveAttribute("title", "header.language");
     expect(screen.getByTestId("language-icon")).toBeInTheDocument();
@@ -95,7 +80,7 @@ describe("LanguageSwitch", () => {
   it("lists available languages when opened", async () => {
     render(<LanguageSwitch />);
 
-    const trigger = screen.getByRole("button", { name: /switch language/i });
+    const trigger = screen.getByRole("button", { name: "Switch language" });
     await userEvent.click(trigger);
 
     expect(screen.getByText("English")).toBeInTheDocument();
@@ -106,7 +91,7 @@ describe("LanguageSwitch", () => {
   it("shows a check mark next to the currently selected language", async () => {
     render(<LanguageSwitch />);
 
-    const trigger = screen.getByRole("button", { name: /switch language/i });
+    const trigger = screen.getByRole("button", { name: "Switch language" });
     await userEvent.click(trigger);
 
     // Selected 'en' should render a check mark
@@ -116,7 +101,7 @@ describe("LanguageSwitch", () => {
   it("changes to Chinese and updates settings", async () => {
     render(<LanguageSwitch />);
 
-    const trigger = screen.getByRole("button", { name: /switch language/i });
+    const trigger = screen.getByRole("button", { name: "Switch language" });
     await userEvent.click(trigger);
 
     await userEvent.click(screen.getByText("中文(简体)"));
@@ -131,7 +116,7 @@ describe("LanguageSwitch", () => {
   it("changes to Spanish and updates settings", async () => {
     render(<LanguageSwitch />);
 
-    const trigger = screen.getByRole("button", { name: /switch language/i });
+    const trigger = screen.getByRole("button", { name: "Switch language" });
     await userEvent.click(trigger);
 
     await userEvent.click(screen.getByText("Español"));
@@ -146,7 +131,7 @@ describe("LanguageSwitch", () => {
   it("handles selecting the same language gracefully", async () => {
     render(<LanguageSwitch />);
 
-    const trigger = screen.getByRole("button", { name: /switch language/i });
+    const trigger = screen.getByRole("button", { name: "Switch language" });
     await userEvent.click(trigger);
 
     await userEvent.click(screen.getByText("English"));
@@ -177,7 +162,12 @@ describe("LanguageSwitch", () => {
   });
 
   it("does not crash if i18n is missing", () => {
-    mockUseTranslation.mockReturnValue({ t: (key) => key, i18n: null });
+    mockUseSettings.mockImplementation(() => ({
+      setLanguageCode: jest.fn(),
+      setCurrentLanguage: jest.fn(),
+      currentLanguage: "en",
+      setSpeakerName: jest.fn(),
+    }));
 
     expect(() => render(<LanguageSwitch />)).not.toThrow();
   });

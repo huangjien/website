@@ -11,21 +11,6 @@ jest.mock("next-auth/react", () => ({
   signOut: jest.fn(),
 }));
 
-// Mock react-i18next
-jest.mock("react-i18next", () => ({
-  useTranslation: () => ({
-    t: (key) => {
-      const translations = {
-        "header.login": "Login",
-        "header.settings": "Settings",
-        "header.logout": "Logout",
-        "header.message": "Message",
-      };
-      return translations[key] || key;
-    },
-  }),
-}));
-
 // Mock react-icons
 jest.mock("react-icons/md", () => ({
   MdLogin: () => <div data-testid='login-icon' />,
@@ -65,7 +50,7 @@ describe("Login edge cases", () => {
     });
 
     render(<Login />);
-    const trigger = screen.getByRole("button", { name: /user menu/i });
+    const trigger = screen.getByRole("button", { name: "User menu" });
     expect(trigger).toBeInTheDocument();
     // AvatarFallback is rendered with '?' when no initial is available
     expect(screen.getByText("?")).toBeInTheDocument();

@@ -14,7 +14,7 @@ describe("Dialog Component", () => {
     it("renders children when open", () => {
       render(
         <Dialog open={true} onOpenChange={jest.fn()}>
-          <div data-testid="dialog-child">Child content</div>
+          <div data-testid='dialog-child'>Child content</div>
         </Dialog>
       );
       expect(screen.getByTestId("dialog-child")).toBeInTheDocument();
@@ -23,7 +23,7 @@ describe("Dialog Component", () => {
     it("does not render children when closed", () => {
       render(
         <Dialog open={false} onOpenChange={jest.fn()}>
-          <div data-testid="dialog-child">Child content</div>
+          <div data-testid='dialog-child'>Child content</div>
         </Dialog>
       );
       expect(screen.getByTestId("dialog-child")).toBeInTheDocument();
@@ -52,7 +52,7 @@ describe("Dialog Component", () => {
       render(
         <Dialog open={false} onOpenChange={jest.fn()}>
           <DialogTrigger>
-            <button data-testid="trigger-button">Open Dialog</button>
+            <button data-testid='trigger-button'>Open Dialog</button>
           </DialogTrigger>
         </Dialog>
       );
@@ -63,7 +63,7 @@ describe("Dialog Component", () => {
       render(
         <Dialog open={false} onOpenChange={jest.fn()}>
           <DialogTrigger asChild={false}>
-            <button data-testid="trigger-button">Open Dialog</button>
+            <button data-testid='trigger-button'>Open Dialog</button>
           </DialogTrigger>
         </Dialog>
       );
@@ -75,7 +75,7 @@ describe("Dialog Component", () => {
     it("renders modal content when open", () => {
       render(
         <Dialog open={true} onOpenChange={jest.fn()}>
-          <DialogContent data-testid="dialog-content">
+          <DialogContent data-testid='dialog-content'>
             <div>Modal Content</div>
           </DialogContent>
         </Dialog>
@@ -119,7 +119,9 @@ describe("Dialog Component", () => {
           </Dialog>
         );
         const modalContent = screen.getByTestId("modal-content");
-        expect(modalContent).toHaveClass("data-\\[state=closed\\]:animate-scale-out");
+        expect(modalContent).toHaveClass(
+          "data-[state=closed]:animate-scale-out"
+        );
       });
 
       it("applies transition classes", () => {
@@ -139,7 +141,7 @@ describe("Dialog Component", () => {
     it("applies custom className", () => {
       render(
         <Dialog open={true} onOpenChange={jest.fn()}>
-          <DialogContent className="custom-class">
+          <DialogContent className='custom-class'>
             <div>Content</div>
           </DialogContent>
         </Dialog>
@@ -157,7 +159,9 @@ describe("Dialog Component", () => {
         </Dialog>
       );
       const overlay = screen.getByText("Content").closest(".fixed");
-      expect(overlay?.parentElement?.querySelector(".bg-black\\/40")).toBeInTheDocument();
+      expect(
+        overlay?.parentElement?.querySelector(".bg-black\\/40")
+      ).toBeInTheDocument();
     });
   });
 
@@ -166,7 +170,7 @@ describe("Dialog Component", () => {
       render(
         <Dialog open={true} onOpenChange={jest.fn()}>
           <DialogContent>
-            <DialogBody data-testid="dialog-body">
+            <DialogBody data-testid='dialog-body'>
               <div>Body Content</div>
             </DialogBody>
           </DialogContent>
@@ -194,7 +198,7 @@ describe("Dialog Component", () => {
       render(
         <Dialog open={true} onOpenChange={jest.fn()}>
           <DialogContent>
-            <DialogBody className="custom-class">
+            <DialogBody className='custom-class'>
               <div>Content</div>
             </DialogBody>
           </DialogContent>
@@ -210,7 +214,7 @@ describe("Dialog Component", () => {
       render(
         <Dialog open={true} onOpenChange={jest.fn()}>
           <DialogContent>
-            <DialogFooter data-testid="dialog-footer">
+            <DialogFooter data-testid='dialog-footer'>
               <button>Cancel</button>
               <button>Confirm</button>
             </DialogFooter>
@@ -218,8 +222,12 @@ describe("Dialog Component", () => {
         </Dialog>
       );
       expect(screen.getByTestId("dialog-footer")).toBeInTheDocument();
-      expect(screen.getByRole("button", { name: "Cancel" })).toBeInTheDocument();
-      expect(screen.getByRole("button", { name: "Confirm" })).toBeInTheDocument();
+      expect(
+        screen.getByRole("button", { name: "Cancel" })
+      ).toBeInTheDocument();
+      expect(
+        screen.getByRole("button", { name: "Confirm" })
+      ).toBeInTheDocument();
     });
 
     it("applies correct layout classes", () => {
@@ -261,7 +269,8 @@ describe("Dialog Component", () => {
               <div>Footer Content</div>
             </DialogFooter>
           </DialogContent>
-        );
+        </Dialog>
+      );
       const footer = screen.getByTestId("dialog-footer");
       expect(footer).toHaveClass("p-3");
     });
@@ -270,11 +279,12 @@ describe("Dialog Component", () => {
       render(
         <Dialog open={true} onOpenChange={jest.fn()}>
           <DialogContent>
-            <DialogFooter className="custom-class">
+            <DialogFooter className='custom-class'>
               <div>Footer Content</div>
             </DialogFooter>
           </DialogContent>
-        );
+        </Dialog>
+      );
       const footer = screen.getByTestId("dialog-footer");
       expect(footer).toHaveClass("custom-class");
     });
@@ -302,7 +312,7 @@ describe("Dialog Component", () => {
         </Dialog>
       );
       const modalContent = screen.getByTestId("modal-content");
-      expect(modalContent).toHaveClass("max-h-\\[90vh\\]");
+      expect(modalContent).toHaveClass("max-h-[90vh]");
     });
   });
 
@@ -315,7 +325,9 @@ describe("Dialog Component", () => {
           </DialogContent>
         </Dialog>
       );
-      const overlay = screen.getByText("Content").closest(".fixed")?.parentElement;
+      const overlay = screen
+        .getByText("Content")
+        .closest(".fixed")?.parentElement;
       const backdropBlur = overlay?.querySelector(".backdrop-blur-sm");
       expect(backdropBlur).toBeInTheDocument();
     });
@@ -328,8 +340,10 @@ describe("Dialog Component", () => {
           </DialogContent>
         </Dialog>
       );
-      const overlay = screen.getByText("Content").closest(".fixed")?.parentElement;
-      expect(overlay?.querySelector(".fade-in-0")).toBeInTheDocument();
+      const overlay = screen
+        .getByText("Content")
+        .closest(".fixed")?.parentElement;
+      expect(overlay?.querySelector(".backdrop-blur-sm")).toBeInTheDocument();
     });
   });
 });

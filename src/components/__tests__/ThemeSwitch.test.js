@@ -30,7 +30,7 @@ jest.mock("react-icons/bi", () => ({
 
 describe("ThemeSwitch", () => {
   const mockSetTheme = jest.fn();
-  const mockT = jest.fn();
+  const mockT = jest.fn((key, options) => options?.defaultValue || key);
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -38,7 +38,10 @@ describe("ThemeSwitch", () => {
     useTranslation.mockReturnValue({
       t: mockT,
     });
-    mockT.mockImplementation((key) => {
+    mockT.mockImplementation((key, options) => {
+      if (options?.defaultValue) {
+        return options.defaultValue;
+      }
       const translations = {
         "header.day": "Switch to day mode",
         "header.night": "Switch to night mode",
@@ -172,7 +175,7 @@ describe("ThemeSwitch", () => {
 
     await waitFor(() => {
       const button = screen.getByRole("button", { name: /switch theme/i });
-      expect(button).toHaveAttribute("aria-label", "switch theme");
+      expect(button).toHaveAttribute("aria-label", "Switch theme");
       expect(button).toHaveClass("bg-transparent", "text-foreground");
     });
   });

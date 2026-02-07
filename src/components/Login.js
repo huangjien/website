@@ -30,10 +30,10 @@ const Login = () => {
         variant='secondary'
         onClick={() => signIn("github")}
         className='gap-2'
-        title={t("header.login")}
+        title={t("header.login", { defaultValue: "Login" })}
       >
         <MdLogin />
-        {t("header.login")}
+        {t("header.login", { defaultValue: "Login" })}
       </Button>
     );
   }
@@ -64,19 +64,19 @@ const Login = () => {
         className='z-50 min-w-[12rem] rounded-xl glass-card p-1.5 text-popover-foreground shadow-lg animate-slide-down transition-all duration-fast ease-out'
       >
         <DropdownMenu.Label className='px-2 py-1.5 text-xs text-muted-foreground'>
-          {t("header.message")}
+          {t("header.message", { defaultValue: "Message" })}
         </DropdownMenu.Label>
         <DropdownMenu.Item
           className='flex cursor-pointer select-none items-center gap-2 rounded-lg px-2.5 py-1.5 text-sm outline-none hover:bg-[hsla(var(--glass-bg-hover))] hover:text-accent-foreground transition-all duration-fast ease-out'
           onSelect={() => window.open("/settings", "_blank")}
         >
-          <MdSettings /> {t("header.settings")}
+          <MdSettings /> {t("header.settings", { defaultValue: "Settings" })}
         </DropdownMenu.Item>
         <DropdownMenu.Item
           className='flex cursor-pointer select-none items-center gap-2 rounded-lg px-2.5 py-1.5 text-sm outline-none hover:bg-[hsla(var(--glass-bg-hover))] hover:text-accent-foreground transition-all duration-fast ease-out'
           onSelect={() => signOut()}
         >
-          <MdLogout /> {t("header.logout")}
+          <MdLogout /> {t("header.logout", { defaultValue: "Logout" })}
         </DropdownMenu.Item>
       </DropdownMenu.Content>
     </DropdownMenu.Root>

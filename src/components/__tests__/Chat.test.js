@@ -1,14 +1,6 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { Chat } from "../Chat";
-import { useTranslation } from "react-i18next";
-
-// Mock react-i18next
-jest.mock("react-i18next", () => ({
-  useTranslation: () => ({
-    t: (key) => key,
-  }),
-}));
 
 // Mock react-markdown
 jest.mock("react-markdown", () => {
@@ -81,7 +73,7 @@ describe("Chat Component", () => {
   it("should render temperature chip when temperature is provided", () => {
     render(<Chat data={mockData} player={mockPlayer} />);
 
-    const temperatureChip = screen.getByLabelText("temperature");
+    const temperatureChip = screen.getByLabelText("Temperature");
     expect(temperatureChip).toBeInTheDocument();
     expect(temperatureChip).toHaveTextContent("0.7");
   });
@@ -92,7 +84,7 @@ describe("Chat Component", () => {
 
     render(<Chat data={dataWithoutTemperature} player={mockPlayer} />);
 
-    expect(screen.queryByLabelText("temperature")).not.toBeInTheDocument();
+    expect(screen.queryByLabelText("Temperature")).not.toBeInTheDocument();
   });
 
   it("should handle copy button click", () => {
@@ -101,7 +93,7 @@ describe("Chat Component", () => {
     // Open accordion to reveal content buttons
     fireEvent.click(screen.getByText("What is React?"));
 
-    const copyButton = screen.getByRole("button", { name: "copy" });
+    const copyButton = screen.getByRole("button", { name: "Copy" });
     fireEvent.click(copyButton);
 
     expect(navigator.clipboard.writeText).toHaveBeenCalledWith(
@@ -115,7 +107,7 @@ describe("Chat Component", () => {
     // Open accordion to reveal content buttons
     fireEvent.click(screen.getByText("What is React?"));
 
-    const playButton = screen.getByRole("button", { name: "play" });
+    const playButton = screen.getByRole("button", { name: "Play" });
     fireEvent.click(playButton);
 
     expect(mockPlayer).toHaveBeenCalledWith(

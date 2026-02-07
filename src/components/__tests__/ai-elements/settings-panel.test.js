@@ -34,7 +34,7 @@ describe("SettingsPanel", () => {
 
   it("updates system prompt and track speed", () => {
     render(<Host />);
-    const sysPrompt = screen.getByPlaceholderText(/ai\.system_prompt/i);
+    const sysPrompt = screen.getByPlaceholderText(/System prompt/i);
     fireEvent.change(sysPrompt, { target: { value: "You are helpful." } });
     expect(sysPrompt).toHaveValue("You are helpful.");
 

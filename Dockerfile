@@ -1,4 +1,4 @@
-FROM node:24-alpine AS deps
+FROM node:25-alpine AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
@@ -9,7 +9,7 @@ RUN corepack enable \
   && corepack prepare pnpm@10.27.0 --activate \
   && pnpm install --frozen-lockfile --ignore-scripts
 
-FROM node:24-alpine AS builder
+FROM node:25-alpine AS builder
 RUN corepack enable \
   && corepack prepare pnpm@10.27.0 --activate
 WORKDIR /app
@@ -23,7 +23,7 @@ ENV NEXT_TELEMETRY_DISABLED=1
 # RUN npm run build:webpack
 RUN pnpm build:webpack
 
-FROM node:24-alpine AS runner
+FROM node:25-alpine AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
