@@ -68,14 +68,16 @@ const ConversationTab = ({
         <Progress
           size='sm'
           isIndeterminate
-          aria-label='Loading...'
+          aria-label={t("global.loading", { defaultValue: "Loading" })}
           className='max-w-full'
         />
       )}
 
       <div className='inline-flex justify-items-stretch items-stretch justify-between'>
         <Textarea
-          aria-label='question text area'
+          aria-label={t("ai.prompt_placeholder", {
+            defaultValue: "Type your message…",
+          })}
           className='inline-flex m-1 lg:w-10/12 sm:w-8/12 max-h-full'
           disabled={loading}
           value={questionText}
@@ -95,7 +97,7 @@ const ConversationTab = ({
           <Button
             size='lg'
             type='button'
-            aria-label='send'
+            aria-label={t("ai.send", { defaultValue: "Send" })}
             onMouseDown={startPress}
             onMouseUp={endPress}
             onMouseLeave={endPress}

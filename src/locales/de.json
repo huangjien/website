@@ -1,6 +1,28 @@
 {
   "global": {
-    "search": "Suche..."
+    "search": "Suche...",
+    "prev": "Zurück",
+    "next": "Weiter",
+    "page": "Seite",
+    "empty": "Keine Einstellungen zum Anzeigen",
+    "close": "Schließen",
+    "loading": "Laden",
+    "copy": "Kopieren",
+    "play": "Abspielen",
+    "copy_to_clipboard": "In die Zwischenablage kopieren",
+    "menu": "Menü",
+    "toggle_menu": "Menü umschalten",
+    "clear": "Löschen",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "save": "Speichern",
+    "select": "Auswählen",
+    "cancel": "Abbrechen",
+    "confirm": "Bestätigen",
+    "yes": "Ja",
+    "no": "Nein",
+    "rows_per_page": "Zeilen pro Seite",
+    "total": "Gesamt {{total}} Elemente"
   },
   "ai": {
     "track_speed": "Geschwindigkeit der Strecke",
@@ -20,21 +42,47 @@
     "answer_length": "Länge der Antwort",
     "return_error": "Der AI-Request gibt einen Fehler zurück",
     "return_length": "Wir haben eine Antwort vom AI erhalten.\nLänge der Antwort",
+    "prompt": "Stellen Sie eine Frage...",
+    "prompt_placeholder": "Tippen Sie Ihre Nachricht…",
+    "stop": "Stop",
+    "clear": "Löschen",
+    "settings": "Einstellungen",
+    "history": "Verlauf",
+    "stream": "Stream",
+    "system_prompt": "System-Prompt",
+    "mic": "Mikrofon",
+    "recording": "Aufnahme…",
+    "play": "Abspielen",
+    "loading": "Laden…",
+    "login_required": "Anmeldung erforderlich, um TTS zu verwenden",
+    "tts_failed": "Text-zu-Sprache fehlgeschlagen",
     "error_message": "Nachricht konnte nicht gesendet werden. Bitte versuchen Sie es erneut.",
     "timestamp_now": "Gerade eben",
     "timestamp_mins_ago": "min(s) vor",
-    "timestamp_hours_ago": "h(s) vor"
+    "timestamp_hours_ago": "h(s) vor",
+    "clear_input": "Eingabe löschen",
+    "start_recording": "Aufnahme starten",
+    "stop_recording": "Aufnahme stoppen",
+    "composing": "Verfassen...",
+    "hint_enter_to_send": "Drücken Sie Enter zum Senden, Shift+Enter für neue Zeile",
+    "characters": "Zeichen",
+    "ai_model": "KI-Modell",
+    "show_input_panel": "Eingabebereich anzeigen",
+    "hide_input_panel": "Eingabebereich ausblenden",
+    "expand_input_panel": "Eingabebereich erweitern",
+    "collapse_input_panel": "Eingabebereich reduzieren"
   },
   "header": {
-    "ai": "Künstliche Intelligenz",
+    "herohub": "HeroHub",
     "home": "Startseite",
     "settings": "Einstellungen",
+    "ai": "KI",
     "about": "Über uns",
+    "login": "Anmelden",
     "login_username": "Benutzername",
     "login_token": "Token",
     "login_username_placeholder": "Geben Sie Ihren Github-Benutzernamen ein",
     "login_token_placeholder": "Geben Sie Ihren Github-Token ein",
-    "login": "Anmelden",
     "login_promote": "Bitte geben Sie Ihren Github Benutzernamen und Token ein",
     "close": "Schließen",
     "acknowledge": "Bestätigen",
@@ -42,7 +90,13 @@
     "logout": "Abmelden",
     "message": "Nachricht",
     "day": "Tag",
-    "night": "Nacht"
+    "night": "Nacht",
+    "language": "Sprache",
+    "switch_language": "Sprache wechseln",
+    "language_menu": "Sprachmenü",
+    "switch_theme": "Design wechseln",
+    "switch_design_style": "Designstil wechseln",
+    "design_style_menu": "Designstilmenü"
   },
   "design_style": {
     "label": "Designstil",
@@ -61,6 +115,7 @@
     "row_per_page": "Zeilen pro Seite",
     "total": "Insgesamt {{total}} Elemente",
     "title": "Problem",
+    "label": "Beschriftung",
     "description": "Beschreibung",
     "issue": "Problem",
     "issue_id": "Problem-ID",
@@ -71,12 +126,69 @@
     "issue_id_error_message_error": "Problem-ID ist erforderlich",
     "last_update": "Letzte Aktualisierung",
     "created": "Erstellt",
-    "empty": "Keine Probleme anzuzeigen"
+    "empty": "Keine Probleme anzuzeigen",
+    "new": "Neu",
+    "edit": "Bearbeiten"
+  },
+  "chat": {
+    "ai_model": "KI-Modell",
+    "temperature": "Temperatur"
   },
   "column": {
     "title": {
       "key": "Schlüssel",
       "value": "Wert"
     }
+  },
+  "layout": {
+    "version": "Version",
+    "scroll_to_top": "Nach oben scrollen"
+  },
+  "joke": {
+    "error": "Fehler beim Laden des Witzes",
+    "loading": "Witz wird geladen...",
+    "refresh": "Aktualisieren"
+  },
+  "navigation": {
+    "previous": "Zurück",
+    "next": "Weiter",
+    "list": "Liste"
+  },
+  "loading_spinner": {
+    "loading": "Laden"
+  },
+  "copy_button": {
+    "copied": "Kopiert!",
+    "copy_to_clipboard": "In die Zwischenablage kopieren"
+  },
+  "tts_button": {
+    "play_audio": "Audio abspielen"
+  },
+  "breadcrumb": {
+    "breadcrumb": "Brotkrümel"
+  },
+  "mobile_menu": {
+    "toggle_menu": "Menü umschalten",
+    "mobile_navigation_menu": "Mobiles Navigationsmenü"
+  },
+  "style_switch": {
+    "switch_design_style": "Designstil wechseln",
+    "design_style_menu": "Designstilmenü"
+  },
+  "theme_switch": {
+    "switch_theme": "Design wechseln"
+  },
+  "language_switch": {
+    "switch_language": "Sprache wechseln",
+    "language_menu": "Sprachmenü"
+  },
+  "comment": {
+    "loading_comments": "Kommentare werden geladen...",
+    "error_loading_comments": "Fehler beim Laden der Kommentare",
+    "avatar": "Profilbild"
+  },
+  "settings": {
+    "voice_note": "Die Stimme gilt nur für die Audio-Wiedergabe.",
+    "select_voice": "TTS-Stimme auswählen"
   }
 }

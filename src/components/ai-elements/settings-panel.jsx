@@ -1,7 +1,8 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { BiX } from "react-icons/bi";
 
-export default function SettingsPanel({ settings, setSettings }) {
+export default function SettingsPanel({ settings, setSettings, onClose }) {
   const { t } = useTranslation();
   const model = settings?.model || "gpt-4o-mini";
   const temperature = Number(settings?.temperature ?? 1);
@@ -13,10 +14,28 @@ export default function SettingsPanel({ settings, setSettings }) {
 
   return (
     <div className='w-full mb-4' data-testid='settings-panel'>
-      <div className='glass-card rounded-2xl p-5'>
-        <h2 className='text-base font-semibold mb-4 text-foreground'>
-          {t("ai.settings", { defaultValue: "Settings" })}
-        </h2>
+      <div className='glass-card rounded-2xl p-5 shadow-glass-glow-hover relative'>
+        {/* Header with close button */}
+        <div className='flex items-center justify-between mb-4'>
+          <h2 className='text-base font-semibold text-foreground'>
+            {t("ai.settings", { defaultValue: "Settings" })}
+          </h2>
+          <button
+            onClick={onClose}
+            className='
+              inline-flex items-center justify-center w-8 h-8
+              rounded-xl glass text-foreground
+              hover:bg-[hsla(var(--glass-bg-hover))]
+              hover:scale-110 hover:shadow-glass
+              active:scale-95
+              transition-all duration-200 ease-out cursor-pointer
+            '
+            aria-label={t("global.close", { defaultValue: "Close" })}
+            title={t("global.close", { defaultValue: "Close" })}
+          >
+            <BiX size={18} />
+          </button>
+        </div>
 
         <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
           <div>

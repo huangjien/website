@@ -36,14 +36,16 @@ export const Chat = ({ data, player }) => {
                   {data.question}
                 </h2>
                 <Badge
-                  aria-label='ai model'
+                  aria-label={t("chat.ai_model", { defaultValue: "AI Model" })}
                   className='m-2 hover:scale-110 transition-transform duration-fast'
                 >
                   {data.model}
                 </Badge>
                 {data?.temperature && (
                   <Badge
-                    aria-label='temperature'
+                    aria-label={t("ai.temperature", {
+                      defaultValue: "Temperature",
+                    })}
                     className='m-2 hover:scale-110 transition-transform duration-fast'
                   >
                     {data.temperature}
@@ -66,8 +68,8 @@ export const Chat = ({ data, player }) => {
                     onClick={handleCopy}
                     variant='ghost'
                     className='glass hover:bg-[hsla(var(--glass-bg-hover))]'
-                    aria-label='copy'
-                    title='copy'
+                    aria-label={t("global.copy", { defaultValue: "Copy" })}
+                    title={t("global.copy", { defaultValue: "Copy" })}
                   >
                     <BiCopyAlt size={18} />
                   </Button>
@@ -76,8 +78,8 @@ export const Chat = ({ data, player }) => {
                     onClick={handlePlay}
                     variant='ghost'
                     className='glass hover:bg-[hsla(var(--glass-bg-hover))]'
-                    aria-label='play'
-                    title='play'
+                    aria-label={t("ai.play", { defaultValue: "Play" })}
+                    title={t("ai.play", { defaultValue: "Play" })}
                   >
                     <BiPlayCircle size={18} />
                   </Button>

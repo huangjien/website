@@ -26,7 +26,7 @@ export const Breadcrumb = () => {
 
   return (
     <nav
-      aria-label='Breadcrumb'
+      aria-label={t("breadcrumb.breadcrumb", { defaultValue: "Breadcrumb" })}
       className='flex items-center gap-2 text-sm text-muted-foreground mb-4'
     >
       {breadcrumbItems.map((item, index) => (

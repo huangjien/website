@@ -26,7 +26,7 @@ const Login = () => {
   if (status === "unauthenticated" || status === "loading" || !session?.user) {
     return (
       <Button
-        aria-label='login'
+        aria-label={t("header.login", { defaultValue: "Login" })}
         variant='secondary'
         onClick={() => signIn("github")}
         className='gap-2'
@@ -47,7 +47,7 @@ const Login = () => {
       <DropdownMenu.Trigger asChild>
         <button
           className='flex items-center gap-2 rounded-xl glass px-3 py-1.5 text-foreground shadow-sm hover:bg-[hsla(var(--glass-bg-hover))] hover:text-accent-foreground transition-all duration-fast ease-out hover:scale-105 cursor-pointer'
-          aria-label='user menu'
+          aria-label={t("header.message", { defaultValue: "User menu" })}
         >
           <Avatar className='h-8 w-8'>
             <AvatarImage src={image} alt={name} />

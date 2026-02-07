@@ -6,6 +6,12 @@ import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
+import {
+  BiChevronDown,
+  BiChevronUp,
+  BiExpand,
+  BiCollapse,
+} from "react-icons/bi";
 
 import {
   Conversation,
@@ -77,6 +83,8 @@ export default function AI() {
   // Controlled prompt input (AI SDK v5 does not manage input state)
   const [prompt, setPrompt] = useState("");
   const [showSettings, setShowSettings] = useState(false);
+  const [isInputCollapsed, setIsInputCollapsed] = useState(false);
+  const settingsPanelRef = useRef(null);
 
   // Scroll anchor to keep recent info visible
   const bottomRef = useRef(null);
@@ -224,6 +232,43 @@ export default function AI() {
     } catch {}
   }, [messages, status]);
 
+  // Close settings panel on ESC key
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape" && showSettings) {
+        setShowSettings(false);
+      }
+    };
+
+    if (showSettings) {
+      document.addEventListener("keydown", handleKeyDown);
+      return () => document.removeEventListener("keydown", handleKeyDown);
+    }
+  }, [showSettings]);
+
+  // Close settings panel when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (
+        showSettings &&
+        settingsPanelRef.current &&
+        !settingsPanelRef.current.contains(e.target) &&
+        !e.target.closest('[data-testid="settings-button"]')
+      ) {
+        setShowSettings(false);
+      }
+    };
+
+    if (showSettings) {
+      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener("touchstart", handleClickOutside);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+        document.removeEventListener("touchstart", handleClickOutside);
+      };
+    }
+  }, [showSettings]);
+
   const handleSend = async () => {
     const question = prompt.trim();
     if (!question) return;
@@ -286,11 +331,16 @@ export default function AI() {
 
   return (
     <div
-      className='min-h-screen w-full text-lg lg:gap-4 lg:m-4'
+      className='min-h-screen w-full text-lg overflow-x-hidden'
       data-testid='ai-container'
     >
       {/* Messages area with bottom padding to avoid overlap with fixed input */}
-      <div className='mx-auto w-[90vw] pb-36 pt-4'>
+      <div
+        className={`
+        mx-auto w-full max-w-5xl px-4 pt-4 transition-all duration-300 ease-in-out
+        ${isInputCollapsed ? "pb-20" : "pb-48"}
+      `}
+      >
         <Conversation>
           <ConversationContent>
             {(visibleMessages || []).map((m) => {
@@ -299,19 +349,19 @@ export default function AI() {
                 <Message key={m.id} role={m.role}>
                   <MessageContent>
                     <div className='flex items-start gap-3'>
-                      <div className='flex-1'>
+                      <div className='flex-1 min-w-0'>
                         {m.role === "assistant" ? (
                           <Response>{text}</Response>
                         ) : (
                           text
                         )}
                       </div>
-                      <div className='text-xs text-muted-foreground whitespace-nowrap'>
+                      <div className='text-xs text-muted-foreground whitespace-nowrap flex-shrink-0'>
                         {formatTimestamp(m.createdAt)}
                       </div>
                     </div>
                     {m.role === "assistant" ? (
-                      <div className='mt-2 flex gap-2'>
+                      <div className='mt-2 flex gap-2 flex-wrap'>
                         <CopyButton text={text} />
                         <TTSButton
                           text={text}
@@ -330,37 +380,87 @@ export default function AI() {
       </div>
 
       {/* Fixed bottom input bar */}
-      <div className='fixed bottom-0 left-0 right-0 glass-nav border-t border-border/50'>
-        <div className='mx-auto w-[90vw] py-3'>
+      <div
+        className={`
+          fixed left-0 right-0 glass-nav border-t border-border/50 backdrop-blur-xl
+          transition-all duration-300 ease-in-out
+          ${isInputCollapsed ? "bottom-0" : "bottom-0"}
+        `}
+        style={{
+          height: isInputCollapsed ? "auto" : "auto",
+        }}
+      >
+        {/* Collapse/Expand toggle button - positioned on LEFT to avoid conflict with scroll-to-top button */}
+        <button
+          onClick={() => setIsInputCollapsed(!isInputCollapsed)}
+          className='fixed bottom-4 left-4 z-[60] inline-flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-br from-primary to-accent text-white hover:scale-110 active:scale-95 shadow-glow border-2 border-white/20 transition-all duration-200 ease-out'
+          title={
+            isInputCollapsed
+              ? t("ai.show_input_panel", { defaultValue: "Show input panel" })
+              : t("ai.hide_input_panel", { defaultValue: "Hide input panel" })
+          }
+          aria-label={
+            isInputCollapsed
+              ? t("ai.expand_input_panel", {
+                  defaultValue: "Expand input panel",
+                })
+              : t("ai.collapse_input_panel", {
+                  defaultValue: "Collapse input panel",
+                })
+          }
+        >
+          {isInputCollapsed ? <BiExpand size={24} /> : <BiCollapse size={24} />}
+        </button>
+
+        <div
+          className={`
+            mx-auto w-full max-w-5xl px-4 pl-20
+            transition-all duration-300 ease-in-out overflow-hidden
+            ${isInputCollapsed ? "max-h-0 opacity-0 py-0" : "max-h-[600px] opacity-100 py-6"}
+          `}
+        >
           <PromptInput
             value={prompt}
             onChange={setPrompt}
             onSubmit={handleSend}
             onStop={handleStop}
             onToggleSettings={() => setShowSettings((s) => !s)}
-            className='max-w-none px-0 sm:px-0 lg:px-0'
           />
         </div>
       </div>
 
       {showSettings ? (
-        <div className='fixed bottom-24 left-0 right-0 z-50 px-4'>
-          <div className='mx-auto w-[90vw] max-w-2xl'>
-            <SettingsPanel
-              settings={
-                mounted
-                  ? settings
-                  : {
-                      model: "gpt-4o-mini",
-                      temperature: 1,
-                      trackSpeed: 300,
-                      ttsVoice: "alloy",
-                    }
-              }
-              setSettings={setSettings}
-            />
+        <>
+          {/* Backdrop overlay */}
+          <div
+            className='fixed inset-0 bg-black/20 backdrop-blur-sm z-40 animate-fade-in'
+            onClick={() => setShowSettings(false)}
+          />
+          {/* Settings panel */}
+          <div
+            className={`
+            fixed left-0 right-0 z-50 px-4 transition-all duration-300 ease-in-out
+            ${isInputCollapsed ? "bottom-20" : "bottom-24"}
+          `}
+          >
+            <div className='mx-auto w-full max-w-2xl' ref={settingsPanelRef}>
+              <SettingsPanel
+                settings={
+                  mounted
+                    ? settings
+                    : {
+                        model: "gpt-4o-mini",
+                        temperature: 1,
+                        trackSpeed: 300,
+                        ttsVoice: "alloy",
+                      }
+                }
+                setSettings={setSettings}
+                onClose={() => setShowSettings(false)}
+              />
+            </div>
           </div>
-        </div>
+        </>
       ) : null}
     </div>
   );

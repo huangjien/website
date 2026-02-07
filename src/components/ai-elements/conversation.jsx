@@ -13,7 +13,24 @@ export function Conversation({ children, className = "" }) {
 
 // ConversationContent: container to wrap messages, allows future virtualization or grouping
 export function ConversationContent({ children, className = "" }) {
-  return <div className={`flex flex-col gap-3 ${className}`}>{children}</div>;
+  return (
+    <div className={`flex flex-col gap-3 ${className}`}>
+      {React.Children.map(children, (child, index) => {
+        if (React.isValidElement(child)) {
+          // Add staggered animation delay based on index
+          const delayStyle = {
+            animationDelay: `${index * 100}ms`,
+          };
+          return (
+            <div style={delayStyle} className='animate-slide-up'>
+              {child}
+            </div>
+          );
+        }
+        return child;
+      })}
+    </div>
+  );
 }
 
 export default Conversation;

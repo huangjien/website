@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { BiEdit, BiListPlus } from "react-icons/bi";
+import { useTranslation } from "react-i18next";
 import Markdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
@@ -12,6 +13,7 @@ import { CheckboxGroup, Checkbox } from "./ui/checkbox";
 import Divider from "./ui/divider";
 
 export function IssueModal({ issue, action }) {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState(issue ? issue?.title : "");
   const [content, setContent] = useState(issue ? issue?.body : "");
@@ -45,15 +47,17 @@ export function IssueModal({ issue, action }) {
               <div className='lg:inline-flex align-middle w-full justify-evenly gap-4 m-2'>
                 <Input
                   required
-                  label={"Title"}
+                  label={t("issue.title", { defaultValue: "Title" })}
                   className=' w-1/2 m-2'
-                  aria-label='title'
+                  aria-label={t("issue.title", { defaultValue: "Title" })}
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  placeholder='Please input issue title here...'
+                  placeholder={t("issue.issue_id_error_message_placeholder", {
+                    defaultValue: "Please input issue title here...",
+                  })}
                 />
                 <CheckboxGroup
-                  label={"Select Tags"}
+                  label={t("global.select", { defaultValue: "Select Tags" })}
                   className='m2 w-1/2'
                   orientation='horizontal'
                 >
@@ -71,7 +75,10 @@ export function IssueModal({ issue, action }) {
                   value={content}
                   minRows={16}
                   onChange={(e) => setContent(e.target.value)}
-                  placeholder='Please input issue content here, in markdown format ...'
+                  placeholder={t("issue.description", {
+                    defaultValue:
+                      "Please input issue content here, in markdown format ...",
+                  })}
                 />
 
                 <div className='hidden lg:block m-2'>
@@ -87,9 +94,11 @@ export function IssueModal({ issue, action }) {
           </DialogBody>
           <DialogFooter>
             <Button variant='secondary' onClick={handleClose}>
-              Close
+              {t("global.close", { defaultValue: "Close" })}
             </Button>
-            <Button onClick={handleClose}>Save</Button>
+            <Button onClick={handleClose}>
+              {t("global.save", { defaultValue: "Save" })}
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

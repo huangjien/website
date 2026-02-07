@@ -33,7 +33,9 @@ export const StyleSwitch = () => {
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
         <Button
-          aria-label='switch design style'
+          aria-label={t("style_switch.switch_design_style", {
+            defaultValue: "Switch design style",
+          })}
           variant='ghost'
           size='icon'
           className='bg-transparent text-foreground'
@@ -46,7 +48,9 @@ export const StyleSwitch = () => {
         sideOffset={6}
         className='z-50 min-w-48 rounded-xl glass-card p-1 text-popover-foreground shadow-lg animate-slide-down transition-all duration-fast ease-out'
         role='menu'
-        aria-label='design style menu'
+        aria-label={t("style_switch.design_style_menu", {
+          defaultValue: "Design style menu",
+        })}
       >
         {DESIGN_STYLES.map((item) => (
           <DropdownMenu.Item

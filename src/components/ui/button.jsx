@@ -1,6 +1,7 @@
 import React from "react";
 import { tv } from "tailwind-variants";
 import { cn } from "../../lib/cn";
+import LoadingSpinner from "./loading-spinner";
 
 const buttonVariants = tv({
   base: "inline-flex items-center justify-center rounded-xl text-sm font-medium transition-all duration-fast ease-out focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 cursor-pointer",
@@ -32,12 +33,31 @@ const buttonVariants = tv({
   },
 });
 
-export default function Button({ variant, size, className, ...props }) {
+export default function Button({
+  variant,
+  size,
+  className,
+  loading = false,
+  children,
+  disabled,
+  ...props
+}) {
   return (
     <button
       data-testid='button'
       className={cn(buttonVariants({ variant, size }), className)}
+      disabled={disabled || loading}
       {...props}
-    />
+    >
+      {loading && (
+        <LoadingSpinner
+          size='sm'
+          variant='current'
+          className='mr-2'
+          aria-hidden='true'
+        />
+      )}
+      {children}
+    </button>
   );
 }

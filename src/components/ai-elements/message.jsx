@@ -3,9 +3,12 @@ import React from "react";
 // Message: container for user/assistant messages
 export function Message({ role = "assistant", children, className = "" }) {
   const isUser = role === "user" || role === "system-user";
+  // User messages slide from right, assistant messages slide from left
+  const slideAnimation = isUser ? "animate-slide-right" : "animate-slide-left";
+
   return (
     <div
-      className={`flex items-start gap-3 w-full animate-slide-up ${className}`}
+      className={`flex items-start gap-3 w-full ${slideAnimation} ${className}`}
       data-role={role}
       data-testid={`message-${role}`}
     >
@@ -25,7 +28,7 @@ export function Message({ role = "assistant", children, className = "" }) {
 // MessageContent: simple content wrapper for messages (markdown/plain)
 export function MessageContent({ children }) {
   return (
-    <div className='prose prose-neutral dark:prose-invert max-w-none'>
+    <div className='prose prose-neutral dark:prose-invert max-w-none overflow-wrap-break-word break-words'>
       {children}
     </div>
   );

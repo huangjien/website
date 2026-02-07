@@ -1,10 +1,32 @@
 {
   "global": {
-    "search": "搜尋..."
+    "search": "搜尋...",
+    "prev": "上一頁",
+    "next": "下一頁",
+    "page": "頁",
+    "empty": "沒有設定可顯示",
+    "close": "關閉",
+    "loading": "載入中",
+    "copy": "複製",
+    "play": "播放",
+    "copy_to_clipboard": "複製到剪貼簿",
+    "menu": "選單",
+    "toggle_menu": "切換選單",
+    "clear": "清除",
+    "delete": "刪除",
+    "edit": "編輯",
+    "save": "儲存",
+    "select": "選擇",
+    "cancel": "取消",
+    "confirm": "確認",
+    "yes": "是",
+    "no": "否",
+    "rows_per_page": "每頁行數",
+    "total": "總計 {{total}} 項"
   },
   "ai": {
     "track_speed": "軌道速度",
-    "conversation": "AI對話",
+    "conversation": "AI 對談",
     "send_tooltip": "點擊發送問題",
     "hold": "按住進行語音輸入",
     "configuration": "配置",
@@ -20,29 +42,61 @@
     "answer_length": "答案長度",
     "return_error": "AI 請求返回錯誤",
     "return_length": "我們從 AI 收到了答案。\n答案長度",
+    "prompt": "提問任何問題...",
+    "prompt_placeholder": "輸入您的訊息…",
+    "stop": "停止",
+    "clear": "清除",
+    "settings": "設定",
+    "history": "歷史記錄",
+    "stream": "串流",
+    "system_prompt": "系統提示詞",
+    "mic": "麥克風",
+    "recording": "錄製中…",
+    "play": "播放",
+    "loading": "載入中…",
+    "login_required": "登入後才能使用語音合成",
+    "tts_failed": "語音合成失敗",
     "error_message": "發送訊息失敗，請重試。",
     "timestamp_now": "剛剛",
     "timestamp_mins_ago": "分鐘前",
-    "timestamp_hours_ago": "小時前"
+    "timestamp_hours_ago": "小時前",
+    "clear_input": "清除輸入",
+    "start_recording": "開始錄製",
+    "stop_recording": "停止錄製",
+    "composing": "輸入中...",
+    "hint_enter_to_send": "按 Enter 發送，Shift+Enter 換行",
+    "characters": "字符",
+    "ai_model": "AI 模型",
+    "show_input_panel": "顯示輸入面板",
+    "hide_input_panel": "隱藏輸入面板",
+    "expand_input_panel": "展開輸入面板",
+    "collapse_input_panel": "折疊輸入面板"
   },
   "header": {
-    "ai": "人工智慧",
+    "herohub": "HeroHub",
     "home": "首頁",
     "settings": "設定",
+    "ai": "AI",
     "about": "關於",
+    "login": "登錄",
     "login_username": "使用者名稱",
     "login_token": "令牌",
     "login_username_placeholder": "輸入您的GitHub使用者名稱",
     "login_token_placeholder": "輸入您的GitHub令牌",
-    "login": "登錄",
     "login_promote": "請輸入您的 Github 用戶名和令牌",
     "close": "關閉",
     "acknowledge": "確認",
     "keep_message": "保留訊息",
-    "logout": "註銷",
+    "logout": "登出",
     "message": "訊息",
     "day": "日間模式",
-    "night": "夜間模式"
+    "night": "夜間模式",
+    "language": "語言",
+    "switch_language": "切換語言",
+    "language_menu": "語言選單",
+    "switch_theme": "切換主題",
+    "switch_design_style": "切換設計風格",
+    "design_style_menu": "設計風格選單"
   },
   "design_style": {
     "label": "設計風格",
@@ -61,6 +115,7 @@
     "row_per_page": "每頁行數",
     "total": "總計 {{total}} 項",
     "title": "問題",
+    "label": "標籤",
     "description": "描述",
     "issue": "問題",
     "issue_id": "問題 ID",
@@ -71,12 +126,69 @@
     "issue_id_error_message_error": "需要問題 ID",
     "last_update": "最後更新",
     "created": "建立",
-    "empty": "無問題顯示"
+    "empty": "無問題顯示",
+    "new": "新建",
+    "edit": "編輯"
+  },
+  "chat": {
+    "ai_model": "AI 模型",
+    "temperature": "溫度"
   },
   "column": {
     "title": {
       "key": "鍵",
       "value": "值"
     }
+  },
+  "layout": {
+    "version": "版本",
+    "scroll_to_top": "回到頂部"
+  },
+  "joke": {
+    "error": "加載笑話錯誤",
+    "loading": "正在加載笑話...",
+    "refresh": "重新整理"
+  },
+  "navigation": {
+    "previous": "上一頁",
+    "next": "下一頁",
+    "list": "列表"
+  },
+  "loading_spinner": {
+    "loading": "載入中"
+  },
+  "copy_button": {
+    "copied": "已複製！",
+    "copy_to_clipboard": "複製到剪貼簿"
+  },
+  "tts_button": {
+    "play_audio": "播放音頻"
+  },
+  "breadcrumb": {
+    "breadcrumb": "麵包屑導航"
+  },
+  "mobile_menu": {
+    "toggle_menu": "切換選單",
+    "mobile_navigation_menu": "行動裝置導航選單"
+  },
+  "style_switch": {
+    "switch_design_style": "切換設計風格",
+    "design_style_menu": "設計風格選單"
+  },
+  "theme_switch": {
+    "switch_theme": "切換主題"
+  },
+  "language_switch": {
+    "switch_language": "切換語言",
+    "language_menu": "語言選單"
+  },
+  "comment": {
+    "loading_comments": "正在加載評論...",
+    "error_loading_comments": "加載評論錯誤",
+    "avatar": "頭像"
+  },
+  "settings": {
+    "voice_note": "語音僅適用於文本轉語音播放。",
+    "select_voice": "選擇 TTS 語音"
   }
 }

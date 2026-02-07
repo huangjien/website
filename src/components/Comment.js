@@ -113,7 +113,9 @@ export function Comment({ issue_id }) {
                       alt={oneComment["user.login"]}
                       fallback={(oneComment["user.login"] ||
                         "?")[0]?.toUpperCase()}
-                      aria-label='avatar'
+                      aria-label={t("comment.avatar", {
+                        defaultValue: "Avatar",
+                      })}
                     />
                     <i>{oneComment["user.login"]}</i>
                     <span className='ml-2 text-sm text-muted-foreground'>

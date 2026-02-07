@@ -1,6 +1,28 @@
 {
   "global": {
-    "search": "搜索..."
+    "search": "搜索...",
+    "prev": "上一页",
+    "next": "下一页",
+    "page": "页",
+    "empty": "没有设置可显示",
+    "close": "关闭",
+    "loading": "加载中",
+    "copy": "复制",
+    "play": "播放",
+    "copy_to_clipboard": "复制到剪贴板",
+    "menu": "菜单",
+    "toggle_menu": "切换菜单",
+    "clear": "清除",
+    "delete": "删除",
+    "edit": "编辑",
+    "save": "保存",
+    "select": "选择",
+    "cancel": "取消",
+    "confirm": "确认",
+    "yes": "是",
+    "no": "否",
+    "rows_per_page": "每页行数",
+    "total": "共 {{total}} 项"
   },
   "ai": {
     "track_speed": "轨道速度",
@@ -20,21 +42,47 @@
     "answer_length": "答案长度",
     "return_error": "AI 请求返回错误",
     "return_length": "我们从 AI 收到了答案。\n答案长度",
+    "prompt": "提问任何问题...",
+    "prompt_placeholder": "输入您的消息…",
+    "stop": "停止",
+    "clear": "清除",
+    "settings": "设置",
+    "history": "历史记录",
+    "stream": "流式传输",
+    "system_prompt": "系统提示词",
+    "mic": "麦克风",
+    "recording": "录制中…",
+    "play": "播放",
+    "loading": "加载中…",
+    "login_required": "登录后才能使用语音合成",
+    "tts_failed": "语音合成失败",
     "error_message": "发送消息失败，请重试。",
     "timestamp_now": "刚刚",
     "timestamp_mins_ago": "分钟前",
-    "timestamp_hours_ago": "小时前"
+    "timestamp_hours_ago": "小时前",
+    "clear_input": "清除输入",
+    "start_recording": "开始录制",
+    "stop_recording": "停止录制",
+    "composing": "输入中...",
+    "hint_enter_to_send": "按 Enter 发送，Shift+Enter 换行",
+    "characters": "字符",
+    "ai_model": "AI 模型",
+    "show_input_panel": "显示输入面板",
+    "hide_input_panel": "隐藏输入面板",
+    "expand_input_panel": "展开输入面板",
+    "collapse_input_panel": "折叠输入面板"
   },
   "header": {
-    "ai": "人工智能",
+    "herohub": "HeroHub",
     "home": "首页",
     "settings": "设置",
+    "ai": "AI",
     "about": "关于",
+    "login": "登录",
     "login_username": "用户名",
     "login_token": "令牌",
     "login_username_placeholder": "请输入您的GitHub用户名",
     "login_token_placeholder": "请输入您的GitHub令牌",
-    "login": "登录",
     "login_promote": "请输入您的 Github 用户名和令牌",
     "close": "关闭",
     "acknowledge": "确认",
@@ -42,7 +90,13 @@
     "logout": "注销",
     "message": "消息",
     "day": "日间模式",
-    "night": "夜间模式"
+    "night": "夜间模式",
+    "language": "语言",
+    "switch_language": "切换语言",
+    "language_menu": "语言菜单",
+    "switch_theme": "切换主题",
+    "switch_design_style": "切换设计风格",
+    "design_style_menu": "设计风格菜单"
   },
   "design_style": {
     "label": "设计风格",
@@ -61,6 +115,7 @@
     "row_per_page": "每页行数",
     "total": "总计 {{total}} 项",
     "title": "问题",
+    "label": "标签",
     "description": "描述",
     "issue": "问题",
     "issue_id": "问题 ID",
@@ -71,12 +126,69 @@
     "issue_id_error_message_error": "需要问题 ID",
     "last_update": "最后更新",
     "created": "创建",
-    "empty": "无问题显示"
+    "empty": "无问题显示",
+    "new": "新建",
+    "edit": "编辑"
+  },
+  "chat": {
+    "ai_model": "AI 模型",
+    "temperature": "温度"
   },
   "column": {
     "title": {
       "key": "键",
       "value": "值"
     }
+  },
+  "layout": {
+    "version": "版本",
+    "scroll_to_top": "返回顶部"
+  },
+  "joke": {
+    "error": "加载笑话错误",
+    "loading": "正在加载笑话...",
+    "refresh": "刷新"
+  },
+  "navigation": {
+    "previous": "上一页",
+    "next": "下一页",
+    "list": "列表"
+  },
+  "loading_spinner": {
+    "loading": "加载中"
+  },
+  "copy_button": {
+    "copied": "已复制！",
+    "copy_to_clipboard": "复制到剪贴板"
+  },
+  "tts_button": {
+    "play_audio": "播放音频"
+  },
+  "breadcrumb": {
+    "breadcrumb": "面包屑导航"
+  },
+  "mobile_menu": {
+    "toggle_menu": "切换菜单",
+    "mobile_navigation_menu": "移动端导航菜单"
+  },
+  "style_switch": {
+    "switch_design_style": "切换设计风格",
+    "design_style_menu": "设计风格菜单"
+  },
+  "theme_switch": {
+    "switch_theme": "切换主题"
+  },
+  "language_switch": {
+    "switch_language": "切换语言",
+    "language_menu": "语言菜单"
+  },
+  "comment": {
+    "loading_comments": "正在加载评论...",
+    "error_loading_comments": "加载评论错误",
+    "avatar": "头像"
+  },
+  "settings": {
+    "voice_note": "语音仅适用于文本转语音播放。",
+    "select_voice": "选择 TTS 语音"
   }
 }

@@ -1,5 +1,6 @@
 import React from "react";
 import { cn } from "../../lib/cn";
+import { useTranslation } from "react-i18next";
 
 /**
  * LoadingSpinner - A reusable spinner component for loading states
@@ -16,6 +17,8 @@ export default function LoadingSpinner({
   animationType = "spin",
   ...props
 }) {
+  const { t } = useTranslation();
+
   const sizes = {
     sm: "h-4 w-4 border-2",
     md: "h-6 w-6 border-3",
@@ -70,7 +73,7 @@ export default function LoadingSpinner({
           className
         )}
         {...props}
-        aria-label='Loading'
+        aria-label={t("loading_spinner.loading", { defaultValue: "Loading" })}
       />
     );
   }
@@ -85,7 +88,7 @@ export default function LoadingSpinner({
         className
       )}
       {...props}
-      aria-label='Loading'
+      aria-label={t("loading_spinner.loading", { defaultValue: "Loading" })}
     />
   );
 }

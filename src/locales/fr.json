@@ -1,14 +1,36 @@
 {
   "global": {
-    "search": "Rechercher..."
+    "search": "Rechercher...",
+    "prev": "Préc",
+    "next": "Suiv",
+    "page": "Page",
+    "empty": "Aucun paramètre à afficher",
+    "close": "Fermer",
+    "loading": "Chargement",
+    "copy": "Copier",
+    "play": "Lire",
+    "copy_to_clipboard": "Copier dans le presse-papier",
+    "menu": "Menu",
+    "toggle_menu": "Basculer le menu",
+    "clear": "Effacer",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "save": "Enregistrer",
+    "select": "Sélectionner",
+    "cancel": "Annuler",
+    "confirm": "Confirmer",
+    "yes": "Oui",
+    "no": "Non",
+    "rows_per_page": "Lignes par page",
+    "total": "Total {{total}} éléments"
   },
   "ai": {
     "track_speed": "Vitesse de suivi",
-    "conversation": "Conversation AI",
+    "conversation": "Conversation IA",
     "send_tooltip": "Cliquez pour envoyer la question",
     "hold": "Maintenez pour une entrée vocale",
     "configuration": "Configuration",
-    "select_model": "Sélectionner le modèle AI",
+    "select_model": "Sélectionner le modèle IA",
     "temperature": "Température Softmax",
     "value_range_0_1": "La valeur doit être entre 0 et 1",
     "value_range_50_500": "La valeur doit être entre 50 et 500",
@@ -20,21 +42,47 @@
     "answer_length": "Longueur de la réponse",
     "return_error": "La demande d'IA a renvoyé une erreur",
     "return_length": "Nous avons reçu une réponse de l'IA.\nLongueur de la réponse",
+    "prompt": "Posez une question...",
+    "prompt_placeholder": "Tapez votre message…",
+    "stop": "Arrêter",
+    "clear": "Effacer",
+    "settings": "Paramètres",
+    "history": "Historique",
+    "stream": "Flux",
+    "system_prompt": "Invite système",
+    "mic": "Micro",
+    "recording": "Enregistrement…",
+    "play": "Lire",
+    "loading": "Chargement…",
+    "login_required": "Connexion requise pour utiliser le TTS",
+    "tts_failed": "Synthèse vocale échouée",
     "error_message": "Échec de l'envoi du message. Veuillez réessayer.",
     "timestamp_now": "À l'instant",
     "timestamp_mins_ago": "min(s) il y a",
-    "timestamp_hours_ago": "h(s) il y a"
+    "timestamp_hours_ago": "h(s) il y a",
+    "clear_input": "Effacer la saisie",
+    "start_recording": "Commencer l'enregistrement",
+    "stop_recording": "Arrêter l'enregistrement",
+    "composing": "Composition...",
+    "hint_enter_to_send": "Appuyez sur Entrée pour envoyer, Shift+Entrée pour nouvelle ligne",
+    "characters": "caractères",
+    "ai_model": "Modèle IA",
+    "show_input_panel": "Afficher le panneau de saisie",
+    "hide_input_panel": "Masquer le panneau de saisie",
+    "expand_input_panel": "Développer le panneau de saisie",
+    "collapse_input_panel": "Réduire le panneau de saisie"
   },
   "header": {
-    "ai": "Intelligence artificielle",
+    "herohub": "HeroHub",
     "home": "Accueil",
     "settings": "Paramètres",
+    "ai": "IA",
     "about": "À propos",
+    "login": "Connexion",
     "login_username": "Nom d'utilisateur",
     "login_token": "Jeton",
     "login_username_placeholder": "Entrez votre nom d'utilisateur GitHub",
     "login_token_placeholder": "Entrez votre jeton GitHub",
-    "login": "Connexion",
     "login_promote": "Veuillez entrer votre nom d'utilisateur Github et votre jeton",
     "close": "Fermer",
     "acknowledge": "Reconnaître",
@@ -42,7 +90,13 @@
     "logout": "Déconnexion",
     "message": "Message",
     "day": "Jour",
-    "night": "Nuit"
+    "night": "Nuit",
+    "language": "Langue",
+    "switch_language": "Changer de langue",
+    "language_menu": "Menu des langues",
+    "switch_theme": "Changer de thème",
+    "switch_design_style": "Changer de style de design",
+    "design_style_menu": "Menu des styles de design"
   },
   "design_style": {
     "label": "Style de design",
@@ -61,6 +115,7 @@
     "row_per_page": "Lignes par page",
     "total": "Total {{total}} éléments",
     "title": "Problème",
+    "label": "Étiquette",
     "description": "Description",
     "issue": "Problème",
     "issue_id": "ID du problème",
@@ -71,12 +126,69 @@
     "issue_id_error_message_error": "L'ID du problème est requis",
     "last_update": "Dernière mise à jour",
     "created": "Créé",
-    "empty": "Aucun problème à afficher"
+    "empty": "Aucun problème à afficher",
+    "new": "Nouveau",
+    "edit": "Modifier"
+  },
+  "chat": {
+    "ai_model": "Modèle IA",
+    "temperature": "Température"
   },
   "column": {
     "title": {
       "key": "Clé",
       "value": "Valeur"
     }
+  },
+  "layout": {
+    "version": "Version",
+    "scroll_to_top": "Remonter en haut"
+  },
+  "joke": {
+    "error": "Erreur de chargement de la blague",
+    "loading": "Chargement de la blague...",
+    "refresh": "Actualiser"
+  },
+  "navigation": {
+    "previous": "Précédent",
+    "next": "Suivant",
+    "list": "Liste"
+  },
+  "loading_spinner": {
+    "loading": "Chargement"
+  },
+  "copy_button": {
+    "copied": "Copié !",
+    "copy_to_clipboard": "Copier dans le presse-papier"
+  },
+  "tts_button": {
+    "play_audio": "Lire l'audio"
+  },
+  "breadcrumb": {
+    "breadcrumb": "Fil d'ariane"
+  },
+  "mobile_menu": {
+    "toggle_menu": "Basculer le menu",
+    "mobile_navigation_menu": "Menu de navigation mobile"
+  },
+  "style_switch": {
+    "switch_design_style": "Changer le style de design",
+    "design_style_menu": "Menu des styles de design"
+  },
+  "theme_switch": {
+    "switch_theme": "Changer de thème"
+  },
+  "language_switch": {
+    "switch_language": "Changer de langue",
+    "language_menu": "Menu des langues"
+  },
+  "comment": {
+    "loading_comments": "Chargement des commentaires...",
+    "error_loading_comments": "Erreur lors du chargement des commentaires",
+    "avatar": "Avatar"
+  },
+  "settings": {
+    "voice_note": "La voix s'applique uniquement à la lecture audio.",
+    "select_voice": "Sélectionner la voix TTS"
   }
 }

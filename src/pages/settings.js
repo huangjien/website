@@ -154,7 +154,10 @@ export default function Settings() {
           </thead>
           <tbody>
             {items.map((item) => (
-              <tr key={item.key ?? item.name} className='odd:bg-muted/40'>
+              <tr
+                key={item.key ?? item.name}
+                className='odd:bg-muted/40 hover:bg-accent/20 hover:scale-[1.01] transition-all duration-fast ease-out cursor-pointer'
+              >
                 <td className='p-3 text-lg'>{item.name}</td>
                 <td className='p-3 text-lg'>{item.value}</td>
               </tr>

@@ -1,6 +1,28 @@
 {
   "global": {
-    "search": "Cerca..."
+    "search": "Cerca...",
+    "prev": "Prec",
+    "next": "Succ",
+    "page": "Pagina",
+    "empty": "Nessuna impostazione da mostrare",
+    "close": "Chiudi",
+    "loading": "Caricamento",
+    "copy": "Copia",
+    "play": "Riproduci",
+    "copy_to_clipboard": "Copia negli appunti",
+    "menu": "Menu",
+    "toggle_menu": "Attiva/disattiva menu",
+    "clear": "Cancella",
+    "delete": "Elimina",
+    "edit": "Modifica",
+    "save": "Salva",
+    "select": "Seleziona",
+    "cancel": "Annulla",
+    "confirm": "Conferma",
+    "yes": "Sì",
+    "no": "No",
+    "rows_per_page": "Righe per pagina",
+    "total": "Totale {{total}} elementi"
   },
   "ai": {
     "track_speed": "Velocità del percorso",
@@ -18,23 +40,49 @@
     "input_helptext": "Premi Ctrl+Invio per inviare la tua domanda",
     "question_length": "Lunghezza della domanda",
     "answer_length": "Lunghezza della risposta",
-    "return_error": "La richiesta di AI restituisce un errore",
+    "return_error": "La richiesta di IA restituisce un errore",
     "return_length": "Abbiamo ricevuto una risposta da AI.\nLunghezza della risposta",
+    "prompt": "Fai una domanda...",
+    "prompt_placeholder": "Scrivi il tuo messaggio…",
+    "stop": "Ferma",
+    "clear": "Cancella",
+    "settings": "Impostazioni",
+    "history": "Cronologia",
+    "stream": "Flusso",
+    "system_prompt": "Prompt di sistema",
+    "mic": "Microfono",
+    "recording": "Registrazione…",
+    "play": "Riproduci",
+    "loading": "Caricamento…",
+    "login_required": "Accesso richiesto per usare TTS",
+    "tts_failed": "Sintesi vocale fallita",
     "error_message": "Impossibile inviare il messaggio. Riprova.",
     "timestamp_now": "Proprio ora",
     "timestamp_mins_ago": "min(i) fa",
-    "timestamp_hours_ago": "h(i) fa"
+    "timestamp_hours_ago": "h(i) fa",
+    "clear_input": "Cancella input",
+    "start_recording": "Avvia registrazione",
+    "stop_recording": "Ferma registrazione",
+    "composing": "Composizione...",
+    "hint_enter_to_send": "Premi Invio per inviare, Shift+Invio per nuova riga",
+    "characters": "caratteri",
+    "ai_model": "Modello IA",
+    "show_input_panel": "Mostra pannello input",
+    "hide_input_panel": "Nascondi pannello input",
+    "expand_input_panel": "Espandi pannello input",
+    "collapse_input_panel": "Comprimi pannello input"
   },
   "header": {
-    "ai": "Intelligenza artificiale",
+    "herohub": "HeroHub",
     "home": "Home",
     "settings": "Impostazioni",
+    "ai": "IA",
     "about": "Informazioni",
+    "login": "Accedi",
     "login_username": "Nome utente",
     "login_token": "Token",
     "login_username_placeholder": "Inserisci il tuo nome utente Github",
     "login_token_placeholder": "Inserisci il tuo token Github",
-    "login": "Accedi",
     "login_promote": "Inserisci il tuo nome utente e token di Github",
     "close": "Chiudi",
     "acknowledge": "Conferma",
@@ -42,7 +90,13 @@
     "logout": "Esci",
     "message": "Messaggio",
     "day": "Modalità diurna",
-    "night": "Modalità notturna"
+    "night": "Modalità notturna",
+    "language": "Lingua",
+    "switch_language": "Cambia lingua",
+    "language_menu": "Menu lingue",
+    "switch_theme": "Cambia tema",
+    "switch_design_style": "Cambia stile design",
+    "design_style_menu": "Menu stili design"
   },
   "design_style": {
     "label": "Stile di design",
@@ -61,6 +115,7 @@
     "row_per_page": "Righe per pagina",
     "total": "Totale {{total}} elementi",
     "title": "Problema",
+    "label": "Etichetta",
     "description": "Descrizione",
     "issue": "Problema",
     "issue_id": "ID del problema",
@@ -71,12 +126,69 @@
     "issue_id_error_message_error": "ID del problema richiesto",
     "last_update": "Ultimo aggiornamento",
     "created": "Creato",
-    "empty": "Nessun problema da mostrare"
+    "empty": "Nessun problema da mostrare",
+    "new": "Nuovo",
+    "edit": "Modifica"
+  },
+  "chat": {
+    "ai_model": "Modello IA",
+    "temperature": "Temperatura"
   },
   "column": {
     "title": {
       "key": "Chiave",
       "value": "Valore"
     }
+  },
+  "layout": {
+    "version": "Versione",
+    "scroll_to_top": "Scorri in alto"
+  },
+  "joke": {
+    "error": "Errore nel caricamento della barzelletta",
+    "loading": "Caricamento barzelletta...",
+    "refresh": "Aggiorna"
+  },
+  "navigation": {
+    "previous": "Precedente",
+    "next": "Successivo",
+    "list": "Elenco"
+  },
+  "loading_spinner": {
+    "loading": "Caricamento"
+  },
+  "copy_button": {
+    "copied": "Copiato!",
+    "copy_to_clipboard": "Copia negli appunti"
+  },
+  "tts_button": {
+    "play_audio": "Riproduci audio"
+  },
+  "breadcrumb": {
+    "breadcrumb": "Briciole di navigazione"
+  },
+  "mobile_menu": {
+    "toggle_menu": "Attiva/disattiva menu",
+    "mobile_navigation_menu": "Menu navigazione mobile"
+  },
+  "style_switch": {
+    "switch_design_style": "Cambia stile design",
+    "design_style_menu": "Menu stili design"
+  },
+  "theme_switch": {
+    "switch_theme": "Cambia tema"
+  },
+  "language_switch": {
+    "switch_language": "Cambia lingua",
+    "language_menu": "Menu lingue"
+  },
+  "comment": {
+    "loading_comments": "Caricamento commenti...",
+    "error_loading_comments": "Errore nel caricamento dei commenti",
+    "avatar": "Avatar"
+  },
+  "settings": {
+    "voice_note": "La voce si applica solo alla riproduzione audio.",
+    "select_voice": "Seleziona voce TTS"
   }
 }

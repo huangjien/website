@@ -47,8 +47,10 @@ export default function RootLayout({ children }) {
           size='icon'
           className='fixed bottom-8 right-8 z-50 shadow-glass-glow rounded-full animate-slide-up hover:scale-110 hover:shadow-glass-glow-hover transition-all duration-fast ease-out'
           onClick={scrollToTop}
-          aria-label='Scroll to top'
-          title='Scroll to top'
+          aria-label={t("layout.scroll_to_top", {
+            defaultValue: "Scroll to top",
+          })}
+          title={t("layout.scroll_to_top", { defaultValue: "Scroll to top" })}
         >
           <MdKeyboardArrowUp />
         </Button>

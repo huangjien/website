@@ -1,4 +1,5 @@
 import { cn } from "../../lib/cn";
+import { useTranslation } from "react-i18next";
 
 export default function Input({
   label,
@@ -11,6 +12,8 @@ export default function Input({
   startContent,
   ...props
 }) {
+  const { t } = useTranslation();
+
   const handleClear = (e) => {
     if (onClear) onClear(e);
   };
@@ -50,11 +53,11 @@ export default function Input({
         {isClearable && value && value.length > 0 && (
           <button
             type='button'
-            aria-label='clear'
+            aria-label={t("global.clear", { defaultValue: "Clear" })}
             className='absolute right-2 inline-flex items-center rounded-lg px-2 py-1 text-xs text-muted-foreground hover:bg-accent'
             onClick={handleClear}
           >
-            Clear
+            {t("global.clear", { defaultValue: "Clear" })}
           </button>
         )}
       </div>

@@ -44,7 +44,7 @@ export function Issue({ issue }) {
             {issue["labels.name"]?.map((label) => (
               <div key={label}>
                 <Badge
-                  aria-label='label'
+                  aria-label={t("issue.title", { defaultValue: "Label" })}
                   className='m-2 hover:scale-110 transition-transform duration-fast'
                 >
                   {label}

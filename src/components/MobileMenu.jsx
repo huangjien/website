@@ -20,8 +20,10 @@ export const MobileMenu = () => {
         size='icon'
         className='bg-transparent text-foreground'
         onClick={handleOpen}
-        aria-label='Toggle menu'
-        title='Menu'
+        aria-label={t("mobile_menu.toggle_menu", {
+          defaultValue: "Toggle menu",
+        })}
+        title={t("global.menu", { defaultValue: "Menu" })}
       >
         {open ? <BiX size='1.5em' /> : <BiMenu size='1.5em' />}
       </Button>
@@ -31,7 +33,9 @@ export const MobileMenu = () => {
           sideOffset={6}
           className='z-50 min-w-[12rem] rounded-xl glass-card p-2 text-popover-foreground shadow-lg animate-slide-down transition-all duration-fast ease-out'
           role='menu'
-          aria-label='mobile navigation menu'
+          aria-label={t("mobile_menu.mobile_navigation_menu", {
+            defaultValue: "Mobile navigation menu",
+          })}
         >
           <DropdownMenu.Item
             className='flex cursor-pointer select-none items-center gap-2 rounded-lg px-3 py-2.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground transition-all duration-fast ease-out'

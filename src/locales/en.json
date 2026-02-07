@@ -4,7 +4,25 @@
     "prev": "Prev",
     "next": "Next",
     "page": "Page",
-    "empty": "No settings to display"
+    "empty": "No settings to display",
+    "close": "Close",
+    "loading": "Loading",
+    "copy": "Copy",
+    "play": "Play",
+    "copy_to_clipboard": "Copy to clipboard",
+    "menu": "Menu",
+    "toggle_menu": "Toggle menu",
+    "clear": "Clear",
+    "delete": "Delete",
+    "edit": "Edit",
+    "save": "Save",
+    "select": "Select",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "yes": "Yes",
+    "no": "No",
+    "rows_per_page": "Rows per page",
+    "total": "Total {{total}} items"
   },
   "ai": {
     "track_speed": "Track Speed",
@@ -25,6 +43,7 @@
     "return_error": "AI request return error",
     "return_length": "We receive an answer from AI.\nAnswer length",
     "prompt": "Ask anything...",
+    "prompt_placeholder": "Type your message…",
     "stop": "Stop",
     "clear": "Clear",
     "settings": "Settings",
@@ -40,7 +59,18 @@
     "error_message": "Failed to send message. Please try again.",
     "timestamp_now": "Just now",
     "timestamp_mins_ago": "min(s) ago",
-    "timestamp_hours_ago": "h(s) ago"
+    "timestamp_hours_ago": "h(s) ago",
+    "clear_input": "Clear input",
+    "start_recording": "Start Recording",
+    "stop_recording": "Stop Recording",
+    "composing": "Composing...",
+    "hint_enter_to_send": "Press Enter to send, Shift+Enter for new line",
+    "characters": "chars",
+    "ai_model": "AI Model",
+    "show_input_panel": "Show input panel",
+    "hide_input_panel": "Hide input panel",
+    "expand_input_panel": "Expand input panel",
+    "collapse_input_panel": "Collapse input panel"
   },
   "header": {
     "herohub": "HeroHub",
@@ -60,7 +90,13 @@
     "logout": "Logout",
     "message": "Message",
     "day": "Day",
-    "night": "Night"
+    "night": "Night",
+    "language": "Language",
+    "switch_language": "Switch language",
+    "language_menu": "Language menu",
+    "switch_theme": "Switch theme",
+    "switch_design_style": "Switch design style",
+    "design_style_menu": "Design style menu"
   },
   "design_style": {
     "label": "Design style",
@@ -79,6 +115,7 @@
     "row_per_page": "Rows per page",
     "total": "Total {{total}} items",
     "title": "Issue",
+    "label": "Label",
     "description": "Description",
     "issue": "Issue",
     "issue_id": "Issue ID",
@@ -89,7 +126,13 @@
     "issue_id_error_message_error": "Issue ID is required",
     "last_update": "Last Update",
     "created": "Created",
-    "empty": "No issues to display"
+    "empty": "No issues to display",
+    "new": "New",
+    "edit": "Edit"
+  },
+  "chat": {
+    "ai_model": "AI Model",
+    "temperature": "Temperature"
   },
   "column": {
     "title": {
@@ -98,10 +141,54 @@
     }
   },
   "layout": {
-    "version": "Version"
+    "version": "Version",
+    "scroll_to_top": "Scroll to top"
   },
   "joke": {
     "error": "Error loading joke",
-    "loading": "Loading joke..."
+    "loading": "Loading joke...",
+    "refresh": "Refresh"
+  },
+  "navigation": {
+    "previous": "Previous",
+    "next": "Next",
+    "list": "List"
+  },
+  "loading_spinner": {
+    "loading": "Loading"
+  },
+  "copy_button": {
+    "copied": "Copied!",
+    "copy_to_clipboard": "Copy to clipboard"
+  },
+  "tts_button": {
+    "play_audio": "Play audio"
+  },
+  "breadcrumb": {
+    "breadcrumb": "Breadcrumb"
+  },
+  "mobile_menu": {
+    "toggle_menu": "Toggle menu",
+    "mobile_navigation_menu": "Mobile navigation menu"
+  },
+  "style_switch": {
+    "switch_design_style": "Switch design style",
+    "design_style_menu": "Design style menu"
+  },
+  "theme_switch": {
+    "switch_theme": "Switch theme"
+  },
+  "language_switch": {
+    "switch_language": "Switch language",
+    "language_menu": "Language menu"
+  },
+  "comment": {
+    "loading_comments": "Loading comments...",
+    "error_loading_comments": "Error loading comments",
+    "avatar": "Avatar"
+  },
+  "settings": {
+    "voice_note": "Voice applies to text-to-speech playback only.",
+    "select_voice": "Select TTS voice"
   }
 }

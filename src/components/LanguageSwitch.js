@@ -47,7 +47,9 @@ export const LanguageSwitch = () => {
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
         <Button
-          aria-label='switch language'
+          aria-label={t("language_switch.switch_language", {
+            defaultValue: "Switch language",
+          })}
           variant='ghost'
           size='icon'
           className='bg-transparent text-foreground'
@@ -60,7 +62,9 @@ export const LanguageSwitch = () => {
         sideOffset={6}
         className='z-50 min-w-[10rem] rounded-xl glass-card p-1 text-popover-foreground shadow-lg animate-slide-down transition-all duration-fast ease-out'
         role='menu'
-        aria-label='language menu'
+        aria-label={t("language_switch.language_menu", {
+          defaultValue: "Language menu",
+        })}
       >
         {languages.map((item) => (
           <DropdownMenu.Item
