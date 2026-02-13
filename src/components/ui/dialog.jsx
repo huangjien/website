@@ -45,7 +45,7 @@ export function DialogContent({ className, children, ...props }) {
       />
       <DialogPrimitive.Content
         className={cn(
-          "fixed inset-0 z-50 m-4 flex items-center justify-center"
+          "fixed inset-0 z-50 m-4 flex items-center justify-center",
         )}
         aria-modal='true'
         role='dialog'
@@ -55,7 +55,7 @@ export function DialogContent({ className, children, ...props }) {
           data-testid='modal-content'
           className={cn(
             "max-h-[90vh] w-full max-w-4xl overflow-auto rounded-2xl glass-modal p-5 animate-scale-in data-[state=closed]:animate-scale-out transition-all duration-normal ease-out",
-            className
+            className,
           )}
         >
           {children}
@@ -79,7 +79,7 @@ export function DialogFooter({ className, children, ...props }) {
       data-testid='dialog-footer'
       className={cn(
         "flex items-center justify-end gap-2 border-t p-3",
-        className
+        className,
       )}
       {...props}
     >

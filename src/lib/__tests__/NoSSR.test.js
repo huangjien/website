@@ -29,7 +29,7 @@ describe("NoSSR Component", () => {
     render(
       <MockedNoSSR>
         <TestComponent />
-      </MockedNoSSR>
+      </MockedNoSSR>,
     );
 
     // Should render empty div (server-side)
@@ -59,7 +59,7 @@ describe("NoSSR Component", () => {
     render(
       <MockedNoSSR onSSR={<CustomSSRComponent />}>
         <div data-testid='test-content'>Client Content</div>
-      </MockedNoSSR>
+      </MockedNoSSR>,
     );
 
     expect(screen.getByTestId("ssr-content")).toBeInTheDocument();
@@ -71,7 +71,7 @@ describe("NoSSR Component", () => {
       <MockedNoSSR>
         <div data-testid='child1'>Child 1</div>
         <div data-testid='child2'>Child 2</div>
-      </MockedNoSSR>
+      </MockedNoSSR>,
     );
 
     // On server side, children should not be rendered
@@ -97,7 +97,7 @@ describe("NoSSR Component", () => {
     const { container } = render(
       <MockedNoSSR>
         <div>Client Content</div>
-      </MockedNoSSR>
+      </MockedNoSSR>,
     );
 
     // Should render empty div as default SSR component
@@ -113,7 +113,7 @@ describe("NoSSR Class Component Behavior", () => {
     const { container } = render(
       <MockedNoSSR>
         <div data-testid='client-content'>Client Content</div>
-      </MockedNoSSR>
+      </MockedNoSSR>,
     );
 
     // Should render empty div by default
@@ -131,7 +131,7 @@ describe("NoSSR Class Component Behavior", () => {
     render(
       <MockedNoSSR onSSR={<SSRComponent />}>
         <div data-testid='client-content'>Client Content</div>
-      </MockedNoSSR>
+      </MockedNoSSR>,
     );
 
     expect(screen.getByTestId("ssr-function")).toBeInTheDocument();

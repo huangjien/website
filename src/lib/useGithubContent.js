@@ -55,7 +55,7 @@ export const useGithubContent = () => {
             // then we start handle this issue: we only care the the content in the issueContent
             let content = extractContentAccordingContentList(
               issueContentList,
-              issue
+              issue,
             );
             content["labels.name"] = labelArray;
             // console.log(content)
@@ -77,7 +77,7 @@ export const useGithubContent = () => {
 // extract a new subset from the content, according content list, then add a html field according body
 export function extractContentAccordingContentList(
   contentList,
-  originalContent
+  originalContent,
 ) {
   let content = {};
   contentList.forEach((key) => {

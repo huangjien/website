@@ -83,7 +83,7 @@ export const getJoke = async () => {
     "https://v2.jokeapi.dev/joke/Programming?blacklistFlags=religious,racist,sexist&type=twopart",
     {
       method: "GET",
-    }
+    },
   )
     .then((res) => res.json())
     .then((data) => {

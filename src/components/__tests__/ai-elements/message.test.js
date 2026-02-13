@@ -24,7 +24,7 @@ describe("Message", () => {
     render(
       <MessageContent>
         <p>Inner content</p>
-      </MessageContent>
+      </MessageContent>,
     );
     expect(screen.getByText("Inner content")).toBeInTheDocument();
   });

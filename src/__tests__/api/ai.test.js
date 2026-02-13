@@ -62,7 +62,7 @@ describe("/api/ai", () => {
           messages: [{ role: "user", content: "Hello" }],
           temperature: undefined,
         }),
-      })
+      }),
     );
     expect(res._getStatusCode()).toBe(200);
     expect(JSON.parse(res._getData())).toEqual(mockAIResponse);

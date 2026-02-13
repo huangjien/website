@@ -167,7 +167,7 @@ describe("ProvideSettings component", () => {
     const { getByTestId } = render(
       <ProvideSettings>
         <TestChild />
-      </ProvideSettings>
+      </ProvideSettings>,
     );
 
     expect(getByTestId("test-child")).toBeInTheDocument();
@@ -184,7 +184,7 @@ describe("ProvideSettings component", () => {
     const { getByTestId } = render(
       <ProvideSettings>
         <TestChild />
-      </ProvideSettings>
+      </ProvideSettings>,
     );
 
     expect(getByTestId("test-child")).toHaveTextContent("Language: en");

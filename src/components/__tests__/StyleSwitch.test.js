@@ -99,7 +99,7 @@ describe("StyleSwitch", () => {
     await user.click(screen.getByText("Neumorphism"));
 
     expect(
-      screen.getByRole("button", { name: /switch design style/i })
+      screen.getByRole("button", { name: /switch design style/i }),
     ).toBeInTheDocument();
   });
 });

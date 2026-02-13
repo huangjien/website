@@ -47,11 +47,11 @@ describe("Joke Component", () => {
 
     expect(
       screen.getByText(
-        "Why did the chicken cross the road? To get to the other side!"
-      )
+        "Why did the chicken cross the road? To get to the other side!",
+      ),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("button", { name: "joke.refresh" })
+      screen.getByRole("button", { name: "joke.refresh" }),
     ).toBeInTheDocument();
     expect(screen.getByTestId("refresh-icon")).toBeInTheDocument();
   });
@@ -227,7 +227,7 @@ describe("Joke Component", () => {
     // When joke is empty string, it should not render the joke text
     // but should still render the button
     expect(
-      screen.getByRole("button", { name: "joke.refresh" })
+      screen.getByRole("button", { name: "joke.refresh" }),
     ).toBeInTheDocument();
   });
 
@@ -242,7 +242,7 @@ describe("Joke Component", () => {
     render(<Joke />);
 
     expect(
-      screen.getByRole("button", { name: "joke.refresh" })
+      screen.getByRole("button", { name: "joke.refresh" }),
     ).toBeInTheDocument();
   });
 
@@ -257,7 +257,7 @@ describe("Joke Component", () => {
     render(<Joke />);
 
     expect(
-      screen.getByRole("button", { name: "joke.refresh" })
+      screen.getByRole("button", { name: "joke.refresh" }),
     ).toBeInTheDocument();
   });
 

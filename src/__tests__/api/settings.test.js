@@ -41,7 +41,7 @@ describe("/api/settings", () => {
         headers: {
           Authorization: "token test-token",
         },
-      }
+      },
     );
     expect(res._getStatusCode()).toBe(200);
   });

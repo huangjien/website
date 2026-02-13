@@ -52,7 +52,7 @@ export function cleanupRateLimitMap() {
 
   for (const [identifier, requests] of rateLimitMap.entries()) {
     const validRequests = requests.filter(
-      (timestamp) => timestamp > now - windowMs
+      (timestamp) => timestamp > now - windowMs,
     );
     if (validRequests.length === 0) {
       rateLimitMap.delete(identifier);

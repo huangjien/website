@@ -221,7 +221,7 @@ describe("i18n configuration", () => {
 
   it("should have consistent structure for languages with voice support", () => {
     const languagesWithVoice = languages.filter(
-      (lang) => lang.languageCode && lang.name
+      (lang) => lang.languageCode && lang.name,
     );
 
     languagesWithVoice.forEach((lang) => {
@@ -366,7 +366,7 @@ describe("i18n initialization and configuration", () => {
 describe("i18n edge cases and error handling", () => {
   it("should handle missing language gracefully", () => {
     const nonExistentLang = languages.find(
-      (lang) => lang.key === "nonexistent"
+      (lang) => lang.key === "nonexistent",
     );
     expect(nonExistentLang).toBeUndefined();
   });

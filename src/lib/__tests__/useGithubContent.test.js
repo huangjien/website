@@ -315,7 +315,7 @@ describe("extractContentAccordingContentList", () => {
 
     const result = extractContentAccordingContentList(
       contentList,
-      originalContent
+      originalContent,
     );
 
     expect(result).toEqual({
@@ -336,7 +336,7 @@ describe("extractContentAccordingContentList", () => {
 
     const result = extractContentAccordingContentList(
       contentList,
-      originalContent
+      originalContent,
     );
 
     expect(result).toEqual({});
@@ -360,7 +360,7 @@ describe("extractContentAccordingContentList", () => {
 
     const result = extractContentAccordingContentList(
       contentList,
-      originalContent
+      originalContent,
     );
 
     expect(result).toEqual({

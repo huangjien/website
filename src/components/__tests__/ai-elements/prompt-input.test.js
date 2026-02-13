@@ -35,11 +35,11 @@ describe("PromptInput", () => {
         onSubmit={onSubmit}
         onStop={onStop}
         onToggleSettings={onToggleSettings}
-      />
+      />,
     );
 
     expect(
-      screen.getByPlaceholderText("Type your message…")
+      screen.getByPlaceholderText("Type your message…"),
     ).toBeInTheDocument();
     expect(screen.getByLabelText("Send")).toBeDisabled();
     // Clear button is not rendered when input is empty
@@ -58,7 +58,7 @@ describe("PromptInput", () => {
     const onChange = jest.fn();
 
     render(
-      <PromptInput value='Hello' onChange={onChange} onSubmit={onSubmit} />
+      <PromptInput value='Hello' onChange={onChange} onSubmit={onSubmit} />,
     );
 
     const textarea = screen.getByPlaceholderText("Type your message…");
@@ -128,7 +128,7 @@ describe("PromptInput", () => {
         value=''
         onStop={onStop}
         onToggleSettings={onToggleSettings}
-      />
+      />,
     );
 
     await user.click(screen.getByLabelText("Stop"));

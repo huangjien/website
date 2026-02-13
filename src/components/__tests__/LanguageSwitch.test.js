@@ -157,7 +157,7 @@ describe("LanguageSwitch", () => {
 
     // Component should still render the button
     expect(
-      screen.getByRole("button", { name: /switch language/i })
+      screen.getByRole("button", { name: /switch language/i }),
     ).toBeInTheDocument();
   });
 

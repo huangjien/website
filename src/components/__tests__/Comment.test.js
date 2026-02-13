@@ -162,13 +162,13 @@ describe("Comment Component", () => {
     global.fetch.mockReset();
     // Provide a benign default fetch implementation to avoid undefined res in tests not mocking fetch explicitly
     global.fetch.mockImplementation(() =>
-      Promise.resolve({ ok: true, json: async () => [] })
+      Promise.resolve({ ok: true, json: async () => [] }),
     );
     useSettings.mockReturnValue({
       getSetting: mockGetSetting,
     });
     mockGetSetting.mockReturnValue(
-      "id,body,created_at,updated_at,user.login,user.avatar_url"
+      "id,body,created_at,updated_at,user.login,user.avatar_url",
     );
     extractContentAccordingContentList.mockImplementation(
       (contentList, comment) => {
@@ -180,7 +180,7 @@ describe("Comment Component", () => {
           "user.login": comment.user?.login,
           "user.avatar_url": comment.user?.avatar_url,
         };
-      }
+      },
     );
   });
 
@@ -191,7 +191,7 @@ describe("Comment Component", () => {
       Promise.resolve({
         ok: true,
         json: async () => mockComments,
-      })
+      }),
     );
 
     render(<Comment issue_id={123} />);
@@ -201,7 +201,7 @@ describe("Comment Component", () => {
       expect(global.fetch).toHaveBeenCalledTimes(1);
       expect(global.fetch).toHaveBeenCalledWith(
         "/api/comments?issue_number=123",
-        { method: "GET" }
+        { method: "GET" },
       );
     });
 
@@ -211,7 +211,7 @@ describe("Comment Component", () => {
         expect(screen.getByText("This is a test comment")).toBeInTheDocument();
         expect(screen.getByText("Another test comment")).toBeInTheDocument();
       },
-      { timeout: 3000 }
+      { timeout: 3000 },
     );
   });
 
@@ -220,7 +220,7 @@ describe("Comment Component", () => {
       Promise.resolve({
         ok: true,
         json: async () => mockComments,
-      })
+      }),
     );
 
     render(<Comment issue_id={456} />);
@@ -230,7 +230,7 @@ describe("Comment Component", () => {
         "/api/comments?issue_number=456",
         {
           method: "GET",
-        }
+        },
       );
     });
   });
@@ -240,7 +240,7 @@ describe("Comment Component", () => {
       Promise.resolve({
         ok: true,
         json: async () => mockComments,
-      })
+      }),
     );
 
     render(<Comment issue_id={123} />);
@@ -248,14 +248,14 @@ describe("Comment Component", () => {
     await waitFor(() => {
       // For first comment (created_at === updated_at)
       expect(
-        screen.getByText(/issue.created: 2023-01-01T00:00:00Z/)
+        screen.getByText(/issue.created: 2023-01-01T00:00:00Z/),
       ).toBeInTheDocument();
 
       // For second comment (created_at !== updated_at)
       expect(
         screen.getByText(
-          /issue.last_update: 2023-01-02T12:00:00Z issue.created: 2023-01-02T00:00:00Z/
-        )
+          /issue.last_update: 2023-01-02T12:00:00Z issue.created: 2023-01-02T00:00:00Z/,
+        ),
       ).toBeInTheDocument();
     });
     // Debug DOM after dates render
@@ -267,7 +267,7 @@ describe("Comment Component", () => {
       Promise.resolve({
         ok: true,
         json: async () => mockComments,
-      })
+      }),
     );
 
     render(<Comment issue_id={123} />);
@@ -288,7 +288,7 @@ describe("Comment Component", () => {
       Promise.resolve({
         ok: true,
         json: async () => mockComments,
-      })
+      }),
     );
 
     render(<Comment issue_id={123} />);
@@ -304,7 +304,7 @@ describe("Comment Component", () => {
           "user.login",
           "user.avatar_url",
         ],
-        mockComments[0]
+        mockComments[0],
       );
       expect(extractContentAccordingContentList).toHaveBeenCalledWith(
         [
@@ -315,7 +315,7 @@ describe("Comment Component", () => {
           "user.login",
           "user.avatar_url",
         ],
-        mockComments[1]
+        mockComments[1],
       );
     });
   });
@@ -325,7 +325,7 @@ describe("Comment Component", () => {
       Promise.resolve({
         ok: true,
         json: async () => [],
-      })
+      }),
     );
 
     render(<Comment issue_id={123} />);
@@ -349,7 +349,7 @@ describe("Comment Component", () => {
       Promise.resolve({
         ok: true,
         json: async () => null,
-      })
+      }),
     );
 
     const { container } = render(<Comment issue_id={123} />);
@@ -363,7 +363,7 @@ describe("Comment Component", () => {
       Promise.resolve({
         ok: true,
         json: async () => mockComments,
-      })
+      }),
     );
 
     render(<Comment issue_id={123} />);
@@ -372,7 +372,7 @@ describe("Comment Component", () => {
       expect(mockGetSetting).toHaveBeenCalledWith("comment.content");
       expect(extractContentAccordingContentList).toHaveBeenCalledWith(
         ["id", "body", "user.login"],
-        expect.any(Object)
+        expect.any(Object),
       );
     });
   });
@@ -395,7 +395,7 @@ describe("Comment Component", () => {
       Promise.resolve({
         ok: true,
         json: async () => commentsWithBacktickImages,
-      })
+      }),
     );
 
     render(<Comment issue_id={123} />);
@@ -406,7 +406,7 @@ describe("Comment Component", () => {
       expect(markdownContent.textContent).not.toContain("`");
       expect(markdownContent.textContent).toContain("![Screenshot]");
       expect(markdownContent.textContent).toContain(
-        "703be3d9-a2ce-495f-9656-ef38a53c5978"
+        "703be3d9-a2ce-495f-9656-ef38a53c5978",
       );
     });
   });
@@ -429,7 +429,7 @@ describe("Comment Component", () => {
       Promise.resolve({
         ok: true,
         json: async () => commentsWithBacktickUrls,
-      })
+      }),
     );
 
     render(<Comment issue_id={123} />);
@@ -439,7 +439,7 @@ describe("Comment Component", () => {
       expect(markdownContent).toBeInTheDocument();
       expect(markdownContent.textContent).not.toContain("`");
       expect(markdownContent.textContent).toContain(
-        "https://github.com/user-attachments/assets/12345678-90ab-cdef-1234-567890abcdef"
+        "https://github.com/user-attachments/assets/12345678-90ab-cdef-1234-567890abcdef",
       );
     });
   });

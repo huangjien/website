@@ -6,7 +6,7 @@ export const Avatar = ({ className, ...props }) => {
     <AvatarPrimitive.Root
       className={cn(
         "inline-flex h-8 w-8 rounded-full overflow-hidden",
-        className
+        className,
       )}
       {...props}
     />
@@ -27,7 +27,7 @@ export const AvatarFallback = ({ className, children, ...props }) => {
     <AvatarPrimitive.Fallback
       className={cn(
         "flex h-full w-full items-center justify-center bg-muted text-muted-foreground",
-        className
+        className,
       )}
       {...props}
     >
@@ -49,7 +49,7 @@ export default function AvatarDefault({
     <AvatarPrimitive.Root
       className={cn(
         "inline-flex h-8 w-8 rounded-full overflow-hidden",
-        className
+        className,
       )}
       {...props}
     >

@@ -104,7 +104,7 @@ describe("ConversationTab Component", () => {
       <ConversationTab
         {...defaultProps}
         setQuestionText={mockSetQuestionText}
-      />
+      />,
     );
 
     const textarea = screen.getByTestId("textarea");
@@ -148,7 +148,7 @@ describe("ConversationTab Component", () => {
         {...defaultProps}
         questionText={questionText}
         onSubmit={mockOnSubmit}
-      />
+      />,
     );
 
     const button = screen.getByTestId("button");
@@ -265,7 +265,7 @@ describe("ConversationTab Component", () => {
         {...defaultProps}
         setQuestionText={mockSetQuestionText}
         trackSpeed={300}
-      />
+      />,
     );
 
     const button = screen.getByTestId("button");
@@ -285,7 +285,7 @@ describe("ConversationTab Component", () => {
     callbackFunction("Transcribed text from audio");
 
     expect(mockSetQuestionText).toHaveBeenCalledWith(
-      "Transcribed text from audio"
+      "Transcribed text from audio",
     );
   });
 
@@ -351,7 +351,7 @@ describe("ConversationTab Component", () => {
 
     const tooltip = screen.getByTestId("tooltip");
     expect(
-      within(tooltip).getAllByText("ai.send_tooltip").length
+      within(tooltip).getAllByText("ai.send_tooltip").length,
     ).toBeGreaterThan(0);
     expect(within(tooltip).getAllByText("ai.hold").length).toBeGreaterThan(0);
   });
@@ -361,7 +361,7 @@ describe("ConversationTab Component", () => {
 
     expect(screen.getByTestId("textarea")).toHaveAttribute(
       "placeholder",
-      "ai.input_placeholder"
+      "ai.input_placeholder",
     );
   });
 

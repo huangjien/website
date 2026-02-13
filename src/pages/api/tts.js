@@ -19,7 +19,7 @@ export default async function handler(req, res) {
   const key = process.env.OPEN_AI_KEY || process.env.OPENAI_API_KEY;
   if (!key) {
     console.error(
-      "[api/tts] missing OpenAI API key: set OPEN_AI_KEY (preferred) or OPENAI_API_KEY"
+      "[api/tts] missing OpenAI API key: set OPEN_AI_KEY (preferred) or OPENAI_API_KEY",
     );
     res.status(500).json({ error: "OpenAI API key not configured" });
     return;
@@ -58,7 +58,7 @@ export default async function handler(req, res) {
     const buffer = Buffer.from(await speech.arrayBuffer());
     res.setHeader(
       "Content-Type",
-      format === "mp3" ? "audio/mpeg" : "audio/wav"
+      format === "mp3" ? "audio/mpeg" : "audio/wav",
     );
     res.status(200).send(buffer);
   } catch (err) {

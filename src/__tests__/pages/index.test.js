@@ -211,7 +211,7 @@ describe("Home page", () => {
     const issueList = screen.getByTestId("issue-list");
     expect(issueList).toHaveAttribute(
       "data-data",
-      JSON.stringify(complexIssues)
+      JSON.stringify(complexIssues),
     );
   });
 });

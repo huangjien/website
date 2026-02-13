@@ -67,7 +67,7 @@ describe("Error page", () => {
 
   it("should log new error when error prop changes", () => {
     const { rerender } = render(
-      <ErrorComponent error={mockError} reset={mockReset} />
+      <ErrorComponent error={mockError} reset={mockReset} />,
     );
 
     const newError = new Error("New error message");
@@ -130,7 +130,7 @@ describe("Error page", () => {
 
   it("should have correct HTML structure", () => {
     const { container } = render(
-      <ErrorComponent error={mockError} reset={mockReset} />
+      <ErrorComponent error={mockError} reset={mockReset} />,
     );
 
     const mainDiv = container.firstChild;

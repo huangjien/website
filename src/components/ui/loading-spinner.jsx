@@ -70,7 +70,7 @@ export default function LoadingSpinner({
             "bg-secondary": variant === "secondary",
             "bg-foreground": variant === "current",
           },
-          className
+          className,
         )}
         {...props}
         aria-label={t("loading_spinner.loading", { defaultValue: "Loading" })}
@@ -85,7 +85,7 @@ export default function LoadingSpinner({
         "rounded-full border-solid animate-spin-slow",
         sizes[size],
         variants[variant],
-        className
+        className,
       )}
       {...props}
       aria-label={t("loading_spinner.loading", { defaultValue: "Loading" })}

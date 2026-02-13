@@ -86,7 +86,7 @@ describe("About page", () => {
 
     const markdownElement = screen.getByTestId("markdown-content");
     expect(markdownElement).toHaveTextContent(
-      "# About Me This is my personal website."
+      "# About Me This is my personal website.",
     );
   });
 
@@ -140,7 +140,7 @@ describe("About page", () => {
       "items-center",
       "gap-8",
       "m-2",
-      "w-full"
+      "w-full",
     );
   });
 
@@ -182,7 +182,7 @@ console.log('code block');
 
     const markdownElement = screen.getByTestId("markdown-content");
     expect(markdownElement).toHaveTextContent(
-      "# Main Title ## Subtitle **Bold text** and *italic text* - List item 1 - List item 2 [Link](https://example.com) ```javascript console.log('code block'); ```"
+      "# Main Title ## Subtitle **Bold text** and *italic text* - List item 1 - List item 2 [Link](https://example.com) ```javascript console.log('code block'); ```",
     );
   });
 

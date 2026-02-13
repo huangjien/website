@@ -88,7 +88,7 @@ function saveCachedImage(cacheKey, buffer, contentType) {
       JSON.stringify({
         timestamp: Date.now(),
         contentType,
-      })
+      }),
     );
   } catch (error) {
     console.error("Error saving cache:", error);
@@ -140,7 +140,7 @@ export default async function handler(req, res) {
 
     if (!response.ok) {
       console.error(
-        `Proxy failed: ${response.status} ${response.statusText} for ${decodedUrl}`
+        `Proxy failed: ${response.status} ${response.statusText} for ${decodedUrl}`,
       );
       return res.status(response.status).send("Failed to fetch image");
     }

@@ -10,7 +10,7 @@ global.File = jest.fn((chunks, filename, options) => ({
   type: options?.type || "application/octet-stream",
   size: chunks.reduce(
     (acc, chunk) => acc + (chunk.size || chunk.length || 0),
-    0
+    0,
   ),
 }));
 
@@ -267,7 +267,7 @@ describe("aiService", () => {
       expect(FormData).toHaveBeenCalled();
       expect(mockFormData.append).toHaveBeenCalledWith(
         "file",
-        expect.any(Object)
+        expect.any(Object),
       );
       expect(mockFormData.append).toHaveBeenCalledWith("model", "whisper-1");
       expect(fetch).toHaveBeenCalledWith("/api/transcribe", {
@@ -290,7 +290,7 @@ describe("aiService", () => {
       });
 
       await expect(transcribeAudio(mockAudioBlob)).rejects.toThrow(
-        "Transcription failed"
+        "Transcription failed",
       );
     });
 
@@ -301,7 +301,7 @@ describe("aiService", () => {
       fetch.mockRejectedValueOnce(fetchError);
 
       await expect(transcribeAudio(mockAudioBlob)).rejects.toThrow(
-        "Network error"
+        "Network error",
       );
     });
 
@@ -313,7 +313,7 @@ describe("aiService", () => {
       });
 
       await expect(transcribeAudio(mockAudioBlob)).rejects.toThrow(
-        "Invalid JSON"
+        "Invalid JSON",
       );
     });
 
@@ -391,7 +391,7 @@ describe("aiService", () => {
       });
 
       await expect(transcribeAudio(mockAudioBlob)).rejects.toThrow(
-        "Invalid audio format"
+        "Invalid audio format",
       );
     });
   });

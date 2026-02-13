@@ -77,7 +77,7 @@ export default function AI() {
   // Persisted message thread under ai:* per spec
   const [savedMessages, setSavedMessages] = useLocalStorageState(
     "ai:conversations",
-    { defaultValue: [] }
+    { defaultValue: [] },
   );
 
   // Controlled prompt input (AI SDK v5 does not manage input state)
@@ -94,7 +94,7 @@ export default function AI() {
     try {
       // Migrate from ai-elements/conversations (previous iteration)
       const legacyConvs = JSON.parse(
-        localStorage.getItem("ai-elements/conversations") || "null"
+        localStorage.getItem("ai-elements/conversations") || "null",
       );
       if (
         Array.isArray(legacyConvs) &&
@@ -109,7 +109,7 @@ export default function AI() {
             role: m.role,
             content: m.content,
             timestamp: Date.now(),
-          }))
+          })),
         );
       }
     } catch {}
@@ -195,7 +195,7 @@ export default function AI() {
       setSavedMessages(serializeMessages(messages));
     },
     [messages],
-    { wait: 500 }
+    { wait: 500 },
   );
 
   // Keep last assistant answer under 1024 chars for optional context in future
@@ -309,17 +309,17 @@ export default function AI() {
       if (list.length > 2000) {
         const now = new Date();
         const oneMonthAgo = new Date(
-          now.getTime() - 1000 * 60 * 60 * 24 * 30
+          now.getTime() - 1000 * 60 * 60 * 24 * 30,
         ).getTime();
         const oneMonthTimestamp = Math.round(oneMonthAgo / 1000);
         const filtered = list.filter(
-          (item) => (item.timestamp || 0) > oneMonthTimestamp
+          (item) => (item.timestamp || 0) > oneMonthTimestamp,
         );
         setSavedMessages(filtered);
       }
     },
     [savedMessages],
-    { wait: 200000 }
+    { wait: 200000 },
   );
 
   // Optionally limit rendering to recent N messages to keep UI snappy

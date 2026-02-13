@@ -14,7 +14,7 @@ export default function Tooltip({ content, children, className, ...props }) {
             sideOffset={6}
             className={cn(
               "z-50 overflow-hidden rounded-lg bg-popover px-3 py-1.5 text-sm text-popover-foreground shadow-md animate-scale-in",
-              className
+              className,
             )}
           >
             {content}

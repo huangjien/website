@@ -29,7 +29,7 @@ export default function Skeleton({
           width || "w-12",
           height || "h-12",
           baseClasses,
-          className
+          className,
         )}
         {...props}
         aria-hidden='true'
@@ -46,7 +46,7 @@ export default function Skeleton({
             className={cn(
               "h-4 rounded-md",
               baseClasses,
-              i === lines - 1 ? "w-3/4" : "w-full"
+              i === lines - 1 ? "w-3/4" : "w-full",
             )}
           />
         ))}
@@ -62,7 +62,7 @@ export default function Skeleton({
         width || "w-full",
         height || "h-20",
         baseClasses,
-        className
+        className,
       )}
       {...props}
       aria-hidden='true'

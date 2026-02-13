@@ -11,7 +11,7 @@ jest.mock("react-markdown", () => {
         className:
           "prose prose-neutral dark:prose-invert max-w-none overflow-wrap-break-word break-words",
       },
-      content
+      content,
     );
   };
 });
@@ -83,7 +83,7 @@ describe("Response Component", () => {
 const x = 1;
 \`\`\`
 `}
-        </Response>
+        </Response>,
       );
       expect(screen.getByText(/const x = 1/)).toBeInTheDocument();
     });
@@ -96,7 +96,7 @@ const x = 1;
       expect(proseDiv).toHaveClass(
         "prose",
         "prose-neutral",
-        "dark:prose-invert"
+        "dark:prose-invert",
       );
     });
 
@@ -130,7 +130,7 @@ const x = 1;
         <Response>
           Line 1{"\n"}
           Line 2
-        </Response>
+        </Response>,
       );
       expect(screen.getByText(/Line 1/)).toBeInTheDocument();
       expect(screen.getByText(/Line 2/)).toBeInTheDocument();

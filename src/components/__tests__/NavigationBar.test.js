@@ -127,7 +127,7 @@ jest.mock("next/link", () => {
     return React.createElement(
       "a",
       { "data-testid": "next-link", href, ...props },
-      children
+      children,
     );
   };
 });

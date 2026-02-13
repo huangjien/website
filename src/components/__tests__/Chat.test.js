@@ -56,8 +56,8 @@ describe("Chat Component", () => {
 
     expect(
       screen.getByText(
-        "React is a JavaScript library for building user interfaces."
-      )
+        "React is a JavaScript library for building user interfaces.",
+      ),
     ).toBeInTheDocument();
   });
 
@@ -66,7 +66,7 @@ describe("Chat Component", () => {
 
     const subtitle = screen.getByTestId("accordion-subtitle");
     expect(subtitle).toHaveTextContent(
-      "ai.question_length :4 ai.answer_length :12"
+      "ai.question_length :4 ai.answer_length :12",
     );
   });
 
@@ -97,7 +97,7 @@ describe("Chat Component", () => {
     fireEvent.click(copyButton);
 
     expect(navigator.clipboard.writeText).toHaveBeenCalledWith(
-      "What is React?\n\nmodel:gpt-4\n\nReact is a JavaScript library for building user interfaces."
+      "What is React?\n\nmodel:gpt-4\n\nReact is a JavaScript library for building user interfaces.",
     );
   });
 
@@ -111,7 +111,7 @@ describe("Chat Component", () => {
     fireEvent.click(playButton);
 
     expect(mockPlayer).toHaveBeenCalledWith(
-      "React is a JavaScript library for building user interfaces."
+      "React is a JavaScript library for building user interfaces.",
     );
   });
 
@@ -124,7 +124,7 @@ describe("Chat Component", () => {
     const markdownElement = screen.getByTestId("markdown");
     expect(markdownElement).toBeInTheDocument();
     expect(markdownElement).toHaveTextContent(
-      "React is a JavaScript library for building user interfaces."
+      "React is a JavaScript library for building user interfaces.",
     );
   });
 

@@ -34,11 +34,11 @@ function useProvideSettings() {
   }, []);
 
   const [settings, setSettings] = useSessionStorageState(
-    "application_settings"
+    "application_settings",
   );
   const [languageCode, setLanguageCode] = useSessionStorageState(
     "languageCode",
-    { defaultValue: "en-US" }
+    { defaultValue: "en-US" },
   );
   const [speakerName, setSpeakerName] = useSessionStorageState("speakerName", {
     defaultValue: "en-US-Standard-A",
@@ -48,7 +48,7 @@ function useProvideSettings() {
     "Language",
     {
       defaultValue: "en",
-    }
+    },
   );
 
   const [currentTheme, setCurrentTheme] = useSessionStorageState("theme", {
@@ -59,7 +59,7 @@ function useProvideSettings() {
     "designStyle",
     {
       defaultValue: "glassmorphism",
-    }
+    },
   );
 
   useRequest(getSettings, {

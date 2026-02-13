@@ -109,7 +109,7 @@ describe("Layout Component", () => {
 
     await waitFor(() => {
       expect(document.documentElement.getAttribute("data-design-style")).toBe(
-        "brutalism"
+        "brutalism",
       );
     });
   });
@@ -124,7 +124,7 @@ describe("Layout Component", () => {
 
     // Simulate scroll event
     const scrollHandler = mockAddEventListener.mock.calls.find(
-      (call) => call[0] === "scroll"
+      (call) => call[0] === "scroll",
     )?.[1];
 
     if (scrollHandler) {
@@ -148,7 +148,7 @@ describe("Layout Component", () => {
 
     // Simulate scroll event
     const scrollHandler = mockAddEventListener.mock.calls.find(
-      (call) => call[0] === "scroll"
+      (call) => call[0] === "scroll",
     )?.[1];
 
     if (scrollHandler) {
@@ -158,7 +158,7 @@ describe("Layout Component", () => {
     }
 
     expect(
-      screen.queryByRole("button", { name: "Scroll to top" })
+      screen.queryByRole("button", { name: "Scroll to top" }),
     ).not.toBeInTheDocument();
   });
 
@@ -173,7 +173,7 @@ describe("Layout Component", () => {
 
     // Simulate scroll event to show button
     const scrollHandler = mockAddEventListener.mock.calls.find(
-      (call) => call[0] === "scroll"
+      (call) => call[0] === "scroll",
     )?.[1];
 
     if (scrollHandler) {
@@ -196,7 +196,7 @@ describe("Layout Component", () => {
 
     expect(mockAddEventListener).toHaveBeenCalledWith(
       "scroll",
-      expect.any(Function)
+      expect.any(Function),
     );
   });
 
@@ -207,7 +207,7 @@ describe("Layout Component", () => {
 
     expect(mockRemoveEventListener).toHaveBeenCalledWith(
       "scroll",
-      expect.any(Function)
+      expect.any(Function),
     );
   });
 
@@ -230,7 +230,7 @@ describe("Layout Component", () => {
       "text-center",
       "p-4",
       "text-sm",
-      "text-gray-500"
+      "text-gray-500",
     );
     expect(footer).toHaveTextContent("layout.version");
     expect(footer).toHaveTextContent("1.0.0");
@@ -246,7 +246,7 @@ describe("Layout Component", () => {
 
     // Simulate scroll event
     const scrollHandler = mockAddEventListener.mock.calls.find(
-      (call) => call[0] === "scroll"
+      (call) => call[0] === "scroll",
     )?.[1];
 
     if (scrollHandler) {
@@ -262,7 +262,7 @@ describe("Layout Component", () => {
       "right-8",
       "z-50",
       "shadow-glass-glow",
-      "rounded-full"
+      "rounded-full",
     );
   });
 
@@ -276,7 +276,7 @@ describe("Layout Component", () => {
     });
 
     const scrollHandler = mockAddEventListener.mock.calls.find(
-      (call) => call[0] === "scroll"
+      (call) => call[0] === "scroll",
     )?.[1];
 
     if (scrollHandler) {
@@ -286,7 +286,7 @@ describe("Layout Component", () => {
     }
 
     expect(
-      screen.queryByRole("button", { name: "Scroll to top" })
+      screen.queryByRole("button", { name: "Scroll to top" }),
     ).not.toBeInTheDocument();
 
     // Scroll down - button should be visible
@@ -302,7 +302,7 @@ describe("Layout Component", () => {
     }
 
     expect(
-      screen.getByRole("button", { name: "Scroll to top" })
+      screen.getByRole("button", { name: "Scroll to top" }),
     ).toBeInTheDocument();
   });
 
@@ -318,7 +318,7 @@ describe("Layout Component", () => {
     render(<Layout>{mockChildren}</Layout>);
 
     const scrollHandler = mockAddEventListener.mock.calls.find(
-      (call) => call[0] === "scroll"
+      (call) => call[0] === "scroll",
     )?.[1];
 
     // Simulate multiple scroll events
@@ -334,7 +334,7 @@ describe("Layout Component", () => {
     // Should handle all events without errors
     expect(mockAddEventListener).toHaveBeenCalledWith(
       "scroll",
-      expect.any(Function)
+      expect.any(Function),
     );
   });
 
@@ -361,7 +361,7 @@ describe("Layout Component", () => {
     render(<Layout>{mockChildren}</Layout>);
 
     const scrollHandler = mockAddEventListener.mock.calls.find(
-      (call) => call[0] === "scroll"
+      (call) => call[0] === "scroll",
     )?.[1];
 
     if (scrollHandler) {
@@ -383,7 +383,7 @@ describe("Layout Component", () => {
     render(<Layout>{mockChildren}</Layout>);
 
     const scrollHandler = mockAddEventListener.mock.calls.find(
-      (call) => call[0] === "scroll"
+      (call) => call[0] === "scroll",
     )?.[1];
 
     if (scrollHandler) {

@@ -19,7 +19,7 @@ export default function Textarea({
         className={cn(
           "flex w-full rounded-lg ring-1 ring-border border-0 bg-background/60 backdrop-blur-sm px-3 py-2 text-sm ring-offset-background",
           "placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:scale-[1.01]",
-          "hover:bg-accent/5 hover:shadow-sm transition-all duration-fast ease-out disabled:cursor-not-allowed disabled:opacity-50 resize-none"
+          "hover:bg-accent/5 hover:shadow-sm transition-all duration-fast ease-out disabled:cursor-not-allowed disabled:opacity-50 resize-none",
         )}
         rows={minRows}
         value={value}

@@ -9,7 +9,7 @@ export default function handler(req, res) {
     "https://v2.jokeapi.dev/joke/Programming?blacklistFlags=religious,racist,sexist&type=twopart",
     {
       method: "GET",
-    }
+    },
   )
     .then((response) => response.json())
     .then((data) => {

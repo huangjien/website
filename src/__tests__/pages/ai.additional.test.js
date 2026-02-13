@@ -65,7 +65,7 @@ jest.mock("../../components/ai-elements/conversation", () => {
       React.createElement(
         "div",
         { "data-testid": "conversation-content" },
-        children
+        children,
       ),
   };
 });
@@ -77,13 +77,13 @@ jest.mock("../../components/ai-elements/message", () => {
       React.createElement(
         "div",
         { "data-testid": `message-${role}` },
-        children
+        children,
       ),
     MessageContent: ({ children }) =>
       React.createElement(
         "div",
         { "data-testid": "message-content" },
-        children
+        children,
       ),
   };
 });
@@ -218,10 +218,10 @@ describe("AI Page additional coverage", () => {
 
     render(<AI />);
     expect(screen.getByTestId("message-assistant")).toHaveTextContent(
-      "Assistant via content"
+      "Assistant via content",
     );
     expect(screen.getByTestId("message-user")).toHaveTextContent(
-      "User via text"
+      "User via text",
     );
   });
 
@@ -260,7 +260,7 @@ describe("AI Page additional coverage", () => {
     const user = userEvent.setup();
     render(<AI />);
     expect(await screen.findByTestId("message-assistant")).toHaveTextContent(
-      "Persisted answer"
+      "Persisted answer",
     );
     // Toggle settings panel
     await user.click(screen.getByLabelText("ai.settings"));
@@ -350,7 +350,7 @@ describe("AI Page additional coverage", () => {
     const { rerender } = render(<AI />);
     // TTS button should receive alloy
     expect(screen.getByTestId("tts-button").getAttribute("data-voice")).toBe(
-      "alloy"
+      "alloy",
     );
 
     // Now provide a custom voice (mismatch scenario is handled downstream, AI page passes through)
@@ -370,7 +370,7 @@ describe("AI Page additional coverage", () => {
 
     rerender(<AI />);
     expect(screen.getByTestId("tts-button").getAttribute("data-voice")).toBe(
-      "celeste"
+      "celeste",
     );
   });
 });

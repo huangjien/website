@@ -13,7 +13,7 @@ describe("Tooltip Component", () => {
       render(
         <Tooltip content='Tooltip content'>
           <button data-testid='trigger'>Hover me</button>
-        </Tooltip>
+        </Tooltip>,
       );
       expect(screen.getByTestId("trigger")).toBeInTheDocument();
       expect(screen.getByTestId("tooltip")).toBeInTheDocument();
@@ -23,7 +23,7 @@ describe("Tooltip Component", () => {
       render(
         <Tooltip content='Tooltip content' className='custom-class'>
           <button>Hover me</button>
-        </Tooltip>
+        </Tooltip>,
       );
       const tooltip = screen.getByTestId("tooltip");
       expect(tooltip).toHaveClass("custom-class");
@@ -35,7 +35,7 @@ describe("Tooltip Component", () => {
       render(
         <Tooltip content='Tooltip content'>
           <button>Hover me</button>
-        </Tooltip>
+        </Tooltip>,
       );
       const tooltip = screen.getByTestId("tooltip");
       expect(tooltip).toHaveClass("animate-scale-in");
@@ -45,7 +45,7 @@ describe("Tooltip Component", () => {
       render(
         <Tooltip content='Tooltip content'>
           <button>Hover me</button>
-        </Tooltip>
+        </Tooltip>,
       );
       const tooltip = screen.getByTestId("tooltip");
       expect(tooltip).toHaveClass("z-50");
@@ -57,7 +57,7 @@ describe("Tooltip Component", () => {
       render(
         <Tooltip content='Tooltip content'>
           <button>Hover me</button>
-        </Tooltip>
+        </Tooltip>,
       );
       const tooltip = screen.getByTestId("tooltip");
       expect(tooltip).toHaveClass("rounded-lg");
@@ -67,7 +67,7 @@ describe("Tooltip Component", () => {
       render(
         <Tooltip content='Tooltip content'>
           <button>Hover me</button>
-        </Tooltip>
+        </Tooltip>,
       );
       const tooltip = screen.getByTestId("tooltip");
       expect(tooltip).toHaveClass("bg-popover");
@@ -77,7 +77,7 @@ describe("Tooltip Component", () => {
       render(
         <Tooltip content='Tooltip content'>
           <button>Hover me</button>
-        </Tooltip>
+        </Tooltip>,
       );
       const tooltip = screen.getByTestId("tooltip");
       expect(tooltip).toHaveClass("shadow-md");
@@ -87,7 +87,7 @@ describe("Tooltip Component", () => {
       render(
         <Tooltip content='Tooltip content'>
           <button>Hover me</button>
-        </Tooltip>
+        </Tooltip>,
       );
       const tooltip = screen.getByTestId("tooltip");
       expect(tooltip).toHaveClass("px-3");
@@ -98,7 +98,7 @@ describe("Tooltip Component", () => {
       render(
         <Tooltip content='Tooltip content'>
           <button>Hover me</button>
-        </Tooltip>
+        </Tooltip>,
       );
       const tooltip = screen.getByTestId("tooltip");
       expect(tooltip).toHaveClass("text-sm");
@@ -108,7 +108,7 @@ describe("Tooltip Component", () => {
       render(
         <Tooltip content='Tooltip content'>
           <button>Hover me</button>
-        </Tooltip>
+        </Tooltip>,
       );
       const tooltip = screen.getByTestId("tooltip");
       expect(tooltip).toHaveClass("text-popover-foreground");
@@ -118,7 +118,7 @@ describe("Tooltip Component", () => {
       render(
         <Tooltip content='Tooltip content'>
           <button>Hover me</button>
-        </Tooltip>
+        </Tooltip>,
       );
       const tooltip = screen.getByTestId("tooltip");
       const arrow = tooltip.querySelector(".fill-popover");
@@ -133,7 +133,7 @@ describe("Tooltip Component", () => {
           <button data-testid='custom-trigger' aria-label='Custom trigger'>
             Hover me
           </button>
-        </Tooltip>
+        </Tooltip>,
       );
       const trigger = screen.getByTestId("custom-trigger");
       expect(trigger).toHaveAttribute("aria-label", "Custom trigger");
@@ -143,7 +143,7 @@ describe("Tooltip Component", () => {
       render(
         <Tooltip content='Tooltip content'>
           <button>Hover me</button>
-        </Tooltip>
+        </Tooltip>,
       );
       const tooltip = screen.getByTestId("tooltip");
       expect(tooltip).toHaveClass("overflow-hidden");
@@ -155,7 +155,7 @@ describe("Tooltip Component", () => {
       render(
         <Tooltip content='Tooltip content'>
           <button>Hover me</button>
-        </Tooltip>
+        </Tooltip>,
       );
       const tooltip = screen.getByTestId("tooltip");
       expect(tooltip).toHaveAttribute("data-side", "top");
@@ -168,7 +168,7 @@ describe("Tooltip Component", () => {
       render(
         <Tooltip content='Tooltip content'>
           <button>Hover me</button>
-        </Tooltip>
+        </Tooltip>,
       );
 
       const trigger = screen.getByRole("button");
@@ -182,7 +182,7 @@ describe("Tooltip Component", () => {
       render(
         <Tooltip content='Tooltip content'>
           <button>Hover me</button>
-        </Tooltip>
+        </Tooltip>,
       );
       // Tooltip should be rendered
       const tooltip = screen.getByTestId("tooltip");
@@ -195,7 +195,7 @@ describe("Tooltip Component", () => {
       render(
         <Tooltip content='Tooltip content'>
           <button>Hover me</button>
-        </Tooltip>
+        </Tooltip>,
       );
       const tooltip = screen.getByTestId("tooltip");
       expect(tooltip).toBeInTheDocument();
@@ -205,7 +205,7 @@ describe("Tooltip Component", () => {
       render(
         <Tooltip content='Tooltip content'>
           <button>Hover me</button>
-        </Tooltip>
+        </Tooltip>,
       );
       const tooltip = screen.getByTestId("tooltip");
       expect(tooltip).toBeInTheDocument();
@@ -215,7 +215,7 @@ describe("Tooltip Component", () => {
       render(
         <Tooltip content='Tooltip content'>
           <button>Hover me</button>
-        </Tooltip>
+        </Tooltip>,
       );
       // Tooltip should have delayDuration prop set
       const tooltip = screen.getByTestId("tooltip");
@@ -228,7 +228,7 @@ describe("Tooltip Component", () => {
       render(
         <Tooltip content='Tooltip content'>
           <button>Hover me</button>
-        </Tooltip>
+        </Tooltip>,
       );
       const tooltip = screen.getByTestId("tooltip");
       // Tooltip should be rendered in a portal (outside the trigger's DOM hierarchy)

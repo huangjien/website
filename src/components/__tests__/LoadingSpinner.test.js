@@ -15,7 +15,7 @@ describe("LoadingSpinner", () => {
 
   it("renders pulse spinner", () => {
     render(
-      <LoadingSpinner animationType='pulse' size='sm' variant='secondary' />
+      <LoadingSpinner animationType='pulse' size='sm' variant='secondary' />,
     );
     const el = screen.getByLabelText("Loading");
 
@@ -26,7 +26,7 @@ describe("LoadingSpinner", () => {
 
   it("renders dots spinner with three dots and staggered delays", () => {
     const { container } = render(
-      <LoadingSpinner animationType='dots' size='md' />
+      <LoadingSpinner animationType='dots' size='md' />,
     );
     const dots = container.querySelectorAll("span");
 

@@ -40,7 +40,7 @@ jest.mock("../../components/ai-elements/conversation", () => {
       React.createElement(
         "div",
         { "data-testid": "conversation-content" },
-        children
+        children,
       ),
   };
 });
@@ -52,13 +52,13 @@ jest.mock("../../components/ai-elements/message", () => {
       React.createElement(
         "div",
         { "data-testid": `message-${role}` },
-        children
+        children,
       ),
     MessageContent: ({ children }) =>
       React.createElement(
         "div",
         { "data-testid": "message-content" },
-        children
+        children,
       ),
   };
 });
@@ -80,7 +80,7 @@ jest.mock("../../components/ai-elements/tts-button", () => {
       React.createElement(
         "button",
         { "data-testid": "tts-button" },
-        text ? "Speak" : ""
+        text ? "Speak" : "",
       ),
   };
 });
@@ -110,12 +110,12 @@ jest.mock("../../components/ai-elements/prompt-input", () => {
               onSubmit && onSubmit();
             },
           },
-          "Submit"
+          "Submit",
         ),
         React.createElement(
           "button",
           { "data-testid": "stop-btn", onClick: () => onStop && onStop() },
-          "Stop"
+          "Stop",
         ),
         // Settings toggle button inside PromptInput toolbar
         React.createElement(
@@ -125,8 +125,8 @@ jest.mock("../../components/ai-elements/prompt-input", () => {
             onClick: () => onToggleSettings && onToggleSettings(),
             "aria-label": "ai.settings",
           },
-          "ai.settings"
-        )
+          "ai.settings",
+        ),
       ),
   };
 });
@@ -139,7 +139,7 @@ jest.mock("../../components/ai-elements/settings-panel", () => {
       React.createElement(
         "div",
         { "data-testid": "settings-panel" },
-        JSON.stringify(settings || {})
+        JSON.stringify(settings || {}),
       ),
   };
 });
@@ -198,7 +198,7 @@ describe("AI Page Component (v5)", () => {
     expect(screen.getByTestId("ai-container")).toBeInTheDocument();
     // Settings button is rendered inside PromptInput toolbar
     expect(
-      screen.getByRole("button", { name: "ai.settings" })
+      screen.getByRole("button", { name: "ai.settings" }),
     ).toBeInTheDocument();
     expect(screen.getByTestId("conversation")).toBeInTheDocument();
     expect(screen.getByTestId("prompt-input")).toBeInTheDocument();
@@ -224,7 +224,7 @@ describe("AI Page Component (v5)", () => {
       "ai:conversations",
       {
         defaultValue: [],
-      }
+      },
     );
   });
 

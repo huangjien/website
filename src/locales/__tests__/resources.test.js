@@ -82,7 +82,7 @@ describe("resources configuration", () => {
     expect(resources.zh_CN).toBeDefined();
     expect(resources.zh_CN.translation).toBeDefined();
     expect(resources.zh_CN.translation["test.key"]).toBe(
-      "Chinese Simplified test"
+      "Chinese Simplified test",
     );
   });
 
@@ -90,7 +90,7 @@ describe("resources configuration", () => {
     expect(resources.zh_TW).toBeDefined();
     expect(resources.zh_TW.translation).toBeDefined();
     expect(resources.zh_TW.translation["test.key"]).toBe(
-      "Chinese Traditional test"
+      "Chinese Traditional test",
     );
   });
 
@@ -158,7 +158,7 @@ describe("resources configuration", () => {
 
     // Verify structure is maintained
     expect(Object.keys(resources)).toEqual(
-      expect.arrayContaining(originalKeys)
+      expect.arrayContaining(originalKeys),
     );
   });
 });

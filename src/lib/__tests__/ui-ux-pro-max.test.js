@@ -36,13 +36,13 @@ describe("ui-ux-pro-max", () => {
     expect(applied).toBe("neumorphism");
     expect(doc.documentElement.setAttribute).toHaveBeenCalledWith(
       DESIGN_STYLE_ATTRIBUTE,
-      "neumorphism"
+      "neumorphism",
     );
   });
 
   it("applyDesignStyleToDocument returns default when doc missing", () => {
     expect(applyDesignStyleToDocument(null, "neumorphism")).toBe(
-      DESIGN_STYLE_DEFAULT
+      DESIGN_STYLE_DEFAULT,
     );
   });
 });

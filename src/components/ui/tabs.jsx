@@ -19,7 +19,7 @@ export function TabsList({ className, ...props }) {
     <TabsPrimitive.List
       className={cn(
         "inline-flex h-10 items-center justify-center rounded-lg bg-muted p-1 text-muted-foreground shadow-xs",
-        className
+        className,
       )}
       {...props}
     />
@@ -35,7 +35,7 @@ export function TabsTrigger({ className, ...props }) {
         "hover:bg-accent/40 hover:text-accent-foreground",
         "disabled:pointer-events-none disabled:opacity-50",
         "data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm",
-        className
+        className,
       )}
       {...props}
     />
@@ -47,7 +47,7 @@ export function TabsContent({ className, ...props }) {
     <TabsPrimitive.Content
       className={cn(
         "ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-        className
+        className,
       )}
       {...props}
     />

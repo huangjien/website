@@ -39,7 +39,7 @@ export const QuestionTabs = ({ append }) => {
         question,
         lastAnswer,
         model,
-        parseFloat(temperature)
+        parseFloat(temperature),
       );
       if (data.error) {
         error(
@@ -47,7 +47,7 @@ export const QuestionTabs = ({ append }) => {
             ":\n" +
             data.error.code +
             "\n" +
-            data.error.message
+            data.error.message,
         );
         throw new Error(t("ai.return_error") + ":\n" + data.error.message);
       }

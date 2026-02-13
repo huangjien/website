@@ -40,7 +40,7 @@ describe("ConfigurationTab Component", () => {
 
     expect(screen.getByTestId("select-wrapper")).toBeInTheDocument();
     expect(screen.getByTestId("select-label")).toHaveTextContent(
-      "ai.select_model"
+      "ai.select_model",
     );
     expect(screen.getByTestId("select")).toBeInTheDocument();
 
@@ -100,7 +100,10 @@ describe("ConfigurationTab Component", () => {
     const mockSetTemperature = jest.fn();
 
     render(
-      <ConfigurationTab {...defaultProps} setTemperature={mockSetTemperature} />
+      <ConfigurationTab
+        {...defaultProps}
+        setTemperature={mockSetTemperature}
+      />,
     );
 
     const temperatureInput = screen.getByDisplayValue("0.7");
@@ -115,7 +118,7 @@ describe("ConfigurationTab Component", () => {
     const mockSetTrackSpeed = jest.fn();
 
     render(
-      <ConfigurationTab {...defaultProps} setTrackSpeed={mockSetTrackSpeed} />
+      <ConfigurationTab {...defaultProps} setTrackSpeed={mockSetTrackSpeed} />,
     );
 
     const trackSpeedInput = screen.getByDisplayValue("300");
@@ -131,7 +134,10 @@ describe("ConfigurationTab Component", () => {
     const mockSetTemperature = jest.fn();
 
     render(
-      <ConfigurationTab {...defaultProps} setTemperature={mockSetTemperature} />
+      <ConfigurationTab
+        {...defaultProps}
+        setTemperature={mockSetTemperature}
+      />,
     );
 
     const temperatureInput = screen.getByDisplayValue("0.7");
@@ -146,7 +152,7 @@ describe("ConfigurationTab Component", () => {
     const mockSetTrackSpeed = jest.fn();
 
     render(
-      <ConfigurationTab {...defaultProps} setTrackSpeed={mockSetTrackSpeed} />
+      <ConfigurationTab {...defaultProps} setTrackSpeed={mockSetTrackSpeed} />,
     );
 
     const trackSpeedInput = screen.getByDisplayValue("300");
@@ -160,7 +166,7 @@ describe("ConfigurationTab Component", () => {
     render(<ConfigurationTab {...defaultProps} />);
 
     expect(screen.getByTestId("select-label")).toHaveTextContent(
-      "ai.select_model"
+      "ai.select_model",
     );
     const inputLabels = screen.getAllByTestId("input-label");
     expect(inputLabels[0]).toHaveTextContent("ai.temperature");
@@ -173,14 +179,14 @@ describe("ConfigurationTab Component", () => {
     // Check that placeholder option exists in select
     const selectElement = screen.getByTestId("select");
     expect(selectElement.querySelector("option[disabled]")).toHaveTextContent(
-      "ai.select_model"
+      "ai.select_model",
     );
 
     expect(
-      screen.getByPlaceholderText("ai.value_range_0_1")
+      screen.getByPlaceholderText("ai.value_range_0_1"),
     ).toBeInTheDocument();
     expect(
-      screen.getByPlaceholderText("ai.value_range_50_500")
+      screen.getByPlaceholderText("ai.value_range_50_500"),
     ).toBeInTheDocument();
   });
 
@@ -200,7 +206,7 @@ describe("ConfigurationTab Component", () => {
 
   it("should handle edge case values correctly", () => {
     render(
-      <ConfigurationTab {...defaultProps} temperature={0} trackSpeed={50} />
+      <ConfigurationTab {...defaultProps} temperature={0} trackSpeed={50} />,
     );
 
     expect(screen.getByDisplayValue("0")).toBeInTheDocument();
@@ -209,7 +215,7 @@ describe("ConfigurationTab Component", () => {
 
   it("should handle maximum values correctly", () => {
     render(
-      <ConfigurationTab {...defaultProps} temperature={2} trackSpeed={500} />
+      <ConfigurationTab {...defaultProps} temperature={2} trackSpeed={500} />,
     );
 
     expect(screen.getByDisplayValue("2")).toBeInTheDocument();
@@ -227,7 +233,10 @@ describe("ConfigurationTab Component", () => {
     const mockSetTemperature = jest.fn();
 
     render(
-      <ConfigurationTab {...defaultProps} setTemperature={mockSetTemperature} />
+      <ConfigurationTab
+        {...defaultProps}
+        setTemperature={mockSetTemperature}
+      />,
     );
 
     const temperatureInput = screen.getByDisplayValue("0.7");
@@ -241,7 +250,7 @@ describe("ConfigurationTab Component", () => {
     const mockSetTrackSpeed = jest.fn();
 
     render(
-      <ConfigurationTab {...defaultProps} setTrackSpeed={mockSetTrackSpeed} />
+      <ConfigurationTab {...defaultProps} setTrackSpeed={mockSetTrackSpeed} />,
     );
 
     const trackSpeedInput = screen.getByDisplayValue("300");
@@ -290,7 +299,7 @@ describe("ConfigurationTab Component", () => {
       expect(screen.getByText("GPT-4.1 Mini")).toBeInTheDocument();
       expect(consoleSpy).toHaveBeenCalledWith(
         "Failed to parse models from settings:",
-        expect.any(Error)
+        expect.any(Error),
       );
 
       consoleSpy.mockRestore();

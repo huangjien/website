@@ -63,7 +63,7 @@ describe("Issue Component", () => {
   beforeEach(() => {
     jest.clearAllMocks();
     mockGetSetting.mockReturnValue(
-      "id,number,title,body,state,created_at,updated_at,comments,user.login"
+      "id,number,title,body,state,created_at,updated_at,comments,user.login",
     );
   });
 
@@ -76,7 +76,7 @@ describe("Issue Component", () => {
     fireEvent.click(screen.getByText("Test Issue Title"));
 
     expect(
-      screen.getByText("This is a test issue body with some content.")
+      screen.getByText("This is a test issue body with some content."),
     ).toBeInTheDocument();
     const accordions = screen.getAllByTestId("accordion");
     expect(accordions.length).toBeGreaterThanOrEqual(1);
@@ -121,8 +121,8 @@ describe("Issue Component", () => {
 
     expect(
       screen.getByText(
-        /issue.last_update: 2023-01-01T12:00:00Z issue.created: 2023-01-01T00:00:00Z/
-      )
+        /issue.last_update: 2023-01-01T12:00:00Z issue.created: 2023-01-01T00:00:00Z/,
+      ),
     ).toBeInTheDocument();
   });
 
@@ -136,7 +136,7 @@ describe("Issue Component", () => {
     render(<Issue issue={sameTimeIssue} />);
 
     expect(
-      screen.getByText(/issue.created: 2023-01-01T00:00:00Z/)
+      screen.getByText(/issue.created: 2023-01-01T00:00:00Z/),
     ).toBeInTheDocument();
     expect(screen.queryByText(/issue.last_update/)).not.toBeInTheDocument();
   });
@@ -180,7 +180,7 @@ describe("Issue Component", () => {
     await userEvent.click(screen.getByText("Test Issue Title"));
 
     expect(
-      screen.getByText("This is a test issue body with some content.")
+      screen.getByText("This is a test issue body with some content."),
     ).toBeInTheDocument();
     const accordions = screen.getAllByTestId("accordion");
     expect(accordions.length).toBeGreaterThanOrEqual(1);
@@ -194,7 +194,7 @@ describe("Issue Component", () => {
 
     expect(screen.getByTestId("markdown")).toBeInTheDocument();
     expect(screen.getByTestId("markdown")).toHaveTextContent(
-      "This is a test issue body with some content."
+      "This is a test issue body with some content.",
     );
   });
 
@@ -237,10 +237,10 @@ describe("Issue Component", () => {
     expect(markdownContent.textContent).toContain("![Screenshot]");
     expect(markdownContent.textContent).toContain("![Another Image]");
     expect(markdownContent.textContent).toContain(
-      "703be3d9-a2ce-495f-9656-ef38a53c5978"
+      "703be3d9-a2ce-495f-9656-ef38a53c5978",
     );
     expect(markdownContent.textContent).toContain(
-      "abc123-def4-5678-90ab-cdef12345678"
+      "abc123-def4-5678-90ab-cdef12345678",
     );
   });
 
@@ -261,10 +261,10 @@ describe("Issue Component", () => {
 
     expect(markdownContent.textContent).not.toContain("`");
     expect(markdownContent.textContent).toContain(
-      "https://github.com/user-attachments/assets/12345678-90ab-cdef-1234-567890abcdef"
+      "https://github.com/user-attachments/assets/12345678-90ab-cdef-1234-567890abcdef",
     );
     expect(markdownContent.textContent).toContain(
-      "https://github.com/user-attachments/assets/abcdef12-3456-7890-abcd-ef1234567890"
+      "https://github.com/user-attachments/assets/abcdef12-3456-7890-abcd-ef1234567890",
     );
   });
 });

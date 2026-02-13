@@ -16,7 +16,7 @@ describe("NoSSR Component", () => {
       render(
         <NoSSR>
           <TestChild />
-        </NoSSR>
+        </NoSSR>,
       );
 
       // In test environment, component mounts immediately
@@ -33,7 +33,7 @@ describe("NoSSR Component", () => {
       render(
         <NoSSR onSSR={<CustomSSR />}>
           <TestChild />
-        </NoSSR>
+        </NoSSR>,
       );
 
       // In test environment, component mounts and renders children
@@ -58,7 +58,7 @@ describe("NoSSR Component", () => {
       render(
         <NoSSR>
           <TestChild />
-        </NoSSR>
+        </NoSSR>,
       );
 
       // After componentDidMount, should render children
@@ -74,7 +74,7 @@ describe("NoSSR Component", () => {
         <NoSSR>
           <TestChild1 />
           <TestChild2 />
-        </NoSSR>
+        </NoSSR>,
       );
 
       expect(screen.getByTestId("child-1")).toBeInTheDocument();
@@ -98,7 +98,7 @@ describe("NoSSR Component", () => {
       render(
         <NoSSR>
           <ComplexChild />
-        </NoSSR>
+        </NoSSR>,
       );
 
       expect(screen.getByTestId("complex-child")).toBeInTheDocument();
@@ -176,7 +176,7 @@ describe("NoSSR Component", () => {
       render(
         <NoSSR onSSR={null}>
           <TestChild />
-        </NoSSR>
+        </NoSSR>,
       );
 
       // In test environment, children render after mount
@@ -191,7 +191,7 @@ describe("NoSSR Component", () => {
       render(
         <NoSSR onSSR='Loading...'>
           <TestChild />
-        </NoSSR>
+        </NoSSR>,
       );
 
       // In test environment, children render after mount
@@ -212,7 +212,7 @@ describe("NoSSR Component", () => {
       render(
         <NoSSR onSSR={<ComplexSSR />}>
           <TestChild />
-        </NoSSR>
+        </NoSSR>,
       );
 
       // In test environment, children render after mount
@@ -229,7 +229,7 @@ describe("NoSSR Component", () => {
       render(
         <NoSSR>
           <TestChild />
-        </NoSSR>
+        </NoSSR>,
       );
 
       // In test environment, children render after mount
@@ -244,7 +244,7 @@ describe("NoSSR Component", () => {
       render(
         <NoSSR>
           <TestChild />
-        </NoSSR>
+        </NoSSR>,
       );
 
       // After mounting, children should be rendered
@@ -266,7 +266,7 @@ describe("NoSSR Component", () => {
         render(
           <NoSSR>
             <ErrorChild />
-          </NoSSR>
+          </NoSSR>,
         );
       }).toThrow("Test error");
 
@@ -282,7 +282,7 @@ describe("NoSSR Component", () => {
       const { rerender } = render(
         <NoSSR>
           <TestChild />
-        </NoSSR>
+        </NoSSR>,
       );
 
       expect(screen.getByTestId("child-content")).toBeInTheDocument();
@@ -292,7 +292,7 @@ describe("NoSSR Component", () => {
       rerender(
         <NoSSR>
           <NewChild />
-        </NoSSR>
+        </NoSSR>,
       );
 
       expect(screen.getByTestId("new-child")).toBeInTheDocument();
@@ -307,7 +307,7 @@ describe("NoSSR Component", () => {
       const { unmount } = render(
         <NoSSR>
           <TestChild />
-        </NoSSR>
+        </NoSSR>,
       );
 
       expect(screen.getByTestId("child-content")).toBeInTheDocument();
@@ -330,7 +330,7 @@ describe("NoSSR Component", () => {
       const { rerender } = render(
         <NoSSR>
           <TestChild />
-        </NoSSR>
+        </NoSSR>,
       );
 
       expect(screen.getByText("Render count: 1")).toBeInTheDocument();
@@ -339,7 +339,7 @@ describe("NoSSR Component", () => {
       rerender(
         <NoSSR>
           <TestChild />
-        </NoSSR>
+        </NoSSR>,
       );
 
       // Child should re-render due to React's normal behavior

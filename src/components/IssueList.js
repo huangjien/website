@@ -48,7 +48,7 @@ export const IssueList = ({ tags, ComponentName, data, inTab = "ai" }) => {
       setOpen(true);
       handleText2Speech(text);
     },
-    [setOpen]
+    [setOpen],
   );
 
   const renderCell = useCallback(
@@ -62,7 +62,7 @@ export const IssueList = ({ tags, ComponentName, data, inTab = "ai" }) => {
           return <pre>{JSON.stringify(itemData)}</pre>;
       }
     },
-    [readText]
+    [readText],
   );
 
   const onRowsPerPageChange = useCallback((e) => {
@@ -106,8 +106,8 @@ export const IssueList = ({ tags, ComponentName, data, inTab = "ai" }) => {
   const handleText2Speech = async (text) => {
     const res = await fetch(
       `/api/tts?&&languageCode=${languageCode}&&name=${speakerName}&&text=${encodeURIComponent(
-        text.replaceAll("\n", "")
-      )}`
+        text.replaceAll("\n", ""),
+      )}`,
     );
     const blob = await res.blob();
     const audioUrl = URL.createObjectURL(blob);

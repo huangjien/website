@@ -162,6 +162,6 @@ if (!global.fetch) {
       json: () => Promise.resolve({}),
       text: () => Promise.resolve(""),
       blob: () => Promise.resolve(new Blob()),
-    })
+    }),
   );
 }

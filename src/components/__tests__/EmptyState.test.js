@@ -29,7 +29,7 @@ describe("EmptyState Component", () => {
       "flex",
       "flex-col",
       "items-center",
-      "justify-center"
+      "justify-center",
     );
   });
 

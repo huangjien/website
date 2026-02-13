@@ -32,7 +32,7 @@ describe("Breadcrumb Component", () => {
       usePathname.mockReturnValue("/");
       render(<Breadcrumb />);
       expect(
-        screen.getByRole("navigation", { name: /breadcrumb/i })
+        screen.getByRole("navigation", { name: /breadcrumb/i }),
       ).toBeInTheDocument();
       expect(screen.getByText("Home")).toBeInTheDocument();
     });
@@ -96,7 +96,7 @@ describe("Breadcrumb Component", () => {
       const homeLink = screen.getByText("Home").closest("a");
       expect(homeLink).toHaveClass(
         "hover:text-foreground",
-        "transition-colors"
+        "transition-colors",
       );
     });
   });
@@ -237,7 +237,7 @@ describe("Breadcrumb Component", () => {
         "gap-2",
         "text-sm",
         "text-muted-foreground",
-        "mb-4"
+        "mb-4",
       );
     });
 
@@ -256,7 +256,7 @@ describe("Breadcrumb Component", () => {
       const homeLink = screen.getByText("Home").closest("a");
       expect(homeLink).toHaveClass(
         "hover:text-foreground",
-        "transition-colors"
+        "transition-colors",
       );
       expect(homeLink).not.toHaveClass("text-foreground");
     });

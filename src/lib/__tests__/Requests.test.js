@@ -112,7 +112,7 @@ describe("Requests utility functions", () => {
         JSON.stringify({
           messageType: "success",
           message: "Operation completed",
-        })
+        }),
       );
     });
 
@@ -124,7 +124,7 @@ describe("Requests utility functions", () => {
         JSON.stringify({
           messageType: "error",
           message: "Something went wrong",
-        })
+        }),
       );
     });
   });
@@ -233,7 +233,7 @@ describe("Requests utility functions", () => {
 
       expect(fetch).toHaveBeenCalledWith(
         "https://v2.jokeapi.dev/joke/Programming?blacklistFlags=religious,racist,sexist&type=twopart",
-        { method: "GET" }
+        { method: "GET" },
       );
       expect(result).toEqual(mockJoke);
     });
@@ -243,7 +243,7 @@ describe("Requests utility functions", () => {
     it("should return cached user if available", async () => {
       const cachedUser = { login: "testuser", id: 123 };
       mockSessionStorage.getItem.mockReturnValueOnce(
-        JSON.stringify(cachedUser)
+        JSON.stringify(cachedUser),
       );
 
       const result = await getUser("testuser", "token");
@@ -269,7 +269,7 @@ describe("Requests utility functions", () => {
           headers: {
             Authorization: "token token",
           },
-        }
+        },
       );
       expect(result).toEqual(mockUser);
     });

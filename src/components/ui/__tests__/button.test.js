@@ -106,7 +106,7 @@ describe("Button Component", () => {
       render(
         <Button onClick={handleClick} disabled>
           Click me
-        </Button>
+        </Button>,
       );
 
       const button = screen.getByRole("button");
@@ -136,7 +136,7 @@ describe("Button Component", () => {
       render(
         <Button onClick={handleClick} loading>
           Click me
-        </Button>
+        </Button>,
       );
 
       const button = screen.getByRole("button");
@@ -149,7 +149,7 @@ describe("Button Component", () => {
       render(
         <Button loading>
           <span>Button text</span>
-        </Button>
+        </Button>,
       );
       const button = screen.getByRole("button");
       const spinner = screen.getByLabelText("Loading");
@@ -169,7 +169,7 @@ describe("Button Component", () => {
       render(
         <Button data-testid='custom-button' aria-label='Custom button'>
           Click me
-        </Button>
+        </Button>,
       );
       const button = screen.getByTestId("custom-button");
       expect(button).toHaveAttribute("aria-label", "Custom button");

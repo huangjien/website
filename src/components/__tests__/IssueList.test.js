@@ -180,7 +180,7 @@ describe("IssueList", () => {
         ComponentName='Issue'
         data={mockData}
         inTab='issue'
-      />
+      />,
     );
 
     expect(screen.getByText("First Issue")).toBeInTheDocument();
@@ -196,7 +196,7 @@ describe("IssueList", () => {
         ComponentName='Chat'
         data={mockChatData}
         inTab='ai'
-      />
+      />,
     );
 
     expect(screen.getAllByTestId("chat-component")).toHaveLength(3);
@@ -212,7 +212,7 @@ describe("IssueList", () => {
         ComponentName='Issue'
         data={mockData}
         inTab='issue'
-      />
+      />,
     );
 
     const searchInput = screen.getByPlaceholderText("global.search");
@@ -232,7 +232,7 @@ describe("IssueList", () => {
         ComponentName='Issue'
         data={mockData}
         inTab='issue'
-      />
+      />,
     );
 
     const searchInput = screen.getByPlaceholderText("global.search");
@@ -256,7 +256,7 @@ describe("IssueList", () => {
         ComponentName='Issue'
         data={mockData}
         inTab='issue'
-      />
+      />,
     );
 
     const rowsSelect = screen.getByDisplayValue("5");
@@ -272,13 +272,13 @@ describe("IssueList", () => {
         ComponentName='Chat'
         data={mockChatData}
         inTab='ai'
-      />
+      />,
     );
 
     // Verify that Chat components are rendered with play buttons
     const playButtons = screen.getAllByRole("button");
     const chatPlayButtons = playButtons.filter((button) =>
-      button.className.includes("text-primary")
+      button.className.includes("text-primary"),
     );
     expect(chatPlayButtons.length).toBeGreaterThan(0);
   });
@@ -290,7 +290,7 @@ describe("IssueList", () => {
         ComponentName='Issue'
         data={mockData}
         inTab='issue'
-      />
+      />,
     );
 
     expect(screen.getByText("issue.total")).toBeInTheDocument();
@@ -311,7 +311,7 @@ describe("IssueList", () => {
         ComponentName='Issue'
         data={largeData}
         inTab='issue'
-      />
+      />,
     );
 
     // Should show first 5 items by default
@@ -330,7 +330,7 @@ describe("IssueList", () => {
 
   it("handles empty data gracefully", () => {
     render(
-      <IssueList tags={[]} ComponentName='Issue' data={[]} inTab='issue' />
+      <IssueList tags={[]} ComponentName='Issue' data={[]} inTab='issue' />,
     );
 
     expect(screen.getByRole("grid")).toBeInTheDocument();
@@ -344,7 +344,7 @@ describe("IssueList", () => {
         ComponentName='Issue'
         data={undefined}
         inTab='issue'
-      />
+      />,
     );
 
     expect(screen.getByRole("grid")).toBeInTheDocument();
@@ -352,7 +352,7 @@ describe("IssueList", () => {
 
   it("handles null data gracefully", () => {
     render(
-      <IssueList tags={[]} ComponentName='Issue' data={null} inTab='issue' />
+      <IssueList tags={[]} ComponentName='Issue' data={null} inTab='issue' />,
     );
 
     expect(screen.getByRole("grid")).toBeInTheDocument();
@@ -365,7 +365,7 @@ describe("IssueList", () => {
         ComponentName='Issue'
         data={mockData}
         inTab='issue'
-      />
+      />,
     );
 
     // Navigate to page 2 first
@@ -377,7 +377,12 @@ describe("IssueList", () => {
       { id: 4, title: "New Issue", body: "New content", labels: [] },
     ];
     rerender(
-      <IssueList tags={[]} ComponentName='Issue' data={newData} inTab='issue' />
+      <IssueList
+        tags={[]}
+        ComponentName='Issue'
+        data={newData}
+        inTab='issue'
+      />,
     );
 
     // Should reset to page 1
@@ -393,7 +398,7 @@ describe("IssueList", () => {
         ComponentName='Issue'
         data={mockData}
         inTab='issue'
-      />
+      />,
     );
 
     const searchInput = screen.getByPlaceholderText("global.search");
@@ -412,7 +417,7 @@ describe("IssueList", () => {
         ComponentName='Issue'
         data={mockData}
         inTab='issue'
-      />
+      />,
     );
 
     const searchInput = screen.getByPlaceholderText("global.search");
@@ -430,7 +435,7 @@ describe("IssueList", () => {
         ComponentName='Chat'
         data={mockChatData}
         inTab='ai'
-      />
+      />,
     );
 
     // Test that the component renders without errors
@@ -439,7 +444,7 @@ describe("IssueList", () => {
     // Test that play buttons are present
     const playButtons = screen.getAllByRole("button");
     const chatPlayButtons = playButtons.filter((button) =>
-      button.className.includes("text-primary")
+      button.className.includes("text-primary"),
     );
     expect(chatPlayButtons.length).toBeGreaterThan(0);
 
@@ -455,7 +460,7 @@ describe("IssueList", () => {
         ComponentName='Chat'
         data={mockChatData}
         inTab='ai'
-      />
+      />,
     );
 
     // Test that the component renders without errors
@@ -464,7 +469,7 @@ describe("IssueList", () => {
     // Test that play buttons are present
     const playButtons = screen.getAllByRole("button");
     const chatPlayButtons = playButtons.filter((button) =>
-      button.className.includes("text-primary")
+      button.className.includes("text-primary"),
     );
     expect(chatPlayButtons.length).toBeGreaterThan(0);
 
@@ -472,7 +477,7 @@ describe("IssueList", () => {
     const testText = "Hello world";
     const expectedUrl = `/api/tts?&&languageCode=en-US&&name=en-US-Standard-A&&text=${encodeURIComponent(testText.replaceAll("\n", ""))}`;
     expect(expectedUrl).toContain(
-      "/api/tts?&&languageCode=en-US&&name=en-US-Standard-A&&text="
+      "/api/tts?&&languageCode=en-US&&name=en-US-Standard-A&&text=",
     );
   });
 
@@ -483,7 +488,7 @@ describe("IssueList", () => {
         ComponentName='Chat'
         data={mockChatData}
         inTab='ai'
-      />
+      />,
     );
 
     // Test that the component renders without errors
@@ -493,7 +498,7 @@ describe("IssueList", () => {
     // Test that play buttons are present
     const playButtons = screen.getAllByRole("button");
     const chatPlayButtons = playButtons.filter((button) =>
-      button.className.includes("text-primary")
+      button.className.includes("text-primary"),
     );
     expect(chatPlayButtons.length).toBeGreaterThan(0);
   });
@@ -505,7 +510,7 @@ describe("IssueList", () => {
         ComponentName='UnknownComponent'
         data={mockData}
         inTab='issue'
-      />
+      />,
     );
 
     // Should render JSON representation as fallback
@@ -529,7 +534,7 @@ describe("IssueList", () => {
         ComponentName='Issue'
         data={largeData}
         inTab='issue'
-      />
+      />,
     );
 
     // Navigate to page 3
@@ -563,7 +568,7 @@ describe("IssueList", () => {
         ComponentName='Issue'
         data={largeData}
         inTab='issue'
-      />
+      />,
     );
 
     // Change to 10 rows per page
@@ -585,7 +590,7 @@ describe("IssueList", () => {
         ComponentName='Issue'
         data={mockData}
         inTab='issue'
-      />
+      />,
     );
 
     const searchInput = screen.getByPlaceholderText("global.search");
@@ -614,7 +619,7 @@ describe("IssueList", () => {
         ComponentName='Chat'
         data={dataWithSpecialChars}
         inTab='ai'
-      />
+      />,
     );
 
     // Test that the component renders without errors
@@ -624,7 +629,7 @@ describe("IssueList", () => {
     const testText = "Text with & symbols and\nnewlines";
     const encodedText = encodeURIComponent(testText.replace(/\n/g, " "));
     expect(encodedText).toContain(
-      "Text%20with%20%26%20symbols%20and%20newlines"
+      "Text%20with%20%26%20symbols%20and%20newlines",
     );
   });
 
@@ -635,7 +640,7 @@ describe("IssueList", () => {
         ComponentName='Chat'
         data={mockChatData}
         inTab='ai'
-      />
+      />,
     );
 
     // Test that the component renders without errors
@@ -653,7 +658,7 @@ describe("IssueList", () => {
         ComponentName='Chat'
         data={mockChatData}
         inTab='ai'
-      />
+      />,
     );
 
     // Test that the component renders without errors
@@ -682,7 +687,7 @@ describe("IssueList", () => {
         ComponentName='Issue'
         data={dataWithoutIds}
         inTab='issue'
-      />
+      />,
     );
 
     expect(screen.getByText("Issue without ID")).toBeInTheDocument();
@@ -694,7 +699,7 @@ describe("IssueList", () => {
 
   it("displays correct total count with zero data", () => {
     render(
-      <IssueList tags={[]} ComponentName='Issue' data={[]} inTab='issue' />
+      <IssueList tags={[]} ComponentName='Issue' data={[]} inTab='issue' />,
     );
 
     expect(screen.getByText("issue.total")).toBeInTheDocument();
@@ -715,7 +720,7 @@ describe("IssueList", () => {
         ComponentName='Issue'
         data={largeData}
         inTab='issue'
-      />
+      />,
     );
 
     const nextButton = screen.getByRole("button", { name: /next/i });

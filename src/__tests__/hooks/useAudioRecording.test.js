@@ -146,7 +146,7 @@ describe("useAudioRecording Hook", () => {
       });
 
       expect(warn).toHaveBeenCalledWith(
-        "getUserMedia not supported on your browser!"
+        "getUserMedia not supported on your browser!",
       );
     });
 
@@ -161,7 +161,7 @@ describe("useAudioRecording Hook", () => {
       });
 
       expect(error).toHaveBeenCalledWith(
-        `The following getUserMedia error occurred: ${mockError}`
+        `The following getUserMedia error occurred: ${mockError}`,
       );
     });
 
@@ -374,7 +374,7 @@ describe("useAudioRecording Hook", () => {
 
       // Should handle gracefully and warn
       expect(console.warn).toHaveBeenCalledWith(
-        "MediaRecorder not initialized"
+        "MediaRecorder not initialized",
       );
 
       // Call again to test multiple calls

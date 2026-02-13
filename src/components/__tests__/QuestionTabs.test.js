@@ -127,7 +127,7 @@ describe("QuestionTabs (Radix/Shadcn)", () => {
         "What is AI?",
         "",
         "gpt-4.1-mini",
-        0.5
+        0.5,
       );
     });
 
@@ -246,7 +246,7 @@ describe("QuestionTabs (Radix/Shadcn)", () => {
 
     // Configuration UI should be present
     expect(screen.getByTestId("select-label")).toHaveTextContent(
-      "Select model"
+      "Select model",
     );
     const select = screen.getByTestId("select");
     expect(select).toBeInTheDocument();
@@ -282,8 +282,8 @@ describe("QuestionTabs (Radix/Shadcn)", () => {
       expect(
         error.mock.calls.some(
           (call) =>
-            typeof call[0] === "string" && call[0].includes("Return error")
-        )
+            typeof call[0] === "string" && call[0].includes("Return error"),
+        ),
       ).toBe(true);
     });
   });
@@ -325,7 +325,7 @@ describe("QuestionTabs (Radix/Shadcn)", () => {
     const textarea = screen.getByTestId("textarea");
     expect(textarea).toHaveAttribute(
       "placeholder",
-      "Enter your question here..."
+      "Enter your question here...",
     );
   });
 });

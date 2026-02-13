@@ -26,7 +26,7 @@ export default function PromptInput({
       textareaRef.current.style.height = "auto";
       const newHeight = Math.min(
         Math.max(textareaRef.current.scrollHeight, 120),
-        400
+        400,
       );
       textareaRef.current.style.height = `${newHeight}px`;
     }

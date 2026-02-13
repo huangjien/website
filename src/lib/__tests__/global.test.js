@@ -156,7 +156,7 @@ describe("Global constants", () => {
 
     it("should have the correct value", () => {
       expect(aboutUrl).toBe(
-        "https://raw.githubusercontent.com/huangjien/huangjien/main/README.md"
+        "https://raw.githubusercontent.com/huangjien/huangjien/main/README.md",
       );
     });
 

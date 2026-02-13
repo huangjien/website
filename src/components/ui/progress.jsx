@@ -21,7 +21,7 @@ export default function Progress({
       className={cn(
         "relative overflow-hidden rounded-full bg-muted ring-1 ring-border shadow-xs",
         sizes[size],
-        className
+        className,
       )}
       value={isIndeterminate ? undefined : value}
       {...props}
@@ -31,7 +31,7 @@ export default function Progress({
           "h-full w-full flex-1 bg-primary transition-transform",
           isIndeterminate
             ? "animate-[progress-indeterminate_1.5s_infinite]"
-            : ""
+            : "",
         )}
         style={{
           transform: isIndeterminate

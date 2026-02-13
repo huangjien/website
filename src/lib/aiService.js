@@ -6,7 +6,7 @@ export const getAnswer = async (
   question,
   lastAnswer,
   model = "gpt-4o-mini",
-  temperature = 1
+  temperature = 1,
 ) => {
   const questionArray = [{ role: "user", content: question }];
   // if lastAnswer too long or too long ago, then we don't add it.

@@ -30,7 +30,7 @@ export default function PwaRegister() {
           if (scriptUrl && pathname !== "/sw.js") {
             await registration.unregister();
           }
-        })
+        }),
       );
 
       if ("caches" in window) {
@@ -40,7 +40,7 @@ export default function PwaRegister() {
             if (name.includes("workbox") || name.includes("next-pwa")) {
               await caches.delete(name);
             }
-          })
+          }),
         );
       }
 

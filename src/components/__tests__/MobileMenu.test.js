@@ -25,7 +25,7 @@ describe("MobileMenu Component", () => {
     render(
       <div style={{ width: "300px" }}>
         <MobileMenu />
-      </div>
+      </div>,
     );
     const menuButton = screen.getByRole("button", { name: /menu/i });
     expect(menuButton).toBeInTheDocument();
@@ -35,7 +35,7 @@ describe("MobileMenu Component", () => {
     render(
       <div style={{ width: "300px" }}>
         <MobileMenu />
-      </div>
+      </div>,
     );
     const menuButton = screen.getByRole("button", { name: /menu/i });
     expect(menuButton).toBeInTheDocument();
@@ -47,7 +47,7 @@ describe("MobileMenu Component", () => {
     render(
       <div style={{ width: "300px" }}>
         <MobileMenu />
-      </div>
+      </div>,
     );
 
     const menuButton = screen.getByRole("button", { name: /menu/i });
@@ -64,7 +64,7 @@ describe("MobileMenu Component", () => {
     render(
       <div style={{ width: "300px" }}>
         <MobileMenu />
-      </div>
+      </div>,
     );
 
     const menuButton = screen.getByRole("button", { name: /menu/i });
@@ -72,14 +72,14 @@ describe("MobileMenu Component", () => {
 
     await waitFor(() => {
       expect(
-        screen.getByRole("menuitem", { name: /home/i })
+        screen.getByRole("menuitem", { name: /home/i }),
       ).toBeInTheDocument();
       expect(screen.getByRole("menuitem", { name: /ai/i })).toBeInTheDocument();
       expect(
-        screen.getByRole("menuitem", { name: /settings/i })
+        screen.getByRole("menuitem", { name: /settings/i }),
       ).toBeInTheDocument();
       expect(
-        screen.getByRole("menuitem", { name: /about/i })
+        screen.getByRole("menuitem", { name: /about/i }),
       ).toBeInTheDocument();
     });
   });
@@ -89,7 +89,7 @@ describe("MobileMenu Component", () => {
     render(
       <div style={{ width: "300px" }}>
         <MobileMenu />
-      </div>
+      </div>,
     );
 
     const menuButton = screen.getByRole("button", { name: /menu/i });
@@ -97,7 +97,7 @@ describe("MobileMenu Component", () => {
 
     await waitFor(() => {
       expect(
-        screen.getByRole("menuitem", { name: /home/i })
+        screen.getByRole("menuitem", { name: /home/i }),
       ).toBeInTheDocument();
     });
 
@@ -107,7 +107,7 @@ describe("MobileMenu Component", () => {
       () => {
         expect(screen.queryByRole("menuitem")).not.toBeInTheDocument();
       },
-      { timeout: 3000 }
+      { timeout: 3000 },
     );
   });
 
@@ -115,7 +115,7 @@ describe("MobileMenu Component", () => {
     render(
       <div style={{ width: "300px" }}>
         <MobileMenu />
-      </div>
+      </div>,
     );
 
     const menuButton = screen.getByRole("button", { name: /toggle menu/i });
@@ -127,7 +127,7 @@ describe("MobileMenu Component", () => {
     render(
       <div style={{ width: "300px" }}>
         <MobileMenu />
-      </div>
+      </div>,
     );
 
     const menuButton = screen.getByRole("button", { name: /menu/i });
@@ -151,7 +151,7 @@ describe("MobileMenu Component", () => {
     render(
       <div style={{ width: "300px" }}>
         <MobileMenu />
-      </div>
+      </div>,
     );
 
     const menuButton = screen.getByRole("button", { name: /menu/i });
@@ -170,7 +170,7 @@ describe("MobileMenu Component", () => {
     render(
       <div style={{ width: "300px" }}>
         <MobileMenu />
-      </div>
+      </div>,
     );
 
     const menuButton = screen.getByRole("button", { name: /menu/i });

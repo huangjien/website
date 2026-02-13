@@ -101,7 +101,7 @@ describe("Badge Component", () => {
       render(
         <Badge data-testid='custom-badge' aria-label='Custom badge'>
           Test
-        </Badge>
+        </Badge>,
       );
       const badge = screen.getByTestId("custom-badge");
       expect(badge).toHaveAttribute("aria-label", "Custom badge");

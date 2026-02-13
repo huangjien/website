@@ -15,7 +15,7 @@ describe("Dialog Component", () => {
       render(
         <Dialog open={true} onOpenChange={jest.fn()}>
           <div data-testid='dialog-child'>Child content</div>
-        </Dialog>
+        </Dialog>,
       );
       expect(screen.getByTestId("dialog-child")).toBeInTheDocument();
     });
@@ -24,7 +24,7 @@ describe("Dialog Component", () => {
       render(
         <Dialog open={false} onOpenChange={jest.fn()}>
           <div data-testid='dialog-child'>Child content</div>
-        </Dialog>
+        </Dialog>,
       );
       expect(screen.getByTestId("dialog-child")).toBeInTheDocument();
     });
@@ -34,13 +34,13 @@ describe("Dialog Component", () => {
       const { rerender } = render(
         <Dialog open={false} onOpenChange={handleOpenChange}>
           <div>Content</div>
-        </Dialog>
+        </Dialog>,
       );
 
       rerender(
         <Dialog open={true} onOpenChange={handleOpenChange}>
           <div>Content</div>
-        </Dialog>
+        </Dialog>,
       );
 
       // Dialog content should check for onOpenChange calls when opened/closed
@@ -54,7 +54,7 @@ describe("Dialog Component", () => {
           <DialogTrigger>
             <button data-testid='trigger-button'>Open Dialog</button>
           </DialogTrigger>
-        </Dialog>
+        </Dialog>,
       );
       expect(screen.getByTestId("trigger-button")).toBeInTheDocument();
     });
@@ -65,7 +65,7 @@ describe("Dialog Component", () => {
           <DialogTrigger asChild={false}>
             <button data-testid='trigger-button'>Open Dialog</button>
           </DialogTrigger>
-        </Dialog>
+        </Dialog>,
       );
       expect(screen.getByTestId("trigger-button")).toBeInTheDocument();
     });
@@ -78,7 +78,7 @@ describe("Dialog Component", () => {
           <DialogContent data-testid='dialog-content'>
             <div>Modal Content</div>
           </DialogContent>
-        </Dialog>
+        </Dialog>,
       );
       expect(screen.getByTestId("modal")).toBeInTheDocument();
       expect(screen.getByTestId("modal-content")).toBeInTheDocument();
@@ -91,7 +91,7 @@ describe("Dialog Component", () => {
           <DialogContent>
             <div>Content</div>
           </DialogContent>
-        </Dialog>
+        </Dialog>,
       );
       const modalContent = screen.getByTestId("modal-content");
       expect(modalContent).toHaveClass("glass-modal");
@@ -104,7 +104,7 @@ describe("Dialog Component", () => {
             <DialogContent>
               <div>Content</div>
             </DialogContent>
-          </Dialog>
+          </Dialog>,
         );
         const modalContent = screen.getByTestId("modal-content");
         expect(modalContent).toHaveClass("animate-scale-in");
@@ -116,11 +116,11 @@ describe("Dialog Component", () => {
             <DialogContent>
               <div>Content</div>
             </DialogContent>
-          </Dialog>
+          </Dialog>,
         );
         const modalContent = screen.getByTestId("modal-content");
         expect(modalContent).toHaveClass(
-          "data-[state=closed]:animate-scale-out"
+          "data-[state=closed]:animate-scale-out",
         );
       });
 
@@ -130,7 +130,7 @@ describe("Dialog Component", () => {
             <DialogContent>
               <div>Content</div>
             </DialogContent>
-          </Dialog>
+          </Dialog>,
         );
         const modalContent = screen.getByTestId("modal-content");
         expect(modalContent).toHaveClass("transition-all");
@@ -144,7 +144,7 @@ describe("Dialog Component", () => {
           <DialogContent className='custom-class'>
             <div>Content</div>
           </DialogContent>
-        </Dialog>
+        </Dialog>,
       );
       const modalContent = screen.getByTestId("modal-content");
       expect(modalContent).toHaveClass("custom-class");
@@ -156,11 +156,11 @@ describe("Dialog Component", () => {
           <DialogContent>
             <div>Content</div>
           </DialogContent>
-        </Dialog>
+        </Dialog>,
       );
       const overlay = screen.getByText("Content").closest(".fixed");
       expect(
-        overlay?.parentElement?.querySelector(".bg-black\\/40")
+        overlay?.parentElement?.querySelector(".bg-black\\/40"),
       ).toBeInTheDocument();
     });
   });
@@ -174,7 +174,7 @@ describe("Dialog Component", () => {
               <div>Body Content</div>
             </DialogBody>
           </DialogContent>
-        </Dialog>
+        </Dialog>,
       );
       expect(screen.getByTestId("dialog-body")).toBeInTheDocument();
       expect(screen.getByText("Body Content")).toBeInTheDocument();
@@ -188,7 +188,7 @@ describe("Dialog Component", () => {
               <div>Content</div>
             </DialogBody>
           </DialogContent>
-        </Dialog>
+        </Dialog>,
       );
       const body = screen.getByTestId("dialog-body");
       expect(body).toHaveClass("p-3");
@@ -202,7 +202,7 @@ describe("Dialog Component", () => {
               <div>Content</div>
             </DialogBody>
           </DialogContent>
-        </Dialog>
+        </Dialog>,
       );
       const body = screen.getByTestId("dialog-body");
       expect(body).toHaveClass("custom-class");
@@ -219,14 +219,14 @@ describe("Dialog Component", () => {
               <button>Confirm</button>
             </DialogFooter>
           </DialogContent>
-        </Dialog>
+        </Dialog>,
       );
       expect(screen.getByTestId("dialog-footer")).toBeInTheDocument();
       expect(
-        screen.getByRole("button", { name: "Cancel" })
+        screen.getByRole("button", { name: "Cancel" }),
       ).toBeInTheDocument();
       expect(
-        screen.getByRole("button", { name: "Confirm" })
+        screen.getByRole("button", { name: "Confirm" }),
       ).toBeInTheDocument();
     });
 
@@ -238,7 +238,7 @@ describe("Dialog Component", () => {
               <div>Footer Content</div>
             </DialogFooter>
           </DialogContent>
-        </Dialog>
+        </Dialog>,
       );
       const footer = screen.getByTestId("dialog-footer");
       expect(footer).toHaveClass("flex");
@@ -255,7 +255,7 @@ describe("Dialog Component", () => {
               <div>Footer Content</div>
             </DialogFooter>
           </DialogContent>
-        </Dialog>
+        </Dialog>,
       );
       const footer = screen.getByTestId("dialog-footer");
       expect(footer).toHaveClass("border-t");
@@ -269,7 +269,7 @@ describe("Dialog Component", () => {
               <div>Footer Content</div>
             </DialogFooter>
           </DialogContent>
-        </Dialog>
+        </Dialog>,
       );
       const footer = screen.getByTestId("dialog-footer");
       expect(footer).toHaveClass("p-3");
@@ -283,7 +283,7 @@ describe("Dialog Component", () => {
               <div>Footer Content</div>
             </DialogFooter>
           </DialogContent>
-        </Dialog>
+        </Dialog>,
       );
       const footer = screen.getByTestId("dialog-footer");
       expect(footer).toHaveClass("custom-class");
@@ -297,7 +297,7 @@ describe("Dialog Component", () => {
           <DialogContent>
             <div>Content</div>
           </DialogContent>
-        </Dialog>
+        </Dialog>,
       );
       const modal = screen.getByTestId("modal");
       expect(modal).toHaveClass("z-50");
@@ -309,7 +309,7 @@ describe("Dialog Component", () => {
           <DialogContent>
             <div>Content</div>
           </DialogContent>
-        </Dialog>
+        </Dialog>,
       );
       const modalContent = screen.getByTestId("modal-content");
       expect(modalContent).toHaveClass("max-h-[90vh]");
@@ -323,7 +323,7 @@ describe("Dialog Component", () => {
           <DialogContent>
             <div>Content</div>
           </DialogContent>
-        </Dialog>
+        </Dialog>,
       );
       const overlay = screen
         .getByText("Content")
@@ -338,7 +338,7 @@ describe("Dialog Component", () => {
           <DialogContent>
             <div>Content</div>
           </DialogContent>
-        </Dialog>
+        </Dialog>,
       );
       const overlay = screen
         .getByText("Content")

@@ -74,7 +74,7 @@
           e.pathname,
           e.locale,
           e.buildId ? void 0 : e.defaultLocale,
-          e.ignorePrefix
+          e.ignorePrefix,
         );
         return (
           (e.buildId || !e.trailingSlash) &&
@@ -82,7 +82,7 @@
           e.buildId &&
             (t = (0, o.addPathSuffix)(
               (0, a.addPathPrefix)(t, "/_next/data/".concat(e.buildId)),
-              "/" === e.pathname ? "index.json" : ".json"
+              "/" === e.pathname ? "index.json" : ".json",
             )),
           (t = (0, a.addPathPrefix)(t, e.basePath)),
           !e.buildId && e.trailingSlash
@@ -172,7 +172,7 @@
           ((this.numItems = e),
             (this.errorRate = t),
             (this.numBits = Math.ceil(
-              -(e * Math.log(t)) / (Math.log(2) * Math.log(2))
+              -(e * Math.log(t)) / (Math.log(2) * Math.log(2)),
             )),
             (this.numHashes = Math.ceil((this.numBits / e) * Math.log(2))),
             (this.bitArray = Array(this.numBits).fill(0)));
@@ -364,7 +364,7 @@
             throw Object.defineProperty(
               Error('Route name should start with a "/", got "'.concat(g, '"')),
               "__NEXT_ERROR_CODE",
-              { value: "E303", enumerable: !1, configurable: !0 }
+              { value: "E303", enumerable: !1, configurable: !0 },
             );
           return (
             (t = e.skipInterpolation
@@ -374,11 +374,11 @@
                 : g),
             (r = (0, i.default)(
               (0, c.removeTrailingSlash)((0, s.addLocale)(t, d)),
-              ".json"
+              ".json",
             )),
             (0, a.addBasePath)(
               "/_next/data/".concat(this.buildId).concat(r).concat(_),
-              !0
+              !0,
             )
           );
         }
@@ -454,7 +454,7 @@
               t.splice(t.indexOf("[[...]]"), 1));
           let r = t
             .map((t) =>
-              this.children.get(t)._smoosh("".concat(e).concat(t, "/"))
+              this.children.get(t)._smoosh("".concat(e).concat(t, "/")),
             )
             .reduce((e, t) => [...e, ...t], []);
           if (
@@ -462,7 +462,7 @@
               r.push(
                 ...this.children
                   .get("[]")
-                  ._smoosh("".concat(e, "[").concat(this.slugName, "]/"))
+                  ._smoosh("".concat(e, "[").concat(this.slugName, "]/")),
               ),
             !this.placeholder)
           ) {
@@ -473,10 +473,10 @@
                   'You cannot define a route with the same specificity as a optional catch-all route ("'
                     .concat(t, '" and "')
                     .concat(t, "[[...")
-                    .concat(this.optionalRestSlugName, ']]").')
+                    .concat(this.optionalRestSlugName, ']]").'),
                 ),
                 "__NEXT_ERROR_CODE",
-                { value: "E458", enumerable: !1, configurable: !0 }
+                { value: "E458", enumerable: !1, configurable: !0 },
               );
             r.unshift(t);
           }
@@ -485,7 +485,9 @@
               r.push(
                 ...this.children
                   .get("[...]")
-                  ._smoosh("".concat(e, "[...").concat(this.restSlugName, "]/"))
+                  ._smoosh(
+                    "".concat(e, "[...").concat(this.restSlugName, "]/"),
+                  ),
               ),
             null !== this.optionalRestSlugName &&
               r.push(
@@ -494,8 +496,8 @@
                   ._smoosh(
                     ""
                       .concat(e, "[[...")
-                      .concat(this.optionalRestSlugName, "]]/")
-                  )
+                      .concat(this.optionalRestSlugName, "]]/"),
+                  ),
               ),
             r
           );
@@ -509,7 +511,7 @@
             throw Object.defineProperty(
               Error("Catch-all must be the last part of the URL."),
               "__NEXT_ERROR_CODE",
-              { value: "E392", enumerable: !1, configurable: !0 }
+              { value: "E392", enumerable: !1, configurable: !0 },
             );
           let n = e[0];
           if (n.startsWith("[") && n.endsWith("]")) {
@@ -525,11 +527,11 @@
                 Error(
                   "Detected a three-dot character ('…') at ('".concat(
                     a,
-                    "'). Did you mean ('...')?"
-                  )
+                    "'). Did you mean ('...')?",
+                  ),
                 ),
                 "__NEXT_ERROR_CODE",
-                { value: "E147", enumerable: !1, configurable: !0 }
+                { value: "E147", enumerable: !1, configurable: !0 },
               );
             if (
               (a.startsWith("...") && ((a = a.substring(3)), (r = !0)),
@@ -539,22 +541,22 @@
                 Error(
                   "Segment names may not start or end with extra brackets ('".concat(
                     a,
-                    "')."
-                  )
+                    "').",
+                  ),
                 ),
                 "__NEXT_ERROR_CODE",
-                { value: "E421", enumerable: !1, configurable: !0 }
+                { value: "E421", enumerable: !1, configurable: !0 },
               );
             if (a.startsWith("."))
               throw Object.defineProperty(
                 Error(
                   "Segment names may not start with erroneous periods ('".concat(
                     a,
-                    "')."
-                  )
+                    "').",
+                  ),
                 ),
                 "__NEXT_ERROR_CODE",
-                { value: "E288", enumerable: !1, configurable: !0 }
+                { value: "E288", enumerable: !1, configurable: !0 },
               );
             function o(e, r) {
               if (null !== e && e !== r)
@@ -562,10 +564,10 @@
                   Error(
                     "You cannot use different slug names for the same dynamic path ('"
                       .concat(e, "' !== '")
-                      .concat(r, "').")
+                      .concat(r, "')."),
                   ),
                   "__NEXT_ERROR_CODE",
-                  { value: "E337", enumerable: !1, configurable: !0 }
+                  { value: "E337", enumerable: !1, configurable: !0 },
                 );
               (t.forEach((e) => {
                 if (e === r)
@@ -573,11 +575,11 @@
                     Error(
                       'You cannot have the same slug name "'.concat(
                         r,
-                        '" repeat within a single dynamic path'
-                      )
+                        '" repeat within a single dynamic path',
+                      ),
                     ),
                     "__NEXT_ERROR_CODE",
-                    { value: "E247", enumerable: !1, configurable: !0 }
+                    { value: "E247", enumerable: !1, configurable: !0 },
                   );
                 if (e.replace(/\W/g, "") === n.replace(/\W/g, ""))
                   throw Object.defineProperty(
@@ -586,11 +588,11 @@
                         .concat(e, '" and "')
                         .concat(
                           r,
-                          '" differ only by non-word symbols within a single dynamic path'
-                        )
+                          '" differ only by non-word symbols within a single dynamic path',
+                        ),
                     ),
                     "__NEXT_ERROR_CODE",
-                    { value: "E499", enumerable: !1, configurable: !0 }
+                    { value: "E499", enumerable: !1, configurable: !0 },
                   );
               }),
                 t.push(r));
@@ -602,10 +604,10 @@
                     Error(
                       'You cannot use both an required and optional catch-all route at the same level ("[...'
                         .concat(this.restSlugName, ']" and "')
-                        .concat(e[0], '" ).')
+                        .concat(e[0], '" ).'),
                     ),
                     "__NEXT_ERROR_CODE",
-                    { value: "E299", enumerable: !1, configurable: !0 }
+                    { value: "E299", enumerable: !1, configurable: !0 },
                   );
                 (o(this.optionalRestSlugName, a),
                   (this.optionalRestSlugName = a),
@@ -616,10 +618,10 @@
                     Error(
                       'You cannot use both an optional and required catch-all route at the same level ("[[...'
                         .concat(this.optionalRestSlugName, ']]" and "')
-                        .concat(e[0], '").')
+                        .concat(e[0], '").'),
                     ),
                     "__NEXT_ERROR_CODE",
-                    { value: "E300", enumerable: !1, configurable: !0 }
+                    { value: "E300", enumerable: !1, configurable: !0 },
                   );
                 (o(this.restSlugName, a),
                   (this.restSlugName = a),
@@ -631,11 +633,11 @@
                   Error(
                     'Optional route parameters are not yet supported ("'.concat(
                       e[0],
-                      '").'
-                    )
+                      '").',
+                    ),
                   ),
                   "__NEXT_ERROR_CODE",
-                  { value: "E435", enumerable: !1, configurable: !0 }
+                  { value: "E435", enumerable: !1, configurable: !0 },
                 );
               (o(this.slugName, a), (this.slugName = a), (n = "[]"));
             }
@@ -729,10 +731,10 @@
                 'Unexpected empty path segments match for a route "'
                   .concat(o.pathname, '" with param "')
                   .concat(e, '" of type "')
-                  .concat(t, '"')
+                  .concat(t, '"'),
               ),
               "__NEXT_ERROR_CODE",
-              { value: "E931", enumerable: !1, configurable: !0 }
+              { value: "E931", enumerable: !1, configurable: !0 },
             );
           case "dynamic":
           case "dynamic-intercepted-(..)(..)":
@@ -1054,7 +1056,7 @@
                     a,
                     r
                       ? t.map((e) => encodeURIComponent(e)).join("/")
-                      : encodeURIComponent(t)
+                      : encodeURIComponent(t),
                   ) || "/")
             );
           }) || (o = ""),
@@ -1452,7 +1454,7 @@
             (n = n.concat(
               Object.getOwnPropertySymbols(r).filter(function (e) {
                 return Object.getOwnPropertyDescriptor(r, e).enumerable;
-              })
+              }),
             )),
             n.forEach(function (t) {
               var n;
@@ -1662,11 +1664,11 @@
                     String(
                       (0, w.assign)(
                         (0, w.urlQueryToSearchParams)(n.query),
-                        new URLSearchParams(location.search)
-                      )
+                        new URLSearchParams(location.search),
+                      ),
                     ),
                   o,
-                  { _h: 1, shallow: !a.isFallback && !V }
+                  { _h: 1, shallow: !a.isFallback && !V },
                 )
                 .catch((e) => {
                   if (!e.cancelled) throw e;
@@ -1688,7 +1690,7 @@
       async function K() {
         (arguments.length > 0 && void 0 !== arguments[0] && arguments[0],
           (a = JSON.parse(
-            document.getElementById("__NEXT_DATA__").textContent
+            document.getElementById("__NEXT_DATA__").textContent,
           )),
           (window.__NEXT_DATA__ = a),
           (h = a.defaultLocale));
@@ -1726,7 +1728,7 @@
         return (0, v.jsx)(Y, {
           fn: (e) =>
             Z({ App: f, err: e }).catch((e) =>
-              console.error("Error rendering page: ", e)
+              console.error("Error rendering page: ", e),
             ),
           children: (0, v.jsx)(B.AppRouterContext.Provider, {
             value: r,
@@ -1776,7 +1778,7 @@
         return (
           console.error(s),
           console.error(
-            "A client-side exception has occurred, see here for more info: https://nextjs.org/docs/messages/client-side-exception-occurred"
+            "A client-side exception has occurred, see here for more info: https://nextjs.org/docs/messages/client-side-exception-occurred",
           ),
           i
             .loadPage("/_error")
@@ -1788,7 +1790,7 @@
                     .then((n) =>
                       Promise.resolve()
                         .then(() => _._(r(1569)))
-                        .then((r) => ((e.App = t = r.default), n))
+                        .then((r) => ((e.App = t = r.default), n)),
                     )
                     .then((e) => ({
                       ErrorComponent: e.default,
@@ -1815,7 +1817,7 @@
               return Promise.resolve(
                 (null == (i = e.props) ? void 0 : i.err)
                   ? e.props
-                  : (0, x.loadGetInitialProps)(t, f)
+                  : (0, x.loadGetInitialProps)(t, f),
               ).then((t) =>
                 eh(
                   g._(m._({}, e), {
@@ -1823,8 +1825,8 @@
                     Component: l,
                     styleSheets: u,
                     props: t,
-                  })
-                )
+                  }),
+                ),
               );
             })
         );
@@ -1852,7 +1854,7 @@
             (performance.measure(
               "Next.js-before-hydration",
               "navigationStart",
-              et
+              et,
             ),
             performance.measure(eo, et, en)),
           d && performance.getEntriesByName(eo).forEach(d),
@@ -1896,7 +1898,7 @@
                 let e = Object.defineProperty(
                   Error("Cancel rendering route"),
                   "__NEXT_ERROR_CODE",
-                  { value: "E503", enumerable: !1, configurable: !0 }
+                  { value: "E503", enumerable: !1, configurable: !0 },
                 );
                 ((e.cancelled = !0), t(e));
               }));
@@ -1908,8 +1910,8 @@
           if (!p) return;
           let e = new Set(
               z(document.querySelectorAll("style[data-n-href]")).map((e) =>
-                e.getAttribute("data-n-href")
-              )
+                e.getAttribute("data-n-href"),
+              ),
             ),
             t = document.querySelector("noscript[data-n-css]"),
             r = null == t ? void 0 : t.getAttribute("data-n-css");
@@ -1942,7 +1944,7 @@
                     p.forEach((e) => {
                       let { href: t } = e,
                         r = document.querySelector(
-                          'style[data-n-href="'.concat(t, '"]')
+                          'style[data-n-href="'.concat(t, '"]'),
                         );
                       r &&
                         (n.parentNode.insertBefore(r, n.nextSibling), (n = r));
@@ -1950,7 +1952,7 @@
                     z(document.querySelectorAll("link[data-n-p]")).forEach(
                       (e) => {
                         e.parentNode.removeChild(e);
-                      }
+                      },
                     ));
                 }
                 if (e.scroll) {
@@ -2151,7 +2153,7 @@
                         "body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}".concat(
                           t
                             ? "@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}"
-                            : ""
+                            : "",
                         ),
                     },
                   }),
@@ -2222,7 +2224,7 @@
                 Object.defineProperty(
                   e,
                   r,
-                  Object.getOwnPropertyDescriptor(t, r)
+                  Object.getOwnPropertyDescriptor(t, r),
                 );
               }),
           e
@@ -2292,8 +2294,8 @@
               .concat(h, "' passed to next/router in page: '")
               .concat(
                 e.pathname,
-                "'. Repeated forward-slashes (//) or backslashes \\ are not valid in the href."
-              )
+                "'. Repeated forward-slashes (//) or backslashes \\ are not valid in the href.",
+              ),
           );
           let t = (0, i.normalizeRepeatedSlashes)(m);
           h = (_ ? _[0] : "") + t;
@@ -2322,7 +2324,7 @@
               { result: i, params: s } = (0, c.interpolateAs)(
                 e.pathname,
                 e.pathname,
-                r
+                r,
               );
             i &&
               (t = (0, a.formatWithValidation)({
@@ -2438,7 +2440,7 @@
                 return t.resolve(e()).then(function () {
                   throw r;
                 });
-              }
+              },
             );
           }),
         Object.fromEntries ||
@@ -2507,7 +2509,7 @@
         let t = e;
         return (t = t.replace(/(\([^)]*\)):([^/\s]+)/g, `$1${a}:$2`)).replace(
           /:([^:/\s)]+)(?=:)/g,
-          `:$1${a}`
+          `:$1${a}`,
         );
       }
       function s(e) {
@@ -2521,7 +2523,7 @@
           "" === e.prefix &&
           "" === e.suffix
             ? { ...e, prefix: "/" }
-            : e
+            : e,
         );
       }
       function l(e) {
@@ -2534,7 +2536,7 @@
             ? (t[r] = n.replace(RegExp(`^${a}`), ""))
             : Array.isArray(n)
               ? (t[r] = n.map((e) =>
-                  "string" == typeof e ? e.replace(RegExp(`^${a}`), "") : e
+                  "string" == typeof e ? e.replace(RegExp(`^${a}`), "") : e,
                 ))
               : (t[r] = n);
         return t;
@@ -2554,9 +2556,9 @@
           (super(
             "Invariant: ".concat(
               e.endsWith(".") ? e : e + ".",
-              " This is a bug in Next.js."
+              " This is a bug in Next.js.",
             ),
-            t
+            t,
           ),
             (this.name = "InvariantError"));
         }
@@ -2938,7 +2940,7 @@
                 "/"
                   .concat(v[1], ":")
                   .concat(null != (y = i.names[t]) ? y : n)
-                  .concat(o ? (s ? "*" : "+") : "")
+                  .concat(o ? (s ? "*" : "+") : ""),
               ),
               null != (g = i.names)[t] || (g[t] = n));
           } else if (v && v[2]) {
@@ -2965,7 +2967,7 @@
               m.push(
                 "/:"
                   .concat(null != (b = i.names[t]) ? b : o)
-                  .concat(s ? (l ? "*" : "+") : "")
+                  .concat(s ? (l ? "*" : "+") : ""),
               ),
               null != (E = i.names)[t] || (E[t] = o));
           } else
@@ -2991,7 +2993,7 @@
             null != (r = t.includeSuffix) && r,
             null != (o = t.includePrefix) && o,
             null != (i = t.backreferenceDuplicateKeys) && i,
-            t.reference
+            t.reference,
           ),
           l = s.namedParameterizedRoute;
         return (
@@ -3043,10 +3045,10 @@
         if (d !== o.origin)
           throw Object.defineProperty(
             Error(
-              "invariant: invalid relative URL, router received ".concat(e)
+              "invariant: invalid relative URL, router received ".concat(e),
             ),
             "__NEXT_ERROR_CODE",
-            { value: "E159", enumerable: !1, configurable: !0 }
+            { value: "E159", enumerable: !1, configurable: !0 },
           );
         return {
           pathname: s,
@@ -3316,9 +3318,9 @@
                   a._(
                     n._(
                       { id: t, src: r, onLoad: i, onReady: s, onError: u },
-                      m
+                      m,
                     ),
-                    { nonce: R }
+                    { nonce: R },
                   ),
                 ])),
                 E(b))
@@ -3344,7 +3346,7 @@
                   dangerouslySetInnerHTML: {
                     __html: "(self.__next_s=self.__next_s||[]).push(".concat(
                       JSON.stringify([0, a._(n._({}, m), { id: t })]),
-                      ")"
+                      ")",
                     ),
                   },
                 })
@@ -3360,14 +3362,14 @@
                         nonce: R,
                         crossOrigin: m.crossOrigin,
                       }
-                    : { as: "script", nonce: R, crossOrigin: m.crossOrigin }
+                    : { as: "script", nonce: R, crossOrigin: m.crossOrigin },
                 ),
                 (0, c.jsx)("script", {
                   nonce: R,
                   dangerouslySetInnerHTML: {
                     __html: "(self.__next_s=self.__next_s||[]).push(".concat(
                       JSON.stringify([r, a._(n._({}, m), { id: t })]),
-                      ")"
+                      ")",
                     ),
                   },
                 })
@@ -3383,7 +3385,7 @@
                     nonce: R,
                     crossOrigin: m.crossOrigin,
                   }
-                : { as: "script", nonce: R, crossOrigin: m.crossOrigin }
+                : { as: "script", nonce: R, crossOrigin: m.crossOrigin },
             );
         }
         return null;
@@ -3590,7 +3592,7 @@
                 throw Object.defineProperty(
                   new n.DecodeError("failed to decode param"),
                   "__NEXT_ERROR_CODE",
-                  { value: "E528", enumerable: !1, configurable: !0 }
+                  { value: "E528", enumerable: !1, configurable: !0 },
                 );
               }
             },
@@ -3663,7 +3665,7 @@
             throw Object.defineProperty(
               Error("Span has already ended"),
               "__NEXT_ERROR_CODE",
-              { value: "E17", enumerable: !1, configurable: !0 }
+              { value: "E17", enumerable: !1, configurable: !0 },
             );
           ((this.state = {
             state: "ended",
@@ -3903,7 +3905,7 @@
             (this._registerOptions = t),
             navigator.serviceWorker.addEventListener(
               "message",
-              this._onMessage
+              this._onMessage,
             ));
         }
         async register({ immediate: e = !1 } = {}) {
@@ -3921,7 +3923,7 @@
               this._compatibleControllingSW.addEventListener(
                 "statechange",
                 this._onStateChange,
-                { once: !0 }
+                { once: !0 },
               )));
           let t = this._registration.waiting;
           return (
@@ -3930,18 +3932,18 @@
               ((this._sw = t),
               Promise.resolve().then(() => {
                 this.dispatchEvent(
-                  new r("waiting", { sw: t, wasWaitingBeforeRegister: !0 })
+                  new r("waiting", { sw: t, wasWaitingBeforeRegister: !0 }),
                 );
               })),
             this._sw &&
               (this._swDeferred.resolve(this._sw), this._ownSWs.add(this._sw)),
             this._registration.addEventListener(
               "updatefound",
-              this._onUpdateFound
+              this._onUpdateFound,
             ),
             navigator.serviceWorker.addEventListener(
               "controllerchange",
-              this._onControllerChange
+              this._onControllerChange,
             ),
             this._registration
           );
@@ -3974,7 +3976,7 @@
           try {
             let e = await navigator.serviceWorker.register(
               this._scriptURL,
-              this._registerOptions
+              this._registerOptions,
             );
             return ((this._registrationTime = performance.now()), e);
           } catch (e) {
@@ -4000,7 +4002,7 @@
                 originalEvent: e,
                 isExternal: o,
                 isUpdate: this._isUpdate,
-              })
+              }),
             ),
             ++this._updateFoundCount,
             n.addEventListener("statechange", this._onStateChange));
@@ -4032,7 +4034,7 @@
               originalEvent: e,
               sw: t,
               isUpdate: this._isUpdate,
-            })
+            }),
           ),
             n || this._controllingDeferred.resolve(t));
         };
@@ -4041,7 +4043,12 @@
           (await this.getSW(),
             this._ownSWs.has(a) &&
               this.dispatchEvent(
-                new r("message", { data: t, originalEvent: e, ports: n, sw: a })
+                new r("message", {
+                  data: t,
+                  originalEvent: e,
+                  ports: n,
+                  sw: a,
+                }),
               ));
         };
       }
@@ -4114,7 +4121,7 @@
             enumerable: !1,
             configurable: !0,
           }),
-          { cancelled: !0 }
+          { cancelled: !0 },
         );
       }
       async function W(e) {
@@ -4193,13 +4200,13 @@
                       l.includes(
                         (0, _.normalizeLocalePath)(
                           (0, T.removeBasePath)(c),
-                          r.router.locales
-                        ).pathname
+                          r.router.locales,
+                        ).pathname,
                       ))
                   ) {
                     let r = (0, C.getNextPathnameInfo)(
                       (0, E.parseRelativeUrl)(e).pathname,
-                      { nextConfig: void 0, parseData: !0 }
+                      { nextConfig: void 0, parseData: !0 },
                     );
                     t.pathname = c = (0, j.addBasePath)(r.pathname);
                   }
@@ -4210,7 +4217,7 @@
                       u,
                       t.query,
                       (e) => q(e, l),
-                      r.router.locales
+                      r.router.locales,
                     );
                     e.matchedPage &&
                       ((t.pathname = e.parsedAs.pathname),
@@ -4222,9 +4229,9 @@
                     : q(
                         (0, _.normalizeLocalePath)(
                           (0, T.removeBasePath)(t.pathname),
-                          r.router.locales
+                          r.router.locales,
                         ).pathname,
-                        l
+                        l,
                       );
                   if ((0, y.isDynamicRoute)(f)) {
                     let e = (0, b.getRouteMatcher)((0, v.getRouteRegex)(f))(c);
@@ -4241,10 +4248,10 @@
                       (0, C.getNextPathnameInfo)(t.pathname, {
                         nextConfig: i,
                         parseData: !0,
-                      })
+                      }),
                     ),
-                    { defaultLocale: r.router.defaultLocale, buildId: "" }
-                  )
+                    { defaultLocale: r.router.defaultLocale, buildId: "" },
+                  ),
                 );
               return Promise.resolve({
                 type: "redirect-external",
@@ -4262,10 +4269,10 @@
                         (0, C.getNextPathnameInfo)(e.pathname, {
                           nextConfig: i,
                           parseData: !0,
-                        })
+                        }),
                       ),
-                      { defaultLocale: r.router.defaultLocale, buildId: "" }
-                    )
+                      { defaultLocale: r.router.defaultLocale, buildId: "" },
+                    ),
                   );
                 return Promise.resolve({
                   type: "redirect-internal",
@@ -4320,14 +4327,14 @@
                 method: n.method || "GET",
                 headers: Object.assign({}, n.headers, { "x-nextjs-data": "1" }),
               }).then((a) =>
-                !a.ok && r > 1 && a.status >= 500 ? e(t, r - 1, n) : a
+                !a.ok && r > 1 && a.status >= 500 ? e(t, r - 1, n) : a,
               );
             })(t, o ? 3 : 1, {
               headers: Object.assign(
                 {},
                 n ? { purpose: "prefetch" } : {},
                 n && a ? { "x-middleware-prefetch": "1" } : {},
-                d ? { "x-deployment-id": d } : {}
+                d ? { "x-deployment-id": d } : {},
               ),
               method: null != (l = null == e ? void 0 : e.method) ? l : "GET",
             })
@@ -4364,7 +4371,7 @@
                         let i = Object.defineProperty(
                           Error("Failed to load static props"),
                           "__NEXT_ERROR_CODE",
-                          { value: "E124", enumerable: !1, configurable: !0 }
+                          { value: "E124", enumerable: !1, configurable: !0 },
                         );
                         throw (o || (0, f.markAssetError)(i), i);
                       }
@@ -4375,7 +4382,7 @@
                         text: e,
                         cacheKey: c,
                       };
-                    })
+                    }),
               )
               .then(
                 (e) => (
@@ -4384,7 +4391,7 @@
                       e.response.headers.get("x-middleware-cache")) ||
                     delete r[c],
                   e
-                )
+                ),
               )
               .catch((e) => {
                 throw (
@@ -4404,7 +4411,7 @@
                 "no-cache" !== e.response.headers.get("x-middleware-cache") &&
                   (r[c] = Promise.resolve(e)),
                 e
-              )
+              ),
             )
           : void 0 !== r[c]
             ? r[c]
@@ -4420,10 +4427,10 @@
             Error(
               "Invariant: attempted to hard navigate to the same URL "
                 .concat(t, " ")
-                .concat(location.href)
+                .concat(location.href),
             ),
             "__NEXT_ERROR_CODE",
-            { value: "E282", enumerable: !1, configurable: !0 }
+            { value: "E282", enumerable: !1, configurable: !0 },
           );
         window.location.href = t;
       }
@@ -4438,7 +4445,7 @@
             let e = Object.defineProperty(
               Error('Abort fetching component for route: "'.concat(t, '"')),
               "__NEXT_ERROR_CODE",
-              { value: "E483", enumerable: !1, configurable: !0 }
+              { value: "E483", enumerable: !1, configurable: !0 },
             );
             throw ((e.cancelled = !0), e);
           }
@@ -4485,7 +4492,7 @@
                 return (
                   Q({
                     url: (0, j.addBasePath)(
-                      (0, O.addLocale)(e, n || this.locale, this.defaultLocale)
+                      (0, O.addLocale)(e, n || this.locale, this.defaultLocale),
                     ),
                     router: this,
                   }),
@@ -4504,14 +4511,14 @@
             for (let { as: r, allowMatchCurrent: f } of [{ as: e }, { as: t }])
               if (r) {
                 let t = (0, c.removeTrailingSlash)(
-                    new URL(r, "http://n").pathname
+                    new URL(r, "http://n").pathname,
                   ),
                   d = (0, j.addBasePath)((0, O.addLocale)(t, n || this.locale));
                 if (
                   f ||
                   t !==
                     (0, c.removeTrailingSlash)(
-                      new URL(this.asPath, "http://n").pathname
+                      new URL(this.asPath, "http://n").pathname,
                     )
                 ) {
                   var o, i, s;
@@ -4540,8 +4547,8 @@
                           (0, O.addLocale)(
                             e,
                             n || this.locale,
-                            this.defaultLocale
-                          )
+                            this.defaultLocale,
+                          ),
                         ),
                         router: this,
                       }),
@@ -4582,12 +4589,12 @@
               (0, O.addLocale)(
                 (0, A.hasBasePath)(r) ? (0, T.removeBasePath)(r) : r,
                 i.locale,
-                this.defaultLocale
-              )
+                this.defaultLocale,
+              ),
             )));
           let et = (0, S.removeLocale)(
             (0, A.hasBasePath)(r) ? (0, T.removeBasePath)(r) : r,
-            X.locale
+            X.locale,
           );
           this._inFlightRoute = r;
           let er = K !== X.locale;
@@ -4643,7 +4650,7 @@
                 k,
                 eo,
                 (e) => q(e, L),
-                this.locales
+                this.locales,
               );
               if (e.externalDest) return (Q({ url: r, router: this }), !0);
               (ec || (ei = e.asPath),
@@ -4675,12 +4682,12 @@
                     Object.assign({}, e, {
                       pathname: i.result,
                       query: (0, D.omit)(eo, i.params),
-                    })
+                    }),
                   ))
                 : Object.assign(eo, ef);
             else {
               let e = Object.keys(a.groups).filter(
-                (e) => !eo[e] && !a.groups[e].optional
+                (e) => !eo[e] && !a.groups[e].optional,
               );
               if (e.length > 0 && !ec)
                 throw Object.defineProperty(
@@ -4690,20 +4697,22 @@
                           .concat(t, ") value is missing query values (")
                           .concat(
                             e.join(", "),
-                            ") to be interpolated properly. "
+                            ") to be interpolated properly. ",
                           )
                       : "The provided `as` value ("
                           .concat(
                             n,
-                            ") is incompatible with the `href` value ("
+                            ") is incompatible with the `href` value (",
                           )
                           .concat(es, "). ")) +
                       "Read more: https://nextjs.org/docs/messages/".concat(
-                        o ? "href-interpolation-failed" : "incompatible-href-as"
-                      )
+                        o
+                          ? "href-interpolation-failed"
+                          : "incompatible-href-as",
+                      ),
                   ),
                   "__NEXT_ERROR_CODE",
-                  { value: "E344", enumerable: !1, configurable: !0 }
+                  { value: "E344", enumerable: !1, configurable: !0 },
                 );
             }
           }
@@ -4730,7 +4739,7 @@
                 (await this._bfl(
                   r,
                   "resolvedAs" in n ? n.resolvedAs : void 0,
-                  X.locale
+                  X.locale,
                 )),
               "route" in n && ec)
             ) {
@@ -4753,14 +4762,14 @@
                     : (0, j.addBasePath)(
                         (0, O.addLocale)(
                           new URL(r, location.href).pathname,
-                          X.locale
+                          X.locale,
                         ),
-                        !0
+                        !0,
                       );
                 (0, A.hasBasePath)(e) && (e = (0, T.removeBasePath)(e));
                 let t = (0, v.getRouteRegex)(ea),
                   a = (0, b.getRouteMatcher)(t)(
-                    new URL(e, location.href).pathname
+                    new URL(e, location.href).pathname,
                   );
                 a && Object.assign(eo, a);
               }
@@ -4822,7 +4831,7 @@
                   throw Object.defineProperty(
                     Error("Unexpected middleware effect on /404"),
                     "__NEXT_ERROR_CODE",
-                    { value: "E158", enumerable: !1, configurable: !0 }
+                    { value: "E158", enumerable: !1, configurable: !0 },
                   );
               }
             }
@@ -4861,10 +4870,10 @@
               )
                 throw Object.defineProperty(
                   Error(
-                    "Unexpected middleware effect on ".concat(this.pathname)
+                    "Unexpected middleware effect on ".concat(this.pathname),
                   ),
                   "__NEXT_ERROR_CODE",
-                  { value: "E225", enumerable: !1, configurable: !0 }
+                  { value: "E225", enumerable: !1, configurable: !0 },
                 );
               "/_error" === this.pathname &&
                 (null == (C = self.__NEXT_DATA__.props) ||
@@ -4930,7 +4939,7 @@
                 key: (this._key = "pushState" !== e ? this._key : $()),
               },
               "",
-              r
+              r,
             ));
         }
         async handleRouteInfoError(e, t, r, n, a, o) {
@@ -4972,7 +4981,7 @@
               r,
               n,
               a,
-              !0
+              !0,
             );
           }
         }
@@ -5055,8 +5064,8 @@
                 (s = (0, T.removeBasePath)(
                   (0, _.normalizeLocalePath)(
                     j.effect.parsedAs.pathname,
-                    this.locales
-                  ).pathname
+                    this.locales,
+                  ).pathname,
                 )),
                 (e = this.components[E]),
                 l.shallow && e && this.route === E && !f)
@@ -5128,7 +5137,7 @@
                     isBackground: !0,
                     persistCache: !1,
                     inflightCache: this.sbc,
-                  })
+                  }),
                 ).catch(() => {}),
               (N.pageProps = Object.assign({}, N.pageProps)),
               (A.props = N),
@@ -5144,7 +5153,7 @@
               r,
               n,
               i,
-              l
+              l,
             );
           }
         }
@@ -5174,7 +5183,7 @@
               let n = document.getElementsByName(e)[0];
               n && n.scrollIntoView();
             },
-            { onlyHashChange: this.onlyAHashChange(e) }
+            { onlyHashChange: this.onlyAHashChange(e) },
           );
         }
         urlIsNew(e) {
@@ -5207,13 +5216,13 @@
               r,
               o.query,
               (e) => q(e, d),
-              this.locales
+              this.locales,
             );
             if (a.externalDest) return;
             (_ ||
               (p = (0, S.removeLocale)(
                 (0, T.removeBasePath)(a.asPath),
-                this.locale
+                this.locale,
               )),
               a.matchedPage &&
                 a.resolvedHref &&
@@ -5227,8 +5236,8 @@
               Object.assign(
                 l,
                 (0, b.getRouteMatcher)((0, v.getRouteRegex)(o.pathname))(
-                  (0, R.parsePath)(t).pathname
-                ) || {}
+                  (0, R.parsePath)(t).pathname,
+                ) || {},
               ),
               _ || (e = (0, P.formatWithValidation)(o))));
           let m = await z({
@@ -5287,7 +5296,7 @@
                       r.unstable_skipClientCache || (r.priority && !0),
                   })
                     .then(() => !1)
-                    .catch(() => !1)
+                    .catch(() => !1),
               ),
               this.pageLoader[r.priority ? "loadPage" : "prefetch"](g),
             ]));
@@ -5313,7 +5322,7 @@
                 let e = Object.defineProperty(
                   Error("Loading initial props cancelled"),
                   "__NEXT_ERROR_CODE",
-                  { value: "E405", enumerable: !1, configurable: !0 }
+                  { value: "E405", enumerable: !1, configurable: !0 },
                 );
                 throw ((e.cancelled = !0), e);
               }
@@ -5373,7 +5382,7 @@
             defaultLocale: h,
             domainLocales: _,
             isPreview: m,
-          }
+          },
         ) {
           ((this.sdc = {}),
             (this.sbc = {}),
@@ -5392,7 +5401,7 @@
                     pathname: (0, j.addBasePath)(e),
                     query: t,
                   }),
-                  (0, g.getURL)()
+                  (0, g.getURL)(),
                 );
                 return;
               }
@@ -5418,7 +5427,7 @@
                       locale: i.locale || this.defaultLocale,
                       _h: 0,
                     }),
-                    t
+                    t,
                   ));
             }));
           const b = (0, c.removeTrailingSlash)(e);
@@ -5480,10 +5489,10 @@
                         query: t,
                       }),
                   a,
-                  n
+                  n,
                 ),
                 o
-              )
+              ),
             );
           }
           window.addEventListener("popstate", this.onPopState);
@@ -5528,7 +5537,7 @@
               if ("link" === e.type && e.props["data-optimized-fonts"])
                 if (
                   document.querySelector(
-                    'style[data-href="'.concat(e.props["data-href"], '"]')
+                    'style[data-href="'.concat(e.props["data-href"], '"]'),
                   )
                 )
                   return;
@@ -5550,7 +5559,7 @@
                   let r = document.querySelector("head");
                   if (!r) return;
                   let n = new Set(
-                    r.querySelectorAll("".concat(e, "[data-next-head]"))
+                    r.querySelectorAll("".concat(e, "[data-next-head]")),
                   );
                   if ("meta" === e) {
                     let e = r.querySelector("meta[charset]");
@@ -5632,7 +5641,7 @@
       class r extends Error {
         constructor() {
           super(
-            "Method unavailable on `ReadonlyURLSearchParams`. Read more: https://nextjs.org/docs/app/api-reference/functions/use-search-params#updating-searchparams"
+            "Method unavailable on `ReadonlyURLSearchParams`. Read more: https://nextjs.org/docs/app/api-reference/functions/use-search-params#updating-searchparams",
           );
         }
       }
@@ -5815,8 +5824,8 @@
                 (("page" === t || "route" === t) && r === n.length - 1)
                   ? e
                   : "".concat(e, "/").concat(t),
-              ""
-            )
+              "",
+            ),
         );
       }
       function l(e) {
@@ -5897,7 +5906,7 @@
           (0, s.jsx)(
             "meta",
             { name: "viewport", content: "width=device-width" },
-            "viewport"
+            "viewport",
           ),
         ];
       }
@@ -5911,8 +5920,8 @@
                     "string" == typeof t || "number" == typeof t
                       ? e
                       : e.concat(t),
-                  []
-                )
+                  [],
+                ),
               )
             : e.concat(t);
       }
@@ -5957,7 +5966,7 @@
                   }
               }
               return o;
-            })
+            }),
           )
           .reverse()
           .map((e, t) => {
@@ -6098,7 +6107,7 @@
         function i() {
           if (t && t.mountedInstances) {
             let e = n.Children.toArray(
-              Array.from(t.mountedInstances).filter(Boolean)
+              Array.from(t.mountedInstances).filter(Boolean),
             );
             t.updateHead(r(e));
           }
@@ -6124,7 +6133,7 @@
               () => {
                 t && (t._pendingUpdate = i);
               }
-            )
+            ),
           ),
           o(
             () => (
@@ -6136,7 +6145,7 @@
                   t._pendingUpdate &&
                   (t._pendingUpdate(), (t._pendingUpdate = null));
               }
-            )
+            ),
           ),
           null
         );
@@ -6288,7 +6297,7 @@
             (0, i.requestIdleCallback)(() =>
               setTimeout(() => {
                 o || a(r);
-              }, t)
+              }, t),
             ));
         });
       }
@@ -6307,9 +6316,9 @@
                 Object.defineProperty(
                   Error("Failed to load client build manifest"),
                   "__NEXT_ERROR_CODE",
-                  { value: "E273", enumerable: !1, configurable: !0 }
-                )
-              )
+                  { value: "E273", enumerable: !1, configurable: !0 },
+                ),
+              ),
             );
       }
       function g(e, t) {
@@ -6319,8 +6328,8 @@
               Object.defineProperty(
                 Error("Failed to lookup route: ".concat(t)),
                 "__NEXT_ERROR_CODE",
-                { value: "E446", enumerable: !1, configurable: !0 }
-              )
+                { value: "E446", enumerable: !1, configurable: !0 },
+              ),
             );
           let n = r[t].map((t) => e + "/_next/" + (0, l.encodeURIPath)(t));
           return {
@@ -6358,14 +6367,14 @@
                                   value: "E74",
                                   enumerable: !1,
                                   configurable: !0,
-                                }
-                              )
-                            )
+                                },
+                              ),
+                            ),
                           )),
                         (t.crossOrigin = void 0),
                         (t.src = e),
                         document.body.appendChild(t));
-                    }))
+                    })),
                   ),
                   n);
           }
@@ -6382,13 +6391,13 @@
                       throw Object.defineProperty(
                         Error("Failed to load stylesheet: ".concat(e)),
                         "__NEXT_ERROR_CODE",
-                        { value: "E189", enumerable: !1, configurable: !0 }
+                        { value: "E189", enumerable: !1, configurable: !0 },
                       );
                     return t.text().then((t) => ({ href: e, content: t }));
                   })
                   .catch((e) => {
                     throw f(e);
-                  }))
+                  })),
               ),
             t
           );
@@ -6401,7 +6410,7 @@
                   .then(() => r())
                   .then(
                     (e) => ({ component: (e && e.default) || e, exports: e }),
-                    (e) => ({ error: e })
+                    (e) => ({ error: e }),
                   )
               : Promise.resolve(void 0)
             ).then((r) => {
@@ -6427,16 +6436,16 @@
                     this.whenEntrypoint(r).then((t) => ({
                       entrypoint: t,
                       styles: e[1],
-                    }))
+                    })),
                   ),
                 3800,
                 f(
                   Object.defineProperty(
                     Error("Route did not complete loading: ".concat(r)),
                     "__NEXT_ERROR_CODE",
-                    { value: "E12", enumerable: !1, configurable: !0 }
-                  )
-                )
+                    { value: "E12", enumerable: !1, configurable: !0 },
+                  ),
+                ),
               )
                 .then((e) => {
                   let { entrypoint: t, styles: r } = e,
@@ -6468,7 +6477,7 @@
                                 let o = '\n      link[rel="prefetch"][href^="'
                                   .concat(
                                     t,
-                                    '"],\n      link[rel="preload"][href^="'
+                                    '"],\n      link[rel="preload"][href^="',
                                   )
                                   .concat(t, '"],\n      script[src^="')
                                   .concat(t, '"]');
@@ -6483,28 +6492,28 @@
                                       f(
                                         Object.defineProperty(
                                           Error(
-                                            "Failed to prefetch: ".concat(t)
+                                            "Failed to prefetch: ".concat(t),
                                           ),
                                           "__NEXT_ERROR_CODE",
                                           {
                                             value: "E268",
                                             enumerable: !1,
                                             configurable: !0,
-                                          }
-                                        )
-                                      )
+                                          },
+                                        ),
+                                      ),
                                     )),
                                   (n.href = t),
                                   document.head.appendChild(n));
                               })
                             );
                           })
-                        : []
-                    )
+                        : [],
+                    ),
                   )
                   .then(() => {
                     (0, i.requestIdleCallback)(() =>
-                      this.loadRoute(t, !0).catch(() => {})
+                      this.loadRoute(t, !0).catch(() => {}),
                     );
                   })
                   .catch(() => {});
@@ -6576,10 +6585,10 @@
             else if ("optional-catchall" !== r)
               throw Object.defineProperty(
                 new o.InvariantError(
-                  "Could not resolve param value for segment: ".concat(e)
+                  "Could not resolve param value for segment: ".concat(e),
                 ),
                 "__NEXT_ERROR_CODE",
-                { value: "E932", enumerable: !1, configurable: !0 }
+                { value: "E932", enumerable: !1, configurable: !0 },
               );
           }
           let p = t;
@@ -6611,10 +6620,10 @@
             new o.InvariantError(
               'Missing value for segment key: "'
                 .concat(t, '" with dynamic param type: ')
-                .concat(r)
+                .concat(r),
             ),
             "__NEXT_ERROR_CODE",
-            { value: "E864", enumerable: !1, configurable: !0 }
+            { value: "E864", enumerable: !1, configurable: !0 },
           );
         }
         return {
@@ -6696,10 +6705,10 @@
         if (!f.router)
           throw Object.defineProperty(
             Error(
-              'No router instance found.\nYou should only use "next/router" on the client side of your app.\n'
+              'No router instance found.\nYou should only use "next/router" on the client side of your app.\n',
             ),
             "__NEXT_ERROR_CODE",
-            { value: "E394", enumerable: !1, configurable: !0 }
+            { value: "E394", enumerable: !1, configurable: !0 },
           );
         return f.router;
       }
@@ -6734,12 +6743,12 @@
                   f[a](...r);
                 } catch (e) {
                   (console.error(
-                    "Error when running the Router event: ".concat(a)
+                    "Error when running the Router event: ".concat(a),
                   ),
                     console.error(
                       (0, u.default)(e)
                         ? "".concat(e.message, "\n").concat(e.stack)
-                        : e + ""
+                        : e + "",
                     ));
                 }
             });
@@ -6751,10 +6760,10 @@
         if (!e)
           throw Object.defineProperty(
             Error(
-              "NextRouter was not mounted. https://nextjs.org/docs/messages/next-router-not-mounted"
+              "NextRouter was not mounted. https://nextjs.org/docs/messages/next-router-not-mounted",
             ),
             "__NEXT_ERROR_CODE",
-            { value: "E509", enumerable: !1, configurable: !0 }
+            { value: "E509", enumerable: !1, configurable: !0 },
           );
         return e;
       }
@@ -6817,7 +6826,7 @@
           _ = (0, l.parseRelativeUrl)(e),
           m = (0, o.removeTrailingSlash)(
             (0, i.normalizeLocalePath)((0, s.removeBasePath)(_.pathname), f)
-              .pathname
+              .pathname,
           ),
           g = (r) => {
             let l = (0, n.getPathMatch)(r.source + "", {
@@ -6838,7 +6847,7 @@
                 },
                 _.query,
                 r.has,
-                r.missing
+                r.missing,
               );
               e ? Object.assign(l, e) : (l = !1);
             }
@@ -6856,7 +6865,7 @@
                 Object.assign(u, n.parsedDestination.query),
                 (m = (0, o.removeTrailingSlash)(
                   (0, i.normalizeLocalePath)((0, s.removeBasePath)(e), f)
-                    .pathname
+                    .pathname,
                 )),
                 t.includes(m))
               )
@@ -6981,7 +6990,7 @@
                       ? t
                       : null == n
                         ? void 0
-                        : n.textContent) || e
+                        : n.textContent) || e,
                   );
                 }
             }, [e]),
@@ -7037,11 +7046,11 @@
             Error(
               "Invalid interception route: ".concat(
                 e,
-                ". Must be in the format /<intercepting route>/(..|...|..)(..)/<intercepted route>"
-              )
+                ". Must be in the format /<intercepting route>/(..|...|..)(..)/<intercepted route>",
+              ),
             ),
             "__NEXT_ERROR_CODE",
-            { value: "E269", enumerable: !1, configurable: !0 }
+            { value: "E269", enumerable: !1, configurable: !0 },
           );
         switch (((t = (0, o.normalizeAppPath)(t)), r)) {
           case "(.)":
@@ -7053,11 +7062,11 @@
                 Error(
                   "Invalid interception route: ".concat(
                     e,
-                    ". Cannot use (..) marker at the root level, use (.) instead."
-                  )
+                    ". Cannot use (..) marker at the root level, use (.) instead.",
+                  ),
                 ),
                 "__NEXT_ERROR_CODE",
-                { value: "E207", enumerable: !1, configurable: !0 }
+                { value: "E207", enumerable: !1, configurable: !0 },
               );
             n = t.split("/").slice(0, -1).concat(n).join("/");
             break;
@@ -7071,11 +7080,11 @@
                 Error(
                   "Invalid interception route: ".concat(
                     e,
-                    ". Cannot use (..)(..) marker at the root level or one level up."
-                  )
+                    ". Cannot use (..)(..) marker at the root level or one level up.",
+                  ),
                 ),
                 "__NEXT_ERROR_CODE",
-                { value: "E486", enumerable: !1, configurable: !0 }
+                { value: "E486", enumerable: !1, configurable: !0 },
               );
             n = a.slice(0, -2).concat(n).join("/");
             break;
@@ -7083,7 +7092,7 @@
             throw Object.defineProperty(
               Error("Invariant: unexpected marker"),
               "__NEXT_ERROR_CODE",
-              { value: "E112", enumerable: !1, configurable: !0 }
+              { value: "E112", enumerable: !1, configurable: !0 },
             );
         }
         return { interceptingRoute: t, interceptedRoute: n };
@@ -7114,7 +7123,7 @@
             (null == t ? void 0 : t.regexModifier)
               ? new RegExp(t.regexModifier(o.source), o.flags)
               : o,
-            r
+            r,
           );
         return (e, a) => {
           if ("string" != typeof e) return !1;
@@ -7236,12 +7245,12 @@
               '"'
                 .concat(
                   c(e),
-                  '.getInitialProps()" should resolve to an object. But found "'
+                  '.getInitialProps()" should resolve to an object. But found "',
                 )
-                .concat(n, '" instead.')
+                .concat(n, '" instead.'),
             ),
             "__NEXT_ERROR_CODE",
-            { value: "E394", enumerable: !1, configurable: !0 }
+            { value: "E394", enumerable: !1, configurable: !0 },
           );
         return n;
       }
@@ -7249,7 +7258,7 @@
         _ =
           h &&
           ["mark", "measure", "getEntriesByName"].every(
-            (e) => "function" == typeof performance[e]
+            (e) => "function" == typeof performance[e],
           );
       class m extends Error {}
       class g extends Error {}
@@ -7532,19 +7541,19 @@
             (e = e
               .replace(
                 RegExp(":".concat(r, "\\*"), "g"),
-                ":".concat(r, "--ESCAPED_PARAM_ASTERISKS")
+                ":".concat(r, "--ESCAPED_PARAM_ASTERISKS"),
               )
               .replace(
                 RegExp(":".concat(r, "\\?"), "g"),
-                ":".concat(r, "--ESCAPED_PARAM_QUESTION")
+                ":".concat(r, "--ESCAPED_PARAM_QUESTION"),
               )
               .replace(
                 RegExp(":".concat(r, "\\+"), "g"),
-                ":".concat(r, "--ESCAPED_PARAM_PLUS")
+                ":".concat(r, "--ESCAPED_PARAM_PLUS"),
               )
               .replace(
                 RegExp(":".concat(r, "(?!\\w)"), "g"),
-                "--ESCAPED_PARAM_COLON".concat(r)
+                "--ESCAPED_PARAM_COLON".concat(r),
               ));
         return (
           (e = e
@@ -7562,7 +7571,7 @@
           r &&
             (t = t.replace(
               RegExp(":".concat((0, s.escapeStringRegexp)(r)), "g"),
-              "__ESC_COLON_".concat(r)
+              "__ESC_COLON_".concat(r),
             ));
         let r = (0, l.parseUrl)(t),
           o = r.pathname;
@@ -7631,10 +7640,10 @@
           if (e.message.match(/Expected .*? to not repeat, but got an array/))
             throw Object.defineProperty(
               Error(
-                "To use a multi-match in the destination you must add `*` at the end of the param name to signify it should repeat. https://nextjs.org/docs/messages/invalid-multi-match"
+                "To use a multi-match in the destination you must add `*` at the end of the param name to signify it should repeat. https://nextjs.org/docs/messages/invalid-multi-match",
               ),
               "__NEXT_ERROR_CODE",
-              { value: "E329", enumerable: !1, configurable: !0 }
+              { value: "E329", enumerable: !1, configurable: !0 },
             );
           throw e;
         }
@@ -7789,11 +7798,11 @@
                     new o.InvariantError(
                       "".concat(
                         t,
-                        " is being parsed as a normalized route, but it has a route group or parallel route segment."
-                      )
+                        " is being parsed as a normalized route, but it has a route group or parallel route segment.",
+                      ),
                     ),
                     "__NEXT_ERROR_CODE",
-                    { value: "E923", enumerable: !1, configurable: !0 }
+                    { value: "E923", enumerable: !1, configurable: !0 },
                   );
                 if ((u.push(s), s.interceptionMarker)) {
                   let o = t.split(s.interceptionMarker);
@@ -7801,7 +7810,7 @@
                     throw Object.defineProperty(
                       Error("Invalid interception route: ".concat(t)),
                       "__NEXT_ERROR_CODE",
-                      { value: "E924", enumerable: !1, configurable: !0 }
+                      { value: "E924", enumerable: !1, configurable: !0 },
                     );
                   ((a = r ? e(o[0], !0) : e(o[0], !1)),
                     (i = r ? e(o[1], !0) : e(o[1], !1)),
@@ -7916,10 +7925,10 @@
                       }
                       return r;
                     }))
-                  : e + ""
+                  : e + "",
               ),
               "__NEXT_ERROR_CODE",
-              { value: "E394", enumerable: !1, configurable: !0 }
+              { value: "E394", enumerable: !1, configurable: !0 },
             );
       }
     },
@@ -8024,7 +8033,7 @@
                         o = r + 1;
                       if ("?" === e[o])
                         throw TypeError(
-                          'Pattern cannot start with "?" at '.concat(o)
+                          'Pattern cannot start with "?" at '.concat(o),
                         );
                       for (; o < e.length; ) {
                         if ("\\" === e[o]) {
@@ -8038,7 +8047,7 @@
                           }
                         } else if ("(" === e[o] && (s++, "?" !== e[o + 1]))
                           throw TypeError(
-                            "Capturing groups are not allowed at ".concat(o)
+                            "Capturing groups are not allowed at ".concat(o),
                           );
                         l += e[o++];
                       }
@@ -8074,7 +8083,7 @@
                     "Unexpected "
                       .concat(a, " at ")
                       .concat(o, ", expected ")
-                      .concat(e)
+                      .concat(e),
                   );
                 },
                 h = function () {
@@ -8096,8 +8105,8 @@
                     throw TypeError(
                       'Must have text between two parameters, missing text after "'.concat(
                         t.name,
-                        '"'
-                      )
+                        '"',
+                      ),
                     );
                   return !r || _(r)
                     ? "[^".concat(a(s), "]+?")
@@ -8176,13 +8185,13 @@
                     throw TypeError(
                       'Expected "'.concat(
                         o.name,
-                        '" to not repeat, but got an array'
-                      )
+                        '" to not repeat, but got an array',
+                      ),
                     );
                   if (0 === i.length) {
                     if (u) continue;
                     throw TypeError(
-                      'Expected "'.concat(o.name, '" to not be empty')
+                      'Expected "'.concat(o.name, '" to not be empty'),
                     );
                   }
                   for (var f = 0; f < i.length; f++) {
@@ -8192,7 +8201,7 @@
                         'Expected all "'
                           .concat(o.name, '" to match "')
                           .concat(o.pattern, '", but got "')
-                          .concat(d, '"')
+                          .concat(d, '"'),
                       );
                     r += o.prefix + d + o.suffix;
                   }
@@ -8205,7 +8214,7 @@
                       'Expected "'
                         .concat(o.name, '" to match "')
                         .concat(o.pattern, '", but got "')
-                        .concat(d, '"')
+                        .concat(d, '"'),
                     );
                   r += o.prefix + d + o.suffix;
                   continue;
@@ -8213,7 +8222,7 @@
                 if (!u) {
                   var p = c ? "an array" : "a string";
                   throw TypeError(
-                    'Expected "'.concat(o.name, '" to be ').concat(p)
+                    'Expected "'.concat(o.name, '" to be ').concat(p),
                   );
                 }
               }
@@ -8309,8 +8318,8 @@
                       throw TypeError(
                         'Can not repeat "'.concat(
                           g.name,
-                          '" without a prefix and suffix'
-                        )
+                          '" without a prefix and suffix',
+                        ),
                       );
                     _ += "(".concat(g.pattern, ")").concat(g.modifier);
                   }

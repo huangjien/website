@@ -19,7 +19,7 @@ export function CheckboxGroup({
       )}
       <div
         className={cn(
-          orientation === "horizontal" ? "flex flex-wrap gap-2" : "grid gap-2"
+          orientation === "horizontal" ? "flex flex-wrap gap-2" : "grid gap-2",
         )}
       >
         {children}

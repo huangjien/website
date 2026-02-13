@@ -50,7 +50,7 @@ export default function Input({
             "flex h-11 w-full rounded-xl ring-1 ring-border/50 border-0 glass-input px-4 py-2.5 text-sm",
             "placeholder:text-muted-foreground/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:scale-[1.01] focus-visible:shadow-glow",
             "hover:bg-[hsla(var(--glass-bg-hover))] hover:shadow-glass transition-all duration-fast ease-out disabled:cursor-not-allowed disabled:opacity-50",
-            startContent ? "pl-10" : ""
+            startContent ? "pl-10" : "",
           )}
           value={value}
           onChange={onChange}

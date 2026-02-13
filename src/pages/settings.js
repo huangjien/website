@@ -32,7 +32,7 @@ export default function Settings() {
       setDebouncedFilterValue(filterValue);
     },
     [filterValue],
-    { wait: 500 }
+    { wait: 500 },
   );
 
   const filterItems = useMemo(() => {

@@ -14,7 +14,7 @@ describe("Conversation", () => {
           <div>Msg A</div>
           <div>Msg B</div>
         </ConversationContent>
-      </Conversation>
+      </Conversation>,
     );
     expect(screen.getByTestId("conversation")).toBeInTheDocument();
     expect(screen.getByText("Msg A")).toBeInTheDocument();

@@ -70,7 +70,7 @@ describe("Login Component", () => {
       expect(screen.getByText("Login")).toBeInTheDocument();
       expect(screen.getByTestId("login-icon")).toBeInTheDocument();
       expect(
-        screen.getByRole("button", { name: /login/i })
+        screen.getByRole("button", { name: /login/i }),
       ).toBeInTheDocument();
     });
 
@@ -374,7 +374,7 @@ describe("Login Component", () => {
       render(<Login />);
 
       expect(
-        screen.getByRole("button", { name: /login/i })
+        screen.getByRole("button", { name: /login/i }),
       ).toBeInTheDocument();
     });
 

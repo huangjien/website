@@ -12,7 +12,7 @@ export const Chat = ({ data, player }) => {
   const { t } = useTranslation();
   const handleCopy = () => {
     navigator.clipboard.writeText(
-      data.question + "\n\nmodel:" + data.model + "\n\n" + data.answer
+      data.question + "\n\nmodel:" + data.model + "\n\n" + data.answer,
     );
   };
   const handlePlay = () => {

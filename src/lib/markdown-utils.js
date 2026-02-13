@@ -8,12 +8,12 @@ export const sanitizeMarkdown = (markdown) => {
     .replace(/src=["']https:\/\/`/g, 'src="https://')
     .replace(
       /src=["']https:\/\/github\.com\/user-attachments\/assets\/([a-f0-9-]+)`/g,
-      'src="https://github.com/user-attachments/assets/$1'
+      'src="https://github.com/user-attachments/assets/$1',
     )
     .replace(
       /!\[([^\]]*)\]\(https:\/\/github\.com\/user-attachments\/assets\/([a-f0-9-]+)\)/g,
       (match, alt, id) =>
-        `![${alt}](https://github.com/user-attachments/assets/${id})`
+        `![${alt}](https://github.com/user-attachments/assets/${id})`,
     )
     .replace(/<img[^>]+>/g, (imgTag) => {
       const srcMatch = imgTag.match(/src=["'](.*?)["']/);

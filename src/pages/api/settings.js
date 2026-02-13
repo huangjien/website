@@ -14,7 +14,7 @@ export default async function handler(req, res) {
         headers: {
           Authorization: `token ${process.env.GITHUB_TOKEN}`,
         },
-      }
+      },
     );
 
     if (!response.ok) {

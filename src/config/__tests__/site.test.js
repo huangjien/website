@@ -40,12 +40,12 @@ describe("siteConfig", () => {
     expect(aiItem).toEqual({ label: "AI", href: "/ai" });
 
     const settingsItem = siteConfig.navItems.find(
-      (item) => item.label === "Settings"
+      (item) => item.label === "Settings",
     );
     expect(settingsItem).toEqual({ label: "Settings", href: "/settings" });
 
     const aboutItem = siteConfig.navItems.find(
-      (item) => item.label === "About"
+      (item) => item.label === "About",
     );
     expect(aboutItem).toEqual({ label: "About", href: "/about" });
   });
@@ -56,7 +56,7 @@ describe("siteConfig", () => {
 
     expect(siteConfig.links.twitter).toBe("https://twitter.com/huangjien");
     expect(siteConfig.links.sponsor).toBe(
-      "https://www.buymeacoffee.com/huangjien"
+      "https://www.buymeacoffee.com/huangjien",
     );
   });
 

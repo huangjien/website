@@ -13,6 +13,9 @@ import { checkRateLimit } from "../../lib/rateLimit";
 export const config = {
   api: {
     externalResolver: true,
+    bodyParser: {
+      sizeLimit: "1mb",
+    },
   },
 };
 
