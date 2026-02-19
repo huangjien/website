@@ -152,5 +152,55 @@ const x = 1;
       render(<Response>{0}</Response>);
       expect(screen.getByText("0")).toBeInTheDocument();
     });
+
+    it("handles objects with toString method", () => {
+      const obj = { toString: () => "custom object" };
+      render(<Response>{obj}</Response>);
+      expect(screen.getByText("custom object")).toBeInTheDocument();
+    });
+
+    it("handles arrays and converts to string", () => {
+      render(<Response>{["a", "b", "c"]}</Response>);
+      expect(screen.getByText("a,b,c")).toBeInTheDocument();
+    });
+  });
+
+  describe("Accessibility", () => {
+    it("renders content in a div element", () => {
+      const { container } = render(<Response>Test content</Response>);
+      const proseDiv = container.firstChild;
+      expect(proseDiv.tagName).toBe("DIV");
+    });
+
+    it("applies correct className to container div", () => {
+      const { container } = render(<Response>Test</Response>);
+      const proseDiv = container.firstChild;
+      expect(proseDiv).toHaveClass(
+        "prose",
+        "prose-neutral",
+        "dark:prose-invert",
+        "max-w-none",
+        "overflow-wrap-break-word",
+        "break-words",
+      );
+    });
+  });
+
+  describe("Markdown Features", () => {
+    it("renders links in markdown", () => {
+      render(<Response>[link text](https://example.com)</Response>);
+      expect(screen.getByText(/link text/)).toBeInTheDocument();
+    });
+
+    it("renders lists in markdown", () => {
+      render(<Response>- Item 1 - Item 2</Response>);
+      expect(screen.getByText(/Item 1/)).toBeInTheDocument();
+      expect(screen.getByText(/Item 2/)).toBeInTheDocument();
+    });
+
+    it("renders blockquotes in markdown", () => {
+      render(<Response>{"> This is a quote"}</Response>);
+      expect(screen.getByText(/This is a quote/)).toBeInTheDocument();
+    });
   });
 });

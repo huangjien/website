@@ -142,3 +142,6 @@ temp/
 
 # Built Visual Studio Code Extensions
 *.vsix
+
+.trae/skills/
+.agents/skills/
