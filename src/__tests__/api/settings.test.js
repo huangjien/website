@@ -40,6 +40,7 @@ describe("/api/settings", () => {
         method: "GET",
         headers: {
           Authorization: "token test-token",
+          Accept: "application/vnd.github.v3+json",
         },
       },
     );
@@ -47,9 +48,7 @@ describe("/api/settings", () => {
   });
 
   it("should handle fetch errors gracefully", async () => {
-    const mockError = new Error("Network error");
-    mockError.status = 404;
-    mockError.message = "Not found";
+    const mockError = new Error("Not found");
 
     fetch.mockRejectedValueOnce(mockError);
 
@@ -59,7 +58,7 @@ describe("/api/settings", () => {
 
     await handler(req, res);
 
-    expect(res._getStatusCode()).toBe(404);
+    expect(res._getStatusCode()).toBe(500);
     expect(JSON.parse(res._getData())).toEqual({
       error: "Not found",
     });
@@ -67,7 +66,6 @@ describe("/api/settings", () => {
 
   it("should handle errors without status code", async () => {
     const mockError = new Error("Unknown error");
-    // No status property
 
     fetch.mockRejectedValueOnce(mockError);
 

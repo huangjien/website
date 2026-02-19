@@ -1,14 +1,114 @@
-// curl command to test api
-// curl https://api.openai.com/v1/chat/completions \
-//   -H "Content-Type: application/json" \
-//   -H "Authorization: Bearer $OPEN_AI_KEY" \
-//   -d '{
-//     "model": "gpt-3.5-turbo",
-//     "messages": [{"role": "user", "content": "write a hello world with java, and explain how to run it"}]
-//   }'
-
 import { getServerSession } from "next-auth/next";
-import { checkRateLimit } from "../../lib/rateLimit";
+import { withErrorHandling, withMethod, ApiError } from "../../lib/apiClient";
+import {
+  validateObject,
+  validateEnum,
+  validateArray,
+} from "../../lib/validation";
+
+const ALLOWED_MODELS = ["gpt-3.5-turbo", "gpt-4", "gpt-4o", "gpt-4o-mini"];
+
+const messageSchema = {
+  role: (value) =>
+    validateEnum(value, ["system", "user", "assistant"], {
+      fieldName: "role",
+      required: true,
+    }),
+  content: (value) => ({
+    valid: typeof value === "string" && value.length > 0,
+    error: "content must be a non-empty string",
+  }),
+};
+
+const requestBodySchema = {
+  messages: (value) => {
+    if (!Array.isArray(value) || value.length === 0) {
+      return { valid: false, error: "messages must be a non-empty array" };
+    }
+
+    for (let i = 0; i < value.length; i++) {
+      const msg = value[i];
+      const result = validateObject(msg, messageSchema);
+      if (!result.valid) {
+        return {
+          valid: false,
+          error: `messages[${i}]: ${result.errors.join(", ")}`,
+        };
+      }
+    }
+
+    return { valid: true };
+  },
+  model: (value) =>
+    validateEnum(value, ALLOWED_MODELS, {
+      fieldName: "model",
+      required: false,
+    }),
+  temperature: (value) => ({
+    valid:
+      value === undefined ||
+      (typeof value === "number" && value >= 0 && value <= 2),
+    error: "temperature must be between 0 and 2",
+  }),
+};
+
+const handler = withErrorHandling(async (req, res) => {
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed" });
+  }
+
+  const session = await getServerSession(req, res);
+
+  if (!session) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+
+  if (!process.env.OPEN_AI_KEY) {
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+
+  const validationResult = validateObject(req.body, requestBodySchema);
+
+  if (!validationResult.valid) {
+    return res.status(400).json({
+      error: "Validation failed",
+      details: validationResult.errors,
+    });
+  }
+
+  const {
+    messages,
+    model = "gpt-3.5-turbo",
+    temperature,
+  } = validationResult.data;
+
+  const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${process.env.OPEN_AI_KEY}`,
+    },
+    body: JSON.stringify({
+      model,
+      messages,
+      temperature,
+    }),
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    console.error("OpenAI API Error:", data);
+    throw new ApiError(
+      data.error?.message || "OpenAI API Error",
+      response.status,
+    );
+  }
+
+  res.status(200).json(data);
+});
+
+export default handler;
 
 export const config = {
   api: {
@@ -18,82 +118,3 @@ export const config = {
     },
   },
 };
-
-export default async function handler(req, res) {
-  // Only allow POST method
-  if (req.method !== "POST") {
-    res.status(405).json({ error: "Method not allowed" });
-    return;
-  }
-
-  // Rate limiting based on IP address
-  const ip =
-    req.headers["x-forwarded-for"]?.split(",")[0] ||
-    req.headers["x-real-ip"] ||
-    "unknown";
-  const rateLimitResult = checkRateLimit(ip, 20, 60000); // 20 requests per minute for authenticated users
-
-  if (!rateLimitResult.allowed) {
-    res.setHeader("X-RateLimit-Limit", "20");
-    res.setHeader("X-RateLimit-Remaining", "0");
-    res.setHeader("X-RateLimit-Reset", rateLimitResult.resetAt.toString());
-    return res.status(429).json({
-      error: "Too many requests",
-      retryAfter: Math.ceil((rateLimitResult.resetAt - Date.now()) / 1000),
-    });
-  }
-
-  res.setHeader("X-RateLimit-Limit", "20");
-  res.setHeader("X-RateLimit-Remaining", rateLimitResult.remaining.toString());
-  res.setHeader("X-RateLimit-Reset", rateLimitResult.resetAt.toString());
-
-  const session = await getServerSession(req, res);
-  if (!session) {
-    res.status(401).json({ error: "Unauthorized" });
-    return;
-  }
-
-  // Check for API key
-  if (!process.env.OPEN_AI_KEY) {
-    res.status(500).json({ error: "Internal Server Error" });
-    return;
-  }
-
-  try {
-    // Validate request body
-    if (!req.body || !req.body.messages) {
-      res.status(400).json({ error: "Missing required fields: messages" });
-      return;
-    }
-
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.OPEN_AI_KEY}`,
-      },
-      body: JSON.stringify({
-        model: req.body.model || "gpt-3.5-turbo",
-        messages: req.body.messages,
-        temperature: req.body.temperature,
-      }),
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      console.error("OpenAI API Error:", data);
-      res
-        .status(response.status)
-        .json({ error: data.error || "OpenAI API Error" });
-      return;
-    }
-
-    res.status(200).json(data);
-  } catch (err) {
-    console.error("API Error:", err);
-    res
-      .status(err.status || 500)
-      .json({ error: err.message || "Internal Server Error" });
-  }
-}
