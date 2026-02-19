@@ -333,7 +333,7 @@ describe("IssueList", () => {
       <IssueList tags={[]} ComponentName='Issue' data={[]} inTab='issue' />,
     );
 
-    expect(screen.getByRole("grid")).toBeInTheDocument();
+    expect(screen.getByRole("list")).toBeInTheDocument();
     expect(screen.getByTestId("joke-component")).toBeInTheDocument();
   });
 
@@ -347,7 +347,7 @@ describe("IssueList", () => {
       />,
     );
 
-    expect(screen.getByRole("grid")).toBeInTheDocument();
+    expect(screen.getByRole("list")).toBeInTheDocument();
   });
 
   it("handles null data gracefully", () => {
@@ -355,7 +355,7 @@ describe("IssueList", () => {
       <IssueList tags={[]} ComponentName='Issue' data={null} inTab='issue' />,
     );
 
-    expect(screen.getByRole("grid")).toBeInTheDocument();
+    expect(screen.getByRole("list")).toBeInTheDocument();
   });
 
   it("resets page to 1 when data changes", () => {
@@ -450,7 +450,7 @@ describe("IssueList", () => {
 
     // Test that modal structure exists (even if not open)
     // The modal is always rendered but may not be visible
-    expect(screen.getByRole("grid")).toBeInTheDocument();
+    expect(screen.getByRole("list")).toBeInTheDocument();
   });
 
   it("calls TTS API with correct parameters", async () => {
@@ -493,7 +493,7 @@ describe("IssueList", () => {
 
     // Test that the component renders without errors
     expect(screen.getByText("First Question")).toBeInTheDocument();
-    expect(screen.getByRole("grid")).toBeInTheDocument();
+    expect(screen.getByRole("list")).toBeInTheDocument();
 
     // Test that play buttons are present
     const playButtons = screen.getAllByRole("button");
@@ -597,7 +597,7 @@ describe("IssueList", () => {
     await user.type(searchInput, "nonexistent");
 
     // Should show no results but component should still render
-    expect(screen.getByRole("grid")).toBeInTheDocument();
+    expect(screen.getByRole("list")).toBeInTheDocument();
     expect(screen.queryByText("First Issue")).not.toBeInTheDocument();
   });
 
@@ -731,6 +731,6 @@ describe("IssueList", () => {
     await user.click(nextButton);
 
     // Should handle gracefully without errors
-    expect(screen.getByRole("grid")).toBeInTheDocument();
+    expect(screen.getByRole("list")).toBeInTheDocument();
   });
 });

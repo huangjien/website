@@ -183,28 +183,22 @@ export const IssueList = ({ tags, ComponentName, data, inTab = "ai" }) => {
         </div>
 
         <div
-          role='grid'
+          role='list'
           aria-label={t("navigation.list", { defaultValue: "List" })}
-          className='text-large'
+          className='space-y-4 px-4 sm:px-6 lg:px-8'
         >
           {items.length > 0 ? (
             items.map((item, index) => (
-              <div
-                role='row'
-                key={item.id || `item-${index}`}
-                className=' lg:m-4'
-              >
-                <div role='gridcell'>{renderCell(item, ComponentName)}</div>
+              <div role='listitem' key={item.id || `item-${index}`}>
+                {renderCell(item, ComponentName)}
               </div>
             ))
           ) : (
-            <div className='lg:m-4'>
-              <EmptyState
-                message={t("issue.empty", {
-                  defaultValue: "No issues to display",
-                })}
-              />
-            </div>
+            <EmptyState
+              message={t("issue.empty", {
+                defaultValue: "No issues to display",
+              })}
+            />
           )}
         </div>
       </div>
