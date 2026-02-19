@@ -1,6 +1,6 @@
+import React, { useState, useEffect } from "react";
 import Avatar from "./ui/avatar";
 import * as Accordion from "./ui/accordion";
-import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useSettings } from "../lib/useSettings";
 import { extractContentAccordingContentList } from "../lib/useGithubContent";
@@ -10,7 +10,7 @@ import remarkGfm from "remark-gfm";
 import { sanitizeMarkdown } from "../lib/markdown-utils";
 import { SmartImage } from "./SmartImage";
 
-export function Comment({ issue_id }) {
+export const Comment = React.memo(function Comment({ issue_id }) {
   const { t } = useTranslation();
   const { getSetting } = useSettings();
   const commentContent = getSetting("comment.content");
@@ -119,4 +119,4 @@ export function Comment({ issue_id }) {
       </Accordion.Root>
     </>
   );
-}
+});

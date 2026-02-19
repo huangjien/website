@@ -92,40 +92,69 @@ export const getJoke = async () => {
 };
 
 export const getUser = async (username, password) => {
-  if (window != undefined) {
+  if (typeof window !== "undefined") {
     const cached = sessionStorage.getItem(currentUser);
     if (cached) {
-      return await JSON.parse(cached);
+      try {
+        return JSON.parse(cached);
+      } catch (e) {
+        sessionStorage.removeItem(currentUser);
+      }
     }
   }
-  return await fetch("https://api.github.com/users/" + username, {
+
+  const response = await fetch("https://api.github.com/users/" + username, {
     method: "GET",
     headers: {
       Authorization: "token " + password,
     },
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      return data;
-    });
+  });
+
+  if (!response.ok) {
+    throw new Error(`GitHub API error: ${response.status}`);
+  }
+
+  const data = await response.json();
+
+  if (typeof window !== "undefined") {
+    try {
+      sessionStorage.setItem(currentUser, JSON.stringify(data));
+    } catch (e) {
+      console.warn("Failed to cache user data:", e);
+    }
+  }
+
+  return data;
 };
 
 export const properties2Json = (propertiesString) => {
   if (!propertiesString) {
     return [];
   }
-  const properties = propertiesString?.split("\n");
+
+  const properties = propertiesString.split("\n");
   const propertiesJson = [];
+
   for (let i = 0; i < properties.length; i++) {
-    let property = properties[i];
-    const propertyJson = {};
-    property = property?.split("=");
-    if (property[0]) {
-      propertyJson["key"] = i;
-      propertyJson["name"] = property[0].trim();
-      propertyJson["value"] = property[1] ? property[1].trim() : "";
-      propertiesJson.push(propertyJson);
+    const property = properties[i];
+    if (!property) continue;
+
+    const eqIndex = property.indexOf("=");
+
+    if (eqIndex === -1) {
+      propertiesJson.push({
+        key: i,
+        name: property.trim(),
+        value: "",
+      });
+    } else {
+      propertiesJson.push({
+        key: i,
+        name: property.slice(0, eqIndex).trim(),
+        value: property.slice(eqIndex + 1).trim(),
+      });
     }
   }
+
   return propertiesJson;
 };

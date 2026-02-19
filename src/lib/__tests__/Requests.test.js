@@ -257,6 +257,7 @@ describe("Requests utility functions", () => {
       const mockUser = { login: "testuser", id: 123 };
       mockSessionStorage.getItem.mockReturnValueOnce(null);
       fetch.mockResolvedValueOnce({
+        ok: true,
         json: () => Promise.resolve(mockUser),
       });
 

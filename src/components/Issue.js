@@ -1,3 +1,4 @@
+import React from "react";
 import * as Accordion from "./ui/accordion";
 import Badge from "./ui/badge";
 import { useTranslation } from "react-i18next";
@@ -9,7 +10,7 @@ import { IssueModal } from "./IssueModal";
 import { SmartImage } from "./SmartImage";
 import { sanitizeMarkdown } from "../lib/markdown-utils";
 
-export function Issue({ issue }) {
+export const Issue = React.memo(function Issue({ issue }) {
   const { t } = useTranslation();
 
   if (!issue) return null;
@@ -76,4 +77,4 @@ export function Issue({ issue }) {
       </Accordion.Item>
     </Accordion.Root>
   );
-}
+});

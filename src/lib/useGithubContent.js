@@ -39,29 +39,28 @@ export const useGithubContent = () => {
         const list = blog_labels?.split(",");
         setTags(list);
 
+        const labelSet = new Set(list);
         let finalResult = [];
-        rawData.forEach((issue) => {
+
+        for (const issue of rawData) {
           const labels = issue["labels"];
-          let isVisible = false;
           let labelArray = [];
-          labels.forEach((label) => {
-            // console.log(label['name'])
-            if (list.includes(label["name"])) {
-              isVisible = true;
+
+          for (const label of labels) {
+            if (labelSet.has(label["name"])) {
               labelArray.push(label.name);
             }
-          });
-          if (isVisible) {
-            // then we start handle this issue: we only care the the content in the issueContent
-            let content = extractContentAccordingContentList(
+          }
+
+          if (labelArray.length > 0) {
+            const content = extractContentAccordingContentList(
               issueContentList,
               issue,
             );
             content["labels.name"] = labelArray;
-            // console.log(content)
             finalResult.push(content);
           }
-        });
+        }
         setIssues(finalResult);
       }
     }
