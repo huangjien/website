@@ -303,4 +303,42 @@ describe("AI Page Component (v5)", () => {
     expect(localStorage.getItem("ai-elements/conversations")).toBe(null);
     expect(localStorage.getItem("ai-elements/settings")).toBe(null);
   });
+
+  it("should have messages area with max-w-5xl and px-4 width classes", () => {
+    render(<AI />);
+    const container = screen.getByTestId("ai-container");
+    const messagesArea = container.querySelector(".max-w-5xl.px-4");
+    expect(messagesArea).toBeInTheDocument();
+  });
+
+  it("should have input container with same width as messages area", () => {
+    render(<AI />);
+    const container = screen.getByTestId("ai-container");
+    const inputContainer = container.querySelector(".max-w-5xl.px-4");
+    expect(inputContainer).toBeInTheDocument();
+  });
+
+  it("should not have pl-20 class on input container", () => {
+    render(<AI />);
+    const container = screen.getByTestId("ai-container");
+    const inputContainer = container.querySelector(".max-w-5xl");
+    expect(inputContainer).toBeInTheDocument();
+    expect(inputContainer.className).not.toContain("pl-20");
+  });
+
+  it("should toggle collapse button and adjust padding bottom", async () => {
+    render(<AI />);
+    const container = screen.getByTestId("ai-container");
+    const messagesArea = container.querySelector(".max-w-5xl");
+    expect(messagesArea).toBeInTheDocument();
+    expect(messagesArea.className).toContain("pb-48");
+    expect(messagesArea.className).not.toContain("pb-20");
+
+    const collapseButton = screen.getByLabelText("ai.collapse_input_panel");
+    await userEvent.click(collapseButton);
+
+    const messagesAreaAfterClick = container.querySelector(".max-w-5xl");
+    expect(messagesAreaAfterClick.className).toContain("pb-20");
+    expect(messagesAreaAfterClick.className).not.toContain("pb-48");
+  });
 });

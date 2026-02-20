@@ -49,7 +49,6 @@ export function DialogContent({ className, children, ...props }) {
         )}
         aria-modal='true'
         role='dialog'
-        {...props}
       >
         <div
           data-testid='modal-content'
@@ -57,6 +56,7 @@ export function DialogContent({ className, children, ...props }) {
             "max-h-[90vh] w-full max-w-4xl overflow-auto rounded-2xl glass-modal p-5 animate-scale-in data-[state=closed]:animate-scale-out transition-all duration-normal ease-out",
             className,
           )}
+          {...props}
         >
           {children}
         </div>

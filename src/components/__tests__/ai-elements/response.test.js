@@ -203,4 +203,91 @@ const x = 1;
       expect(screen.getByText(/This is a quote/)).toBeInTheDocument();
     });
   });
+
+  describe("Code Block Custom Components", () => {
+    it("renders inline code with break-all class", () => {
+      const { container } = render(<Response>{`inline code`}</Response>);
+      expect(container.firstChild).toBeInTheDocument();
+    });
+
+    it("renders code block with className preserved", () => {
+      const { container } = render(
+        <Response>
+          {`
+\`\`\`javascript
+const x = 1;
+\`\`\`
+`}
+        </Response>,
+      );
+      expect(container.firstChild).toBeInTheDocument();
+    });
+
+    it("renders code block without language specifier", () => {
+      const { container } = render(
+        <Response>
+          {`
+\`\`\`
+plain code
+\`\`\`
+`}
+        </Response>,
+      );
+      expect(container.firstChild).toBeInTheDocument();
+    });
+  });
+
+  describe("Nested Code Structures", () => {
+    it("handles code blocks with inline code inside", () => {
+      const { container } = render(
+        <Response>
+          {`
+\`\`\`javascript
+const str = \`inline \${code}\`;
+\`\`\`
+`}
+        </Response>,
+      );
+      expect(container.firstChild).toBeInTheDocument();
+    });
+  });
+
+  describe("Special Characters in Code", () => {
+    it("handles code with brackets and special chars", () => {
+      render(
+        <Response>
+          {`
+\`\`\`javascript
+const obj = { key: "value [nested]" };
+\`\`\`
+`}
+        </Response>,
+      );
+      expect(screen.getByText(/value \[nested\]/)).toBeInTheDocument();
+    });
+  });
+
+  describe("Pre Component Edge Cases", () => {
+    it("handles pre with no children gracefully", () => {
+      const { container } = render(<Response>{`Text`}</Response>);
+      expect(container.firstChild).toBeInTheDocument();
+    });
+  });
+
+  describe("Real-world Scenarios", () => {
+    it("renders markdown content as text", () => {
+      const markdown = `
+| Feature | Code |
+|---------|------|
+| One | \`code1\` |
+| Two | \`code2\` |
+      `.trim();
+
+      render(<Response>{markdown}</Response>);
+
+      expect(screen.getByText(/Feature/)).toBeInTheDocument();
+      expect(screen.getByText(/One/)).toBeInTheDocument();
+      expect(screen.getByText(/Two/)).toBeInTheDocument();
+    });
+  });
 });

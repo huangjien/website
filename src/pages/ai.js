@@ -414,7 +414,7 @@ export default function AI() {
 
         <div
           className={`
-            mx-auto w-full max-w-5xl px-4 pl-20
+            mx-auto w-full max-w-5xl px-4
             transition-all duration-300 ease-in-out overflow-hidden
             ${isInputCollapsed ? "max-h-0 opacity-0 py-0" : "max-h-[600px] opacity-100 py-6"}
           `}

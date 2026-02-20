@@ -230,6 +230,7 @@ export const withMethod = (allowedMethods) => {
 };
 
 export {
+  ApiClient,
   ApiError,
   NetworkError,
   ValidationError,
