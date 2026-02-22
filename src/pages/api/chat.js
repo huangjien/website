@@ -90,8 +90,9 @@ export default async function handler(req, res) {
     await result.pipeUIMessageStreamToResponse(res);
   } catch (error) {
     console.error("[api/chat] streaming error", error);
+    const errorMessage = error?.message || error?.cause?.message || "Unknown error";
     if (!res.headersSent) {
-      res.status(500).json({ error: "AI stream failed" });
+      res.status(500).json({ error: "AI stream failed", details: errorMessage });
     }
   }
 }
