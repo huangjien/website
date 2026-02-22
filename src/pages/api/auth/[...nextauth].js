@@ -4,9 +4,12 @@ import NextAuth from "next-auth";
 import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 
-const NEXTAUTH_URL = process.env.NEXTAUTH_URL || "http://localhost:3000";
+const NEXTAUTH_URL =
+  (process.env.NEXTAUTH_URL && process.env.NEXTAUTH_URL.trim()) ||
+  "http://localhost:3000";
 const NEXTAUTH_SECRET =
-  process.env.NEXTAUTH_SECRET || "development-secret-do-not-use-in-production";
+  (process.env.NEXTAUTH_SECRET && process.env.NEXTAUTH_SECRET.trim()) ||
+  "development-secret-do-not-use-in-production";
 
 export const authOptions = {
   // Configure one or more authentication providers
