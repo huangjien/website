@@ -11,18 +11,20 @@ import PwaRegister from "../components/PwaRegister";
 function App({ Component, pageProps }) {
   return (
     // Use at the root of our app
-    <SessionProvider session={pageProps.session}>
-      <NextThemesProvider attribute='class' defaultTheme='dark'>
-        <ProvideSettings>
-          <NoSSR>
-            <PwaRegister />
-          </NoSSR>
-          <RootLayout>
-            <Component {...pageProps} />
-          </RootLayout>
-        </ProvideSettings>
-      </NextThemesProvider>
-    </SessionProvider>
+    <NoSSR>
+      <SessionProvider session={pageProps.session}>
+        <NextThemesProvider attribute='class' defaultTheme='dark'>
+          <ProvideSettings>
+            <NoSSR>
+              <PwaRegister />
+            </NoSSR>
+            <RootLayout>
+              <Component {...pageProps} />
+            </RootLayout>
+          </ProvideSettings>
+        </NextThemesProvider>
+      </SessionProvider>
+    </NoSSR>
   );
 }
 export default App;

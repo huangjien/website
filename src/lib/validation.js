@@ -50,8 +50,8 @@ export const validateEmail = (email) => {
 };
 
 export const validateUrl = (url) => {
-  if (typeof url !== "string") {
-    return { valid: false, error: "URL must be a string" };
+  if (typeof url !== "string" || url.trim() === "") {
+    return { valid: false, error: "URL must be a non-empty string" };
   }
 
   try {

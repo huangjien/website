@@ -117,7 +117,17 @@ export default async function handler(req, res) {
     }
 
     // Security check: only allow http/https
-    const parsedUrl = new URL(decodedUrl);
+    if (!decodedUrl || decodedUrl.trim() === "") {
+      return res.status(400).json({ error: "Invalid URL" });
+    }
+
+    let parsedUrl;
+    try {
+      parsedUrl = new URL(decodedUrl);
+    } catch {
+      return res.status(400).json({ error: "Invalid URL format" });
+    }
+
     if (!["http:", "https:"].includes(parsedUrl.protocol)) {
       return res.status(400).json({ error: "Invalid protocol" });
     }
