@@ -32,7 +32,7 @@ describe("sw", () => {
     expect(options.precacheEntries).toBe(testManifest);
     expect(options.skipWaiting).toBe(true);
     expect(options.clientsClaim).toBe(true);
-    expect(options.navigationPreload).toBe(true);
+    expect(options.navigationPreload).toBe(false);
     expect(options.runtimeCaching).toBe("defaultCache");
   });
 });
