@@ -38,10 +38,9 @@ export const authOptions = {
   },
   secret: NEXTAUTH_SECRET,
   url: NEXTAUTH_URL,
-  // Optional: Customize pages, callbacks, etc.
-  // pages: {
-  //   signIn: '/auth/signin',
-  // },
+  pages: {
+    error: "/api/auth/error",
+  },
 };
 
 export default NextAuth(authOptions);

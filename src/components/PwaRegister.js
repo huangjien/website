@@ -1,5 +1,7 @@
 import { useEffect } from "react";
 
+const SW_VERSION = "v2";
+
 export default function PwaRegister() {
   useEffect(() => {
     if (typeof window === "undefined" || !("serviceWorker" in navigator)) {
@@ -8,7 +10,7 @@ export default function PwaRegister() {
     if (process.env.NODE_ENV !== "production") return;
 
     const cleanupOldServiceWorkers = async () => {
-      const key = "pwa:sw-cleanup-v1";
+      const key = `pwa:sw-cleanup-${SW_VERSION}`;
       if (window.localStorage.getItem(key) === "1") return;
 
       const registrations = await navigator.serviceWorker.getRegistrations();
