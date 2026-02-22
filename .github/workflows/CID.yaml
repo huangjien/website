@@ -73,8 +73,8 @@ jobs:
             --image "docker.io/huangjien/website:latest" \
             --platform "managed" \
             --port 8080 \
-            --set-env-vars NEXTAUTH_URL=https://www.huangjien.com/api/auth/callback/github,NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }},GITHUB_CLIENT_ID=${{ secrets.GH_CLIENT_ID }},GITHUB_CLIENT_SECRET=${{ secrets.GH_CLIENT_SECRET }},GITHUB_REPO=https://api.github.com/repos/huangjien-com/blog,GITHUB_MEMBER=https://api.github.com/orgs/huangjien-com/teams/admin/members \
-            --set-secrets OPENAI_API_KEY=OPENAI_API_KEY:latest,GH_TOKEN=GH_TOKEN:latest \
+            --set-env-vars NEXTAUTH_URL=https://www.huangjien.com,NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }},GITHUB_CLIENT_ID=${{ secrets.GH_CLIENT_ID }},GITHUB_CLIENT_SECRET=${{ secrets.GH_CLIENT_SECRET }},GITHUB_REPO=https://api.github.com/repos/huangjien-com/blog,GITHUB_MEMBER=https://api.github.com/orgs/huangjien-com/teams/admin/members,GITHUB_TOKEN=${{ secrets.GH_TOKEN }} \
+            --set-secrets OPENAI_API_KEY=OPENAI_API_KEY:latest \
             --allow-unauthenticated
 
       # If required, use the Cloud Run url output in later steps
