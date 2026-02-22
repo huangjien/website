@@ -6,4 +6,4 @@ export const issuesConent = "issues";
 export const message = "message";
 export const messageType = "messageType";
 export const aboutUrl =
-  "https://raw.githubusercontent.com/huangjien/huangjien/main/README.md";
+  "https://raw.githubusercontent.com/huangjien/website/main/README.md";

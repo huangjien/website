@@ -1,6 +1,6 @@
-# Personal Website Template
+# Welcome to My Personal Website
 
-A modern, feature-rich blog website template built with Next.js and React. This project includes multilingual support, authentication, dark mode, and more.
+A modern, feature-rich personal blog built with Next.js and React. This website includes multilingual support, authentication, dark mode, and AI-powered features.
 
 ## Features
 
@@ -8,11 +8,10 @@ A modern, feature-rich blog website template built with Next.js and React. This 
 - 🌙 Dark/Light theme switching
 - 🔐 Authentication with GitHub and Google providers
 - 💬 Comments and issue management
-- 🤖 AI-powered features
+- 🤖 AI-powered features (AI chat, text-to-speech, transcription)
 - 📱 Progressive Web App (PWA) support
 - 🎨 Modern UI with Tailwind CSS
-- ✅ Comprehensive testing suite with Jest and Playwright
-- 🧪 Unit tests for all components and utilities
+- ✅ Comprehensive testing suite with Jest
 
 ## Tech Stack
 
@@ -22,79 +21,15 @@ A modern, feature-rich blog website template built with Next.js and React. This 
 - **State Management:** React Hooks, ahooks
 - **Authentication:** NextAuth.js
 - **Internationalization:** i18next
-- **Testing:** Jest (unit tests), Playwright (E2E tests)
-- **Development Tools:** ESLint, Prettier
+- **Testing:** Jest
+- **Deployment:** Google Cloud Run
 
-## Getting Started
+## Contact
 
-### Prerequisites
-
-- Node.js (Latest LTS version recommended)
-- npm, yarn, or pnpm
-
-### Installation
-
-1. Clone the repository
-2. Install dependencies:
-
-```bash
-npm install
-# or
-yarn install
-# or
-pnpm install
-```
-
-### Development
-
-Run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
-
-Open [http://localhost:8080](http://localhost:8080) with your browser to see the result.
-
-### Testing
-
-Run unit tests:
-
-```bash
-npm test
-```
-
-Run E2E tests:
-
-```bash
-npm run e2e
-```
-
-**Test Coverage:**
-
-- 369 unit tests across 29 test suites
-- All components and utilities fully tested
-- E2E tests for critical user journeys
-
-### Docker Support
-
-Build and run with Docker:
-
-```bash
-# Build the image
-npm run docker:build
-
-# Run the container
-npm run docker:run
-```
+- Email: huangjien@gmail.com
+- GitHub: [@huangjien](https://github.com/huangjien)
+- Website: https://www.huangjien.com
 
 ## License
 
 Copyright (c) 2025 Jien Huang
-
-## Bug Reports
-
-If you find any issues, please report them [here](https://github.com/huangjien/blog/issues).
