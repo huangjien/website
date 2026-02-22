@@ -11,14 +11,21 @@ export const config = {
 
 export default (req, res) =>
   new Promise((resolve, reject) => {
+    const apiKey = process.env.OPEN_AI_KEY || process.env.OPENAI_API_KEY;
+
+    if (!apiKey) {
+      res.status(500).json({ error: "OpenAI API key not configured" });
+      return resolve();
+    }
+
     const proxy = httpProxy.createProxy({
       ignorePath: true,
       changeOrigin: true,
       target: "https://api.openai.com/v1/audio/transcriptions",
-      headers: { Authorization: `Bearer ${process.env.OPEN_AI_KEY}` },
+      headers: { Authorization: `Bearer ${apiKey}` },
     });
     proxy.on("proxyReq", function (proxyReq) {
-      proxyReq.setHeader("Authorization", `Bearer ${process.env.OPEN_AI_KEY}`);
+      proxyReq.setHeader("Authorization", `Bearer ${apiKey}`);
     });
     proxy.once("proxyRes", resolve).once("error", reject).web(req, res);
   });

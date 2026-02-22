@@ -10,8 +10,8 @@ jest.mock("next-auth/next", () => ({
 // Mock fetch globally
 global.fetch = jest.fn();
 
-// Mock environment variables
-process.env.OPEN_AI_KEY = "test-openai-key";
+// Mock environment variables - prefer OPENAI_API_KEY (the secret name in GCP)
+process.env.OPENAI_API_KEY = "test-openai-key";
 
 describe("/api/ai", () => {
   beforeEach(() => {
@@ -113,9 +113,11 @@ describe("/api/ai", () => {
   });
 
   it("should handle missing OpenAI API key", async () => {
-    // Temporarily remove API key
-    const originalKey = process.env.OPEN_AI_KEY;
+    // Temporarily remove API keys
+    const originalOpenAiKey = process.env.OPEN_AI_KEY;
+    const originalOpenaiKey = process.env.OPENAI_API_KEY;
     delete process.env.OPEN_AI_KEY;
+    delete process.env.OPENAI_API_KEY;
 
     // Mock authenticated session
     getServerSession.mockResolvedValueOnce({
@@ -134,11 +136,14 @@ describe("/api/ai", () => {
     expect(fetch).not.toHaveBeenCalled();
     expect(res._getStatusCode()).toBe(500);
     expect(JSON.parse(res._getData())).toMatchObject({
-      error: "Internal Server Error",
+      error: "OpenAI API key not configured",
     });
 
     // Restore API key
-    process.env.OPEN_AI_KEY = originalKey;
+    process.env.OPENAI_API_KEY = originalOpenaiKey;
+    if (originalOpenAiKey) {
+      process.env.OPEN_AI_KEY = originalOpenAiKey;
+    }
   });
 
   it("should only accept POST method", async () => {

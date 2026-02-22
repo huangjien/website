@@ -63,8 +63,10 @@ const handler = withErrorHandling(async (req, res) => {
     return res.status(401).json({ error: "Unauthorized" });
   }
 
-  if (!process.env.OPEN_AI_KEY) {
-    return res.status(500).json({ error: "Internal Server Error" });
+  const apiKey = process.env.OPEN_AI_KEY || process.env.OPENAI_API_KEY;
+
+  if (!apiKey) {
+    return res.status(500).json({ error: "OpenAI API key not configured" });
   }
 
   const validationResult = validateObject(req.body, requestBodySchema);
@@ -86,7 +88,7 @@ const handler = withErrorHandling(async (req, res) => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${process.env.OPEN_AI_KEY}`,
+      Authorization: `Bearer ${apiKey}`,
     },
     body: JSON.stringify({
       model,
