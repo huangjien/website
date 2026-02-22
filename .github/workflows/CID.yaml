@@ -73,7 +73,7 @@ jobs:
             --image "docker.io/huangjien/website:latest" \
             --platform "managed" \
             --port 8080 \
-            --update-secrets OPENAI_API_KEY=OPENAI_API_KEY:latest \
+            --set-secrets OPENAI_API_KEY=OPENAI_API_KEY:latest \
             --allow-unauthenticated
 
       # If required, use the Cloud Run url output in later steps
