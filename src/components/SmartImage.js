@@ -44,6 +44,8 @@ const SmartImageComponent = ({ src, alt, className, node, ...props }) => {
         <img
           src={imgSrc}
           alt={alt || ""}
+          width={props.width || 800}
+          height={props.height || 600}
           className={`rounded-lg shadow-md my-4 max-w-full h-auto transition-opacity duration-300 ${
             status === "success"
               ? "opacity-100"

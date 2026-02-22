@@ -41,7 +41,7 @@ export const NavigationBar = () => {
         </div>
         <div className='lg:flex items-center gap-2 hidden'>
           <Link
-            className='group relative flex items-center gap-2 rounded-xl px-3 py-1.5 hover:bg-[hsla(var(--glass-bg-hover))] hover:text-accent-foreground transition-all duration-fast ease-out hover:scale-105 cursor-pointer'
+            className='group relative flex items-center gap-2 rounded-xl px-3 py-1.5 hover:bg-[hsla(var(--glass-bg-hover))] hover:text-accent-foreground transition-colors transform duration-fast ease-out hover:scale-105 cursor-pointer'
             href='/'
           >
             <BiHome
@@ -49,10 +49,10 @@ export const NavigationBar = () => {
               className='group-hover:animate-bounce-subtle'
             />{" "}
             {t("header.home")}
-            <span className='absolute bottom-0 left-0 h-0.5 w-0 bg-gradient-primary transition-all duration-fast group-hover:w-full rounded-full' />
+            <span className='absolute bottom-0 left-0 h-0.5 w-0 bg-gradient-primary transition-width duration-fast group-hover:w-full rounded-full' />
           </Link>
           <Link
-            className='group relative flex items-center gap-2 rounded-xl px-3 py-1.5 hover:bg-[hsla(var(--glass-bg-hover))] hover:text-accent-foreground transition-all duration-fast ease-out hover:scale-105 cursor-pointer'
+            className='group relative flex items-center gap-2 rounded-xl px-3 py-1.5 hover:bg-[hsla(var(--glass-bg-hover))] hover:text-accent-foreground transition-colors transform duration-fast ease-out hover:scale-105 cursor-pointer'
             href='/ai'
           >
             <BiChip
@@ -60,18 +60,18 @@ export const NavigationBar = () => {
               className='group-hover:animate-bounce-subtle'
             />{" "}
             {t("header.ai")}
-            <span className='absolute bottom-0 left-0 h-0.5 w-0 bg-gradient-primary transition-all duration-fast group-hover:w-full rounded-full' />
+            <span className='absolute bottom-0 left-0 h-0.5 w-0 bg-gradient-primary transition-width duration-fast group-hover:w-full rounded-full' />
           </Link>
           <Link
-            className='group relative flex items-center gap-2 rounded-xl px-3 py-1.5 hover:bg-[hsla(var(--glass-bg-hover))] hover:text-accent-foreground transition-all duration-fast ease-out hover:scale-105 cursor-pointer'
+            className='group relative flex items-center gap-2 rounded-xl px-3 py-1.5 hover:bg-[hsla(var(--glass-bg-hover))] hover:text-accent-foreground transition-colors transform duration-fast ease-out hover:scale-105 cursor-pointer'
             href='/settings'
           >
             <BiCog size='1.5em' className='group-hover:animate-bounce-subtle' />{" "}
             {t("header.settings")}
-            <span className='absolute bottom-0 left-0 h-0.5 w-0 bg-gradient-primary transition-all duration-fast group-hover:w-full rounded-full' />
+            <span className='absolute bottom-0 left-0 h-0.5 w-0 bg-gradient-primary transition-width duration-fast group-hover:w-full rounded-full' />
           </Link>
           <Link
-            className='group relative flex items-center gap-2 rounded-xl px-3 py-1.5 hover:bg-[hsla(var(--glass-bg-hover))] hover:text-accent-foreground transition-all duration-fast ease-out hover:scale-105 cursor-pointer'
+            className='group relative flex items-center gap-2 rounded-xl px-3 py-1.5 hover:bg-[hsla(var(--glass-bg-hover))] hover:text-accent-foreground transition-colors transform duration-fast ease-out hover:scale-105 cursor-pointer'
             href='/about'
           >
             <BiDetail
@@ -79,7 +79,7 @@ export const NavigationBar = () => {
               className='group-hover:animate-bounce-subtle'
             />{" "}
             {t("header.about")}
-            <span className='absolute bottom-0 left-0 h-0.5 w-0 bg-gradient-primary transition-all duration-fast group-hover:w-full rounded-full' />
+            <span className='absolute bottom-0 left-0 h-0.5 w-0 bg-gradient-primary transition-width duration-fast group-hover:w-full rounded-full' />
           </Link>
         </div>
         <div className='flex items-center gap-2'>

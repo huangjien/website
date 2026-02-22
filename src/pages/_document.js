@@ -8,7 +8,16 @@ export default function Document() {
         <link rel='shortcut icon' href='/favicon.ico' />
         <link rel='manifest' href='/manifest.json' />
         <link rel='apple-touch-icon' href='/icon-512x512.png' />
-        <meta name='theme-color' content='#000' />
+        <meta
+          name='theme-color'
+          content='#1a1a1a'
+          media='(prefers-color-scheme: light)'
+        />
+        <meta
+          name='theme-color'
+          content='#000000'
+          media='(prefers-color-scheme: dark)'
+        />
         <meta name='emotion-insertion-point' content='' />
         <script
           dangerouslySetInnerHTML={{

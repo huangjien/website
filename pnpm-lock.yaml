@@ -11,8 +11,8 @@ importers:
         specifier: ^3.0.30
         version: 3.0.30(zod@4.3.6)
       "@ai-sdk/react":
-        specifier: ^3.0.98
-        version: 3.0.98(react@19.2.4)(zod@4.3.6)
+        specifier: ^3.0.99
+        version: 3.0.99(react@19.2.4)(zod@4.3.6)
       "@radix-ui/react-accordion":
         specifier: ^1.2.12
         version: 1.2.12(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -53,8 +53,8 @@ importers:
         specifier: ^3.9.6
         version: 3.9.6(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       ai:
-        specifier: ^6.0.96
-        version: 6.0.96(zod@4.3.6)
+        specifier: ^6.0.97
+        version: 6.0.97(zod@4.3.6)
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
@@ -266,10 +266,10 @@ packages:
       }
     engines: { node: ">=18" }
 
-  "@ai-sdk/react@3.0.98":
+  "@ai-sdk/react@3.0.99":
     resolution:
       {
-        integrity: sha512-1+EDDdfDUPQACCu9nA5Dh8t7QUo6paeIMYQPG+4E8tJUugek+ifC8d9vRgXo4gX+zoX9DE1z8WjIlLBHUPx/JQ==,
+        integrity: sha512-xMsp5br4Dpr/3BYq/jrE8q4YLgViU1KHVq8VB0+dzdLJFU3jKA83uoxpbWqzV/edQOBPgGBSb2CgmV5v77rvzA==,
       }
     engines: { node: ">=18" }
     peerDependencies:
@@ -2952,10 +2952,10 @@ packages:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
-  ai@6.0.96:
+  ai@6.0.97:
     resolution:
       {
-        integrity: sha512-Y5TTTZw7hkkb5M3h5ohSGg2ILh24MU6y/w5N8dVtU7KB+csjRqeNoE6BQmjo29nhR+IMnuO4vHEYVrv7aQC8Rg==,
+        integrity: sha512-eZIAcBymwGhBwncRH/v9pillZNMeRCDkc4BwcvwXerXd7sxjVxRis3ZNCNCpP02pVH4NLs81ljm4cElC4vbNcQ==,
       }
     engines: { node: ">=18" }
     peerDependencies:
@@ -8360,10 +8360,10 @@ snapshots:
     dependencies:
       json-schema: 0.4.0
 
-  "@ai-sdk/react@3.0.98(react@19.2.4)(zod@4.3.6)":
+  "@ai-sdk/react@3.0.99(react@19.2.4)(zod@4.3.6)":
     dependencies:
       "@ai-sdk/provider-utils": 4.0.15(zod@4.3.6)
-      ai: 6.0.96(zod@4.3.6)
+      ai: 6.0.97(zod@4.3.6)
       react: 19.2.4
       swr: 2.3.6(react@19.2.4)
       throttleit: 2.1.0
@@ -10121,9 +10121,9 @@ snapshots:
       mime-types: 2.1.35
       negotiator: 0.6.3
 
-  acorn-import-phases@1.0.4(acorn@8.15.0):
+  acorn-import-phases@1.0.4(acorn@8.16.0):
     dependencies:
-      acorn: 8.15.0
+      acorn: 8.16.0
 
   acorn-jsx@5.3.2(acorn@8.16.0):
     dependencies:
@@ -10154,7 +10154,7 @@ snapshots:
       screenfull: 5.2.0
       tslib: 2.8.1
 
-  ai@6.0.96(zod@4.3.6):
+  ai@6.0.97(zod@4.3.6):
     dependencies:
       "@ai-sdk/gateway": 3.0.53(zod@4.3.6)
       "@ai-sdk/provider": 3.0.8
@@ -13517,7 +13517,7 @@ snapshots:
   terser@5.44.0:
     dependencies:
       "@jridgewell/source-map": 0.3.11
-      acorn: 8.15.0
+      acorn: 8.16.0
       commander: 2.20.3
       source-map-support: 0.5.21
 
@@ -13811,8 +13811,8 @@ snapshots:
       "@webassemblyjs/ast": 1.14.1
       "@webassemblyjs/wasm-edit": 1.14.1
       "@webassemblyjs/wasm-parser": 1.14.1
-      acorn: 8.15.0
-      acorn-import-phases: 1.0.4(acorn@8.15.0)
+      acorn: 8.16.0
+      acorn-import-phases: 1.0.4(acorn@8.16.0)
       browserslist: 4.28.1
       chrome-trace-event: 1.0.4
       enhanced-resolve: 5.19.0

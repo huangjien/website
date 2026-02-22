@@ -117,8 +117,11 @@ export const IssueList = ({ tags, ComponentName, data, inTab = "ai" }) => {
   return (
     <div>
       <Dialog open={open} onOpenChange={handleOpenChange}>
-        <DialogContent className='m-2'>
+        <DialogContent className='m-2' aria-describedby='tts-player'>
           <DialogBody>
+            <p id='tts-player' className='sr-only'>
+              Audio player
+            </p>
             <audio controls autoPlay src={audioSrc} />
           </DialogBody>
         </DialogContent>
@@ -144,8 +147,14 @@ export const IssueList = ({ tags, ComponentName, data, inTab = "ai" }) => {
           <div className='inline-flex items-center gap-2'>
             <button
               type='button'
-              className='min-w-[44px] min-h-[44px] px-3 py-2 rounded-xl glass hover:bg-[hsla(var(--glass-bg-hover))] hover:scale-105 hover:shadow-glass transition-all duration-fast ease-out active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer'
+              className='min-w-[44px] min-h-[44px] px-3 py-2 rounded-xl glass hover:bg-[hsla(var(--glass-bg-hover))] hover:scale-105 hover:shadow-glass transition-transform duration-fast ease-out active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer'
               onClick={() => setPage((p) => Math.max(1, p - 1))}
+              onKeyDown={(e) => {
+                if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+                  e.preventDefault();
+                  setPage((p) => Math.max(1, p - 1));
+                }
+              }}
               aria-label={t("navigation.previous", {
                 defaultValue: "Previous",
               })}
@@ -158,8 +167,14 @@ export const IssueList = ({ tags, ComponentName, data, inTab = "ai" }) => {
             </span>
             <button
               type='button'
-              className='min-w-[44px] min-h-[44px] px-3 py-2 rounded-xl glass hover:bg-[hsla(var(--glass-bg-hover))] hover:scale-105 hover:shadow-glass transition-all duration-fast ease-out active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer'
+              className='min-w-[44px] min-h-[44px] px-3 py-2 rounded-xl glass hover:bg-[hsla(var(--glass-bg-hover))] hover:scale-105 hover:shadow-glass transition-transform duration-fast ease-out active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer'
               onClick={() => setPage((p) => Math.min(pages, p + 1))}
+              onKeyDown={(e) => {
+                if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+                  e.preventDefault();
+                  setPage((p) => Math.min(pages, p + 1));
+                }
+              }}
               aria-label={t("navigation.next", { defaultValue: "Next" })}
               title={t("navigation.next", { defaultValue: "Next" })}
             >
@@ -170,9 +185,12 @@ export const IssueList = ({ tags, ComponentName, data, inTab = "ai" }) => {
           <label className='flex  items-center text-default-400 text-small'>
             {t("issue.row_per_page")}
             <select
-              className='bg-transparent outline-none text-default-400 text-small'
+              className='bg-transparent outline-none text-default-400 text-small dark:bg-black/30 dark:text-white bg-white/30 rounded px-2 py-1'
               onChange={onRowsPerPageChange}
               value={rowsPerPage}
+              aria-label={t("issue.rows_per_page", {
+                defaultValue: "Rows per page",
+              })}
             >
               <option value='5'>5</option>
               <option value='10'>10</option>
