@@ -11,14 +11,14 @@ A production-ready personal website featuring multilingual support, authenticati
 
 ## 🚀 Features
 
-| Category | Features |
-|----------|----------|
-| **Core** | Multi-language support (i18n), Dark/Light theme |
-| **Auth** | GitHub & Google OAuth authentication via NextAuth.js |
-| **Content** | Blog posts, Comments system, Issue tracking |
-| **AI** | AI chat assistant, Text-to-speech, Voice transcription |
-| **PWA** | Progressive Web App with service worker |
-| **Testing** | 900+ unit tests with Jest |
+| Category    | Features                                               |
+| ----------- | ------------------------------------------------------ |
+| **Core**    | Multi-language support (i18n), Dark/Light theme        |
+| **Auth**    | GitHub & Google OAuth authentication via NextAuth.js   |
+| **Content** | Blog posts, Comments system, Issue tracking            |
+| **AI**      | AI chat assistant, Text-to-speech, Voice transcription |
+| **PWA**     | Progressive Web App with service worker                |
+| **Testing** | 900+ unit tests with Jest                              |
 
 ## 🛠 Tech Stack
 
