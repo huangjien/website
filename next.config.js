@@ -27,7 +27,7 @@ const nextConfig = {
   transpilePackages: ["ahooks"],
   compiler: {
     styledComponents: true,
-    // removeConsole: { exclude: ['error'] },
+    removeConsole: { exclude: ["error"] },
   },
   images: {
     remotePatterns: [

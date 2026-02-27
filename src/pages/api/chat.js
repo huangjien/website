@@ -1,7 +1,11 @@
 import { streamText, convertToCoreMessages } from "ai";
 import { createOpenAI } from "@ai-sdk/openai";
 import { z } from "zod";
-import { checkRateLimit } from "../../lib/rateLimit";
+import {
+  checkRateLimit,
+  CHAT_RATE_LIMIT,
+  CHAT_WINDOW_MS,
+} from "../../lib/rateLimit";
 
 /**
  * Chat streaming endpoint using Vercel AI SDK (Pages Router, Node runtime)
@@ -18,10 +22,10 @@ export default async function handler(req, res) {
     req.headers["x-forwarded-for"]?.split(",")[0] ||
     req.headers["x-real-ip"] ||
     "unknown";
-  const rateLimitResult = checkRateLimit(ip, 30, 60000); // 30 requests per minute
+  const rateLimitResult = checkRateLimit(ip, CHAT_RATE_LIMIT, CHAT_WINDOW_MS);
 
   if (!rateLimitResult.allowed) {
-    res.setHeader("X-RateLimit-Limit", "30");
+    res.setHeader("X-RateLimit-Limit", CHAT_RATE_LIMIT.toString());
     res.setHeader("X-RateLimit-Remaining", "0");
     res.setHeader("X-RateLimit-Reset", rateLimitResult.resetAt.toString());
     return res.status(429).json({
@@ -30,7 +34,7 @@ export default async function handler(req, res) {
     });
   }
 
-  res.setHeader("X-RateLimit-Limit", "30");
+  res.setHeader("X-RateLimit-Limit", CHAT_RATE_LIMIT.toString());
   res.setHeader("X-RateLimit-Remaining", rateLimitResult.remaining.toString());
   res.setHeader("X-RateLimit-Reset", rateLimitResult.resetAt.toString());
 
@@ -90,9 +94,12 @@ export default async function handler(req, res) {
     await result.pipeUIMessageStreamToResponse(res);
   } catch (error) {
     console.error("[api/chat] streaming error", error);
-    const errorMessage = error?.message || error?.cause?.message || "Unknown error";
+    const errorMessage =
+      error?.message || error?.cause?.message || "Unknown error";
     if (!res.headersSent) {
-      res.status(500).json({ error: "AI stream failed", details: errorMessage });
+      res
+        .status(500)
+        .json({ error: "AI stream failed", details: errorMessage });
     }
   }
 }

@@ -23,7 +23,9 @@ export const useAudioRecording = () => {
       for (const t of candidates) {
         try {
           if (MediaRecorder.isTypeSupported(t)) return t;
-        } catch {}
+        } catch (err) {
+          console.debug("isTypeSupported check failed for:", t, err);
+        }
       }
     }
     return ""; // Let the browser choose default

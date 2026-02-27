@@ -25,7 +25,8 @@ export const sanitizeMarkdown = (input) => {
     /<object[^>]*>.*?<\/object>/gis,
     /<embed[^>]*>/gis,
     /javascript:/gi,
-    /on\w+\s*=/gi,
+    /on\w+="[^"]*"/gi,
+    /on\w+='[^']*'/gi,
     /<img[^>]*onerror[^>]*>/gi,
   ];
 

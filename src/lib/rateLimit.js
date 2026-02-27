@@ -5,6 +5,12 @@
 
 const rateLimitMap = new Map();
 
+export const DEFAULT_RATE_LIMIT = 60;
+export const DEFAULT_WINDOW_MS = 60000; // 1 minute
+export const CLEANUP_INTERVAL_MS = 3600000; // 1 hour
+export const CHAT_RATE_LIMIT = 30;
+export const CHAT_WINDOW_MS = 60000; // 1 minute
+
 /**
  * Check if a request should be rate limited
  * @param {string} identifier - Unique identifier (IP address, user ID, etc.)
@@ -12,7 +18,11 @@ const rateLimitMap = new Map();
  * @param {number} windowMs - Time window in milliseconds
  * @returns {Object} - { allowed: boolean, remaining: number }
  */
-export function checkRateLimit(identifier, limit = 60, windowMs = 60000) {
+export function checkRateLimit(
+  identifier,
+  limit = DEFAULT_RATE_LIMIT,
+  windowMs = DEFAULT_WINDOW_MS,
+) {
   const now = Date.now();
   const windowStart = now - windowMs;
 
@@ -48,11 +58,10 @@ export function checkRateLimit(identifier, limit = 60, windowMs = 60000) {
  */
 export function cleanupRateLimitMap() {
   const now = Date.now();
-  const windowMs = 60000; // 1 minute window
 
   for (const [identifier, requests] of rateLimitMap.entries()) {
     const validRequests = requests.filter(
-      (timestamp) => timestamp > now - windowMs,
+      (timestamp) => timestamp > now - DEFAULT_WINDOW_MS,
     );
     if (validRequests.length === 0) {
       rateLimitMap.delete(identifier);
@@ -64,5 +73,5 @@ export function cleanupRateLimitMap() {
 
 // Cleanup every hour
 if (typeof setInterval !== "undefined") {
-  setInterval(cleanupRateLimitMap, 3600000);
+  setInterval(cleanupRateLimitMap, CLEANUP_INTERVAL_MS);
 }

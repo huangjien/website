@@ -112,7 +112,9 @@ export default function AI() {
           })),
         );
       }
-    } catch {}
+    } catch (err) {
+      console.warn("Failed to migrate legacy conversations:", err);
+    }
 
     try {
       // Migrate from QandA/LastAnswer (very old schema)
@@ -138,7 +140,9 @@ export default function AI() {
         ]);
         setSavedMessages(migrated);
       }
-    } catch {}
+    } catch (err) {
+      console.warn("Failed to migrate legacy QandA:", err);
+    }
 
     // Remove legacy keys regardless
     localStorage.removeItem("QandA");
@@ -229,7 +233,9 @@ export default function AI() {
   useEffect(() => {
     try {
       bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-    } catch {}
+    } catch (err) {
+      console.debug("Auto-scroll failed:", err);
+    }
   }, [messages, status]);
 
   // Close settings panel on ESC key
@@ -292,7 +298,9 @@ export default function AI() {
   const handleStop = () => {
     try {
       stop();
-    } catch {}
+    } catch (err) {
+      console.warn("Stop failed:", err);
+    }
   };
 
   const handleClear = () => {
