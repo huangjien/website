@@ -1,0 +1,32 @@
+.performance-list-item {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 120px;
+}
+
+.performance-card {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 200px;
+}
+
+.performance-accordion-item {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 100px;
+}
+
+.performance-table-row {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 60px;
+}
+
+.will-change-transform {
+  will-change: transform;
+}
+
+.will-change-opacity {
+  will-change: opacity;
+}
+
+.gpu-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}

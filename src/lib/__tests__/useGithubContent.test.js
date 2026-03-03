@@ -68,36 +68,31 @@ describe("useGithubContent", () => {
       getSetting: mockGetSetting,
     });
 
-    // Mock useRequest
+    // Mock useRequest for parallel implementation
     useRequest.mockImplementation((fn, options) => {
-      // Store the options for later use
-      if (fn === getReadme) {
-        // Simulate successful readme fetch
+      // Check if this is the parallel request (async function)
+      if (typeof fn === "function") {
+        // Simulate successful parallel fetch
         setTimeout(() => {
           if (options?.onSuccess) {
-            options.onSuccess("# About Content");
-          }
-        }, 0);
-      }
-      if (fn === getIssues) {
-        // Simulate successful issues fetch
-        setTimeout(() => {
-          if (options?.onSuccess) {
-            const mockIssues = JSON.stringify([
-              {
-                id: 1,
-                title: "Test Issue 1",
-                body: "Test body 1",
-                labels: [{ name: "blog" }, { name: "tech" }],
-              },
-              {
-                id: 2,
-                title: "Test Issue 2",
-                body: "Test body 2",
-                labels: [{ name: "personal" }],
-              },
-            ]);
-            options.onSuccess(mockIssues);
+            const mockResult = {
+              readme: "# About Content",
+              issues: JSON.stringify([
+                {
+                  id: 1,
+                  title: "Test Issue 1",
+                  body: "Test body 1",
+                  labels: [{ name: "blog" }, { name: "tech" }],
+                },
+                {
+                  id: 2,
+                  title: "Test Issue 2",
+                  body: "Test body 2",
+                  labels: [{ name: "personal" }],
+                },
+              ]),
+            };
+            options.onSuccess(mockResult);
           }
         }, 0);
       }
@@ -118,17 +113,20 @@ describe("useGithubContent", () => {
     expect(result.current.about).toBeUndefined();
   });
 
-  it("should call useRequest for readme and issues", () => {
+  it("should call useRequest for parallel readme and issues fetch", () => {
     renderHook(() => useGithubContent());
 
-    expect(useRequest).toHaveBeenCalledWith(getReadme, {
-      onSuccess: expect.any(Function),
-    });
+    // After optimization: single parallel request
+    expect(useRequest).toHaveBeenCalledWith(
+      expect.any(Function),
+      expect.objectContaining({
+        onSuccess: expect.any(Function),
+        staleTime: 1000 * 60 * 60,
+      }),
+    );
 
-    expect(useRequest).toHaveBeenCalledWith(getIssues, {
-      onSuccess: expect.any(Function),
-      staleTime: 1000 * 60 * 60,
-    });
+    // Should only be called once (parallel implementation)
+    expect(useRequest).toHaveBeenCalledTimes(1);
   });
 
   it("should process raw data when settings are available", async () => {

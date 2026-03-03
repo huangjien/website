@@ -34,24 +34,24 @@ export const setMessage = (messageType, message) => {
   sessionStorage.setItem("message", JSON.stringify(msg));
 };
 
-export const getReadme = async () => {
-  return await fetch("/api/about", {
+export const getReadme = () => {
+  return fetch("/api/about", {
     method: "GET",
   }).then((res) => {
     return res.text();
   });
 };
 
-export const getRawContent = async (url) => {
-  return await fetch(url, {
+export const getRawContent = (url) => {
+  return fetch(url, {
     method: "GET",
   }).then((res) => {
     return res.text();
   });
 };
 
-export const getIssues = async () => {
-  return await fetch("/api/issues", {
+export const getIssues = () => {
+  return fetch("/api/issues", {
     method: "GET",
   }).then((res) => {
     return res.text();

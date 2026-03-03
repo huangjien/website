@@ -1,10 +1,9 @@
 "use client";
+
 import React, { useState, useEffect } from "react";
-import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import { BiChip, BiCog, BiDetail, BiHome } from "react-icons/bi";
-import { ToastContainer } from "react-toastify";
 import Login from "./Login";
 import { useTheme } from "next-themes";
 import { ThemeSwitch } from "./ThemeSwitch";
@@ -88,14 +87,6 @@ export const NavigationBar = () => {
           <StyleSwitch />
           <LanguageSwitch />
         </div>
-        <ToastContainer
-          autoClose={5000}
-          limit={3}
-          pauseOnHover
-          closeOnClick
-          theme={mounted && theme === "dark" ? "dark" : "light"}
-          draggable
-        />
       </div>
     </nav>
   );

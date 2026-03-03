@@ -15,22 +15,22 @@ export const useGithubContent = () => {
   const [issues, setIssues] = useLocalStorageState("issues");
   const [tags, setTags] = useState();
 
-  useRequest(getReadme, {
-    onSuccess: (result) => {
-      setAbout(result);
+  useRequest(
+    async () => {
+      const [readme, issues] = await Promise.all([getReadme(), getIssues()]);
+      return { readme, issues };
     },
-  });
-
-  useRequest(getIssues, {
-    onSuccess: (result) => {
-      setRawData(JSON.parse(result));
+    {
+      onSuccess: (result) => {
+        setAbout(result.readme);
+        setRawData(JSON.parse(result.issues));
+      },
+      staleTime: 1000 * 60 * 60,
     },
-    staleTime: 1000 * 60 * 60,
-  });
+  );
 
   useEffect(() => {
     if (rawData) {
-      // console.log(rawData)
       const blog_labels = getSetting("blog.labels");
       const issueContent = getSetting("blog.content");
       const issueContentList = issueContent?.split(",");
@@ -64,7 +64,7 @@ export const useGithubContent = () => {
         setIssues(finalResult);
       }
     }
-  }, [getSetting, setIssues, rawData]);
+  }, [rawData, getSetting]);
 
   return {
     tags,
