@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import AuthError from "../error";
+import AuthError from "../../src/pages/auth/error";
 
 describe("AuthError", () => {
   beforeEach(() => {
