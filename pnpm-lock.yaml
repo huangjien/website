@@ -8,11 +8,11 @@ importers:
   .:
     dependencies:
       "@ai-sdk/openai":
-        specifier: ^3.0.39
-        version: 3.0.39(zod@4.3.6)
+        specifier: ^3.0.41
+        version: 3.0.41(zod@4.3.6)
       "@ai-sdk/react":
-        specifier: ^3.0.111
-        version: 3.0.111(react@19.2.4)(zod@4.3.6)
+        specifier: ^3.0.118
+        version: 3.0.118(react@19.2.4)(zod@4.3.6)
       "@radix-ui/react-accordion":
         specifier: ^1.2.12
         version: 1.2.12(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -56,8 +56,8 @@ importers:
         specifier: ^3.9.6
         version: 3.9.6(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       ai:
-        specifier: ^6.0.109
-        version: 6.0.109(zod@4.3.6)
+        specifier: ^6.0.116
+        version: 6.0.116(zod@4.3.6)
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
@@ -65,14 +65,14 @@ importers:
         specifier: ^10.1.8
         version: 10.1.8(eslint@10.0.2(jiti@2.6.1))
       framer-motion:
-        specifier: ^12.34.5
-        version: 12.34.5(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+        specifier: ^12.35.0
+        version: 12.35.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       http-proxy:
         specifier: ^1.18.1
         version: 1.18.1
       i18next:
-        specifier: ^25.8.13
-        version: 25.8.13(typescript@5.9.3)
+        specifier: ^25.8.14
+        version: 25.8.14(typescript@5.9.3)
       next:
         specifier: ^16.1.6
         version: 16.1.6(@babel/core@7.29.0)(@opentelemetry/api@1.9.0)(@playwright/test@1.58.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -95,8 +95,8 @@ importers:
         specifier: ^19.2.4
         version: 19.2.4(react@19.2.4)
       react-i18next:
-        specifier: ^16.5.4
-        version: 16.5.4(i18next@25.8.13(typescript@5.9.3))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(typescript@5.9.3)
+        specifier: ^16.5.5
+        version: 16.5.5(i18next@25.8.14(typescript@5.9.3))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(typescript@5.9.3)
       react-icons:
         specifier: ^5.6.0
         version: 5.6.0(react@19.2.4)
@@ -238,28 +238,28 @@ packages:
         integrity: sha512-Elp+iwUx5rN5+Y8xLt5/GRoG20WGoDCQ/1Fb+1LiGtvwbDavuSk0jhD/eZdckHAuzcDzccnkv+rEjyWfRx18gg==,
       }
 
-  "@ai-sdk/gateway@3.0.62":
+  "@ai-sdk/gateway@3.0.66":
     resolution:
       {
-        integrity: sha512-hc5AChjtrk7G+UuXWZt97GbrlXOQbrkEiUE9jKsq8CV30ra6CPI3VQ5A/Lk0uTvAfCz8zSwgIIXcLOAFvdRWkA==,
+        integrity: sha512-SIQ0YY0iMuv+07HLsZ+bB990zUJ6S4ujORAh+Jv1V2KGNn73qQKnGO0JBk+w+Res8YqOFSycwDoWcFlQrVxS4A==,
       }
     engines: { node: ">=18" }
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
 
-  "@ai-sdk/openai@3.0.39":
+  "@ai-sdk/openai@3.0.41":
     resolution:
       {
-        integrity: sha512-EZrs4L6kMkPQhpodagpEvqLSryOIK99WgblN0IsVHr1xhajWizQOZ0XMa7c5JpSYgIjV6u8GCpGV6hS3Mk2Bug==,
+        integrity: sha512-IZ42A+FO+vuEQCVNqlnAPYQnnUpUfdJIwn1BEDOBywiEHa23fw7PahxVtlX9zm3/zMvTW4JKPzWyvAgDu+SQ2A==,
       }
     engines: { node: ">=18" }
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
 
-  "@ai-sdk/provider-utils@4.0.17":
+  "@ai-sdk/provider-utils@4.0.19":
     resolution:
       {
-        integrity: sha512-oyCeFINTYK0B8ZGUBiQc05G5vytPlKSmTTtm19xfJuUgoi8zkvvRcoPQci4mSnyfpPn2XSFFDfsALG8uGcapfg==,
+        integrity: sha512-3eG55CrSWCu2SXlqq2QCsFjo3+E7+Gmg7i/oRVoSZzIodTuDSfLb3MRje67xE9RFea73Zao7Lm4mADIfUETKGg==,
       }
     engines: { node: ">=18" }
     peerDependencies:
@@ -272,10 +272,10 @@ packages:
       }
     engines: { node: ">=18" }
 
-  "@ai-sdk/react@3.0.111":
+  "@ai-sdk/react@3.0.118":
     resolution:
       {
-        integrity: sha512-VaSm941Abl4vTBZqsCwFVeBpuSZK84cNSAnZMbj/rxFaDK5Cbqn4JJ45bvbfL5g2l9puERwNYlbCmM0K7wUq2Q==,
+        integrity: sha512-fBAix8Jftxse6/2YJnOFkwW1/O6EQK4DK68M9DlFmZGAzBmsaHXEPVS77sVIlkaOWCy11bE7434NAVXRY+3OsQ==,
       }
     engines: { node: ">=18" }
     peerDependencies:
@@ -2973,10 +2973,10 @@ packages:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
-  ai@6.0.109:
+  ai@6.0.116:
     resolution:
       {
-        integrity: sha512-AqQ1wv+Z3tBzskJupiU9sJ4/GbgCdQc4s+XDKOB1lrj0ewlNhcfXNn8GTpi0UEqzakOkAFK2jd0N+Xk+j/WIdw==,
+        integrity: sha512-7yM+cTmyRLeNIXwt4Vj+mrrJgVQ9RMIW5WO0ydoLoYkewIvsMcvUmqS4j2RJTUXaF1HphwmSKUMQ/HypNRGOmA==,
       }
     engines: { node: ">=18" }
     peerDependencies:
@@ -4406,10 +4406,10 @@ packages:
         integrity: sha512-1X1NTtiJphryn/uLQz3whtY6jK3fTqoE3ohKs0tT+Ujr1W59oopxmoEh7Lu5p6vBaPbgoM0bzveAW4Qi5RyWDQ==,
       }
 
-  framer-motion@12.34.5:
+  framer-motion@12.35.0:
     resolution:
       {
-        integrity: sha512-Z2dQ+o7BsfpJI3+u0SQUNCrN+ajCKJen1blC4rCHx1Ta2EOHs+xKJegLT2aaD9iSMbU3OoX+WabQXkloUbZmJQ==,
+        integrity: sha512-w8hghCMQ4oq10j6aZh3U2yeEQv5K69O/seDI/41PK4HtgkLrcBovUNc0ayBC3UyyU7V1mrY2yLzvYdWJX9pGZQ==,
       }
     peerDependencies:
       "@emotion/is-prop-valid": "*"
@@ -4810,10 +4810,10 @@ packages:
     engines: { node: ">=18" }
     hasBin: true
 
-  i18next@25.8.13:
+  i18next@25.8.14:
     resolution:
       {
-        integrity: sha512-E0vzjBY1yM+nsFrtgkjLhST2NBkirkvOVoQa0MSldhsuZ3jUge7ZNpuwG0Cfc74zwo5ZwRzg3uOgT+McBn32iA==,
+        integrity: sha512-paMUYkfWJMsWPeE/Hejcw+XLhHrQPehem+4wMo+uELnvIwvCG019L9sAIljwjCmEMtFQQO3YeitJY8Kctei3iA==,
       }
     peerDependencies:
       typescript: ^5
@@ -6225,10 +6225,10 @@ packages:
       }
     engines: { node: ">=16 || 14 >=14.17" }
 
-  motion-dom@12.34.5:
+  motion-dom@12.35.0:
     resolution:
       {
-        integrity: sha512-k33CsnxO2K3gBRMUZT+vPmc4Utlb5menKdG0RyVNLtlqRaaJPRWlE9fXl8NTtfZ5z3G8TDvqSu0MENLqSTaHZA==,
+        integrity: sha512-FFMLEnIejK/zDABn+vqGVAUN4T0+3fw+cVAY8MMT65yR+j5uMuvWdd4npACWhh94OVWQs79CrBBuwOwGRZAQiA==,
       }
 
   motion-utils@12.29.2:
@@ -6882,10 +6882,10 @@ packages:
         integrity: sha512-nsO+KSNgo1SbJqJEYRE9ERzo7YtYbou/OqjSQKxV7jcKox7+usiUVZOAC+XnDOABXggQTno0Y1CpVnuWEc1boQ==,
       }
 
-  react-i18next@16.5.4:
+  react-i18next@16.5.5:
     resolution:
       {
-        integrity: sha512-6yj+dcfMncEC21QPhOTsW8mOSO+pzFmT6uvU7XXdvM/Cp38zJkmTeMeKmTrmCMD5ToT79FmiE/mRWiYWcJYW4g==,
+        integrity: sha512-5Z35e2JMALNR16FK/LDNQoAatQTVuO/4m4uHrIzewOPXIyf75gAHzuNLSWwmj5lRDJxDvXRJDECThkxWSAReng==,
       }
     peerDependencies:
       i18next: ">= 25.6.2"
@@ -8348,20 +8348,20 @@ packages:
 snapshots:
   "@adobe/css-tools@4.4.4": {}
 
-  "@ai-sdk/gateway@3.0.62(zod@4.3.6)":
+  "@ai-sdk/gateway@3.0.66(zod@4.3.6)":
     dependencies:
       "@ai-sdk/provider": 3.0.8
-      "@ai-sdk/provider-utils": 4.0.17(zod@4.3.6)
+      "@ai-sdk/provider-utils": 4.0.19(zod@4.3.6)
       "@vercel/oidc": 3.1.0
       zod: 4.3.6
 
-  "@ai-sdk/openai@3.0.39(zod@4.3.6)":
+  "@ai-sdk/openai@3.0.41(zod@4.3.6)":
     dependencies:
       "@ai-sdk/provider": 3.0.8
-      "@ai-sdk/provider-utils": 4.0.17(zod@4.3.6)
+      "@ai-sdk/provider-utils": 4.0.19(zod@4.3.6)
       zod: 4.3.6
 
-  "@ai-sdk/provider-utils@4.0.17(zod@4.3.6)":
+  "@ai-sdk/provider-utils@4.0.19(zod@4.3.6)":
     dependencies:
       "@ai-sdk/provider": 3.0.8
       "@standard-schema/spec": 1.1.0
@@ -8372,10 +8372,10 @@ snapshots:
     dependencies:
       json-schema: 0.4.0
 
-  "@ai-sdk/react@3.0.111(react@19.2.4)(zod@4.3.6)":
+  "@ai-sdk/react@3.0.118(react@19.2.4)(zod@4.3.6)":
     dependencies:
-      "@ai-sdk/provider-utils": 4.0.17(zod@4.3.6)
-      ai: 6.0.109(zod@4.3.6)
+      "@ai-sdk/provider-utils": 4.0.19(zod@4.3.6)
+      ai: 6.0.116(zod@4.3.6)
       react: 19.2.4
       swr: 2.4.1(react@19.2.4)
       throttleit: 2.1.0
@@ -10174,11 +10174,11 @@ snapshots:
       screenfull: 5.2.0
       tslib: 2.8.1
 
-  ai@6.0.109(zod@4.3.6):
+  ai@6.0.116(zod@4.3.6):
     dependencies:
-      "@ai-sdk/gateway": 3.0.62(zod@4.3.6)
+      "@ai-sdk/gateway": 3.0.66(zod@4.3.6)
       "@ai-sdk/provider": 3.0.8
-      "@ai-sdk/provider-utils": 4.0.17(zod@4.3.6)
+      "@ai-sdk/provider-utils": 4.0.19(zod@4.3.6)
       "@opentelemetry/api": 1.9.0
       zod: 4.3.6
 
@@ -11137,9 +11137,9 @@ snapshots:
 
   fraction.js@5.3.4: {}
 
-  framer-motion@12.34.5(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4):
+  framer-motion@12.35.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4):
     dependencies:
-      motion-dom: 12.34.5
+      motion-dom: 12.35.0
       motion-utils: 12.29.2
       tslib: 2.8.1
     optionalDependencies:
@@ -11411,7 +11411,7 @@ snapshots:
 
   husky@9.1.7: {}
 
-  i18next@25.8.13(typescript@5.9.3):
+  i18next@25.8.14(typescript@5.9.3):
     dependencies:
       "@babel/runtime": 7.28.4
     optionalDependencies:
@@ -12583,7 +12583,7 @@ snapshots:
 
   minipass@7.1.2: {}
 
-  motion-dom@12.34.5:
+  motion-dom@12.35.0:
     dependencies:
       motion-utils: 12.29.2
 
@@ -12954,11 +12954,11 @@ snapshots:
 
   react-fast-compare@3.2.2: {}
 
-  react-i18next@16.5.4(i18next@25.8.13(typescript@5.9.3))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(typescript@5.9.3):
+  react-i18next@16.5.5(i18next@25.8.14(typescript@5.9.3))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(typescript@5.9.3):
     dependencies:
       "@babel/runtime": 7.28.4
       html-parse-stringify: 3.0.1
-      i18next: 25.8.13(typescript@5.9.3)
+      i18next: 25.8.14(typescript@5.9.3)
       react: 19.2.4
       use-sync-external-store: 1.6.0(react@19.2.4)
     optionalDependencies:

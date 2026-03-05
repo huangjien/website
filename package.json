@@ -1,6 +1,6 @@
 {
   "name": "website",
-  "version": "1.5.67",
+  "version": "1.5.68",
   "description": "A modern, responsive blog website template built with Next.js, React, and Tailwind CSS",
   "author": {
     "name": "Jien Huang",
@@ -57,8 +57,8 @@
     "analyze": "cross-env ANALYZE=true next build"
   },
   "dependencies": {
-    "@ai-sdk/openai": "^3.0.39",
-    "@ai-sdk/react": "^3.0.111",
+    "@ai-sdk/openai": "^3.0.41",
+    "@ai-sdk/react": "^3.0.118",
     "@radix-ui/react-accordion": "^1.2.12",
     "@radix-ui/react-avatar": "^1.1.11",
     "@radix-ui/react-dialog": "^1.1.15",
@@ -73,12 +73,12 @@
     "@tailwindcss/postcss": "^4.2.1",
     "@tanstack/react-virtual": "^3.13.19",
     "ahooks": "^3.9.6",
-    "ai": "^6.0.109",
+    "ai": "^6.0.116",
     "clsx": "^2.1.1",
     "eslint-config-prettier": "^10.1.8",
-    "framer-motion": "^12.34.5",
+    "framer-motion": "^12.35.0",
     "http-proxy": "^1.18.1",
-    "i18next": "^25.8.13",
+    "i18next": "^25.8.14",
     "next": "^16.1.6",
     "next-auth": "^4.24.13",
     "next-themes": "^0.4.6",
@@ -86,7 +86,7 @@
     "prettier": "^3.8.1",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
-    "react-i18next": "^16.5.4",
+    "react-i18next": "^16.5.5",
     "react-icons": "^5.6.0",
     "react-markdown": "^10.1.0",
     "react-toastify": "^11.0.5",
