@@ -3,7 +3,8 @@ const path = require("path");
 const dotenv = require("dotenv");
 
 const root = __dirname;
-const envFiles = [".env", ".env.local", ".env.test", ".env.test.local"]; // load in order
+// Load .env.test.local first, then .env.test, then regular env files
+const envFiles = [".env.test.local", ".env.test", ".env.local", ".env"]; // test files take priority
 
 for (const filename of envFiles) {
   const fullPath = path.join(root, filename);

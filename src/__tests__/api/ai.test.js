@@ -14,9 +14,20 @@ global.fetch = jest.fn();
 process.env.OPENAI_API_KEY = "test-openai-key";
 
 describe("/api/ai", () => {
+  const originalEnv = process.env;
+
   beforeEach(() => {
+    jest.clearAllMocks();
     fetch.mockClear();
     getServerSession.mockClear();
+    // Reset and set test environment variables
+    process.env.OPENAI_API_KEY = "test-openai-key";
+    delete process.env.OPEN_AI_KEY;
+  });
+
+  afterEach(() => {
+    // Restore original environment
+    process.env = originalEnv;
   });
 
   it("should return AI response successfully when authenticated", async () => {
