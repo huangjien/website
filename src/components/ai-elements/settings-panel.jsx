@@ -1,14 +1,21 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { BiX } from "react-icons/bi";
+import { getCuratedAiModels } from "../../config/ai-models";
 
-export default function SettingsPanel({ settings, setSettings, onClose }) {
+export default function SettingsPanel({
+  settings,
+  setSettings,
+  onClose,
+  models = [],
+}) {
   const { t } = useTranslation();
   const model = settings?.model || "gpt-4o-mini";
   const temperature = Number(settings?.temperature ?? 1);
   const trackSpeed = Number(settings?.trackSpeed ?? 300);
   const systemPrompt = settings?.systemPrompt || "";
   const ttsVoice = settings?.ttsVoice || "alloy";
+  const modelOptions = models.length > 0 ? models : getCuratedAiModels();
 
   const update = (next) => setSettings?.((prev) => ({ ...prev, ...next }));
 
@@ -47,13 +54,13 @@ export default function SettingsPanel({ settings, setSettings, onClose }) {
               onChange={(e) => update({ model: e.target.value })}
               className='w-full rounded-xl glass-input p-2.5 text-sm text-foreground focus:ring-2 focus:ring-primary/50 transition-all duration-fast cursor-pointer'
             >
-              <option value='gpt-4o-mini'>gpt-4o-mini</option>
-              <option value='gpt-4o'>gpt-4o</option>
-              <option value='gpt-4.1-mini'>gpt-4.1-mini</option>
-              <option value='gpt-4.1'>gpt-4.1</option>
-              <option value='o3-mini'>o3-mini</option>
-              <option value='o1-mini'>o1-mini</option>
-              <option value='o1'>o1</option>
+              {modelOptions.map((item) => (
+                <option key={item.id} value={item.id}>
+                  {`${item.label || item.id} (${item.tier || "balanced"} · ${
+                    item.costLevel || "medium"
+                  } cost)`}
+                </option>
+              ))}
             </select>
           </div>
 

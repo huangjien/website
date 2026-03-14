@@ -23,6 +23,11 @@ import PromptInput from "../components/ai-elements/prompt-input";
 import SettingsPanel from "../components/ai-elements/settings-panel";
 import TTSButton from "../components/ai-elements/tts-button";
 import CopyButton from "../components/ai-elements/copy-button";
+import {
+  DEFAULT_AI_MODEL,
+  getCuratedAiModels,
+  isAllowedAiModel,
+} from "../config/ai-models";
 
 // Helpers to serialize/hydrate UI messages for localStorage
 function uiMessageText(message) {
@@ -57,6 +62,7 @@ function hydrateMessages(serialized) {
 
 export default function AI() {
   const [mounted, setMounted] = useState(false);
+  const [modelOptions, setModelOptions] = useState(getCuratedAiModels());
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -67,7 +73,7 @@ export default function AI() {
   // Settings persisted under ai:* per spec
   const [settings, setSettings] = useLocalStorageState("ai:settings", {
     defaultValue: {
-      model: "gpt-4o-mini",
+      model: DEFAULT_AI_MODEL,
       temperature: 1,
       trackSpeed: 300,
       ttsVoice: "alloy",
@@ -152,6 +158,55 @@ export default function AI() {
     localStorage.removeItem("ai-elements/conversations");
     localStorage.removeItem("ai-elements/settings");
   }, []);
+
+  useEffect(() => {
+    const fetchModelOptions = async () => {
+      if (process.env.NODE_ENV === "test") {
+        return;
+      }
+      if (typeof fetch !== "function") {
+        return;
+      }
+      try {
+        const response = await fetch("/api/ai-models");
+        if (!response.ok) {
+          throw new Error(`Failed to load models: ${response.status}`);
+        }
+        const data = await response.json();
+        if (Array.isArray(data?.models) && data.models.length > 0) {
+          setModelOptions(data.models);
+        }
+      } catch (error) {
+        console.warn(
+          "Failed to load live model catalog, using fallback",
+          error,
+        );
+        setModelOptions(getCuratedAiModels());
+      }
+    };
+
+    fetchModelOptions();
+  }, []);
+
+  useEffect(() => {
+    const currentModel = settings?.model;
+    if (!currentModel) {
+      return;
+    }
+    const isInCatalog = modelOptions.some((item) => item.id === currentModel);
+    if (!isAllowedAiModel(currentModel) || !isInCatalog) {
+      const fallbackModel =
+        modelOptions.find((item) => item.id === DEFAULT_AI_MODEL)?.id ||
+        modelOptions[0]?.id ||
+        DEFAULT_AI_MODEL;
+      setSettings?.((prev) => ({ ...prev, model: fallbackModel }));
+      toast.info(
+        t("ai.model_auto_fallback", {
+          defaultValue: "Model updated to default option.",
+        }),
+      );
+    }
+  }, [modelOptions, settings?.model, setSettings, t]);
 
   // Initialize useChat with initial messages and backend API
   const { id, messages, sendMessage, stop, status, clearError, setMessages } =
@@ -457,12 +512,13 @@ export default function AI() {
                   mounted
                     ? settings
                     : {
-                        model: "gpt-4o-mini",
+                        model: DEFAULT_AI_MODEL,
                         temperature: 1,
                         trackSpeed: 300,
                         ttsVoice: "alloy",
                       }
                 }
+                models={modelOptions}
                 setSettings={setSettings}
                 onClose={() => setShowSettings(false)}
               />

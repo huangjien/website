@@ -31,6 +31,8 @@ describe("PwaRegister", () => {
 
     const unregisterOld = jest.fn().mockResolvedValue(true);
     const unregisterKeep = jest.fn().mockResolvedValue(true);
+    const update = jest.fn().mockResolvedValue(undefined);
+    const register = jest.fn().mockResolvedValue({ update });
 
     defineNavigatorServiceWorker({
       getRegistrations: jest.fn().mockResolvedValue([
@@ -43,7 +45,7 @@ describe("PwaRegister", () => {
           unregister: unregisterOld,
         },
       ]),
-      register: jest.fn().mockResolvedValue({ update: jest.fn() }),
+      register,
     });
 
     global.caches = {
@@ -75,6 +77,7 @@ describe("PwaRegister", () => {
         scope: "/",
       });
     });
+    expect(update).toHaveBeenCalledTimes(1);
   });
   it("does nothing outside production", async () => {
     process.env.NODE_ENV = "test";

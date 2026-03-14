@@ -1,4 +1,5 @@
 import {
+  openInNewTab,
   handleDropdownAction,
   getUserInitials,
   getUserDisplayName,
@@ -7,10 +8,40 @@ import {
 } from "../Login";
 
 describe("Login - Exported Functions", () => {
+  describe("openInNewTab", () => {
+    beforeEach(() => {
+      jest.clearAllMocks();
+      window.open = jest.fn();
+    });
+
+    it("should open new tab with security flags", () => {
+      const openedWindow = { opener: {} };
+      window.open.mockReturnValue(openedWindow);
+
+      const result = openInNewTab("/settings");
+
+      expect(window.open).toHaveBeenCalledWith(
+        "/settings",
+        "_blank",
+        "noopener,noreferrer",
+      );
+      expect(openedWindow.opener).toBeNull();
+      expect(result).toBe(openedWindow);
+    });
+
+    it("should return null when popup is blocked", () => {
+      window.open.mockReturnValue(null);
+
+      const result = openInNewTab("/settings");
+
+      expect(result).toBeNull();
+    });
+  });
+
   describe("handleDropdownAction", () => {
     beforeEach(() => {
       jest.clearAllMocks();
-      global.open = jest.fn();
+      window.open = jest.fn();
     });
 
     afterEach(() => {
@@ -26,10 +57,17 @@ describe("Login - Exported Functions", () => {
     });
 
     it("should handle settings action", () => {
+      const openedWindow = { opener: {} };
+      window.open.mockReturnValue(openedWindow);
       const result = handleDropdownAction("settings");
 
       expect(result).toBe(true);
-      expect(global.open).toHaveBeenCalledWith("/settings", "_blank");
+      expect(window.open).toHaveBeenCalledWith(
+        "/settings",
+        "_blank",
+        "noopener,noreferrer",
+      );
+      expect(openedWindow.opener).toBeNull();
     });
 
     it("should handle unknown action", () => {

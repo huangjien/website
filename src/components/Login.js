@@ -6,15 +6,24 @@ import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import Button from "./ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "./ui/avatar";
 
+export const openInNewTab = (url) => {
+  if (typeof window === "undefined") {
+    return null;
+  }
+  const openedWindow = window.open(url, "_blank", "noopener,noreferrer");
+  if (openedWindow) {
+    openedWindow.opener = null;
+  }
+  return openedWindow;
+};
+
 export const handleDropdownAction = (key) => {
   switch (key) {
     case "logout":
       signOut();
       return true;
     case "settings":
-      if (typeof window !== "undefined") {
-        window.open("/settings", "_blank");
-      }
+      openInNewTab("/settings");
       return true;
     default:
       return false;
@@ -46,11 +55,7 @@ export const getUserImage = (user) => {
 const Login = ({
   onLogin = () => signIn("github"),
   onLogout = () => signOut(),
-  onSettings = () => {
-    if (typeof window !== "undefined") {
-      window.open("/settings", "_blank");
-    }
-  },
+  onSettings = () => openInNewTab("/settings"),
 } = {}) => {
   const { data: session, status } = useSession();
   const { t } = useTranslation();
@@ -98,7 +103,7 @@ const Login = ({
       </DropdownMenu.Trigger>
       <DropdownMenu.Content
         sideOffset={6}
-        className='z-50 min-w-[12rem] rounded-xl glass-card p-1.5 text-popover-foreground shadow-lg animate-slide-down transition-all duration-fast ease-out'
+        className='z-50 min-w-48 rounded-xl glass-card p-1.5 text-popover-foreground shadow-lg animate-slide-down transition-all duration-fast ease-out'
       >
         <DropdownMenu.Label className='px-2 py-1.5 text-xs text-muted-foreground'>
           {t("header.message", { defaultValue: "Message" })}

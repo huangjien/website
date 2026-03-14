@@ -6,6 +6,11 @@ import {
   CHAT_RATE_LIMIT,
   CHAT_WINDOW_MS,
 } from "../../lib/rateLimit";
+import {
+  CURATED_MODEL_IDS,
+  DEFAULT_AI_MODEL,
+  isAllowedAiModel,
+} from "../../config/ai-models";
 
 /**
  * Chat streaming endpoint using Vercel AI SDK (Pages Router, Node runtime)
@@ -66,6 +71,14 @@ export default async function handler(req, res) {
 
     const body = validationResult.data;
     const { messages, model, temperature, system, input, prompt } = body;
+    const selectedModel = model || DEFAULT_AI_MODEL;
+
+    if (!isAllowedAiModel(selectedModel)) {
+      return res.status(400).json({
+        error: "Invalid model",
+        details: `Model must be one of: ${CURATED_MODEL_IDS.join(", ")}`,
+      });
+    }
 
     // Build core messages from UI messages, or fallback to raw input/prompt strings
     let coreMessages;
@@ -84,7 +97,7 @@ export default async function handler(req, res) {
     }
 
     const result = await streamText({
-      model: openaiClient(model || "gpt-4o-mini"),
+      model: openaiClient(selectedModel),
       messages: coreMessages,
       temperature: typeof temperature === "number" ? temperature : undefined,
       system: typeof system === "string" ? system : undefined,

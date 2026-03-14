@@ -51,4 +51,41 @@ describe("SettingsPanel", () => {
     fireEvent.change(voiceSelect, { target: { value: "aria" } });
     expect(voiceSelect).toHaveValue("aria");
   });
+
+  it("renders custom model list when models prop is provided", () => {
+    const customModels = [
+      {
+        id: "gpt-4o-mini",
+        label: "GPT-4o Mini",
+        tier: "balanced",
+        costLevel: "low",
+      },
+      {
+        id: "gpt-4.1",
+        label: "GPT-4.1",
+        tier: "advanced",
+        costLevel: "medium",
+      },
+    ];
+    const setSettings = jest.fn();
+
+    render(
+      <SettingsPanel
+        settings={{
+          model: "gpt-4o-mini",
+          temperature: 1,
+          trackSpeed: 300,
+          systemPrompt: "",
+          ttsVoice: "alloy",
+        }}
+        setSettings={setSettings}
+        models={customModels}
+      />,
+    );
+
+    expect(
+      screen.getByRole("option", { name: /GPT-4o Mini/ }),
+    ).toBeInTheDocument();
+    expect(screen.getByRole("option", { name: /GPT-4.1/ })).toBeInTheDocument();
+  });
 });
