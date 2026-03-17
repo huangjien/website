@@ -58,14 +58,21 @@ describe("/api/ai-models", () => {
     expect(res._getStatusCode()).toBe(200);
     const data = JSON.parse(res._getData());
     expect(data.source).toBe("live");
-    expect(data.models.map((m) => m.id)).toEqual(["gpt-4o-mini", "gpt-4.1", "o1"]);
-    expect(global.fetch).toHaveBeenCalledWith("https://api.openai.com/v1/models", {
-      method: "GET",
-      headers: {
-        Authorization: "Bearer test-key",
-        "Content-Type": "application/json",
+    expect(data.models.map((m) => m.id)).toEqual([
+      "gpt-4o-mini",
+      "gpt-4.1",
+      "o1",
+    ]);
+    expect(global.fetch).toHaveBeenCalledWith(
+      "https://api.openai.com/v1/models",
+      {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer test-key",
+          "Content-Type": "application/json",
+        },
       },
-    });
+    );
   });
 
   it("returns 405 for non-GET methods", async () => {

@@ -177,7 +177,10 @@ export default function AI() {
           setModelOptions(data.models);
         }
       } catch (error) {
-        console.warn("Failed to load live model catalog, using fallback", error);
+        console.warn(
+          "Failed to load live model catalog, using fallback",
+          error,
+        );
         setModelOptions(getCuratedAiModels());
       }
     };
