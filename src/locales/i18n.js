@@ -1,6 +1,6 @@
 import i18n, { use } from "i18next";
 import { initReactI18next } from "react-i18next";
-import { resources } from "./resources";
+import { resources, localeLoaders } from "./resources";
 
 export const languages = [
   {
@@ -178,6 +178,26 @@ use(initReactI18next).init({
   interpolation: {
     escapeValue: false, // not needed for react as it escapes by default
   },
+});
+
+const loadedLocales = new Set(["en"]);
+
+export const ensureLocaleLoaded = async (lng) => {
+  if (!lng || loadedLocales.has(lng)) {
+    return;
+  }
+  const loadLocale = localeLoaders[lng];
+  if (!loadLocale) {
+    return;
+  }
+  const mod = await loadLocale();
+  const translation = mod?.default || mod;
+  i18n.addResourceBundle(lng, "translation", translation, true, true);
+  loadedLocales.add(lng);
+};
+
+i18n.on("languageChanged", (lng) => {
+  ensureLocaleLoaded(lng);
 });
 
 export default i18n;

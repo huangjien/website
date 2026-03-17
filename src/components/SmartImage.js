@@ -1,10 +1,16 @@
 import { memo, useState, useEffect } from "react";
+import Image from "next/image";
 import Skeleton from "./ui/skeleton";
+
+const toProxyUrl = (value) =>
+  `/api/image-proxy?url=${encodeURIComponent(value)}`;
 
 const SmartImageComponent = ({ src, alt, className, node, ...props }) => {
   const [imgSrc, setImgSrc] = useState(src);
   const [status, setStatus] = useState("loading"); // loading, success, error, retrying, failed
   const [attempt, setAttempt] = useState(0);
+  const width = Number(props.width) || 800;
+  const height = Number(props.height) || 600;
 
   useEffect(() => {
     setImgSrc(src);
@@ -17,7 +23,7 @@ const SmartImageComponent = ({ src, alt, className, node, ...props }) => {
       // First failure: try the proxy
       setStatus("retrying");
       setAttempt(1);
-      const proxyUrl = `/api/image-proxy?url=${encodeURIComponent(src)}`;
+      const proxyUrl = toProxyUrl(src);
       setImgSrc(proxyUrl);
     } else {
       // Second failure: show fallback
@@ -40,12 +46,12 @@ const SmartImageComponent = ({ src, alt, className, node, ...props }) => {
       ) : null}
 
       {status !== "failed" && (
-        /* eslint-disable-next-line @next/next/no-img-element */
-        <img
+        <Image
           src={imgSrc}
           alt={alt || ""}
-          width={props.width || 800}
-          height={props.height || 600}
+          width={width}
+          height={height}
+          unoptimized={imgSrc?.startsWith("/api/image-proxy")}
           className={`rounded-lg shadow-md my-4 max-w-full h-auto transition-opacity duration-300 ${
             status === "success"
               ? "opacity-100"
@@ -54,6 +60,7 @@ const SmartImageComponent = ({ src, alt, className, node, ...props }) => {
           loading='lazy'
           onError={handleError}
           onLoad={handleLoad}
+          style={{ height: "auto" }}
           {...props}
         />
       )}

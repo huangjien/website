@@ -1,9 +1,7 @@
 import { useTitle } from "ahooks";
 import { useTranslation } from "react-i18next";
 import { useGithubContent } from "../lib/useGithubContent";
-import Markdown from "react-markdown";
-import remarkGfm from "remark-gfm";
-import rehypeRaw from "rehype-raw";
+import { MarkdownContent } from "../components/MarkdownContent";
 
 export default function About() {
   const { about } = useGithubContent();
@@ -18,9 +16,7 @@ export default function About() {
    */
   return (
     <div className='prose prose-2xl dark:prose-invert justify-center items-center gap-8 m-2 w-full animate-fade-in'>
-      <Markdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
-        {about}
-      </Markdown>
+      <MarkdownContent>{about}</MarkdownContent>
     </div>
   );
 }

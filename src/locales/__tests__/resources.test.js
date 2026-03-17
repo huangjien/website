@@ -1,4 +1,4 @@
-import { resources } from "../resources";
+import { localeLoaders, resources } from "../resources";
 
 // Mock JSON imports
 jest.mock("../ar.json", () => ({ "test.key": "Arabic test" }), {
@@ -144,6 +144,51 @@ describe("resources configuration", () => {
     expect(resources.ko.translation["test.key"]).toBe("Korean test");
     expect(resources.ar.translation["test.key"]).toBe("Arabic test");
     expect(resources.ga.translation["test.key"]).toBe("Irish test");
+  });
+
+  it("should expose dynamic locale loaders for all supported languages", () => {
+    const expectedLanguages = [
+      "en",
+      "ru",
+      "ar",
+      "de",
+      "it",
+      "ja",
+      "ko",
+      "ga",
+      "es",
+      "fr",
+      "zh_CN",
+      "zh_TW",
+    ];
+
+    expectedLanguages.forEach((lang) => {
+      expect(localeLoaders).toHaveProperty(lang);
+      expect(typeof localeLoaders[lang]).toBe("function");
+    });
+  });
+
+  it("loads locale payload through localeLoaders", async () => {
+    const loaded = await localeLoaders.fr();
+    const translation = loaded?.default || loaded;
+    expect(translation["test.key"]).toBe("French test");
+  });
+
+  it("can execute all locale loader factories", async () => {
+    const keys = Object.keys(localeLoaders);
+    const loadedItems = await Promise.all(
+      keys.map(async (key) => {
+        const loaded = await localeLoaders[key]();
+        const translation = loaded?.default || loaded;
+        return [key, translation];
+      }),
+    );
+
+    loadedItems.forEach(([key, translation]) => {
+      expect(key).toBeTruthy();
+      expect(typeof translation).toBe("object");
+      expect(translation["test.key"]).toBeDefined();
+    });
   });
 
   it("should maintain immutable structure", () => {

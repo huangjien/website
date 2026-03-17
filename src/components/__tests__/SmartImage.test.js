@@ -9,6 +9,13 @@ jest.mock("../ui/skeleton", () => {
   };
 });
 
+jest.mock("next/image", () => {
+  return function MockNextImage(props) {
+    // eslint-disable-next-line @next/next/no-img-element
+    return <img {...props} />;
+  };
+});
+
 describe("SmartImage Component", () => {
   const mockSrc = "https://example.com/image.jpg";
   const mockAlt = "Test Image";

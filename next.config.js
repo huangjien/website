@@ -24,6 +24,9 @@ const nextConfig = {
   // output: "standalone",
   reactStrictMode: true,
   devIndicators: false,
+  env: {
+    NEXT_PUBLIC_APP_VERSION: process.env.npm_package_version || "dev",
+  },
   transpilePackages: ["ahooks"],
   compiler: {
     styledComponents: true,
@@ -62,6 +65,24 @@ const nextConfig = {
   async headers() {
     return [
       {
+        source: "/sw.js",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=0, must-revalidate",
+          },
+        ],
+      },
+      {
+        source: "/manifest.json",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=3600, must-revalidate",
+          },
+        ],
+      },
+      {
         source: "/:all*(svg|jpg|jpeg|png|gif|webp|ico|woff|woff2|ttf|eot)",
         locale: false,
         headers: [
@@ -77,7 +98,7 @@ const nextConfig = {
         headers: [
           {
             key: "Cache-Control",
-            value: "public, max-age=31536000, immutable",
+            value: "public, max-age=86400, must-revalidate",
           },
         ],
       },

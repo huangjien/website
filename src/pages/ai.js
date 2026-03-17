@@ -6,12 +6,7 @@ import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
-import {
-  BiChevronDown,
-  BiChevronUp,
-  BiExpand,
-  BiCollapse,
-} from "react-icons/bi";
+import { BiExpand, BiCollapse } from "react-icons/bi";
 
 import {
   Conversation,

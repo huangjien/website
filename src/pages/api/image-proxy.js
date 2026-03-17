@@ -1,6 +1,7 @@
-import fs from "fs";
+import { promises as fs } from "fs";
 import path from "path";
 import crypto from "crypto";
+import { fetchWithTimeout } from "../../lib/fetchWithTimeout";
 
 const CACHE_DIR = path.join(process.cwd(), ".cache", "images");
 const MAX_CACHE_AGE = 30 * 24 * 60 * 60 * 1000; // 30 days in milliseconds
@@ -17,10 +18,8 @@ function getCacheKey(url) {
 /**
  * Ensure cache directory exists
  */
-function ensureCacheDir() {
-  if (!fs.existsSync(CACHE_DIR)) {
-    fs.mkdirSync(CACHE_DIR, { recursive: true });
-  }
+async function ensureCacheDir() {
+  await fs.mkdir(CACHE_DIR, { recursive: true });
 }
 
 /**
@@ -28,21 +27,30 @@ function ensureCacheDir() {
  * @param {string} cacheKey - The cache key
  * @returns {Object|null} - Cached data with metadata or null
  */
-function getCachedImage(cacheKey) {
+async function pathExists(filePath) {
+  try {
+    await fs.access(filePath);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+async function getCachedImage(cacheKey) {
   const cachePath = path.join(CACHE_DIR, `${cacheKey}.json`);
 
   try {
-    if (!fs.existsSync(cachePath)) {
+    if (!(await pathExists(cachePath))) {
       return null;
     }
 
-    const cacheData = JSON.parse(fs.readFileSync(cachePath, "utf8"));
+    const cacheData = JSON.parse(await fs.readFile(cachePath, "utf8"));
     const imagePath = path.join(CACHE_DIR, cacheKey);
 
     // Check if image file exists
-    if (!fs.existsSync(imagePath)) {
+    if (!(await pathExists(imagePath))) {
       // Clean up stale metadata
-      fs.unlinkSync(cachePath);
+      await fs.unlink(cachePath).catch(() => {});
       return null;
     }
 
@@ -50,13 +58,13 @@ function getCachedImage(cacheKey) {
     const now = Date.now();
     if (now - cacheData.timestamp > MAX_CACHE_AGE) {
       // Cache expired, clean up
-      fs.unlinkSync(cachePath);
-      fs.unlinkSync(imagePath);
+      await fs.unlink(cachePath).catch(() => {});
+      await fs.unlink(imagePath).catch(() => {});
       return null;
     }
 
     return {
-      data: fs.readFileSync(imagePath),
+      data: await fs.readFile(imagePath),
       contentType: cacheData.contentType,
       cached: true,
     };
@@ -72,18 +80,18 @@ function getCachedImage(cacheKey) {
  * @param {Buffer} buffer - The image buffer
  * @param {string} contentType - The content type
  */
-function saveCachedImage(cacheKey, buffer, contentType) {
+async function saveCachedImage(cacheKey, buffer, contentType) {
   try {
-    ensureCacheDir();
+    await ensureCacheDir();
 
     const imagePath = path.join(CACHE_DIR, cacheKey);
     const metaPath = path.join(CACHE_DIR, `${cacheKey}.json`);
 
     // Save image data
-    fs.writeFileSync(imagePath, buffer);
+    await fs.writeFile(imagePath, buffer);
 
     // Save metadata
-    fs.writeFileSync(
+    await fs.writeFile(
       metaPath,
       JSON.stringify({
         timestamp: Date.now(),
@@ -108,7 +116,7 @@ export default async function handler(req, res) {
     const cacheKey = getCacheKey(decodedUrl);
 
     // Try to serve from cache first
-    const cached = getCachedImage(cacheKey);
+    const cached = await getCachedImage(cacheKey);
     if (cached) {
       res.setHeader("Content-Type", cached.contentType);
       res.setHeader("Cache-Control", "public, max-age=3600");
@@ -143,10 +151,14 @@ export default async function handler(req, res) {
     }
 
     // Fetch the image
-    const response = await fetch(decodedUrl, {
-      method: "GET",
-      headers: headers,
-    });
+    const response = await fetchWithTimeout(
+      decodedUrl,
+      {
+        method: "GET",
+        headers: headers,
+      },
+      10000,
+    );
 
     if (!response.ok) {
       console.error(
@@ -162,7 +174,7 @@ export default async function handler(req, res) {
     const buffer = Buffer.from(arrayBuffer);
 
     // Save to cache
-    saveCachedImage(cacheKey, buffer, contentType);
+    await saveCachedImage(cacheKey, buffer, contentType);
 
     res.setHeader("Content-Type", contentType);
     res.setHeader("Cache-Control", "public, max-age=3600");

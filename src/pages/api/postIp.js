@@ -1,4 +1,5 @@
 // pages/api/postIp.js
+import { promises as fs } from "fs";
 
 export default async function handler(req, res) {
   if (req.method === "POST") {
@@ -6,8 +7,7 @@ export default async function handler(req, res) {
       const { ip } = req.body;
 
       // Store IP in a file (example using fs module)
-      const fs = require("fs");
-      fs.writeFileSync("stored_ip.txt", ip, "utf-8");
+      await fs.writeFile("stored_ip.txt", ip, "utf-8");
 
       res.status(200).json({ message: "IP stored successfully" });
     } catch (error) {

@@ -50,8 +50,11 @@ export const getRawContent = (url) => {
   });
 };
 
-export const getIssues = () => {
-  return fetch("/api/issues", {
+export const getIssues = (includeComments = false) => {
+  const endpoint = includeComments
+    ? "/api/issues?includeComments=1"
+    : "/api/issues";
+  return fetch(endpoint, {
     method: "GET",
   }).then((res) => {
     return res.text();

@@ -1,18 +1,16 @@
 "use client";
 import React, { useState, useCallback, useMemo } from "react";
 import { useSettings } from "../lib/useSettings";
-import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 import { useTitle, useDebounceEffect } from "ahooks";
 import { BiSearch } from "react-icons/bi";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import Input from "../components/ui/input";
 import Button from "../components/ui/button";
 
 export default function Settings() {
   const { settings } = useSettings();
   const { data: session, status } = useSession();
-  const { push } = useRouter();
   const { t } = useTranslation();
   useTitle(t("header.settings"));
   const [rowsPerPage, setRowsPerPage] = useState(5);

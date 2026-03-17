@@ -1,7 +1,7 @@
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { useTranslation } from "react-i18next";
 import { BiGlobe } from "react-icons/bi";
-import { languages } from "../locales/i18n";
+import { ensureLocaleLoaded, languages } from "../locales/i18n";
 import { useSettings } from "../lib/useSettings";
 import { useEffect } from "react";
 import Button from "./ui/button";
@@ -30,7 +30,13 @@ export const LanguageSwitch = () => {
 
   useEffect(() => {
     if (i18n && currentLanguage) {
-      i18n.changeLanguage(currentLanguage);
+      Promise.resolve(
+        typeof ensureLocaleLoaded === "function"
+          ? ensureLocaleLoaded(currentLanguage)
+          : undefined,
+      ).finally(() => {
+        i18n.changeLanguage(currentLanguage);
+      });
       // search in languages array for the current language and set languageCode and speakerName
       const lang = languages.find((o) => o.key === currentLanguage);
       if (lang && lang.languageCode && lang.name) {

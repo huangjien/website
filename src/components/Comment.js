@@ -1,23 +1,36 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Avatar from "./ui/avatar";
 import * as Accordion from "./ui/accordion";
 import { useTranslation } from "react-i18next";
 import { useSettings } from "../lib/useSettings";
 import { extractContentAccordingContentList } from "../lib/useGithubContent";
-import Markdown from "react-markdown";
-import rehypeRaw from "rehype-raw";
-import remarkGfm from "remark-gfm";
 import { sanitizeMarkdown } from "../lib/markdown-utils";
-import { SmartImage } from "./SmartImage";
+import { MarkdownContent } from "./MarkdownContent";
 
-export const Comment = React.memo(function Comment({ issue_id }) {
+export const Comment = React.memo(function Comment({ issue_id, list }) {
   const { t } = useTranslation();
   const { getSetting } = useSettings();
   const commentContent = getSetting("comment.content");
   const commentContentList = commentContent?.split(",");
   const [commentList, setCommentList] = useState([]);
+  const normalizedList = useMemo(() => {
+    if (!Array.isArray(list)) {
+      return null;
+    }
+    return list.map((oneComment) =>
+      extractContentAccordingContentList(commentContentList, oneComment),
+    );
+  }, [list, commentContentList]);
 
   useEffect(() => {
+    if (normalizedList !== null) {
+      setCommentList(normalizedList);
+      return;
+    }
+    if (!issue_id) {
+      setCommentList([]);
+      return;
+    }
     const temp_array = [];
     async function fetchComments() {
       try {
@@ -45,7 +58,7 @@ export const Comment = React.memo(function Comment({ issue_id }) {
       }
     }
     fetchComments();
-  }, [commentContentList, issue_id]);
+  }, [commentContentList, issue_id, normalizedList]);
 
   if (commentList === null) return null;
 
@@ -102,15 +115,9 @@ export const Comment = React.memo(function Comment({ issue_id }) {
                 </Accordion.Header>
                 <Accordion.Content>
                   <div className='prose prose-stone dark:prose-invert lg:prose-xl max-w-fit'>
-                    <Markdown
-                      remarkPlugins={[remarkGfm]}
-                      rehypePlugins={[rehypeRaw]}
-                      components={{
-                        img: SmartImage,
-                      }}
-                    >
+                    <MarkdownContent>
                       {sanitizeMarkdown(oneComment.body)}
-                    </Markdown>
+                    </MarkdownContent>
                   </div>
                 </Accordion.Content>
               </Accordion.Item>

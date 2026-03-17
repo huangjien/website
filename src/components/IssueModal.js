@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import { BiEdit, BiListPlus } from "react-icons/bi";
 import { useTranslation } from "react-i18next";
-import Markdown from "react-markdown";
-import rehypeRaw from "rehype-raw";
-import remarkGfm from "remark-gfm";
+import { MarkdownContent } from "./MarkdownContent";
 
 import { Dialog, DialogContent, DialogBody, DialogFooter } from "./ui/dialog";
 import Button from "./ui/button";
@@ -82,12 +80,7 @@ export function IssueModal({ issue, action }) {
                 />
 
                 <div className='hidden lg:block m-2'>
-                  <Markdown
-                    remarkPlugins={[remarkGfm]}
-                    rehypePlugins={[rehypeRaw]}
-                  >
-                    {content}
-                  </Markdown>
+                  <MarkdownContent>{content}</MarkdownContent>
                 </div>
               </div>
             </div>

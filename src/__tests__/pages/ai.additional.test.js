@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import AI from "../../pages/ai";
 
@@ -33,6 +33,15 @@ jest.mock("ahooks", () => ({
       fn?.();
     } catch {}
   }),
+}));
+
+const mockToastError = jest.fn();
+const mockToastInfo = jest.fn();
+jest.mock("react-toastify", () => ({
+  toast: {
+    error: (...args) => mockToastError(...args),
+    info: (...args) => mockToastInfo(...args),
+  },
 }));
 
 // Mock AI SDK useChat
@@ -372,5 +381,67 @@ describe("AI Page additional coverage", () => {
     expect(screen.getByTestId("tts-button").getAttribute("data-voice")).toBe(
       "celeste",
     );
+  });
+
+  it("triggers toast.error when useChat onError callback runs", async () => {
+    const { useChat } = require("@ai-sdk/react");
+    let capturedOptions;
+    useChat.mockImplementation((options) => {
+      capturedOptions = options;
+      return {
+        id: "ai-page",
+        messages: [],
+        sendMessage: jest.fn(),
+        stop: jest.fn(),
+        status: "idle",
+        clearError: jest.fn(),
+        setMessages: jest.fn(),
+      };
+    });
+
+    render(<AI />);
+    capturedOptions.onError(new Error("network"));
+
+    await waitFor(() => {
+      expect(mockToastError).toHaveBeenCalled();
+    });
+  });
+
+  it("falls back invalid model and notifies user", async () => {
+    const { useLocalStorageState } = require("ahooks");
+    const setSettingsMock = jest.fn();
+    const setSavedMessagesMock = jest.fn();
+
+    useLocalStorageState.mockImplementation((key) => {
+      if (key === "ai:settings") {
+        return [
+          {
+            model: "invalid-model",
+            temperature: 1,
+            trackSpeed: 300,
+            ttsVoice: "alloy",
+          },
+          setSettingsMock,
+        ];
+      }
+      if (key === "ai:conversations") {
+        return [[], setSavedMessagesMock];
+      }
+      return [undefined, jest.fn()];
+    });
+
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        models: [{ id: "gpt-4o-mini", label: "gpt-4o-mini" }],
+      }),
+    });
+
+    render(<AI />);
+
+    await waitFor(() => {
+      expect(setSettingsMock).toHaveBeenCalled();
+      expect(mockToastInfo).toHaveBeenCalled();
+    });
   });
 });

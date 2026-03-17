@@ -11,6 +11,7 @@ jest.mock("../../lib/useSettings", () => ({
 
 // Mock languages from i18n
 jest.mock("../../locales/i18n", () => ({
+  ensureLocaleLoaded: jest.fn(() => Promise.resolve()),
   languages: [
     {
       key: "en",

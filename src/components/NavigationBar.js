@@ -1,15 +1,13 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import { BiChip, BiCog, BiDetail, BiHome } from "react-icons/bi";
 import Login from "./Login";
-import { useTheme } from "next-themes";
 import { ThemeSwitch } from "./ThemeSwitch";
 import { LanguageSwitch } from "./LanguageSwitch";
 import { StyleSwitch } from "./StyleSwitch";
-import { useSession } from "next-auth/react";
 import Avatar from "./ui/avatar";
 import { MobileMenu } from "./MobileMenu";
 
@@ -18,15 +16,7 @@ import { MobileMenu } from "./MobileMenu";
  * @returns {JSX.Element} The rendered navigation bar.
  */
 export const NavigationBar = () => {
-  const [mounted, setMounted] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { theme } = useTheme();
-  const { data: session, status } = useSession();
   const { t } = useTranslation();
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   // Inside navigation links rendering, ensure Settings link is always visible
   return (

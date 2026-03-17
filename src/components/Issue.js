@@ -3,12 +3,9 @@ import * as Accordion from "./ui/accordion";
 import Badge from "./ui/badge";
 import { useTranslation } from "react-i18next";
 import { Comment } from "./Comment";
-import Markdown from "react-markdown";
-import rehypeRaw from "rehype-raw";
-import remarkGfm from "remark-gfm";
 import { IssueModal } from "./IssueModal";
-import { SmartImage } from "./SmartImage";
 import { sanitizeMarkdown } from "../lib/markdown-utils";
+import { MarkdownContent } from "./MarkdownContent";
 
 export const Issue = React.memo(function Issue({ issue }) {
   const { t } = useTranslation();
@@ -16,6 +13,9 @@ export const Issue = React.memo(function Issue({ issue }) {
   if (!issue) return null;
 
   const sanitizedBody = sanitizeMarkdown(issue.body);
+  const commentsData = Array.isArray(issue.commentsData)
+    ? issue.commentsData
+    : [];
 
   const subtitleText =
     (issue.created_at === issue.updated_at
@@ -68,18 +68,10 @@ export const Issue = React.memo(function Issue({ issue }) {
         </Accordion.Header>
         <Accordion.Content className='px-6 pb-6'>
           <div className='prose prose-stone dark:prose-invert max-w-none prose-headings:text-foreground prose-p:text-muted-foreground prose-a:text-primary prose-a:no-underline hover:prose-a:underline'>
-            <Markdown
-              remarkPlugins={[remarkGfm]}
-              rehypePlugins={[rehypeRaw]}
-              components={{
-                img: SmartImage,
-              }}
-            >
-              {sanitizedBody}
-            </Markdown>
+            <MarkdownContent>{sanitizedBody}</MarkdownContent>
           </div>
-          {issue.comments > 0 && (
-            <Comment className='mt-6' issue_id={issue.number} />
+          {commentsData.length > 0 && (
+            <Comment className='mt-6' list={commentsData} />
           )}
         </Accordion.Content>
       </Accordion.Item>

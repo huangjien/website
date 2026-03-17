@@ -17,7 +17,10 @@ export const useGithubContent = () => {
 
   useRequest(
     async () => {
-      const [readme, issues] = await Promise.all([getReadme(), getIssues()]);
+      const [readme, issues] = await Promise.all([
+        getReadme(),
+        getIssues(true),
+      ]);
       return { readme, issues };
     },
     {
@@ -58,6 +61,12 @@ export const useGithubContent = () => {
               issue,
             );
             content["labels.name"] = labelArray;
+            if (
+              Array.isArray(issue.__comments) &&
+              issue.__comments.length > 0
+            ) {
+              content.commentsData = issue.__comments;
+            }
             finalResult.push(content);
           }
         }

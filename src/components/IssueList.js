@@ -73,9 +73,27 @@ export const IssueList = ({ tags, ComponentName, data, inTab = "ai" }) => {
   const filterItems = useMemo(() => {
     let filteredData = data || [];
     if (filterValue && filteredData.length > 0) {
-      let regex = new RegExp(filterValue, "i");
+      const query = filterValue.trim().toLowerCase();
       filteredData = filteredData.filter((oneItem) => {
-        return JSON.stringify(oneItem).search(regex) > -1;
+        const labels = Array.isArray(oneItem?.["labels.name"])
+          ? oneItem["labels.name"].join(" ")
+          : "";
+        const searchText = [
+          oneItem?.title,
+          oneItem?.body,
+          oneItem?.number,
+          oneItem?.["user.login"],
+          labels,
+        ]
+          .filter(Boolean)
+          .join(" ")
+          .toLowerCase();
+        if (searchText.includes(query)) {
+          return true;
+        }
+        return JSON.stringify(oneItem || {})
+          .toLowerCase()
+          .includes(query);
       });
     }
 

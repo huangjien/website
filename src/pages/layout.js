@@ -4,12 +4,12 @@ import Breadcrumb from "../components/Breadcrumb";
 import Button from "../components/ui/button";
 import { useEffect, useState } from "react";
 import { MdKeyboardArrowUp } from "react-icons/md";
-import packageJson from "../../package.json";
 import { useTranslation } from "react-i18next";
 import { applyDesignStyleToDocument } from "../lib/ui-ux-pro-max";
 
 export default function RootLayout({ children }) {
   const { t } = useTranslation();
+  const appVersion = process.env.NEXT_PUBLIC_APP_VERSION || "1.0.0";
   const [showScrollButton, setShowScrollButton] = useState(false);
   const { currentStyle } = useSettings();
 
@@ -60,7 +60,7 @@ export default function RootLayout({ children }) {
         className='text-center p-4 text-sm text-gray-500'
       >
         <p>
-          {t("layout.version")} {packageJson.version}
+          {t("layout.version")} {appVersion}
         </p>
       </footer>
     </div>

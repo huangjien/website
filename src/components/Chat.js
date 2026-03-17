@@ -3,10 +3,7 @@ import Badge from "./ui/badge";
 import Button from "./ui/button";
 import { useTranslation } from "react-i18next";
 import { BiCopyAlt, BiPlayCircle } from "react-icons/bi";
-import Markdown from "react-markdown";
-import rehypeRaw from "rehype-raw";
-import remarkGfm from "remark-gfm";
-import { SmartImage } from "./SmartImage";
+import { MarkdownContent } from "./MarkdownContent";
 
 export const Chat = ({ data, player }) => {
   const { t } = useTranslation();
@@ -86,16 +83,9 @@ export const Chat = ({ data, player }) => {
                   </Button>
                 </div>
                 <div className='select-text prose prose-stone dark:prose-invert lg:prose-xl max-w-fit '>
-                  <Markdown
-                    className='select-text prose prose-stone dark:prose-invert lg:prose-xl max-w-fit '
-                    remarkPlugins={[remarkGfm]}
-                    rehypePlugins={[rehypeRaw]}
-                    components={{
-                      img: SmartImage,
-                    }}
-                  >
+                  <MarkdownContent className='select-text prose prose-stone dark:prose-invert lg:prose-xl max-w-fit '>
                     {data.answer}
-                  </Markdown>
+                  </MarkdownContent>
                 </div>
               </div>
             </Accordion.Content>
