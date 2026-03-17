@@ -6,7 +6,11 @@ describe("/api/ai-models", () => {
   beforeEach(() => {
     jest.clearAllMocks();
     jest.resetModules();
+    // 创建一个完全干净的环境变量对象
     process.env = { ...originalEnv };
+    // 显式删除所有可能的环境变量
+    delete process.env.OPEN_AI_KEY;
+    delete process.env.OPENAI_API_KEY;
     global.fetch = jest.fn();
   });
 
