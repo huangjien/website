@@ -54,18 +54,8 @@ describe("SettingsPanel", () => {
 
   it("renders custom model list when models prop is provided", () => {
     const customModels = [
-      {
-        id: "gpt-4o-mini",
-        label: "GPT-4o Mini",
-        tier: "balanced",
-        costLevel: "low",
-      },
-      {
-        id: "gpt-4.1",
-        label: "GPT-4.1",
-        tier: "advanced",
-        costLevel: "medium",
-      },
+      { id: "gpt-4o-mini", label: "GPT-4o Mini", tier: "balanced", costLevel: "low" },
+      { id: "gpt-4.1", label: "GPT-4.1", tier: "advanced", costLevel: "medium" },
     ];
     const setSettings = jest.fn();
 
@@ -83,9 +73,7 @@ describe("SettingsPanel", () => {
       />,
     );
 
-    expect(
-      screen.getByRole("option", { name: /GPT-4o Mini/ }),
-    ).toBeInTheDocument();
+    expect(screen.getByRole("option", { name: /GPT-4o Mini/ })).toBeInTheDocument();
     expect(screen.getByRole("option", { name: /GPT-4.1/ })).toBeInTheDocument();
   });
 });
