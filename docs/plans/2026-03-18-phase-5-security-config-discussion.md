@@ -23,26 +23,32 @@ Enforce clear secret boundaries and consistent auth protections for token-backed
 ### Approach A: Tighten all token-backed endpoints immediately
 
 Pros:
+
 - Maximum protection quickly
 
 Cons:
+
 - Higher short-term compatibility risk
 
 ### Approach B: Risk-first hardening with compatibility controls
 
 Pros:
+
 - Targets highest-risk routes first
 - Lower rollout risk and easier verification
 
 Cons:
+
 - Some lower-risk endpoints remain for later refinement
 
 ### Approach C: Documentation-only guardrails
 
 Pros:
+
 - Minimal implementation effort
 
 Cons:
+
 - Does not reduce current exploit surface
 
 ## Recommendation

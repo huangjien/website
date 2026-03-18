@@ -18,9 +18,11 @@ Raise regression resistance on high-risk backend and AI paths while ensuring aut
 Add tests across many routes at once and raise coverage quickly.
 
 Pros:
+
 - Fast apparent coverage growth
 
 Cons:
+
 - Higher flakiness risk
 - Harder debugging and slower stabilization
 
@@ -29,10 +31,12 @@ Cons:
 Prioritize tests around critical API/AI contracts and auth/settings user journeys, then expand incrementally.
 
 Pros:
+
 - Strongest reliability payoff per test added
 - Easier maintenance and failure triage
 
 Cons:
+
 - Initial coverage increase appears smaller than broad sweep
 
 ### Approach C: E2E-Only Focus
@@ -40,9 +44,11 @@ Cons:
 Emphasize browser-level tests and limit API unit/integration additions.
 
 Pros:
+
 - High confidence in user-visible behavior
 
 Cons:
+
 - Slower test runtime
 - Lower precision for backend failure diagnosis
 
