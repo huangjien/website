@@ -1,15 +1,17 @@
 import { useRequest, useSessionStorageState } from "ahooks";
 import { createContext, useContext, useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
 import { properties2Json } from "./Requests";
 
 const getSettings = async () => {
-  return await fetch("/api/settings", {
+  const response = await fetch("/api/settings", {
     method: "GET",
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      return data;
-    });
+  });
+  if (!response.ok) {
+    const data = await response.json().catch(() => ({}));
+    throw new Error(data?.error || "Failed to load settings");
+  }
+  return response.json();
 };
 
 const settingContext = createContext();
@@ -28,6 +30,7 @@ export const useSettings = () => {
 };
 
 function useProvideSettings() {
+  const { status } = useSession();
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
     setMounted(true);
@@ -63,11 +66,13 @@ function useProvideSettings() {
   );
 
   useRequest(getSettings, {
+    ready: status === "authenticated",
     onSuccess: (result) => {
       if (result && result.result) {
         setSettings(properties2Json(result.result));
       }
     },
+    onError: () => {},
     cacheTime: -1,
   });
 

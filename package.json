@@ -1,6 +1,6 @@
 {
   "name": "website",
-  "version": "1.5.74",
+  "version": "1.5.75",
   "description": "A modern, responsive blog website template built with Next.js, React, and Tailwind CSS",
   "author": {
     "name": "Jien Huang",
@@ -56,7 +56,9 @@
     "docker:push": "docker push huangjien/website",
     "docker:run": "docker run --env-file .env.local -ti -d -p 8080:8080 huangjien/website",
     "clean": "rm -rf .next out node_modules/.cache",
-    "analyze": "cross-env ANALYZE=true next build"
+    "analyze": "cross-env ANALYZE=true next build",
+    "measure:phase2": "node scripts/measure-phase2-baseline.mjs",
+    "check:i18n-parity": "node scripts/check-i18n-parity.mjs"
   },
   "dependencies": {
     "@ai-sdk/openai": "^3.0.41",

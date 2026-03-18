@@ -47,14 +47,18 @@ jobs:
         with:
           node-version: 23
 
-      - run: npm install
-      - run: yarn install
-      - run: yarn lint
-      - run: npm run build
-      - run: yarn build
+      - name: Enable Corepack and activate pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@10.27.0 --activate
 
-      - run: yarn make
-      - run: yarn push
+      - run: pnpm install --color=true
+      - run: pnpm lint
+      - run: pnpm test:ci
+      - run: pnpm run build:webpack
+
+      - run: pnpm docker:build
+      - run: pnpm docker:push
 
       # Deploy image to Cloud Run
       - name: Deploy

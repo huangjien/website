@@ -7,6 +7,10 @@ jest.mock("next-auth/next", () => ({
   getServerSession: jest.fn(),
 }));
 
+jest.mock("../../pages/api/auth/[...nextauth]", () => ({
+  authOptions: {},
+}));
+
 // Mock fetch globally
 global.fetch = jest.fn();
 

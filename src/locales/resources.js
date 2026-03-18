@@ -11,42 +11,63 @@ import ru from "./ru.json";
 import zh_CN from "./zh_CN.json";
 import zh_TW from "./zh_TW.json";
 
+const isPlainObject = (value) =>
+  value != null && typeof value === "object" && !Array.isArray(value);
+
+const deepMerge = (base, override) => {
+  if (!isPlainObject(base)) return override;
+  const result = { ...base };
+  if (!isPlainObject(override)) return result;
+
+  Object.entries(override).forEach(([key, value]) => {
+    if (isPlainObject(value) && isPlainObject(base[key])) {
+      result[key] = deepMerge(base[key], value);
+      return;
+    }
+    result[key] = value;
+  });
+
+  return result;
+};
+
+const withEnglishFallback = (translation) => deepMerge(en, translation || {});
+
 export const resources = {
   ar: {
-    translation: ar,
+    translation: withEnglishFallback(ar),
   },
   de: {
-    translation: de,
+    translation: withEnglishFallback(de),
   },
   en: {
-    translation: en,
+    translation: withEnglishFallback(en),
   },
   es: {
-    translation: es,
+    translation: withEnglishFallback(es),
   },
   fr: {
-    translation: fr,
+    translation: withEnglishFallback(fr),
   },
   ga: {
-    translation: ga,
+    translation: withEnglishFallback(ga),
   },
   it: {
-    translation: it,
+    translation: withEnglishFallback(it),
   },
   ja: {
-    translation: ja,
+    translation: withEnglishFallback(ja),
   },
   ko: {
-    translation: ko,
+    translation: withEnglishFallback(ko),
   },
   ru: {
-    translation: ru,
+    translation: withEnglishFallback(ru),
   },
   zh_CN: {
-    translation: zh_CN,
+    translation: withEnglishFallback(zh_CN),
   },
   zh_TW: {
-    translation: zh_TW,
+    translation: withEnglishFallback(zh_TW),
   },
 };
 

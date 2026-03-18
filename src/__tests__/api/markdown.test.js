@@ -114,7 +114,10 @@ describe("/api/markdown", () => {
     await handler(req, res);
 
     expect(res._getStatusCode()).toBe(403);
-    expect(JSON.parse(res._getData())).toEqual({ error: "GitHub API Error" });
+    expect(JSON.parse(res._getData())).toEqual({
+      error: "GitHub API Error",
+      details: null,
+    });
   });
 
   it("should handle network errors", async () => {
@@ -131,39 +134,30 @@ describe("/api/markdown", () => {
     await handler(req, res);
 
     expect(res._getStatusCode()).toBe(500);
-    expect(JSON.parse(res._getData())).toEqual({ error: "Network error" });
+    expect(JSON.parse(res._getData())).toEqual({
+      error: "Network error",
+      details: null,
+    });
   });
 
   it("should handle missing GitHub token", async () => {
-    // Temporarily remove GitHub token
     const originalToken = process.env.GITHUB_TOKEN;
     delete process.env.GITHUB_TOKEN;
 
-    const markdownText = "# Test";
-    const mockHtml = "<h1>Test</h1>";
-
-    fetch.mockResolvedValueOnce({
-      text: () => Promise.resolve(mockHtml),
-      ok: true,
-    });
-
     const { req, res } = createMocks({
       method: "POST",
-      body: markdownText,
+      body: "# Test",
     });
 
     await handler(req, res);
 
-    expect(fetch).toHaveBeenCalledWith("https://api.github.com/markdown", {
-      method: "POST",
-      headers: {
-        Authorization: "token undefined",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ text: markdownText }),
+    expect(fetch).not.toHaveBeenCalled();
+    expect(res._getStatusCode()).toBe(500);
+    expect(JSON.parse(res._getData())).toEqual({
+      error: "GitHub token not configured",
+      details: null,
     });
 
-    // Restore GitHub token
     process.env.GITHUB_TOKEN = originalToken;
   });
 

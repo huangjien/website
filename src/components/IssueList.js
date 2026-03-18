@@ -77,7 +77,12 @@ export const IssueList = ({ tags, ComponentName, data, inTab = "ai" }) => {
       filteredData = filteredData.filter((oneItem) => {
         const labels = Array.isArray(oneItem?.["labels.name"])
           ? oneItem["labels.name"].join(" ")
-          : "";
+          : Array.isArray(oneItem?.labels)
+            ? oneItem.labels
+                .map((label) => label?.name)
+                .filter(Boolean)
+                .join(" ")
+            : "";
         const searchText = [
           oneItem?.title,
           oneItem?.body,
@@ -91,9 +96,7 @@ export const IssueList = ({ tags, ComponentName, data, inTab = "ai" }) => {
         if (searchText.includes(query)) {
           return true;
         }
-        return JSON.stringify(oneItem || {})
-          .toLowerCase()
-          .includes(query);
+        return false;
       });
     }
 
@@ -144,7 +147,7 @@ export const IssueList = ({ tags, ComponentName, data, inTab = "ai" }) => {
           </DialogBody>
         </DialogContent>
       </Dialog>
-      <Joke />
+      {!filterValue ? <Joke /> : null}
       <div className={" min-h-max w-auto text-large lg:m-4 "}>
         <div className='lg:inline-flex flex-wrap  text-lg justify-center lg:gap-8 items-center m-4 glass-card rounded-2xl p-4'>
           {/* {session && (inTab === 'issue' || inTab === 'settings') && (

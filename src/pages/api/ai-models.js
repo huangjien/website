@@ -1,4 +1,5 @@
 import { CURATED_AI_MODELS, getCuratedAiModels } from "../../config/ai-models";
+import { ensureMethod, getOpenAiApiKey } from "../../lib/apiClient";
 
 const MODELS_CACHE_TTL_MS = 1000 * 60 * 15;
 
@@ -50,9 +51,8 @@ function buildLivePayload(availableIds) {
 }
 
 export default async function handler(req, res) {
-  if (req.method !== "GET") {
-    res.setHeader("Allow", "GET");
-    return res.status(405).json({ error: "Method Not Allowed" });
+  if (!ensureMethod(req, res, ["GET"])) {
+    return;
   }
 
   const now = Date.now();
@@ -60,7 +60,7 @@ export default async function handler(req, res) {
     return res.status(200).json(modelsCache.payload);
   }
 
-  const apiKey = process.env.OPEN_AI_KEY || process.env.OPENAI_API_KEY;
+  const apiKey = getOpenAiApiKey();
   if (!apiKey) {
     const payload = buildFallbackPayload();
     modelsCache = {

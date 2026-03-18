@@ -22,7 +22,8 @@
     "yes": "Yes",
     "no": "No",
     "rows_per_page": "Rows per page",
-    "total": "Total {{total}} items"
+    "total": "Total {{total}} items",
+    "unauthorized": "Please login to access Settings."
   },
   "ai": {
     "track_speed": "Track Speed",
@@ -70,7 +71,13 @@
     "show_input_panel": "Show input panel",
     "hide_input_panel": "Hide input panel",
     "expand_input_panel": "Expand input panel",
-    "collapse_input_panel": "Collapse input panel"
+    "collapse_input_panel": "Collapse input panel",
+    "model_auto_fallback": "Model unavailable, switched to {{model}} automatically",
+    "copy": "Copy",
+    "copied": "Copied to clipboard",
+    "copy_failed": "Failed to copy",
+    "select_voice": "Select TTS voice",
+    "voice_note": "Voice applies to text-to-speech playback only."
   },
   "header": {
     "herohub": "HeroHub",
@@ -113,6 +120,7 @@
   },
   "issue": {
     "row_per_page": "Rows per page",
+    "rows_per_page": "Rows per page",
     "total": "Total {{total}} items",
     "title": "Issue",
     "label": "Label",
@@ -189,6 +197,17 @@
   },
   "settings": {
     "voice_note": "Voice applies to text-to-speech playback only.",
-    "select_voice": "Select TTS voice"
+    "select_voice": "Select TTS voice",
+    "table_aria_label": "Settings"
+  },
+  "smart_image": {
+    "load_failed": "Image failed to load",
+    "try_direct_link": "Try direct link"
+  },
+  "performance": {
+    "error_title": "Something went wrong",
+    "retry": "Retry",
+    "empty_title": "No data found",
+    "opened_on": "opened on"
   }
 }

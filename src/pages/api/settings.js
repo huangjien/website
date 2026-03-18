@@ -1,6 +1,17 @@
-import { withErrorHandling, ApiError } from "../../lib/apiClient";
+import { withErrorHandling, ApiError, ensureMethod } from "../../lib/apiClient";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "./auth/[...nextauth]";
 
 const handler = withErrorHandling(async (req, res) => {
+  if (!ensureMethod(req, res, ["GET"])) {
+    return;
+  }
+
+  const session = await getServerSession(req, res, authOptions);
+  if (!session) {
+    throw new ApiError("Unauthorized", 401);
+  }
+
   if (!process.env.GITHUB_TOKEN) {
     throw new ApiError("GitHub token not configured", 500);
   }

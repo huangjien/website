@@ -6,6 +6,9 @@ import {
   RateLimitError,
   withErrorHandling,
   withMethod,
+  ensureMethod,
+  getOpenAiApiKey,
+  getClientIp,
   apiClient,
 } from "../apiClient";
 import { createMocks } from "node-mocks-http";
@@ -222,6 +225,7 @@ describe("apiClient", () => {
       const middleware = withMethod(["GET"]);
       const req = { method: "POST" };
       const res = {
+        setHeader: jest.fn(),
         status: jest.fn().mockReturnThis(),
         json: jest.fn(),
       };
@@ -230,8 +234,78 @@ describe("apiClient", () => {
       middleware(req, res, next);
 
       expect(res.status).toHaveBeenCalledWith(405);
-      expect(res.json).toHaveBeenCalledWith({ error: "Method not allowed" });
+      expect(res.setHeader).toHaveBeenCalledWith("Allow", "GET");
+      expect(res.json).toHaveBeenCalledWith({ error: "Method Not Allowed" });
       expect(next).not.toHaveBeenCalled();
+    });
+  });
+
+  describe("ensureMethod", () => {
+    it("should return true for allowed methods", () => {
+      const req = { method: "GET" };
+      const res = {
+        setHeader: jest.fn(),
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn(),
+      };
+
+      const result = ensureMethod(req, res, ["GET"]);
+
+      expect(result).toBe(true);
+      expect(res.status).not.toHaveBeenCalled();
+    });
+
+    it("should return false and send 405 for disallowed methods", () => {
+      const req = { method: "PUT" };
+      const res = {
+        setHeader: jest.fn(),
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn(),
+      };
+
+      const result = ensureMethod(req, res, ["GET", "POST"]);
+
+      expect(result).toBe(false);
+      expect(res.setHeader).toHaveBeenCalledWith("Allow", "GET, POST");
+      expect(res.status).toHaveBeenCalledWith(405);
+      expect(res.json).toHaveBeenCalledWith({ error: "Method Not Allowed" });
+    });
+  });
+
+  describe("getOpenAiApiKey", () => {
+    const originalEnv = process.env;
+
+    afterEach(() => {
+      process.env = originalEnv;
+    });
+
+    it("should return OPEN_AI_KEY when present", () => {
+      process.env = { ...originalEnv, OPEN_AI_KEY: "preferred-key" };
+      expect(getOpenAiApiKey()).toBe("preferred-key");
+    });
+
+    it("should fallback to OPENAI_API_KEY", () => {
+      process.env = { ...originalEnv, OPENAI_API_KEY: "fallback-key" };
+      expect(getOpenAiApiKey()).toBe("fallback-key");
+    });
+  });
+
+  describe("getClientIp", () => {
+    it("should prefer x-forwarded-for", () => {
+      const req = {
+        headers: {
+          "x-forwarded-for": "203.0.113.1, 10.0.0.1",
+          "x-real-ip": "198.51.100.2",
+        },
+      };
+      expect(getClientIp(req)).toBe("203.0.113.1");
+    });
+
+    it("should fallback to x-real-ip and unknown", () => {
+      expect(getClientIp({ headers: { "x-real-ip": "198.51.100.2" } })).toBe(
+        "198.51.100.2",
+      );
+      expect(getClientIp({ headers: {} })).toBe("unknown");
     });
   });
 

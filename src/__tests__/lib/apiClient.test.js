@@ -462,6 +462,7 @@ describe("withMethod", () => {
   beforeEach(() => {
     mockReq = { method: "GET" };
     mockRes = {
+      setHeader: jest.fn().mockReturnThis(),
       status: jest.fn().mockReturnThis(),
       json: jest.fn().mockReturnThis(),
     };
@@ -482,8 +483,9 @@ describe("withMethod", () => {
     middleware(mockReq, mockRes, mockNext);
 
     expect(mockNext).not.toHaveBeenCalled();
+    expect(mockRes.setHeader).toHaveBeenCalledWith("Allow", "GET, POST");
     expect(mockRes.status).toHaveBeenCalledWith(405);
-    expect(mockRes.json).toHaveBeenCalledWith({ error: "Method not allowed" });
+    expect(mockRes.json).toHaveBeenCalledWith({ error: "Method Not Allowed" });
   });
 });
 

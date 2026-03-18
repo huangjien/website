@@ -2,9 +2,12 @@
 
 import { memo } from "react";
 import { BiError } from "react-icons/bi";
+import { useTranslation } from "react-i18next";
 
 export const IssueCard = memo(
   function IssueCard({ issue, onClick }) {
+    const { t } = useTranslation();
+
     return (
       <div
         className='p-4 border-b border-border hover:bg-accent/50 transition-colors cursor-pointer'
@@ -14,7 +17,8 @@ export const IssueCard = memo(
           <div className='flex-1'>
             <h3 className='font-semibold text-lg'>{issue.title}</h3>
             <p className='text-sm text-muted-foreground mt-1'>
-              #{issue.id} opened on{" "}
+              #{issue.id}{" "}
+              {t("performance.opened_on", { defaultValue: "opened on" })}{" "}
               {new Date(issue.created_at).toLocaleDateString()}
             </p>
           </div>
@@ -70,17 +74,21 @@ export const CommentItem = memo(
 );
 
 export const ErrorDisplay = memo(function ErrorDisplay({ message, onRetry }) {
+  const { t } = useTranslation();
+
   return (
     <div className='flex flex-col items-center justify-center p-8 text-center'>
       <BiError size={48} className='text-destructive mb-4' />
-      <p className='text-lg font-semibold mb-2'>Something went wrong</p>
+      <p className='text-lg font-semibold mb-2'>
+        {t("performance.error_title", { defaultValue: "Something went wrong" })}
+      </p>
       <p className='text-muted-foreground mb-4'>{message}</p>
       {onRetry && (
         <button
           onClick={onRetry}
           className='px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors'
         >
-          Retry
+          {t("performance.retry", { defaultValue: "Retry" })}
         </button>
       )}
     </div>
@@ -110,10 +118,14 @@ export const EmptyState = memo(function EmptyState({
   actionText,
   onAction,
 }) {
+  const { t } = useTranslation();
+
   return (
     <div className='flex flex-col items-center justify-center p-12 text-center'>
       <div className='text-6xl mb-4'>📭</div>
-      <p className='text-lg font-semibold mb-2'>No data found</p>
+      <p className='text-lg font-semibold mb-2'>
+        {t("performance.empty_title", { defaultValue: "No data found" })}
+      </p>
       <p className='text-muted-foreground mb-4'>{message}</p>
       {onAction && (
         <button

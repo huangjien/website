@@ -223,11 +223,30 @@ export const withRateLimit = (requests, windowMs) => {
 export const withMethod = (allowedMethods) => {
   return (req, res, next) => {
     if (!allowedMethods.includes(req.method)) {
-      return res.status(405).json({ error: "Method not allowed" });
+      res.setHeader("Allow", allowedMethods.join(", "));
+      return res.status(405).json({ error: "Method Not Allowed" });
     }
     next();
   };
 };
+
+export const ensureMethod = (req, res, allowedMethods) => {
+  if (allowedMethods.includes(req.method)) {
+    return true;
+  }
+
+  res.setHeader("Allow", allowedMethods.join(", "));
+  res.status(405).json({ error: "Method Not Allowed" });
+  return false;
+};
+
+export const getOpenAiApiKey = () =>
+  process.env.OPEN_AI_KEY || process.env.OPENAI_API_KEY;
+
+export const getClientIp = (req) =>
+  req.headers["x-forwarded-for"]?.split(",")[0] ||
+  req.headers["x-real-ip"] ||
+  "unknown";
 
 export {
   ApiClient,
