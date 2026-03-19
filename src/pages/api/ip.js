@@ -1,18 +1,11 @@
-// pages/api/ip.js
+import { ApiError, ensureMethod, withErrorHandling } from "../../lib/apiClient";
 
-export default function handler(req, res) {
-  const os = require("os");
-  const interfaces = os.networkInterfaces();
-  let addresses = [];
-
-  for (const k in interfaces) {
-    for (const k2 in interfaces[k]) {
-      const addressObj = interfaces[k][k2];
-      if (addressObj.family === "IPv4" && !addressObj.internal) {
-        addresses.push(addressObj.address);
-      }
-    }
+const handler = withErrorHandling(async (req, res) => {
+  if (!ensureMethod(req, res, ["GET"])) {
+    return;
   }
 
-  res.status(200).json({ serverIp: addresses });
-}
+  throw new ApiError("Endpoint retired", 410);
+});
+
+export default handler;

@@ -1,0 +1,31 @@
+{
+  "baseUrl": "http://127.0.0.1:8080",
+  "runs": 12,
+  "warmupRuns": 2,
+  "targets": [
+    {
+      "name": "home",
+      "path": "/",
+      "maxP95Ms": 900,
+      "maxErrorRate": 0
+    },
+    {
+      "name": "ai",
+      "path": "/ai",
+      "maxP95Ms": 1200,
+      "maxErrorRate": 0
+    },
+    {
+      "name": "settings",
+      "path": "/settings",
+      "maxP95Ms": 1200,
+      "maxErrorRate": 0
+    },
+    {
+      "name": "api-health",
+      "path": "/api/health",
+      "maxP95Ms": 300,
+      "maxErrorRate": 0
+    }
+  ]
+}

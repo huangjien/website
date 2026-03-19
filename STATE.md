@@ -28,6 +28,26 @@
 - `GSD-GO 5` completed with Phase 5 execution and verification.
 - `/gsd:complete-milestone` completed with milestone closure report and roadmap/state sync.
 - `/gsd:new-milestone` completed with Milestone 2 charter and reprioritized roadmap.
+- `/gsd:discuss-phase 6` completed with API surface reduction and auth-normalization recommendation.
+- `/gsd:plan-phase 6` completed with endpoint-retirement execution slices.
+- `GSD-GO 6` completed with Phase 6 execution and verification.
+- `/gsd:discuss-phase 7` completed with outbound hardening options and recommendation.
+- `/gsd:plan-phase 7` completed with image-proxy/transcribe hardening slices.
+- `GSD-GO 7` completed with Phase 7 execution and verification.
+- `/gsd:discuss-phase 8` completed with CI/CD consolidation options and recommendation.
+- `/gsd:plan-phase 8` completed with validation/deploy hardening slices.
+- `GSD-GO 8` completed with Phase 8 execution and verification.
+- `/gsd:discuss-phase 9` completed with risk-first test-expansion recommendation.
+- `/gsd:plan-phase 9` completed with API/E2E coverage slices.
+- `GSD-GO 9` completed with Phase 9 execution and verification.
+- `/gsd:discuss-phase 10` completed with production-grade verification options and recommendation.
+- `/gsd:plan-phase 10` completed with budget/measurement/CI-gate slices.
+- `GSD-GO 10` completed with Phase 10 execution and verification.
+- `/gsd:discuss-phase 11` completed with observability baseline options and recommendation.
+- `/gsd:plan-phase 11` completed with shared logging and request-correlation slices.
+- `GSD-GO 11` completed with Phase 11 execution and verification.
+- `/gsd:complete-milestone` completed with Milestone 2 closure report and tracking sync.
+- `/gsd:new-milestone` completed with Milestone 3 charter and reprioritized roadmap.
 - Architecture baseline documented in `PROJECT.md`.
 - Forward workstreams captured in `ROADMAP.md`.
 
@@ -40,4 +60,4 @@
 
 ## Next Action
 
-Start Milestone 2 execution with `/gsd:discuss-phase 6` on API surface reduction and auth normalization.
+Start Milestone 3 execution with `/gsd:discuss-phase 12` on observability expansion.

@@ -78,6 +78,8 @@ Primary API endpoints in `src/pages/api/`:
 - New implementation work should extend existing modules and patterns instead of introducing parallel structures.
 - Milestone 1 closure evidence is captured in `docs/plans/2026-03-18-milestone-1-completion-report.md`.
 - Milestone 2 scope and priorities are defined in `docs/plans/2026-03-18-milestone-2-charter.md`.
+- Milestone 2 closure evidence is captured in `docs/plans/2026-03-19-milestone-2-completion-report.md`.
+- Milestone 3 scope and priorities are defined in `docs/plans/2026-03-19-milestone-3-charter.md`.
 
 ## Current Hotspots
 
@@ -90,3 +92,9 @@ Primary API endpoints in `src/pages/api/`:
 - Phase 3 added scenario-focused API/AI tests and auth/settings E2E coverage to reduce critical regression risk.
 - Phase 4 added i18n parity guardrails with English fallback merge and locale parity auditing.
 - Phase 5 hardened secret-backed endpoint access and mutation auth boundaries for settings/issues/AI session flows.
+- Phase 6 retired legacy utility IP endpoints to reduce unauthenticated API attack surface.
+- Phase 7 hardened outbound image proxy and transcribe routes with host/type/size/rate/auth controls.
+- Phase 8 consolidated CI workflows and enforced stronger PR/main validation and deploy gating.
+- Phase 9 expanded remaining high-risk API contract tests and auth error E2E journey coverage.
+- Phase 10 introduced production-like performance budgets with CI-enforced threshold checks.
+- Phase 11 established request-id correlated structured API logging and critical AI route log adoption.

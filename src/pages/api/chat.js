@@ -8,6 +8,7 @@ import {
   ensureMethod,
   getClientIp,
   getOpenAiApiKey,
+  logApiEvent,
   withErrorHandling,
 } from "../../lib/apiClient";
 import {
@@ -108,7 +109,10 @@ const handler = withErrorHandling(async (req, res) => {
 
     await result.pipeUIMessageStreamToResponse(res);
   } catch (error) {
-    console.error("[api/chat] streaming error", error);
+    logApiEvent("error", "chat_stream_error", req, {
+      message: error?.message || "Unknown error",
+      model: req?.body?.model || DEFAULT_AI_MODEL,
+    });
     if (
       error instanceof ValidationError ||
       error instanceof RateLimitError ||

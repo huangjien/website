@@ -7,6 +7,7 @@ import {
   ValidationError,
   ensureMethod,
   getOpenAiApiKey,
+  logApiEvent,
   withErrorHandling,
 } from "../../lib/apiClient";
 
@@ -28,9 +29,7 @@ const handler = withErrorHandling(async (req, res) => {
 
   const key = getOpenAiApiKey();
   if (!key) {
-    console.error(
-      "[api/tts] missing OpenAI API key: set OPEN_AI_KEY (preferred) or OPENAI_API_KEY",
-    );
+    logApiEvent("error", "tts_missing_api_key", req, {});
     throw new ApiError("OpenAI API key not configured", 500);
   }
   const openai = new OpenAI({ apiKey: key });
@@ -66,7 +65,9 @@ const handler = withErrorHandling(async (req, res) => {
     );
     res.status(200).send(buffer);
   } catch (err) {
-    console.error("[api/tts] OpenAI TTS error", err);
+    logApiEvent("error", "tts_upstream_error", req, {
+      message: err?.message || "Unknown error",
+    });
     throw new ApiError(
       "Text-to-speech failed",
       502,

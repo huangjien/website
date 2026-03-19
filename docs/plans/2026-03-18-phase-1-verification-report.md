@@ -45,7 +45,7 @@
   - `src/pages/api/auth/[...nextauth].js`
   - `src/pages/api/robots.js`
   - `playwright.config.js`
-  - `src/.github/workflows/CID.yaml`
+  - `.github/workflows/CID.yaml`
 
 ## Regression Coverage Additions
 

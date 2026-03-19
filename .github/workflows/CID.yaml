@@ -1,6 +1,8 @@
 name: CI
 
 on:
+  pull_request:
+    branches: [main]
   push:
     branches: [main]
 
@@ -10,9 +12,42 @@ env:
   RUN_REGION: europe-west1
 
 jobs:
+  validate:
+    runs-on: ubuntu-latest
+    name: Validate Quality Gates
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Enable Corepack and activate pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@10.27.0 --activate
+
+      - name: Install dependencies (pnpm)
+        run: pnpm install --color=true
+
+      - run: pnpm lint
+      - run: pnpm format:check
+      - run: pnpm type-check
+      - run: pnpm check:i18n-parity
+      - run: pnpm test:ci
+      - run: pnpm e2e:settings-auth
+      - run: pnpm check:pages-tests
+      - run: pnpm build:webpack
+      - run: pnpm perf:ci
+
   build:
     runs-on: ubuntu-latest
     name: Build and Deploy to GCR
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: validate
 
     permissions:
       contents: "read"
@@ -55,10 +90,6 @@ jobs:
 
       - name: Install dependencies (pnpm)
         run: pnpm install --color=true
-
-      - run: pnpm lint
-      - run: pnpm test:ci
-      - run: pnpm run build:webpack
 
       - run: pnpm docker:build
       - run: pnpm docker:push

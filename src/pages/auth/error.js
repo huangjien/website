@@ -2,9 +2,12 @@
 
 import { useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 export default function AuthError({ searchParams }) {
-  const error = searchParams?.error;
+  const router = useRouter();
+  const rawError = searchParams?.error || router?.query?.error;
+  const error = Array.isArray(rawError) ? rawError[0] : rawError;
 
   useEffect(() => {
     console.error("Auth Error:", error);

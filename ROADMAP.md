@@ -2,33 +2,33 @@
 
 ## Current Phase
 
-Milestone 2 initialized (charter defined and workstreams reprioritized).
+Milestone 3 initialized (charter defined and priorities reprioritized).
 
 ## Prioritized Workstreams
 
-1. API surface reduction and auth normalization
-   - Lock down or retire legacy unauthenticated utility/debug endpoints.
-   - Normalize remaining APIs onto hardened auth/error/validation patterns.
+1. Observability expansion beyond baseline
+   - Integrate telemetry backend and distributed tracing strategy.
+   - Expand structured request/error telemetry adoption across remaining API routes.
 
-2. Outbound request security hardening
-   - Tighten URL/host boundary controls for proxy-like routes.
-   - Add abuse protections on high-cost external request paths.
+2. CI-grade E2E expansion for critical user journeys
+   - Promote additional high-value E2E suites to required CI gates.
+   - Increase pre-merge confidence for auth, AI, and failure-path journeys.
 
-3. CI/CD hardening and pipeline consolidation
-   - Enforce canonical gates (lint, type-check, tests, targeted E2E).
-   - Remove duplicate or stale workflow definitions.
+3. API contract coverage completion
+   - Fill remaining untested API contract surfaces and risk-path assertions.
+   - Ensure method/auth/validation/upstream-failure behaviors are fully covered.
 
-4. Test strategy expansion for remaining risk areas
-   - Extend scenario and contract coverage for uncovered critical routes.
-   - Expand targeted E2E to additional auth and error-path journeys.
+4. Performance verification v2
+   - Extend checks toward broader route targets and user-perceived signals.
+   - Strengthen regression detection beyond current server-route budget set.
 
-5. Production-grade performance verification
-   - Introduce repeatable production-like benchmark checks and thresholds.
-   - Guard against route-level performance regressions in CI-ready flows.
+5. Auth normalization phase 2
+   - Enforce consistent authorization boundaries across API routes.
+   - Define role/policy behavior where privileged access is still implicit.
 
-6. Observability baseline
-   - Add structured request/error telemetry for API diagnostics.
-   - Improve incident triage with consistent correlation and failure context.
+6. Tooling and command-source unification
+   - Align docs/runtime automation with canonical package-manager commands.
+   - Reduce command drift that creates operational and onboarding friction.
 
 ## Execution Notes
 
@@ -38,3 +38,5 @@ Milestone 2 initialized (charter defined and workstreams reprioritized).
 - Update this roadmap after each completed milestone.
 - Milestone 1 completion report: `docs/plans/2026-03-18-milestone-1-completion-report.md`.
 - Milestone 2 charter: `docs/plans/2026-03-18-milestone-2-charter.md`.
+- Milestone 2 completion report: `docs/plans/2026-03-19-milestone-2-completion-report.md`.
+- Milestone 3 charter: `docs/plans/2026-03-19-milestone-3-charter.md`.

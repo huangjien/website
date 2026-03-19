@@ -9,6 +9,7 @@ import {
   ensureMethod,
   getOpenAiApiKey,
   getClientIp,
+  getRequestId,
   apiClient,
 } from "../apiClient";
 import { createMocks } from "node-mocks-http";
@@ -101,6 +102,22 @@ describe("apiClient", () => {
 
       expect(res._getStatusCode()).toBe(200);
       expect(JSON.parse(res._getData())).toEqual({ success: true });
+      expect(res.getHeader("X-Request-Id")).toBeTruthy();
+    });
+
+    it("should preserve incoming request id header", async () => {
+      const handler = withErrorHandling(async (req, res) => {
+        res.status(200).json({ ok: true });
+      });
+
+      const { req, res } = createMocks({
+        method: "GET",
+        headers: { "x-request-id": "req-123" },
+      });
+      await handler(req, res);
+
+      expect(res._getStatusCode()).toBe(200);
+      expect(res.getHeader("X-Request-Id")).toBe("req-123");
     });
 
     it("should handle ApiError", async () => {
@@ -310,6 +327,34 @@ describe("apiClient", () => {
         "198.51.100.2",
       );
       expect(getClientIp({ headers: {} })).toBe("unknown");
+    });
+  });
+
+  describe("getRequestId", () => {
+    it("should use x-request-id when provided", () => {
+      const req = {
+        headers: {
+          "x-request-id": "req-1",
+          "x-correlation-id": "corr-1",
+        },
+      };
+      expect(getRequestId(req)).toBe("req-1");
+    });
+
+    it("should fallback to x-correlation-id", () => {
+      const req = {
+        headers: {
+          "x-correlation-id": "corr-1",
+        },
+      };
+      expect(getRequestId(req)).toBe("corr-1");
+    });
+
+    it("should generate request id when no headers exist", () => {
+      const req = { headers: {} };
+      expect(getRequestId(req)).toMatch(
+        /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i,
+      );
     });
   });
 

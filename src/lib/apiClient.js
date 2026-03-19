@@ -1,4 +1,5 @@
 import { checkRateLimit } from "./rateLimit";
+import { randomUUID } from "node:crypto";
 
 class ApiError extends Error {
   constructor(message, status, details = null) {
@@ -142,12 +143,56 @@ class ApiClient {
 
 export const apiClient = new ApiClient();
 
+const toHeaderString = (value) => {
+  if (Array.isArray(value)) {
+    return `${value[0] || ""}`.trim();
+  }
+  return `${value || ""}`.trim();
+};
+
+export const getRequestId = (req) => {
+  const existingRequestId = toHeaderString(req?.headers?.["x-request-id"]);
+  if (existingRequestId) {
+    return existingRequestId;
+  }
+
+  const existingCorrelationId = toHeaderString(
+    req?.headers?.["x-correlation-id"],
+  );
+  if (existingCorrelationId) {
+    return existingCorrelationId;
+  }
+
+  return randomUUID();
+};
+
+export const logApiEvent = (level, event, req, fields = {}) => {
+  const payload = {
+    level,
+    event,
+    requestId: req?.requestId || getRequestId(req),
+    method: req?.method || "UNKNOWN",
+    route: req?.url || "UNKNOWN",
+    timestamp: new Date().toISOString(),
+    ...fields,
+  };
+  console[level](JSON.stringify(payload));
+};
+
 export const withErrorHandling = (handler) => {
   return async (req, res) => {
+    const requestId = getRequestId(req);
+    req.requestId = requestId;
+    res.setHeader("X-Request-Id", requestId);
+
     try {
       return await handler(req, res);
     } catch (error) {
-      console.error("API Error:", error);
+      logApiEvent("error", "api_error", req, {
+        errorName: error?.name || "Error",
+        errorMessage: error?.message || "Unknown error",
+        status: error?.status || 500,
+      });
 
       if (error instanceof ValidationError) {
         return res.status(400).json({
