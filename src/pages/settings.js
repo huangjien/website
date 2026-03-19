@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useCallback, useMemo } from "react";
+import React, { useState, useCallback, useMemo, useEffect } from "react";
 import { useSettings } from "../lib/useSettings";
 import { useTranslation } from "react-i18next";
 import { useTitle, useDebounceEffect } from "ahooks";
@@ -16,7 +16,6 @@ export default function Settings() {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(1);
   const [filterValue, setFilterValue] = useState("");
-  const pages = Math.ceil((settings || []).length / rowsPerPage) || 1;
 
   const onRowsPerPageChange = useCallback((e) => {
     setRowsPerPage(Number(e.target.value));
@@ -36,17 +35,24 @@ export default function Settings() {
   const filterItems = useMemo(() => {
     let filteredData = settings || [];
     if (debouncedFilterValue) {
-      const regex = new RegExp(debouncedFilterValue, "i");
+      const query = debouncedFilterValue.toLowerCase();
       filteredData = filteredData.filter((oneItem) => {
-        return (
-          oneItem["name"].search(regex) > -1 ||
-          oneItem["value"].search(regex) > -1
-        );
+        const name = String(oneItem?.name || "").toLowerCase();
+        const value = String(oneItem?.value || "").toLowerCase();
+        return name.includes(query) || value.includes(query);
       });
     }
 
     return filteredData;
   }, [debouncedFilterValue, settings]);
+
+  const pages = Math.ceil(filterItems.length / rowsPerPage) || 1;
+
+  useEffect(() => {
+    if (page > pages) {
+      setPage(1);
+    }
+  }, [page, pages]);
 
   const items = useMemo(() => {
     const start = (page - 1) * rowsPerPage;
@@ -59,7 +65,7 @@ export default function Settings() {
   if (status === "loading") {
     return (
       <div className='p-6 text-center text-sm text-muted-foreground'>
-        Loading...
+        {t("global.loading", { defaultValue: "Loading..." })}
       </div>
     );
   }
@@ -91,7 +97,7 @@ export default function Settings() {
           onChange={(e) => setFilterValue(e.target.value)}
         />
         <span className='text-muted-foreground text-sm'>
-          Total {(settings || []).length} items
+          {t("global.total", { total: (settings || []).length })}
         </span>
 
         <div data-testid='pagination' className='flex items-center gap-2'>
@@ -121,7 +127,7 @@ export default function Settings() {
         </div>
 
         <label className='flex items-center text-muted-foreground text-sm'>
-          Rows per page:
+          {t("global.rows_per_page")}:
           <select
             className='ml-2 bg-transparent outline-none text-foreground text-sm rounded-md px-2 py-1'
             onChange={onRowsPerPageChange}
@@ -137,7 +143,9 @@ export default function Settings() {
       <div className='hidden lg:block overflow-x-auto rounded-md border'>
         <table
           data-testid='table'
-          aria-label='Settings'
+          aria-label={t("settings.table_aria_label", {
+            defaultValue: "Settings",
+          })}
           className='w-full text-left min-h-max text-lg'
         >
           <thead className='bg-muted'>
@@ -204,16 +212,18 @@ export default function Settings() {
 
       {/* Numeric pagination (optional) */}
       <div className='mt-4 flex flex-wrap items-center gap-2 justify-center'>
-        {Array.from({ length: pages }, (_, i) => i + 1).map((p) => (
-          <Button
-            key={p}
-            variant={p === page ? "secondary" : "outline"}
-            size='sm'
-            onClick={() => setPage(p)}
-          >
-            {p}
-          </Button>
-        ))}
+        {Array.from({ length: pages }, (_, i) => i + 1)
+          .filter((p) => Math.abs(p - page) <= 2 || p === 1 || p === pages)
+          .map((p) => (
+            <Button
+              key={p}
+              variant={p === page ? "secondary" : "outline"}
+              size='sm'
+              onClick={() => setPage(p)}
+            >
+              {p}
+            </Button>
+          ))}
       </div>
     </div>
   );

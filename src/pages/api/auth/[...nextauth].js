@@ -11,6 +11,13 @@ const NEXTAUTH_SECRET =
   (process.env.NEXTAUTH_SECRET && process.env.NEXTAUTH_SECRET.trim()) ||
   "development-secret-do-not-use-in-production";
 
+if (
+  process.env.NODE_ENV === "production" &&
+  NEXTAUTH_SECRET === "development-secret-do-not-use-in-production"
+) {
+  throw new Error("NEXTAUTH_SECRET must be set in production");
+}
+
 export const authOptions = {
   // Configure one or more authentication providers
   providers: [
@@ -39,7 +46,7 @@ export const authOptions = {
   secret: NEXTAUTH_SECRET,
   url: NEXTAUTH_URL,
   pages: {
-    error: "/api/auth/error",
+    error: "/auth/error",
   },
 };
 

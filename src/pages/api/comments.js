@@ -2,6 +2,12 @@ import {
   fetchWithTimeout,
   parseErrorResponse,
 } from "../../lib/fetchWithTimeout";
+import {
+  ApiError,
+  ValidationError,
+  ensureMethod,
+  withErrorHandling,
+} from "../../lib/apiClient";
 
 export const config = {
   api: {
@@ -9,10 +15,22 @@ export const config = {
   },
 };
 
-export default async function handler(req, res) {
+const handler = withErrorHandling(async (req, res) => {
+  if (!ensureMethod(req, res, ["GET"])) {
+    return;
+  }
+
+  if (!process.env.GITHUB_TOKEN) {
+    throw new ApiError("GitHub token not configured", 500);
+  }
+
+  if (!process.env.GITHUB_REPO) {
+    throw new ApiError("GitHub repository not configured", 500);
+  }
+
   const { issue_number } = req.query;
   if (!issue_number) {
-    return res.status(400).json({ error: "issue_number is required" });
+    throw new ValidationError("issue_number is required");
   }
 
   try {
@@ -30,7 +48,7 @@ export default async function handler(req, res) {
 
     if (!response.ok) {
       const message = await parseErrorResponse(response);
-      return res.status(response.status).json({ error: message });
+      throw new ApiError(message, response.status);
     }
 
     const data = await response.json();
@@ -41,11 +59,10 @@ export default async function handler(req, res) {
     return res.status(200).send(data);
   } catch (error) {
     if (error?.name === "AbortError") {
-      return res.status(504).json({ error: "Upstream request timed out" });
+      throw new ApiError("Upstream request timed out", 504);
     }
-
-    return res
-      .status(500)
-      .json({ error: error?.message || "Internal Server Error" });
+    throw error;
   }
-}
+});
+
+export default handler;

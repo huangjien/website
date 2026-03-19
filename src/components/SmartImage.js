@@ -1,11 +1,13 @@
 import { memo, useState, useEffect } from "react";
 import Image from "next/image";
+import { useTranslation } from "react-i18next";
 import Skeleton from "./ui/skeleton";
 
 const toProxyUrl = (value) =>
   `/api/image-proxy?url=${encodeURIComponent(value)}`;
 
 const SmartImageComponent = ({ src, alt, className, node, ...props }) => {
+  const { t } = useTranslation();
   const [imgSrc, setImgSrc] = useState(src);
   const [status, setStatus] = useState("loading"); // loading, success, error, retrying, failed
   const [attempt, setAttempt] = useState(0);
@@ -82,7 +84,9 @@ const SmartImageComponent = ({ src, alt, className, node, ...props }) => {
             ></path>
           </svg>
           <p className='text-sm text-gray-500 text-center'>
-            Image failed to load
+            {t("smart_image.load_failed", {
+              defaultValue: "Image failed to load",
+            })}
             <br />
             <a
               href={src}
@@ -90,7 +94,9 @@ const SmartImageComponent = ({ src, alt, className, node, ...props }) => {
               rel='noopener noreferrer'
               className='text-blue-500 hover:underline'
             >
-              Try direct link
+              {t("smart_image.try_direct_link", {
+                defaultValue: "Try direct link",
+              })}
             </a>
           </p>
         </div>

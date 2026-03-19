@@ -1,6 +1,12 @@
 "use client";
 
-import React, { useEffect, useMemo, useState, useRef } from "react";
+import React, {
+  useEffect,
+  useMemo,
+  useState,
+  useRef,
+  useCallback,
+} from "react";
 import { useLocalStorageState, useTitle, useDebounceEffect } from "ahooks";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
@@ -89,6 +95,7 @@ export default function AI() {
 
   // Scroll anchor to keep recent info visible
   const bottomRef = useRef(null);
+  const messagesContainerRef = useRef(null);
 
   // Migrate legacy keys to ai:* per spec
   useEffect(() => {
@@ -246,9 +253,12 @@ export default function AI() {
   // Persist messages on changes (debounced)
   useDebounceEffect(
     () => {
+      if (status === "streaming") {
+        return;
+      }
       setSavedMessages(serializeMessages(messages));
     },
-    [messages],
+    [messages, status],
     { wait: 500 },
   );
 
@@ -279,14 +289,28 @@ export default function AI() {
     return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
   };
 
-  // Auto-scroll to bottom to show recent info
-  useEffect(() => {
+  const scrollToBottom = useCallback((behavior = "smooth") => {
     try {
-      bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+      bottomRef.current?.scrollIntoView({ behavior });
     } catch (err) {
       console.debug("Auto-scroll failed:", err);
     }
-  }, [messages, status]);
+  }, []);
+
+  const isNearBottom = useCallback(() => {
+    const container = messagesContainerRef.current;
+    if (!container) return true;
+    const remaining =
+      container.scrollHeight - container.scrollTop - container.clientHeight;
+    return remaining < 180;
+  }, []);
+
+  useEffect(() => {
+    if (messages.length === 0) return;
+    if (isNearBottom()) {
+      scrollToBottom(messages.length <= 2 ? "auto" : "smooth");
+    }
+  }, [messages.length, isNearBottom, scrollToBottom]);
 
   // Close settings panel on ESC key
   useEffect(() => {
@@ -337,8 +361,7 @@ export default function AI() {
       };
       await sendMessage(userMessage);
       setPrompt("");
-      // Scroll down after sending
-      bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+      scrollToBottom("smooth");
     } catch (err) {
       console.error("sendMessage failed:", err);
       clearError?.();
@@ -394,6 +417,7 @@ export default function AI() {
     >
       {/* Messages area with bottom padding to avoid overlap with fixed input */}
       <div
+        ref={messagesContainerRef}
         className={`
         mx-auto w-full max-w-5xl px-4 pt-4 transition-all duration-300 ease-in-out
         ${isInputCollapsed ? "pb-20" : "pb-48"}

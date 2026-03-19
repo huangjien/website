@@ -1,6 +1,6 @@
 {
   "name": "website",
-  "version": "1.5.75",
+  "version": "1.5.77",
   "description": "A modern, responsive blog website template built with Next.js, React, and Tailwind CSS",
   "author": {
     "name": "Jien Huang",
@@ -56,7 +56,9 @@
     "docker:push": "docker push huangjien/website",
     "docker:run": "docker run --env-file .env.local -ti -d -p 8080:8080 huangjien/website",
     "clean": "rm -rf .next out node_modules/.cache",
-    "analyze": "cross-env ANALYZE=true next build"
+    "analyze": "cross-env ANALYZE=true next build",
+    "measure:phase2": "node scripts/measure-phase2-baseline.mjs",
+    "check:i18n-parity": "node scripts/check-i18n-parity.mjs"
   },
   "dependencies": {
     "@ai-sdk/openai": "^3.0.41",
@@ -78,13 +80,13 @@
     "ai": "^6.0.116",
     "clsx": "^2.1.1",
     "eslint-config-prettier": "^10.1.8",
-    "framer-motion": "^12.38.0",
+    "framer-motion": "^12.37.0",
     "http-proxy": "^1.18.1",
     "i18next": "^25.8.18",
     "next": "^16.1.7",
     "next-auth": "^4.24.13",
     "next-themes": "^0.4.6",
-    "openai": "^6.32.0",
+    "openai": "^6.31.0",
     "prettier": "^3.8.1",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",

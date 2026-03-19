@@ -90,7 +90,7 @@ describe("i18n ensureLocaleLoaded", () => {
     expect(mockAddResourceBundle).toHaveBeenCalledWith(
       "raw",
       "translation",
-      { hi: "there" },
+      { hello: "hello", hi: "there" },
       true,
       true,
     );

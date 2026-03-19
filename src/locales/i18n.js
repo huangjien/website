@@ -2,6 +2,25 @@ import i18n, { use } from "i18next";
 import { initReactI18next } from "react-i18next";
 import { resources, localeLoaders } from "./resources";
 
+const isPlainObject = (value) =>
+  value != null && typeof value === "object" && !Array.isArray(value);
+
+const deepMerge = (base, override) => {
+  if (!isPlainObject(base)) return override;
+  const result = { ...base };
+  if (!isPlainObject(override)) return result;
+
+  Object.entries(override).forEach(([key, value]) => {
+    if (isPlainObject(value) && isPlainObject(base[key])) {
+      result[key] = deepMerge(base[key], value);
+      return;
+    }
+    result[key] = value;
+  });
+
+  return result;
+};
+
 export const languages = [
   {
     key: "en",
@@ -192,7 +211,9 @@ export const ensureLocaleLoaded = async (lng) => {
   }
   const mod = await loadLocale();
   const translation = mod?.default || mod;
-  i18n.addResourceBundle(lng, "translation", translation, true, true);
+  const fallbackTranslation = resources.en.translation;
+  const mergedTranslation = deepMerge(fallbackTranslation, translation);
+  i18n.addResourceBundle(lng, "translation", mergedTranslation, true, true);
   loadedLocales.add(lng);
 };
 

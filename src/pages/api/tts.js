@@ -1,6 +1,14 @@
 import OpenAI from "openai";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "./auth/[...nextauth]";
+import {
+  ApiError,
+  AuthenticationError,
+  ValidationError,
+  ensureMethod,
+  getOpenAiApiKey,
+  withErrorHandling,
+} from "../../lib/apiClient";
 
 export const config = {
   api: {
@@ -8,25 +16,25 @@ export const config = {
   },
 };
 
-export default async function handler(req, res) {
-  const session = await getServerSession(req, res, authOptions);
-  if (!session) {
-    res.status(401).json({ error: "Unauthorized" });
+const handler = withErrorHandling(async (req, res) => {
+  if (!ensureMethod(req, res, ["GET"])) {
     return;
   }
 
-  // Ensure API key availability (prefer OPEN_AI_KEY, fallback to OPENAI_API_KEY)
-  const key = process.env.OPEN_AI_KEY || process.env.OPENAI_API_KEY;
+  const session = await getServerSession(req, res, authOptions);
+  if (!session) {
+    throw new AuthenticationError("Unauthorized");
+  }
+
+  const key = getOpenAiApiKey();
   if (!key) {
     console.error(
       "[api/tts] missing OpenAI API key: set OPEN_AI_KEY (preferred) or OPENAI_API_KEY",
     );
-    res.status(500).json({ error: "OpenAI API key not configured" });
-    return;
+    throw new ApiError("OpenAI API key not configured", 500);
   }
   const openai = new OpenAI({ apiKey: key });
 
-  // Support the existing GET query contract: text, languageCode, name
   const {
     text,
     languageCode,
@@ -36,14 +44,11 @@ export default async function handler(req, res) {
   } = req.query || {};
 
   if (!text || typeof text !== "string" || text.trim().length === 0) {
-    res.status(400).json({ error: "Text is required" });
-    return;
+    throw new ValidationError("Text is required");
   }
 
-  // Default to mp3 for broad browser support
   const format = formatQuery === "wav" ? "wav" : "mp3";
 
-  // Basic voice resolution: preserve backward-compatible params but default to OpenAI's 'alloy'
   const voice = resolveVoice(voiceQuery || name, languageCode);
 
   try {
@@ -54,7 +59,6 @@ export default async function handler(req, res) {
       response_format: format,
     });
 
-    // Convert to Buffer and send with appropriate content type
     const buffer = Buffer.from(await speech.arrayBuffer());
     res.setHeader(
       "Content-Type",
@@ -63,9 +67,15 @@ export default async function handler(req, res) {
     res.status(200).send(buffer);
   } catch (err) {
     console.error("[api/tts] OpenAI TTS error", err);
-    res.status(500).json({ error: "Text-to-speech failed" });
+    throw new ApiError(
+      "Text-to-speech failed",
+      502,
+      err?.message || "Unknown error",
+    );
   }
-}
+});
+
+export default handler;
 
 function resolveVoice(nameOrVoice, languageCode) {
   const v = (nameOrVoice || "").toLowerCase();

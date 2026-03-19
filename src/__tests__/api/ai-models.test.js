@@ -75,6 +75,43 @@ describe("/api/ai-models", () => {
     );
   });
 
+  it("reuses cached model results on subsequent requests", async () => {
+    process.env.OPENAI_API_KEY = "test-key";
+
+    global.fetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({
+        data: [{ id: "gpt-4o-mini" }],
+      }),
+    });
+
+    const handler = require("../../pages/api/ai-models").default;
+    const first = createMocks({ method: "GET" });
+    const second = createMocks({ method: "GET" });
+
+    await handler(first.req, first.res);
+    await handler(second.req, second.res);
+
+    expect(first.res._getStatusCode()).toBe(200);
+    expect(second.res._getStatusCode()).toBe(200);
+    expect(global.fetch).toHaveBeenCalledTimes(1);
+  });
+
+  it("falls back when OpenAI model fetch fails", async () => {
+    process.env.OPENAI_API_KEY = "test-key";
+    global.fetch.mockRejectedValueOnce(new Error("network failed"));
+
+    const handler = require("../../pages/api/ai-models").default;
+    const { req, res } = createMocks({ method: "GET" });
+
+    await handler(req, res);
+
+    expect(res._getStatusCode()).toBe(200);
+    const data = JSON.parse(res._getData());
+    expect(data.source).toBe("fallback");
+    expect(Array.isArray(data.models)).toBe(true);
+  });
+
   it("returns 405 for non-GET methods", async () => {
     const handler = require("../../pages/api/ai-models").default;
     const { req, res } = createMocks({ method: "POST" });

@@ -21,6 +21,7 @@ jest.mock("../../lib/rateLimit", () => ({
 
 describe("/api/chat", () => {
   const originalEnv = process.env;
+  const rateLimit = require("../../lib/rateLimit");
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -76,5 +77,57 @@ describe("/api/chat", () => {
       }),
     );
     expect(pipeUIMessageStreamToResponse).toHaveBeenCalledWith(res);
+  });
+
+  it("returns 429 when rate limit is exceeded", async () => {
+    rateLimit.checkRateLimit.mockReturnValueOnce({
+      allowed: false,
+      remaining: 0,
+      resetAt: Date.now() + 2000,
+    });
+
+    const handler = require("../../pages/api/chat").default;
+    const { req, res } = createMocks({
+      method: "POST",
+      body: { input: "Hello" },
+      headers: { "x-forwarded-for": "203.0.113.1" },
+    });
+
+    await handler(req, res);
+
+    expect(res._getStatusCode()).toBe(429);
+    expect(res.getHeader("X-RateLimit-Remaining")).toBe("0");
+    expect(JSON.parse(res._getData()).error).toBe("Rate limit exceeded");
+  });
+
+  it("returns 400 for missing prompt payload", async () => {
+    const handler = require("../../pages/api/chat").default;
+    const { req, res } = createMocks({
+      method: "POST",
+      body: {},
+    });
+
+    await handler(req, res);
+
+    expect(res._getStatusCode()).toBe(400);
+    expect(JSON.parse(res._getData()).error).toBe("Invalid prompt");
+  });
+
+  it("returns 500 when stream generation fails before headers", async () => {
+    const { streamText } = require("ai");
+    streamText.mockRejectedValueOnce(new Error("Provider error"));
+
+    const handler = require("../../pages/api/chat").default;
+    const { req, res } = createMocks({
+      method: "POST",
+      body: { input: "Hello" },
+    });
+
+    await handler(req, res);
+
+    expect(res._getStatusCode()).toBe(500);
+    const data = JSON.parse(res._getData());
+    expect(data.error).toBe("AI stream failed");
+    expect(data.details).toBe("Provider error");
   });
 });

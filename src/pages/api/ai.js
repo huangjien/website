@@ -1,10 +1,12 @@
 import { getServerSession } from "next-auth/next";
-import { withErrorHandling, withMethod, ApiError } from "../../lib/apiClient";
+import { authOptions } from "./auth/[...nextauth]";
 import {
-  validateObject,
-  validateEnum,
-  validateArray,
-} from "../../lib/validation";
+  withErrorHandling,
+  ApiError,
+  ensureMethod,
+  getOpenAiApiKey,
+} from "../../lib/apiClient";
+import { validateObject, validateEnum } from "../../lib/validation";
 
 const ALLOWED_MODELS = ["gpt-3.5-turbo", "gpt-4", "gpt-4o", "gpt-4o-mini"];
 
@@ -53,17 +55,17 @@ const requestBodySchema = {
 };
 
 const handler = withErrorHandling(async (req, res) => {
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" });
+  if (!ensureMethod(req, res, ["POST"])) {
+    return;
   }
 
-  const session = await getServerSession(req, res);
+  const session = await getServerSession(req, res, authOptions);
 
   if (!session) {
     return res.status(401).json({ error: "Unauthorized" });
   }
 
-  const apiKey = process.env.OPEN_AI_KEY || process.env.OPENAI_API_KEY;
+  const apiKey = getOpenAiApiKey();
 
   if (!apiKey) {
     return res.status(500).json({ error: "OpenAI API key not configured" });
