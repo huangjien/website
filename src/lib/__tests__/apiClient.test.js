@@ -285,7 +285,11 @@ describe("apiClient", () => {
     });
 
     it("should fallback to OPENAI_API_KEY", () => {
-      process.env = { ...originalEnv, OPENAI_API_KEY: "fallback-key" };
+      process.env = {
+        ...originalEnv,
+        OPEN_AI_KEY: "",
+        OPENAI_API_KEY: "fallback-key",
+      };
       expect(getOpenAiApiKey()).toBe("fallback-key");
     });
   });
