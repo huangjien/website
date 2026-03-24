@@ -87,3 +87,42 @@ export function DialogFooter({ className, children, ...props }) {
     </div>
   );
 }
+
+export function DialogTitle({ className, children, ...props }) {
+  return (
+    <DialogPrimitive.Title
+      className={cn(
+        "text-lg font-semibold leading-none tracking-tight",
+        className,
+      )}
+      {...props}
+    >
+      {children}
+    </DialogPrimitive.Title>
+  );
+}
+
+export function DialogDescription({ className, children, ...props }) {
+  return (
+    <DialogPrimitive.Description
+      className={cn("text-sm text-muted-foreground", className)}
+      {...props}
+    >
+      {children}
+    </DialogPrimitive.Description>
+  );
+}
+
+export function DialogHeader({ className, children, ...props }) {
+  return (
+    <div
+      className={cn(
+        "flex flex-col space-y-1.5 text-center sm:text-left",
+        className,
+      )}
+      {...props}
+    >
+      {children}
+    </div>
+  );
+}

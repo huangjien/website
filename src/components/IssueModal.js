@@ -3,7 +3,14 @@ import { BiEdit, BiListPlus } from "react-icons/bi";
 import { useTranslation } from "react-i18next";
 import { MarkdownContent } from "./MarkdownContent";
 
-import { Dialog, DialogContent, DialogBody, DialogFooter } from "./ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogBody,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "./ui/dialog";
 import Button from "./ui/button";
 import Input from "./ui/input";
 import Textarea from "./ui/textarea";
@@ -40,6 +47,13 @@ export function IssueModal({ issue, action }) {
 
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className='m-2'>
+          <DialogHeader>
+            <DialogTitle>
+              {action === "edit"
+                ? t("issue.edit_title", { defaultValue: "Edit Issue" })
+                : t("issue.new_title", { defaultValue: "New Issue" })}
+            </DialogTitle>
+          </DialogHeader>
           <DialogBody>
             <div>
               <div className='lg:inline-flex align-middle w-full justify-evenly gap-4 m-2'>
