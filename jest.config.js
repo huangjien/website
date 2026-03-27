@@ -7,10 +7,7 @@ module.exports = {
     "<rootDir>/src/setupTests.js",
   ],
   testEnvironment: "jsdom",
-  testPathIgnorePatterns: [
-    "<rootDir>/.next/",
-    "<rootDir>/node_modules/",
-  ],
+  testPathIgnorePatterns: ["<rootDir>/.next/", "<rootDir>/node_modules/"],
   collectCoverageFrom: [
     "src/**/*.{js,jsx}",
     "!src/**/*.d.ts",
