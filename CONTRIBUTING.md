@@ -55,7 +55,6 @@ Please be respectful and constructive in all interactions. We aim to maintain a 
    ```bash
    pnpm test
    pnpm test:ci
-   pnpm e2e
    ```
 4. Run linter and fix any issues:
    ```bash

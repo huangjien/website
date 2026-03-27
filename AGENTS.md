@@ -55,9 +55,6 @@ pnpm test                # Run all Jest unit tests
 pnpm test:watch          # Run Jest in watch mode
 pnpm test:coverage       # Run Jest with coverage report
 pnpm test:ci             # Run Jest in CI mode
-pnpm e2e                 # Run Playwright E2E tests
-pnpm e2e:ui              # Run Playwright with UI
-pnpm e2e:headed          # Run Playwright in headed mode
 ```
 
 ### Running a Single Test

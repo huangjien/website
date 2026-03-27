@@ -38,7 +38,7 @@
 - `/gsd:plan-phase 8` completed with validation/deploy hardening slices.
 - `GSD-GO 8` completed with Phase 8 execution and verification.
 - `/gsd:discuss-phase 9` completed with risk-first test-expansion recommendation.
-- `/gsd:plan-phase 9` completed with API/E2E coverage slices.
+- `/gsd:plan-phase 9` completed with API coverage slices.
 - `GSD-GO 9` completed with Phase 9 execution and verification.
 - `/gsd:discuss-phase 10` completed with production-grade verification options and recommendation.
 - `/gsd:plan-phase 10` completed with budget/measurement/CI-gate slices.
@@ -59,8 +59,8 @@
 - Runtime: Next.js Pages Router with React 19 and Tailwind CSS.
 - Global composition in `_app.js` includes auth, theme, settings, and layout providers.
 - Major feature areas: content pages, AI chat/voice, settings, and API proxy/service routes.
-- Testing stack includes Jest (unit/integration) and Playwright (E2E).
+- Testing stack includes Jest (unit/integration).
 
 ## Next Action
 
-- `GSD-GO 12` pending for Phase 12 observability expansion execution.
+- `/gsd:discuss-phase 13` pending for Phase 13 planning.
