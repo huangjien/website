@@ -167,13 +167,21 @@ export const getRequestId = (req) => {
 };
 
 export const logApiEvent = (level, event, req, fields = {}) => {
+  const clientIp = (() => {
+    if (!req?.headers) return "unknown";
+    return getClientIp(req);
+  })();
+
   const payload = {
     level,
     event,
-    requestId: req?.requestId || getRequestId(req),
+    requestId: req?.requestId || (req ? getRequestId(req) : "unknown"),
     method: req?.method || "UNKNOWN",
     route: req?.url || "UNKNOWN",
     timestamp: new Date().toISOString(),
+    userAgent: req?.headers?.["user-agent"] || null,
+    clientIp,
+    contentLength: req?.headers?.["content-length"] || null,
     ...fields,
   };
   console[level](JSON.stringify(payload));
@@ -181,17 +189,26 @@ export const logApiEvent = (level, event, req, fields = {}) => {
 
 export const withErrorHandling = (handler) => {
   return async (req, res) => {
+    const startTime = Date.now();
     const requestId = getRequestId(req);
     req.requestId = requestId;
     res.setHeader("X-Request-Id", requestId);
 
     try {
-      return await handler(req, res);
+      const result = await handler(req, res);
+      const durationMs = Date.now() - startTime;
+      logApiEvent("info", "api_request", req, {
+        status: res.statusCode || 200,
+        durationMs,
+      });
+      return result;
     } catch (error) {
+      const durationMs = Date.now() - startTime;
       logApiEvent("error", "api_error", req, {
         errorName: error?.name || "Error",
         errorMessage: error?.message || "Unknown error",
         status: error?.status || 500,
+        durationMs,
       });
 
       if (error instanceof ValidationError) {

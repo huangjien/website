@@ -1,5 +1,9 @@
 import { CURATED_AI_MODELS, getCuratedAiModels } from "../../config/ai-models";
-import { ensureMethod, getOpenAiApiKey } from "../../lib/apiClient";
+import {
+  ensureMethod,
+  getOpenAiApiKey,
+  withErrorHandling,
+} from "../../lib/apiClient";
 
 const MODELS_CACHE_TTL_MS = 1000 * 60 * 15;
 
@@ -50,7 +54,7 @@ function buildLivePayload(availableIds) {
   };
 }
 
-export default async function handler(req, res) {
+export default withErrorHandling(async function handler(req, res) {
   if (!ensureMethod(req, res, ["GET"])) {
     return;
   }
@@ -87,4 +91,4 @@ export default async function handler(req, res) {
     };
     return res.status(200).json(payload);
   }
-}
+});

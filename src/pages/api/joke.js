@@ -1,32 +1,41 @@
+import { withErrorHandling } from "../../lib/apiClient";
+
 export const config = {
   api: {
     externalResolver: true,
   },
 };
 
-export default function handler(req, res) {
-  fetch(
+const fetchJoke = async () => {
+  const response = await fetch(
     "https://v2.jokeapi.dev/joke/Programming?blacklistFlags=religious,racist,sexist&type=twopart",
     {
       method: "GET",
     },
-  )
-    .then((response) => response.json())
-    .then((data) => {
-      // Transform the JokeAPI response to match expected format
-      const joke =
-        data.setup && data.delivery
-          ? `${data.setup} ${data.delivery}`
-          : data.joke || "No joke available";
+  );
 
-      res.status(200).json({
-        joke,
-        category: data.category,
-        type: data.type,
-        id: data.id,
-      });
-    })
-    .catch((err) => {
-      res.status(500).json({ error: err.message || "Failed to fetch joke" });
-    });
-}
+  if (!response.ok) {
+    throw new Error(`Joke API failed with status ${response.status}`);
+  }
+
+  const data = await response.json();
+
+  const joke =
+    data.setup && data.delivery
+      ? `${data.setup} ${data.delivery}`
+      : data.joke || "No joke available";
+
+  return {
+    joke,
+    category: data.category,
+    type: data.type,
+    id: data.id,
+  };
+};
+
+const jokeHandler = async (req, res) => {
+  const data = await fetchJoke();
+  res.status(200).json(data);
+};
+
+export default withErrorHandling(jokeHandler);

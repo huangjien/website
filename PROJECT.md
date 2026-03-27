@@ -98,3 +98,4 @@ Primary API endpoints in `src/pages/api/`:
 - Phase 9 expanded remaining high-risk API contract tests and auth error E2E journey coverage.
 - Phase 10 introduced production-like performance budgets with CI-enforced threshold checks.
 - Phase 11 established request-id correlated structured API logging and critical AI route log adoption.
+- Phase 12 expanded observability to all API routes with metrics baseline and event enrichment.

@@ -38,7 +38,6 @@ jobs:
       - run: pnpm type-check
       - run: pnpm check:i18n-parity
       - run: pnpm test:ci
-      - run: pnpm exec playwright install --with-deps chromium
       - run: pnpm e2e:settings-auth
       - run: pnpm check:pages-tests
       - run: pnpm build:webpack

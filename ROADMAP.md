@@ -6,7 +6,7 @@ Milestone 3 initialized (charter defined and priorities reprioritized).
 
 ## Prioritized Workstreams
 
-1. Observability expansion beyond baseline
+1. ~~Observability expansion beyond baseline~~ ✅ COMPLETED
    - Integrate telemetry backend and distributed tracing strategy.
    - Expand structured request/error telemetry adoption across remaining API routes.
 

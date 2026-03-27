@@ -2,7 +2,11 @@ import { promises as fs } from "fs";
 import path from "path";
 import crypto from "crypto";
 import { fetchWithTimeout } from "../../lib/fetchWithTimeout";
-import { ensureMethod, getClientIp } from "../../lib/apiClient";
+import {
+  ensureMethod,
+  getClientIp,
+  withErrorHandling,
+} from "../../lib/apiClient";
 import { checkRateLimit } from "../../lib/rateLimit";
 
 const CACHE_DIR = path.join(process.cwd(), ".cache", "images");
@@ -167,7 +171,7 @@ async function saveCachedImage(cacheKey, buffer, contentType) {
   }
 }
 
-export default async function handler(req, res) {
+export default withErrorHandling(async function handler(req, res) {
   if (!ensureMethod(req, res, ["GET"])) {
     return;
   }
@@ -187,94 +191,83 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: "Missing URL parameter" });
   }
 
-  try {
-    const decodedUrl = decodeURIComponent(url);
+  const decodedUrl = decodeURIComponent(url);
 
-    const cacheKey = getCacheKey(decodedUrl);
+  const cacheKey = getCacheKey(decodedUrl);
 
-    // Try to serve from cache first
-    const cached = await getCachedImage(cacheKey);
-    if (cached) {
-      res.setHeader("Content-Type", cached.contentType);
-      res.setHeader("Cache-Control", "public, max-age=3600");
-      res.setHeader("X-Cache", "HIT");
-      return res.status(200).send(cached.data);
-    }
-
-    // Security check: only allow http/https
-    if (!decodedUrl || decodedUrl.trim() === "") {
-      return res.status(400).json({ error: "Invalid URL" });
-    }
-
-    let parsedUrl;
-    try {
-      parsedUrl = new URL(decodedUrl);
-    } catch {
-      return res.status(400).json({ error: "Invalid URL format" });
-    }
-
-    if (!["http:", "https:"].includes(parsedUrl.protocol)) {
-      return res.status(400).json({ error: "Invalid protocol" });
-    }
-    if (!isHostAllowed(parsedUrl.hostname)) {
-      return res.status(400).json({ error: "URL host is not allowed" });
-    }
-    if (isBlockedHost(parsedUrl.hostname)) {
-      return res.status(400).json({ error: "Blocked target host" });
-    }
-
-    const headers = {
-      "User-Agent": "Mozilla/5.0 (compatible; ImageProxy/1.0)",
-      Accept: "image/*, */*",
-    };
-
-    // Add GitHub Token if available and if the URL is from github.com
-    if (
-      process.env.GITHUB_TOKEN &&
-      (parsedUrl.hostname === "github.com" ||
-        parsedUrl.hostname.endsWith(".github.com"))
-    ) {
-      headers["Authorization"] = `token ${process.env.GITHUB_TOKEN}`;
-    }
-
-    // Fetch the image
-    const response = await fetchWithTimeout(
-      decodedUrl,
-      {
-        method: "GET",
-        headers: headers,
-      },
-      10000,
-    );
-
-    if (!response.ok) {
-      console.error(
-        `Proxy failed: ${response.status} ${response.statusText} for ${decodedUrl}`,
-      );
-      return res.status(response.status).send("Failed to fetch image");
-    }
-
-    // Forward relevant headers
-    const contentType = response.headers.get("content-type") || "image/jpeg";
-    if (!contentType.toLowerCase().startsWith("image/")) {
-      return res.status(415).json({ error: "Unsupported content type" });
-    }
-
-    const arrayBuffer = await response.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
-    if (buffer.length > IMAGE_PROXY_MAX_BYTES) {
-      return res.status(413).json({ error: "Image too large" });
-    }
-
-    // Save to cache
-    await saveCachedImage(cacheKey, buffer, contentType);
-
-    res.setHeader("Content-Type", contentType);
+  const cached = await getCachedImage(cacheKey);
+  if (cached) {
+    res.setHeader("Content-Type", cached.contentType);
     res.setHeader("Cache-Control", "public, max-age=3600");
-    res.setHeader("X-Cache", "MISS");
-    res.status(200).send(buffer);
-  } catch (error) {
-    console.error("Proxy handler error:", error);
-    res.status(500).json({ error: "Internal server error" });
+    res.setHeader("X-Cache", "HIT");
+    return res.status(200).send(cached.data);
   }
-}
+
+  if (!decodedUrl || decodedUrl.trim() === "") {
+    return res.status(400).json({ error: "Invalid URL" });
+  }
+
+  let parsedUrl;
+  try {
+    parsedUrl = new URL(decodedUrl);
+  } catch {
+    return res.status(400).json({ error: "Invalid URL format" });
+  }
+
+  if (!["http:", "https:"].includes(parsedUrl.protocol)) {
+    return res.status(400).json({ error: "Invalid protocol" });
+  }
+  if (!isHostAllowed(parsedUrl.hostname)) {
+    return res.status(400).json({ error: "URL host is not allowed" });
+  }
+  if (isBlockedHost(parsedUrl.hostname)) {
+    return res.status(400).json({ error: "Blocked target host" });
+  }
+
+  const headers = {
+    "User-Agent": "Mozilla/5.0 (compatible; ImageProxy/1.0)",
+    Accept: "image/*, */*",
+  };
+
+  if (
+    process.env.GITHUB_TOKEN &&
+    (parsedUrl.hostname === "github.com" ||
+      parsedUrl.hostname.endsWith(".github.com"))
+  ) {
+    headers["Authorization"] = `token ${process.env.GITHUB_TOKEN}`;
+  }
+
+  const response = await fetchWithTimeout(
+    decodedUrl,
+    {
+      method: "GET",
+      headers: headers,
+    },
+    10000,
+  );
+
+  if (!response.ok) {
+    console.error(
+      `Proxy failed: ${response.status} ${response.statusText} for ${decodedUrl}`,
+    );
+    return res.status(response.status).send("Failed to fetch image");
+  }
+
+  const contentType = response.headers.get("content-type") || "image/jpeg";
+  if (!contentType.toLowerCase().startsWith("image/")) {
+    return res.status(415).json({ error: "Unsupported content type" });
+  }
+
+  const arrayBuffer = await response.arrayBuffer();
+  const buffer = Buffer.from(arrayBuffer);
+  if (buffer.length > IMAGE_PROXY_MAX_BYTES) {
+    return res.status(413).json({ error: "Image too large" });
+  }
+
+  await saveCachedImage(cacheKey, buffer, contentType);
+
+  res.setHeader("Content-Type", contentType);
+  res.setHeader("Cache-Control", "public, max-age=3600");
+  res.setHeader("X-Cache", "MISS");
+  res.status(200).send(buffer);
+});

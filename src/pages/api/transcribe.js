@@ -4,6 +4,7 @@ import {
   ensureMethod,
   getOpenAiApiKey,
   getClientIp,
+  withErrorHandling,
 } from "../../lib/apiClient";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "./auth/[...nextauth]";
@@ -44,7 +45,7 @@ const proxyToOpenAiTranscribe = (req, res, apiKey) =>
     proxy.web(req, res);
   });
 
-export default async function handler(req, res) {
+export default withErrorHandling(async function handler(req, res) {
   if (!ensureMethod(req, res, ["POST"])) {
     return;
   }
@@ -74,12 +75,5 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: "OpenAI API key not configured" });
   }
 
-  try {
-    await proxyToOpenAiTranscribe(req, res, apiKey);
-  } catch (error) {
-    return res.status(error.status || 500).json({
-      error: error.message || "Transcription proxy failed",
-      details: error.details,
-    });
-  }
-}
+  await proxyToOpenAiTranscribe(req, res, apiKey);
+});

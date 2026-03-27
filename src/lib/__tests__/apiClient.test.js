@@ -11,8 +11,12 @@ import {
   getClientIp,
   getRequestId,
   apiClient,
+  logApiEvent,
 } from "../apiClient";
 import { createMocks } from "node-mocks-http";
+
+jest.spyOn(console, "info").mockImplementation(() => {});
+jest.spyOn(console, "error").mockImplementation(() => {});
 
 describe("apiClient", () => {
   describe("Error Classes", () => {
@@ -355,6 +359,84 @@ describe("apiClient", () => {
       expect(getRequestId(req)).toMatch(
         /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i,
       );
+    });
+  });
+
+  describe("logApiEvent", () => {
+    let consoleOutput;
+    let consoleInfoSpy;
+    let consoleErrorSpy;
+
+    beforeEach(() => {
+      consoleOutput = [];
+      consoleInfoSpy = jest.spyOn(console, "info").mockImplementation((msg) => {
+        consoleOutput.push(JSON.parse(msg));
+      });
+      consoleErrorSpy = jest
+        .spyOn(console, "error")
+        .mockImplementation((msg) => {
+          consoleOutput.push(JSON.parse(msg));
+        });
+    });
+
+    afterEach(() => {
+      consoleInfoSpy.mockRestore();
+      consoleErrorSpy.mockRestore();
+    });
+
+    it("should log with enriched context fields", () => {
+      const req = {
+        requestId: "req-123",
+        method: "POST",
+        url: "/api/test",
+        headers: {
+          "user-agent": "TestAgent/1.0",
+          "x-forwarded-for": "192.168.1.1",
+          "content-length": "1024",
+        },
+      };
+
+      logApiEvent("info", "api_request", req, { status: 200 });
+
+      expect(consoleOutput[0]).toMatchObject({
+        level: "info",
+        event: "api_request",
+        requestId: "req-123",
+        method: "POST",
+        route: "/api/test",
+        userAgent: "TestAgent/1.0",
+        clientIp: "192.168.1.1",
+        contentLength: "1024",
+        status: 200,
+      });
+    });
+
+    it("should handle missing optional headers gracefully", () => {
+      const req = {
+        method: "GET",
+        url: "/api/test",
+        headers: {},
+      };
+
+      logApiEvent("info", "api_request", req, { status: 200 });
+
+      expect(consoleOutput[0]).toMatchObject({
+        userAgent: null,
+        clientIp: "unknown",
+        contentLength: null,
+      });
+    });
+
+    it("should include durationMs when provided", () => {
+      const req = {
+        method: "GET",
+        url: "/api/test",
+        headers: {},
+      };
+
+      logApiEvent("info", "api_request", req, { status: 200, durationMs: 150 });
+
+      expect(consoleOutput[0].durationMs).toBe(150);
     });
   });
 
