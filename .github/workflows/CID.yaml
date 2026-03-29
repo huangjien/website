@@ -41,6 +41,10 @@ jobs:
       - run: pnpm check:pages-tests
       - run: pnpm build:webpack
       - run: pnpm perf:ci
+      - run: pnpm lhci:collect
+        continue-on-error: true
+      - run: pnpm lhci:assert
+        continue-on-error: true
 
   build:
     runs-on: ubuntu-latest

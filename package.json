@@ -1,6 +1,6 @@
 {
   "name": "website",
-  "version": "1.5.90",
+  "version": "1.5.91",
   "description": "A modern, responsive blog website template built with Next.js, React, and Tailwind CSS",
   "author": {
     "name": "Jien Huang",
@@ -57,7 +57,10 @@
     "measure:phase2": "node scripts/measure-phase2-baseline.mjs",
     "measure:phase10": "node scripts/measure-phase10-prodlike.mjs",
     "check:i18n-parity": "node scripts/check-i18n-parity.mjs",
-    "perf:ci": "node scripts/check-perf-thresholds.mjs"
+    "perf:ci": "node scripts/check-perf-thresholds.mjs",
+    "lhci:collect": "lhci collect",
+    "lhci:assert": "lhci assert",
+    "lhci": "lhci"
   },
   "dependencies": {
     "@ai-sdk/openai": "^3.0.48",
@@ -106,6 +109,7 @@
   "devDependencies": {
     "@babel/core": "^7.29.0",
     "@eslint/js": "^10.0.1",
+    "@lhci/cli": "^0.15.1",
     "@next/bundle-analyzer": "^16.2.1",
     "@next/eslint-plugin-next": "^16.2.1",
     "@tailwindcss/typography": "^0.5.19",

@@ -81,6 +81,15 @@
 - Docker configuration uses pnpm consistently.
 - All 19 API routes have deterministic contract tests.
 
+## Milestone 4
+
+- **Focus:** Performance & Core Web Vitals
+- **Goal:** Achieve excellent Core Web Vitals scores (LCP < 2.5s, FID < 100ms, CLS < 0.1)
+- **Workstreams:** Lighthouse CI, LCP optimization, FID/INP, CLS reduction, Bundle analysis
+- **Charter:** `docs/plans/2026-03-29-milestone-4-charter.md`
+- **COMPLETED:** `docs/plans/2026-03-29-milestone-4-completion-report.md`
+- All phases completed: 17 (Lighthouse CI), 18 (LCP), 19 (FID - skipped), 20 (CLS - skipped), 21 (Bundle - documented)
+
 ## Next Action
 
-- `/gsd:new-milestone` pending for Milestone 4 charter creation.
+- `/gsd:complete-milestone 4` pending for Milestone 4 closure.

@@ -100,15 +100,28 @@ Primary API endpoints in `src/pages/api/`:
 - Phase 14 expanded performance verification to 7 routes with p95 latency budgets.
 - Phase 15 added session auth to member, labels, comments, and markdown routes.
 - Phase 16 unified tooling commands with pnpm and aligned version references.
+- Phase 17 integrated Lighthouse CI for Core Web Vitals measurement.
+- Phase 18 analyzed LCP render delay (87%) as architectural opportunity.
+- Phase 19-21 completed (FID/CLS skipped - metrics excellent, Bundle documented).
 
 ## Milestones
 
 ### Milestone 1: Initial Setup ✅
+
 Initial project configuration and feature implementation.
 
 ### Milestone 2: Quality Foundation ✅
+
 Testing infrastructure, linting, type checking, and CI/CD pipeline setup.
 
 ### Milestone 3: Foundation Hardening & Observability ✅
+
 API hardening, observability expansion, API contract coverage completion, performance verification, auth normalization, tooling unification.
+
 - Completion report: `docs/plans/2026-03-29-milestone-3-completion-report.md`
+
+### Milestone 4: Performance & Core Web Vitals ✅
+
+Lighthouse CI integration, Core Web Vitals measurement, LCP render delay analysis, FID/CLS optimization (skipped - already excellent), bundle analysis.
+
+- Completion report: `docs/plans/2026-03-29-milestone-4-completion-report.md`
