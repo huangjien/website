@@ -17,8 +17,6 @@ COPY . .
 
 ENV NEXT_TELEMETRY_DISABLED=1
 
-# Use webpack for Next.js build to ensure compatibility with next-pwa
-# RUN npm run build:webpack
 RUN pnpm build:webpack
 
 FROM node:25-alpine AS runner
@@ -32,10 +30,8 @@ RUN adduser --system --uid 1001 nextjs
 
 COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/public ./public
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
-# COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-# COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
 
 USER nextjs
 
@@ -43,9 +39,4 @@ EXPOSE 8080
 
 ENV PORT=8080
 
-# Health check endpoint
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD node -e "require('http').get('http://localhost:8080/api/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})" || exit 1
-
-# CMD ["node", "server.js"]
-CMD ["pnpm", "start"]
+CMD ["node", "server.js"]
