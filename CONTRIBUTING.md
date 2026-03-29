@@ -11,7 +11,7 @@ Please be respectful and constructive in all interactions. We aim to maintain a 
 ### Prerequisites
 
 - Node.js 24 or higher (see `.nvmrc`)
-- pnpm 10.27.0 or higher
+- pnpm 10.33.0 or higher
 - Git
 
 ### Setting Up Development Environment

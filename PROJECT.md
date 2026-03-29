@@ -96,3 +96,19 @@ Primary API endpoints in `src/pages/api/`:
 - Phase 10 introduced production-like performance budgets with CI-enforced threshold checks.
 - Phase 11 established request-id correlated structured API logging and critical AI route log adoption.
 - Phase 12 expanded observability to all API routes with metrics baseline and event enrichment.
+- Phase 13 completed API contract coverage with tests for health and joke endpoints.
+- Phase 14 expanded performance verification to 7 routes with p95 latency budgets.
+- Phase 15 added session auth to member, labels, comments, and markdown routes.
+- Phase 16 unified tooling commands with pnpm and aligned version references.
+
+## Milestones
+
+### Milestone 1: Initial Setup ✅
+Initial project configuration and feature implementation.
+
+### Milestone 2: Quality Foundation ✅
+Testing infrastructure, linting, type checking, and CI/CD pipeline setup.
+
+### Milestone 3: Foundation Hardening & Observability ✅
+API hardening, observability expansion, API contract coverage completion, performance verification, auth normalization, tooling unification.
+- Completion report: `docs/plans/2026-03-29-milestone-3-completion-report.md`

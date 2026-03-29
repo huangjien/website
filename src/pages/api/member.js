@@ -3,6 +3,8 @@ import {
   fetchWithTimeout,
   parseErrorResponse,
 } from "../../lib/fetchWithTimeout";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "./auth/[...nextauth]";
 
 export const config = {
   api: {
@@ -13,6 +15,11 @@ export const config = {
 const handler = withErrorHandling(async (req, res) => {
   if (!ensureMethod(req, res, ["GET"])) {
     return;
+  }
+
+  const session = await getServerSession(req, res, authOptions);
+  if (!session) {
+    throw new ApiError("Unauthorized", 401);
   }
 
   if (!process.env.GITHUB_TOKEN) {

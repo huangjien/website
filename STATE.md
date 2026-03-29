@@ -2,7 +2,7 @@
 
 ## Date
 
-2026-03-27
+2026-03-29
 
 ## Status
 
@@ -51,8 +51,23 @@
 - `/gsd:discuss-phase 12` completed with observability expansion options and recommended approach.
 - `/gsd:plan-phase 12` completed with observability expansion implementation plan.
 - `GSD-GO 12` completed with observability expansion execution and verification.
+- `/gsd:discuss-phase 13` completed with API contract coverage completion approach.
+- `/gsd:plan-phase 13` completed with API contract coverage implementation plan.
+- `GSD-GO 13` completed with Phase 13 API contract coverage execution and verification.
+- E2E test infrastructure removed and cleanup completed.
 - Architecture baseline documented in `PROJECT.md`.
 - Forward workstreams captured in `ROADMAP.md`.
+- `/gsd:discuss-phase 14` completed with expanded route coverage approach.
+- `/gsd:plan-phase 14` completed with performance verification v2 implementation plan.
+- `GSD-GO 14` completed with Phase 14 performance verification v2 execution and verification.
+- `/gsd:discuss-phase 15` completed with auth normalization phase 2 approach (session requirement).
+- `/gsd:plan-phase 15` completed with auth normalization phase 2 implementation plan.
+- `GSD-GO 15` completed with Phase 15 auth normalization phase 2 execution and verification.
+- `/gsd:discuss-phase 16` completed with tooling and command unification approach (Docker fix + version sync).
+- `/gsd:plan-phase 16` completed with tooling and command unification implementation plan.
+- `GSD-GO 16` completed with Phase 16 tooling and command unification execution and verification.
+- **Milestone 3 COMPLETED** - All workstreams completed.
+- `/gsd:complete-milestone 3` completed with Milestone 3 closure report.
 
 ## Verified Facts
 
@@ -60,7 +75,12 @@
 - Global composition in `_app.js` includes auth, theme, settings, and layout providers.
 - Major feature areas: content pages, AI chat/voice, settings, and API proxy/service routes.
 - Testing stack includes Jest (unit/integration).
+- Performance verification covers 7 routes with p95 latency budgets.
+- GitHub token-backed routes (member, labels, comments, markdown) require session auth.
+- Protected routes: settings, issues, ai, member, labels, comments, markdown (require session).
+- Docker configuration uses pnpm consistently.
+- All 19 API routes have deterministic contract tests.
 
 ## Next Action
 
-- `/gsd:discuss-phase 13` pending for Phase 13 planning.
+- `/gsd:new-milestone` pending for Milestone 4 charter creation.

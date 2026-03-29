@@ -26,6 +26,24 @@
       "path": "/api/health",
       "maxP95Ms": 300,
       "maxErrorRate": 0
+    },
+    {
+      "name": "about",
+      "path": "/about",
+      "maxP95Ms": 900,
+      "maxErrorRate": 0
+    },
+    {
+      "name": "auth-error",
+      "path": "/auth/error",
+      "maxP95Ms": 600,
+      "maxErrorRate": 0
+    },
+    {
+      "name": "error",
+      "path": "/error",
+      "maxP95Ms": 600,
+      "maxErrorRate": 0
     }
   ]
 }

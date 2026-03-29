@@ -3,6 +3,15 @@ import {
   fetchWithTimeout,
   parseErrorResponse,
 } from "../../lib/fetchWithTimeout";
+import { getServerSession } from "next-auth/next";
+
+jest.mock("next-auth/next", () => ({
+  getServerSession: jest.fn(),
+}));
+
+jest.mock("../../pages/api/auth/[...nextauth]", () => ({
+  authOptions: {},
+}));
 
 jest.mock("../../lib/fetchWithTimeout", () => ({
   fetchWithTimeout: jest.fn(),
@@ -20,6 +29,9 @@ describe("/api/labels", () => {
       GITHUB_REPO: "https://api.github.com/repos/test/repo",
     };
     parseErrorResponse.mockResolvedValue("GitHub API Error");
+    getServerSession.mockResolvedValue({
+      user: { email: "test@example.com" },
+    });
   });
 
   afterEach(() => {
@@ -34,6 +46,17 @@ describe("/api/labels", () => {
 
     expect(res._getStatusCode()).toBe(405);
     expect(res.getHeader("Allow")).toBe("GET");
+  });
+
+  it("returns 401 when session is missing", async () => {
+    getServerSession.mockResolvedValueOnce(null);
+    const handler = require("../../pages/api/labels").default;
+    const { req, res } = createMocks({ method: "GET" });
+
+    await handler(req, res);
+
+    expect(res._getStatusCode()).toBe(401);
+    expect(JSON.parse(res._getData()).error).toBe("Unauthorized");
   });
 
   it("returns 500 when repository is missing", async () => {
@@ -71,16 +94,16 @@ describe("/api/labels", () => {
   it("returns upstream status when GitHub returns non-ok response", async () => {
     fetchWithTimeout.mockResolvedValueOnce({
       ok: false,
-      status: 401,
+      status: 404,
     });
-    parseErrorResponse.mockResolvedValueOnce("Unauthorized");
+    parseErrorResponse.mockResolvedValueOnce("Not Found");
 
     const handler = require("../../pages/api/labels").default;
     const { req, res } = createMocks({ method: "GET" });
 
     await handler(req, res);
 
-    expect(res._getStatusCode()).toBe(401);
-    expect(JSON.parse(res._getData()).error).toBe("Unauthorized");
+    expect(res._getStatusCode()).toBe(404);
+    expect(JSON.parse(res._getData()).error).toBe("Not Found");
   });
 });

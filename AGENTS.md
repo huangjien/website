@@ -28,7 +28,7 @@ This file contains instructions for agentic coding assistants working in this re
 
 ### Package Manager
 
-This project uses **pnpm** as the package manager (version 10.28.2+).
+This project uses **pnpm** as the package manager (version 10.33.0+).
 
 ### Development
 

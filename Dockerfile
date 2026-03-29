@@ -5,11 +5,11 @@ WORKDIR /app
 COPY package.json ./
 COPY pnpm-lock.yaml ./
 ENV HUSKY=0
-RUN npm install -g pnpm@10.28.2 \
+RUN npm install -g pnpm@10.33.0 \
   && pnpm install --frozen-lockfile --ignore-scripts
 
 FROM node:25-alpine AS builder
-RUN npm install -g pnpm@10.28.2
+RUN npm install -g pnpm@10.33.0
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
@@ -48,4 +48,4 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
   CMD node -e "require('http').get('http://localhost:8080/api/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})" || exit 1
 
 # CMD ["node", "server.js"]
-CMD ["npm", "start"]
+CMD ["pnpm", "start"]
