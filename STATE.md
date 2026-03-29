@@ -90,6 +90,20 @@
 - **COMPLETED:** `docs/plans/2026-03-29-milestone-4-completion-report.md`
 - All phases completed: 17 (Lighthouse CI), 18 (LCP), 19 (FID - skipped), 20 (CLS - skipped), 21 (Bundle - documented)
 
+## Milestone 5
+
+- **Focus:** GitHub Issue & Comment Creation
+- **Goal:** Enable authenticated users to create GitHub issues and comments
+- **Features:**
+  - Issue POST (API - ✅ tested with validation)
+  - Comment POST (API - ✅ implemented with rate limiting)
+  - Frontend UI (create issue/comment forms) - ✅ complete
+  - Validation (title 1-200, body 0-65536) - ✅ implemented
+  - Rate limiting (30 comments/hr) - ✅ implemented
+- **Charter:** `docs/plans/2026-03-29-milestone-5-charter.md`
+- **COMPLETED:** `docs/plans/2026-03-29-milestone-5-completion-report.md`
+- **Phases:** 22 (✅), 23 (✅), 24 (✅)
+
 ## Next Action
 
-- `/gsd:complete-milestone 4` pending for Milestone 4 closure.
+- `/gsd:new-milestone` pending for next milestone charter.

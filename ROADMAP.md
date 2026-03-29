@@ -2,7 +2,7 @@
 
 ## Current Phase
 
-Milestone 4 COMPLETED - All workstreams executed and verified.
+Milestone 5 COMPLETED - All workstreams executed and verified.
 
 ## Completed Milestones
 
@@ -14,7 +14,9 @@ Milestone 4 COMPLETED - All workstreams executed and verified.
 
 ### Milestone 4: Performance & Core Web Vitals ✅
 
-## Performance Milestone Workstreams
+### Milestone 5: GitHub Issue & Comment Creation ✅
+
+## Issue & Comment Creation Workstreams
 
 1. ~~Lighthouse CI integration~~ ✅ COMPLETED
    - Add Lighthouse CI to GitHub Actions
@@ -38,6 +40,25 @@ Milestone 4 COMPLETED - All workstreams executed and verified.
    - Bundle analysis complete - performance excellent (0.89-0.93)
    - 312 KiB unused JS noted for future optimization
 
+## Milestone 5: GitHub Issue & Comment Creation
+
+1. ~~Issue POST API contract tests (Phase 22)~~ ✅ COMPLETED
+   - Add tests for POST /api/issues ✅
+   - Verify authentication required ✅
+   - Test validation (title 1-200 chars) ✅
+
+2. ~~Comment POST implementation (Phase 23)~~ ✅ COMPLETED
+   - Add POST method to /api/comments.js ✅
+   - Add authentication check ✅
+   - Add input validation ✅
+   - Add rate limiting (30/hr per user) ✅
+
+3. ~~Frontend UI integration (Phase 24)~~ ✅ COMPLETED
+   - Create issue form/modal ✅
+   - Create comment form ✅
+   - Add loading states ✅
+   - Add success/error notifications ✅
+
 ## Prioritized Workstreams (Legacy)
 
 1. ~~Observability expansion beyond baseline~~ ✅ COMPLETED
@@ -60,6 +81,15 @@ Milestone 4 COMPLETED - All workstreams executed and verified.
    - Align docs/runtime automation with canonical package-manager commands.
    - Reduce command drift that creates operational and onboarding friction.
 
+6. ~~Issue POST tests~~ ✅ COMPLETED (Phase 22)
+   - Add validation and tests for POST /api/issues
+
+7. ~~Comment POST implementation~~ ✅ COMPLETED (Phase 23)
+   - Add POST support and rate limiting to /api/comments
+
+8. ~~Frontend UI integration~~ ✅ COMPLETED (Phase 24)
+   - Add issue/comment creation forms with loading states and notifications
+
 ## Execution Notes
 
 - Keep changes vertically sliced by user-facing capability.
@@ -72,8 +102,11 @@ Milestone 4 COMPLETED - All workstreams executed and verified.
 - Milestone 3 charter: `docs/plans/2026-03-19-milestone-3-charter.md`.
 - Milestone 3 completion: `docs/plans/2026-03-29-milestone-3-completion-report.md`.
 - Milestone 4 charter: `docs/plans/2026-03-29-milestone-4-charter.md`.
-- Phase 12 verification: `docs/plans/2026-03-27-phase-12-verification-report.md`.
-- Phase 13 verification: `docs/plans/2026-03-29-phase-13-verification-report.md`.
+- Milestone 4 completion: `docs/plans/2026-03-29-milestone-4-completion-report.md`.
+- Phase 24 discussion: `docs/plans/2026-03-29-phase-24-discussion.md`.
+- Phase 24 verification: `docs/plans/2026-03-29-phase-24-verification-report.md`.
+- Milestone 5 charter: `docs/plans/2026-03-29-milestone-5-charter.md`.
+- Milestone 5 completion: `docs/plans/2026-03-29-milestone-5-completion-report.md`.
 - Phase 14 verification: `docs/plans/2026-03-29-phase-14-verification-report.md`.
 - Phase 15 verification: `docs/plans/2026-03-29-phase-15-verification-report.md`.
 - Phase 16 verification: `docs/plans/2026-03-29-phase-16-verification-report.md`.

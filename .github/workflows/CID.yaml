@@ -94,8 +94,10 @@ jobs:
       - name: Install dependencies (pnpm)
         run: pnpm install --color=true
 
-      - run: pnpm docker:build
-      - run: pnpm docker:push
+      - name: Build and push Docker image
+        run: |
+          IMAGE_TAG="docker.io/huangjien/website:$(echo ${{ github.sha }} | cut -c1-8)"
+          docker buildx build --platform linux/amd64 --push -t "$IMAGE_TAG" -t "docker.io/huangjien/website:latest" .
 
       # Deploy image to Cloud Run
       - name: Deploy

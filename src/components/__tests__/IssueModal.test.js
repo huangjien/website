@@ -14,10 +14,20 @@ jest.mock("react-markdown", () => {
 jest.mock("rehype-raw", () => ({}));
 jest.mock("remark-gfm", () => ({}));
 
+// Mock fetch
+global.fetch = jest.fn(() =>
+  Promise.resolve({
+    ok: true,
+    json: () => Promise.resolve({ id: 1, title: "Test" }),
+  }),
+);
+
 // Mock react-icons
 jest.mock("react-icons/bi", () => ({
   BiEdit: () => <div data-testid='edit-icon' />,
   BiListPlus: () => <div data-testid='list-plus-icon' />,
+  BiCheck: () => <div data-testid='check-icon' />,
+  BiX: () => <div data-testid='x-icon' />,
 }));
 
 describe("IssueModal Component", () => {
