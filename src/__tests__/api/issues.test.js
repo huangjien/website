@@ -15,11 +15,21 @@ jest.mock("../../lib/fetchWithTimeout", () => ({
   parseErrorResponse: jest.fn(async () => "GitHub API Error"),
 }));
 
+jest.mock("../../lib/rateLimit", () => ({
+  checkRateLimit: jest.fn(),
+}));
+
 describe("/api/issues", () => {
   const originalEnv = process.env;
 
   beforeEach(() => {
     jest.clearAllMocks();
+    const { checkRateLimit } = require("../../lib/rateLimit");
+    checkRateLimit.mockReturnValue({
+      allowed: true,
+      remaining: 9,
+      resetAt: Date.now() + 3600000,
+    });
     process.env = {
       ...originalEnv,
       GITHUB_REPO: "https://api.github.com/repos/test/repo",
@@ -110,6 +120,7 @@ describe("/api/issues", () => {
   describe("POST /api/issues", () => {
     it("rejects unauthenticated POST", async () => {
       getServerSession.mockResolvedValueOnce(null);
+      const { checkRateLimit } = require("../../lib/rateLimit");
 
       const handler = require("../../pages/api/issues").default;
       const { req, res } = createMocks({
@@ -123,6 +134,7 @@ describe("/api/issues", () => {
       expect(res._getStatusCode()).toBe(401);
       expect(JSON.parse(res._getData()).error).toBe("Unauthorized");
       expect(fetchWithTimeout).not.toHaveBeenCalled();
+      expect(checkRateLimit).not.toHaveBeenCalled();
     });
 
     it("accepts authenticated POST with title only", async () => {
@@ -333,8 +345,108 @@ describe("/api/issues", () => {
 
       expect(res._getStatusCode()).toBe(400);
       expect(JSON.parse(res._getData()).error).toBe(
-        "Each label must be 50 characters or less",
+        "Each label must be a non-empty string of 50 characters or less",
       );
+    });
+
+    it("rejects POST with non-string body", async () => {
+      getServerSession.mockResolvedValueOnce({ user: { email: "a@test.com" } });
+
+      const handler = require("../../pages/api/issues").default;
+      const { req, res } = createMocks({
+        method: "POST",
+        body: { title: "Valid title", body: 123 },
+      });
+
+      await handler(req, res);
+
+      expect(res._getStatusCode()).toBe(400);
+      expect(JSON.parse(res._getData()).error).toBe("Body must be a string");
+    });
+
+    it("rejects POST when issue rate limit is exceeded", async () => {
+      const { checkRateLimit } = require("../../lib/rateLimit");
+      checkRateLimit.mockReturnValueOnce({
+        allowed: false,
+        remaining: 0,
+        resetAt: Date.now() + 3600000,
+      });
+      getServerSession.mockResolvedValueOnce({ user: { email: "a@test.com" } });
+
+      const handler = require("../../pages/api/issues").default;
+      const { req, res } = createMocks({
+        method: "POST",
+        body: { title: "Valid issue" },
+      });
+
+      await handler(req, res);
+
+      expect(res._getStatusCode()).toBe(429);
+      const response = JSON.parse(res._getData());
+      expect(response.error).toBe("Rate limit exceeded");
+      expect(response.retryAfter).toBeGreaterThan(0);
+    });
+
+    it("normalizes title/body/labels before upstream POST", async () => {
+      getServerSession.mockResolvedValueOnce({ user: { email: "a@test.com" } });
+      fetchWithTimeout.mockResolvedValueOnce({
+        ok: true,
+        status: 201,
+        json: async () => ({ id: 1, title: "Trimmed title" }),
+      });
+
+      const handler = require("../../pages/api/issues").default;
+      const { req, res } = createMocks({
+        method: "POST",
+        body: {
+          title: "  Trimmed title  ",
+          body: "  hello world  ",
+          labels: [" bug ", "bug", "   enhancement "],
+        },
+      });
+
+      await handler(req, res);
+
+      expect(res._getStatusCode()).toBe(200);
+      const fetchCall = fetchWithTimeout.mock.calls[0];
+      const bodySent = JSON.parse(fetchCall[1].body);
+      expect(bodySent).toEqual({
+        title: "Trimmed title",
+        body: "hello world",
+        labels: ["bug", "enhancement"],
+      });
+    });
+
+    it("emits mutation attempt and success observability events", async () => {
+      const infoSpy = jest.spyOn(console, "info").mockImplementation(() => {});
+      getServerSession.mockResolvedValueOnce({ user: { email: "a@test.com" } });
+      fetchWithTimeout.mockResolvedValueOnce({
+        ok: true,
+        status: 201,
+        json: async () => ({ id: 1, number: 88, title: "Observable issue" }),
+      });
+
+      const handler = require("../../pages/api/issues").default;
+      const { req, res } = createMocks({
+        method: "POST",
+        body: { title: "Observable issue" },
+      });
+
+      await handler(req, res);
+
+      const loggedPayloads = infoSpy.mock.calls.map((call) => call[0]);
+      expect(
+        loggedPayloads.some((payload) =>
+          payload.includes('"event":"issue_post_attempt"'),
+        ),
+      ).toBe(true);
+      expect(
+        loggedPayloads.some((payload) =>
+          payload.includes('"event":"issue_post_success"'),
+        ),
+      ).toBe(true);
+
+      infoSpy.mockRestore();
     });
 
     it("returns GitHub error when upstream fails", async () => {

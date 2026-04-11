@@ -2,7 +2,7 @@
 
 ## Current Phase
 
-Milestone 5 COMPLETED - All workstreams executed and verified.
+Milestone 6 COMPLETED - All mutation hardening workstreams executed and verified.
 
 ## Completed Milestones
 
@@ -16,31 +16,9 @@ Milestone 5 COMPLETED - All workstreams executed and verified.
 
 ### Milestone 5: GitHub Issue & Comment Creation ✅
 
-## Issue & Comment Creation Workstreams
+### Milestone 6: Issue & Comment Flow Hardening ✅
 
-1. ~~Lighthouse CI integration~~ ✅ COMPLETED
-   - Add Lighthouse CI to GitHub Actions
-   - Establish baseline scores for key pages
-   - Define performance budgets
-
-2. ~~LCP optimization~~ ✅ COMPLETED
-   - Optimize image loading and critical CSS
-   - Optimize font loading
-   - **Note:** Render delay (87% of LCP) identified as architectural opportunity for future optimization
-
-3. ~~FID/INP improvements~~ ✅ SKIPPED (metrics already excellent)
-   - TBT: 26ms (87% headroom), Max FID: 74ms (26% headroom)
-   - No optimization needed
-
-4. ~~CLS reduction~~ ✅ SKIPPED (metrics already excellent)
-   - CLS: 0.006 (94% under threshold), Score: 1
-   - No optimization needed
-
-5. ~~Bundle size analysis~~ ✅ COMPLETED (documented only)
-   - Bundle analysis complete - performance excellent (0.89-0.93)
-   - 312 KiB unused JS noted for future optimization
-
-## Milestone 5: GitHub Issue & Comment Creation
+## Milestone 5: GitHub Issue & Comment Creation (Completed)
 
 1. ~~Issue POST API contract tests (Phase 22)~~ ✅ COMPLETED
    - Add tests for POST /api/issues ✅
@@ -59,36 +37,27 @@ Milestone 5 COMPLETED - All workstreams executed and verified.
    - Add loading states ✅
    - Add success/error notifications ✅
 
-## Prioritized Workstreams (Legacy)
+## Milestone 6: Issue & Comment Flow Hardening (Completed)
 
-1. ~~Observability expansion beyond baseline~~ ✅ COMPLETED
-   - Integrate telemetry backend and distributed tracing strategy.
-   - Expand structured request/error telemetry adoption across remaining API routes.
+1. ~~Submission reliability (Phase 25)~~ ✅ COMPLETED
+   - Prevent duplicate issue/comment mutations on repeated submit actions ✅
+   - Preserve form input safely across recoverable failures ✅
 
-2. ~~API contract coverage completion~~ ✅ COMPLETED
-   - Fill remaining untested API contract surfaces and risk-path assertions.
-   - Ensure method/auth/validation/upstream-failure behaviors are fully covered.
+2. ~~Error semantics and UX (Phase 26)~~ ✅ COMPLETED
+   - Standardize actionable messaging for auth, validation, rate-limit, and upstream failures ✅
+   - Align success/error lifecycle handling across mutation UI ✅
 
-3. ~~Performance verification v2~~ ✅ COMPLETED
-   - Extend checks toward broader route targets and user-perceived signals.
-   - Strengthen regression detection beyond current server-route budget set.
+3. ~~API mutation hardening (Phase 27)~~ ✅ COMPLETED
+   - Tighten validation boundaries and normalize error envelopes ✅
+   - Revalidate abuse-protection expectations for mutation endpoints ✅
 
-4. ~~Auth normalization phase 2~~ ✅ COMPLETED
-   - Enforce consistent authorization boundaries across API routes.
-   - Define role/policy behavior where privileged access is still implicit.
+4. ~~Mutation observability (Phase 28)~~ ✅ COMPLETED
+   - Add structured telemetry for mutation attempts and outcomes ✅
+   - Improve triage signal quality without exposing sensitive payload content ✅
 
-5. ~~Tooling and command-source unification~~ ✅ COMPLETED
-   - Align docs/runtime automation with canonical package-manager commands.
-   - Reduce command drift that creates operational and onboarding friction.
-
-6. ~~Issue POST tests~~ ✅ COMPLETED (Phase 22)
-   - Add validation and tests for POST /api/issues
-
-7. ~~Comment POST implementation~~ ✅ COMPLETED (Phase 23)
-   - Add POST support and rate limiting to /api/comments
-
-8. ~~Frontend UI integration~~ ✅ COMPLETED (Phase 24)
-   - Add issue/comment creation forms with loading states and notifications
+5. ~~Verification expansion (Phase 29)~~ ✅ COMPLETED
+   - Add regression coverage for unhappy paths and boundary conditions ✅
+   - Ensure lint, type-check, and full unit test gates pass ✅
 
 ## Execution Notes
 
@@ -107,6 +76,13 @@ Milestone 5 COMPLETED - All workstreams executed and verified.
 - Phase 24 verification: `docs/plans/2026-03-29-phase-24-verification-report.md`.
 - Milestone 5 charter: `docs/plans/2026-03-29-milestone-5-charter.md`.
 - Milestone 5 completion: `docs/plans/2026-03-29-milestone-5-completion-report.md`.
+- Milestone 6 charter: `docs/plans/2026-04-11-milestone-6-charter.md`.
+- Phase 25 verification: `docs/plans/2026-04-11-phase-25-verification-report.md`.
+- Phase 26 verification: `docs/plans/2026-04-11-phase-26-verification-report.md`.
+- Phase 27 verification: `docs/plans/2026-04-11-phase-27-verification-report.md`.
+- Phase 28 verification: `docs/plans/2026-04-11-phase-28-verification-report.md`.
+- Phase 29 verification: `docs/plans/2026-04-11-phase-29-verification-report.md`.
+- Milestone 6 completion: `docs/plans/2026-04-11-milestone-6-completion-report.md`.
 - Phase 14 verification: `docs/plans/2026-03-29-phase-14-verification-report.md`.
 - Phase 15 verification: `docs/plans/2026-03-29-phase-15-verification-report.md`.
 - Phase 16 verification: `docs/plans/2026-03-29-phase-16-verification-report.md`.

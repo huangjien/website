@@ -155,8 +155,8 @@ describe("/api/comments", () => {
 
     it("rejects POST without body", async () => {
       const { checkRateLimit } = require("../../lib/rateLimit");
-      checkRateLimit.mockResolvedValueOnce({
-        success: true,
+      checkRateLimit.mockReturnValueOnce({
+        allowed: true,
         remaining: 29,
         resetAt: Date.now() + 3600000,
       });
@@ -176,8 +176,8 @@ describe("/api/comments", () => {
 
     it("rejects POST with empty body", async () => {
       const { checkRateLimit } = require("../../lib/rateLimit");
-      checkRateLimit.mockResolvedValueOnce({
-        success: true,
+      checkRateLimit.mockReturnValueOnce({
+        allowed: true,
         remaining: 29,
         resetAt: Date.now() + 3600000,
       });
@@ -197,8 +197,8 @@ describe("/api/comments", () => {
 
     it("rejects POST with body too long", async () => {
       const { checkRateLimit } = require("../../lib/rateLimit");
-      checkRateLimit.mockResolvedValueOnce({
-        success: true,
+      checkRateLimit.mockReturnValueOnce({
+        allowed: true,
         remaining: 29,
         resetAt: Date.now() + 3600000,
       });
@@ -220,8 +220,8 @@ describe("/api/comments", () => {
     it("accepts valid POST with body", async () => {
       const { checkRateLimit } = require("../../lib/rateLimit");
       const { fetchWithTimeout } = require("../../lib/fetchWithTimeout");
-      checkRateLimit.mockResolvedValueOnce({
-        success: true,
+      checkRateLimit.mockReturnValueOnce({
+        allowed: true,
         remaining: 29,
         resetAt: Date.now() + 3600000,
       });
@@ -249,12 +249,42 @@ describe("/api/comments", () => {
       expect(bodySent.body).toBe("Test comment");
     });
 
+    it("normalizes comment body before upstream POST", async () => {
+      const { checkRateLimit } = require("../../lib/rateLimit");
+      const { fetchWithTimeout } = require("../../lib/fetchWithTimeout");
+      checkRateLimit.mockReturnValueOnce({
+        allowed: true,
+        remaining: 29,
+        resetAt: Date.now() + 3600000,
+      });
+      getServerSession.mockResolvedValueOnce({ user: { email: "a@test.com" } });
+      fetchWithTimeout.mockResolvedValueOnce({
+        ok: true,
+        status: 201,
+        json: async () => ({ id: 1, body: "trim me" }),
+      });
+
+      const handler = require("../../pages/api/comments").default;
+      const { req, res } = createMocks({
+        method: "POST",
+        query: { issue_number: "123" },
+        body: { body: "   trim me   " },
+      });
+
+      await handler(req, res);
+
+      expect(res._getStatusCode()).toBe(201);
+      const fetchCall = fetchWithTimeout.mock.calls[0];
+      const bodySent = JSON.parse(fetchCall[1].body);
+      expect(bodySent.body).toBe("trim me");
+    });
+
     it("returns 429 when rate limit exceeded", async () => {
       const { checkRateLimit } = require("../../lib/rateLimit");
-      checkRateLimit.mockResolvedValueOnce({
-        success: false,
+      checkRateLimit.mockReturnValueOnce({
+        allowed: false,
         remaining: 0,
-        retryAfter: 3600000,
+        resetAt: Date.now() + 3600000,
       });
       getServerSession.mockResolvedValueOnce({ user: { email: "a@test.com" } });
 
@@ -270,13 +300,14 @@ describe("/api/comments", () => {
       expect(res._getStatusCode()).toBe(429);
       const response = JSON.parse(res._getData());
       expect(response.error).toContain("Rate limit exceeded");
+      expect(response.retryAfter).toBeGreaterThan(0);
     });
 
     it("returns GitHub error when upstream fails", async () => {
       const { checkRateLimit } = require("../../lib/rateLimit");
       const { fetchWithTimeout } = require("../../lib/fetchWithTimeout");
-      checkRateLimit.mockResolvedValueOnce({
-        success: true,
+      checkRateLimit.mockReturnValueOnce({
+        allowed: true,
         remaining: 29,
         resetAt: Date.now() + 3600000,
       });
@@ -301,8 +332,8 @@ describe("/api/comments", () => {
     it("returns 504 when upstream times out", async () => {
       const { checkRateLimit } = require("../../lib/rateLimit");
       const { fetchWithTimeout } = require("../../lib/fetchWithTimeout");
-      checkRateLimit.mockResolvedValueOnce({
-        success: true,
+      checkRateLimit.mockReturnValueOnce({
+        allowed: true,
         remaining: 29,
         resetAt: Date.now() + 3600000,
       });
@@ -321,6 +352,43 @@ describe("/api/comments", () => {
       await handler(req, res);
 
       expect(res._getStatusCode()).toBe(504);
+    });
+
+    it("emits mutation attempt and failure observability events", async () => {
+      const infoSpy = jest.spyOn(console, "info").mockImplementation(() => {});
+      const warnSpy = jest.spyOn(console, "warn").mockImplementation(() => {});
+      const { checkRateLimit } = require("../../lib/rateLimit");
+      checkRateLimit.mockReturnValueOnce({
+        allowed: true,
+        remaining: 29,
+        resetAt: Date.now() + 3600000,
+      });
+      getServerSession.mockResolvedValueOnce({ user: { email: "a@test.com" } });
+
+      const handler = require("../../pages/api/comments").default;
+      const { req, res } = createMocks({
+        method: "POST",
+        query: { issue_number: "123" },
+        body: { body: "   " },
+      });
+
+      await handler(req, res);
+
+      const infoPayloads = infoSpy.mock.calls.map((call) => call[0]);
+      const warnPayloads = warnSpy.mock.calls.map((call) => call[0]);
+      expect(
+        infoPayloads.some((payload) =>
+          payload.includes('"event":"comment_post_attempt"'),
+        ),
+      ).toBe(true);
+      expect(
+        warnPayloads.some((payload) =>
+          payload.includes('"event":"comment_post_failure"'),
+        ),
+      ).toBe(true);
+
+      infoSpy.mockRestore();
+      warnSpy.mockRestore();
     });
   });
 });

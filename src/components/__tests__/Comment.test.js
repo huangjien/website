@@ -1,6 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
-import { render, screen, waitFor, within } from "@testing-library/react";
+import {
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+  within,
+} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Comment } from "../Comment";
 import { useTranslation } from "react-i18next";
@@ -441,6 +447,108 @@ describe("Comment Component", () => {
       expect(markdownContent.textContent).toContain(
         "https://github.com/user-attachments/assets/12345678-90ab-cdef-1234-567890abcdef",
       );
+    });
+  });
+
+  it("should prevent duplicate comment submissions while request is in flight", async () => {
+    let resolvePost;
+    global.fetch
+      .mockImplementationOnce(() =>
+        Promise.resolve({
+          ok: true,
+          json: async () => [],
+        }),
+      )
+      .mockImplementationOnce(
+        () =>
+          new Promise((resolve) => {
+            resolvePost = resolve;
+          }),
+      );
+
+    const user = userEvent.setup();
+    render(<Comment issue_id={123} />);
+
+    const commentInput = await screen.findByTestId("textarea");
+    await user.type(commentInput, "Prevent duplicate post");
+
+    const sendButton = screen.getByRole("button", { name: "global.send" });
+    fireEvent.click(sendButton);
+    fireEvent.click(sendButton);
+
+    const postCalls = global.fetch.mock.calls.filter(
+      ([, options]) => options?.method === "POST",
+    );
+    expect(postCalls).toHaveLength(1);
+
+    resolvePost({
+      ok: true,
+      json: async () => ({ id: 10, body: "Prevent duplicate post" }),
+    });
+
+    await waitFor(() => {
+      const settledPostCalls = global.fetch.mock.calls.filter(
+        ([, options]) => options?.method === "POST",
+      );
+      expect(settledPostCalls).toHaveLength(1);
+    });
+  });
+
+  it("should show auth error key on unauthorized comment submit", async () => {
+    global.fetch.mockImplementation((url, options = {}) => {
+      if (options.method === "POST") {
+        return Promise.resolve({
+          ok: false,
+          status: 401,
+          headers: { get: () => null },
+          json: async () => ({ error: "Unauthorized" }),
+        });
+      }
+      return Promise.resolve({
+        ok: true,
+        json: async () => [],
+      });
+    });
+
+    const user = userEvent.setup();
+    render(<Comment issue_id={123} />);
+    const commentInput = await screen.findByTestId("textarea");
+    await user.type(commentInput, "auth error");
+    await user.click(screen.getByRole("button", { name: "global.send" }));
+
+    await waitFor(() => {
+      expect(
+        screen.getByText("comment.error_auth_required"),
+      ).toBeInTheDocument();
+    });
+  });
+
+  it("should show rate limit error key on limited comment submit", async () => {
+    global.fetch.mockImplementation((url, options = {}) => {
+      if (options.method === "POST") {
+        return Promise.resolve({
+          ok: false,
+          status: 429,
+          headers: { get: () => null },
+          json: async () => ({ retryAfter: 5 }),
+        });
+      }
+      return Promise.resolve({
+        ok: true,
+        json: async () => [],
+      });
+    });
+
+    const user = userEvent.setup();
+    render(<Comment issue_id={123} />);
+    const commentInput = await screen.findByTestId("textarea");
+    await user.type(commentInput, "rate limited");
+    await user.click(screen.getByRole("button", { name: "global.send" }));
+
+    await waitFor(() => {
+      expect(
+        screen.getByText("comment.error_rate_limited"),
+      ).toBeInTheDocument();
     });
   });
 });

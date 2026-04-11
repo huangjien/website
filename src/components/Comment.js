@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useMemo, useCallback } from "react";
+import React, {
+  useState,
+  useEffect,
+  useMemo,
+  useCallback,
+  useRef,
+} from "react";
 import Avatar from "./ui/avatar";
 import * as Accordion from "./ui/accordion";
 import { useTranslation } from "react-i18next";
@@ -6,6 +12,10 @@ import { BiSend, BiCheck, BiX } from "react-icons/bi";
 import { useSettings } from "../lib/useSettings";
 import { extractContentAccordingContentList } from "../lib/useGithubContent";
 import { sanitizeMarkdown } from "../lib/markdown-utils";
+import {
+  getMutationErrorMessage,
+  parseMutationErrorPayload,
+} from "../lib/mutationError";
 import { MarkdownContent } from "./MarkdownContent";
 import Button from "./ui/button";
 import Textarea from "./ui/textarea";
@@ -24,6 +34,8 @@ export const Comment = React.memo(function Comment({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
+  const submitInFlightRef = useRef(false);
+  const successTimeoutRef = useRef(null);
   const normalizedList = useMemo(() => {
     if (!Array.isArray(list)) {
       return null;
@@ -72,9 +84,20 @@ export const Comment = React.memo(function Comment({
     fetchComments();
   }, [normalizedList, fetchComments]);
 
-  const handleSubmitComment = async () => {
-    if (!newComment.trim()) return;
+  useEffect(() => {
+    return () => {
+      if (successTimeoutRef.current) {
+        clearTimeout(successTimeoutRef.current);
+      }
+    };
+  }, []);
 
+  const handleSubmitComment = async () => {
+    if (loading || submitInFlightRef.current || !newComment.trim()) {
+      return;
+    }
+
+    submitInFlightRef.current = true;
     setLoading(true);
     setError(null);
     setSuccess(false);
@@ -89,18 +112,32 @@ export const Comment = React.memo(function Comment({
       if (res.ok) {
         setNewComment("");
         setSuccess(true);
-        setTimeout(() => setSuccess(false), 3000);
+        if (successTimeoutRef.current) {
+          clearTimeout(successTimeoutRef.current);
+        }
+        successTimeoutRef.current = setTimeout(() => {
+          setSuccess(false);
+          successTimeoutRef.current = null;
+        }, 3000);
         await fetchComments();
         if (onRefresh) {
           onRefresh();
         }
       } else {
-        const data = await res.json();
+        const payload = await parseMutationErrorPayload(res);
         setError(
-          data.error ||
-            t("comment.create_failed", {
-              defaultValue: "Failed to add comment",
-            }),
+          getMutationErrorMessage({
+            response: res,
+            payload,
+            t,
+            authKey: "comment.error_auth_required",
+            validationKey: "comment.error_validation",
+            rateLimitKey: "comment.error_rate_limited",
+            timeoutKey: "comment.error_timeout",
+            serverKey: "comment.error_server",
+            fallbackKey: "comment.create_failed",
+            fallbackDefaultValue: "Failed to add comment",
+          }),
         );
       }
     } catch (err) {
@@ -108,6 +145,7 @@ export const Comment = React.memo(function Comment({
         t("comment.create_error", { defaultValue: "An error occurred" }),
       );
     } finally {
+      submitInFlightRef.current = false;
       setLoading(false);
     }
   };

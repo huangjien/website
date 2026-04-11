@@ -2,7 +2,7 @@
 
 ## Date
 
-2026-03-29
+2026-04-11
 
 ## Status
 
@@ -68,6 +68,13 @@
 - `GSD-GO 16` completed with Phase 16 tooling and command unification execution and verification.
 - **Milestone 3 COMPLETED** - All workstreams completed.
 - `/gsd:complete-milestone 3` completed with Milestone 3 closure report.
+- `/gsd:new-milestone` completed with Milestone 6 charter and reprioritized roadmap.
+- `GSD-GO 25` completed with submission reliability hardening and regression verification.
+- `GSD-GO 26` completed with mutation error semantics/UX alignment and API envelope consistency.
+- `GSD-GO 27` completed with mutation validation hardening and issue/comment abuse-control alignment.
+- `GSD-GO 28` completed with mutation telemetry events and route-scoped triage counters.
+- `GSD-GO 29` completed with verification expansion across UI/API mutation unhappy paths and quality gates.
+- `/gsd:complete-milestone 6` completed with closure report and tracking sync.
 
 ## Verified Facts
 
@@ -103,6 +110,27 @@
 - **Charter:** `docs/plans/2026-03-29-milestone-5-charter.md`
 - **COMPLETED:** `docs/plans/2026-03-29-milestone-5-completion-report.md`
 - **Phases:** 22 (✅), 23 (✅), 24 (✅)
+
+## Milestone 6
+
+- **Focus:** Issue & Comment Flow Hardening
+- **Goal:** Improve reliability, clarity, and observability of mutation flows introduced in Milestone 5
+- **Workstreams:**
+  - Submission reliability and duplicate-prevention
+  - Error semantics and actionable UX messaging
+  - API mutation hardening for validation and abuse boundaries
+  - Mutation route observability for issue/comment POST flows
+  - Regression and contract safety expansion
+- **Charter:** `docs/plans/2026-04-11-milestone-6-charter.md`
+- **Status:** COMPLETED
+- **COMPLETED:** `docs/plans/2026-04-11-milestone-6-completion-report.md`
+- **Verification:**
+  - `docs/plans/2026-04-11-phase-25-verification-report.md`
+  - `docs/plans/2026-04-11-phase-26-verification-report.md`
+  - `docs/plans/2026-04-11-phase-27-verification-report.md`
+  - `docs/plans/2026-04-11-phase-28-verification-report.md`
+  - `docs/plans/2026-04-11-phase-29-verification-report.md`
+- **Phases:** 25 (✅), 26 (✅), 27 (✅), 28 (✅), 29 (✅)
 
 ## Next Action
 

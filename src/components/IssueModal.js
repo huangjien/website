@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { BiEdit, BiListPlus, BiCheck, BiX } from "react-icons/bi";
 import { useTranslation } from "react-i18next";
 import { MarkdownContent } from "./MarkdownContent";
@@ -16,6 +16,10 @@ import Input from "./ui/input";
 import Textarea from "./ui/textarea";
 import { CheckboxGroup, Checkbox } from "./ui/checkbox";
 import Divider from "./ui/divider";
+import {
+  getMutationErrorMessage,
+  parseMutationErrorPayload,
+} from "../lib/mutationError";
 
 export function IssueModal({ issue, action, onSuccess }) {
   const { t } = useTranslation();
@@ -25,6 +29,7 @@ export function IssueModal({ issue, action, onSuccess }) {
   const [labels, setLabels] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const submitInFlightRef = useRef(false);
 
   const handleOpen = () => {
     setError(null);
@@ -39,6 +44,10 @@ export function IssueModal({ issue, action, onSuccess }) {
   };
 
   const handleSave = async () => {
+    if (loading || submitInFlightRef.current) {
+      return;
+    }
+
     if (!title.trim()) {
       setError(
         t("issue.title_required", { defaultValue: "Title is required" }),
@@ -46,6 +55,7 @@ export function IssueModal({ issue, action, onSuccess }) {
       return;
     }
 
+    submitInFlightRef.current = true;
     setLoading(true);
     setError(null);
 
@@ -66,17 +76,26 @@ export function IssueModal({ issue, action, onSuccess }) {
           onSuccess();
         }
       } else {
-        const data = await res.json();
+        const payload = await parseMutationErrorPayload(res);
         setError(
-          data.error ||
-            t("issue.create_failed", {
-              defaultValue: "Failed to create issue",
-            }),
+          getMutationErrorMessage({
+            response: res,
+            payload,
+            t,
+            authKey: "issue.error_auth_required",
+            validationKey: "issue.error_validation",
+            rateLimitKey: "issue.error_rate_limited",
+            timeoutKey: "issue.error_timeout",
+            serverKey: "issue.error_server",
+            fallbackKey: "issue.create_failed",
+            fallbackDefaultValue: "Failed to create issue",
+          }),
         );
       }
     } catch (err) {
       setError(t("issue.create_error", { defaultValue: "An error occurred" }));
     } finally {
+      submitInFlightRef.current = false;
       setLoading(false);
     }
   };

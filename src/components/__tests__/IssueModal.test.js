@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { IssueModal } from "../IssueModal";
 
@@ -134,5 +134,85 @@ describe("IssueModal Component", () => {
     await user.type(contentTextarea, "New issue content");
 
     expect(contentTextarea).toHaveValue("New issue content");
+  });
+
+  it("should prevent duplicate issue submissions while request is in flight", async () => {
+    let resolveRequest;
+    global.fetch.mockImplementationOnce(
+      () =>
+        new Promise((resolve) => {
+          resolveRequest = resolve;
+        }),
+    );
+
+    const user = userEvent.setup();
+    render(<IssueModal action='new' />);
+    await user.click(screen.getByTestId("list-plus-icon"));
+
+    const titleInput = screen.getByTestId("input");
+    await user.type(titleInput, "Reliability check");
+
+    const saveButton = screen.getByRole("button", { name: "Save" });
+    fireEvent.click(saveButton);
+    fireEvent.click(saveButton);
+
+    expect(global.fetch).toHaveBeenCalledTimes(1);
+
+    resolveRequest({
+      ok: true,
+      json: async () => ({ id: 99, title: "Reliability check" }),
+    });
+
+    await waitFor(() => {
+      expect(global.fetch).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it("should show actionable auth message on unauthorized error", async () => {
+    global.fetch.mockImplementationOnce(() =>
+      Promise.resolve({
+        ok: false,
+        status: 401,
+        headers: { get: () => null },
+        json: async () => ({ error: "Unauthorized" }),
+      }),
+    );
+
+    const user = userEvent.setup();
+    render(<IssueModal action='new' />);
+    await user.click(screen.getByTestId("list-plus-icon"));
+    await user.type(screen.getByTestId("input"), "Auth failure case");
+    await user.click(screen.getByRole("button", { name: "Save" }));
+
+    await waitFor(() => {
+      expect(
+        screen.getByText("Your session expired. Please sign in and retry."),
+      ).toBeInTheDocument();
+    });
+  });
+
+  it("should show retry guidance on rate limit error", async () => {
+    global.fetch.mockImplementationOnce(() =>
+      Promise.resolve({
+        ok: false,
+        status: 429,
+        headers: { get: () => null },
+        json: async () => ({ retryAfter: 12 }),
+      }),
+    );
+
+    const user = userEvent.setup();
+    render(<IssueModal action='new' />);
+    await user.click(screen.getByTestId("list-plus-icon"));
+    await user.type(screen.getByTestId("input"), "Rate limit case");
+    await user.click(screen.getByRole("button", { name: "Save" }));
+
+    await waitFor(() => {
+      expect(
+        screen.getByText(
+          "Rate limit reached. Please wait {{seconds}} seconds and retry.",
+        ),
+      ).toBeInTheDocument();
+    });
   });
 });
