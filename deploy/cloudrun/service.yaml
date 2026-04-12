@@ -82,7 +82,11 @@ spec:
           args:
             - -c
             - >
-              socat TCP-LISTEN:${RELAY_LISTEN_PORT},fork,reuseaddr SOCKS5-CONNECT:127.0.0.1:${TS_SOCKS5_PORT}:${HOME_UPSTREAM_HOST}:${HOME_UPSTREAM_PORT}
+              while true; do
+                socat -d -d TCP-LISTEN:${RELAY_LISTEN_PORT},fork,reuseaddr SOCKS5-CONNECT:127.0.0.1:${TS_SOCKS5_PORT}:${HOME_UPSTREAM_HOST}:${HOME_UPSTREAM_PORT};
+                echo "relay process exited, restarting in 1s";
+                sleep 1;
+              done
           env:
             - name: HOME_UPSTREAM_HOST
               value: __HOME_UPSTREAM_HOST__
