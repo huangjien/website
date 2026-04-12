@@ -143,7 +143,23 @@ jobs:
       - name: Smoke check
         run: |
           SERVICE_URL="$(gcloud run services describe "$SERVICE_NAME" --region "$RUN_REGION" --project "$PROJECT_ID" --format='value(status.url)')"
-          curl -fsS "${SERVICE_URL}/healthz"
+          echo "Service URL: ${SERVICE_URL}"
+          attempts=0
+          max_attempts=20
+          sleep_seconds=3
+          until [ "$attempts" -ge "$max_attempts" ]; do
+            attempts=$((attempts + 1))
+            status_code="$(curl -s -o /tmp/smoke-body.txt -w "%{http_code}" "${SERVICE_URL}/healthz" || true)"
+            if [ "$status_code" = "200" ]; then
+              cat /tmp/smoke-body.txt
+              exit 0
+            fi
+            echo "Smoke check attempt ${attempts}/${max_attempts} returned HTTP ${status_code}"
+            sleep "$sleep_seconds"
+          done
+          echo "Smoke check failed after ${max_attempts} attempts" >&2
+          cat /tmp/smoke-body.txt >&2 || true
+          exit 1
 
       - name: Show Output
         run: gcloud run services describe "$SERVICE_NAME" --region "$RUN_REGION" --project "$PROJECT_ID" --format='value(status.url)'
