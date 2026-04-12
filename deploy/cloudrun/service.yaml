@@ -72,6 +72,15 @@ spec:
             limits:
               cpu: "1"
               memory: 256Mi
+          startupProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - tailscale --socket=/tmp/tailscaled.sock status >/dev/null 2>&1
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 24
   traffic:
     - latestRevision: true
       percent: 100

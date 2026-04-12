@@ -1,6 +1,6 @@
 {
   "name": "website",
-  "version": "1.5.98",
+  "version": "1.5.99",
   "description": "A modern, responsive blog website template built with Next.js, React, and Tailwind CSS",
   "author": {
     "name": "Jien Huang",
@@ -126,7 +126,7 @@
     "babel-jest": "^30.3.0",
     "cross-env": "^10.1.0",
     "css-loader": "^7.1.4",
-    "dotenv": "^17.4.1",
+    "dotenv": "^17.4.2",
     "eslint": "^10.2.0",
     "eslint-config-next": "^16.2.3",
     "eslint-plugin-prettier": "^5.5.5",
