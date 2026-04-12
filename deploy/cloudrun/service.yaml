@@ -6,7 +6,7 @@ spec:
   template:
     metadata:
       annotations:
-        run.googleapis.com/container-dependencies: '{"nginx":["tailscale"]}'
+        run.googleapis.com/container-dependencies: '{"nginx":["relay"],"relay":["tailscale"]}'
         run.googleapis.com/execution-environment: gen2
         autoscaling.knative.dev/minScale: "0"
         autoscaling.knative.dev/maxScale: "3"
@@ -45,11 +45,10 @@ spec:
           args:
             - -c
             - >
-              apk add --no-cache socat &&
               tailscaled --tun=userspace-networking --state=/tmp/tailscaled.state --socket=/tmp/tailscaled.sock --socks5-server=127.0.0.1:${TS_SOCKS5_PORT} &
               sleep 2 &&
               tailscale --socket=/tmp/tailscaled.sock up --authkey=${TS_AUTHKEY} --hostname=cloudrun-edge --advertise-tags=${TS_ADVERTISE_TAGS} --accept-routes=true &&
-              socat TCP-LISTEN:${RELAY_LISTEN_PORT},fork,reuseaddr SOCKS5:127.0.0.1:${HOME_UPSTREAM_HOST}:${HOME_UPSTREAM_PORT},socksport=${TS_SOCKS5_PORT}
+              tail -f /dev/null
           env:
             - name: TS_AUTHKEY
               valueFrom:
@@ -60,8 +59,6 @@ spec:
               value: __HOME_UPSTREAM_HOST__
             - name: HOME_UPSTREAM_PORT
               value: "__HOME_UPSTREAM_PORT__"
-            - name: RELAY_LISTEN_PORT
-              value: "__RELAY_LISTEN_PORT__"
             - name: TS_SOCKS5_PORT
               value: "1055"
             - name: TS_ADVERTISE_TAGS
@@ -75,6 +72,33 @@ spec:
           startupProbe:
             tcpSocket:
               port: 1055
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 24
+        - name: relay
+          image: alpine/socat:1.8.0.0
+          command:
+            - /bin/sh
+          args:
+            - -c
+            - >
+              socat TCP-LISTEN:${RELAY_LISTEN_PORT},fork,reuseaddr SOCKS5:127.0.0.1:${HOME_UPSTREAM_HOST}:${HOME_UPSTREAM_PORT},socksport=${TS_SOCKS5_PORT}
+          env:
+            - name: HOME_UPSTREAM_HOST
+              value: __HOME_UPSTREAM_HOST__
+            - name: HOME_UPSTREAM_PORT
+              value: "__HOME_UPSTREAM_PORT__"
+            - name: RELAY_LISTEN_PORT
+              value: "__RELAY_LISTEN_PORT__"
+            - name: TS_SOCKS5_PORT
+              value: "1055"
+          resources:
+            limits:
+              cpu: "1"
+              memory: 128Mi
+          startupProbe:
+            tcpSocket:
+              port: 18080
             periodSeconds: 5
             timeoutSeconds: 3
             failureThreshold: 24
