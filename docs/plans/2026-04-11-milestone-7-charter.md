@@ -14,25 +14,25 @@ This milestone migrates production deployment from Cloud Run-hosted application 
 
 ## Confirmed Scope
 
-| Workstream                         | Include | Notes                                                             |
-| ---------------------------------- | ------- | ----------------------------------------------------------------- |
+| Workstream                         | Include | Notes                                                            |
+| ---------------------------------- | ------- | ---------------------------------------------------------------- |
 | Cloud Run runtime migration        | ✅      | Replace direct app deploy with Nginx + sidecar deployment shape  |
-| Tailscale connectivity integration | ✅      | Route Cloud Run proxy traffic to home Next.js container           |
-| Edge proxy and fallback behavior   | ✅      | Implement proxy headers/timeouts and static maintenance fallback  |
-| Secrets and security posture       | ✅      | Use Secret Manager auth key and keep home service non-public      |
-| Verification and operations        | ✅      | Add deployment checks, rollback path, and runbook-level guidance  |
+| Tailscale connectivity integration | ✅      | Route Cloud Run proxy traffic to home Next.js container          |
+| Edge proxy and fallback behavior   | ✅      | Implement proxy headers/timeouts and static maintenance fallback |
+| Secrets and security posture       | ✅      | Use Secret Manager auth key and keep home service non-public     |
+| Verification and operations        | ✅      | Add deployment checks, rollback path, and runbook-level guidance |
 
 ---
 
 ## Target Outcomes
 
-| Outcome                              | Target                                                                     |
-| ------------------------------------ | -------------------------------------------------------------------------- |
-| Cloud Run cost reduction             | Production runtime no longer executes full Next.js application on Cloud Run |
-| Secure transport path                | GCP-to-home traffic runs through Tailscale, not direct public home ingress |
-| Stable public ingress                | Existing custom domain and HTTPS continue via Cloud Run                    |
-| Controlled failure mode              | Home upstream outage serves static maintenance page (`503`)                |
-| Operational confidence               | Deploy, verify, and rollback procedures are documented and repeatable      |
+| Outcome                  | Target                                                                      |
+| ------------------------ | --------------------------------------------------------------------------- |
+| Cloud Run cost reduction | Production runtime no longer executes full Next.js application on Cloud Run |
+| Secure transport path    | GCP-to-home traffic runs through Tailscale, not direct public home ingress  |
+| Stable public ingress    | Existing custom domain and HTTPS continue via Cloud Run                     |
+| Controlled failure mode  | Home upstream outage serves static maintenance page (`503`)                 |
+| Operational confidence   | Deploy, verify, and rollback procedures are documented and repeatable       |
 
 ---
 
@@ -72,24 +72,24 @@ This milestone migrates production deployment from Cloud Run-hosted application 
 
 ## Phases
 
-| Phase    | Workstream                       | Focus                                                    |
-| -------- | -------------------------------- | -------------------------------------------------------- |
-| Phase 30 | Runtime Topology Migration       | Cloud Run deployment shape conversion                    |
-| Phase 31 | Tailscale Path Integration       | Sidecar auth and home upstream routing                   |
-| Phase 32 | Proxy Reliability and Fallback   | Header/timeout policy and maintenance-page behavior      |
-| Phase 33 | Security and Deployment Workflow | Secret wiring and CI/CD migration                        |
-| Phase 34 | Verification and Runbook         | Smoke checks, rollback path, and closure-quality gates   |
+| Phase    | Workstream                       | Focus                                                  |
+| -------- | -------------------------------- | ------------------------------------------------------ |
+| Phase 30 | Runtime Topology Migration       | Cloud Run deployment shape conversion                  |
+| Phase 31 | Tailscale Path Integration       | Sidecar auth and home upstream routing                 |
+| Phase 32 | Proxy Reliability and Fallback   | Header/timeout policy and maintenance-page behavior    |
+| Phase 33 | Security and Deployment Workflow | Secret wiring and CI/CD migration                      |
+| Phase 34 | Verification and Runbook         | Smoke checks, rollback path, and closure-quality gates |
 
 ---
 
 ## Success Criteria
 
-| Criteria                                                               | Status  |
-| ---------------------------------------------------------------------- | ------- |
-| Cloud Run no longer hosts direct application runtime                   | Pending |
-| Public domain remains available through Cloud Run edge path            | Pending |
-| Requests proxy successfully to home Next.js container over Tailscale   | Pending |
-| Upstream outage behavior serves controlled maintenance page             | Pending |
+| Criteria                                                                  | Status  |
+| ------------------------------------------------------------------------- | ------- |
+| Cloud Run no longer hosts direct application runtime                      | Pending |
+| Public domain remains available through Cloud Run edge path               | Pending |
+| Requests proxy successfully to home Next.js container over Tailscale      | Pending |
+| Upstream outage behavior serves controlled maintenance page               | Pending |
 | Deployment verification and rollback process is documented and repeatable | Pending |
 
 ---

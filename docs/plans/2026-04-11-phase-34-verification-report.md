@@ -13,12 +13,12 @@
 
 ## Cross-Phase Evidence Matrix
 
-| Phase | Objective | Evidence | Status |
-| --- | --- | --- | --- |
-| 30 | Runtime topology migration to Cloud Run edge | `docs/plans/2026-04-11-phase-30-verification-report.md` | ✅ |
-| 31 | Tailscale sidecar-relay connectivity and readiness | `docs/plans/2026-04-11-phase-31-verification-report.md` | ✅ |
-| 32 | Bounded retry-before-maintenance reliability | `docs/plans/2026-04-11-phase-32-verification-report.md` | ✅ |
-| 33 | Secrets-first guardrails and least-privilege workflow hardening | `docs/plans/2026-04-11-phase-33-verification-report.md` | ✅ |
+| Phase | Objective                                                       | Evidence                                                | Status |
+| ----- | --------------------------------------------------------------- | ------------------------------------------------------- | ------ |
+| 30    | Runtime topology migration to Cloud Run edge                    | `docs/plans/2026-04-11-phase-30-verification-report.md` | ✅     |
+| 31    | Tailscale sidecar-relay connectivity and readiness              | `docs/plans/2026-04-11-phase-31-verification-report.md` | ✅     |
+| 32    | Bounded retry-before-maintenance reliability                    | `docs/plans/2026-04-11-phase-32-verification-report.md` | ✅     |
+| 33    | Secrets-first guardrails and least-privilege workflow hardening | `docs/plans/2026-04-11-phase-33-verification-report.md` | ✅     |
 
 ## Closure Artifacts Published
 

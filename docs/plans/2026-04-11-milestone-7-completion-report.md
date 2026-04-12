@@ -111,11 +111,11 @@ Milestone 7 migrated deployment from Cloud Run-hosted app runtime to a Cloud Run
 
 ## Quality Gates
 
-| Gate              | Result                 |
-| ----------------- | ---------------------- |
-| `pnpm lint`       | ✅ Passed              |
-| `pnpm type-check` | ✅ Passed              |
-| `pnpm test`       | ✅ 1231 tests passed   |
+| Gate              | Result               |
+| ----------------- | -------------------- |
+| `pnpm lint`       | ✅ Passed            |
+| `pnpm type-check` | ✅ Passed            |
+| `pnpm test`       | ✅ 1231 tests passed |
 
 ---
 
