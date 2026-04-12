@@ -1,7 +1,7 @@
 upstream home_app {
-  server ${RELAY_UPSTREAM_HOST}:${RELAY_UPSTREAM_PORT};
-  server ${RELAY_UPSTREAM_HOST}:${RELAY_UPSTREAM_PORT};
-  server ${RELAY_UPSTREAM_HOST}:${RELAY_UPSTREAM_PORT};
+  server ${RELAY_UPSTREAM_HOST}:${RELAY_UPSTREAM_PORT} max_fails=0;
+  server ${RELAY_UPSTREAM_HOST}:${RELAY_UPSTREAM_PORT} max_fails=0;
+  server ${RELAY_UPSTREAM_HOST}:${RELAY_UPSTREAM_PORT} max_fails=0;
   keepalive 32;
 }
 
