@@ -82,7 +82,7 @@ spec:
           args:
             - -c
             - >
-              socat TCP-LISTEN:${RELAY_LISTEN_PORT},fork,reuseaddr SOCKS5:127.0.0.1:${HOME_UPSTREAM_HOST}:${HOME_UPSTREAM_PORT},socksport=${TS_SOCKS5_PORT}
+              socat TCP-LISTEN:${RELAY_LISTEN_PORT},fork,reuseaddr SOCKS5-CONNECT:127.0.0.1:${TS_SOCKS5_PORT}:${HOME_UPSTREAM_HOST}:${HOME_UPSTREAM_PORT}
           env:
             - name: HOME_UPSTREAM_HOST
               value: __HOME_UPSTREAM_HOST__
