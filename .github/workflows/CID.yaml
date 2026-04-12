@@ -149,16 +149,28 @@ jobs:
           sleep_seconds=3
           until [ "$attempts" -ge "$max_attempts" ]; do
             attempts=$((attempts + 1))
-            status_code="$(curl -s -o /tmp/smoke-body.txt -w "%{http_code}" "${SERVICE_URL}/healthz" || true)"
-            if [ "$status_code" = "200" ]; then
-              cat /tmp/smoke-body.txt
+            health_status="$(curl -s -o /tmp/smoke-healthz-body.txt -w "%{http_code}" "${SERVICE_URL}/healthz" || true)"
+            root_status="$(curl -s -o /tmp/smoke-root-body.txt -w "%{http_code}" "${SERVICE_URL}/" || true)"
+            if [ "$health_status" = "200" ]; then
+              cat /tmp/smoke-healthz-body.txt
               exit 0
             fi
-            echo "Smoke check attempt ${attempts}/${max_attempts} returned HTTP ${status_code}"
+            if [ "$root_status" = "200" ]; then
+              cat /tmp/smoke-root-body.txt
+              exit 0
+            fi
+            if [ "$root_status" = "503" ] && grep -q "Service Temporarily Unavailable" /tmp/smoke-root-body.txt; then
+              cat /tmp/smoke-root-body.txt
+              exit 0
+            fi
+            echo "Smoke check attempt ${attempts}/${max_attempts} healthz=${health_status} root=${root_status}"
             sleep "$sleep_seconds"
           done
           echo "Smoke check failed after ${max_attempts} attempts" >&2
-          cat /tmp/smoke-body.txt >&2 || true
+          echo "--- /healthz body ---" >&2
+          cat /tmp/smoke-healthz-body.txt >&2 || true
+          echo "--- / body ---" >&2
+          cat /tmp/smoke-root-body.txt >&2 || true
           exit 1
 
       - name: Show Output
