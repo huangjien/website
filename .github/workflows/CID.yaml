@@ -102,10 +102,10 @@ jobs:
         run: |
           IMAGE_TAG="${EDGE_IMAGE_REPO}:$(echo ${{ github.sha }} | cut -c1-8)"
           docker buildx build --platform linux/amd64 --push -f Dockerfile.edge -t "$IMAGE_TAG" -t "${EDGE_IMAGE_REPO}:latest" .
+          echo "EDGE_IMAGE=$IMAGE_TAG" >> "$GITHUB_ENV"
 
       - name: Render Cloud Run service manifest
         run: |
-          EDGE_IMAGE="${EDGE_IMAGE_REPO}:latest"
           sed \
             -e "s|__SERVICE_NAME__|${SERVICE_NAME}|g" \
             -e "s|__EDGE_IMAGE__|${EDGE_IMAGE}|g" \
