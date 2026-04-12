@@ -7,9 +7,9 @@ on:
     branches: [main]
 
 env:
-  PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
   SERVICE_NAME: blog
   RUN_REGION: europe-west1
+  EDGE_IMAGE_REPO: docker.io/huangjien/website-edge
 
 jobs:
   validate:
@@ -48,19 +48,37 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
-    name: Build and Deploy to GCR
+    name: Build and Deploy Edge Runtime
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: validate
 
     permissions:
       contents: "read"
       id-token: "write"
+    env:
+      PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+      HOME_UPSTREAM_HOST: ${{ secrets.HOME_UPSTREAM_HOST }}
+      HOME_UPSTREAM_PORT: ${{ secrets.HOME_UPSTREAM_PORT }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
     steps:
       - name: Checkout
         uses: actions/checkout@v6
 
-      # Setup gcloud CLI
+      - name: Validate required deployment secrets and config
+        run: |
+          REQUIRED_VARS="PROJECT_ID HOME_UPSTREAM_HOST HOME_UPSTREAM_PORT DOCKER_PASSWORD"
+          for var in $REQUIRED_VARS; do
+            value="${!var:-}"
+            if [ -z "$value" ]; then
+              echo "Missing required deployment value: $var" >&2
+              exit 1
+            fi
+          done
+          if ! [[ "$HOME_UPSTREAM_PORT" =~ ^[0-9]+$ ]]; then
+            echo "HOME_UPSTREAM_PORT must be numeric" >&2
+            exit 1
+          fi
 
       - id: "auth"
         uses: "google-github-actions/auth@v1"
@@ -70,7 +88,6 @@ jobs:
       - name: "Set up Cloud SDK"
         uses: "google-github-actions/setup-gcloud@v3"
 
-      # Print gcloud info
       - name: Info
         run: gcloud info
 
@@ -79,40 +96,54 @@ jobs:
         with:
           registry: docker.io
           username: ${{ github.repository_owner }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+          password: ${{ env.DOCKER_PASSWORD }}
 
-      - uses: actions/setup-node@v6
-        with:
-          node-version: 24
-          registry-url: "https://registry.npmjs.org"
-
-      - name: Enable Corepack and activate pnpm
+      - name: Build and push edge Docker image
         run: |
-          corepack enable
-          corepack prepare pnpm@10.27.0 --activate
+          IMAGE_TAG="${EDGE_IMAGE_REPO}:$(echo ${{ github.sha }} | cut -c1-8)"
+          docker buildx build --platform linux/amd64 --push -f Dockerfile.edge -t "$IMAGE_TAG" -t "${EDGE_IMAGE_REPO}:latest" .
 
-      - name: Install dependencies (pnpm)
-        run: pnpm install --color=true
-
-      - name: Build and push Docker image
+      - name: Render Cloud Run service manifest
         run: |
-          IMAGE_TAG="docker.io/huangjien/website:$(echo ${{ github.sha }} | cut -c1-8)"
-          docker buildx build --platform linux/amd64 --push -t "$IMAGE_TAG" -t "docker.io/huangjien/website:latest" .
+          EDGE_IMAGE="${EDGE_IMAGE_REPO}:latest"
+          sed \
+            -e "s|__SERVICE_NAME__|${SERVICE_NAME}|g" \
+            -e "s|__EDGE_IMAGE__|${EDGE_IMAGE}|g" \
+            -e "s|__HOME_UPSTREAM_HOST__|${HOME_UPSTREAM_HOST}|g" \
+            -e "s|__HOME_UPSTREAM_PORT__|${HOME_UPSTREAM_PORT}|g" \
+            -e "s|__RELAY_LISTEN_PORT__|18080|g" \
+            -e "s|__TS_ADVERTISE_TAGS__|tag:cloud-run-edge|g" \
+            -e "s|__TS_AUTHKEY_SECRET__|TS_AUTHKEY|g" \
+            deploy/cloudrun/service.yaml > /tmp/cloudrun-service.yaml
 
-      # Deploy image to Cloud Run
+      - name: Validate rendered service manifest
+        run: |
+          if grep -qE "__[A-Z0-9_]+__" /tmp/cloudrun-service.yaml; then
+            echo "Rendered manifest still contains unresolved placeholders" >&2
+            exit 1
+          fi
+          grep -q 'name: blog' /tmp/cloudrun-service.yaml || {
+            echo "Service name missing from rendered manifest" >&2
+            exit 1
+          }
+
       - name: Deploy
         id: deploy
-        run: |-
-          gcloud run deploy blog \
-            --quiet \
+        run: |
+          gcloud run services replace /tmp/cloudrun-service.yaml \
             --region "$RUN_REGION" \
-            --image "docker.io/huangjien/website:latest" \
-            --platform "managed" \
-            --port 8080 \
-            --set-env-vars NEXTAUTH_URL=https://www.huangjien.com,NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }},GITHUB_CLIENT_ID=${{ secrets.GH_CLIENT_ID }},GITHUB_CLIENT_SECRET=${{ secrets.GH_CLIENT_SECRET }},GITHUB_REPO=https://api.github.com/repos/huangjien-com/blog,GITHUB_MEMBER=https://api.github.com/orgs/huangjien-com/teams/admin/members,GITHUB_TOKEN=${{ secrets.GH_TOKEN }} \
-            --set-secrets OPENAI_API_KEY=OPENAI_API_KEY:latest \
-            --allow-unauthenticated
+            --project "$PROJECT_ID" \
+            --platform managed
+          gcloud run services add-iam-policy-binding "$SERVICE_NAME" \
+            --region "$RUN_REGION" \
+            --project "$PROJECT_ID" \
+            --member="allUsers" \
+            --role="roles/run.invoker"
 
-      # If required, use the Cloud Run url output in later steps
+      - name: Smoke check
+        run: |
+          SERVICE_URL="$(gcloud run services describe "$SERVICE_NAME" --region "$RUN_REGION" --project "$PROJECT_ID" --format='value(status.url)')"
+          curl -fsS "${SERVICE_URL}/healthz"
+
       - name: Show Output
-        run: echo ${{ steps.deploy.outputs.url }}
+        run: gcloud run services describe "$SERVICE_NAME" --region "$RUN_REGION" --project "$PROJECT_ID" --format='value(status.url)'

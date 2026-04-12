@@ -1,0 +1,77 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: __SERVICE_NAME__
+spec:
+  template:
+    metadata:
+      annotations:
+        run.googleapis.com/container-dependencies: '{"nginx":["tailscale"]}'
+        run.googleapis.com/execution-environment: gen2
+        autoscaling.knative.dev/minScale: "0"
+        autoscaling.knative.dev/maxScale: "3"
+    spec:
+      timeoutSeconds: 300
+      containerConcurrency: 80
+      containers:
+        - name: nginx
+          image: __EDGE_IMAGE__
+          ports:
+            - name: http1
+              containerPort: 8080
+          env:
+            - name: RELAY_UPSTREAM_HOST
+              value: 127.0.0.1
+            - name: RELAY_UPSTREAM_PORT
+              value: "__RELAY_LISTEN_PORT__"
+            - name: RELAY_READY_MAX_ATTEMPTS
+              value: "45"
+            - name: RELAY_READY_SLEEP_SECONDS
+              value: "1"
+          resources:
+            limits:
+              cpu: "1"
+              memory: 512Mi
+          startupProbe:
+            tcpSocket:
+              port: 8080
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 12
+        - name: tailscale
+          image: tailscale/tailscale:stable
+          command:
+            - /bin/sh
+          args:
+            - -c
+            - >
+              apk add --no-cache socat &&
+              tailscaled --tun=userspace-networking --state=/tmp/tailscaled.state --socket=/tmp/tailscaled.sock --socks5-server=127.0.0.1:${TS_SOCKS5_PORT} &
+              sleep 2 &&
+              tailscale --socket=/tmp/tailscaled.sock up --authkey=${TS_AUTHKEY} --hostname=cloudrun-edge --advertise-tags=${TS_ADVERTISE_TAGS} --accept-routes=true &&
+              socat TCP-LISTEN:${RELAY_LISTEN_PORT},fork,reuseaddr SOCKS5:127.0.0.1:${HOME_UPSTREAM_HOST}:${HOME_UPSTREAM_PORT},socksport=${TS_SOCKS5_PORT}
+          env:
+            - name: TS_AUTHKEY
+              valueFrom:
+                secretKeyRef:
+                  name: __TS_AUTHKEY_SECRET__
+                  key: latest
+            - name: HOME_UPSTREAM_HOST
+              value: __HOME_UPSTREAM_HOST__
+            - name: HOME_UPSTREAM_PORT
+              value: "__HOME_UPSTREAM_PORT__"
+            - name: RELAY_LISTEN_PORT
+              value: "__RELAY_LISTEN_PORT__"
+            - name: TS_SOCKS5_PORT
+              value: "1055"
+            - name: TS_ADVERTISE_TAGS
+              value: "__TS_ADVERTISE_TAGS__"
+            - name: TS_STATE_DIR
+              value: /tmp
+          resources:
+            limits:
+              cpu: "1"
+              memory: 256Mi
+  traffic:
+    - latestRevision: true
+      percent: 100
