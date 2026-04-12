@@ -73,11 +73,8 @@ spec:
               cpu: "1"
               memory: 256Mi
           startupProbe:
-            exec:
-              command:
-                - /bin/sh
-                - -c
-                - tailscale --socket=/tmp/tailscaled.sock status >/dev/null 2>&1
+            tcpSocket:
+              port: 1055
             periodSeconds: 5
             timeoutSeconds: 3
             failureThreshold: 24
