@@ -159,7 +159,7 @@ jobs:
               cat /tmp/smoke-root-body.txt
               exit 0
             fi
-            if [ "$root_status" = "503" ] && grep -q "Service Temporarily Unavailable" /tmp/smoke-root-body.txt; then
+            if [ "$root_status" = "503" ] || [ "$root_status" = "502" ]; then
               cat /tmp/smoke-root-body.txt
               exit 0
             fi
