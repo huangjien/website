@@ -11,33 +11,30 @@ NC='\033[0m' # No Color
 
 echo -e "${GREEN}Starting Home-Side Deployment Script${NC}"
 
-# Check if .env.home exists
-if [ ! -f ".env.home" ]; then
-  echo -e "${RED}Error: .env.home file not found.${NC}"
-  echo "Please create a .env.home file with the following required variables:"
-  echo "TS_AUTHKEY=tskey-auth-..."
-  echo "TS_ADVERTISE_TAGS=tag:home-upstream"
-  echo "IMAGE_REPO=docker.io/huangjien/website"
+ENV_FILE="${ENV_FILE:-.env.home}"
+
+if [ ! -f "${ENV_FILE}" ]; then
+  echo -e "${RED}Error: ${ENV_FILE} file not found.${NC}"
+  echo "Please create ${ENV_FILE} with your app runtime variables (NEXTAUTH_*, GITHUB_*, OPENAI_*, etc.)."
   exit 1
 fi
 
-# Source the .env.home file
-echo -e "${YELLOW}Loading environment variables from .env.home...${NC}"
+echo -e "${YELLOW}Loading environment variables from ${ENV_FILE}...${NC}"
 set -a
-source .env.home
+source "${ENV_FILE}"
 set +a
 
-# Validate required variables
-REQUIRED_VARS=("TS_AUTHKEY" "TS_ADVERTISE_TAGS" "IMAGE_REPO")
-for var in "${REQUIRED_VARS[@]}"; do
-  if [ -z "${!var}" ]; then
-    echo -e "${RED}Error: Required variable $var is missing in .env.home.${NC}"
-    exit 1
-  fi
-done
+HOME_PORT="${HOME_PORT:-8080}"
+CONTAINER_NAME="${CONTAINER_NAME:-website-home}"
+IMAGE_NAME="${IMAGE_NAME:-website-home:latest}"
+SKIP_BUILD="${SKIP_BUILD:-false}"
 
-echo -e "${YELLOW}Pulling latest image...${NC}"
-docker pull "${IMAGE_REPO}:latest"
+if [ "${SKIP_BUILD}" = "true" ]; then
+  echo -e "${YELLOW}Skipping image build and reusing ${IMAGE_NAME}.${NC}"
+else
+  echo -e "${YELLOW}Building home runtime image...${NC}"
+  docker build -t "${IMAGE_NAME}" .
+fi
 
 echo -e "${YELLOW}Removing existing home-upstream container (if any)...${NC}"
 docker rm -f home-upstream || true
@@ -46,9 +43,9 @@ echo -e "${YELLOW}Starting new home-upstream container...${NC}"
 docker run -d \
   --name home-upstream \
   --restart unless-stopped \
-  -e TS_AUTHKEY="${TS_AUTHKEY}" \
-  -e TS_ADVERTISE_TAGS="${TS_ADVERTISE_TAGS}" \
-  "${IMAGE_REPO}:latest"
+  -p "${HOME_PORT}:8080" \
+  --env-file "${ENV_FILE}" \
+  "${IMAGE_NAME}"
 
 echo -e "${GREEN}Deployment successful!${NC}"
 echo "You can check the logs using: docker logs -f home-upstream"

@@ -68,23 +68,7 @@ afterAll(() => {
 
 // Set up before each test
 beforeEach(() => {
-  // Mock window.location
-  originalLocation = window.location;
-  delete window.location;
-  window.location = {
-    href: "http://localhost:3000",
-    origin: "http://localhost:3000",
-    protocol: "http:",
-    host: "localhost:3000",
-    hostname: "localhost",
-    port: "3000",
-    pathname: "/",
-    search: "",
-    hash: "",
-    assign: jest.fn(),
-    replace: jest.fn(),
-    reload: jest.fn(),
-  };
+  window.history.replaceState({}, "Test", "/");
 });
 
 // Clean up after each test
@@ -97,10 +81,6 @@ afterEach(() => {
   // Clean up any timers
   jest.clearAllTimers();
 
-  // Restore window.location
-  if (originalLocation) {
-    window.location = originalLocation;
-  }
 });
 
 // Mock IntersectionObserver
@@ -145,9 +125,6 @@ Object.defineProperty(window, "matchMedia", {
     dispatchEvent: jest.fn(),
   })),
 });
-
-// Mock window.location - will be set up in beforeEach
-let originalLocation;
 
 // Mock URL.createObjectURL
 global.URL.createObjectURL = jest.fn(() => "mock-url");
