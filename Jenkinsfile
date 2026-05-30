@@ -11,7 +11,6 @@ pipeline {
   agent any
 
   options {
-    ansiColor("xterm")
     buildDiscarder(logRotator(numToKeepStr: "20"))
     disableConcurrentBuilds()
     skipDefaultCheckout(true)
