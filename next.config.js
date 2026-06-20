@@ -24,6 +24,10 @@ const nextConfig = {
   output: "standalone",
   reactStrictMode: true,
   devIndicators: false,
+  // Next.js 16 defaults to Turbopack. @serwist/next injects a webpack config
+  // which triggers a "may need to be migrated to Turbopack" error on boot.
+  // Silence it by explicitly opting into Turbopack (project already runs on it).
+  turbopack: {},
   env: {
     NEXT_PUBLIC_APP_VERSION: process.env.npm_package_version || "dev",
   },

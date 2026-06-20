@@ -26,16 +26,16 @@ export const Chat = ({ data, player }) => {
         >
           <Accordion.Item
             value={String(data.question || data.id || "chat-item")}
-            className='transition-all duration-fast ease-out hover:shadow-glass hover:-translate-y-0.5 rounded-2xl glass-card'
+            className='transition-all duration-normal ease-out hover:shadow-glass hover:-translate-y-0.5 rounded-2xl glass-card'
           >
             <Accordion.Header>
-              <Accordion.Trigger className='lg:inline-flex flex-wrap m-2 items-center'>
-                <h2 className='font-semibold m-2 text-xl select-text text-foreground'>
+              <Accordion.Trigger className='lg:inline-flex flex-wrap m-2 items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-xl'>
+                <h2 className='display font-medium m-2 text-xl sm:text-2xl select-text text-foreground'>
                   {data.question}
                 </h2>
                 <Badge
                   aria-label={t("chat.ai_model", { defaultValue: "AI Model" })}
-                  className='m-2 hover:scale-110 transition-transform duration-fast'
+                  className='m-2 hover:scale-[1.03] transition-transform duration-normal ease-out'
                 >
                   {data.model}
                 </Badge>
@@ -44,14 +44,14 @@ export const Chat = ({ data, player }) => {
                     aria-label={t("ai.temperature", {
                       defaultValue: "Temperature",
                     })}
-                    className='m-2 hover:scale-110 transition-transform duration-fast'
+                    className='m-2 hover:scale-[1.03] transition-transform duration-normal ease-out'
                   >
                     {data.temperature}
                   </Badge>
                 )}
                 <span
                   data-testid='accordion-subtitle'
-                  className='ml-2 text-sm text-muted-foreground'
+                  className='ml-2 text-xs text-muted-foreground num-tabular'
                 >
                   {t("ai.question_length")} :{data.question_tokens}{" "}
                   {t("ai.answer_length")} :{data.answer_tokens}
@@ -65,7 +65,7 @@ export const Chat = ({ data, player }) => {
                     size='icon'
                     onClick={handleCopy}
                     variant='ghost'
-                    className='glass hover:bg-[hsla(var(--glass-bg-hover))]'
+                    className='glass hover:bg-[hsla(var(--glass-bg-hover))] hover:-translate-y-px'
                     aria-label={t("global.copy", { defaultValue: "Copy" })}
                     title={t("global.copy", { defaultValue: "Copy" })}
                   >
@@ -75,7 +75,7 @@ export const Chat = ({ data, player }) => {
                     size='icon'
                     onClick={handlePlay}
                     variant='ghost'
-                    className='glass hover:bg-[hsla(var(--glass-bg-hover))]'
+                    className='glass hover:bg-[hsla(var(--glass-bg-hover))] hover:-translate-y-px'
                     aria-label={t("ai.play", { defaultValue: "Play" })}
                     title={t("ai.play", { defaultValue: "Play" })}
                   >

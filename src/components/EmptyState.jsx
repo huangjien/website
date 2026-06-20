@@ -3,13 +3,15 @@ import { BiBox } from "react-icons/bi";
 
 export const EmptyState = ({ message, icon: Icon = BiBox }) => {
   return (
-    <div className='flex flex-col items-center justify-center py-12 text-center'>
-      <div className='glass-card rounded-2xl p-8 mb-4 transition-all duration-fast ease-out hover:shadow-glass hover:-translate-y-1'>
-        <div className='text-muted-foreground'>
-          <Icon size='4em' aria-hidden='true' />
+    <div className='flex flex-col items-center justify-center py-16 text-center'>
+      <div className='glass-card rounded-3xl p-10 mb-5 transition-all duration-normal ease-out hover:shadow-glass hover:-translate-y-0.5'>
+        <div className='text-muted-foreground/70'>
+          <Icon size='3.5em' aria-hidden='true' />
         </div>
       </div>
-      <p className='text-muted-foreground text-sm'>{message}</p>
+      <p className='text-muted-foreground text-sm max-w-xs text-wrap-pretty'>
+        {message}
+      </p>
     </div>
   );
 };

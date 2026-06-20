@@ -185,117 +185,135 @@
   }
 }
 
-/* Theme tokens for shadcn/ui with Glassmorphism */
+/* Theme tokens — Premium editorial palette
+   Calm tinted neutrals (warm graphite) + a single restrained emerald accent.
+   No AI gradients. Tinted shadows carry the surface hue. */
 :root {
-  --background: 220 40% 96%;
-  --foreground: 222.2 47.4% 11.2%;
+  --background: 40 20% 97%;
+  --foreground: 215 25% 14%;
 
   --card: 0 0% 100%;
-  --card-foreground: 222.2 47.4% 11.2%;
+  --card-foreground: 215 25% 14%;
 
   --popover: 0 0% 100%;
-  --popover-foreground: 222.2 47.4% 11.2%;
+  --popover-foreground: 215 25% 14%;
 
-  --primary: 221 83% 53%;
-  --primary-foreground: 210 40% 98%;
+  --primary: 160 60% 24%;
+  --primary-foreground: 40 30% 98%;
 
-  --secondary: 210 40% 96.1%;
-  --secondary-foreground: 222.2 47.4% 11.2%;
+  --secondary: 40 14% 93%;
+  --secondary-foreground: 215 25% 14%;
 
-  --muted: 210 40% 96.1%;
-  --muted-foreground: 215 20.2% 65.1%;
+  --muted: 40 14% 94%;
+  --muted-foreground: 215 12% 45%;
 
-  --accent: 210 40% 96.1%;
-  --accent-foreground: 222.2 47.4% 11.2%;
+  --accent: 160 40% 92%;
+  --accent-foreground: 160 60% 18%;
 
-  --destructive: 0 84.2% 60.2%;
-  --destructive-foreground: 210 40% 98%;
+  --destructive: 4 70% 48%;
+  --destructive-foreground: 40 30% 98%;
 
-  --border: 214.3 31.8% 91.4%;
-  --input: 214.3 31.8% 91.4%;
-  --ring: 215 20.2% 65.1%;
+  --border: 40 12% 88%;
+  --input: 40 12% 88%;
+  --ring: 160 40% 30%;
 
   --radius: 16px;
 
-  /* Glassmorphism tokens - Light mode */
-  --glass-bg: 255 255 255 / 0.7;
-  --glass-bg-hover: 255 255 255 / 0.85;
-  --glass-border: 255 255 255 / 0.4;
-  --glass-shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
-  --glass-shadow-hover: 0 12px 48px rgba(31, 38, 135, 0.15);
+  /* Glassmorphism tokens - Light mode (tinted) */
+  --glass-bg: 0 0% 100% / 0.72;
+  --glass-bg-hover: 0 0% 100% / 0.88;
+  --glass-border: 215 30% 60% / 0.18;
+  /* Tinted shadow: warm neutral, not pure black */
+  --glass-shadow:
+    0 1px 2px hsl(215 30% 20% / 0.04), 0 10px 30px -12px hsl(215 40% 20% / 0.1);
+  --glass-shadow-hover:
+    0 1px 2px hsl(215 30% 20% / 0.06), 0 18px 44px -14px hsl(215 40% 22% / 0.16);
 
-  /* Gradient tokens for modern accents */
-  --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  --gradient-accent: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  /* Gradient tokens removed in favor of a single solid accent.
+     Kept as references for legacy `.glass-button` / `.glass-message-user`
+     but redpoints the hue to the emerald primary. */
+  --gradient-primary: linear-gradient(
+    135deg,
+    hsl(160 55% 28%) 0%,
+    hsl(165 50% 22%) 100%
+  );
+  --gradient-accent: linear-gradient(
+    135deg,
+    hsl(160 55% 28%) 0%,
+    hsl(165 50% 22%) 100%
+  );
   --gradient-glass: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.1) 0%,
-    rgba(255, 255, 255, 0.05) 100%
+    hsl(0 0% 100% / 0.08) 0%,
+    hsl(0 0% 100% / 0.02) 100%
   );
+  /* No rainbow mesh. A subtle single-hue wash instead. */
   --gradient-mesh:
-    radial-gradient(at 40% 20%, hsla(228, 100%, 74%, 0.3) 0px, transparent 50%),
-    radial-gradient(at 80% 0%, hsla(189, 100%, 56%, 0.2) 0px, transparent 50%),
-    radial-gradient(at 0% 50%, hsla(355, 100%, 93%, 0.2) 0px, transparent 50%),
-    radial-gradient(at 80% 50%, hsla(340, 100%, 76%, 0.2) 0px, transparent 50%),
-    radial-gradient(at 0% 100%, hsla(269, 100%, 77%, 0.2) 0px, transparent 50%);
+    radial-gradient(at 15% 0%, hsl(160 50% 50% / 0.06) 0px, transparent 55%),
+    radial-gradient(at 100% 20%, hsl(40 60% 80% / 0.1) 0px, transparent 50%);
 }
 
 .dark {
-  --background: 222.2 84% 4.9%;
-  --foreground: 210 40% 98%;
+  /* Deep tinted black: warm graphite, never pure #000 */
+  --background: 215 30% 7%;
+  --foreground: 40 30% 94%;
 
-  --card: 217.2 32.6% 17.5%;
-  --card-foreground: 210 40% 98%;
+  --card: 215 26% 11%;
+  --card-foreground: 40 30% 94%;
 
-  --popover: 217.2 32.6% 17.5%;
-  --popover-foreground: 210 40% 98%;
+  --popover: 215 26% 11%;
+  --popover-foreground: 40 30% 94%;
 
-  --primary: 210 40% 98%;
-  --primary-foreground: 222.2 47.4% 11.2%;
+  --primary: 160 50% 56%;
+  --primary-foreground: 215 40% 8%;
 
-  --secondary: 217.2 32.6% 17.5%;
-  --secondary-foreground: 210 40% 98%;
+  --secondary: 215 22% 14%;
+  --secondary-foreground: 40 30% 94%;
 
-  --muted: 217.2 32.6% 17.5%;
-  --muted-foreground: 215 20.2% 65.1%;
+  --muted: 215 22% 14%;
+  --muted-foreground: 40 10% 65%;
 
-  --accent: 217.2 32.6% 17.5%;
-  --accent-foreground: 210 40% 98%;
+  --accent: 215 28% 18%;
+  --accent-foreground: 160 60% 80%;
 
-  --destructive: 0 62.8% 30.6%;
-  --destructive-foreground: 0 85.7% 97.3%;
+  --destructive: 4 70% 56%;
+  --destructive-foreground: 40 30% 98%;
 
-  --border: 217.2 32.6% 17.5%;
-  --input: 217.2 32.6% 17.5%;
-  --ring: 215 20.2% 65.1%;
+  --border: 215 22% 18%;
+  --input: 215 22% 18%;
+  --ring: 160 40% 45%;
 
   --radius: 16px;
 
-  /* Glassmorphism tokens - Dark mode */
-  --glass-bg: 0 0% 0% / 0.6;
-  --glass-bg-hover: 0 0% 0% / 0.75;
-  --glass-border: 255 255 255 / 0.1;
-  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-  --glass-shadow-hover: 0 12px 48px rgba(0, 0, 0, 0.5);
+  /* Glassmorphism tokens - Dark mode (tinted) */
+  --glass-bg: 215 28% 10% / 0.6;
+  --glass-bg-hover: 215 28% 12% / 0.78;
+  --glass-border: 40 30% 90% / 0.08;
+  /* Tinted shadow uses the surface hue, not flat black */
+  --glass-shadow:
+    0 1px 2px hsl(215 60% 2% / 0.6), 0 14px 38px -14px hsl(215 70% 2% / 0.7);
+  --glass-shadow-hover:
+    0 1px 2px hsl(215 60% 2% / 0.7), 0 22px 52px -14px hsl(215 70% 2% / 0.85);
 
-  /* Gradient tokens for modern accents (dark theme) */
-  --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  --gradient-accent: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  /* Single-hue wash; no rainbow. */
+  --gradient-primary: linear-gradient(
+    135deg,
+    hsl(160 50% 45%) 0%,
+    hsl(165 45% 38%) 100%
+  );
+  --gradient-accent: linear-gradient(
+    135deg,
+    hsl(160 50% 45%) 0%,
+    hsl(165 45% 38%) 100%
+  );
   --gradient-glass: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.08) 0%,
-    rgba(255, 255, 255, 0.03) 100%
+    hsl(40 30% 90% / 0.06) 0%,
+    hsl(40 30% 90% / 0.02) 100%
   );
   --gradient-mesh:
-    radial-gradient(
-      at 40% 20%,
-      hsla(228, 100%, 74%, 0.15) 0px,
-      transparent 50%
-    ),
-    radial-gradient(at 80% 0%, hsla(189, 100%, 56%, 0.1) 0px, transparent 50%),
-    radial-gradient(at 0% 50%, hsla(355, 100%, 93%, 0.1) 0px, transparent 50%),
-    radial-gradient(at 80% 50%, hsla(340, 100%, 76%, 0.1) 0px, transparent 50%),
-    radial-gradient(at 0% 100%, hsla(269, 100%, 77%, 0.1) 0px, transparent 50%);
+    radial-gradient(at 15% 0%, hsl(160 60% 45% / 0.1) 0px, transparent 55%),
+    radial-gradient(at 100% 15%, hsl(40 50% 55% / 0.06) 0px, transparent 50%);
 }
 
 body {
@@ -305,6 +323,86 @@ body {
   background-attachment: fixed;
   background-size: cover;
   overflow-x: hidden;
+  /* Premium body text: generous leading, optical refinements */
+  font-feature-settings:
+    "kern" 1,
+    "liga" 1,
+    "calt" 1,
+    "ss01" 1;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
+  letter-spacing: -0.011em;
+}
+
+/* Content container — tight 1200px max, generous gutters. */
+.container-prose {
+  width: 100%;
+  max-width: 72rem; /* 1152px */
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 4vw, 2.5rem);
+}
+
+/* Display heading — editorial serif, optical balance */
+.display {
+  font-family: var(--font-display), var(--font-sans), ui-serif, Georgia, serif;
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+  text-wrap: balance;
+}
+
+/* Tabular numerals for issues/counts/timestamps */
+.num-tabular {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings:
+    "tnum" 1,
+    "lnum" 1;
+}
+
+/* Subtle 1px hairline divider that respects theme tokens */
+.hairline {
+  border-color: hsl(var(--border));
+}
+
+/* Skip-link — keyboard accessibility first-class */
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: 1rem;
+  z-index: 100;
+  transform: translateY(-150%);
+  transition: transform 200ms ease-out;
+  padding: 0.5rem 0.875rem;
+  border-radius: 10px;
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  font-weight: 500;
+}
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+/* Subtle film grain overlay — breaks digital flatness */
+.grain::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.035;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Scroll-behavior premium: smooth anchor jumps globally */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Better tab-focus visibility (premium + a11y) */
+:focus-visible {
+  outline: none;
 }
 
 /* Glassmorphism utility classes */
@@ -328,7 +426,7 @@ body {
 .glass-card:hover {
   background: hsla(var(--glass-bg-hover));
   box-shadow: var(--glass-shadow-hover);
-  transform: translateY(-2px);
+  transform: translateY(-1px);
 }
 
 .glass-input {
@@ -339,26 +437,31 @@ body {
 }
 
 .glass-button {
-  background: linear-gradient(
-    135deg,
-    rgba(102, 126, 234, 0.8) 0%,
-    rgba(118, 75, 162, 0.8) 100%
-  );
+  /* Solid tinted accent — no AI gradient. */
+  background: hsl(var(--primary) / 0.92);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid hsl(var(--primary) / 0.2);
+  /* Tinted shadow carries the primary hue. */
+  box-shadow:
+    inset 0 1px 0 hsl(var(--primary-foreground) / 0.14),
+    0 6px 18px -8px hsl(var(--primary) / 0.5);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .glass-button:hover {
-  background: linear-gradient(
-    135deg,
-    rgba(102, 126, 234, 0.9) 0%,
-    rgba(118, 75, 162, 0.9) 100%
-  );
-  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+  background: hsl(var(--primary));
+  box-shadow:
+    inset 0 1px 0 hsl(var(--primary-foreground) / 0.18),
+    0 10px 24px -8px hsl(var(--primary) / 0.6);
   transform: translateY(-1px);
+}
+
+.glass-button:active {
+  transform: translateY(0);
+  box-shadow:
+    inset 0 1px 0 hsl(var(--primary-foreground) / 0.1),
+    0 3px 10px -6px hsl(var(--primary) / 0.5);
 }
 
 .glass-nav {
@@ -366,7 +469,10 @@ body {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid hsla(var(--glass-border));
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  /* Tinted, layered shadow instead of flat rgba(0,0,0,0.05). */
+  box-shadow:
+    0 1px 0 hsl(var(--border) / 0.4),
+    0 8px 24px -16px hsl(var(--foreground) / 0.18);
 }
 
 .glass-modal {
@@ -374,19 +480,18 @@ body {
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border: 1px solid hsla(var(--glass-border));
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  box-shadow:
+    inset 0 1px 0 hsl(var(--foreground) / 0.04),
+    0 28px 70px -20px hsl(var(--foreground) / 0.45);
 }
 
 .glass-message-user {
-  background: linear-gradient(
-    135deg,
-    rgba(102, 126, 234, 0.9) 0%,
-    rgba(118, 75, 162, 0.9) 100%
-  );
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+  border: 1px solid hsl(var(--primary) / 0.2);
+  box-shadow: 0 6px 18px -10px hsl(var(--primary) / 0.45);
 }
 
 .glass-message-assistant {

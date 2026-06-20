@@ -21,22 +21,22 @@ export default function SettingsPanel({
 
   return (
     <div className='w-full mb-4' data-testid='settings-panel'>
-      <div className='glass-card rounded-2xl p-5 shadow-glass-glow-hover relative'>
+      <div className='glass-card rounded-3xl p-6 shadow-glass relative'>
         {/* Header with close button */}
-        <div className='flex items-center justify-between mb-4'>
-          <h2 className='text-base font-semibold text-foreground'>
-            {t("ai.settings", { defaultValue: "Settings" })}
-          </h2>
+        <div className='flex items-center justify-between mb-5'>
+          <div>
+            <h2 className='display text-lg font-medium text-foreground'>
+              {t("ai.settings", { defaultValue: "Settings" })}
+            </h2>
+            <p className='text-xs text-muted-foreground mt-0.5'>
+              {t("ai.settings_subtitle", {
+                defaultValue: "Tune the model and voice for this conversation.",
+              })}
+            </p>
+          </div>
           <button
             onClick={onClose}
-            className='
-              inline-flex items-center justify-center w-8 h-8
-              rounded-xl glass text-foreground
-              hover:bg-[hsla(var(--glass-bg-hover))]
-              hover:scale-110 hover:shadow-glass
-              active:scale-95
-              transition-all duration-200 ease-out cursor-pointer
-            '
+            className='shrink-0 inline-flex items-center justify-center w-9 h-9 rounded-xl glass text-foreground hover:bg-[hsla(var(--glass-bg-hover))] hover:-translate-y-px hover:shadow-glass active:translate-y-0 transition-all duration-normal ease-out cursor-pointer'
             aria-label={t("global.close", { defaultValue: "Close" })}
             title={t("global.close", { defaultValue: "Close" })}
           >
@@ -44,15 +44,20 @@ export default function SettingsPanel({
           </button>
         </div>
 
-        <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-          <div>
-            <label className='block text-sm font-medium mb-2 text-foreground'>
+        <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
+          {/* Model — full width, primary control */}
+          <div className='md:col-span-2'>
+            <label
+              htmlFor='ai-settings-model'
+              className='block text-xs font-medium uppercase tracking-wider text-muted-foreground mb-2'
+            >
               {t("ai.select_model", { defaultValue: "Select AI model" })}
             </label>
             <select
+              id='ai-settings-model'
               value={model}
               onChange={(e) => update({ model: e.target.value })}
-              className='w-full rounded-xl glass-input p-2.5 text-sm text-foreground focus:ring-2 focus:ring-primary/50 transition-all duration-fast cursor-pointer'
+              className='w-full rounded-xl bg-[hsl(var(--background))] glass-input p-2.5 text-sm text-foreground focus:ring-2 focus:ring-primary/50 focus-visible:outline-none transition-shadow duration-normal cursor-pointer'
             >
               {modelOptions.map((item) => (
                 <option key={item.id} value={item.id}>
@@ -64,11 +69,21 @@ export default function SettingsPanel({
             </select>
           </div>
 
+          {/* Temperature */}
           <div>
-            <label className='block text-sm font-medium mb-2 text-foreground'>
-              {t("ai.temperature", { defaultValue: "Softmax Temperature" })}
-            </label>
+            <div className='flex items-baseline justify-between mb-2'>
+              <label
+                htmlFor='ai-settings-temp'
+                className='block text-xs font-medium uppercase tracking-wider text-muted-foreground'
+              >
+                {t("ai.temperature", { defaultValue: "Temperature" })}
+              </label>
+              <span className='text-sm font-medium text-foreground num-tabular'>
+                {temperature.toFixed(1)}
+              </span>
+            </div>
             <input
+              id='ai-settings-temp'
               type='range'
               min={0}
               max={1}
@@ -79,34 +94,28 @@ export default function SettingsPanel({
               }
               className='w-full accent-primary cursor-pointer'
             />
-            <div className='text-xs text-muted-foreground mt-1.5'>
+            <div className='text-xs text-muted-foreground/80 mt-1.5'>
               {t("ai.value_range_0_1", {
-                defaultValue: "The value must between 0 and 1",
-              })}{" "}
-              — {temperature.toFixed(1)}
+                defaultValue: "Lower is more focused; higher is more creative.",
+              })}
             </div>
           </div>
 
+          {/* Track speed */}
           <div>
-            <label className='block text-sm font-medium mb-2 text-foreground'>
-              {t("ai.system_prompt", { defaultValue: "System prompt" })}
-            </label>
-            <textarea
-              value={systemPrompt}
-              rows={3}
-              onChange={(e) => update({ systemPrompt: e.target.value })}
-              className='w-full rounded-xl glass-input p-2.5 text-sm text-foreground focus:ring-2 focus:ring-primary/50 transition-all duration-fast resize-none'
-              placeholder={t("ai.system_prompt", {
-                defaultValue: "System prompt",
-              })}
-            />
-          </div>
-
-          <div>
-            <label className='block text-sm font-medium mb-2 text-foreground'>
-              {t("ai.track_speed", { defaultValue: "Track Speed" })}
-            </label>
+            <div className='flex items-baseline justify-between mb-2'>
+              <label
+                htmlFor='ai-settings-speed'
+                className='block text-xs font-medium uppercase tracking-wider text-muted-foreground'
+              >
+                {t("ai.track_speed", { defaultValue: "Stream cadence" })}
+              </label>
+              <span className='text-sm font-medium text-foreground num-tabular'>
+                {trackSpeed}ms
+              </span>
+            </div>
             <input
+              id='ai-settings-speed'
               type='number'
               min={50}
               max={500}
@@ -115,29 +124,54 @@ export default function SettingsPanel({
               onChange={(e) =>
                 update({ trackSpeed: parseInt(e.target.value, 10) })
               }
-              className='w-full rounded-xl glass-input p-2.5 text-sm text-foreground focus:ring-2 focus:ring-primary/50 transition-all duration-fast'
+              className='w-full rounded-xl bg-[hsl(var(--background))] glass-input p-2.5 text-sm text-foreground focus:ring-2 focus:ring-primary/50 focus-visible:outline-none transition-shadow duration-normal num-tabular'
             />
-            <div className='text-xs text-muted-foreground mt-1.5'>
+            <div className='text-xs text-muted-foreground/80 mt-1.5'>
               {t("ai.value_range_50_500", {
-                defaultValue: "The value must between 50 and 500",
+                defaultValue: "Milliseconds between streamed chunks.",
               })}
             </div>
           </div>
 
-          <div>
-            <label className='block text-sm font-medium mb-2 text-foreground'>
-              {t("ai.select_voice", { defaultValue: "Select TTS voice" })}
+          {/* System prompt — full width */}
+          <div className='md:col-span-2'>
+            <label
+              htmlFor='ai-settings-prompt'
+              className='block text-xs font-medium uppercase tracking-wider text-muted-foreground mb-2'
+            >
+              {t("ai.system_prompt", { defaultValue: "System prompt" })}
+            </label>
+            <textarea
+              id='ai-settings-prompt'
+              value={systemPrompt}
+              rows={3}
+              onChange={(e) => update({ systemPrompt: e.target.value })}
+              className='w-full rounded-xl bg-[hsl(var(--background))] glass-input p-3 text-sm text-foreground focus:ring-2 focus:ring-primary/50 focus-visible:outline-none transition-shadow duration-normal resize-y leading-relaxed'
+              placeholder={t("ai.system_prompt_placeholder", {
+                defaultValue: "Optionally steer the assistant…",
+              })}
+            />
+          </div>
+
+          {/* TTS voice */}
+          <div className='md:col-span-2'>
+            <label
+              htmlFor='ai-settings-voice'
+              className='block text-xs font-medium uppercase tracking-wider text-muted-foreground mb-2'
+            >
+              {t("ai.select_voice", { defaultValue: "Text-to-speech voice" })}
             </label>
             <select
+              id='ai-settings-voice'
               value={ttsVoice}
               onChange={(e) => update({ ttsVoice: e.target.value })}
-              className='w-full rounded-xl glass-input p-2.5 text-sm text-foreground focus:ring-2 focus:ring-primary/50 transition-all duration-fast cursor-pointer'
+              className='w-full rounded-xl bg-[hsl(var(--background))] glass-input p-2.5 text-sm text-foreground focus:ring-2 focus:ring-primary/50 focus-visible:outline-none transition-shadow duration-normal cursor-pointer'
             >
               <option value='alloy'>alloy</option>
               <option value='aria'>aria</option>
               <option value='verse'>verse</option>
             </select>
-            <div className='text-xs text-muted-foreground mt-1.5'>
+            <div className='text-xs text-muted-foreground/80 mt-1.5'>
               {t("ai.voice_note", {
                 defaultValue: "Voice applies to text-to-speech playback only.",
               })}

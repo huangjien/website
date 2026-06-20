@@ -68,14 +68,12 @@ export default function PromptInput({
   return (
     <div
       ref={containerRef}
-      className={`w-full ${className} transition-all duration-300 ease-out ${
-        isFocused ? "scale-[1.01]" : ""
-      }`}
+      className={`w-full ${className} transition-shadow duration-normal ease-out`}
     >
       <div
         className={`
-        relative rounded-3xl glass-card transition-all duration-300 ease-out
-        ${isFocused ? "shadow-glass-glow-hover ring-2 ring-primary/30" : "shadow-glass"}
+        relative rounded-3xl glass-card transition-all duration-normal ease-out
+        ${isFocused ? "ring-2 ring-primary/30 shadow-glass" : "shadow-glass"}
       `}
       >
         {/* Main input area */}
@@ -121,18 +119,18 @@ export default function PromptInput({
                 })}
                 className='
                   inline-flex items-center justify-center w-10 h-10
-                  rounded-2xl glass text-foreground
-                  hover:bg-[hsla(var(--glass-bg-hover))] 
-                  hover:scale-110 hover:shadow-glass
-                  active:scale-95
+                  rounded-xl glass text-foreground
+                  hover:bg-[hsla(var(--glass-bg-hover))]
+                  hover:-translate-y-px hover:shadow-glass
+                  active:translate-y-0
                   disabled:opacity-40 disabled:cursor-not-allowed
-                  transition-all duration-200 ease-out cursor-pointer
+                  transition-all duration-normal ease-out cursor-pointer
                   group
                 '
               >
                 <BiXCircle
                   size={18}
-                  className='group-hover:rotate-90 transition-transform duration-200'
+                  className='group-hover:rotate-90 transition-transform duration-normal'
                 />
               </button>
             )}
@@ -157,11 +155,11 @@ export default function PromptInput({
               }
               className={`
                 inline-flex items-center justify-center w-10 h-10
-                rounded-2xl p-0 transition-all duration-200 ease-out cursor-pointer
+                rounded-xl p-0 transition-all duration-normal ease-out cursor-pointer
                 ${
                   recording
-                    ? "bg-gradient-to-br from-red-500 to-red-600 text-white shadow-lg animate-pulse"
-                    : "glass text-foreground hover:bg-[hsla(var(--glass-bg-hover))] hover:scale-110 hover:shadow-glass"
+                    ? "bg-destructive text-destructive-foreground shadow-[0_8px_20px_-10px_hsl(var(--destructive)/0.55)] animate-pulse"
+                    : "glass text-foreground hover:bg-[hsla(var(--glass-bg-hover))] hover:-translate-y-px hover:shadow-glass"
                 }
                 ${!!trimmedValue && !recording ? "opacity-40 cursor-not-allowed" : ""}
               `}
@@ -178,11 +176,11 @@ export default function PromptInput({
                 aria-label={t("ai.stop", { defaultValue: "Stop" })}
                 className='
                   inline-flex items-center justify-center w-10 h-10
-                  rounded-2xl glass text-foreground
+                  rounded-xl glass text-foreground
                   hover:bg-destructive/10 hover:text-destructive
-                  hover:scale-110 hover:shadow-glass
-                  active:scale-95
-                  transition-all duration-200 ease-out cursor-pointer
+                  hover:-translate-y-px hover:shadow-glass
+                  active:translate-y-0
+                  transition-all duration-normal ease-out cursor-pointer
                 '
               >
                 <BiStop size={18} />
@@ -199,11 +197,12 @@ export default function PromptInput({
               aria-label={t("ai.send", { defaultValue: "Send" })}
               className={`
                 inline-flex items-center justify-center w-10 h-10
-                rounded-2xl glass-button text-white
-                transition-all duration-200 ease-out cursor-pointer
+                rounded-xl bg-primary text-primary-foreground
+                shadow-[inset_0_1px_0_hsl(var(--primary-foreground)/0.15),0_6px_16px_-8px_hsl(var(--primary)/0.5)]
+                transition-all duration-normal ease-out cursor-pointer
                 ${
                   trimmedValue
-                    ? "hover:scale-110 hover:shadow-glow active:scale-95"
+                    ? "hover:brightness-110 hover:-translate-y-px active:translate-y-0 active:brightness-95"
                     : "opacity-40 cursor-not-allowed"
                 }
               `}
@@ -221,11 +220,11 @@ export default function PromptInput({
                 data-testid='settings-button'
                 className='
                   inline-flex items-center justify-center w-10 h-10
-                  rounded-2xl glass text-foreground
+                  rounded-xl glass text-foreground
                   hover:bg-[hsla(var(--glass-bg-hover))]
-                  hover:scale-110 hover:shadow-glass
-                  active:scale-95
-                  transition-all duration-200 ease-out cursor-pointer
+                  hover:-translate-y-px hover:shadow-glass
+                  active:translate-y-0
+                  transition-all duration-normal ease-out cursor-pointer
                 '
               >
                 <BiCog size={18} />

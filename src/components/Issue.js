@@ -37,26 +37,26 @@ export const Issue = React.memo(function Issue({ issue }) {
         value={String(issue.title || issue.number || issue.id || "issue-item")}
         data-testid='accordion-item'
         aria-label={issue.title}
-        className='transition-all duration-fast ease-out hover:shadow-glass rounded-2xl glass-card overflow-hidden'
+        className='transition-all duration-normal ease-out hover:shadow-glass rounded-2xl glass-card overflow-hidden'
       >
         <Accordion.Header>
-          <Accordion.Trigger className='w-full text-left px-6 py-4 hover:bg-[hsla(var(--glass-bg-hover))] transition-colors duration-200'>
+          <Accordion.Trigger className='group w-full text-left px-6 py-5 hover:bg-[hsla(var(--glass-bg-hover))] transition-colors duration-normal ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring'>
             <div className='flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 w-full'>
               <div className='flex-1 min-w-0'>
-                <h2 className='font-semibold text-lg sm:text-xl select-text pr-4'>
+                <h2 className='display font-medium text-xl sm:text-2xl select-text pr-4 text-foreground'>
                   {issue.title}
                 </h2>
-                <span className='text-sm text-muted-foreground mt-1 block'>
+                <span className='text-xs text-muted-foreground mt-1.5 block num-tabular tracking-tight'>
                   {subtitleText}
                 </span>
               </div>
               {issue["labels.name"] && issue["labels.name"].length > 0 && (
-                <div className='flex flex-wrap gap-2'>
+                <div className='flex flex-wrap gap-1.5'>
                   {issue["labels.name"].map((label) => (
                     <Badge
                       key={label}
                       aria-label={t("issue.title", { defaultValue: "Label" })}
-                      className='hover:scale-105 transition-transform duration-200 cursor-pointer'
+                      className='hover:scale-[1.03] transition-transform duration-normal ease-out cursor-pointer'
                     >
                       {label}
                     </Badge>

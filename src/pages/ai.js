@@ -44,6 +44,10 @@ function uiMessageText(message) {
   return "";
 }
 
+// Stable empty array for useChat initial messages.
+// Passing `[]` inline resets useChat on every render in dev (HMR loop).
+const EMPTY_MESSAGES = [];
+
 function serializeMessages(messages) {
   return (messages || []).map((m) => ({
     id: m.id,
@@ -227,7 +231,7 @@ export default function AI() {
         },
       }),
       id: "ai-page",
-      messages: [], // Start empty to match server SSR
+      messages: EMPTY_MESSAGES, // Start empty to match server SSR
       experimental_throttle: settings?.trackSpeed || undefined,
       onError: (err) => {
         console.error("useChat error:", err);
@@ -250,13 +254,27 @@ export default function AI() {
     }
   }, [mounted, initialLoaded, savedMessages, setMessages]);
 
-  // Persist messages on changes (debounced)
+  // Persist messages on changes (debounced).
+  // Guard against no-op writes — setSavedMessages with a fresh array ref
+  // would otherwise retrigger the load effect and loop.
+  const lastSavedRef = useRef(null);
   useDebounceEffect(
     () => {
       if (status === "streaming") {
         return;
       }
-      setSavedMessages(serializeMessages(messages));
+      const serialized = serializeMessages(messages);
+      const last = lastSavedRef.current;
+      const sameLength = last && last.length === serialized.length;
+      const sameTail =
+        sameLength &&
+        serialized.length > 0 &&
+        serialized[serialized.length - 1].id === last[last.length - 1].id &&
+        serialized[serialized.length - 1].content ===
+          last[last.length - 1].content;
+      if (sameTail) return;
+      lastSavedRef.current = serialized;
+      setSavedMessages(serialized);
     },
     [messages, status],
     { wait: 500 },
@@ -412,7 +430,7 @@ export default function AI() {
 
   return (
     <div
-      className='min-h-screen w-full text-lg overflow-x-hidden'
+      className='min-h-screen w-full overflow-x-hidden'
       data-testid='ai-container'
     >
       {/* Messages area with bottom padding to avoid overlap with fixed input */}
@@ -475,7 +493,7 @@ export default function AI() {
         {/* Collapse/Expand toggle button - positioned on LEFT to avoid conflict with scroll-to-top button */}
         <button
           onClick={() => setIsInputCollapsed(!isInputCollapsed)}
-          className='fixed bottom-4 left-4 z-[60] inline-flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-br from-primary to-accent text-white hover:scale-110 active:scale-95 shadow-glow border-2 border-white/20 transition-all duration-200 ease-out'
+          className='fixed bottom-4 left-4 z-[60] inline-flex items-center justify-center w-14 h-14 rounded-full bg-primary text-primary-foreground ring-1 ring-border/60 hover:brightness-110 hover:-translate-y-px active:translate-y-0 active:brightness-95 shadow-[inset_0_1px_0_hsl(var(--primary-foreground)/0.15),0_10px_24px_-10px_hsl(var(--primary)/0.55)] transition-all duration-normal ease-out'
           title={
             isInputCollapsed
               ? t("ai.show_input_panel", { defaultValue: "Show input panel" })

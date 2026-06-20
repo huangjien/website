@@ -80,7 +80,6 @@ afterEach(() => {
 
   // Clean up any timers
   jest.clearAllTimers();
-
 });
 
 // Mock IntersectionObserver

@@ -57,7 +57,7 @@ export default function TTSButton({
           ? t("ai.loading", { defaultValue: "Loading…" })
           : t("ai.play", { defaultValue: "Play" })
       }
-      className={`shrink-0 inline-flex items-center justify-center rounded-md glass text-foreground hover:bg-[hsla(var(--glass-bg-hover))] hover:scale-105 hover:shadow-glass active:scale-95 disabled:opacity-50 p-2 transition-all duration-fast ease-out ${className}`}
+      className={`shrink-0 inline-flex items-center justify-center rounded-xl glass text-foreground hover:bg-[hsla(var(--glass-bg-hover))] hover:-translate-y-px hover:shadow-glass active:translate-y-0 disabled:opacity-50 disabled:pointer-events-none p-2 transition-all duration-normal ease-out ${className}`}
     >
       <BiPlay size={18} />
     </button>
