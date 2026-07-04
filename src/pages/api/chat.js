@@ -1,4 +1,4 @@
-import { streamText, convertToCoreMessages } from "ai";
+import { streamText, convertToModelMessages, MessageConversionError } from "ai";
 import { createOpenAI } from "@ai-sdk/openai";
 import { z } from "zod";
 import {
@@ -85,13 +85,13 @@ const handler = withErrorHandling(async (req, res) => {
 
     let coreMessages;
     if (Array.isArray(messages) && messages.length > 0) {
-      coreMessages = convertToCoreMessages(messages);
+      coreMessages = await convertToModelMessages(messages);
     } else if (typeof input === "string" && input.trim().length > 0) {
-      coreMessages = convertToCoreMessages([
+      coreMessages = await convertToModelMessages([
         { role: "user", parts: [{ type: "text", text: input.trim() }] },
       ]);
     } else if (typeof prompt === "string" && prompt.trim().length > 0) {
-      coreMessages = convertToCoreMessages([
+      coreMessages = await convertToModelMessages([
         { role: "user", parts: [{ type: "text", text: prompt.trim() }] },
       ]);
     } else {
@@ -119,6 +119,10 @@ const handler = withErrorHandling(async (req, res) => {
       error instanceof ApiError
     ) {
       throw error;
+    }
+    // Malformed UI messages from the client → 400, not 500
+    if (MessageConversionError.isInstance(error)) {
+      throw new ValidationError("Invalid messages", error?.message);
     }
     const errorMessage =
       error?.message || error?.cause?.message || "Unknown error";

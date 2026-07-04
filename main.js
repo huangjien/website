@@ -807,8 +807,8 @@
               if (!u) {
                 var e = s(f);
                 u = !0;
-                for (var t = l.length; t; ) {
-                  for (n = l, l = []; ++c < t; ) n && n[c].run();
+                for (var t = l.length; t;) {
+                  for (n = l, l = []; ++c < t;) n && n[c].run();
                   ((c = -1), (t = l.length));
                 }
                 ((n = null),
@@ -2892,7 +2892,7 @@
             () => {
               let e = "",
                 t = ++o;
-              for (; t > 0; )
+              for (; t > 0;)
                 ((e += String.fromCharCode(97 + ((t - 1) % 26))),
                   (t = Math.floor((t - 1) / 26)));
               return e;
@@ -6068,12 +6068,12 @@
       function r(e, t) {
         let r = Object.keys(e);
         if (r.length !== Object.keys(t).length) return !1;
-        for (let n = r.length; n--; ) {
+        for (let n = r.length; n--;) {
           let a = r[n];
           if ("query" === a) {
             let r = Object.keys(e.query);
             if (r.length !== Object.keys(t.query).length) return !1;
-            for (let n = r.length; n--; ) {
+            for (let n = r.length; n--;) {
               let a = r[n];
               if (!t.query.hasOwnProperty(a) || e.query[a] !== t.query[a])
                 return !1;
@@ -6570,7 +6570,7 @@
         let a = structuredClone(t),
           u = [{ tree: e, depth: 0 }],
           c = (0, s.parseAppRoute)(r, !0);
-        for (; u.length > 0; ) {
+        for (; u.length > 0;) {
           let { tree: e, depth: t } = u.pop(),
             { segment: r, parallelRoutes: f } = (0, i.parseLoaderTree)(e),
             d = (0, s.parseAppRouteSegment)(r);
@@ -7986,7 +7986,7 @@
             void 0 === t && (t = {});
             for (
               var r = (function (e) {
-                  for (var t = [], r = 0; r < e.length; ) {
+                  for (var t = [], r = 0; r < e.length;) {
                     var n = e[r];
                     if ("*" === n || "+" === n || "?" === n) {
                       t.push({ type: "MODIFIER", index: r, value: e[r++] });
@@ -8009,7 +8009,7 @@
                       continue;
                     }
                     if (":" === n) {
-                      for (var a = "", o = r + 1; o < e.length; ) {
+                      for (var a = "", o = r + 1; o < e.length;) {
                         var i = e.charCodeAt(o);
                         if (
                           (i >= 48 && i <= 57) ||
@@ -8035,7 +8035,7 @@
                         throw TypeError(
                           'Pattern cannot start with "?" at '.concat(o),
                         );
-                      for (; o < e.length; ) {
+                      for (; o < e.length;) {
                         if ("\\" === e[o]) {
                           l += e[o++] + e[o++];
                           continue;
@@ -8087,7 +8087,7 @@
                   );
                 },
                 h = function () {
-                  for (var e, t = ""; (e = d("CHAR") || d("ESCAPED_CHAR")); )
+                  for (var e, t = ""; (e = d("CHAR") || d("ESCAPED_CHAR"));)
                     t += e;
                   return t;
                 },

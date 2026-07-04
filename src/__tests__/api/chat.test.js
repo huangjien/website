@@ -1,9 +1,23 @@
 import { createMocks } from "node-mocks-http";
 
-jest.mock("ai", () => ({
-  streamText: jest.fn(),
-  convertToCoreMessages: jest.fn((messages) => messages),
-}));
+// Stub streamText + convertToModelMessages while exposing a minimal
+// MessageConversionError so the handler's `isInstance` guard is testable.
+jest.mock("ai", () => {
+  class MessageConversionError extends Error {
+    constructor(message) {
+      super(message);
+      this.name = "AI_MessageConversionError";
+    }
+    static isInstance(error) {
+      return error instanceof MessageConversionError;
+    }
+  }
+  return {
+    streamText: jest.fn(),
+    convertToModelMessages: jest.fn(async (messages) => messages),
+    MessageConversionError,
+  };
+});
 
 jest.mock("@ai-sdk/openai", () => ({
   createOpenAI: jest.fn(),
@@ -50,7 +64,7 @@ describe("/api/chat", () => {
   });
 
   it("uses provided curated model when valid", async () => {
-    const { streamText } = require("ai");
+    const { streamText, convertToModelMessages } = require("ai");
     const { createOpenAI } = require("@ai-sdk/openai");
 
     const openaiClient = jest.fn((modelId) => `MODEL:${modelId}`);
@@ -71,12 +85,35 @@ describe("/api/chat", () => {
     await handler(req, res);
 
     expect(openaiClient).toHaveBeenCalledWith("gpt-4o-mini");
+    expect(convertToModelMessages).toHaveBeenCalledWith([
+      { role: "user", parts: [{ type: "text", text: "Hi" }] },
+    ]);
     expect(streamText).toHaveBeenCalledWith(
       expect.objectContaining({
         model: "MODEL:gpt-4o-mini",
       }),
     );
     expect(pipeUIMessageStreamToResponse).toHaveBeenCalledWith(res);
+  });
+
+  it("returns 400 when convertToModelMessages rejects malformed messages", async () => {
+    const { convertToModelMessages, MessageConversionError } = require("ai");
+    convertToModelMessages.mockRejectedValueOnce(
+      new MessageConversionError("Invalid message role"),
+    );
+
+    const handler = require("../../pages/api/chat").default;
+    const { req, res } = createMocks({
+      method: "POST",
+      body: { messages: [{ role: "invalid-role" }] },
+    });
+
+    await handler(req, res);
+
+    expect(res._getStatusCode()).toBe(400);
+    const data = JSON.parse(res._getData());
+    expect(data.error).toBe("Invalid messages");
+    expect(data.details).toBe("Invalid message role");
   });
 
   it("returns 429 when rate limit is exceeded", async () => {
