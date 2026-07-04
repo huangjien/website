@@ -9,7 +9,7 @@ describe("Button Component", () => {
       render(<Button>Click me</Button>);
       const button = screen.getByRole("button");
       expect(button).toBeInTheDocument();
-      expect(button).toHaveClass("glass-button");
+      expect(button).toHaveClass("bg-primary");
     });
 
     it("renders button with outline variant", () => {
@@ -21,7 +21,7 @@ describe("Button Component", () => {
     it("renders button with ghost variant", () => {
       render(<Button variant='ghost'>Click me</Button>);
       const button = screen.getByRole("button");
-      expect(button).toHaveClass("hover:scale-105");
+      expect(button).toHaveClass("hover:bg-[hsla(var(--glass-bg-hover))]");
     });
 
     it("renders button with secondary variant", () => {
@@ -33,15 +33,14 @@ describe("Button Component", () => {
     it("renders button with destructive variant", () => {
       render(<Button variant='destructive'>Click me</Button>);
       const button = screen.getByRole("button");
-      expect(button).toHaveClass("bg-gradient-to-r");
-      expect(button).toHaveClass("from-red-500");
+      expect(button).toHaveClass("bg-destructive");
+      expect(button).toHaveClass("text-destructive-foreground");
     });
 
     it("renders button with gradient variant", () => {
       render(<Button variant='gradient'>Click me</Button>);
       const button = screen.getByRole("button");
-      expect(button).toHaveClass("bg-gradient-to-r");
-      expect(button).toHaveClass("from-primary");
+      expect(button).toHaveClass("bg-primary");
     });
 
     it("renders button with different sizes", () => {
@@ -64,20 +63,20 @@ describe("Button Component", () => {
     it("applies hover scale animation", () => {
       render(<Button>Click me</Button>);
       const button = screen.getByRole("button");
-      expect(button).toHaveClass("hover:scale-105");
+      expect(button).toHaveClass("hover:-translate-y-px");
     });
 
     it("applies active scale animation", () => {
       render(<Button>Click me</Button>);
       const button = screen.getByRole("button");
-      expect(button).toHaveClass("active:scale-95");
+      expect(button).toHaveClass("active:translate-y-0");
     });
 
     it("applies transition classes", () => {
       render(<Button>Click me</Button>);
       const button = screen.getByRole("button");
       expect(button).toHaveClass("transition-all");
-      expect(button).toHaveClass("duration-fast");
+      expect(button).toHaveClass("duration-normal");
     });
   });
 
@@ -186,7 +185,7 @@ describe("Button Component", () => {
     it("applies focus ring animation classes", () => {
       render(<Button>Click me</Button>);
       const button = screen.getByRole("button");
-      expect(button).toHaveClass("focus-visible:ring-ring");
+      expect(button).toHaveClass("focus-visible:ring-ring/35");
       expect(button).toHaveClass("focus-visible:ring-offset-2");
     });
   });

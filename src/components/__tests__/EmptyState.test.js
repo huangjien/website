@@ -63,6 +63,6 @@ describe("EmptyState Component", () => {
     const { container } = render(<EmptyState message='Test' />);
     const cardContainer = container.querySelector(".glass-card");
     expect(cardContainer).toBeInTheDocument();
-    expect(cardContainer).toHaveClass("rounded-2xl", "p-8");
+    expect(cardContainer).toHaveClass("rounded-3xl", "p-10");
   });
 });

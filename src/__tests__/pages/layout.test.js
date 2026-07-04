@@ -96,7 +96,7 @@ describe("Layout Component", () => {
 
     expect(screen.getByTestId("navigation-bar")).toBeInTheDocument();
     expect(screen.getByTestId("children")).toBeInTheDocument();
-    expect(screen.getByRole("contentinfo")).toHaveTextContent("layout.version");
+    expect(screen.getByRole("contentinfo")).toHaveTextContent(/Version/);
     expect(screen.getByRole("contentinfo")).toHaveTextContent("1.0.0");
   });
 
@@ -217,7 +217,7 @@ describe("Layout Component", () => {
     const main = screen.getByRole("main");
     expect(main).toBeInTheDocument();
     const mainContainer = screen.getByRole("main").parentElement;
-    expect(mainContainer).toHaveClass("flex-1", "p-4");
+    expect(mainContainer).toHaveClass("flex-1", "py-6");
     expect(main).toContainElement(screen.getByTestId("children"));
   });
 
@@ -227,12 +227,12 @@ describe("Layout Component", () => {
     const footer = screen.getByRole("contentinfo");
     expect(footer).toBeInTheDocument();
     expect(footer).toHaveClass(
-      "text-center",
-      "p-4",
+      "mt-8",
+      "py-10",
       "text-sm",
-      "text-gray-500",
+      "text-muted-foreground"
     );
-    expect(footer).toHaveTextContent("layout.version");
+    expect(footer).toHaveTextContent(/Version/);
     expect(footer).toHaveTextContent("1.0.0");
   });
 
@@ -261,8 +261,7 @@ describe("Layout Component", () => {
       "bottom-8",
       "right-8",
       "z-50",
-      "shadow-glass-glow",
-      "rounded-full",
+      "rounded-full"
     );
   });
 
