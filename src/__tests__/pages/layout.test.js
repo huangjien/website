@@ -230,7 +230,7 @@ describe("Layout Component", () => {
       "mt-8",
       "py-10",
       "text-sm",
-      "text-muted-foreground"
+      "text-muted-foreground",
     );
     expect(footer).toHaveTextContent(/Version/);
     expect(footer).toHaveTextContent("1.0.0");
@@ -261,7 +261,7 @@ describe("Layout Component", () => {
       "bottom-8",
       "right-8",
       "z-50",
-      "rounded-full"
+      "rounded-full",
     );
   });
 
