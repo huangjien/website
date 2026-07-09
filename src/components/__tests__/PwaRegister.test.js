@@ -80,19 +80,31 @@ describe("PwaRegister", () => {
     // when a custom "sw:update" event is dispatched.
     expect(update).not.toHaveBeenCalled();
   });
-  it("does nothing outside production", async () => {
-    process.env.NODE_ENV = "test";
+  it("unregisters old service workers and clears caches outside production", async () => {
+    process.env.NODE_ENV = "development";
 
+    const unregister = jest.fn().mockResolvedValue(true);
     defineNavigatorServiceWorker({
-      getRegistrations: jest.fn().mockResolvedValue([]),
+      getRegistrations: jest.fn().mockResolvedValue([{ unregister }]),
       register: jest.fn(),
     });
 
+    global.caches = {
+      keys: jest.fn().mockResolvedValue(["some-cache"]),
+      delete: jest.fn().mockResolvedValue(true),
+    };
+    window.caches = global.caches;
+
     render(<PwaRegister />);
 
-    await new Promise((r) => setTimeout(r, 0));
+    await waitFor(() => {
+      expect(navigator.serviceWorker.getRegistrations).toHaveBeenCalledTimes(1);
+    });
 
     expect(navigator.serviceWorker.getRegistrations).toHaveBeenCalledTimes(1);
+    expect(unregister).toHaveBeenCalledTimes(1);
+    expect(global.caches.keys).toHaveBeenCalledTimes(1);
+    expect(global.caches.delete).toHaveBeenCalledWith("some-cache");
     expect(navigator.serviceWorker.register).not.toHaveBeenCalled();
   });
 
