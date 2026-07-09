@@ -1,7 +1,6 @@
 import { renderHook, act } from "@testing-library/react";
 import { useAudioRecording } from "../../hooks/useAudioRecording";
 import { error, warn } from "../../components/Notification";
-import { transcribeAudio } from "../../lib/aiService";
 
 // Mock dependencies
 jest.mock("../../components/Notification", () => ({
@@ -9,9 +8,8 @@ jest.mock("../../components/Notification", () => ({
   warn: jest.fn(),
 }));
 
-jest.mock("../../lib/aiService", () => ({
-  transcribeAudio: jest.fn(),
-}));
+// Mock fetch for the inlined transcribeAudio (calls /api/transcribe)
+global.fetch = jest.fn();
 
 // Mock MediaRecorder
 class MockMediaRecorder {
@@ -78,6 +76,9 @@ describe("useAudioRecording Hook", () => {
   beforeEach(() => {
     // Reset all mocks
     jest.clearAllMocks();
+
+    // Default fetch mock for transcribeAudio (returns empty transcription)
+    fetch.mockResolvedValue({ json: () => Promise.resolve({ text: "" }) });
 
     // Mock console.warn
     jest.spyOn(console, "warn").mockImplementation();
@@ -221,7 +222,9 @@ describe("useAudioRecording Hook", () => {
     it("should stop recording and transcribe audio successfully", async () => {
       const mockTranscription = "Hello, this is a test transcription";
       const mockCallback = jest.fn();
-      transcribeAudio.mockResolvedValue(mockTranscription);
+      fetch.mockResolvedValueOnce({
+        json: () => Promise.resolve({ text: mockTranscription }),
+      });
 
       const { result } = renderHook(() => useAudioRecording());
 
@@ -240,7 +243,10 @@ describe("useAudioRecording Hook", () => {
         await new Promise((resolve) => setTimeout(resolve, 200));
       });
 
-      expect(transcribeAudio).toHaveBeenCalledWith(expect.any(MockBlob));
+      expect(fetch).toHaveBeenCalledWith(
+        "/api/transcribe",
+        expect.objectContaining({ method: "POST" }),
+      );
       expect(mockCallback).toHaveBeenCalledWith(mockTranscription);
       expect(mockCreateObjectURL).toHaveBeenCalled();
       expect(result.current.audioSrc).toBe("blob:mock-audio-url");
@@ -261,7 +267,7 @@ describe("useAudioRecording Hook", () => {
 
     it("should handle transcription error", async () => {
       const mockError = new Error("Transcription failed");
-      transcribeAudio.mockRejectedValue(mockError);
+      fetch.mockRejectedValueOnce(mockError);
 
       const { result } = renderHook(() => useAudioRecording());
 
@@ -308,7 +314,9 @@ describe("useAudioRecording Hook", () => {
 
     it("should work without onTranscriptionComplete callback", async () => {
       const mockTranscription = "Test transcription";
-      transcribeAudio.mockResolvedValue(mockTranscription);
+      fetch.mockResolvedValueOnce({
+        json: () => Promise.resolve({ text: mockTranscription }),
+      });
 
       const { result } = renderHook(() => useAudioRecording());
 
@@ -327,7 +335,10 @@ describe("useAudioRecording Hook", () => {
         await new Promise((resolve) => setTimeout(resolve, 200));
       });
 
-      expect(transcribeAudio).toHaveBeenCalled();
+      expect(fetch).toHaveBeenCalledWith(
+        "/api/transcribe",
+        expect.objectContaining({ method: "POST" }),
+      );
       // Should not throw error when no callback provided
     });
   });
@@ -434,7 +445,9 @@ describe("useAudioRecording Hook", () => {
     it("should complete full recording cycle", async () => {
       const mockTranscription = "Complete recording test";
       const mockCallback = jest.fn();
-      transcribeAudio.mockResolvedValue(mockTranscription);
+      fetch.mockResolvedValueOnce({
+        json: () => Promise.resolve({ text: mockTranscription }),
+      });
 
       const { result } = renderHook(() => useAudioRecording());
 
@@ -461,7 +474,10 @@ describe("useAudioRecording Hook", () => {
 
       expect(mockCallback).toHaveBeenCalledWith(mockTranscription);
       expect(result.current.audioSrc).toBe("blob:mock-audio-url");
-      expect(transcribeAudio).toHaveBeenCalledWith(expect.any(MockBlob));
+      expect(fetch).toHaveBeenCalledWith(
+        "/api/transcribe",
+        expect.objectContaining({ method: "POST" }),
+      );
     });
 
     it("should handle rapid start/stop cycles", async () => {

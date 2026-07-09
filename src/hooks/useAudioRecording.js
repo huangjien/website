@@ -1,6 +1,29 @@
 import { useState, useRef } from "react";
 import { error, warn } from "../components/Notification";
-import { transcribeAudio } from "../lib/aiService";
+
+/**
+ * Transcribe audio by sending it to the /api/transcribe endpoint.
+ * @param {Blob} audioBlob - The recorded audio blob
+ * @returns {Promise<string>} The transcribed text
+ */
+const transcribeAudio = async (audioBlob) => {
+  const file = new File([audioBlob], "audio.mp3", { type: "audio/mp3" });
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("model", "whisper-1");
+
+  return fetch("/api/transcribe", {
+    method: "POST",
+    body: formData,
+  })
+    .then((res) => res.json())
+    .then((response) => {
+      if (response?.error) {
+        throw new Error(response.error.message);
+      }
+      return response.text;
+    });
+};
 
 /**
  * Custom hook for handling audio recording functionality

@@ -1,8 +1,8 @@
 import pluginNext from "@next/eslint-plugin-next";
-import parser from "@typescript-eslint/parser";
 import js from "@eslint/js";
 import prettier from "eslint-plugin-prettier";
 import prettierConfig from "eslint-config-prettier";
+import reactHooks from "eslint-plugin-react-hooks";
 
 export default [
   {
@@ -34,6 +34,7 @@ export default [
     plugins: {
       "@next/next": pluginNext,
       prettier: prettier,
+      "react-hooks": reactHooks,
     },
     files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"],
     ignores: ["dist", "build", ".next", "node_modules"],
@@ -44,7 +45,11 @@ export default [
       "prettier/prettier": "warn",
       "arrow-body-style": "off",
       "prefer-arrow-callback": "off",
-      "no-unused-vars": 0,
+      "no-unused-vars": [
+        "warn",
+        { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
+      ],
+      "react-hooks/exhaustive-deps": "error",
       "@typescript-eslint/no-explicit-any": ["off"],
       "explicit-module-boundary-types": 0,
       "no-non-null-assertion": 0,

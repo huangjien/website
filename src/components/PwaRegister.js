@@ -84,23 +84,35 @@ export default function PwaRegister() {
       window.localStorage.setItem(key, "1");
     };
 
+    let swRegistration = null;
+
     const register = async () => {
       if (window.serwist && typeof window.serwist.register === "function") {
         await window.serwist.register();
         return;
       }
 
-      const registration = await navigator.serviceWorker.register("/sw.js", {
+      swRegistration = await navigator.serviceWorker.register("/sw.js", {
         scope: "/",
       });
-      await registration.update();
     };
+
+    // Only check for updates when explicitly requested (e.g. user action),
+    // relying on the browser's default update cycle otherwise.
+    const handleUpdateRequest = () => {
+      swRegistration?.update().catch(() => {});
+    };
+    window.addEventListener("sw:update", handleUpdateRequest);
 
     cleanupOldServiceWorkers()
       .catch(() => {})
       .finally(() => {
         register().catch(() => {});
       });
+
+    return () => {
+      window.removeEventListener("sw:update", handleUpdateRequest);
+    };
   }, []);
 
   return null;

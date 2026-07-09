@@ -1,9 +1,3 @@
-import { createContext } from "react";
-import { currentUser } from "../lib/global";
-
-export const userContext = createContext(undefined);
-export const settingContext = createContext({});
-
 export function getValueByPath(data, path) {
   if (path === null || path === undefined) {
     return undefined;
@@ -92,42 +86,6 @@ export const getJoke = async () => {
     .then((data) => {
       return data;
     });
-};
-
-export const getUser = async (username, password) => {
-  if (typeof window !== "undefined") {
-    const cached = sessionStorage.getItem(currentUser);
-    if (cached) {
-      try {
-        return JSON.parse(cached);
-      } catch (e) {
-        sessionStorage.removeItem(currentUser);
-      }
-    }
-  }
-
-  const response = await fetch("https://api.github.com/users/" + username, {
-    method: "GET",
-    headers: {
-      Authorization: "token " + password,
-    },
-  });
-
-  if (!response.ok) {
-    throw new Error(`GitHub API error: ${response.status}`);
-  }
-
-  const data = await response.json();
-
-  if (typeof window !== "undefined") {
-    try {
-      sessionStorage.setItem(currentUser, JSON.stringify(data));
-    } catch (e) {
-      console.warn("Failed to cache user data:", e);
-    }
-  }
-
-  return data;
 };
 
 export const properties2Json = (propertiesString) => {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import SettingsPanel from "../../ai-elements/settings-panel.jsx";
@@ -34,7 +34,7 @@ describe("SettingsPanel", () => {
 
   it("updates system prompt and track speed", () => {
     render(<Host />);
-    const sysPrompt = screen.getByPlaceholderText(/System prompt/i);
+    const sysPrompt = screen.getByLabelText(/System prompt/i);
     fireEvent.change(sysPrompt, { target: { value: "You are helpful." } });
     expect(sysPrompt).toHaveValue("You are helpful.");
 

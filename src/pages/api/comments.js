@@ -14,7 +14,8 @@ import {
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "./auth/[...nextauth]";
 import { checkRateLimit } from "../../lib/rateLimit";
-import { recordError, recordRequest } from "../../lib/metrics";
+import { recordRequest } from "../../lib/metrics";
+import { createMutationFailureHandler } from "../../lib/api/mutation-telemetry";
 
 export const config = {
   api: {
@@ -33,20 +34,12 @@ const handler = withErrorHandling(async (req, res) => {
   const method = req.method || "GET";
   const mutationRoute = "/api/comments";
   let mutationStartMs = null;
-  const handleMutationFailure = (error, reason) => {
-    const status = error?.status || 500;
-    const durationMs =
-      mutationStartMs === null ? 0 : Math.max(0, Date.now() - mutationStartMs);
-    recordRequest(mutationRoute, "POST", status, durationMs);
-    recordError(mutationRoute, error?.name || "Error");
-    logApiEvent("warn", "comment_post_failure", req, {
-      reason,
-      status,
-      errorName: error?.name || "Error",
-      durationMs,
-    });
-    throw error;
-  };
+  const handleMutationFailure = createMutationFailureHandler({
+    route: mutationRoute,
+    eventName: "comment_post_failure",
+    req,
+    getStartMs: () => mutationStartMs,
+  });
 
   if (method === "POST") {
     mutationStartMs = Date.now();

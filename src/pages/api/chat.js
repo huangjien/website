@@ -1,8 +1,10 @@
 import { streamText, convertToModelMessages, MessageConversionError } from "ai";
 import { createOpenAI } from "@ai-sdk/openai";
+import { getServerSession } from "next-auth/next";
 import { z } from "zod";
 import {
   ApiError,
+  AuthenticationError,
   RateLimitError,
   ValidationError,
   ensureMethod,
@@ -11,6 +13,7 @@ import {
   logApiEvent,
   withErrorHandling,
 } from "../../lib/apiClient";
+import { authOptions } from "./auth/[...nextauth]";
 import {
   checkRateLimit,
   CHAT_RATE_LIMIT,
@@ -38,6 +41,11 @@ const chatRequestSchema = z.object({
 const handler = withErrorHandling(async (req, res) => {
   if (!ensureMethod(req, res, ["POST"])) {
     return;
+  }
+
+  const session = await getServerSession(req, res, authOptions);
+  if (!session) {
+    throw new AuthenticationError("Unauthorized");
   }
 
   const ip = getClientIp(req);
@@ -83,15 +91,15 @@ const handler = withErrorHandling(async (req, res) => {
       );
     }
 
-    let coreMessages;
+    let modelMessages;
     if (Array.isArray(messages) && messages.length > 0) {
-      coreMessages = await convertToModelMessages(messages);
+      modelMessages = await convertToModelMessages(messages);
     } else if (typeof input === "string" && input.trim().length > 0) {
-      coreMessages = await convertToModelMessages([
+      modelMessages = await convertToModelMessages([
         { role: "user", parts: [{ type: "text", text: input.trim() }] },
       ]);
     } else if (typeof prompt === "string" && prompt.trim().length > 0) {
-      coreMessages = await convertToModelMessages([
+      modelMessages = await convertToModelMessages([
         { role: "user", parts: [{ type: "text", text: prompt.trim() }] },
       ]);
     } else {
@@ -102,7 +110,7 @@ const handler = withErrorHandling(async (req, res) => {
 
     const result = await streamText({
       model: openaiClient(selectedModel),
-      messages: coreMessages,
+      messages: modelMessages,
       temperature: typeof temperature === "number" ? temperature : undefined,
       system: typeof system === "string" ? system : undefined,
     });

@@ -1,4 +1,5 @@
 import { createMocks } from "node-mocks-http";
+import { getServerSession } from "next-auth/next";
 
 // Stub streamText + convertToModelMessages while exposing a minimal
 // MessageConversionError so the handler's `isInstance` guard is testable.
@@ -23,6 +24,14 @@ jest.mock("@ai-sdk/openai", () => ({
   createOpenAI: jest.fn(),
 }));
 
+jest.mock("next-auth/next", () => ({
+  getServerSession: jest.fn(),
+}));
+
+jest.mock("../../pages/api/auth/[...nextauth]", () => ({
+  authOptions: {},
+}));
+
 jest.mock("../../lib/rateLimit", () => ({
   CHAT_RATE_LIMIT: 30,
   CHAT_WINDOW_MS: 60000,
@@ -36,14 +45,35 @@ jest.mock("../../lib/rateLimit", () => ({
 describe("/api/chat", () => {
   const originalEnv = process.env;
   const rateLimit = require("../../lib/rateLimit");
+  const { getServerSession } = require("next-auth/next");
 
   beforeEach(() => {
     jest.clearAllMocks();
     process.env = { ...originalEnv, OPENAI_API_KEY: "test-key" };
+    // Default: authenticated session
+    getServerSession.mockResolvedValue({
+      user: { name: "Test User", email: "test@example.com" },
+      expires: "2099-01-01T00:00:00.000Z",
+    });
   });
 
   afterEach(() => {
     process.env = originalEnv;
+  });
+
+  it("returns 401 when unauthenticated", async () => {
+    getServerSession.mockResolvedValueOnce(null);
+
+    const handler = require("../../pages/api/chat").default;
+    const { req, res } = createMocks({
+      method: "POST",
+      body: { input: "Hello" },
+    });
+
+    await handler(req, res);
+
+    expect(res._getStatusCode()).toBe(401);
+    expect(JSON.parse(res._getData()).error).toBe("Unauthorized");
   });
 
   it("rejects invalid model outside curated allowlist", async () => {

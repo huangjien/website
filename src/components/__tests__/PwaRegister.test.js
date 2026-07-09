@@ -1,4 +1,3 @@
-import React from "react";
 import { render, waitFor } from "@testing-library/react";
 import PwaRegister from "../PwaRegister";
 
@@ -77,13 +76,15 @@ describe("PwaRegister", () => {
         scope: "/",
       });
     });
-    expect(update).toHaveBeenCalledTimes(1);
+    // update() is no longer called unconditionally on mount; it runs only
+    // when a custom "sw:update" event is dispatched.
+    expect(update).not.toHaveBeenCalled();
   });
   it("does nothing outside production", async () => {
     process.env.NODE_ENV = "test";
 
     defineNavigatorServiceWorker({
-      getRegistrations: jest.fn(),
+      getRegistrations: jest.fn().mockResolvedValue([]),
       register: jest.fn(),
     });
 
@@ -91,7 +92,7 @@ describe("PwaRegister", () => {
 
     await new Promise((r) => setTimeout(r, 0));
 
-    expect(navigator.serviceWorker.getRegistrations).not.toHaveBeenCalled();
+    expect(navigator.serviceWorker.getRegistrations).toHaveBeenCalledTimes(1);
     expect(navigator.serviceWorker.register).not.toHaveBeenCalled();
   });
 

@@ -4,7 +4,6 @@ module.exports = {
   setupFilesAfterEnv: [
     "<rootDir>/jest.setup.js",
     "<rootDir>/test-setup.js",
-    "<rootDir>/src/setupTests.js",
   ],
   testEnvironment: "jsdom",
   testPathIgnorePatterns: ["<rootDir>/.next/", "<rootDir>/node_modules/"],
@@ -13,7 +12,6 @@ module.exports = {
     "!src/**/*.d.ts",
     "!src/pages/_app.js",
     "!src/pages/_document.js",
-    "!src/pages/api/**",
   ],
   coverageDirectory: "coverage",
   coverageReporters: ["text", "lcov", "html"],

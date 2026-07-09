@@ -1,9 +1,15 @@
+import dynamic from "next/dynamic";
 import * as Accordion from "./ui/accordion";
 import Badge from "./ui/badge";
 import Button from "./ui/button";
 import { useTranslation } from "react-i18next";
 import { BiCopyAlt, BiPlayCircle } from "react-icons/bi";
-import { MarkdownContent } from "./MarkdownContent";
+
+// react-markdown is heavy; load MarkdownContent client-side only.
+const MarkdownContent = dynamic(
+  () => import("./MarkdownContent").then((mod) => mod.MarkdownContent),
+  { ssr: false },
+);
 
 export const Chat = ({ data, player }) => {
   const { t } = useTranslation();

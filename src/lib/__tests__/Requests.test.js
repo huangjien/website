@@ -8,7 +8,6 @@ import {
   getLabels,
   isMember,
   getJoke,
-  getUser,
   properties2Json,
 } from "../Requests";
 
@@ -236,43 +235,6 @@ describe("Requests utility functions", () => {
         { method: "GET" },
       );
       expect(result).toEqual(mockJoke);
-    });
-  });
-
-  describe("getUser", () => {
-    it("should return cached user if available", async () => {
-      const cachedUser = { login: "testuser", id: 123 };
-      mockSessionStorage.getItem.mockReturnValueOnce(
-        JSON.stringify(cachedUser),
-      );
-
-      const result = await getUser("testuser", "token");
-
-      expect(mockSessionStorage.getItem).toHaveBeenCalledWith("currentUser");
-      expect(result).toEqual(cachedUser);
-      expect(fetch).not.toHaveBeenCalled();
-    });
-
-    it("should fetch user from GitHub API if not cached", async () => {
-      const mockUser = { login: "testuser", id: 123 };
-      mockSessionStorage.getItem.mockReturnValueOnce(null);
-      fetch.mockResolvedValueOnce({
-        ok: true,
-        json: () => Promise.resolve(mockUser),
-      });
-
-      const result = await getUser("testuser", "token");
-
-      expect(fetch).toHaveBeenCalledWith(
-        "https://api.github.com/users/testuser",
-        {
-          method: "GET",
-          headers: {
-            Authorization: "token token",
-          },
-        },
-      );
-      expect(result).toEqual(mockUser);
     });
   });
 

@@ -64,6 +64,11 @@ jest.mock("ai", () => ({
   },
 }));
 
+// Response is now loaded via next/dynamic (ssr: false), which does not render
+// synchronously in the test environment. Render children directly so the
+// assistant content is available without async resolution.
+jest.mock("next/dynamic", () => () => (props) => props.children || null);
+
 // Mock child components used by AI page for stable selectors
 jest.mock("../../components/ai-elements/conversation", () => {
   const React = require("react");
@@ -179,7 +184,9 @@ describe("AI Page additional coverage", () => {
     render(<AI />);
     expect(screen.getByTestId("message-user")).toBeInTheDocument();
     expect(screen.getByTestId("message-assistant")).toBeInTheDocument();
-    expect(screen.getByTestId("response")).toBeInTheDocument();
+    // Response is dynamically imported; its children (the assistant text)
+    // render directly in the test environment.
+    expect(screen.getByTestId("message-assistant")).toHaveTextContent("Hello");
     expect(screen.getByTestId("copy-button")).toBeInTheDocument();
     expect(screen.getByTestId("tts-button")).toBeInTheDocument();
   });
@@ -299,7 +306,7 @@ describe("AI Page additional coverage", () => {
 
     render(<AI />);
     // uiMessageText should produce empty string for non-text parts
-    expect(screen.getByTestId("response")).toHaveTextContent("");
+    expect(screen.getByTestId("message-assistant")).toBeInTheDocument();
     // Buttons are present even if text is empty
     expect(screen.getByTestId("copy-button")).toBeInTheDocument();
     expect(screen.getByTestId("tts-button")).toBeInTheDocument();
@@ -320,7 +327,7 @@ describe("AI Page additional coverage", () => {
 
     render(<AI />);
     // No visible text, but controls still render
-    expect(screen.getByTestId("response")).toHaveTextContent("");
+    expect(screen.getByTestId("message-assistant")).toBeInTheDocument();
     expect(screen.getByTestId("copy-button")).toBeInTheDocument();
     expect(screen.getByTestId("tts-button")).toBeInTheDocument();
   });

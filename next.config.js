@@ -20,9 +20,33 @@ const withSerwist = require("@serwist/next").default({
 
 // const path = require('path')
 
+const securityHeaders = [
+  {
+    key: "X-Frame-Options",
+    value: "DENY",
+  },
+  {
+    key: "X-Content-Type-Options",
+    value: "nosniff",
+  },
+  {
+    key: "Referrer-Policy",
+    value: "strict-origin-when-cross-origin",
+  },
+  {
+    key: "Strict-Transport-Security",
+    value: "max-age=31536000; includeSubDomains",
+  },
+  {
+    key: "Permissions-Policy",
+    value: "camera=(), microphone=(self), geolocation=()",
+  },
+];
+
 const nextConfig = {
   output: "standalone",
   reactStrictMode: true,
+  poweredByHeader: false,
   devIndicators: false,
   // Next.js 16 defaults to Turbopack. @serwist/next injects a webpack config
   // which triggers a "may need to be migrated to Turbopack" error on boot.
@@ -32,8 +56,20 @@ const nextConfig = {
     NEXT_PUBLIC_APP_VERSION: process.env.npm_package_version || "dev",
   },
   transpilePackages: ["ahooks"],
+  experimental: {
+    optimizePackageImports: [
+      "react-icons",
+      "react-markdown",
+      "@radix-ui/react-dialog",
+      "@radix-ui/react-dropdown-menu",
+      "@radix-ui/react-tabs",
+      "@radix-ui/react-tooltip",
+      "@radix-ui/react-accordion",
+      "@radix-ui/react-avatar",
+      "@radix-ui/react-progress",
+    ],
+  },
   compiler: {
-    styledComponents: true,
     removeConsole: { exclude: ["error"] },
   },
   images: {
@@ -105,6 +141,10 @@ const nextConfig = {
             value: "public, max-age=86400, must-revalidate",
           },
         ],
+      },
+      {
+        source: "/(.*)",
+        headers: securityHeaders,
       },
     ];
   },

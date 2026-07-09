@@ -78,6 +78,82 @@ describe("/api/issues", () => {
       expect(fetchCall[0]).toContain("/issues");
     });
 
+    it("attaches comments when includeComments=1 for issues with comments", async () => {
+      const mockIssues = [
+        { id: 1, number: 1, title: "Issue 1", comments: 2 },
+        { id: 2, number: 2, title: "Issue 2", comments: 0 },
+      ];
+      fetchWithTimeout.mockResolvedValueOnce({
+        ok: true,
+        json: async () => mockIssues,
+      });
+      fetchWithTimeout.mockResolvedValueOnce({
+        ok: true,
+        json: async () => [{ id: 10, body: "Comment A" }],
+      });
+
+      const handler = require("../../pages/api/issues").default;
+      const { req, res } = createMocks({
+        method: "GET",
+        query: { includeComments: "1" },
+      });
+
+      await handler(req, res);
+
+      expect(res._getStatusCode()).toBe(200);
+      const sent = res._getData();
+      const parsed = typeof sent === "string" ? JSON.parse(sent) : sent;
+      expect(parsed[0].__comments).toEqual([{ id: 10, body: "Comment A" }]);
+      // Issue with zero comments is returned untouched (no __comments field).
+      expect(parsed[1].__comments).toBeUndefined();
+    });
+
+    it("caps comment fetches to MAX_ISSUES_WITH_COMMENTS to avoid N+1", async () => {
+      const { MAX_ISSUES_WITH_COMMENTS } = require("../../pages/api/issues");
+      // Build more issues than the cap; each one reports comments so all would
+      // be fetched without the cap.
+      const totalIssues = MAX_ISSUES_WITH_COMMENTS + 5;
+      const mockIssues = Array.from({ length: totalIssues }, (_, i) => ({
+        id: i + 1,
+        number: i + 1,
+        title: `Issue ${i + 1}`,
+        comments: 1,
+      }));
+      fetchWithTimeout.mockResolvedValueOnce({
+        ok: true,
+        json: async () => mockIssues,
+      });
+      for (let i = 0; i < MAX_ISSUES_WITH_COMMENTS; i++) {
+        fetchWithTimeout.mockResolvedValueOnce({
+          ok: true,
+          json: async () => [{ id: 100 + i, body: `Comment ${i}` }],
+        });
+      }
+
+      const handler = require("../../pages/api/issues").default;
+      const { req, res } = createMocks({
+        method: "GET",
+        query: { includeComments: "1" },
+      });
+
+      await handler(req, res);
+
+      // 1 list call + exactly MAX_ISSUES_WITH_COMMENTS comment calls.
+      expect(fetchWithTimeout).toHaveBeenCalledTimes(
+        1 + MAX_ISSUES_WITH_COMMENTS,
+      );
+      const sent = res._getData();
+      const parsed = typeof sent === "string" ? JSON.parse(sent) : sent;
+      // The first N issues are enriched.
+      for (let i = 0; i < MAX_ISSUES_WITH_COMMENTS; i++) {
+        expect(parsed[i].__comments).toHaveLength(1);
+      }
+      // Issues beyond the cap are returned untouched (no __comments field).
+      for (let i = MAX_ISSUES_WITH_COMMENTS; i < totalIssues; i++) {
+        expect(parsed[i].__comments).toBeUndefined();
+      }
+    });
+
     it("returns 500 when token is missing", async () => {
       delete process.env.GITHUB_TOKEN;
 

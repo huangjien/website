@@ -1,7 +1,5 @@
 upstream home_app {
   server ${RELAY_UPSTREAM_HOST}:${RELAY_UPSTREAM_PORT} max_fails=0;
-  server ${RELAY_UPSTREAM_HOST}:${RELAY_UPSTREAM_PORT} max_fails=0;
-  server ${RELAY_UPSTREAM_HOST}:${RELAY_UPSTREAM_PORT} max_fails=0;
   keepalive 32;
 }
 
@@ -9,9 +7,34 @@ server {
   listen 8080;
   server_name _;
 
+  add_header X-Frame-Options "DENY" always;
+  add_header X-Content-Type-Options "nosniff" always;
+  add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+  add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+  add_header Permissions-Policy "camera=(), microphone=(self), geolocation=()" always;
+
   location = /healthz {
     add_header Content-Type text/plain;
     return 200 "ok";
+  }
+
+  # SSE / streaming endpoint: disable buffering and allow longer reads
+  location /api/chat {
+    proxy_http_version 1.1;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_set_header X-Request-Id $request_id;
+    proxy_set_header Connection "";
+
+    proxy_buffering off;
+    proxy_cache off;
+    proxy_read_timeout 120s;
+    proxy_send_timeout 120s;
+    chunked_transfer_encoding on;
+
+    proxy_pass http://home_app;
   }
 
   location / {

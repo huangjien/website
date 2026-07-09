@@ -73,7 +73,7 @@ export const useGithubContent = () => {
         setIssues(finalResult);
       }
     }
-  }, [rawData, getSetting]);
+  }, [rawData, getSetting, setIssues]);
 
   return {
     tags,

@@ -12,7 +12,9 @@ jest.mock("ahooks", () => ({
   useTitle: jest.fn(),
   useDebounceEffect: jest.fn((effect, deps) => {
     const React = require("react");
-    React.useEffect(effect, deps);
+    // Test shim: execute the debounced effect through a normal effect.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    React.useEffect(() => effect(), deps);
   }),
 }));
 

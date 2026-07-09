@@ -1,6 +1,8 @@
 import { promises as fs } from "fs";
 import path from "path";
 import crypto from "crypto";
+import dns from "node:dns";
+import net from "node:net";
 import { fetchWithTimeout } from "../../lib/fetchWithTimeout";
 import {
   ensureMethod,
@@ -73,6 +75,61 @@ const isBlockedHost = (hostname) => {
   if (isPrivateIpv6(value)) return true;
   return false;
 };
+
+const MAX_REDIRECTS = 5;
+
+/**
+ * Resolve a hostname to its IP addresses.
+ * IP literals are returned as-is without a DNS lookup.
+ * @param {string} hostname - The hostname to resolve
+ * @returns {Promise<string[]>} - Resolved IP addresses
+ */
+async function resolveHostIps(hostname) {
+  if (net.isIP(hostname)) {
+    return [hostname];
+  }
+  const [ipv4, ipv6] = await Promise.allSettled([
+    dns.promises.resolve4(hostname),
+    dns.promises.resolve6(hostname),
+  ]);
+  const ips = [];
+  if (ipv4.status === "fulfilled") ips.push(...ipv4.value);
+  if (ipv6.status === "fulfilled") ips.push(...ipv6.value);
+  return ips;
+}
+
+/**
+ * Check whether a hostname resolves to any private/internal IP address.
+ * This guards against DNS rebinding where an allowed hostname resolves to
+ * a loopback or link-local address (e.g. 127.0.0.1, 169.254.169.254).
+ * @param {string} hostname - The hostname to check
+ * @returns {Promise<boolean>} - True if any resolved IP is private
+ */
+async function resolvesToPrivateIp(hostname) {
+  const ips = await resolveHostIps(hostname);
+  return ips.some((ip) =>
+    ip.includes(":") ? isPrivateIpv6(ip) : isPrivateIpv4(ip),
+  );
+}
+
+/**
+ * Build request headers for a given hostname.
+ * @param {string} hostname - The target hostname
+ * @returns {Object} - Header object
+ */
+function buildHeaders(hostname) {
+  const headers = {
+    "User-Agent": "Mozilla/5.0 (compatible; ImageProxy/1.0)",
+    Accept: "image/*, */*",
+  };
+  if (
+    process.env.GITHUB_TOKEN &&
+    (hostname === "github.com" || hostname.endsWith(".github.com"))
+  ) {
+    headers["Authorization"] = `token ${process.env.GITHUB_TOKEN}`;
+  }
+  return headers;
+}
 
 /**
  * Generate a cache key from URL
@@ -223,32 +280,62 @@ export default withErrorHandling(async function handler(req, res) {
   if (isBlockedHost(parsedUrl.hostname)) {
     return res.status(400).json({ error: "Blocked target host" });
   }
-
-  const headers = {
-    "User-Agent": "Mozilla/5.0 (compatible; ImageProxy/1.0)",
-    Accept: "image/*, */*",
-  };
-
-  if (
-    process.env.GITHUB_TOKEN &&
-    (parsedUrl.hostname === "github.com" ||
-      parsedUrl.hostname.endsWith(".github.com"))
-  ) {
-    headers["Authorization"] = `token ${process.env.GITHUB_TOKEN}`;
+  if (await resolvesToPrivateIp(parsedUrl.hostname)) {
+    return res.status(400).json({ error: "Blocked target host" });
   }
 
-  const response = await fetchWithTimeout(
-    decodedUrl,
-    {
-      method: "GET",
-      headers: headers,
-    },
-    10000,
-  );
+  let currentUrl = decodedUrl;
+  let currentHost = parsedUrl.hostname;
+  let response;
+
+  for (let hop = 0; hop <= MAX_REDIRECTS; hop++) {
+    response = await fetchWithTimeout(
+      currentUrl,
+      {
+        method: "GET",
+        headers: buildHeaders(currentHost),
+        redirect: "manual",
+      },
+      10000,
+    );
+
+    if (response.status >= 300 && response.status < 400) {
+      const location = response.headers.get("location");
+      if (!location) {
+        break;
+      }
+
+      let nextUrl;
+      try {
+        nextUrl = new URL(location, currentUrl);
+      } catch {
+        return res.status(400).json({ error: "Invalid redirect target" });
+      }
+
+      if (!["http:", "https:"].includes(nextUrl.protocol)) {
+        return res.status(400).json({ error: "Invalid protocol" });
+      }
+      if (!isHostAllowed(nextUrl.hostname)) {
+        return res.status(400).json({ error: "URL host is not allowed" });
+      }
+      if (isBlockedHost(nextUrl.hostname)) {
+        return res.status(400).json({ error: "Blocked target host" });
+      }
+      if (await resolvesToPrivateIp(nextUrl.hostname)) {
+        return res.status(400).json({ error: "Blocked target host" });
+      }
+
+      currentUrl = nextUrl.href;
+      currentHost = nextUrl.hostname;
+      continue;
+    }
+
+    break;
+  }
 
   if (!response.ok) {
     console.error(
-      `Proxy failed: ${response.status} ${response.statusText} for ${decodedUrl}`,
+      `Proxy failed: ${response.status} ${response.statusText} for ${currentUrl}`,
     );
     return res.status(response.status).send("Failed to fetch image");
   }

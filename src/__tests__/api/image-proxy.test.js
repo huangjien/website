@@ -1,4 +1,5 @@
 import { createMocks } from "node-mocks-http";
+import dns from "node:dns";
 import { fetchWithTimeout } from "../../lib/fetchWithTimeout";
 import { checkRateLimit } from "../../lib/rateLimit";
 
@@ -22,6 +23,8 @@ jest.mock("../../lib/rateLimit", () => ({
   checkRateLimit: jest.fn(),
 }));
 
+const PUBLIC_IPV4 = "140.82.112.4"; // a public GitHub IP
+
 const createImageResponse = ({
   ok = true,
   contentType = "image/png",
@@ -36,9 +39,38 @@ const createImageResponse = ({
   arrayBuffer: async () => new Uint8Array(bytes).buffer,
 });
 
+const createRedirectResponse = (location, status = 302) => ({
+  ok: false,
+  status,
+  statusText: "Found",
+  headers: {
+    get: (key) => {
+      const lower = key.toLowerCase();
+      if (lower === "location") return location;
+      return null;
+    },
+  },
+});
+
 describe("/api/image-proxy", () => {
+  let resolve4Spy;
+  let resolve6Spy;
+
+  beforeAll(() => {
+    resolve4Spy = jest.spyOn(dns.promises, "resolve4");
+    resolve6Spy = jest.spyOn(dns.promises, "resolve6");
+  });
+
+  afterAll(() => {
+    resolve4Spy.mockRestore();
+    resolve6Spy.mockRestore();
+  });
+
   beforeEach(() => {
     jest.clearAllMocks();
+    // Default DNS resolution returns a public IP (no private/internal target).
+    resolve4Spy.mockResolvedValue([PUBLIC_IPV4]);
+    resolve6Spy.mockResolvedValue([]);
     checkRateLimit.mockReturnValue({
       allowed: true,
       remaining: 10,
@@ -143,9 +175,144 @@ describe("/api/image-proxy", () => {
     expect(fetchWithTimeout).toHaveBeenCalledWith(
       "https://github.com/a.png",
       expect.objectContaining({
+        redirect: "manual",
         headers: expect.objectContaining({
           Authorization: "token test-token",
         }),
+      }),
+      10000,
+    );
+    delete process.env.GITHUB_TOKEN;
+  });
+
+  it("rejects an allowed host that resolves to a private IPv4 address", async () => {
+    resolve4Spy.mockResolvedValue(["127.0.0.1"]);
+    resolve6Spy.mockResolvedValue([]);
+    const handler = require("../../pages/api/image-proxy").default;
+    const { req, res } = createMocks({
+      method: "GET",
+      query: { url: encodeURIComponent("https://github.com/a.png") },
+    });
+
+    await handler(req, res);
+
+    expect(res._getStatusCode()).toBe(400);
+    expect(JSON.parse(res._getData()).error).toBe("Blocked target host");
+    expect(fetchWithTimeout).not.toHaveBeenCalled();
+  });
+
+  it("rejects an allowed host that resolves to a link-local metadata IP", async () => {
+    resolve4Spy.mockResolvedValue(["169.254.169.254"]);
+    resolve6Spy.mockResolvedValue([]);
+    const handler = require("../../pages/api/image-proxy").default;
+    const { req, res } = createMocks({
+      method: "GET",
+      query: { url: encodeURIComponent("https://github.com/a.png") },
+    });
+
+    await handler(req, res);
+
+    expect(res._getStatusCode()).toBe(400);
+    expect(JSON.parse(res._getData()).error).toBe("Blocked target host");
+    expect(fetchWithTimeout).not.toHaveBeenCalled();
+  });
+
+  it("rejects an allowed host that resolves to a private IPv6 address", async () => {
+    resolve4Spy.mockResolvedValue([]);
+    resolve6Spy.mockResolvedValue(["::1"]);
+    const handler = require("../../pages/api/image-proxy").default;
+    const { req, res } = createMocks({
+      method: "GET",
+      query: { url: encodeURIComponent("https://github.com/a.png") },
+    });
+
+    await handler(req, res);
+
+    expect(res._getStatusCode()).toBe(400);
+    expect(JSON.parse(res._getData()).error).toBe("Blocked target host");
+    expect(fetchWithTimeout).not.toHaveBeenCalled();
+  });
+
+  it("proxies a normal allowed domain that resolves to a public IP", async () => {
+    resolve4Spy.mockResolvedValue([PUBLIC_IPV4]);
+    fetchWithTimeout.mockResolvedValueOnce(createImageResponse({ ok: true }));
+    const handler = require("../../pages/api/image-proxy").default;
+    const { req, res } = createMocks({
+      method: "GET",
+      query: { url: encodeURIComponent("https://github.com/a.png") },
+    });
+
+    await handler(req, res);
+
+    expect(res._getStatusCode()).toBe(200);
+    expect(res._getHeaders()["x-cache"]).toBe("MISS");
+  });
+
+  it("rejects a redirect to an internal IP literal URL", async () => {
+    resolve4Spy.mockResolvedValue([PUBLIC_IPV4]);
+    fetchWithTimeout.mockResolvedValueOnce(
+      createRedirectResponse("http://169.254.169.254/latest/meta-data"),
+    );
+    const handler = require("../../pages/api/image-proxy").default;
+    const { req, res } = createMocks({
+      method: "GET",
+      query: { url: encodeURIComponent("https://github.com/a.png") },
+    });
+
+    await handler(req, res);
+
+    expect(res._getStatusCode()).toBe(400);
+    // The redirect must not be followed to the internal target.
+    expect(fetchWithTimeout).toHaveBeenCalledTimes(1);
+  });
+
+  it("rejects a redirect to a host that resolves to a private IP", async () => {
+    resolve4Spy.mockImplementation((host) => {
+      if (host === "camo.githubusercontent.com") {
+        return Promise.resolve(["169.254.169.254"]);
+      }
+      return Promise.resolve([PUBLIC_IPV4]);
+    });
+    fetchWithTimeout.mockResolvedValueOnce(
+      createRedirectResponse("https://camo.githubusercontent.com/redirect"),
+    );
+    const handler = require("../../pages/api/image-proxy").default;
+    const { req, res } = createMocks({
+      method: "GET",
+      query: { url: encodeURIComponent("https://github.com/a.png") },
+    });
+
+    await handler(req, res);
+
+    expect(res._getStatusCode()).toBe(400);
+    expect(JSON.parse(res._getData()).error).toBe("Blocked target host");
+    expect(fetchWithTimeout).toHaveBeenCalledTimes(1);
+  });
+
+  it("follows a redirect to a safe host and returns the image", async () => {
+    resolve4Spy.mockResolvedValue([PUBLIC_IPV4]);
+    fetchWithTimeout
+      .mockResolvedValueOnce(
+        createRedirectResponse(
+          "https://raw.githubusercontent.com/user/repo/main/b.png",
+        ),
+      )
+      .mockResolvedValueOnce(createImageResponse({ ok: true }));
+    const handler = require("../../pages/api/image-proxy").default;
+    const { req, res } = createMocks({
+      method: "GET",
+      query: { url: encodeURIComponent("https://github.com/a.png") },
+    });
+
+    await handler(req, res);
+
+    expect(res._getStatusCode()).toBe(200);
+    expect(fetchWithTimeout).toHaveBeenCalledTimes(2);
+    expect(fetchWithTimeout).toHaveBeenNthCalledWith(
+      2,
+      "https://raw.githubusercontent.com/user/repo/main/b.png",
+      expect.objectContaining({
+        redirect: "manual",
       }),
       10000,
     );

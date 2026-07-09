@@ -13,6 +13,11 @@ jest.mock("react-markdown", () => {
 jest.mock("rehype-raw", () => ({}));
 jest.mock("remark-gfm", () => ({}));
 
+// MarkdownContent is now loaded via next/dynamic (ssr: false), which does not
+// render synchronously in the test environment. Render children directly so the
+// answer content is available without async resolution.
+jest.mock("next/dynamic", () => () => (props) => props.children || null);
+
 // Using real Radix Accordion and shadcn local components; no HeroUI mocks.
 
 // Mock react-icons
@@ -121,11 +126,13 @@ describe("Chat Component", () => {
     // Open accordion to reveal content
     fireEvent.click(screen.getByText("What is React?"));
 
-    const markdownElement = screen.getByTestId("markdown");
-    expect(markdownElement).toBeInTheDocument();
-    expect(markdownElement).toHaveTextContent(
-      "React is a JavaScript library for building user interfaces.",
-    );
+    // MarkdownContent is dynamically imported; its children (the answer) render
+    // directly in the test environment.
+    expect(
+      screen.getByText(
+        "React is a JavaScript library for building user interfaces.",
+      ),
+    ).toBeInTheDocument();
   });
 
   it("should not render anything when data is null", () => {

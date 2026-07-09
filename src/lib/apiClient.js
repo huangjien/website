@@ -38,111 +38,6 @@ class RateLimitError extends ApiError {
   }
 }
 
-const DEFAULT_HEADERS = {
-  "Content-Type": "application/json",
-};
-
-const DEFAULT_TIMEOUT = 30000;
-
-class ApiClient {
-  constructor(config = {}) {
-    this.baseURL = config.baseURL || "";
-    this.timeout = config.timeout || DEFAULT_TIMEOUT;
-    this.defaultHeaders = { ...DEFAULT_HEADERS, ...config.headers };
-    this.interceptors = {
-      request: [],
-      response: [],
-    };
-  }
-
-  addRequestInterceptor(interceptor) {
-    this.interceptors.request.push(interceptor);
-  }
-
-  addResponseInterceptor(interceptor) {
-    this.interceptors.response.push(interceptor);
-  }
-
-  async request(method, url, options = {}) {
-    const fullUrl = this.baseURL + url;
-    const config = {
-      method,
-      ...options,
-      headers: { ...this.defaultHeaders, ...options.headers },
-    };
-
-    try {
-      for (const interceptor of this.interceptors.request) {
-        await interceptor(config);
-      }
-
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), this.timeout);
-
-      const response = await fetch(fullUrl, {
-        ...config,
-        signal: controller.signal,
-      });
-
-      clearTimeout(timeoutId);
-
-      let data;
-      const contentType = response.headers.get("content-type");
-      if (contentType && contentType.includes("application/json")) {
-        data = await response.json();
-      } else {
-        data = await response.text();
-      }
-
-      for (const interceptor of this.interceptors.response) {
-        await interceptor(response, data);
-      }
-
-      if (!response.ok) {
-        throw new ApiError(
-          data.error || data.message || "Request failed",
-          response.status,
-          data,
-        );
-      }
-
-      return data;
-    } catch (error) {
-      if (error.name === "AbortError") {
-        throw new ApiError("Request timeout", 408);
-      }
-      if (error instanceof ApiError) {
-        throw error;
-      }
-      throw new NetworkError(error.message);
-    }
-  }
-
-  get(url, options) {
-    return this.request("GET", url, options);
-  }
-
-  post(url, data, options) {
-    return this.request("POST", url, {
-      ...options,
-      body: JSON.stringify(data),
-    });
-  }
-
-  put(url, data, options) {
-    return this.request("PUT", url, {
-      ...options,
-      body: JSON.stringify(data),
-    });
-  }
-
-  delete(url, options) {
-    return this.request("DELETE", url, options);
-  }
-}
-
-export const apiClient = new ApiClient();
-
 const toHeaderString = (value) => {
   if (Array.isArray(value)) {
     return `${value[0] || ""}`.trim();
@@ -247,17 +142,6 @@ export const withErrorHandling = (handler) => {
   };
 };
 
-export const withValidation = (schema) => {
-  return (req, res, next) => {
-    const { error, value } = schema.validate(req.body);
-    if (error) {
-      throw new ValidationError(error.details[0].message, error.details);
-    }
-    req.validatedBody = value;
-    next();
-  };
-};
-
 export const withRateLimit = (requests, windowMs) => {
   return (req, res, next) => {
     const ip =
@@ -311,7 +195,6 @@ export const getClientIp = (req) =>
   "unknown";
 
 export {
-  ApiClient,
   ApiError,
   NetworkError,
   ValidationError,

@@ -14,7 +14,8 @@ import {
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "./auth/[...nextauth]";
 import { checkRateLimit } from "../../lib/rateLimit";
-import { recordError, recordRequest } from "../../lib/metrics";
+import { recordRequest } from "../../lib/metrics";
+import { createMutationFailureHandler } from "../../lib/api/mutation-telemetry";
 
 const MAX_TITLE_LENGTH = 200;
 const MAX_BODY_LENGTH = 65536;
@@ -22,6 +23,15 @@ const MAX_LABELS = 20;
 const MAX_LABEL_LENGTH = 50;
 const MAX_ISSUES_PER_HOUR = 10;
 const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000;
+/**
+ * Maximum number of issues for which inline comments are fetched when
+ * `includeComments=1` is requested. This caps the per-issue fan-out to the
+ * GitHub API (one request per issue), which would otherwise be an N+1 query
+ * proportional to the page size. Issues beyond this cap are returned without a
+ * `__comments` field; clients that need comments for them should fetch them
+ * per-issue via a dedicated call.
+ */
+export const MAX_ISSUES_WITH_COMMENTS = 10;
 
 export const config = {
   api: {
@@ -47,20 +57,12 @@ const handler = withErrorHandling(async (req, res) => {
   const includeComments = req.query?.includeComments === "1";
   const mutationRoute = "/api/issues";
   let mutationStartMs = null;
-  const handleMutationFailure = (error, reason) => {
-    const status = error?.status || 500;
-    const durationMs =
-      mutationStartMs === null ? 0 : Math.max(0, Date.now() - mutationStartMs);
-    recordRequest(mutationRoute, "POST", status, durationMs);
-    recordError(mutationRoute, error?.name || "Error");
-    logApiEvent("warn", "issue_post_failure", req, {
-      reason,
-      status,
-      errorName: error?.name || "Error",
-      durationMs,
-    });
-    throw error;
-  };
+  const handleMutationFailure = createMutationFailureHandler({
+    route: mutationRoute,
+    eventName: "issue_post_failure",
+    req,
+    getStartMs: () => mutationStartMs,
+  });
 
   if (!isGet) {
     mutationStartMs = Date.now();
@@ -221,14 +223,21 @@ const handler = withErrorHandling(async (req, res) => {
       return res.status(200).send(data);
     }
 
-    const issuesWithComments = await Promise.all(
-      data.map(async (issue) => {
-        const issueNumber = issue?.number;
-        const commentCount = Number(issue?.comments || 0);
-        if (!issueNumber || commentCount <= 0) {
-          return issue;
-        }
+    // N+1 guard: fetching comments is one GitHub API call per issue. To keep
+    // this bounded we only enrich the first MAX_ISSUES_WITH_COMMENTS issues that
+    // actually have comments. Issues beyond the cap (or with zero comments) are
+    // returned as-is, without a `__comments` field. Clients needing comments for
+    // later issues should request them per-issue via a separate call.
+    const issuesToEnrich = data
+      .slice(0, MAX_ISSUES_WITH_COMMENTS)
+      .filter(
+        (issue) => issue?.number && Number(issue?.comments || 0) > 0,
+      );
 
+    const enrichedByNumber = new Map();
+    await Promise.all(
+      issuesToEnrich.map(async (issue) => {
+        const issueNumber = issue.number;
         const commentsResponse = await fetchWithTimeout(
           `${process.env.GITHUB_REPO}/issues/${issueNumber}/comments`,
           {
@@ -239,19 +248,28 @@ const handler = withErrorHandling(async (req, res) => {
         );
 
         if (!commentsResponse.ok) {
-          return {
-            ...issue,
-            __comments: [],
-          };
+          enrichedByNumber.set(issueNumber, []);
+          return;
         }
 
         const comments = await commentsResponse.json();
-        return {
-          ...issue,
-          __comments: Array.isArray(comments) ? comments : [],
-        };
+        enrichedByNumber.set(
+          issueNumber,
+          Array.isArray(comments) ? comments : [],
+        );
       }),
     );
+
+    const issuesWithComments = data.map((issue) => {
+      const issueNumber = issue?.number;
+      if (!enrichedByNumber.has(issueNumber)) {
+        return issue;
+      }
+      return {
+        ...issue,
+        __comments: enrichedByNumber.get(issueNumber),
+      };
+    });
 
     return res.status(200).send(issuesWithComments);
   } catch (error) {

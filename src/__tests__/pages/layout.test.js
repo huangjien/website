@@ -1,8 +1,6 @@
-import React from "react";
 import {
   render,
   screen,
-  fireEvent,
   waitFor,
   act,
 } from "@testing-library/react";
@@ -96,7 +94,7 @@ describe("Layout Component", () => {
 
     expect(screen.getByTestId("navigation-bar")).toBeInTheDocument();
     expect(screen.getByTestId("children")).toBeInTheDocument();
-    expect(screen.getByRole("contentinfo")).toHaveTextContent("layout.version");
+    expect(screen.getByRole("contentinfo")).toHaveTextContent("Version");
     expect(screen.getByRole("contentinfo")).toHaveTextContent("1.0.0");
   });
 
@@ -197,6 +195,7 @@ describe("Layout Component", () => {
     expect(mockAddEventListener).toHaveBeenCalledWith(
       "scroll",
       expect.any(Function),
+      expect.objectContaining({ passive: true }),
     );
   });
 
@@ -217,7 +216,7 @@ describe("Layout Component", () => {
     const main = screen.getByRole("main");
     expect(main).toBeInTheDocument();
     const mainContainer = screen.getByRole("main").parentElement;
-    expect(mainContainer).toHaveClass("flex-1", "p-4");
+    expect(mainContainer).toHaveClass("flex-1", "container-prose", "py-6");
     expect(main).toContainElement(screen.getByTestId("children"));
   });
 
@@ -227,12 +226,13 @@ describe("Layout Component", () => {
     const footer = screen.getByRole("contentinfo");
     expect(footer).toBeInTheDocument();
     expect(footer).toHaveClass(
-      "text-center",
-      "p-4",
+      "border-t",
+      "mt-8",
+      "py-10",
       "text-sm",
-      "text-gray-500",
+      "text-muted-foreground",
     );
-    expect(footer).toHaveTextContent("layout.version");
+    expect(footer).toHaveTextContent("Version");
     expect(footer).toHaveTextContent("1.0.0");
   });
 
@@ -261,13 +261,13 @@ describe("Layout Component", () => {
       "bottom-8",
       "right-8",
       "z-50",
-      "shadow-glass-glow",
       "rounded-full",
     );
+    expect(button.className).toContain("shadow-[0_8px_24px_-8px_hsl(var(--primary)/0.5)]");
   });
 
   it("should handle scroll events correctly", async () => {
-    const { rerender } = render(<Layout>{mockChildren}</Layout>);
+    render(<Layout>{mockChildren}</Layout>);
 
     // Initially at top - button should not be visible
     Object.defineProperty(window, "scrollY", {
@@ -314,7 +314,7 @@ describe("Layout Component", () => {
     expect(layoutDiv).toHaveClass("min-h-screen", "flex", "flex-col");
   });
 
-  it("should handle multiple scroll events", () => {
+  it("should handle multiple scroll events", async () => {
     render(<Layout>{mockChildren}</Layout>);
 
     const scrollHandler = mockAddEventListener.mock.calls.find(
@@ -323,18 +323,25 @@ describe("Layout Component", () => {
 
     // Simulate multiple scroll events
     Object.defineProperty(window, "scrollY", { value: 100, writable: true });
-    scrollHandler?.();
+    await act(async () => {
+      scrollHandler?.();
+    });
 
     Object.defineProperty(window, "scrollY", { value: 200, writable: true });
-    scrollHandler?.();
+    await act(async () => {
+      scrollHandler?.();
+    });
 
     Object.defineProperty(window, "scrollY", { value: 50, writable: true });
-    scrollHandler?.();
+    await act(async () => {
+      scrollHandler?.();
+    });
 
     // Should handle all events without errors
     expect(mockAddEventListener).toHaveBeenCalledWith(
       "scroll",
       expect.any(Function),
+      expect.objectContaining({ passive: true }),
     );
   });
 

@@ -11,6 +11,9 @@ import { Joke } from "./Joke";
 import { IssueModal } from "./IssueModal";
 import EmptyState from "./EmptyState";
 
+const MemoizedIssue = React.memo(Issue);
+const MemoizedChat = React.memo(Chat);
+
 /**
  * Renders a list component that displays a list of issues or chats.
  * Provides functionality for searching, filtering, pagination, and text-to-speech.
@@ -43,21 +46,41 @@ export const IssueList = ({ tags, ComponentName, data, inTab = "ai" }) => {
     }
   }, []);
 
+  const handleText2Speech = useCallback(
+    async (text) => {
+      const res = await fetch(
+        `/api/tts?&&languageCode=${languageCode}&&name=${speakerName}&&text=${encodeURIComponent(
+          text.replaceAll("\n", ""),
+        )}`,
+      );
+      const blob = await res.blob();
+      const audioUrl = URL.createObjectURL(blob);
+      setAudioSrc(audioUrl);
+    },
+    [languageCode, speakerName],
+  );
+
   const readText = useCallback(
     (text) => {
       setOpen(true);
       handleText2Speech(text);
     },
-    [setOpen],
+    [handleText2Speech],
   );
 
   const renderCell = useCallback(
     (itemData, columnKey) => {
       switch (columnKey) {
         case "Issue":
-          return <Issue issue={itemData} />;
+          return <MemoizedIssue issue={itemData} />;
         case "Chat":
-          return <Chat player={readText} name={itemData.id} data={itemData} />;
+          return (
+            <MemoizedChat
+              player={readText}
+              name={itemData.id}
+              data={itemData}
+            />
+          );
         default:
           return <pre>{JSON.stringify(itemData)}</pre>;
       }
@@ -123,17 +146,6 @@ export const IssueList = ({ tags, ComponentName, data, inTab = "ai" }) => {
     if (!filterItems) return [];
     return filterItems.slice(start, end);
   }, [page, filterItems, rowsPerPage]);
-
-  const handleText2Speech = async (text) => {
-    const res = await fetch(
-      `/api/tts?&&languageCode=${languageCode}&&name=${speakerName}&&text=${encodeURIComponent(
-        text.replaceAll("\n", ""),
-      )}`,
-    );
-    const blob = await res.blob();
-    const audioUrl = URL.createObjectURL(blob);
-    setAudioSrc(audioUrl);
-  };
 
   return (
     <div>

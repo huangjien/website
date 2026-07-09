@@ -109,6 +109,25 @@ global.ResizeObserver = class ResizeObserver {
   }
 };
 
+// Mock window.getComputedStyle
+Object.defineProperty(window, "getComputedStyle", {
+  value: () => ({
+    getPropertyValue: () => "",
+  }),
+});
+
+// Mock HTMLElement.prototype.scrollIntoView
+HTMLElement.prototype.scrollIntoView = jest.fn();
+
+// Mock document.elementFromPoint
+document.elementFromPoint = jest.fn();
+
+// Mock createPortal for modals
+jest.mock("react-dom", () => ({
+  ...jest.requireActual("react-dom"),
+  createPortal: (node) => node,
+}));
+
 // Suppress console warnings during tests
 const originalError = console.error;
 beforeAll(() => {

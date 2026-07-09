@@ -5,11 +5,11 @@ WORKDIR /app
 COPY package.json ./
 COPY pnpm-lock.yaml ./
 ENV HUSKY=0
-RUN npm install -g pnpm@10.33.0 \
+RUN npm install -g pnpm@11.9.0 \
   && pnpm install --frozen-lockfile --ignore-scripts
 
 FROM node:25-alpine AS builder
-RUN npm install -g pnpm@10.33.0
+RUN npm install -g pnpm@11.9.0
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
@@ -31,5 +31,9 @@ COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 
 EXPOSE 8080
+
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 CMD node -e "fetch('http://localhost:8080/api/health').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"
+
+USER node
 
 CMD ["node", "server.js"]

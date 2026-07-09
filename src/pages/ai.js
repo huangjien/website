@@ -13,13 +13,13 @@ import { toast } from "react-toastify";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
 import { BiExpand, BiCollapse } from "react-icons/bi";
+import dynamic from "next/dynamic";
 
 import {
   Conversation,
   ConversationContent,
 } from "../components/ai-elements/conversation";
 import { Message, MessageContent } from "../components/ai-elements/message";
-import Response from "../components/ai-elements/response";
 import PromptInput from "../components/ai-elements/prompt-input";
 import SettingsPanel from "../components/ai-elements/settings-panel";
 import TTSButton from "../components/ai-elements/tts-button";
@@ -29,6 +29,11 @@ import {
   getCuratedAiModels,
   isAllowedAiModel,
 } from "../config/ai-models";
+
+// react-markdown + rehype-highlight are heavy; load Response client-side only.
+const Response = dynamic(() => import("../components/ai-elements/response"), {
+  ssr: false,
+});
 
 // Helpers to serialize/hydrate UI messages for localStorage
 function uiMessageText(message) {
@@ -96,6 +101,7 @@ export default function AI() {
   const [showSettings, setShowSettings] = useState(false);
   const [isInputCollapsed, setIsInputCollapsed] = useState(false);
   const settingsPanelRef = useRef(null);
+  const hasMigratedLegacyRef = useRef(false);
 
   // Scroll anchor to keep recent info visible
   const bottomRef = useRef(null);
@@ -103,6 +109,11 @@ export default function AI() {
 
   // Migrate legacy keys to ai:* per spec
   useEffect(() => {
+    if (hasMigratedLegacyRef.current) {
+      return;
+    }
+    hasMigratedLegacyRef.current = true;
+
     try {
       // Migrate from ai-elements/conversations (previous iteration)
       const legacyConvs = JSON.parse(
@@ -163,7 +174,7 @@ export default function AI() {
     localStorage.removeItem("ai-temperature");
     localStorage.removeItem("ai-elements/conversations");
     localStorage.removeItem("ai-elements/settings");
-  }, []);
+  }, [savedMessages?.length, setSavedMessages]);
 
   useEffect(() => {
     const fetchModelOptions = async () => {
