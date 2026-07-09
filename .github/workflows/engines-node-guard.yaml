@@ -1,0 +1,60 @@
+name: Engines Node Guard
+
+# Fail the build if package.json's engines.node drops below a sane LTS floor.
+# Bumps the floor are allowed freely; downgrades below the floor are blocked.
+# Runs on any PR or push that touches package.json or this workflow.
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "package.json"
+      - ".github/workflows/engines-node-guard.yaml"
+  push:
+    branches: [main]
+    paths:
+      - "package.json"
+
+permissions:
+  contents: read
+
+jobs:
+  guard:
+    name: Enforce engines.node floor
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Read engines.node from package.json
+        id: read
+        shell: bash
+        run: |
+          set -euo pipefail
+          node -e '
+            const pkg = require("./package.json");
+            const raw = (pkg.engines && pkg.engines.node) || "";
+            if (!raw) { console.error("::error::engines.node is missing from package.json"); process.exit(2); }
+            // Match the leading numeric floor: ">=20.19.0" -> 20, "^22.13.0" -> 22, ">24" -> 24
+            const m = raw.match(/(?:>=|\^|>)?\s*(\d+)(?:\.\d+)*/);
+            if (!m) { console.error("::error::Could not parse engines.node: " + raw); process.exit(2); }
+            console.log("floor=" + m[1]);
+            console.log("raw=" + JSON.stringify(raw));
+          ' >> "$GITHUB_OUTPUT"
+
+      - name: Reject engines.node below 20
+        if: steps.read.outputs.floor < 20
+        shell: bash
+        run: |
+          cat <<EOF
+          ::error::engines.node "${{ steps.read.outputs.raw }}" is below the supported LTS floor (>=20).
+          Node 20 entered maintenance on 2025-10-01 and is the lowest supported runtime.
+          Bump engines.node to ">=20.19.0" (or higher) and re-run.
+          EOF
+          exit 1
+
+      - name: Pass
+        if: steps.read.outputs.floor >= 20
+        shell: bash
+        run: |
+          echo "engines.node=${{ steps.read.outputs.raw }} (floor major=${{ steps.read.outputs.floor }}) — OK"

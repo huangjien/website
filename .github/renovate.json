@@ -1,0 +1,112 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended", "helpers:pinGitHubActionDigests"],
+
+  "timezone": "UTC",
+  "schedule": ["before 6am on monday"],
+  "prConcurrentLimit": 5,
+  "rebaseWhen": "behind-base-branch",
+
+  "repositoryIssues": {
+    "enabled": true,
+    "labels": ["renovate", "bot-failure"],
+    "assignees": ["huangjien"]
+  },
+
+  "packageRules": [
+    {
+      "description": "Dev container image: weekly patch/minor, manual major",
+      "matchDatasources": ["docker"],
+      "matchFileNames": [".devcontainer/devcontainer.json", ".devcontainer/Dockerfile"],
+      "matchPackageNames": ["mcr.microsoft.com/devcontainers/javascript-node"],
+      "schedule": ["before 6am on monday"],
+      "groupName": "devcontainer base image",
+      "automerge": false
+    },
+    {
+      "description": "Dev container features: pin major, weekly minor/patch",
+      "matchDatasources": ["github-tags"],
+      "matchFileNames": [".devcontainer/devcontainer.json"],
+      "matchPackageNames": [
+        "devcontainers/features/docker-in-docker",
+        "devcontainers-extra/features/curl-apt-get",
+        "devcontainers-extra/features/zsh-plugins"
+      ],
+      "pinDigests": false,
+      "groupName": "devcontainer features"
+    },
+    {
+      "description": "Production npm deps: weekly, semver-minor auto-merge after CI",
+      "matchDatasources": ["npm"],
+      "matchDepTypes": ["dependencies"],
+      "schedule": ["before 6am on monday"],
+      "rangeStrategy": "bump",
+      "groupName": "production deps (minor + patch)"
+    },
+    {
+      "description": "Dev/transitive npm deps: weekly, lockfile-only",
+      "matchDatasources": ["npm"],
+      "matchDepTypes": ["devDependencies"],
+      "schedule": ["before 6am on monday"],
+      "rangeStrategy": "bump",
+      "groupName": "dev deps (minor + patch)"
+    },
+    {
+      "description": "pnpm lockfile maintenance — separate, weekly",
+      "matchManagers": ["npm"],
+      "matchUpdateTypes": ["lockFileMaintenance"],
+      "groupName": "pnpm lockfile maintenance",
+      "schedule": ["before 6am on monday"]
+    },
+    {
+      "description": "GitHub Actions: pin digests, weekly",
+      "matchManagers": ["github-actions"],
+      "pinDigests": true,
+      "schedule": ["before 6am on monday"],
+      "groupName": "github-actions"
+    },
+    {
+      "description": "Major version updates: separate, manual, weekly",
+      "matchDepTypes": ["dependencies", "devDependencies"],
+      "matchUpdateTypes": ["major", "minor"],
+      "automerge": false,
+      "labels": ["breaking-change"],
+      "groupName": null
+    }
+  ],
+
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "schedule": ["at any time"],
+    "labels": ["security"]
+  },
+
+  "osvVulnerabilityAlerts": true,
+
+  "labels": ["dependencies"],
+
+  "ignorePaths": [
+    "coverage/**",
+    "**/node_modules/**",
+    "docs/plans/**"
+  ],
+
+  "notifications": [
+    {
+      "description": "Notify webhook on general PR/branch events.",
+      "matchPaths": ["**/*"],
+      "webhook": "{{ secrets.RENOVATE_WEBHOOK_URL }}",
+      "enabled": true
+    },
+    {
+      "description": "Notify webhook on OSV vulnerability alerts (higher priority).",
+      "vulnerabilityAlerts": true,
+      "webhook": "{{ secrets.RENOVATE_WEBHOOK_URL }}",
+      "enabled": true
+    }
+  ],
+
+  "webhookTemplate": {
+    "text": "Renovate: **{{branchName}}** — {{prTitle}} ({{prState}})\nRepo: {{repository}}{{#if errors}}\nErrors:\n{{#each errors}}{{this}}\n{{/each}}{{/if}}"
+  }
+}

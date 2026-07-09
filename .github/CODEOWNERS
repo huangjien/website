@@ -1,0 +1,24 @@
+# CODEOWNERS — auto-assigns reviewers for Renovate and other dependency PRs.
+# Format: <pattern> <owner1> <owner2> ...
+# Order matters: the LAST matching rule wins. Keep dependency files near the top
+# so they don't inherit more general rules.
+
+# --- Dependency manifests --------------------------------------------------
+/package.json              @huangjien
+/pnpm-lock.yaml            @huangjien
+/yarn.lock                 @huangjien
+/package-lock.json         @huangjien
+
+# --- Renovate config -------------------------------------------------------
+/.github/renovate.json     @huangjien
+
+# --- Dev container (pinned to exact tags) ----------------------------------
+/.devcontainer/            @huangjien
+
+# --- CI / CD workflows ------------------------------------------------------
+/.github/workflows/        @huangjien
+/.github/actions/          @huangjien
+
+# --- Default owner for everything else --------------------------------------
+# Fallback so every PR has a reviewer.
+/                                @huangjien

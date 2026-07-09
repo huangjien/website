@@ -1,5 +1,5 @@
-# [Choice] Debian OS version (use bullseye on local arm64/Apple Silicon): bookworm, buster, bullseye
-ARG VARIANT="20-bullseye"
+# [Choice] Debian OS version: bookworm, bullseye, trixie
+ARG VARIANT="4.0.9-22-bookworm"
 # FROM --platform=linux/amd64 mcr.microsoft.com/devcontainers/base:${VARIANT}
 FROM mcr.microsoft.com/devcontainers/javascript-node:${VARIANT}
 

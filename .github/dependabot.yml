@@ -1,0 +1,84 @@
+# Dependabot configuration — fallback for when Renovate is disabled/uninstalled.
+# Mirrors the cadence and grouping in .github/renovate.json so behaviour is
+# consistent regardless of which bot is active.
+#
+# Docs: https://docs.github.com/en/code-security/dependabot/dependabot-version-updates
+
+version: 2
+
+# Reuse the same weekly schedule as Renovate.
+# At most 5 open PRs at any time, to avoid CI noise.
+
+updates:
+  # ---------------------------------------------------------------------------
+  # npm (pnpm-managed). Uses npm ecosystem + ignores pnpm to avoid double updates
+  # from pnpm's own advisory feed.
+  # ---------------------------------------------------------------------------
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "UTC"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+    groups:
+      # Group minor+patch production deps into one PR to reduce noise.
+      production-minor-and-patch:
+        dependency-type: "production"
+        update-types:
+          - "minor"
+          - "patch"
+      # Group dev deps similarly.
+      dev-minor-and-patch:
+        dependency-type: "development"
+        update-types:
+          - "minor"
+          - "patch"
+      # Major production updates get their own PR (one per dep) with the
+      # top-level `dependencies` label — easier to review and revert.
+      majors:
+        dependency-type: "production"
+        update-types:
+          - "major"
+    # Skip pnpm itself — Renovate handles tooling separately.
+    ignore:
+      - dependency-name: "pnpm"
+
+  # ---------------------------------------------------------------------------
+  # GitHub Actions — digest-pinned when possible.
+  # Note: Dependabot's github-actions ecosystem does NOT support `groups`;
+  # each action update produces its own PR.
+  # ---------------------------------------------------------------------------
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "UTC"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "github-actions"
+
+  # ---------------------------------------------------------------------------
+  # Docker — covers the devcontainer base image and any other FROM mcr... lines.
+  # ---------------------------------------------------------------------------
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "UTC"
+    open-pull-requests-limit: 3
+    labels:
+      - "dependencies"
+      - "docker"
+    groups:
+      docker-base:
+        patterns:
+          - "mcr.microsoft.com/devcontainers/*"

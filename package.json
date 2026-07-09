@@ -1,6 +1,6 @@
 {
   "name": "website",
-  "version": "2.0.35",
+  "version": "2.0.36",
   "description": "A modern, responsive blog website template built with Next.js, React, and Tailwind CSS",
   "author": {
     "name": "Jien Huang",
@@ -28,7 +28,7 @@
   },
   "packageManager": "pnpm@11.10.0",
   "engines": {
-    "node": ">=18.0.0",
+    "node": ">=20.19.0",
     "npm": ">=8.0.0",
     "yarn": ">=1.22.0"
   },

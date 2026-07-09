@@ -7,6 +7,10 @@
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=flat-square&logo=typescript)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38BDF8?style=flat-square&logo=tailwind-css)
 
+[![Renovate](https://img.shields.io/badge/Renovate-enabled-brightgreen?style=flat-square&logo=renovatebot)](https://renovatebot.com)
+[![Dependabot](https://img.shields.io/badge/Dependabot-enabled-025E8C?style=flat-square&logo=dependabot)](https://github.com/dependabot)
+![Node >=20.19](https://img.shields.io/badge/node-%3E%3D20.19-339933?style=flat-square&logo=node.js)
+
 A production-ready personal website featuring multilingual support, authentication, dark mode, and AI-powered capabilities. Deployed on Google Cloud Run.
 
 ## 🚀 Features
@@ -127,6 +131,37 @@ Reliability simulation check:
 ```bash
 ./scripts/phase32-verify.sh
 ```
+
+## 🤖 Dependency Automation
+
+This repo runs **two** dependency bots in parallel so updates keep flowing even if one is disabled:
+
+| Bot | Scope | Config |
+| --- | --- | --- |
+| **Renovate** (primary) | npm (pnpm), devcontainer images/features, GitHub Actions, OSV advisories | [`.github/renovate.json`](.github/renovate.json) |
+| **Dependabot** (fallback) | Same scope, narrower grouping | [`.github/dependabot.yml`](.github/dependabot.yml) |
+
+Schedule: weekly on Mondays, 06:00 UTC. PRs auto-request review from `@huangjien` via [`CODEOWNERS`](.github/CODEOWNERS).
+
+### Auto-issue on Renovate failure
+
+If Renovate itself fails (rate limit, bad config, repo-access error, etc.), it auto-opens a GitHub issue labeled `renovate` + `bot-failure`, assigned to `@huangjien`. The issue auto-closes on the next successful run, so this only surfaces during actual outages. Configured under `repositoryIssues` in `renovate.json`.
+
+### Bot-silence detector (catches the "quietly died" case)
+
+[`.github/workflows/bot-silence-detector.yaml`](.github/workflows/bot-silence-detector.yaml) runs every **Monday at 12:00 UTC** (6 h after Renovate's scheduled run). If neither Renovate nor Dependabot has opened or updated a PR in the last 7 days, it auto-opens a `bot-silence` issue assigned to `@huangjien`. The issue auto-closes once bot activity resumes, so it only fires during actual outages.
+
+> Why an Issue and not an auto-PR? "The bot is silent" isn't a code change — an auto-PR would be empty content with a misleading diff. An Issue is the right primitive.
+
+### Renovate notifications (Slack / Discord)
+
+Renovate POSTs a JSON payload to a webhook on every PR opened/merged/closed and on errors. Setup instructions for Slack, Discord, MS Teams, and generic webhooks: [`.github/renovate-notifications.md`](.github/renovate-notifications.md).
+
+The webhook URL is read from the `RENOVATE_WEBHOOK_URL` GitHub secret, so the endpoint never lands in the repo.
+
+### Manual guard: `engines.node` floor
+
+A separate CI workflow ([`.github/workflows/engines-node-guard.yaml`](.github/workflows/engines-node-guard.yaml)) blocks any PR that lowers `engines.node` below Node 20. The current floor is `>=20.19.0`.
 
 ## 📝 License
 

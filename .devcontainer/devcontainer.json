@@ -2,23 +2,23 @@
 // README at: https://github.com/devcontainers/templates/tree/main/src/javascript-node
 {
   "name": "website",
-  "image": "mcr.microsoft.com/devcontainers/javascript-node:20-bullseye",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:4.0.9-22-bookworm",
 
   // Features to add to the dev container. More info: https://containers.dev/features.
   "features": {
     // "ghcr.io/devcontainers/features/node:1": {},
-    "ghcr.io/devcontainers/features/docker-in-docker:2": {},
-    "ghcr.io/devcontainers-contrib/features/curl-apt-get:1": {},
-    "ghcr.io/devcontainers-contrib/features/zsh-plugins:0": {}
+    "ghcr.io/devcontainers/features/docker-in-docker:4.0.0": {},
+    "ghcr.io/devcontainers-extra/features/curl-apt-get:1.0.18": {},
+    "ghcr.io/devcontainers-extra/features/zsh-plugins:0.0.5": {}
   },
 
   "overrideFeatureInstallOrder": [
     "ghcr.io/devcontainers/features/common-utils",
     "ghcr.io/devcontainers/features/git",
     "ghcr.io/devcontainers/features/github-cli:1",
-    "ghcr.io/devcontainers-contrib/features/curl-apt-get:1",
-    "ghcr.io/devcontainers-contrib/features/zsh-plugins",
-    "ghcr.io/devcontainers/features/docker-in-docker"
+    "ghcr.io/devcontainers-extra/features/curl-apt-get:1.0.18",
+    "ghcr.io/devcontainers-extra/features/zsh-plugins:0.0.5",
+    "ghcr.io/devcontainers/features/docker-in-docker:4.0.0"
     //"ghcr.io/jungaretti/features/make:1"
   ],
 
