@@ -92,7 +92,7 @@ jobs:
         run: gcloud info
 
       - name: Login to docker.io
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           registry: docker.io
           username: ${{ github.repository_owner }}
