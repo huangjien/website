@@ -228,7 +228,7 @@ describe("Layout Component", () => {
     expect(footer).toHaveClass(
       "border-t",
       "mt-8",
-      "py-10",
+      "py-6",
       "text-sm",
       "text-muted-foreground",
     );
