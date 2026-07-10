@@ -230,9 +230,7 @@ const handler = withErrorHandling(async (req, res) => {
     // later issues should request them per-issue via a separate call.
     const issuesToEnrich = data
       .slice(0, MAX_ISSUES_WITH_COMMENTS)
-      .filter(
-        (issue) => issue?.number && Number(issue?.comments || 0) > 0,
-      );
+      .filter((issue) => issue?.number && Number(issue?.comments || 0) > 0);
 
     const enrichedByNumber = new Map();
     await Promise.all(

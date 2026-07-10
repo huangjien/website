@@ -1,10 +1,7 @@
 // Jest configuration without next/jest to avoid SWC binding issues on some platforms.
 module.exports = {
   setupFiles: ["<rootDir>/jest.env.setup.js"],
-  setupFilesAfterEnv: [
-    "<rootDir>/jest.setup.js",
-    "<rootDir>/test-setup.js",
-  ],
+  setupFilesAfterEnv: ["<rootDir>/jest.setup.js", "<rootDir>/test-setup.js"],
   testEnvironment: "jsdom",
   testPathIgnorePatterns: ["<rootDir>/.next/", "<rootDir>/node_modules/"],
   collectCoverageFrom: [

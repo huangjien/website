@@ -136,10 +136,10 @@ Reliability simulation check:
 
 This repo runs **two** dependency bots in parallel so updates keep flowing even if one is disabled:
 
-| Bot | Scope | Config |
-| --- | --- | --- |
-| **Renovate** (primary) | npm (pnpm), devcontainer images/features, GitHub Actions, OSV advisories | [`.github/renovate.json`](.github/renovate.json) |
-| **Dependabot** (fallback) | Same scope, narrower grouping | [`.github/dependabot.yml`](.github/dependabot.yml) |
+| Bot                       | Scope                                                                    | Config                                             |
+| ------------------------- | ------------------------------------------------------------------------ | -------------------------------------------------- |
+| **Renovate** (primary)    | npm (pnpm), devcontainer images/features, GitHub Actions, OSV advisories | [`.github/renovate.json`](.github/renovate.json)   |
+| **Dependabot** (fallback) | Same scope, narrower grouping                                            | [`.github/dependabot.yml`](.github/dependabot.yml) |
 
 Schedule: weekly on Mondays, 06:00 UTC. PRs auto-request review from `@huangjien` via [`CODEOWNERS`](.github/CODEOWNERS).
 

@@ -7,12 +7,12 @@
 
 **Overall: 21 of 23 findings executed.** Test suite: 1078 passed, 15 pre-existing failures (styling/layout tests unrelated to this work).
 
-| Severity | Found | Executed | Notes |
-|----------|-------|----------|-------|
-| Blocker  | 2     | 2        | Both fixed |
+| Severity | Found | Executed | Notes                                                           |
+| -------- | ----- | -------- | --------------------------------------------------------------- |
+| Blocker  | 2     | 2        | Both fixed                                                      |
 | High     | 6     | 6        | H1 required decoupling first; H2/H3 scoped to dead code removal |
-| Medium   | 8     | 8        | All complete |
-| Low      | 7     | 5        | L4 (auth route test), L5 (MarkdownContent test) deferred |
+| Medium   | 8     | 8        | All complete                                                    |
+| Low      | 7     | 5        | L4 (auth route test), L5 (MarkdownContent test) deferred        |
 
 ---
 
@@ -225,6 +225,6 @@
 
 ---
 
-*Generated: 2026-07-04*
-*Executed: 2026-07-04*
-*Audit method: Architecture review + test coverage analysis + performance/security scan*
+_Generated: 2026-07-04_
+_Executed: 2026-07-04_
+_Audit method: Architecture review + test coverage analysis + performance/security scan_

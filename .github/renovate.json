@@ -17,7 +17,10 @@
     {
       "description": "Dev container image: weekly patch/minor, manual major",
       "matchDatasources": ["docker"],
-      "matchFileNames": [".devcontainer/devcontainer.json", ".devcontainer/Dockerfile"],
+      "matchFileNames": [
+        ".devcontainer/devcontainer.json",
+        ".devcontainer/Dockerfile"
+      ],
       "matchPackageNames": ["mcr.microsoft.com/devcontainers/javascript-node"],
       "schedule": ["before 6am on monday"],
       "groupName": "devcontainer base image",
@@ -85,11 +88,7 @@
 
   "labels": ["dependencies"],
 
-  "ignorePaths": [
-    "coverage/**",
-    "**/node_modules/**",
-    "docs/plans/**"
-  ],
+  "ignorePaths": ["coverage/**", "**/node_modules/**", "docs/plans/**"],
 
   "notifications": [
     {
