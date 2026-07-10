@@ -1,9 +1,8 @@
-import React from "react";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { NavigationBar } from "../NavigationBar";
 import { useSession } from "next-auth/react";
-import { useTranslation } from "react-i18next";
+// useTranslation is auto-mocked via jest.mock below
 
 // Stub CSS imports used by react-toastify
 jest.mock("react-toastify/dist/ReactToastify.css", () => ({}), {

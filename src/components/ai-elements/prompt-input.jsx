@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { BiStop, BiSend, BiCog, BiXCircle, BiMicrophone } from "react-icons/bi";
 import { useAudioRecording } from "../../hooks/useAudioRecording";

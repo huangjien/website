@@ -1,8 +1,7 @@
-import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { Joke } from "../Joke";
 import { useRequest } from "ahooks";
-import { useTranslation } from "react-i18next";
+// useTranslation is auto-mocked via jest.mock below
 
 // Mock react-i18next
 jest.mock("react-i18next", () => ({
@@ -133,7 +132,7 @@ describe("Joke Component", () => {
 
   it("should call the correct API endpoint", async () => {
     let fetchFunction;
-    mockUseRequest.mockImplementation((fn, options) => {
+    mockUseRequest.mockImplementation((fn, _options) => {
       fetchFunction = fn;
       return {
         data: null,
@@ -158,7 +157,7 @@ describe("Joke Component", () => {
 
   it("should handle API response correctly", async () => {
     let fetchFunction;
-    mockUseRequest.mockImplementation((fn, options) => {
+    mockUseRequest.mockImplementation((fn, _options) => {
       fetchFunction = fn;
       return {
         data: null,
@@ -182,7 +181,7 @@ describe("Joke Component", () => {
 
   it("should handle API error correctly", async () => {
     let fetchFunction;
-    mockUseRequest.mockImplementation((fn, options) => {
+    mockUseRequest.mockImplementation((fn, _options) => {
       fetchFunction = fn;
       return {
         data: null,

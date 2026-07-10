@@ -1,5 +1,4 @@
-import React from "react";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import AI from "../../pages/ai";
 
@@ -11,7 +10,7 @@ jest.mock("react-i18next", () => ({
 // Mock ahooks
 jest.mock("ahooks", () => ({
   useTitle: jest.fn(),
-  useLocalStorageState: jest.fn().mockImplementation((key, opts) => {
+  useLocalStorageState: jest.fn().mockImplementation((key, _opts) => {
     if (key === "ai:settings") {
       return [
         {
@@ -131,7 +130,6 @@ jest.mock("../../components/ai-elements/settings-panel", () => ({
 }));
 
 jest.mock("../../components/ai-elements/prompt-input", () => {
-  const React = require("react");
   return {
     __esModule: true,
     default: ({ value, onChange, onSubmit, onStop, onToggleSettings }) => (
@@ -165,7 +163,7 @@ describe("AI Page additional coverage", () => {
 
   it("renders assistant message with Response, Copy and TTS buttons", () => {
     const { useChat } = require("@ai-sdk/react");
-    useChat.mockImplementation((options) => ({
+    useChat.mockImplementation((_options) => ({
       id: "ai-page",
       messages: [
         { id: "1", role: "user", parts: [{ type: "text", text: "Hi" }] },

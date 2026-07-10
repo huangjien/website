@@ -1,4 +1,3 @@
-import React from "react";
 import { useTranslation } from "react-i18next";
 import { BiX } from "react-icons/bi";
 import { getCuratedAiModels } from "../../config/ai-models";

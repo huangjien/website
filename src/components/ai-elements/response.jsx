@@ -1,4 +1,3 @@
-import React from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
@@ -15,8 +14,8 @@ export function Response({ children }) {
         rehypePlugins={[rehypeRaw, rehypeHighlight]}
         components={{
           // Custom code block component to handle overflow
-          code({ node, inline, className, children, ...props }) {
-            const match = /language-(\w+)/.exec(className || "");
+          code({ node: _node, inline, className, children, ...props }) {
+            const _match = /language-(\w+)/.exec(className || "");
             return !inline ? (
               <code className={className} {...props}>
                 {children}

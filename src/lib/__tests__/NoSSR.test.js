@@ -1,13 +1,11 @@
 import { render, screen } from "@testing-library/react";
-import NoSSR from "../NoSSR";
 import React from "react";
 
 // Mock React's useState to control the initial state
 const mockSetState = jest.fn();
-const originalCreateElement = React.createElement;
 
 // Create a mock component for testing
-const MockedNoSSR = ({ children, onSSR }) => {
+const MockedNoSSR = ({ children: _children, onSSR }) => {
   // Simulate server-side rendering (canRender: false)
   if (onSSR) {
     return onSSR;

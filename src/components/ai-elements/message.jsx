@@ -1,5 +1,3 @@
-import React from "react";
-
 // Message: container for user/assistant messages.
 // User → right-aligned, solid primary bubble. Assistant → left-aligned, surface bubble.
 export function Message({ role = "assistant", children, className = "" }) {

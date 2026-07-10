@@ -61,7 +61,7 @@ export const validateUrl = (url) => {
       return { valid: false, error: "URL must use HTTP or HTTPS protocol" };
     }
     return { valid: true, url: parsed.href };
-  } catch (error) {
+  } catch {
     return { valid: false, error: "Invalid URL format" };
   }
 };

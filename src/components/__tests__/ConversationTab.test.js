@@ -1,4 +1,3 @@
-import React from "react";
 import {
   render,
   screen,
@@ -9,7 +8,7 @@ import {
 } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import ConversationTab from "../ConversationTab";
-import { useTranslation } from "react-i18next";
+// useTranslation is auto-mocked via jest.mock below
 import { useAudioRecording } from "../../hooks/useAudioRecording";
 import { warn } from "../Notification";
 

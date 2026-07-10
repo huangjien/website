@@ -1,8 +1,5 @@
-import React from "react";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import { Issue } from "../Issue";
-import { useSettings } from "../../lib/useSettings";
-import { extractContentAccordingContentList } from "../../lib/useGithubContent";
 import userEvent from "@testing-library/user-event";
 
 // Mock useSettings hook

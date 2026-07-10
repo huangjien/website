@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useCallback, useMemo, useEffect } from "react";
+import { useState, useCallback, useMemo, useEffect } from "react";
 import { useSettings } from "../lib/useSettings";
 import { useTranslation } from "react-i18next";
 import { useTitle, useDebounceEffect } from "ahooks";

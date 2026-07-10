@@ -78,7 +78,7 @@ const handler = withErrorHandling(async (req, res) => {
 
 export default handler;
 
-function resolveVoice(nameOrVoice, languageCode) {
+function resolveVoice(nameOrVoice, _languageCode) {
   const v = (nameOrVoice || "").toLowerCase();
   // If a compatible OpenAI voice is provided, use it; otherwise default.
   // Keeping simple mapping to ensure compatibility without breaking clients.

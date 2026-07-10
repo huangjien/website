@@ -1,4 +1,3 @@
-import React from "react";
 import { tv } from "tailwind-variants";
 import { cn } from "../../lib/cn";
 import LoadingSpinner from "./loading-spinner";

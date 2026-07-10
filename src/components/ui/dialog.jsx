@@ -1,6 +1,6 @@
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { cn } from "../../lib/cn";
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 export function Dialog({ open, onOpenChange, children }) {
   const previousActiveElement = useRef(null);

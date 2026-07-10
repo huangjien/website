@@ -1,5 +1,4 @@
-import React from "react";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import AI from "../../pages/ai";
 import { useTitle, useLocalStorageState, useDebounceEffect } from "ahooks";
@@ -145,7 +144,7 @@ jest.mock("../../components/ai-elements/settings-panel", () => {
 });
 
 // Utilities
-const flushPromises = () => new Promise((resolve) => setImmediate(resolve));
+const _flushPromises = () => new Promise((resolve) => setImmediate(resolve));
 
 describe("AI Page Component (v5)", () => {
   const setSettings = jest.fn();
@@ -159,7 +158,7 @@ describe("AI Page Component (v5)", () => {
     jest.clearAllMocks();
 
     // Default mocks for storage (stable across re-renders)
-    useLocalStorageState.mockReset().mockImplementation((key, opts) => {
+    useLocalStorageState.mockReset().mockImplementation((key, _opts) => {
       if (key === "ai:settings") {
         return [
           { model: "gpt-4o-mini", temperature: 1, trackSpeed: 300 },

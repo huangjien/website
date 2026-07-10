@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import { BiHome, BiChip, BiCog, BiDetail, BiMenu, BiX } from "react-icons/bi";

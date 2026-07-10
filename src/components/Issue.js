@@ -3,7 +3,6 @@ import * as Accordion from "./ui/accordion";
 import Badge from "./ui/badge";
 import { useTranslation } from "react-i18next";
 import { Comment } from "./Comment";
-import { IssueModal } from "./IssueModal";
 import { sanitizeMarkdown } from "../lib/markdown-utils";
 import { MarkdownContent } from "./MarkdownContent";
 

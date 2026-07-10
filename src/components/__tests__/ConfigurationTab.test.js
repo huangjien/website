@@ -1,8 +1,7 @@
-import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import ConfigurationTab from "../ConfigurationTab";
-import { useTranslation } from "react-i18next";
+// useTranslation is auto-mocked via jest.mock below
 
 // Mock react-i18next
 jest.mock("react-i18next", () => ({

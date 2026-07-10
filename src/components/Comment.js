@@ -140,7 +140,7 @@ export const Comment = React.memo(function Comment({
           }),
         );
       }
-    } catch (err) {
+    } catch {
       setError(
         t("comment.create_error", { defaultValue: "An error occurred" }),
       );

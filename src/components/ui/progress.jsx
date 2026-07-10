@@ -1,6 +1,5 @@
 import * as ProgressPrimitive from "@radix-ui/react-progress";
 import { cn } from "../../lib/cn";
-import React from "react";
 
 export default function Progress({
   value,

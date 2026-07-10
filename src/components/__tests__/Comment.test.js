@@ -1,5 +1,4 @@
 /* eslint-disable @next/next/no-img-element */
-import React from "react";
 import {
   fireEvent,
   render,
@@ -9,7 +8,7 @@ import {
 } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Comment } from "../Comment";
-import { useTranslation } from "react-i18next";
+// useTranslation is auto-mocked via jest.mock below
 import { useSettings } from "../../lib/useSettings";
 import { extractContentAccordingContentList } from "../../lib/useGithubContent";
 
@@ -97,7 +96,6 @@ global.fetch = jest.fn();
 
 // Mock @radix-ui/react-avatar to make Image accessible in tests
 jest.mock("@radix-ui/react-avatar", () => {
-  const React = require("react");
   return {
     Root: ({ children, className, ...props }) => (
       <span data-testid='avatar' className={className} {...props}>
@@ -140,7 +138,7 @@ describe("Comment Component", () => {
     },
   ];
 
-  const mockExtractedComments = [
+  const _mockExtractedComments = [
     {
       id: 1,
       body: "This is a test comment",

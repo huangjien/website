@@ -15,6 +15,8 @@ export default [
       "build/**",
       "coverage/**",
       "out/**",
+      // Bundled webpack chunk artifact at repo root (orphaned, not hand-authored source)
+      "main.js",
     ],
   },
   {

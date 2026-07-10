@@ -1,4 +1,3 @@
-import React from "react";
 import { render, screen } from "@testing-library/react";
 import { Breadcrumb } from "../Breadcrumb";
 import { usePathname } from "next/navigation";
@@ -83,7 +82,7 @@ describe("Breadcrumb Component", () => {
 
     it("highlights current page", () => {
       usePathname.mockReturnValue("/settings");
-      const { container } = render(<Breadcrumb />);
+      render(<Breadcrumb />);
 
       const currentLink = screen.getByText("Settings").closest("a");
       expect(currentLink).toHaveClass("text-foreground", "font-medium");
@@ -91,7 +90,7 @@ describe("Breadcrumb Component", () => {
 
     it("applies hover styles to non-current links", () => {
       usePathname.mockReturnValue("/ai");
-      const { container } = render(<Breadcrumb />);
+      render(<Breadcrumb />);
 
       const homeLink = screen.getByText("Home").closest("a");
       expect(homeLink).toHaveClass(

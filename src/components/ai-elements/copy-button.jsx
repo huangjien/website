@@ -1,4 +1,3 @@
-import React from "react";
 import { useTranslation } from "react-i18next";
 import { success, error } from "../../components/Notification";
 import { BiCopyAlt } from "react-icons/bi";
@@ -11,7 +10,7 @@ export default function CopyButton({ text = "", className = "" }) {
     try {
       await navigator.clipboard.writeText(text);
       success(t("ai.copied", { defaultValue: "Copied to clipboard" }));
-    } catch (e) {
+    } catch {
       error(t("ai.copy_failed", { defaultValue: "Failed to copy" }));
     }
   };

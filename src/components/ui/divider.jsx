@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function Divider({ className = "my-3" }) {
   return (
     <hr

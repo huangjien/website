@@ -1,4 +1,3 @@
-import React from "react";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { LanguageSwitch } from "../LanguageSwitch";
@@ -40,7 +39,7 @@ jest.mock("react-icons/bi", () => ({
 }));
 
 describe("LanguageSwitch", () => {
-  const mockChangeLanguage = jest.fn();
+  const _mockChangeLanguage = jest.fn();
   const mockUseSettings = useSettings;
 
   let mockSetCurrentLanguage;

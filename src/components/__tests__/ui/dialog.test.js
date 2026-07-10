@@ -1,6 +1,4 @@
-import React from "react";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import { render, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import {
   Dialog,
@@ -24,7 +22,7 @@ describe("Dialog Component", () => {
     });
 
     it("tracks previous active element when open", () => {
-      const { container } = render(
+      render(
         <div>
           <button data-testid='focusable-button'>Focus Me</button>
           <Dialog open={true}>
@@ -41,7 +39,7 @@ describe("Dialog Component", () => {
 
     it("restores focus to previous element when closed", async () => {
       const handleOpenChange = jest.fn();
-      const { container } = render(
+      render(
         <div>
           <button data-testid='focusable-button'>Focus Me</button>
           <Dialog open={true} onOpenChange={handleOpenChange}>

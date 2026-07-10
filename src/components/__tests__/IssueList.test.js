@@ -1,4 +1,4 @@
-import { render, screen, waitFor, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { IssueList } from "../IssueList";
 
@@ -29,7 +29,6 @@ global.URL.createObjectURL = jest.fn(() => "mock-audio-url");
 
 // Mock components
 jest.mock("../Issue", () => {
-  const React = require("react");
   const MockIssue = ({ issue }) => (
     <div data-testid='issue-component'>{issue.title}</div>
   );
@@ -40,7 +39,6 @@ jest.mock("../Issue", () => {
 });
 
 jest.mock("../Chat", () => {
-  const React = require("react");
   const MockChat = ({ data, player }) => (
     <div data-testid='chat-component'>
       <span>{data.question || data.title}</span>
@@ -63,7 +61,6 @@ jest.mock("../Chat", () => {
 });
 
 jest.mock("../Joke", () => {
-  const React = require("react");
   const MockJoke = () => <div data-testid='joke-component'>Joke Component</div>;
   return {
     Joke: MockJoke,
@@ -72,7 +69,6 @@ jest.mock("../Joke", () => {
 });
 
 jest.mock("../IssueModal", () => {
-  const React = require("react");
   const MockIssueModal = () => <div data-testid='issue-modal'>Issue Modal</div>;
   return {
     IssueModal: MockIssueModal,
@@ -81,7 +77,6 @@ jest.mock("../IssueModal", () => {
 });
 
 jest.mock("../EmptyState", () => {
-  const React = require("react");
   return {
     __esModule: true,
     default: () => <div data-testid='empty-state'>No issues to display</div>,
@@ -90,7 +85,6 @@ jest.mock("../EmptyState", () => {
 });
 
 jest.mock("../Comment", () => {
-  const React = require("react");
   const MockComment = () => <div data-testid='comment-component'>Comment</div>;
   return {
     Comment: MockComment,
@@ -99,7 +93,6 @@ jest.mock("../Comment", () => {
 });
 
 jest.mock("react-markdown", () => {
-  const React = require("react");
   const MockMarkdown = ({ children }) => (
     <div data-testid='markdown'>{children}</div>
   );

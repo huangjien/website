@@ -1,6 +1,5 @@
 import { renderHook, act, render, waitFor } from "@testing-library/react";
 import { useSettings, ProvideSettings } from "../useSettings";
-import React from "react";
 
 // Mock ahooks
 jest.mock("ahooks", () => {
@@ -35,7 +34,7 @@ global.fetch = jest.fn();
 
 // Mock the properties2Json function
 jest.mock("../Requests", () => ({
-  properties2Json: jest.fn((data) => [
+  properties2Json: jest.fn((_data) => [
     { key: 0, name: "theme", value: "dark" },
     { key: 1, name: "language", value: "en" },
   ]),

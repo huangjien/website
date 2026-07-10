@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { BiEdit, BiListPlus, BiCheck, BiX } from "react-icons/bi";
 import { useTranslation } from "react-i18next";
 import { MarkdownContent } from "./MarkdownContent";
@@ -92,7 +92,7 @@ export function IssueModal({ issue, action, onSuccess }) {
           }),
         );
       }
-    } catch (err) {
+    } catch {
       setError(t("issue.create_error", { defaultValue: "An error occurred" }));
     } finally {
       submitInFlightRef.current = false;

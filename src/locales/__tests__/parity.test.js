@@ -43,7 +43,7 @@ describe("i18n parity", () => {
   it("ensures runtime resources expose all english keys", () => {
     const baseKeys = flattenKeys(resources.en.translation);
 
-    Object.entries(resources).forEach(([locale, namespace]) => {
+    Object.entries(resources).forEach(([_locale, namespace]) => {
       const localeKeys = new Set(flattenKeys(namespace.translation));
       const missing = baseKeys.filter((key) => !localeKeys.has(key));
       expect(missing).toEqual([]);
@@ -62,7 +62,7 @@ describe("i18n parity", () => {
 
     const baseKeys = flattenKeys(en);
 
-    Object.entries(strictLocales).forEach(([locale, value]) => {
+    Object.entries(strictLocales).forEach(([_locale, value]) => {
       const localeKeys = new Set(flattenKeys(value));
       const missing = baseKeys
         .filter((key) => !localeKeys.has(key))

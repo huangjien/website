@@ -197,7 +197,7 @@ describe("resources configuration", () => {
     // Attempt to modify (should not affect the original)
     try {
       resources.newLang = { translation: {} };
-    } catch (error) {
+    } catch {
       // Expected if object is frozen
     }
 

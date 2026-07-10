@@ -1,12 +1,6 @@
 "use client";
 
-import React, {
-  useEffect,
-  useMemo,
-  useState,
-  useRef,
-  useCallback,
-} from "react";
+import { useEffect, useMemo, useState, useRef, useCallback } from "react";
 import { useLocalStorageState, useTitle, useDebounceEffect } from "ahooks";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
@@ -226,7 +220,7 @@ export default function AI() {
   }, [modelOptions, settings?.model, setSettings, t]);
 
   // Initialize useChat with initial messages and backend API
-  const { id, messages, sendMessage, stop, status, clearError, setMessages } =
+  const { messages, sendMessage, stop, status, clearError, setMessages } =
     useChat({
       transport: new DefaultChatTransport({
         api: "/api/chat",
@@ -290,17 +284,6 @@ export default function AI() {
     [messages, status],
     { wait: 500 },
   );
-
-  // Keep last assistant answer under 1024 chars for optional context in future
-  const lastAnswer = useMemo(() => {
-    const latest = [...(messages || [])]
-      .reverse()
-      .find((m) => m.role === "assistant");
-    const content = uiMessageText(latest || {});
-    return content.length < 1024 ? content : "";
-  }, [messages]);
-
-  const loading = status === "streaming" || status === "submitted";
 
   const formatTimestamp = (timestamp) => {
     if (!timestamp) return "";
@@ -403,13 +386,6 @@ export default function AI() {
     } catch (err) {
       console.warn("Stop failed:", err);
     }
-  };
-
-  const handleClear = () => {
-    // Clear the message thread
-    setSavedMessages([]);
-    // Reset useChat by reloading the page or clearing persisted initial messages
-    // Minimal approach: update local storage; useChat will reflect on next load
   };
 
   // Cleanup policy: if more than 2000 messages, keep last month

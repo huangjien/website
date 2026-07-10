@@ -6,7 +6,13 @@ import Skeleton from "./ui/skeleton";
 const toProxyUrl = (value) =>
   `/api/image-proxy?url=${encodeURIComponent(value)}`;
 
-const SmartImageComponent = ({ src, alt, className, node, ...props }) => {
+const SmartImageComponent = ({
+  src,
+  alt,
+  className,
+  node: _node,
+  ...props
+}) => {
   const { t } = useTranslation();
   const [imgSrc, setImgSrc] = useState(src);
   const [status, setStatus] = useState("loading"); // loading, success, error, retrying, failed

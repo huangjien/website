@@ -1,5 +1,4 @@
-import React from "react";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MobileMenu } from "../MobileMenu";
 
@@ -155,7 +154,6 @@ describe("MobileMenu Component", () => {
     );
 
     const menuButton = screen.getByRole("button", { name: /menu/i });
-    const initialIcon = menuButton.querySelector("svg");
 
     await user.click(menuButton);
 

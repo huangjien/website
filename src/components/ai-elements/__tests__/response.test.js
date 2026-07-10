@@ -5,8 +5,8 @@ jest.mock("react-markdown", () => {
   return function MockReactMarkdown({
     children,
     components,
-    remarkPlugins,
-    rehypePlugins,
+    remarkPlugins: _remarkPlugins,
+    rehypePlugins: _rehypePlugins,
   }) {
     const CodeComponent = components?.code;
     const PreComponent = components?.pre;

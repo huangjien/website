@@ -1,9 +1,4 @@
-import {
-  render,
-  screen,
-  waitFor,
-  act,
-} from "@testing-library/react";
+import { render, screen, waitFor, act } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import Layout from "../../pages/layout";
 import { useSession } from "next-auth/react";
@@ -263,7 +258,9 @@ describe("Layout Component", () => {
       "z-50",
       "rounded-full",
     );
-    expect(button.className).toContain("shadow-[0_8px_24px_-8px_hsl(var(--primary)/0.5)]");
+    expect(button.className).toContain(
+      "shadow-[0_8px_24px_-8px_hsl(var(--primary)/0.5)]",
+    );
   });
 
   it("should handle scroll events correctly", async () => {

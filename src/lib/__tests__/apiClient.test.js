@@ -10,7 +10,6 @@ import {
   getOpenAiApiKey,
   getClientIp,
   getRequestId,
-  apiClient,
   logApiEvent,
 } from "../apiClient";
 import { createMocks } from "node-mocks-http";
@@ -125,7 +124,7 @@ describe("apiClient", () => {
     });
 
     it("should handle ApiError", async () => {
-      const handler = withErrorHandling(async (req, res) => {
+      const handler = withErrorHandling(async () => {
         throw new ApiError("Not found", 404);
       });
 
@@ -140,7 +139,7 @@ describe("apiClient", () => {
     });
 
     it("should handle NetworkError", async () => {
-      const handler = withErrorHandling(async (req, res) => {
+      const handler = withErrorHandling(async () => {
         throw new NetworkError("Connection failed");
       });
 
@@ -154,7 +153,7 @@ describe("apiClient", () => {
 
     it("should handle ValidationError", async () => {
       const details = [{ field: "email", message: "Invalid format" }];
-      const handler = withErrorHandling(async (req, res) => {
+      const handler = withErrorHandling(async () => {
         throw new ValidationError("Validation failed", details);
       });
 
@@ -169,7 +168,7 @@ describe("apiClient", () => {
     });
 
     it("should handle AuthenticationError", async () => {
-      const handler = withErrorHandling(async (req, res) => {
+      const handler = withErrorHandling(async () => {
         throw new AuthenticationError("Invalid credentials");
       });
 
@@ -184,7 +183,7 @@ describe("apiClient", () => {
 
     it("should handle RateLimitError with headers", async () => {
       const resetAt = Date.now() + 60000;
-      const handler = withErrorHandling(async (req, res) => {
+      const handler = withErrorHandling(async () => {
         throw new RateLimitError(60, resetAt);
       });
 
@@ -202,7 +201,7 @@ describe("apiClient", () => {
     });
 
     it("should handle generic Error", async () => {
-      const handler = withErrorHandling(async (req, res) => {
+      const handler = withErrorHandling(async () => {
         throw new Error("Unexpected error");
       });
 
@@ -216,7 +215,7 @@ describe("apiClient", () => {
     });
 
     it("should handle Error without message", async () => {
-      const handler = withErrorHandling(async (req, res) => {
+      const handler = withErrorHandling(async () => {
         throw new Error();
       });
 
@@ -439,5 +438,4 @@ describe("apiClient", () => {
       expect(consoleOutput[0].durationMs).toBe(150);
     });
   });
-
 });

@@ -1,4 +1,3 @@
-import React from "react";
 import { BiBox } from "react-icons/bi";
 
 export const EmptyState = ({ message, icon: Icon = BiBox }) => {

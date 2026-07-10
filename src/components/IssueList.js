@@ -8,7 +8,6 @@ import Input from "./ui/input";
 import Divider from "./ui/divider";
 import { Dialog, DialogContent, DialogBody } from "./ui/dialog";
 import { Joke } from "./Joke";
-import { IssueModal } from "./IssueModal";
 import EmptyState from "./EmptyState";
 
 const MemoizedIssue = React.memo(Issue);
@@ -24,7 +23,12 @@ const MemoizedChat = React.memo(Chat);
  * @param {string} inTab - The tab name indicating the type of data being displayed. (default: 'ai')
  * @returns {JSX.Element} - The rendered list component with the filtered and paginated data.
  */
-export const IssueList = ({ tags, ComponentName, data, inTab = "ai" }) => {
+export const IssueList = ({
+  tags: _tags,
+  ComponentName,
+  data,
+  inTab: _inTab = "ai",
+}) => {
   const { t } = useTranslation();
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(1);

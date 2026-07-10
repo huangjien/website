@@ -1,5 +1,4 @@
 import { createMocks } from "node-mocks-http";
-import { getServerSession } from "next-auth/next";
 
 // Stub streamText + convertToModelMessages while exposing a minimal
 // MessageConversionError so the handler's `isInstance` guard is testable.

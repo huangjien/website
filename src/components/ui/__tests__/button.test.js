@@ -35,7 +35,10 @@ describe("Button Component", () => {
     it("renders button with destructive variant", () => {
       render(<Button variant='destructive'>Click me</Button>);
       const button = screen.getByRole("button");
-      expect(button).toHaveClass("bg-destructive", "text-destructive-foreground");
+      expect(button).toHaveClass(
+        "bg-destructive",
+        "text-destructive-foreground",
+      );
     });
 
     it("renders button with gradient variant", () => {
@@ -64,13 +67,19 @@ describe("Button Component", () => {
     it("applies hover scale animation", () => {
       render(<Button>Click me</Button>);
       const button = screen.getByRole("button");
-      expect(button).toHaveClass("hover:-translate-y-px", "hover:brightness-110");
+      expect(button).toHaveClass(
+        "hover:-translate-y-px",
+        "hover:brightness-110",
+      );
     });
 
     it("applies active scale animation", () => {
       render(<Button>Click me</Button>);
       const button = screen.getByRole("button");
-      expect(button).toHaveClass("active:translate-y-0", "active:brightness-95");
+      expect(button).toHaveClass(
+        "active:translate-y-0",
+        "active:brightness-95",
+      );
     });
 
     it("applies transition classes", () => {

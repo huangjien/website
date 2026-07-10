@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import { useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { error } from "../../components/Notification";
 import { useSession } from "next-auth/react";
@@ -40,7 +40,7 @@ export default function TTSButton({
         URL.revokeObjectURL(url);
         audioRef.current = null;
       });
-    } catch (e) {
+    } catch {
       error(t("ai.tts_failed", { defaultValue: "Text-to-speech failed" }));
     } finally {
       setLoading(false);

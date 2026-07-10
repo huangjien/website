@@ -1,4 +1,3 @@
-import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 // Mock next-auth session as authenticated so the button renders
@@ -37,7 +36,7 @@ describe("TTSButton", () => {
     // Mock Audio
     global.Audio = jest.fn(() => ({
       play: jest.fn(),
-      addEventListener: jest.fn((evt, cb) => {
+      addEventListener: jest.fn((evt, _cb) => {
         if (evt === "ended") {
           // Optionally trigger ended callback later if needed
         }

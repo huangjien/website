@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import { useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import Textarea from "./ui/textarea";
 import Button from "./ui/button";
@@ -16,12 +16,16 @@ const ConversationTab = ({
   setQuestionText,
   loading,
   onSubmit,
-  onClear,
+  onClear: _onClear,
   trackSpeed = 300,
 }) => {
   const { t } = useTranslation();
-  const { startRecording, stopRecording, audioSrc, isRecording } =
-    useAudioRecording();
+  const {
+    startRecording,
+    stopRecording,
+    audioSrc,
+    isRecording: _isRecording,
+  } = useAudioRecording();
   const [hold, setHold] = useState(false);
   const [longPressDetected, setLongPressDetected] = useState(false);
   const pressTimerRef = useRef(null);

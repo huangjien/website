@@ -1,10 +1,10 @@
-import { renderHook, waitFor } from "@testing-library/react";
+import { renderHook } from "@testing-library/react";
 import {
   useGithubContent,
   extractContentAccordingContentList,
 } from "../useGithubContent";
 import { useRequest, useLocalStorageState } from "ahooks";
-import { getIssues, getReadme, getValueByPath } from "../Requests";
+import { getValueByPath } from "../Requests";
 import { useSettings } from "../useSettings";
 
 // Mock dependencies
@@ -100,7 +100,7 @@ describe("useGithubContent", () => {
     });
 
     // Mock useEffect to execute immediately
-    useEffect.mockImplementation((fn, deps) => {
+    useEffect.mockImplementation((fn, _deps) => {
       fn();
     });
   });
@@ -157,7 +157,7 @@ describe("useGithubContent", () => {
 
     // Mock useState calls in order: mounted, rawData, tags, issues
     let callCount = 0;
-    useState.mockImplementation((initial) => {
+    useState.mockImplementation((_initial) => {
       callCount++;
       if (callCount === 1) {
         return [true, jest.fn()]; // mounted state
@@ -191,7 +191,7 @@ describe("useGithubContent", () => {
     ];
 
     let callCount = 0;
-    useState.mockImplementation((initial) => {
+    useState.mockImplementation((_initial) => {
       callCount++;
       if (callCount === 1) {
         return [true, jest.fn()]; // mounted state
@@ -225,7 +225,7 @@ describe("useGithubContent", () => {
     ];
 
     let callCount = 0;
-    useState.mockImplementation((initial) => {
+    useState.mockImplementation((_initial) => {
       callCount++;
       if (callCount === 1) {
         return [true, jest.fn()]; // mounted state
@@ -267,7 +267,7 @@ describe("useGithubContent", () => {
     ];
 
     let callCount = 0;
-    useState.mockImplementation((initial) => {
+    useState.mockImplementation((_initial) => {
       callCount++;
       if (callCount === 1) {
         return [true, jest.fn()]; // mounted state

@@ -75,13 +75,11 @@ describe("siteConfig", () => {
   });
 
   it("should have immutable configuration", () => {
-    const originalConfig = JSON.parse(JSON.stringify(siteConfig));
-
     // Attempt to modify the config
     try {
       siteConfig.name = "Modified Name";
       siteConfig.navItems.push({ label: "New", href: "/new" });
-    } catch (error) {
+    } catch {
       // Expected if object is frozen
     }
 

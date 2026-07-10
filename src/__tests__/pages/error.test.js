@@ -1,9 +1,8 @@
-import React from "react";
 import { render, screen, fireEvent, act } from "@testing-library/react";
 
 describe("Error page", () => {
   let ErrorComponent;
-  let consoleSpy;
+  let _consoleSpy;
   const mockReset = jest.fn();
   const mockError = new Error("Test error message");
 
@@ -15,7 +14,7 @@ describe("Error page", () => {
 
   beforeEach(() => {
     // Mock console.error for each test
-    consoleSpy = jest.spyOn(console, "error").mockImplementation(() => {});
+    _consoleSpy = jest.spyOn(console, "error").mockImplementation(() => {});
     jest.clearAllMocks();
   });
 
