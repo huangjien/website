@@ -184,7 +184,7 @@ export const IssueList = ({
           <div className='inline-flex items-center gap-2'>
             <button
               type='button'
-              className='min-w-[44px] min-h-[44px] px-3 py-2 rounded-xl glass hover:bg-[hsla(var(--glass-bg-hover))] hover:scale-105 hover:shadow-glass transition-transform duration-fast ease-out active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer'
+              className='min-w-11 min-h-11 px-3 py-2 rounded-xl glass hover:bg-[hsla(var(--glass-bg-hover))] hover:scale-105 hover:shadow-glass transition-transform duration-fast ease-out active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer'
               onClick={() => setPage((p) => Math.max(1, p - 1))}
               onKeyDown={(e) => {
                 if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
@@ -199,12 +199,12 @@ export const IssueList = ({
             >
               <BiChevronLeft size={18} />
             </button>
-            <span className='text-small min-w-[44px] min-h-[44px] flex items-center justify-center px-3 py-2 rounded-lg glass'>
+            <span className='text-small min-w-11 min-h-11 flex items-center justify-center px-3 py-2 rounded-lg glass'>
               {page} / {pages}
             </span>
             <button
               type='button'
-              className='min-w-[44px] min-h-[44px] px-3 py-2 rounded-xl glass hover:bg-[hsla(var(--glass-bg-hover))] hover:scale-105 hover:shadow-glass transition-transform duration-fast ease-out active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer'
+              className='min-w-11 min-h-11 px-3 py-2 rounded-xl glass hover:bg-[hsla(var(--glass-bg-hover))] hover:scale-105 hover:shadow-glass transition-transform duration-fast ease-out active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer'
               onClick={() => setPage((p) => Math.min(pages, p + 1))}
               onKeyDown={(e) => {
                 if (e.key === "ArrowRight" || e.key === "ArrowDown") {
