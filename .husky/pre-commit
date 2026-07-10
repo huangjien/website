@@ -1,2 +1,6 @@
 #!/usr/bin/env sh
-npm --no-git-tag-version version patch && git add .
+# Auto-bump the patch version on every commit.
+# Uses pnpm (project's declared packageManager) and stages only the files
+# that pnpm version touches — never unrelated working-tree changes.
+pnpm --no-git-tag-version version patch &&
+  git add package.json pnpm-lock.yaml
