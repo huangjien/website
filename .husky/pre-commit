@@ -1,6 +1,22 @@
 #!/usr/bin/env sh
-# Auto-bump the patch version on every commit.
-# Uses pnpm (project's declared packageManager) and stages only the files
-# that pnpm version touches — never unrelated working-tree changes.
-pnpm --no-git-tag-version version patch &&
-  git add package.json pnpm-lock.yaml
+# Pre-commit gate. Aborts the commit (non-zero exit) if any step fails.
+#
+# 1. lint-staged: lint + format only the files about to be committed.
+#    Defined in package.json -> "lint-staged". Runs eslint --fix +
+#    prettier --write on the staged JS/JSX/TS/TSX files (and prettier --write
+#    on JSON/MD/CSS/SCSS). Auto-re-stages the modified files.
+# 2. pnpm test:   full Jest suite. Cached, ~3s once warmed. Bails on any failure.
+# 3. version:     auto-bump the patch version. Uses pnpm (project's declared
+#                 packageManager). Stages ONLY the files pnpm modifies -- never
+#                 unrelated working-tree changes.
+
+set -e
+
+pnpm exec lint-staged
+pnpm test --silent
+# --no-git-checks: pnpm v11 lets us skip the strict clean-tree requirement so
+# the version bump can run alongside the user's staged changes. We still
+# stage only package.json + pnpm-lock.yaml afterwards so unrelated working-
+# tree changes (e.g. untracked files) are never auto-committed.
+pnpm --no-git-tag-version --no-git-checks version patch
+git add package.json pnpm-lock.yaml
