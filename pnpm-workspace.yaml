@@ -1,6 +1,11 @@
 allowBuilds:
   sharp: false
   unrs-resolver: false
+overrides:
+  fast-uri: '>=3.1.2'
+  js-cookie: '>=3.0.6'
+  ws: '>=8.21.0'
+  lodash: '>=4.17.24'
 ignoredBuiltDependencies:
   - sharp
   - unrs-resolver
