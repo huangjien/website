@@ -5,6 +5,18 @@ on:
     branches: [main]
   push:
     branches: [main]
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: "Branch to run the workflow on (manual dispatch only)."
+        required: true
+        type: string
+        default: main
+      deploy_edge:
+        description: "Deploy the edge runtime to Cloud Run (manual dispatch only)."
+        required: true
+        type: boolean
+        default: false
 
 env:
   SERVICE_NAME: blog
@@ -19,6 +31,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.inputs.branch || github.ref }}
 
       - uses: actions/setup-node@v6
         with:
@@ -49,7 +63,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     name: Build and Deploy Edge Runtime
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: |
+      (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
+      (github.event_name == 'workflow_dispatch' &&
+       inputs.deploy_edge == true &&
+       (inputs.branch == 'main' || inputs.branch == 'refs/heads/main'))
     needs: validate
 
     permissions:
@@ -64,6 +82,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.inputs.branch || github.ref }}
 
       - name: Validate required deployment secrets and config
         run: |
