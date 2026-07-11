@@ -46,16 +46,6 @@ jest.mock("react-i18next", () => ({
   Trans: ({ children }) => children,
 }));
 
-// Mock framer-motion
-jest.mock("framer-motion", () => ({
-  motion: {
-    div: ({ children, ...props }) => <div {...props}>{children}</div>,
-    span: ({ children, ...props }) => <span {...props}>{children}</span>,
-    button: ({ children, ...props }) => <button {...props}>{children}</button>,
-  },
-  AnimatePresence: ({ children }) => children,
-}));
-
 // Mock next-themes
 jest.mock("next-themes", () => ({
   useTheme: () => ({
