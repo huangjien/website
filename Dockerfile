@@ -37,4 +37,9 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 CMD node -
 
 USER node
 
+# Bind to all interfaces so Docker's loopback-based healthcheck can reach the
+# standalone server. Without this, the server picks up Docker's auto-set
+# HOSTNAME env (the container ID) and binds only to that interface, making
+# the container report as unhealthy even though external traffic works.
+ENV HOSTNAME=0.0.0.0
 CMD ["node", "server.js"]
