@@ -21,3 +21,5 @@ minimumReleaseAgeExclude:
   - openai@6.46.0
   - prettier@3.9.5
   - react-i18next@17.0.9
+  - lint-staged@17.1.0
+  - postcss@8.5.20

@@ -4,6 +4,7 @@ WORKDIR /app
 
 COPY package.json ./
 COPY pnpm-lock.yaml ./
+COPY pnpm-workspace.yaml ./
 ENV HUSKY=0
 RUN npm install -g pnpm@11.9.0 \
   && pnpm install --frozen-lockfile --ignore-scripts
