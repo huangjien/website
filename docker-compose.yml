@@ -1,13 +1,12 @@
-version: "3.8"
 services:
   web:
     build:
       context: ./
       target: runner
-    volumes:
-      - .:/app
-    command: pnpm dev
+    command: ["node", "server.js"]
     ports:
       - "8080:8080"
     environment:
-      NODE_ENV: development
+      NODE_ENV: production
+      PORT: 8080
+      HOSTNAME: 0.0.0.0
