@@ -6,6 +6,13 @@ services:
     command: ["node", "server.js"]
     ports:
       - "8080:8080"
+    # Load runtime secrets/vars from .env.home (same file deploy-home.sh uses
+    # via `docker run --env-file`). Without this, the container starts with
+    # NODE_ENV=production (below) but no NEXTAUTH_SECRET / GITHUB_* / OPENAI_*,
+    # which trips the "NEXTAUTH_SECRET must be set in production" guard in
+    # src/pages/api/auth/[...nextauth].js on the first auth request.
+    env_file:
+      - .env.home
     environment:
       NODE_ENV: production
       PORT: 8080
