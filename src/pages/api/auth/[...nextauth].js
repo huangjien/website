@@ -4,9 +4,6 @@ import NextAuth from "next-auth";
 import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 
-const NEXTAUTH_URL =
-  (process.env.NEXTAUTH_URL && process.env.NEXTAUTH_URL.trim()) ||
-  "http://localhost:3000";
 const NEXTAUTH_SECRET =
   (process.env.NEXTAUTH_SECRET && process.env.NEXTAUTH_SECRET.trim()) ||
   "development-secret-do-not-use-in-production";
@@ -17,6 +14,30 @@ if (
 ) {
   throw new Error("NEXTAUTH_SECRET must be set in production");
 }
+
+// NOTE: DO NOT set NEXTAUTH_URL / DO NOT pass `url:` here.
+//
+// This site is served via the gateway from BOTH blog.huangjien.com and
+// www.huangjien.com (see gateway/config/gateway.yaml), and may rotate
+// between subdomains. NextAuth v4 derives its canonical base URL in one
+// of two ways:
+//
+//   1. From the `url:` option / `NEXTAUTH_URL` env var  (NOT what we want —
+//      it pins auth to ONE host, breaking OAuth callbacks on the others).
+//   2. From the inbound request headers `x-forwarded-host` / `host`,
+//      combined with `x-forwarded-proto`. (Needed when `url`/env are unset.)
+//
+// The gateway already forwards these correctly via `proxy_set_header Host
+// $host;` and `proxy_set_header X-Forwarded-Proto $scheme;` (see
+// gateway/scripts/render_config.py, PROXY_HEADERS). So omitting `url:`
+// is what makes both https://blog.huangjien.com and https://www.huangjien.com
+// work side-by-side.
+//
+// Prerequisite: register the OAuth callback URL for EACH host you'll use at
+// GitHub and Google:
+//   https://blog.huangjien.com/api/auth/callback/github
+//   https://www.huangjien.com/api/auth/callback/github
+//   (and the google equivalents)
 
 export const authOptions = {
   // Configure one or more authentication providers
@@ -44,7 +65,6 @@ export const authOptions = {
     },
   },
   secret: NEXTAUTH_SECRET,
-  url: NEXTAUTH_URL,
   pages: {
     error: "/auth/error",
   },

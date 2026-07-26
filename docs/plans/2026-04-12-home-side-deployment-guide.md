@@ -41,14 +41,24 @@ Create `.env.home` on the home machine:
 ```bash
 cat > .env.home <<'EOF'
 NODE_ENV=production
-NEXTAUTH_URL=https://www.huangjien.com
 NEXTAUTH_SECRET=your-nextauth-secret
 GITHUB_CLIENT_ID=your-github-client-id
 GITHUB_CLIENT_SECRET=your-github-client-secret
 GITHUB_TOKEN=your-github-token
+GITHUB_REPO=https://api.github.com/repos/<org>/<repo>
+GITHUB_MEMBER=https://api.github.com/orgs/<org>/teams/<team>/members
 OPENAI_API_KEY=your-openai-key
 EOF
 ```
+
+> **Do NOT set `NEXTAUTH_URL`.** This site is served by the gateway from
+> multiple subdomains (`blog.huangjien.com`, `www.huangjien.com`). NextAuth v4
+> falls back to deriving the canonical URL from the inbound `Host` /
+> `X-Forwarded-Proto` headers (forwarded by the gateway) only when
+> `NEXTAUTH_URL` is unset. Setting it pins auth to a single host and breaks
+> OAuth callbacks on every other host. See
+> `src/pages/api/auth/[...nextauth].js` for the rationale. Ensure the OAuth
+> callback URLs for **every** host are registered at GitHub and Google.
 
 Secure it:
 
