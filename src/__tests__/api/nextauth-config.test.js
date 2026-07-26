@@ -1,22 +1,22 @@
 /**
- * Regression test for the multi-host OAuth bug.
+ * Regression test for the OAuth canonical-URL alignment bug.
  *
- * Symptom: visiting https://blog.huangjien.com and clicking sign-in bounced
- * to /api/auth/error with HTTP 500, because NextAuth's canonical URL was
- * pinned to https://www.huangjien.com (via the legacy `url:` option in
- * authOptions and the NEXTAUTH_URL env var). The OAuth callback URL it
- * generated did not match what was registered at GitHub/Google for the
- * host the browser was actually on.
+ * Symptom: clicking sign-in bounced to /api/auth/error (HTTP 500) because
+ * the canonical URL NextAuth used did not match the callback URL registered
+ * at the OAuth provider.
  *
- * Fix: omit the `url:` option and the NEXTAUTH_URL env var so NextAuth v4
- * derives the canonical URL from the inbound Host / X-Forwarded-Proto
- * headers (forwarded verbatim by the gateway reverse proxy — see
- * gateway/scripts/render_config.py, PROXY_HEADERS). That makes both
- * blog.huangjien.com and www.huangjien.com work side-by-side.
+ * Fix: keep NEXTAUTH_URL / `url:` aligned with the single registered host.
+ * The site is currently served from exactly one public host
+ * (https://blog.huangjien.com), and that host's callback URL is what's
+ * registered at GitHub/Google. Setting `url: NEXTAUTH_URL` makes the
+ * canonical base URL deterministic regardless of which internal interface
+ * the request came in on.
  *
- * This test prevents either regression (re-introducing `url:` OR
- * re-introducing NEXTAUTH_URL in the deployment template) from sneaking
- * back in.
+ * This test pins two behaviors:
+ *   1. When NEXTAUTH_URL is set in env, authOptions.url mirrors it exactly
+ *      (no defaulting, no trimming, no trailing slash surprises).
+ *   2. When NEXTAUTH_URL is unset in env, authOptions.url is undefined
+ *      (defensive — should not silently fall back to a hardcoded value).
  */
 
 jest.mock("next-auth", () => {
@@ -39,19 +39,35 @@ jest.mock("next-auth/providers/google", () => {
   return { __esModule: true, default: g };
 });
 
-describe("NextAuth config regression: multi-host OAuth works", () => {
+const ENV_BACKUP = { ...process.env };
+
+afterEach(() => {
+  process.env = { ...ENV_BACKUP };
+});
+
+describe("NextAuth config: canonical URL mirrors NEXTAUTH_URL when set", () => {
   beforeEach(() => {
     jest.resetModules();
     jest.clearAllMocks();
+    process.env.NEXTAUTH_SECRET = "test-secret";
+    process.env.NODE_ENV = "test";
   });
 
-  it("does not pin the canonical URL via the `url` option", () => {
+  it("passes NEXTAUTH_URL through to authOptions.url exactly when set", () => {
+    process.env.NEXTAUTH_URL = "https://blog.huangjien.com";
     const captured = require("next-auth");
-    // Importing the route module triggers NextAuth(authOptions)
     require("../../pages/api/auth/[...nextauth]");
     expect(captured.default).toHaveBeenCalled();
     const opts = captured.default.mock.calls[0][0];
-    expect(opts).toBeDefined();
+    expect(opts.url).toBe("https://blog.huangjien.com");
+  });
+
+  it("leaves authOptions.url undefined when NEXTAUTH_URL is not set", () => {
+    delete process.env.NEXTAUTH_URL;
+    const captured = require("next-auth");
+    require("../../pages/api/auth/[...nextauth]");
+    expect(captured.default).toHaveBeenCalled();
+    const opts = captured.default.mock.calls[0][0];
     expect(opts.url).toBeUndefined();
   });
 });

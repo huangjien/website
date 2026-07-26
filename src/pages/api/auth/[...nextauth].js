@@ -15,29 +15,28 @@ if (
   throw new Error("NEXTAUTH_SECRET must be set in production");
 }
 
-// NOTE: DO NOT set NEXTAUTH_URL / DO NOT pass `url:` here.
+// Single-host OAuth configuration.
 //
-// This site is served via the gateway from BOTH blog.huangjien.com and
-// www.huangjien.com (see gateway/config/gateway.yaml), and may rotate
-// between subdomains. NextAuth v4 derives its canonical base URL in one
-// of two ways:
+// This site is currently served from ONE public host:
+// `https://blog.huangjien.com` (configured in gateway/config/gateway.yaml,
+// and the GitHub/Google OAuth apps were registered with exactly this
+// callback URL: `https://blog.huangjien.com/api/auth/callback/{provider}`).
 //
-//   1. From the `url:` option / `NEXTAUTH_URL` env var  (NOT what we want —
-//      it pins auth to ONE host, breaking OAuth callbacks on the others).
-//   2. From the inbound request headers `x-forwarded-host` / `host`,
-//      combined with `x-forwarded-proto`. (Needed when `url`/env are unset.)
+// We therefore set `url: process.env.NEXTAUTH_URL` so NextAuth v4 derives
+// its canonical base URL consistently regardless of which internal
+// interface the request came in on. If `NEXTAUTH_URL` is not set, we fall
+// back to letting NextAuth derive it from request headers.
 //
-// The gateway already forwards these correctly via `proxy_set_header Host
-// $host;` and `proxy_set_header X-Forwarded-Proto $scheme;` (see
-// gateway/scripts/render_config.py, PROXY_HEADERS). So omitting `url:`
-// is what makes both https://blog.huangjien.com and https://www.huangjien.com
-// work side-by-side.
-//
-// Prerequisite: register the OAuth callback URL for EACH host you'll use at
-// GitHub and Google:
-//   https://blog.huangjien.com/api/auth/callback/github
-//   https://www.huangjien.com/api/auth/callback/github
-//   (and the google equivalents)
+// Multi-host future: if the gateway starts routing more subdomains here
+// (e.g. `www.huangjien.com`), each must be registered as an OAuth callback
+// URL at GitHub/Google first. Then the simplest options are:
+//   1. Pick one canonical host and set NEXTAUTH_URL to it (other hosts
+//      will need to redirect to the canonical one before the OAuth dance).
+//   2. Omit `url:` and rely on the gateway's forwarded `Host` /
+//      `X-Forwarded-Proto` headers (PROXY_HEADERS in
+//      gateway/scripts/render_config.py already forwards both).
+
+const NEXTAUTH_URL = process.env.NEXTAUTH_URL;
 
 export const authOptions = {
   // Configure one or more authentication providers
@@ -65,6 +64,7 @@ export const authOptions = {
     },
   },
   secret: NEXTAUTH_SECRET,
+  ...(NEXTAUTH_URL ? { url: NEXTAUTH_URL } : {}),
   pages: {
     error: "/auth/error",
   },
