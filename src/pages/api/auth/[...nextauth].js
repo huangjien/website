@@ -4,17 +4,6 @@ import NextAuth from "next-auth";
 import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 
-const NEXTAUTH_SECRET =
-  (process.env.NEXTAUTH_SECRET && process.env.NEXTAUTH_SECRET.trim()) ||
-  "development-secret-do-not-use-in-production";
-
-if (
-  process.env.NODE_ENV === "production" &&
-  NEXTAUTH_SECRET === "development-secret-do-not-use-in-production"
-) {
-  throw new Error("NEXTAUTH_SECRET must be set in production");
-}
-
 // Single-host OAuth configuration.
 //
 // This site is currently served from ONE public host:
@@ -37,6 +26,22 @@ if (
 //      gateway/scripts/render_config.py already forwards both).
 
 const NEXTAUTH_URL = process.env.NEXTAUTH_URL;
+
+// Read NEXTAUTH_SECRET defensively. The NextAuth v4 default-detect code
+// looks for `process.env.NEXTAUTH_SECRET` and falls back to a development
+// string when it is missing, throwing on first use in production. We do
+// our own check up front so we can log the real state, then return a
+// graceful 500 from a request-time handler instead of throwing at
+// module-load time (which Next.js's outer handler converts to an opaque
+// HTTP 500 with no log output — observed in Jenkins builds #1488 and
+// #1490, where `/api/auth/providers` returned 500 in 0ms with empty
+// container logs and an apparently-correct NEXTAUTH_SECRET of 64 chars).
+const _rawSecret = process.env.NEXTAUTH_SECRET;
+const _rawSecretType = typeof _rawSecret;
+const _rawSecretLen = _rawSecret == null ? 0 : _rawSecret.length;
+const _trimmedSecret = typeof _rawSecret === "string" ? _rawSecret.trim() : "";
+const NEXTAUTH_SECRET =
+  _trimmedSecret || "development-secret-do-not-use-in-production";
 
 export const authOptions = {
   // Configure one or more authentication providers
@@ -70,4 +75,47 @@ export const authOptions = {
   },
 };
 
-export default NextAuth(authOptions);
+let handler = null;
+if (
+  process.env.NODE_ENV === "production" &&
+  NEXTAUTH_SECRET === "development-secret-do-not-use-in-production"
+) {
+  // Log the real env state once at module-load. The deploy pipeline can
+  // surface this line in `docker logs` and turn it into a clear failure
+  // message instead of a silent HTTP 500.
+  console.error(
+    "[nextauth] NEXTAUTH_SECRET missing or invalid in production.",
+    "raw type:",
+    _rawSecretType,
+    "raw length:",
+    _rawSecretLen,
+    "trimmed length:",
+    _trimmedSecret.length,
+    "NODE_ENV:",
+    process.env.NODE_ENV,
+    "NEXTAUTH_URL:",
+    NEXTAUTH_URL || "(unset)",
+  );
+  // Return a request-time handler that always emits a structured 500
+  // with the actual error in the body. The route module is now safe to
+  // load — it never throws — so any request gets a deterministic
+  // response and the route module is not stuck in a failed state.
+  handler = function misconfiguredHandler(req, res) {
+    res.setHeader("Content-Type", "application/json");
+    res.status(500).json({
+      error: "ConfigurationError",
+      message: "NEXTAUTH_SECRET is missing or invalid in production",
+      detail: {
+        rawType: _rawSecretType,
+        rawLength: _rawSecretLen,
+        trimmedLength: _trimmedSecret.length,
+        nodeEnv: process.env.NODE_ENV,
+        nextauthUrl: NEXTAUTH_URL || null,
+      },
+    });
+  };
+} else {
+  handler = NextAuth(authOptions);
+}
+
+export default handler;
