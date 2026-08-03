@@ -9,9 +9,6 @@ export default function Home() {
   useTitle(t("header.home"));
   return (
     <div className='hallmark-page'>
-      <header className='hallmark-hero'>
-        <h1 className='hallmark-hero__title'>{t("header.home")}</h1>
-      </header>
       <section className='hallmark-section'>
         <IssueList
           tags={tags}
