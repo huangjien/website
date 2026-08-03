@@ -1,0 +1,58 @@
+/* Hallmark · pilot page CSS (v0.2)
+ * Source: ../design.md (locked) + slop-test 58-gate sweep.
+ * Scope: index.js (Marquee Hero · text-led H1) only.
+ * Shared layer (scoped font remap, overflow-x: clip) moved to
+ * src/styles/hallmark.css — loaded globally via _app.js.
+ */
+
+/* ── Hero (H1, text-led) ────────────────────────────────────── */
+.hallmark-hero {
+  /* Gate 44(a): padding-block-end ≥ 1.3× padding-block-start.
+     4.5rem (space-2xl) / 3rem (space-xl) = 1.5× — hero settles into IssueList rhythm. */
+  padding: var(--space-xl) var(--space-md) var(--space-2xl);
+  max-width: 80rem;
+  margin-inline: auto;
+}
+
+.hallmark-hero__title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  font-size: var(--text-display);
+  line-height: 1.05;
+  color: var(--color-ink);
+  margin: 0;
+  /* Measure cap + long-word wrap (gates 25, 51) */
+  max-width: 18ch;
+  overflow-wrap: anywhere;
+  min-width: 0;
+  /* Headers stay roman (gate 38a) — no font-style: italic here */
+}
+
+/* Optional accent period after the H1 — restrained, no extra ornament.
+   Drawn with ::after so no DOM change is needed. Gate 45 (no decoration
+   without semantic anchor) — the period is a sentence-ender, not a
+   standalone ornament. */
+.hallmark-hero__title::after {
+  content: ".";
+  color: var(--color-accent);
+  margin-left: 0.05em;
+}
+
+/* ── Section wrapper for IssueList ──────────────────────────── */
+.hallmark-section {
+  padding: 0 var(--space-md) var(--space-2xl);
+  max-width: 80rem;
+  margin-inline: auto;
+}
+
+/* ── Mobile adjustments (gates 49, 52) ───────────────────────── */
+@media (max-width: 48rem) {
+  .hallmark-hero {
+    /* Mobile: keep bottom-heaviness ratio (gate 44a). 3rem / 2rem = 1.5×. */
+    padding: var(--space-lg) var(--space-sm) var(--space-xl);
+  }
+  .hallmark-section {
+    padding: 0 var(--space-sm) var(--space-xl);
+  }
+}

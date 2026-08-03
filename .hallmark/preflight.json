@@ -1,0 +1,36 @@
+{
+  "scanned_at": "2026-08-03T23:36:00Z",
+  "design_md_version": "v0.2",
+  "findings": {
+    "font_stack": "Geist Sans + Geist Mono + Newsreader via next/font/google (src/pages/_app.js L8-L11)",
+    "palette": "shadcn-style HSL CSS variables in tailwind.config.js; no existing OKLCH",
+    "tokens": "src/pages/globals.css already declares 4-pt spacing, font size, radius, and duration tokens",
+    "motion": "no framer-motion / motion / gsap; tailwindcss-animate + CSS keyframes (motion-cut)",
+    "spacing": "4-pt scale (--spacing-xs ... --spacing-2xl)",
+    "framework": "Next.js Pages Router, React 19, Tailwind v3 (JIT), next-themes (default dark), next-auth, react-i18next (14 locales), Serwist PWA",
+    "theming": "next-themes toggles .dark class on <html>"
+  },
+  "preserve": [
+    "HSL shadcn variables in tailwind.config.js",
+    "Existing 4-pt spacing tokens in src/pages/globals.css",
+    "All three next/font faces (Geist Sans, Geist Mono, Newsreader)",
+    "next-themes integration (.dark class on <html>)",
+    "All 14 locales (i18n parity preserved)",
+    "Every existing route (no file deletion)",
+    "Every existing component (no file deletion)",
+    "Jest / Lighthouse / i18n-parity / perf-budgets CI"
+  ],
+  "introduce": [
+    "design.md (locked system, v0.2)",
+    "tokens.css (OKLCH parallel layer)",
+    ".hallmark/log.json (diversification memory)",
+    ".hallmark/preflight.json (this file)",
+    "Hallmark stamps on emitted CSS",
+    "58-gate slop test on every emit"
+  ],
+  "conflicts_resolved": {
+    "C1": "Newsreader demoted to --font-serif outlier; primary display = Geist Sans 600",
+    "C2": "HSL preserved in tailwind.config.js; OKLCH layer added in tokens.css (parallel)",
+    "C3": "Pilot = index.js as-is with H1 hero only; no new sections invented"
+  }
+}

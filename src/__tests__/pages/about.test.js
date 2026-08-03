@@ -131,16 +131,9 @@ describe("About page", () => {
     const { container } = render(<About />);
 
     const mainDiv = container.firstChild;
-    expect(mainDiv).toHaveClass(
-      "prose",
-      "prose-2xl",
-      "dark:prose-invert",
-      "justify-center",
-      "items-center",
-      "gap-8",
-      "m-2",
-      "w-full",
-    );
+    expect(mainDiv).toHaveClass("hallmark-page");
+    const article = mainDiv.querySelector("article");
+    expect(article).toHaveClass("hallmark-prose");
   });
 
   it("should configure Markdown component with correct plugins", () => {

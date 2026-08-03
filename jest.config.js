@@ -26,6 +26,7 @@ module.exports = {
     "^remark-gfm$": "<rootDir>/test-mocks/empty-module.js",
     "^rehype-raw$": "<rootDir>/test-mocks/empty-module.js",
     "^rehype-highlight$": "<rootDir>/test-mocks/empty-module.js",
+    "\\.css$": "<rootDir>/test-mocks/empty-module.js",
   },
   moduleFileExtensions: ["js", "jsx", "ts", "tsx", "json", "node"],
   transform: {

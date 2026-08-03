@@ -27,7 +27,7 @@ describe("Error page", () => {
       render(<ErrorComponent error={mockError} reset={mockReset} />);
     });
 
-    expect(screen.getByText("Something went wrong!")).toBeInTheDocument();
+    expect(screen.getByText("Something went wrong.")).toBeInTheDocument();
     expect(screen.getByText("Try again")).toBeInTheDocument();
   });
 
@@ -36,8 +36,8 @@ describe("Error page", () => {
       render(<ErrorComponent error={mockError} reset={mockReset} />);
     });
 
-    const heading = screen.getByRole("heading", { level: 2 });
-    expect(heading).toHaveTextContent("Something went wrong!");
+    const heading = screen.getByRole("heading", { level: 1 });
+    expect(heading).toHaveTextContent("Something went wrong.");
   });
 
   it("should render try again button", () => {
@@ -80,14 +80,14 @@ describe("Error page", () => {
     render(<ErrorComponent error={null} reset={mockReset} />);
 
     expect(console.error).toHaveBeenCalledWith(null);
-    expect(screen.getByText("Something went wrong!")).toBeInTheDocument();
+    expect(screen.getByText("Something went wrong.")).toBeInTheDocument();
   });
 
   it("should handle undefined error", () => {
     render(<ErrorComponent error={undefined} reset={mockReset} />);
 
     expect(console.error).toHaveBeenCalledWith(undefined);
-    expect(screen.getByText("Something went wrong!")).toBeInTheDocument();
+    expect(screen.getByText("Something went wrong.")).toBeInTheDocument();
   });
 
   it("should handle string error", () => {
@@ -135,7 +135,7 @@ describe("Error page", () => {
     const mainDiv = container.firstChild;
     expect(mainDiv.tagName).toBe("DIV");
 
-    const heading = mainDiv.querySelector("h2");
+    const heading = mainDiv.querySelector("h1");
     expect(heading).toBeInTheDocument();
 
     const button = mainDiv.querySelector("button");

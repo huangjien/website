@@ -15,8 +15,10 @@ export default function About() {
    * @returns {JSX.Element} The rendered content of the 'about' variable.
    */
   return (
-    <div className='prose prose-2xl dark:prose-invert justify-center items-center gap-8 m-2 w-full animate-fade-in'>
-      <MarkdownContent>{about}</MarkdownContent>
+    <div className='hallmark-page'>
+      <article className='hallmark-prose'>
+        <MarkdownContent>{about}</MarkdownContent>
+      </article>
     </div>
   );
 }

@@ -7,7 +7,15 @@ import {
   Newsreader as FontDisplay,
 } from "next/font/google";
 import "react-toastify/dist/ReactToastify.css";
-import "./globals.css";
+import "../../tokens.css"; /* Hallmark · OKLCH tokens (locked, v0.2) */
+import "./globals.css"; /* existing — never modified */
+import "../styles/hallmark.css"; /* Hallmark · shared (CTAs, app-header, error-stat) */
+import "../styles/hallmark-pilot.css"; /* Hallmark · index.js H1 hero (pilot scope) */
+import "../styles/hallmark-error.css"; /* Hallmark · error.js layout */
+import "../styles/hallmark-auth-error.css"; /* Hallmark · auth/error.js layout */
+import "../styles/hallmark-about.css"; /* Hallmark · about.js prose */
+import "../styles/hallmark-settings.css"; /* Hallmark · settings.js workbench */
+import "../styles/hallmark-ai.css"; /* Hallmark · ai.js app-header */
 import RootLayout from "./layout";
 import "../locales/i18n";
 import PwaRegister from "../components/PwaRegister";

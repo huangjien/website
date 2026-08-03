@@ -8,11 +8,18 @@ export default function Home() {
   const { t } = useTranslation();
   useTitle(t("header.home"));
   return (
-    <IssueList
-      tags={tags}
-      data={issues}
-      ComponentName={"Issue"}
-      inTab='issue'
-    />
+    <div className='hallmark-page'>
+      <header className='hallmark-hero'>
+        <h1 className='hallmark-hero__title'>{t("header.home")}</h1>
+      </header>
+      <section className='hallmark-section'>
+        <IssueList
+          tags={tags}
+          data={issues}
+          ComponentName={"Issue"}
+          inTab='issue'
+        />
+      </section>
+    </div>
   );
 }

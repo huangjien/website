@@ -1,0 +1,94 @@
+[
+  {
+    "date": "2026-08-03",
+    "macrostructure": "Marquee Hero",
+    "theme": "Coral",
+    "enrichment": "none",
+    "nav": "existing (unchanged — RootLayout NavigationBar)",
+    "footer": "existing (unchanged — RootLayout site footer)",
+    "tone": "modern-minimal",
+    "brief": "huangjien/website pilot — index.js with H1 hero over existing IssueList; no new sections invented (C3 lock)",
+    "files_created": [
+      "tokens.css",
+      "src/styles/hallmark-pilot.css",
+      ".hallmark/log.json"
+    ],
+    "files_modified": [
+      "src/pages/_app.js (2 new import lines)",
+      "src/pages/index.js (H1 hero wrap)"
+    ]
+  },
+  {
+    "date": "2026-08-03",
+    "macrostructure": "Single Message",
+    "theme": "Coral",
+    "enrichment": "none",
+    "nav": "hidden (RootLayout conditional render on error routes)",
+    "footer": "existing (unchanged — RootLayout site footer)",
+    "tone": "modern-minimal",
+    "brief": "error.js — 500. stat-led Single Message, hidden nav, primary Try again + secondary Go home",
+    "files_created": ["src/styles/hallmark-error.css"],
+    "files_modified": [
+      "src/pages/error.js (Hallmark Single Message wrap + CSS import)",
+      "src/pages/layout.js (useRouter + conditional NavigationBar)",
+      "src/pages/_app.js (hallmark.css shared import)"
+    ]
+  },
+  {
+    "date": "2026-08-03",
+    "macrostructure": "Single Message",
+    "theme": "Coral",
+    "enrichment": "none",
+    "nav": "hidden (RootLayout conditional render on error routes)",
+    "footer": "existing (unchanged — RootLayout site footer)",
+    "tone": "modern-minimal",
+    "brief": "auth/error.js — error code as accent stat, primary Go home CTA",
+    "files_created": ["src/styles/hallmark-auth-error.css"],
+    "files_modified": [
+      "src/pages/auth/error.js (Hallmark Single Message wrap + CSS import)"
+    ]
+  },
+  {
+    "date": "2026-08-03",
+    "macrostructure": "Long Document",
+    "theme": "Coral",
+    "enrichment": "none",
+    "nav": "existing (unchanged — RootLayout NavigationBar)",
+    "footer": "existing (unchanged — RootLayout site footer)",
+    "tone": "modern-minimal",
+    "brief": "about.js — single column, max-measure 68 ch, drop prose-2xl for hallmark-prose",
+    "files_created": ["src/styles/hallmark-about.css"],
+    "files_modified": [
+      "src/pages/about.js (Hallmark Long Document wrap + CSS import)"
+    ]
+  },
+  {
+    "date": "2026-08-03",
+    "macrostructure": "Workbench",
+    "theme": "Coral",
+    "enrichment": "none",
+    "nav": "existing (unchanged — RootLayout NavigationBar)",
+    "footer": "existing (unchanged — RootLayout site footer)",
+    "tone": "modern-minimal",
+    "brief": "settings.js — H4 muted app-header above filter row, existing auth guard + table + cards preserved",
+    "files_created": ["src/styles/hallmark-settings.css"],
+    "files_modified": [
+      "src/pages/settings.js (Hallmark Workbench wrap + H4 header + CSS import)"
+    ]
+  },
+  {
+    "date": "2026-08-03",
+    "macrostructure": "Chat Surface",
+    "theme": "Cobalt",
+    "enrichment": "none",
+    "nav": "existing (unchanged — RootLayout NavigationBar)",
+    "footer": "existing (unchanged — RootLayout site footer)",
+    "tone": "modern-minimal",
+    "brief": "ai.js — Cobalt theme override via [data-theme=cobalt], H4 muted app-header above chat, existing chat logic preserved",
+    "files_created": ["src/styles/hallmark-ai.css"],
+    "files_modified": [
+      "src/pages/ai.js (Hallmark Chat Surface wrap + H4 header + CSS import)",
+      "tokens.css (Cobalt light + dark blocks appended)"
+    ]
+  }
+]

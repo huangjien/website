@@ -416,140 +416,149 @@ export default function AI() {
   }, [messages]);
 
   return (
-    <div
-      className='min-h-screen w-full overflow-x-hidden'
-      data-testid='ai-container'
-    >
-      {/* Messages area with bottom padding to avoid overlap with fixed input */}
+    <div className='hallmark-page' data-theme='cobalt'>
       <div
-        ref={messagesContainerRef}
-        className={`
+        className='min-h-screen w-full overflow-x-hidden'
+        data-testid='ai-container'
+      >
+        <div className='hallmark-app-header-wrap'>
+          <p className='hallmark-app-header'>AI ·</p>
+        </div>
+        {/* Messages area with bottom padding to avoid overlap with fixed input */}
+        <div
+          ref={messagesContainerRef}
+          className={`
         mx-auto w-full max-w-5xl px-4 pt-4 transition-all duration-300 ease-in-out
         ${isInputCollapsed ? "pb-20" : "pb-48"}
       `}
-      >
-        <Conversation>
-          <ConversationContent>
-            {(visibleMessages || []).map((m) => {
-              const text = uiMessageText(m);
-              return (
-                <Message key={m.id} role={m.role}>
-                  <MessageContent>
-                    <div className='flex items-start gap-3'>
-                      <div className='flex-1 min-w-0'>
-                        {m.role === "assistant" ? (
-                          <Response>{text}</Response>
-                        ) : (
-                          text
-                        )}
+        >
+          <Conversation>
+            <ConversationContent>
+              {(visibleMessages || []).map((m) => {
+                const text = uiMessageText(m);
+                return (
+                  <Message key={m.id} role={m.role}>
+                    <MessageContent>
+                      <div className='flex items-start gap-3'>
+                        <div className='flex-1 min-w-0'>
+                          {m.role === "assistant" ? (
+                            <Response>{text}</Response>
+                          ) : (
+                            text
+                          )}
+                        </div>
+                        <div className='text-xs text-muted-foreground whitespace-nowrap flex-shrink-0'>
+                          {formatTimestamp(m.createdAt)}
+                        </div>
                       </div>
-                      <div className='text-xs text-muted-foreground whitespace-nowrap flex-shrink-0'>
-                        {formatTimestamp(m.createdAt)}
-                      </div>
-                    </div>
-                    {m.role === "assistant" ? (
-                      <div className='mt-2 flex gap-2 flex-wrap'>
-                        <CopyButton text={text} />
-                        <TTSButton
-                          text={text}
-                          voice={settings?.ttsVoice || "alloy"}
-                        />
-                      </div>
-                    ) : null}
-                  </MessageContent>
-                </Message>
-              );
-            })}
-            {/* Scroll anchor */}
-            <div ref={bottomRef} />
-          </ConversationContent>
-        </Conversation>
-      </div>
+                      {m.role === "assistant" ? (
+                        <div className='mt-2 flex gap-2 flex-wrap'>
+                          <CopyButton text={text} />
+                          <TTSButton
+                            text={text}
+                            voice={settings?.ttsVoice || "alloy"}
+                          />
+                        </div>
+                      ) : null}
+                    </MessageContent>
+                  </Message>
+                );
+              })}
+              {/* Scroll anchor */}
+              <div ref={bottomRef} />
+            </ConversationContent>
+          </Conversation>
+        </div>
 
-      {/* Fixed bottom input bar */}
-      <div
-        className={`
+        {/* Fixed bottom input bar */}
+        <div
+          className={`
           fixed left-0 right-0 glass-nav border-t border-border/50 backdrop-blur-xl
           transition-all duration-300 ease-in-out
           ${isInputCollapsed ? "bottom-0" : "bottom-0"}
         `}
-        style={{
-          height: isInputCollapsed ? "auto" : "auto",
-        }}
-      >
-        {/* Collapse/Expand toggle button - positioned on LEFT to avoid conflict with scroll-to-top button */}
-        <button
-          onClick={() => setIsInputCollapsed(!isInputCollapsed)}
-          className='fixed bottom-4 left-4 z-[60] inline-flex items-center justify-center w-14 h-14 rounded-full bg-primary text-primary-foreground ring-1 ring-border/60 hover:brightness-110 hover:-translate-y-px active:translate-y-0 active:brightness-95 shadow-[inset_0_1px_0_hsl(var(--primary-foreground)/0.15),0_10px_24px_-10px_hsl(var(--primary)/0.55)] transition-all duration-normal ease-out'
-          title={
-            isInputCollapsed
-              ? t("ai.show_input_panel", { defaultValue: "Show input panel" })
-              : t("ai.hide_input_panel", { defaultValue: "Hide input panel" })
-          }
-          aria-label={
-            isInputCollapsed
-              ? t("ai.expand_input_panel", {
-                  defaultValue: "Expand input panel",
-                })
-              : t("ai.collapse_input_panel", {
-                  defaultValue: "Collapse input panel",
-                })
-          }
+          style={{
+            height: isInputCollapsed ? "auto" : "auto",
+          }}
         >
-          {isInputCollapsed ? <BiExpand size={24} /> : <BiCollapse size={24} />}
-        </button>
+          {/* Collapse/Expand toggle button - positioned on LEFT to avoid conflict with scroll-to-top button */}
+          <button
+            onClick={() => setIsInputCollapsed(!isInputCollapsed)}
+            className='fixed bottom-4 left-4 z-[60] inline-flex items-center justify-center w-14 h-14 rounded-full bg-primary text-primary-foreground ring-1 ring-border/60 hover:brightness-110 hover:-translate-y-px active:translate-y-0 active:brightness-95 shadow-[inset_0_1px_0_hsl(var(--primary-foreground)/0.15),0_10px_24px_-10px_hsl(var(--primary)/0.55)] transition-all duration-normal ease-out'
+            title={
+              isInputCollapsed
+                ? t("ai.show_input_panel", { defaultValue: "Show input panel" })
+                : t("ai.hide_input_panel", { defaultValue: "Hide input panel" })
+            }
+            aria-label={
+              isInputCollapsed
+                ? t("ai.expand_input_panel", {
+                    defaultValue: "Expand input panel",
+                  })
+                : t("ai.collapse_input_panel", {
+                    defaultValue: "Collapse input panel",
+                  })
+            }
+          >
+            {isInputCollapsed ? (
+              <BiExpand size={24} />
+            ) : (
+              <BiCollapse size={24} />
+            )}
+          </button>
 
-        <div
-          className={`
+          <div
+            className={`
             mx-auto w-full max-w-5xl px-4
             transition-all duration-300 ease-in-out overflow-hidden
             ${isInputCollapsed ? "max-h-0 opacity-0 py-0" : "max-h-[600px] opacity-100 py-6"}
           `}
-        >
-          <PromptInput
-            value={prompt}
-            onChange={setPrompt}
-            onSubmit={handleSend}
-            onStop={handleStop}
-            onToggleSettings={() => setShowSettings((s) => !s)}
-          />
+          >
+            <PromptInput
+              value={prompt}
+              onChange={setPrompt}
+              onSubmit={handleSend}
+              onStop={handleStop}
+              onToggleSettings={() => setShowSettings((s) => !s)}
+            />
+          </div>
         </div>
-      </div>
 
-      {showSettings ? (
-        <>
-          {/* Backdrop overlay */}
-          <div
-            className='fixed inset-0 bg-black/20 backdrop-blur-sm z-40 animate-fade-in'
-            onClick={() => setShowSettings(false)}
-          />
-          {/* Settings panel */}
-          <div
-            className={`
+        {showSettings ? (
+          <>
+            {/* Backdrop overlay */}
+            <div
+              className='fixed inset-0 bg-black/20 backdrop-blur-sm z-40 animate-fade-in'
+              onClick={() => setShowSettings(false)}
+            />
+            {/* Settings panel */}
+            <div
+              className={`
             fixed left-0 right-0 z-50 px-4 transition-all duration-300 ease-in-out
             ${isInputCollapsed ? "bottom-20" : "bottom-24"}
           `}
-          >
-            <div className='mx-auto w-full max-w-2xl' ref={settingsPanelRef}>
-              <SettingsPanel
-                settings={
-                  mounted
-                    ? settings
-                    : {
-                        model: DEFAULT_AI_MODEL,
-                        temperature: 1,
-                        trackSpeed: 300,
-                        ttsVoice: "alloy",
-                      }
-                }
-                models={modelOptions}
-                setSettings={setSettings}
-                onClose={() => setShowSettings(false)}
-              />
+            >
+              <div className='mx-auto w-full max-w-2xl' ref={settingsPanelRef}>
+                <SettingsPanel
+                  settings={
+                    mounted
+                      ? settings
+                      : {
+                          model: DEFAULT_AI_MODEL,
+                          temperature: 1,
+                          trackSpeed: 300,
+                          ttsVoice: "alloy",
+                        }
+                  }
+                  models={modelOptions}
+                  setSettings={setSettings}
+                  onClose={() => setShowSettings(false)}
+                />
+              </div>
             </div>
-          </div>
-        </>
-      ) : null}
+          </>
+        ) : null}
+      </div>
     </div>
   );
 }

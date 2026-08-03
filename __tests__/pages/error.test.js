@@ -17,7 +17,7 @@ describe("Error Page", () => {
   it("should render error page", () => {
     render(<ErrorPage error={mockError} reset={mockReset} />);
 
-    expect(screen.getByText("Something went wrong!")).toBeInTheDocument();
+    expect(screen.getByText("Something went wrong.")).toBeInTheDocument();
     expect(screen.getByText("Try again")).toBeInTheDocument();
   });
 

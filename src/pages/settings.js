@@ -85,145 +85,154 @@ export default function Settings() {
   }
 
   return (
-    <div className='min-h-max text-lg'>
-      <div className='lg:inline-flex flex-wrap text-lg justify-center gap-8 items-center m-1'>
-        <Input
-          isClearable
-          className='w-auto sm:max-w-[33%] mr-4'
-          placeholder={t("global.search")}
-          startContent={<BiSearch />}
-          value={filterValue}
-          onClear={() => setFilterValue("")}
-          onChange={(e) => setFilterValue(e.target.value)}
-        />
-        <span className='text-muted-foreground text-sm'>
-          {t("global.total", { total: (settings || []).length })}
-        </span>
-
-        <div data-testid='pagination' className='flex items-center gap-2'>
-          <Button
-            data-testid='prev-page'
-            variant='outline'
-            size='sm'
-            onClick={() => setPage((p) => Math.max(1, p - 1))}
-            disabled={page === 1}
-          >
-            {t("global.prev") || "Prev"}
-          </Button>
-          <span className='text-sm'>
-            {t("global.page") || "Page"} {""}
-            <span data-testid='current-page'>{page}</span> / {""}
-            <span data-testid='total-pages'>{pages}</span>
+    <div className='hallmark-page hallmark-workbench'>
+      <div className='hallmark-app-header-wrap'>
+        <p className='hallmark-app-header'>Settings ·</p>
+      </div>
+      <div className='min-h-max text-lg'>
+        <div className='lg:inline-flex flex-wrap text-lg justify-center gap-8 items-center m-1'>
+          <Input
+            isClearable
+            className='w-auto sm:max-w-[33%] mr-4'
+            placeholder={t("global.search")}
+            startContent={<BiSearch />}
+            value={filterValue}
+            onClear={() => setFilterValue("")}
+            onChange={(e) => setFilterValue(e.target.value)}
+          />
+          <span className='text-muted-foreground text-sm'>
+            {t("global.total", { total: (settings || []).length })}
           </span>
-          <Button
-            data-testid='next-page'
-            variant='outline'
-            size='sm'
-            onClick={() => setPage((p) => Math.min(pages, p + 1))}
-            disabled={page >= pages}
-          >
-            {t("global.next") || "Next"}
-          </Button>
+
+          <div data-testid='pagination' className='flex items-center gap-2'>
+            <Button
+              data-testid='prev-page'
+              variant='outline'
+              size='sm'
+              onClick={() => setPage((p) => Math.max(1, p - 1))}
+              disabled={page === 1}
+            >
+              {t("global.prev") || "Prev"}
+            </Button>
+            <span className='text-sm'>
+              {t("global.page") || "Page"} {""}
+              <span data-testid='current-page'>{page}</span> / {""}
+              <span data-testid='total-pages'>{pages}</span>
+            </span>
+            <Button
+              data-testid='next-page'
+              variant='outline'
+              size='sm'
+              onClick={() => setPage((p) => Math.min(pages, p + 1))}
+              disabled={page >= pages}
+            >
+              {t("global.next") || "Next"}
+            </Button>
+          </div>
+
+          <label className='flex items-center text-muted-foreground text-sm'>
+            {t("global.rows_per_page")}:
+            <select
+              className='ml-2 bg-transparent outline-none text-foreground text-sm rounded-md px-2 py-1'
+              onChange={onRowsPerPageChange}
+              value={rowsPerPage}
+            >
+              <option value='5'>5</option>
+              <option value='10'>10</option>
+              <option value='15'>15</option>
+            </select>
+          </label>
         </div>
 
-        <label className='flex items-center text-muted-foreground text-sm'>
-          {t("global.rows_per_page")}:
-          <select
-            className='ml-2 bg-transparent outline-none text-foreground text-sm rounded-md px-2 py-1'
-            onChange={onRowsPerPageChange}
-            value={rowsPerPage}
+        <div className='hidden lg:block overflow-x-auto rounded-md border'>
+          <table
+            data-testid='table'
+            aria-label={t("settings.table_aria_label", {
+              defaultValue: "Settings",
+            })}
+            className='w-full text-left min-h-max text-lg'
           >
-            <option value='5'>5</option>
-            <option value='10'>10</option>
-            <option value='15'>15</option>
-          </select>
-        </label>
-      </div>
-
-      <div className='hidden lg:block overflow-x-auto rounded-md border'>
-        <table
-          data-testid='table'
-          aria-label={t("settings.table_aria_label", {
-            defaultValue: "Settings",
-          })}
-          className='w-full text-left min-h-max text-lg'
-        >
-          <thead className='bg-muted'>
-            <tr>
-              <th className='p-3 text-lg font-semibold'>
-                {t("column.title.key")}
-              </th>
-              <th className='p-3 text-lg font-semibold'>
-                {t("column.title.value")}
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {items.map((item) => (
-              <tr
-                key={item.key ?? item.name}
-                className='odd:bg-muted/40 hover:bg-accent/20 hover:scale-[1.01] transition-all duration-fast ease-out cursor-pointer'
-              >
-                <td className='p-3 text-lg'>{item.name}</td>
-                <td className='p-3 text-lg'>{item.value}</td>
-              </tr>
-            ))}
-            {items.length === 0 && (
+            <thead className='bg-muted'>
               <tr>
-                <td className='p-3' colSpan={2}>
-                  {t("global.empty") || "No settings to display"}
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
-
-      <div className='lg:hidden space-y-4'>
-        {items.map((item) => (
-          <div
-            key={item.key ?? item.name}
-            className='rounded-xl glass p-4 shadow-sm'
-          >
-            <div className='flex justify-between items-start'>
-              <div className='flex-1'>
-                <div className='text-sm font-semibold text-foreground'>
+                <th className='p-3 text-lg font-semibold'>
                   {t("column.title.key")}
-                </div>
-                <div className='text-lg text-foreground mt-1'>{item.name}</div>
-              </div>
-              <div className='flex-1 text-right'>
-                <div className='text-sm font-semibold text-foreground'>
+                </th>
+                <th className='p-3 text-lg font-semibold'>
                   {t("column.title.value")}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {items.map((item) => (
+                <tr
+                  key={item.key ?? item.name}
+                  className='odd:bg-muted/40 hover:bg-accent/20 hover:scale-[1.01] transition-all duration-fast ease-out cursor-pointer'
+                >
+                  <td className='p-3 text-lg'>{item.name}</td>
+                  <td className='p-3 text-lg'>{item.value}</td>
+                </tr>
+              ))}
+              {items.length === 0 && (
+                <tr>
+                  <td className='p-3' colSpan={2}>
+                    {t("global.empty") || "No settings to display"}
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+
+        <div className='lg:hidden space-y-4'>
+          {items.map((item) => (
+            <div
+              key={item.key ?? item.name}
+              className='rounded-xl glass p-4 shadow-sm'
+            >
+              <div className='flex justify-between items-start'>
+                <div className='flex-1'>
+                  <div className='text-sm font-semibold text-foreground'>
+                    {t("column.title.key")}
+                  </div>
+                  <div className='text-lg text-foreground mt-1'>
+                    {item.name}
+                  </div>
                 </div>
-                <div className='text-lg text-foreground mt-1'>{item.value}</div>
+                <div className='flex-1 text-right'>
+                  <div className='text-sm font-semibold text-foreground'>
+                    {t("column.title.value")}
+                  </div>
+                  <div className='text-lg text-foreground mt-1'>
+                    {item.value}
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
-        {items.length === 0 && (
-          <div className='rounded-xl glass p-8 text-center'>
-            <p className='text-muted-foreground'>
-              {t("global.empty") || "No settings to display"}
-            </p>
-          </div>
-        )}
-      </div>
-
-      {/* Numeric pagination (optional) */}
-      <div className='mt-4 flex flex-wrap items-center gap-2 justify-center'>
-        {Array.from({ length: pages }, (_, i) => i + 1)
-          .filter((p) => Math.abs(p - page) <= 2 || p === 1 || p === pages)
-          .map((p) => (
-            <Button
-              key={p}
-              variant={p === page ? "secondary" : "outline"}
-              size='sm'
-              onClick={() => setPage(p)}
-            >
-              {p}
-            </Button>
           ))}
+          {items.length === 0 && (
+            <div className='rounded-xl glass p-8 text-center'>
+              <p className='text-muted-foreground'>
+                {t("global.empty") || "No settings to display"}
+              </p>
+            </div>
+          )}
+        </div>
+
+        {/* Numeric pagination (optional) */}
+        <div className='mt-4 flex flex-wrap items-center gap-2 justify-center'>
+          {Array.from({ length: pages }, (_, i) => i + 1)
+            .filter((p) => Math.abs(p - page) <= 2 || p === 1 || p === pages)
+            .map((p) => (
+              <Button
+                key={p}
+                variant={p === page ? "secondary" : "outline"}
+                size='sm'
+                onClick={() => setPage(p)}
+              >
+                {p}
+              </Button>
+            ))}
+        </div>
       </div>
     </div>
   );

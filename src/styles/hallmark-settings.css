@@ -1,0 +1,21 @@
+/* Hallmark · settings.js · Workbench macro · Coral · v0.2
+ * Source: ../design.md (Family: App — H4 muted app-header).
+ * Shared CTA + header styles live in hallmark.css (loaded globally).
+ */
+
+.hallmark-workbench {
+  padding: var(--space-xl) var(--space-md) var(--space-2xl);
+  max-width: 80rem;
+  margin-inline: auto;
+}
+
+.hallmark-app-header-wrap {
+  /* Spacing handled by .hallmark-app-header margin; this is a layout group */
+  display: block;
+}
+
+@media (max-width: 48rem) {
+  .hallmark-workbench {
+    padding: var(--space-lg) var(--space-sm) var(--space-xl);
+  }
+}

@@ -6,11 +6,17 @@ import { useEffect, useState } from "react";
 import { MdKeyboardArrowUp } from "react-icons/md";
 import { useTranslation } from "react-i18next";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { applyDesignStyleToDocument } from "../lib/ui-ux-pro-max";
 import { siteConfig } from "../config/site";
 
 export default function RootLayout({ children }) {
   const { t } = useTranslation();
+  const router = useRouter();
+  const isErrorRoute =
+    router.pathname === "/_error" ||
+    router.pathname === "/auth/error" ||
+    router.pathname.startsWith("/auth/error/");
   const appVersion = process.env.NEXT_PUBLIC_APP_VERSION || "1.0.0";
   const [showScrollButton, setShowScrollButton] = useState(false);
   const { currentStyle } = useSettings();
@@ -41,7 +47,7 @@ export default function RootLayout({ children }) {
       <a href='#main' className='skip-link'>
         {t("layout.skip_to_content", { defaultValue: "Skip to content" })}
       </a>
-      <NavigationBar />
+      {!isErrorRoute && <NavigationBar />}
       <div className='flex-1 container-prose py-6'>
         <Breadcrumb />
         <main id='main'>{children}</main>

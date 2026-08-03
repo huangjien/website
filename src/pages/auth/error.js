@@ -4,37 +4,45 @@ import { useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-export default function AuthError({ searchParams }) {
+export default function AuthError() {
   const router = useRouter();
-  const rawError = searchParams?.error || router?.query?.error;
+  const rawError = router?.query?.error;
   const error = Array.isArray(rawError) ? rawError[0] : rawError;
 
   useEffect(() => {
     console.error("Auth Error:", error);
   }, [error]);
 
+  const description =
+    error === "OAuthSignin"
+      ? "Sign-in couldn't start."
+      : error === "OAuthCallback"
+        ? "Sign-in callback failed."
+        : error === "SessionRequired"
+          ? "Sign in required."
+          : error === "Default"
+            ? "Authentication error."
+            : "An unknown error occurred.";
+
+  const errorCode = error || "Unknown";
+
   return (
-    <div className='flex min-h-screen flex-col items-center justify-center p-4'>
-      <div className='w-full max-w-md rounded-lg border bg-card p-6 text-center shadow-lg'>
-        <h1 className='mb-4 text-2xl font-bold text-destructive'>
-          Authentication Error
-        </h1>
-        <p className='mb-4 text-muted-foreground'>
-          {error === "OAuthSignin" && "Error starting sign in flow."}
-          {error === "OAuthCallback" && "Error during OAuth callback."}
-          {error === "Default" && "Default error."}
-          {error === "SessionRequired" && "Please sign in to view this page."}
-          {!error && "An unknown error occurred."}
+    <div className='hallmark-page' data-route='error'>
+      <div className='hallmark-auth-error'>
+        <p className='hallmark-error-stat'>
+          {errorCode.slice(0, 12)}
+          <span className='hallmark-error-stat__dot'>.</span>
         </p>
-        <p className='text-sm text-muted-foreground'>
-          Error code: {error || "unknown"}
+        <h1 className='hallmark-error-message'>{description}</h1>
+        <p className='hallmark-error-lede'>
+          Error code:{" "}
+          <code className='hallmark-auth-error__code'>{errorCode}</code>
         </p>
-        <Link
-          href='/'
-          className='mt-4 inline-block rounded bg-primary px-4 py-2 text-primary-foreground hover:bg-primary/90'
-        >
-          Go Home
-        </Link>
+        <div className='hallmark-error-actions'>
+          <Link href='/' className='hallmark-cta hallmark-cta--primary'>
+            Go home
+          </Link>
+        </div>
       </div>
     </div>
   );

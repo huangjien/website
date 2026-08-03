@@ -1,0 +1,11 @@
+/* Hallmark · ai.js · Chat Surface macro · Cobalt · v0.2
+ * Source: ../design.md (Family: App — H4 muted app-header, Cobalt theme).
+ * Shared CTA + header styles live in hallmark.css (loaded globally).
+ * Existing chat logic and components are kept; this layer only adds
+ * the page-scope chrome and applies the [data-theme="cobalt"] scope.
+ */
+
+.hallmark-app-header-wrap {
+  /* Spacing handled by .hallmark-app-header margin; this is a layout group */
+  display: block;
+}
