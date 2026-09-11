@@ -42,7 +42,7 @@ minimumReleaseAgeExclude:
   - '@ai-sdk/provider-utils@5.0.7'
   - '@ai-sdk/provider@4.0.3'
   - i18next@26.3.6
-  - openai@6.46.0
+  - openai@6.46.0 || 7.15.0
   - prettier@3.9.5
   - react-i18next@17.0.9
   - lint-staged@17.1.0 || 17.5.0
@@ -83,3 +83,19 @@ minimumReleaseAgeExclude:
   - autoprefixer@10.5.5
   - browserslist@4.28.9
   - ahooks@3.10.0
+  - '@next/bundle-analyzer@16.3.5'
+  - '@next/env@16.3.5'
+  - '@next/eslint-plugin-next@16.3.5'
+  - '@next/swc-darwin-arm64@16.3.5'
+  - '@next/swc-darwin-x64@16.3.5'
+  - '@next/swc-linux-arm64-gnu@16.3.5'
+  - '@next/swc-linux-arm64-musl@16.3.5'
+  - '@next/swc-linux-x64-gnu@16.3.5'
+  - '@next/swc-linux-x64-musl@16.3.5'
+  - '@next/swc-win32-arm64-msvc@16.3.5'
+  - '@next/swc-win32-x64-msvc@16.3.5'
+  - '@tanstack/react-virtual@3.14.12'
+  - '@tanstack/virtual-core@3.17.10'
+  - eslint-config-next@16.3.5
+  - next@16.3.5
+  - zod@4.6.2
