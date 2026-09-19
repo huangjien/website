@@ -34,15 +34,15 @@ ignoredBuiltDependencies:
   - sharp
   - unrs-resolver
 minimumReleaseAgeExclude:
-  - '@ai-sdk/gateway@4.0.12 || 4.0.15 || 4.0.75'
-  - '@ai-sdk/react@4.0.16 || 4.0.20 || 4.0.21 || 4.0.96'
-  - ai@7.0.15 || 7.0.19 || 7.0.20 || 7.0.93
-  - '@ai-sdk/mcp@2.0.10 || 2.0.45'
-  - '@ai-sdk/openai@4.0.10 || 4.0.11 || 4.0.59 || 4.0.60'
-  - '@ai-sdk/provider-utils@5.0.7'
+  - '@ai-sdk/gateway@4.0.12 || 4.0.15 || 4.0.75 || 4.0.87'
+  - '@ai-sdk/react@4.0.16 || 4.0.20 || 4.0.21 || 4.0.96 || 4.0.110'
+  - ai@7.0.15 || 7.0.19 || 7.0.20 || 7.0.93 || 7.0.107
+  - '@ai-sdk/mcp@2.0.10 || 2.0.45 || 2.0.54'
+  - '@ai-sdk/openai@4.0.10 || 4.0.11 || 4.0.59 || 4.0.60 || 4.0.71'
+  - '@ai-sdk/provider-utils@5.0.7 || 5.0.45'
   - '@ai-sdk/provider@4.0.3'
   - i18next@26.3.6
-  - openai@6.46.0 || 7.15.0
+  - openai@6.46.0 || 7.15.0 || 7.19.0
   - prettier@3.9.5
   - react-i18next@17.0.9
   - lint-staged@17.1.0 || 17.5.0
@@ -79,7 +79,7 @@ minimumReleaseAgeExclude:
   - '@radix-ui/react-use-rect@1.1.4'
   - '@radix-ui/react-use-size@1.1.4'
   - '@radix-ui/react-visually-hidden@1.2.11'
-  - eslint@10.8.0 || 10.10.0
+  - eslint@10.8.0 || 10.10.0 || 10.11.0
   - autoprefixer@10.5.5
   - browserslist@4.28.9
   - ahooks@3.10.0
@@ -99,3 +99,35 @@ minimumReleaseAgeExclude:
   - eslint-config-next@16.3.5
   - next@16.3.5
   - zod@4.6.2
+  - '@jest/console@30.5.2'
+  - '@jest/core@30.5.2'
+  - '@jest/environment-jsdom-abstract@30.5.2'
+  - '@jest/environment@30.5.2'
+  - '@jest/expect-utils@30.5.2'
+  - '@jest/expect@30.5.2'
+  - '@jest/fake-timers@30.5.2'
+  - '@jest/globals@30.5.2'
+  - '@jest/reporters@30.5.2'
+  - '@jest/source-map@30.5.2'
+  - '@jest/test-result@30.5.2'
+  - '@jest/test-sequencer@30.5.2'
+  - '@jest/transform@30.5.2'
+  - '@types/node@26.6.2'
+  - babel-jest@30.5.2
+  - dotenv@18.0.1
+  - expect@30.5.2
+  - jest-circus@30.5.2
+  - jest-cli@30.5.2
+  - jest-config@30.5.2
+  - jest-diff@30.5.2
+  - jest-each@30.5.2
+  - jest-environment-jsdom@30.5.2
+  - jest-environment-node@30.5.2
+  - jest-matcher-utils@30.5.2
+  - jest-mock@30.5.2
+  - jest-resolve-dependencies@30.5.2
+  - jest-runner@30.5.2
+  - jest-runtime@30.5.2
+  - jest-snapshot@30.5.2
+  - jest-watcher@30.5.2
+  - jest@30.5.2
