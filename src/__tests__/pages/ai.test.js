@@ -216,6 +216,7 @@ describe("AI Page Component (v5)", () => {
         temperature: 1,
         trackSpeed: 300,
         ttsVoice: "alloy",
+        systemPrompt: "",
       },
     });
     expect(useLocalStorageState).toHaveBeenNthCalledWith(
@@ -240,8 +241,10 @@ describe("AI Page Component (v5)", () => {
     const call = useChat.mock.calls[0][0];
     expect(call.id).toBe("ai-page");
     expect(call.transport).toBeDefined();
-    // experimental_throttle should use settings.trackSpeed
-    expect(call.experimental_throttle).toBe(300);
+    // throttle (the v5 AI SDK field) should mirror settings.trackSpeed.
+    // experimental_throttle was removed in v5; we no longer pass it.
+    expect(call.throttle).toBe(300);
+    expect(call.experimental_throttle).toBeUndefined();
   });
 
   it("should call stop when stop button is clicked", async () => {
@@ -250,38 +253,40 @@ describe("AI Page Component (v5)", () => {
     expect(mockStop).toHaveBeenCalledTimes(1);
   });
 
-  it("should persist messages when useChat finishes (onFinish)", async () => {
-    // Capture onFinish passed to useChat
-    let capturedOnFinish;
-    useChat.mockImplementation((options) => {
-      capturedOnFinish = options?.onFinish;
-      return {
-        id: "ai-page",
-        messages: [],
-        sendMessage: mockSendMessage,
-        stop: mockStop,
-        status: "idle",
-        clearError: mockClearError,
-      };
-    });
-
-    render(<AI />);
-
-    // Simulate finishing chat with final messages
+  it("should persist messages via the debounced thread effect", () => {
+    // The page no longer persists in useChat's onFinish — persistence is
+    // owned by useAiThread's debounced effect, which reads messages from
+    // useChat. Verify the wiring by mocking useChat to return messages
+    // and observing the debounced effect (mocked to run synchronously)
+    // calls setSavedMessages.
     const finalMessages = [
       { id: "1", role: "user", parts: [{ type: "text", text: "Q" }] },
       { id: "2", role: "assistant", parts: [{ type: "text", text: "A" }] },
     ];
-    capturedOnFinish && capturedOnFinish({ messages: finalMessages });
+    useChat.mockImplementation((options) => ({
+      id: options?.id || "ai-page",
+      messages: finalMessages,
+      sendMessage: mockSendMessage,
+      stop: mockStop,
+      status: "ready",
+      clearError: mockClearError,
+    }));
 
-    // Expect serialization persisted
+    render(<AI />);
+
+    // The mocked useDebounceEffect runs synchronously, so by now
+    // useAiThread should have invoked setSavedMessages with the
+    // serialized thread.
     expect(setSavedMessages).toHaveBeenCalled();
-    const saved =
-      setSavedMessages.mock.calls[setSavedMessages.mock.calls.length - 1][0];
+    const lastCall =
+      setSavedMessages.mock.calls[setSavedMessages.mock.calls.length - 1];
+    const saved = lastCall[0];
     expect(Array.isArray(saved)).toBe(true);
-    expect(saved.length).toBe(2);
+    expect(saved).toHaveLength(2);
     expect(saved[0]).toHaveProperty("role");
     expect(saved[0]).toHaveProperty("content");
+    expect(saved[0].content).toBe("Q");
+    expect(saved[1].content).toBe("A");
   });
 
   it("should clean legacy localStorage keys on mount", () => {

@@ -1,11 +1,10 @@
 "use client";
 
-import { useEffect, useMemo, useState, useRef, useCallback } from "react";
-import { useLocalStorageState, useTitle, useDebounceEffect } from "ahooks";
+import { useEffect, useMemo, useRef, useState, useCallback } from "react";
+import { useTitle } from "ahooks";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import { useChat } from "@ai-sdk/react";
-import { DefaultChatTransport } from "ai";
 import { BiExpand, BiCollapse } from "react-icons/bi";
 import dynamic from "next/dynamic";
 
@@ -18,199 +17,46 @@ import PromptInput from "../components/ai-elements/prompt-input";
 import SettingsPanel from "../components/ai-elements/settings-panel";
 import TTSButton from "../components/ai-elements/tts-button";
 import CopyButton from "../components/ai-elements/copy-button";
-import {
-  DEFAULT_AI_MODEL,
-  getCuratedAiModels,
-  isAllowedAiModel,
-} from "../config/ai-models";
+import { DEFAULT_AI_MODEL, isAllowedAiModel } from "../config/ai-models";
+
+import { useAiSettings } from "../lib/ai/useAiSettings";
+import { useAiThread } from "../lib/ai/useAiThread";
+import { useAiMigration } from "../lib/ai/useAiMigration";
+import { useAiModelCatalog } from "../lib/ai/useAiModelCatalog";
+import { createChatTransport, transportDeps } from "../lib/ai/chatTransport";
+import { formatMessageTimestamp } from "../lib/ai/formatTimestamp";
+import { uiMessageText, hydrateMessages } from "../lib/ai/serializeMessages";
 
 // react-markdown + rehype-highlight are heavy; load Response client-side only.
 const Response = dynamic(() => import("../components/ai-elements/response"), {
   ssr: false,
 });
 
-// Helpers to serialize/hydrate UI messages for localStorage
-function uiMessageText(message) {
-  // Attempt to get text from parts for AI SDK v5
-  if (Array.isArray(message?.parts)) {
-    return message.parts
-      .map((p) => (p?.type === "text" ? p.text : ""))
-      .join("");
-  }
-  // Fallbacks
-  if (typeof message?.content === "string") return message.content;
-  if (typeof message?.text === "string") return message.text;
-  return "";
-}
-
 // Stable empty array for useChat initial messages.
 // Passing `[]` inline resets useChat on every render in dev (HMR loop).
 const EMPTY_MESSAGES = [];
 
-function serializeMessages(messages) {
-  return (messages || []).map((m) => ({
-    id: m.id,
-    role: m.role,
-    content: uiMessageText(m),
-    timestamp: Date.now(),
-  }));
-}
-
-function hydrateMessages(serialized) {
-  return (serialized || []).map((m) => ({
-    id: m.id || Math.random().toString(36).slice(2),
-    role: m.role,
-    parts: [{ type: "text", text: String(m.content || "") }],
-  }));
-}
-
 export default function AI() {
-  const [mounted, setMounted] = useState(false);
-  const [modelOptions, setModelOptions] = useState(getCuratedAiModels());
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
   const { t } = useTranslation();
   useTitle(t("header.ai"));
 
-  // Settings persisted under ai:* per spec
-  const [settings, setSettings] = useLocalStorageState("ai:settings", {
-    defaultValue: {
-      model: DEFAULT_AI_MODEL,
-      temperature: 1,
-      trackSpeed: 300,
-      ttsVoice: "alloy",
-    },
-  });
+  // ---- Settings (persisted, SSR-safe) ----------------------------------
+  const { settings, setSettings } = useAiSettings();
 
-  // Persisted message thread under ai:* per spec
-  const [savedMessages, setSavedMessages] = useLocalStorageState(
-    "ai:conversations",
-    { defaultValue: [] },
-  );
+  // ---- Model catalog (live with curated fallback) -----------------------
+  const modelOptions = useAiModelCatalog();
 
-  // Controlled prompt input (AI SDK v5 does not manage input state)
-  const [prompt, setPrompt] = useState("");
-  const [showSettings, setShowSettings] = useState(false);
-  const [isInputCollapsed, setIsInputCollapsed] = useState(false);
-  const settingsPanelRef = useRef(null);
-  const hasMigratedLegacyRef = useRef(false);
-
-  // Scroll anchor to keep recent info visible
-  const bottomRef = useRef(null);
-  const messagesContainerRef = useRef(null);
-
-  // Migrate legacy keys to ai:* per spec
-  useEffect(() => {
-    if (hasMigratedLegacyRef.current) {
-      return;
-    }
-    hasMigratedLegacyRef.current = true;
-
-    try {
-      // Migrate from ai-elements/conversations (previous iteration)
-      const legacyConvs = JSON.parse(
-        localStorage.getItem("ai-elements/conversations") || "null",
-      );
-      if (
-        Array.isArray(legacyConvs) &&
-        legacyConvs.length &&
-        savedMessages?.length === 0
-      ) {
-        // Take the latest conversation's messages if available
-        const latest = legacyConvs[0]?.messages || [];
-        setSavedMessages(
-          latest.map((m) => ({
-            id: m.id || Math.random().toString(36).slice(2),
-            role: m.role,
-            content: m.content,
-            timestamp: Date.now(),
-          })),
-        );
-      }
-    } catch (err) {
-      console.warn("Failed to migrate legacy conversations:", err);
-    }
-
-    try {
-      // Migrate from QandA/LastAnswer (very old schema)
-      const legacyQandA = JSON.parse(localStorage.getItem("QandA") || "null");
-      if (
-        Array.isArray(legacyQandA) &&
-        legacyQandA.length &&
-        savedMessages?.length === 0
-      ) {
-        const migrated = legacyQandA.flatMap((item) => [
-          {
-            id: item.id || Math.random().toString(36).slice(2),
-            role: "user",
-            content: item.question,
-            timestamp: item.timestamp || Date.now(),
-          },
-          {
-            id: Math.random().toString(36).slice(2),
-            role: "assistant",
-            content: item.answer,
-            timestamp: item.timestamp || Date.now(),
-          },
-        ]);
-        setSavedMessages(migrated);
-      }
-    } catch (err) {
-      console.warn("Failed to migrate legacy QandA:", err);
-    }
-
-    // Remove legacy keys regardless
-    localStorage.removeItem("QandA");
-    localStorage.removeItem("LastAnswer");
-    localStorage.removeItem("ai-model");
-    localStorage.removeItem("ai-temperature");
-    localStorage.removeItem("ai-elements/conversations");
-    localStorage.removeItem("ai-elements/settings");
-  }, [savedMessages?.length, setSavedMessages]);
-
-  useEffect(() => {
-    const fetchModelOptions = async () => {
-      if (process.env.NODE_ENV === "test") {
-        return;
-      }
-      if (typeof fetch !== "function") {
-        return;
-      }
-      try {
-        const response = await fetch("/api/ai-models");
-        if (!response.ok) {
-          throw new Error(`Failed to load models: ${response.status}`);
-        }
-        const data = await response.json();
-        if (Array.isArray(data?.models) && data.models.length > 0) {
-          setModelOptions(data.models);
-        }
-      } catch (error) {
-        console.warn(
-          "Failed to load live model catalog, using fallback",
-          error,
-        );
-        setModelOptions(getCuratedAiModels());
-      }
-    };
-
-    fetchModelOptions();
-  }, []);
-
+  // ---- Auto-fallback if current model is no longer in catalog ----------
   useEffect(() => {
     const currentModel = settings?.model;
-    if (!currentModel) {
-      return;
-    }
+    if (!currentModel) return;
     const isInCatalog = modelOptions.some((item) => item.id === currentModel);
     if (!isAllowedAiModel(currentModel) || !isInCatalog) {
       const fallbackModel =
         modelOptions.find((item) => item.id === DEFAULT_AI_MODEL)?.id ||
         modelOptions[0]?.id ||
         DEFAULT_AI_MODEL;
-      setSettings?.((prev) => ({ ...prev, model: fallbackModel }));
+      setSettings((prev) => ({ ...prev, model: fallbackModel }));
       toast.info(
         t("ai.model_auto_fallback", {
           defaultValue: "Model updated to default option.",
@@ -219,25 +65,20 @@ export default function AI() {
     }
   }, [modelOptions, settings?.model, setSettings, t]);
 
-  // Initialize useChat with initial messages and backend API
+  // ---- Transport: memoized so it only rebuilds on real settings change -
+  const transport = useMemo(
+    () => createChatTransport(settings),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [transportDeps(settings)],
+  );
+
+  // ---- useChat: only construct once; settings drive transport updates --
   const { messages, sendMessage, stop, status, clearError, setMessages } =
     useChat({
-      transport: new DefaultChatTransport({
-        api: "/api/chat",
-        prepareSendMessagesRequest: ({ messages: outgoing }) => {
-          return {
-            body: {
-              messages: outgoing,
-              model: settings?.model,
-              temperature: parseFloat(settings?.temperature ?? 1),
-              system: settings?.systemPrompt || undefined,
-            },
-          };
-        },
-      }),
       id: "ai-page",
-      messages: EMPTY_MESSAGES, // Start empty to match server SSR
-      experimental_throttle: settings?.trackSpeed || undefined,
+      messages: EMPTY_MESSAGES,
+      transport,
+      throttle: settings?.trackSpeed || undefined,
       onError: (err) => {
         console.error("useChat error:", err);
         toast.error(t("ai.error_message"), {
@@ -245,62 +86,44 @@ export default function AI() {
           autoClose: 5000,
         });
       },
-      onFinish: ({ messages: finalMessages }) => {
-        setSavedMessages(serializeMessages(finalMessages));
-      },
     });
 
-  // Load saved messages on mount
-  const [initialLoaded, setInitialLoaded] = useState(false);
+  // ---- Thread persistence (single source of truth for localStorage) ----
+  const {
+    thread: storedThread,
+    setThread: setStoredThread,
+    mounted: threadMounted,
+  } = useAiThread({ messages, status });
+
+  // ---- One-time legacy key migration ------------------------------------
+  useAiMigration({
+    ready: threadMounted,
+    thread: storedThread,
+    setThread: setStoredThread,
+  });
+
+  // ---- Local UI state ---------------------------------------------------
+  const [prompt, setPrompt] = useState("");
+  const [showSettings, setShowSettings] = useState(false);
+  const [isInputCollapsed, setIsInputCollapsed] = useState(false);
+  const settingsPanelRef = useRef(null);
+  const initialHydratedRef = useRef(false);
+
+  // ---- Hydrate saved thread into useChat once --------------------------
   useEffect(() => {
-    if (mounted && !initialLoaded && savedMessages?.length > 0) {
-      setMessages(hydrateMessages(savedMessages));
-      setInitialLoaded(true);
+    if (!threadMounted) return;
+    if (initialHydratedRef.current) return;
+    if (!storedThread?.length) {
+      initialHydratedRef.current = true;
+      return;
     }
-  }, [mounted, initialLoaded, savedMessages, setMessages]);
+    setMessages(hydrateMessages(storedThread));
+    initialHydratedRef.current = true;
+  }, [threadMounted, storedThread, setMessages]);
 
-  // Persist messages on changes (debounced).
-  // Guard against no-op writes — setSavedMessages with a fresh array ref
-  // would otherwise retrigger the load effect and loop.
-  const lastSavedRef = useRef(null);
-  useDebounceEffect(
-    () => {
-      if (status === "streaming") {
-        return;
-      }
-      const serialized = serializeMessages(messages);
-      const last = lastSavedRef.current;
-      const sameLength = last && last.length === serialized.length;
-      const sameTail =
-        sameLength &&
-        serialized.length > 0 &&
-        serialized[serialized.length - 1].id === last[last.length - 1].id &&
-        serialized[serialized.length - 1].content ===
-          last[last.length - 1].content;
-      if (sameTail) return;
-      lastSavedRef.current = serialized;
-      setSavedMessages(serialized);
-    },
-    [messages, status],
-    { wait: 500 },
-  );
-
-  const formatTimestamp = (timestamp) => {
-    if (!timestamp) return "";
-    const date = new Date(timestamp * 1000);
-    const now = new Date();
-    const diffMs = now - date;
-    const diffMins = Math.floor(diffMs / 60000);
-    const diffHours = Math.floor(diffMs / 3600000);
-
-    if (diffMins < 1) return t("ai.timestamp_now") || "Just now";
-    if (diffMins < 60)
-      return `${diffMins} ${t("ai.timestamp_mins_ago") || "min(s) ago"}`;
-    if (diffHours < 24)
-      return `${diffHours} ${t("ai.timestamp_hours_ago") || "h(s) ago"}`;
-    return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-  };
-
+  // ---- Auto-scroll ------------------------------------------------------
+  const bottomRef = useRef(null);
+  const messagesContainerRef = useRef(null);
   const scrollToBottom = useCallback((behavior = "smooth") => {
     try {
       bottomRef.current?.scrollIntoView({ behavior });
@@ -324,21 +147,18 @@ export default function AI() {
     }
   }, [messages.length, isNearBottom, scrollToBottom]);
 
-  // Close settings panel on ESC key
+  // ---- ESC to close settings panel --------------------------------------
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.key === "Escape" && showSettings) {
-        setShowSettings(false);
-      }
+      if (e.key === "Escape" && showSettings) setShowSettings(false);
     };
-
     if (showSettings) {
       document.addEventListener("keydown", handleKeyDown);
       return () => document.removeEventListener("keydown", handleKeyDown);
     }
   }, [showSettings]);
 
-  // Close settings panel when clicking outside
+  // ---- Click-outside to close settings panel ----------------------------
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (
@@ -350,7 +170,6 @@ export default function AI() {
         setShowSettings(false);
       }
     };
-
     if (showSettings) {
       document.addEventListener("mousedown", handleClickOutside);
       document.addEventListener("touchstart", handleClickOutside);
@@ -361,17 +180,15 @@ export default function AI() {
     }
   }, [showSettings]);
 
+  // ---- Send / stop handlers --------------------------------------------
   const handleSend = async () => {
     const question = prompt.trim();
     if (!question) return;
     try {
-      // Send ONLY the current prompt as the user's message.
-      // The conversation history (including any previous assistant answers) is already maintained by useChat.
-      const userMessage = {
+      await sendMessage({
         role: "user",
         parts: [{ type: "text", text: question }],
-      };
-      await sendMessage(userMessage);
+      });
       setPrompt("");
       scrollToBottom("smooth");
     } catch (err) {
@@ -388,32 +205,17 @@ export default function AI() {
     }
   };
 
-  // Cleanup policy: if more than 2000 messages, keep last month
-  useDebounceEffect(
-    () => {
-      const list = savedMessages || [];
-      if (list.length > 2000) {
-        const now = new Date();
-        const oneMonthAgo = new Date(
-          now.getTime() - 1000 * 60 * 60 * 24 * 30,
-        ).getTime();
-        const oneMonthTimestamp = Math.round(oneMonthAgo / 1000);
-        const filtered = list.filter(
-          (item) => (item.timestamp || 0) > oneMonthTimestamp,
-        );
-        setSavedMessages(filtered);
-      }
-    },
-    [savedMessages],
-    { wait: 200000 },
-  );
-
-  // Optionally limit rendering to recent N messages to keep UI snappy
+  // ---- Visibility: cap rendered messages for UI snappiness -------------
   const visibleMessages = useMemo(() => {
     const all = messages || [];
-    const N = 300; // show up to latest 300 messages
+    const N = 300;
     return all.length > N ? all.slice(all.length - N) : all;
   }, [messages]);
+
+  const formatTimestamp = useCallback(
+    (message) => formatMessageTimestamp(message, t),
+    [t],
+  );
 
   return (
     <div className='hallmark-page' data-theme='cobalt'>
@@ -424,7 +226,6 @@ export default function AI() {
         <div className='hallmark-app-header-wrap'>
           <p className='hallmark-app-header'>AI ·</p>
         </div>
-        {/* Messages area with bottom padding to avoid overlap with fixed input */}
         <div
           ref={messagesContainerRef}
           className={`
@@ -448,7 +249,7 @@ export default function AI() {
                           )}
                         </div>
                         <div className='text-xs text-muted-foreground whitespace-nowrap flex-shrink-0'>
-                          {formatTimestamp(m.createdAt)}
+                          {formatTimestamp(m)}
                         </div>
                       </div>
                       {m.role === "assistant" ? (
@@ -464,13 +265,11 @@ export default function AI() {
                   </Message>
                 );
               })}
-              {/* Scroll anchor */}
               <div ref={bottomRef} />
             </ConversationContent>
           </Conversation>
         </div>
 
-        {/* Fixed bottom input bar */}
         <div
           className={`
           fixed left-0 right-0 glass-nav border-t border-border/50 backdrop-blur-xl
@@ -481,7 +280,6 @@ export default function AI() {
             height: isInputCollapsed ? "auto" : "auto",
           }}
         >
-          {/* Collapse/Expand toggle button - positioned on LEFT to avoid conflict with scroll-to-top button */}
           <button
             onClick={() => setIsInputCollapsed(!isInputCollapsed)}
             className='fixed bottom-4 left-4 z-[60] inline-flex items-center justify-center w-14 h-14 rounded-full bg-primary text-primary-foreground ring-1 ring-border/60 hover:brightness-110 hover:-translate-y-px active:translate-y-0 active:brightness-95 shadow-[inset_0_1px_0_hsl(var(--primary-foreground)/0.15),0_10px_24px_-10px_hsl(var(--primary)/0.55)] transition-all duration-normal ease-out'
@@ -526,12 +324,10 @@ export default function AI() {
 
         {showSettings ? (
           <>
-            {/* Backdrop overlay */}
             <div
               className='fixed inset-0 bg-black/20 backdrop-blur-sm z-40 animate-fade-in'
               onClick={() => setShowSettings(false)}
             />
-            {/* Settings panel */}
             <div
               className={`
             fixed left-0 right-0 z-50 px-4 transition-all duration-300 ease-in-out
@@ -540,16 +336,7 @@ export default function AI() {
             >
               <div className='mx-auto w-full max-w-2xl' ref={settingsPanelRef}>
                 <SettingsPanel
-                  settings={
-                    mounted
-                      ? settings
-                      : {
-                          model: DEFAULT_AI_MODEL,
-                          temperature: 1,
-                          trackSpeed: 300,
-                          ttsVoice: "alloy",
-                        }
-                  }
+                  settings={settings}
                   models={modelOptions}
                   setSettings={setSettings}
                   onClose={() => setShowSettings(false)}
