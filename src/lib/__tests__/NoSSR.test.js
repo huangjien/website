@@ -1,145 +1,159 @@
 import { render, screen } from "@testing-library/react";
 import React from "react";
-
-// Mock React's useState to control the initial state
-const mockSetState = jest.fn();
-
-// Create a mock component for testing
-const MockedNoSSR = ({ children: _children, onSSR }) => {
-  // Simulate server-side rendering (canRender: false)
-  if (onSSR) {
-    return onSSR;
-  }
-  // Return an empty div for server-side rendering
-  return React.createElement("div", {}, null);
-};
+import NoSSR from "../NoSSR";
 
 describe("NoSSR Component", () => {
+  let setStateSpy;
+
   beforeEach(() => {
-    mockSetState.mockClear();
+    // Spy on React.Component.prototype.setState so we can observe what NoSSR
+    // sets when componentDidMount fires.
+    setStateSpy = jest.spyOn(React.Component.prototype, "setState");
   });
 
-  it("should render default component on server side", () => {
-    const TestComponent = () => (
-      <div data-testid='test-content'>Client Content</div>
-    );
-
-    render(
-      <MockedNoSSR>
-        <TestComponent />
-      </MockedNoSSR>,
-    );
-
-    // Should render empty div (server-side)
-    expect(screen.queryByTestId("test-content")).not.toBeInTheDocument();
-    // Should render a div element
-    expect(document.querySelector("div")).toBeInTheDocument();
+  afterEach(() => {
+    setStateSpy.mockRestore();
   });
 
-  it("should render children after component mounts", () => {
-    // This test simulates client-side rendering by directly rendering children
-    // In a real scenario, this would happen after componentDidMount
-    const TestComponent = () => (
-      <div data-testid='test-content'>Client Content</div>
-    );
+  describe("Rendering", () => {
+    it("renders children after componentDidMount sets canRender to true", () => {
+      render(
+        <NoSSR>
+          <div data-testid='client-content'>Client Content</div>
+        </NoSSR>,
+      );
 
-    render(<TestComponent />);
+      // After mount, children should be in the DOM.
+      expect(screen.getByTestId("client-content")).toBeInTheDocument();
+      expect(screen.getByText("Client Content")).toBeVisible();
+    });
 
-    // After mounting, children should be rendered
-    expect(screen.getByTestId("test-content")).toBeInTheDocument();
+    it("returns null while canRender is false", () => {
+      // Drive the class directly to inspect the first render output without
+      // letting componentDidMount flip canRender to true.
+      const instance = new NoSSR({ children: <span>should not render</span> });
+      expect(instance.state).toEqual({ canRender: false });
+      expect(instance.render()).toBeNull();
+    });
+
+    it("returns children once canRender is true", () => {
+      const children = <span data-testid='child'>hello</span>;
+      const instance = new NoSSR({ children });
+      // Mutate state directly to mirror what componentDidMount commits.
+      instance.state = { canRender: true };
+      expect(instance.render()).toEqual(children);
+    });
   });
 
-  it("should render custom onSSR component when provided", () => {
-    const CustomSSRComponent = () => (
-      <div data-testid='ssr-content'>Loading...</div>
-    );
+  describe("componentDidMount", () => {
+    it("sets canRender to true on mount", () => {
+      const ref = React.createRef();
+      render(
+        <NoSSR ref={ref}>
+          <div data-testid='client-content'>Client Content</div>
+        </NoSSR>,
+      );
 
-    render(
-      <MockedNoSSR onSSR={<CustomSSRComponent />}>
-        <div data-testid='test-content'>Client Content</div>
-      </MockedNoSSR>,
-    );
+      expect(ref.current.state.canRender).toBe(true);
+    });
 
-    expect(screen.getByTestId("ssr-content")).toBeInTheDocument();
-    expect(screen.queryByTestId("test-content")).not.toBeInTheDocument();
+    it("calls setState with canRender: true during mount", () => {
+      const ref = React.createRef();
+      render(
+        <NoSSR ref={ref}>
+          <span>content</span>
+        </NoSSR>,
+      );
+
+      // At least one setState call should target canRender: true.
+      const canRenderCall = setStateSpy.mock.calls.find(
+        ([state]) =>
+          state && typeof state === "object" && state.canRender === true,
+      );
+      expect(canRenderCall).toBeDefined();
+    });
   });
 
-  it("should handle multiple children", () => {
-    render(
-      <MockedNoSSR>
-        <div data-testid='child1'>Child 1</div>
-        <div data-testid='child2'>Child 2</div>
-      </MockedNoSSR>,
-    );
+  describe("Children handling", () => {
+    it("renders a single child element after mount", () => {
+      render(
+        <NoSSR>
+          <p data-testid='single'>hello</p>
+        </NoSSR>,
+      );
+      expect(screen.getByTestId("single")).toBeInTheDocument();
+      expect(screen.getByTestId("single")).toHaveTextContent("hello");
+    });
 
-    // On server side, children should not be rendered
-    expect(screen.queryByTestId("child1")).not.toBeInTheDocument();
-    expect(screen.queryByTestId("child2")).not.toBeInTheDocument();
+    it("renders multiple children after mount", () => {
+      render(
+        <NoSSR>
+          <div data-testid='child1'>Child 1</div>
+          <div data-testid='child2'>Child 2</div>
+        </NoSSR>,
+      );
+      expect(screen.getByTestId("child1")).toBeInTheDocument();
+      expect(screen.getByTestId("child2")).toBeInTheDocument();
+    });
+
+    it("renders string children after mount", () => {
+      render(<NoSSR>Hello World</NoSSR>);
+      expect(screen.getByText("Hello World")).toBeInTheDocument();
+    });
+
+    it("renders numeric children after mount", () => {
+      render(<NoSSR>{42}</NoSSR>);
+      expect(screen.getByText("42")).toBeInTheDocument();
+    });
+
+    it("handles null children without throwing", () => {
+      expect(() => render(<NoSSR>{null}</NoSSR>)).not.toThrow();
+    });
+
+    it("handles undefined children without throwing", () => {
+      expect(() => render(<NoSSR>{undefined}</NoSSR>)).not.toThrow();
+    });
+
+    it("handles boolean children without throwing", () => {
+      expect(() => render(<NoSSR>{false}</NoSSR>)).not.toThrow();
+    });
   });
 
-  it("should handle null children gracefully", () => {
-    render(<MockedNoSSR>{null}</MockedNoSSR>);
+  describe("Props", () => {
+    it("ignores extra props on the class component", () => {
+      // NoSSR doesn't accept any props beyond children. Extra props
+      // should not throw and children should still render.
+      expect(() =>
+        render(
+          <NoSSR className='extra'>
+            <div data-testid='content'>content</div>
+          </NoSSR>,
+        ),
+      ).not.toThrow();
 
-    // Should not throw error and render empty div
-    expect(document.querySelector("div")).toBeInTheDocument();
+      expect(screen.getByTestId("content")).toBeInTheDocument();
+    });
   });
 
-  it("should handle undefined children gracefully", () => {
-    render(<MockedNoSSR>{undefined}</MockedNoSSR>);
+  describe("State transitions", () => {
+    it("initializes with canRender: false in the constructor", () => {
+      const instance = new NoSSR({
+        children: <div>never rendered</div>,
+      });
+      expect(instance.state).toEqual({ canRender: false });
+    });
 
-    // Should not throw error and render empty div
-    expect(document.querySelector("div")).toBeInTheDocument();
-  });
+    it("transitions from canRender: false to canRender: true after mount", () => {
+      const ref = React.createRef();
+      const { container } = render(
+        <NoSSR ref={ref}>
+          <div data-testid='content'>content</div>
+        </NoSSR>,
+      );
 
-  it("should render empty div by default when no onSSR is provided", () => {
-    const { container } = render(
-      <MockedNoSSR>
-        <div>Client Content</div>
-      </MockedNoSSR>,
-    );
-
-    // Should render empty div as default SSR component
-    const divs = container.querySelectorAll("div");
-    expect(divs).toHaveLength(1);
-    expect(divs[0]).toBeEmptyDOMElement();
-  });
-});
-
-// Test the class component behavior with proper React testing
-describe("NoSSR Class Component Behavior", () => {
-  it("should render default empty div when no onSSR is provided", () => {
-    const { container } = render(
-      <MockedNoSSR>
-        <div data-testid='client-content'>Client Content</div>
-      </MockedNoSSR>,
-    );
-
-    // Should render empty div by default
-    const divs = container.querySelectorAll("div");
-    expect(divs).toHaveLength(1);
-    expect(divs[0]).toBeEmptyDOMElement();
-    expect(screen.queryByTestId("client-content")).not.toBeInTheDocument();
-  });
-
-  it("should handle function components as onSSR prop", () => {
-    const SSRComponent = () => (
-      <div data-testid='ssr-function'>SSR Function</div>
-    );
-
-    render(
-      <MockedNoSSR onSSR={<SSRComponent />}>
-        <div data-testid='client-content'>Client Content</div>
-      </MockedNoSSR>,
-    );
-
-    expect(screen.getByTestId("ssr-function")).toBeInTheDocument();
-    expect(screen.queryByTestId("client-content")).not.toBeInTheDocument();
-  });
-
-  it("should handle string content as children", () => {
-    render(<MockedNoSSR>Hello World</MockedNoSSR>);
-
-    // Should not render the string content on server side
-    expect(screen.queryByText("Hello World")).not.toBeInTheDocument();
+      expect(ref.current.state.canRender).toBe(true);
+      expect(container).not.toBeEmptyDOMElement();
+      expect(screen.getByTestId("content")).toBeInTheDocument();
+    });
   });
 });
