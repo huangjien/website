@@ -3,13 +3,14 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
-import { BiChip, BiCog, BiDetail, BiHome } from "react-icons/bi";
+import { BiChip, BiCog, BiDetail, BiEditAlt, BiHome } from "react-icons/bi";
 import Login from "./Login";
 import { ThemeSwitch } from "./ThemeSwitch";
 import { LanguageSwitch } from "./LanguageSwitch";
 import { StyleSwitch } from "./StyleSwitch";
 import Avatar from "./ui/avatar";
 import { MobileMenu } from "./MobileMenu";
+import { useAuthorCapability } from "../lib/useAuthorCapability";
 
 const NAV_ITEMS = [
   { href: "/", icon: BiHome, key: "header.home" },
@@ -41,6 +42,14 @@ export const NavigationBar = () => {
   const { t } = useTranslation();
   const router = useRouter();
   const pathname = router?.pathname || "/";
+  const { canPublish } = useAuthorCapability();
+  const navItems = canPublish
+    ? [
+        ...NAV_ITEMS.slice(0, 2),
+        { href: "/write", icon: BiEditAlt, key: "header.write" },
+        ...NAV_ITEMS.slice(2),
+      ]
+    : NAV_ITEMS;
 
   return (
     <nav className='w-full glass-nav text-foreground border-b border-border/50 sticky top-0 z-40'>
@@ -58,10 +67,10 @@ export const NavigationBar = () => {
               src='/favicon.png'
             />
           </Link>
-          <MobileMenu />
+          <MobileMenu canPublish={canPublish} />
         </div>
         <div className='lg:flex items-center gap-1 hidden'>
-          {NAV_ITEMS.map(({ href, icon: Icon, key }) => {
+          {navItems.map(({ href, icon: Icon, key }) => {
             const active = isRouteActive(pathname, href);
             return (
               <Link key={href} className={navLinkClass(active)} href={href}>

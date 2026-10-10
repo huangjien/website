@@ -2,11 +2,19 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
-import { BiHome, BiChip, BiCog, BiDetail, BiMenu, BiX } from "react-icons/bi";
+import {
+  BiHome,
+  BiChip,
+  BiCog,
+  BiDetail,
+  BiEditAlt,
+  BiMenu,
+  BiX,
+} from "react-icons/bi";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import Button from "./ui/button";
 
-export const MobileMenu = () => {
+export const MobileMenu = ({ canPublish = false }) => {
   const [open, setOpen] = useState(false);
   const { t } = useTranslation();
 
@@ -57,6 +65,19 @@ export const MobileMenu = () => {
               <BiChip size='1.2em' aria-hidden='true' /> {t("header.ai")}
             </Link>
           </DropdownMenu.Item>
+          {canPublish && (
+            <DropdownMenu.Item
+              className='flex cursor-pointer select-none items-center gap-2 rounded-lg px-3 py-2.5 text-sm text-primary outline-none hover:bg-accent hover:text-accent-foreground transition-all duration-fast ease-out'
+              onSelect={handleClose}
+              role='menuitem'
+              asChild
+            >
+              <Link href='/write' className='w-full'>
+                <BiEditAlt size='1.2em' aria-hidden='true' />{" "}
+                {t("header.write", { defaultValue: "Write" })}
+              </Link>
+            </DropdownMenu.Item>
+          )}
           <DropdownMenu.Item
             className='flex cursor-pointer select-none items-center gap-2 rounded-lg px-3 py-2.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground transition-all duration-fast ease-out'
             onSelect={handleClose}

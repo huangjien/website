@@ -2,7 +2,11 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { NavigationBar } from "../NavigationBar";
 import { useSession } from "next-auth/react";
-// useTranslation is auto-mocked via jest.mock below
+import { useAuthorCapability } from "../../lib/useAuthorCapability";
+
+jest.mock("../../lib/useAuthorCapability", () => ({
+  useAuthorCapability: jest.fn(),
+}));
 
 // Stub CSS imports used by react-toastify
 jest.mock("react-toastify/dist/ReactToastify.css", () => ({}), {
@@ -51,6 +55,7 @@ jest.mock("react-icons/bi", () => {
     BiCog: () => React.createElement("div", { "data-testid": "cog-icon" }),
     BiDetail: () =>
       React.createElement("div", { "data-testid": "detail-icon" }),
+    BiEditAlt: () => React.createElement("div", { "data-testid": "edit-icon" }),
     BiHome: () => React.createElement("div", { "data-testid": "home-icon" }),
   };
 });
@@ -136,6 +141,7 @@ describe("NavigationBar Component (shadcn/ui)", () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
+    useAuthorCapability.mockReturnValue({ canPublish: false });
   });
 
   it("renders navigation bar with brand logo", () => {
