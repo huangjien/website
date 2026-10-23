@@ -42,17 +42,17 @@ ignoredBuiltDependencies:
   - sharp
   - unrs-resolver
 minimumReleaseAgeExclude:
-  - '@ai-sdk/gateway@4.0.12 || 4.0.15 || 4.0.75 || 4.0.87 || 4.0.101 || 4.0.103 || 4.0.110'
-  - '@ai-sdk/react@4.0.16 || 4.0.20 || 4.0.21 || 4.0.96 || 4.0.110 || 4.0.126 || 4.0.130 || 4.0.140'
-  - ai@7.0.15 || 7.0.19 || 7.0.20 || 7.0.93 || 7.0.107 || 7.0.123 || 7.0.127 || 7.0.137
-  - '@ai-sdk/mcp@2.0.10 || 2.0.45 || 2.0.54 || 2.0.63 || 2.0.66 || 2.0.73'
-  - '@ai-sdk/openai@4.0.10 || 4.0.11 || 4.0.59 || 4.0.60 || 4.0.71 || 4.0.82 || 4.0.91'
-  - '@ai-sdk/provider-utils@5.0.7 || 5.0.45 || 5.0.52 || 5.0.58'
-  - '@ai-sdk/provider@4.0.3 || 4.0.20 || 4.0.26'
-  - i18next@26.3.6
-  - openai@6.46.0 || 7.15.0 || 7.19.0 || 7.25.0 || 7.27.0 || 7.31.0
+  - '@ai-sdk/gateway@4.0.12 || 4.0.15 || 4.0.75 || 4.0.87 || 4.0.101 || 4.0.103 || 4.0.110 || 4.0.118 || 4.0.124'
+  - '@ai-sdk/react@4.0.16 || 4.0.20 || 4.0.21 || 4.0.96 || 4.0.110 || 4.0.126 || 4.0.130 || 4.0.140 || 4.0.149 || 4.0.155'
+  - ai@7.0.15 || 7.0.19 || 7.0.20 || 7.0.93 || 7.0.107 || 7.0.123 || 7.0.127 || 7.0.137 || 7.0.145 || 7.0.151
+  - '@ai-sdk/mcp@2.0.10 || 2.0.45 || 2.0.54 || 2.0.63 || 2.0.66 || 2.0.73 || 2.0.79 || 2.0.83'
+  - '@ai-sdk/openai@4.0.10 || 4.0.11 || 4.0.59 || 4.0.60 || 4.0.71 || 4.0.82 || 4.0.91 || 4.0.97 || 4.0.101'
+  - '@ai-sdk/provider-utils@5.0.7 || 5.0.45 || 5.0.52 || 5.0.58 || 5.0.63 || 5.0.67'
+  - '@ai-sdk/provider@4.0.3 || 4.0.20 || 4.0.26 || 4.0.30 || 4.0.33'
+  - i18next@26.3.6 || 26.5.3 || 26.5.7
+  - openai@6.46.0 || 7.15.0 || 7.19.0 || 7.25.0 || 7.27.0 || 7.31.0 || 7.39.0 || 7.43.0
   - prettier@3.9.5
-  - react-i18next@17.0.9
+  - react-i18next@17.0.9 || 17.1.5
   - lint-staged@17.1.0 || 17.5.0
   - postcss@8.5.20 || 8.5.23
   - '@radix-ui/react-accordion@1.2.20'
@@ -91,21 +91,21 @@ minimumReleaseAgeExclude:
   - autoprefixer@10.5.5
   - browserslist@4.28.9
   - ahooks@3.10.0
-  - '@next/bundle-analyzer@16.3.5 || 16.3.8'
-  - '@next/env@16.3.5 || 16.3.8'
-  - '@next/eslint-plugin-next@16.3.5 || 16.3.8'
-  - '@next/swc-darwin-arm64@16.3.5 || 16.3.8'
-  - '@next/swc-darwin-x64@16.3.5 || 16.3.8'
-  - '@next/swc-linux-arm64-gnu@16.3.5 || 16.3.8'
-  - '@next/swc-linux-arm64-musl@16.3.5 || 16.3.8'
-  - '@next/swc-linux-x64-gnu@16.3.5 || 16.3.8'
-  - '@next/swc-linux-x64-musl@16.3.5 || 16.3.8'
-  - '@next/swc-win32-arm64-msvc@16.3.5 || 16.3.8'
-  - '@next/swc-win32-x64-msvc@16.3.5 || 16.3.8'
+  - '@next/bundle-analyzer@16.3.5 || 16.3.8 || 16.4.3'
+  - '@next/env@16.3.5 || 16.3.8 || 16.4.3'
+  - '@next/eslint-plugin-next@16.3.5 || 16.3.8 || 16.4.3'
+  - '@next/swc-darwin-arm64@16.3.5 || 16.3.8 || 16.4.3'
+  - '@next/swc-darwin-x64@16.3.5 || 16.3.8 || 16.4.3'
+  - '@next/swc-linux-arm64-gnu@16.3.5 || 16.3.8 || 16.4.3'
+  - '@next/swc-linux-arm64-musl@16.3.5 || 16.3.8 || 16.4.3'
+  - '@next/swc-linux-x64-gnu@16.3.5 || 16.3.8 || 16.4.3'
+  - '@next/swc-linux-x64-musl@16.3.5 || 16.3.8 || 16.4.3'
+  - '@next/swc-win32-arm64-msvc@16.3.5 || 16.3.8 || 16.4.3'
+  - '@next/swc-win32-x64-msvc@16.3.5 || 16.3.8 || 16.4.3'
   - '@tanstack/react-virtual@3.14.12 || 3.14.14'
   - '@tanstack/virtual-core@3.17.10 || 3.18.0'
-  - eslint-config-next@16.3.5 || 16.3.8
-  - next@16.3.5 || 16.3.8
+  - eslint-config-next@16.3.5 || 16.3.8 || 16.4.3
+  - next@16.3.5 || 16.3.8 || 16.4.3
   - zod@4.6.2
   - '@jest/console@30.5.2'
   - '@jest/core@30.5.2'
@@ -139,3 +139,10 @@ minimumReleaseAgeExclude:
   - jest-snapshot@30.5.2
   - jest-watcher@30.5.2
   - jest@30.5.2
+  - '@typescript-eslint/parser@8.72.0'
+  - '@typescript-eslint/project-service@8.72.0'
+  - '@typescript-eslint/scope-manager@8.72.0'
+  - '@typescript-eslint/tsconfig-utils@8.72.0'
+  - '@typescript-eslint/types@8.72.0'
+  - '@typescript-eslint/typescript-estree@8.72.0'
+  - '@typescript-eslint/visitor-keys@8.72.0'
