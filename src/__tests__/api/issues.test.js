@@ -34,6 +34,7 @@ describe("/api/issues", () => {
       ...originalEnv,
       GITHUB_REPO: "https://api.github.com/repos/test/repo",
       GITHUB_TOKEN: "test-token",
+      BLOG_AUTHOR_EMAILS: "a@test.com",
     };
   });
 
@@ -194,6 +195,48 @@ describe("/api/issues", () => {
   });
 
   describe("POST /api/issues", () => {
+    it("rejects an authenticated user who is not the owner", async () => {
+      getServerSession.mockResolvedValueOnce({
+        user: { email: "reader@example.com" },
+      });
+
+      const handler = require("../../pages/api/issues").default;
+      const { req, res } = createMocks({
+        method: "POST",
+        body: { title: "Unauthorized publish" },
+      });
+
+      await handler(req, res);
+
+      expect(res._getStatusCode()).toBe(403);
+      expect(fetchWithTimeout).not.toHaveBeenCalled();
+    });
+
+    it("adds the mandatory blog label and de-duplicates it", async () => {
+      getServerSession.mockResolvedValueOnce({ user: { email: "a@test.com" } });
+      fetchWithTimeout.mockResolvedValueOnce({
+        ok: true,
+        status: 201,
+        json: async () => ({ id: 1, number: 123, title: "New article" }),
+      });
+
+      const handler = require("../../pages/api/issues").default;
+      const { req, res } = createMocks({
+        method: "POST",
+        body: {
+          title: "New article",
+          body: "Markdown body",
+          labels: ["blog", "programming", "blog"],
+        },
+      });
+
+      await handler(req, res);
+
+      expect(res._getStatusCode()).toBe(200);
+      const upstreamBody = JSON.parse(fetchWithTimeout.mock.calls[0][1].body);
+      expect(upstreamBody.labels).toEqual(["blog", "programming"]);
+    });
+
     it("rejects unauthenticated POST", async () => {
       getServerSession.mockResolvedValueOnce(null);
       const { checkRateLimit } = require("../../lib/rateLimit");
@@ -283,7 +326,7 @@ describe("/api/issues", () => {
       expect(res._getStatusCode()).toBe(200);
       const fetchCall = fetchWithTimeout.mock.calls[0];
       const bodySent = JSON.parse(fetchCall[1].body);
-      expect(bodySent.labels).toEqual(["enhancement", "help wanted"]);
+      expect(bodySent.labels).toEqual(["blog", "enhancement", "help wanted"]);
     });
 
     it("rejects POST without title", async () => {
@@ -489,7 +532,7 @@ describe("/api/issues", () => {
       expect(bodySent).toEqual({
         title: "Trimmed title",
         body: "hello world",
-        labels: ["bug", "enhancement"],
+        labels: ["blog", "bug", "enhancement"],
       });
     });
 

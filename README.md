@@ -64,6 +64,7 @@ GITHUB_CLIENT_SECRET=your-github-client-secret
 # GitHub API (for blog content)
 GITHUB_TOKEN=your-github-token
 GITHUB_REPO=https://api.github.com/repos/username/repo
+BLOG_AUTHOR_EMAILS=your-email@example.com
 
 # AI Services
 OPENAI_API_KEY=your-openai-key
