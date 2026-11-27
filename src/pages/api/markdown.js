@@ -27,6 +27,7 @@ const handler = withErrorHandling(async (req, res) => {
       method: "POST",
       headers: {
         Authorization: `token ${process.env.GITHUB_TOKEN}`,
+        "User-Agent": "huangjien-blog", // required by GitHub API
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ text: req.body }),

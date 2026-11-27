@@ -62,6 +62,7 @@ describe("/api/markdown", () => {
       method: "POST",
       headers: {
         Authorization: "token test-token",
+        "User-Agent": "huangjien-blog",
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ text: markdownText }),
