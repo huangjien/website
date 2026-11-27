@@ -75,6 +75,7 @@ describe("/api/settings", () => {
         method: "GET",
         headers: {
           Authorization: "token test-token",
+          "User-Agent": "huangjien-blog",
           Accept: "application/vnd.github.v3+json",
         },
       },

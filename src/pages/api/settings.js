@@ -26,6 +26,7 @@ const handler = withErrorHandling(async (req, res) => {
       method: "GET",
       headers: {
         Authorization: `token ${process.env.GITHUB_TOKEN}`,
+        "User-Agent": "huangjien-blog",
         Accept: "application/vnd.github.v3+json",
       },
     },
