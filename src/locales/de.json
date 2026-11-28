@@ -24,60 +24,10 @@
     "rows_per_page": "Zeilen pro Seite",
     "total": "Gesamt {{total}} Elemente"
   },
-  "ai": {
-    "track_speed": "Geschwindigkeit der Strecke",
-    "conversation": "Künstliche Intelligenz Konversation",
-    "send_tooltip": "Klicken Sie, um die Frage zu senden",
-    "hold": "Halten Sie für Spracheingabe",
-    "configuration": "Konfiguration",
-    "select_model": "Wählen Sie das KI-Modell aus",
-    "temperature": "Softmax-Temperatur",
-    "value_range_0_1": "Der Wert muss zwischen 0 und 1 liegen",
-    "value_range_50_500": "Der Wert muss zwischen 50 und 500 liegen",
-    "audio_player": "Audioplayer",
-    "send": "Senden",
-    "input_placeholder": "Geben Sie hier Ihre Frage ein ...",
-    "input_helptext": "Drücken Sie Strg+Enter, um Ihre Frage zu senden",
-    "question_length": "Länge der Frage",
-    "answer_length": "Länge der Antwort",
-    "return_error": "Der AI-Request gibt einen Fehler zurück",
-    "return_length": "Wir haben eine Antwort vom AI erhalten.\nLänge der Antwort",
-    "prompt": "Stellen Sie eine Frage...",
-    "prompt_placeholder": "Tippen Sie Ihre Nachricht…",
-    "stop": "Stop",
-    "clear": "Löschen",
-    "settings": "Einstellungen",
-    "history": "Verlauf",
-    "stream": "Stream",
-    "system_prompt": "System-Prompt",
-    "mic": "Mikrofon",
-    "recording": "Aufnahme…",
-    "play": "Abspielen",
-    "loading": "Laden…",
-    "login_required": "Anmeldung erforderlich, um TTS zu verwenden",
-    "tts_failed": "Text-zu-Sprache fehlgeschlagen",
-    "error_message": "Nachricht konnte nicht gesendet werden. Bitte versuchen Sie es erneut.",
-    "fallback_toast": "Limit von {{from}} erreicht – es wird mit {{to}} fortgefahren.",
-    "timestamp_now": "Gerade eben",
-    "timestamp_mins_ago": "min(s) vor",
-    "timestamp_hours_ago": "h(s) vor",
-    "clear_input": "Eingabe löschen",
-    "start_recording": "Aufnahme starten",
-    "stop_recording": "Aufnahme stoppen",
-    "composing": "Verfassen...",
-    "hint_enter_to_send": "Drücken Sie Enter zum Senden, Shift+Enter für neue Zeile",
-    "characters": "Zeichen",
-    "ai_model": "KI-Modell",
-    "show_input_panel": "Eingabebereich anzeigen",
-    "hide_input_panel": "Eingabebereich ausblenden",
-    "expand_input_panel": "Eingabebereich erweitern",
-    "collapse_input_panel": "Eingabebereich reduzieren"
-  },
   "header": {
     "herohub": "HeroHub",
     "home": "Startseite",
     "settings": "Einstellungen",
-    "ai": "KI",
     "about": "Über uns",
     "login": "Anmelden",
     "login_username": "Benutzername",
@@ -134,10 +84,6 @@
   "index": {
     "title": "Inhalt"
   },
-  "chat": {
-    "ai_model": "KI-Modell",
-    "temperature": "Temperatur"
-  },
   "column": {
     "title": {
       "key": "Schlüssel",
@@ -165,9 +111,6 @@
     "copied": "Kopiert!",
     "copy_to_clipboard": "In die Zwischenablage kopieren"
   },
-  "tts_button": {
-    "play_audio": "Audio abspielen"
-  },
   "breadcrumb": {
     "breadcrumb": "Brotkrümel"
   },
@@ -191,8 +134,5 @@
     "error_loading_comments": "Fehler beim Laden der Kommentare",
     "avatar": "Profilbild"
   },
-  "settings": {
-    "voice_note": "Die Stimme gilt nur für die Audio-Wiedergabe.",
-    "select_voice": "TTS-Stimme auswählen"
-  }
+  "settings": {}
 }

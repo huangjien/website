@@ -51,7 +51,6 @@ jest.mock("react-toastify", () => {
 jest.mock("react-icons/bi", () => {
   const React = require("react");
   return {
-    BiChip: () => React.createElement("div", { "data-testid": "chip-icon" }),
     BiCog: () => React.createElement("div", { "data-testid": "cog-icon" }),
     BiDetail: () =>
       React.createElement("div", { "data-testid": "detail-icon" }),
@@ -158,13 +157,12 @@ describe("NavigationBar Component (shadcn/ui)", () => {
     expect(brandLink).toHaveAttribute("href", "/");
   });
 
-  it("renders all navigation links (home, ai, settings, about)", () => {
+  it("renders all navigation links (home, settings, about)", () => {
     mockUseSession.mockReturnValue({ data: null, status: "unauthenticated" });
 
     render(<NavigationBar />);
 
     expect(screen.getByText("header.home")).toBeInTheDocument();
-    expect(screen.getByText("header.ai")).toBeInTheDocument();
     expect(screen.getByText("header.settings")).toBeInTheDocument();
     expect(screen.getByText("header.about")).toBeInTheDocument();
   });
@@ -210,7 +208,6 @@ describe("NavigationBar Component (shadcn/ui)", () => {
     render(<NavigationBar />);
 
     expect(screen.getByText("header.home")).toBeInTheDocument();
-    expect(screen.getByText("header.ai")).toBeInTheDocument();
     expect(screen.getByText("header.settings")).toBeInTheDocument();
     expect(screen.getByText("header.about")).toBeInTheDocument();
   });
@@ -222,7 +219,6 @@ describe("NavigationBar Component (shadcn/ui)", () => {
 
     expect(screen.getByText("header.home")).toBeInTheDocument();
     // Other links are still rendered in current implementation
-    expect(screen.getByText("header.ai")).toBeInTheDocument();
     expect(screen.getByText("header.settings")).toBeInTheDocument();
     expect(screen.getByText("header.about")).toBeInTheDocument();
   });

@@ -39,14 +39,6 @@ function useProvideSettings() {
   const [settings, setSettings] = useSessionStorageState(
     "application_settings",
   );
-  const [languageCode, setLanguageCode] = useSessionStorageState(
-    "languageCode",
-    { defaultValue: "en-US" },
-  );
-  const [speakerName, setSpeakerName] = useSessionStorageState("speakerName", {
-    defaultValue: "en-US-Standard-A",
-  });
-
   const [currentLanguage, setCurrentLanguage] = useSessionStorageState(
     "Language",
     {
@@ -98,9 +90,5 @@ function useProvideSettings() {
     setCurrentTheme,
     currentStyle: mounted ? currentStyle : "glassmorphism",
     setCurrentStyle,
-    speakerName: mounted ? speakerName : "en-US-Standard-A",
-    setSpeakerName,
-    languageCode: mounted ? languageCode : "en-US",
-    setLanguageCode,
   };
 }

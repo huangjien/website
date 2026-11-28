@@ -24,60 +24,10 @@
     "rows_per_page": "Righe per pagina",
     "total": "Totale {{total}} elementi"
   },
-  "ai": {
-    "track_speed": "Velocità del percorso",
-    "conversation": "Conversazione IA",
-    "send_tooltip": "Clicca per inviare la domanda",
-    "hold": "Tieni premuto per l'input vocale",
-    "configuration": "Configurazione",
-    "select_model": "Seleziona il modello di IA",
-    "temperature": "Temperatura Softmax",
-    "value_range_0_1": "Il valore deve essere compreso tra 0 e 1",
-    "value_range_50_500": "Il valore deve essere compreso tra 50 e 500",
-    "audio_player": "Lettore audio",
-    "send": "Invia",
-    "input_placeholder": "Inserisci la tua domanda qui ...",
-    "input_helptext": "Premi Ctrl+Invio per inviare la tua domanda",
-    "question_length": "Lunghezza della domanda",
-    "answer_length": "Lunghezza della risposta",
-    "return_error": "La richiesta di IA restituisce un errore",
-    "return_length": "Abbiamo ricevuto una risposta da AI.\nLunghezza della risposta",
-    "prompt": "Fai una domanda...",
-    "prompt_placeholder": "Scrivi il tuo messaggio…",
-    "stop": "Ferma",
-    "clear": "Cancella",
-    "settings": "Impostazioni",
-    "history": "Cronologia",
-    "stream": "Flusso",
-    "system_prompt": "Prompt di sistema",
-    "mic": "Microfono",
-    "recording": "Registrazione…",
-    "play": "Riproduci",
-    "loading": "Caricamento…",
-    "login_required": "Accesso richiesto per usare TTS",
-    "tts_failed": "Sintesi vocale fallita",
-    "error_message": "Impossibile inviare il messaggio. Riprova.",
-    "fallback_toast": "Limite di {{from}} raggiunto — si continua con {{to}}.",
-    "timestamp_now": "Proprio ora",
-    "timestamp_mins_ago": "min(i) fa",
-    "timestamp_hours_ago": "h(i) fa",
-    "clear_input": "Cancella input",
-    "start_recording": "Avvia registrazione",
-    "stop_recording": "Ferma registrazione",
-    "composing": "Composizione...",
-    "hint_enter_to_send": "Premi Invio per inviare, Shift+Invio per nuova riga",
-    "characters": "caratteri",
-    "ai_model": "Modello IA",
-    "show_input_panel": "Mostra pannello input",
-    "hide_input_panel": "Nascondi pannello input",
-    "expand_input_panel": "Espandi pannello input",
-    "collapse_input_panel": "Comprimi pannello input"
-  },
   "header": {
     "herohub": "HeroHub",
     "home": "Home",
     "settings": "Impostazioni",
-    "ai": "IA",
     "about": "Informazioni",
     "login": "Accedi",
     "login_username": "Nome utente",
@@ -134,10 +84,6 @@
   "index": {
     "title": "Indice"
   },
-  "chat": {
-    "ai_model": "Modello IA",
-    "temperature": "Temperatura"
-  },
   "column": {
     "title": {
       "key": "Chiave",
@@ -165,9 +111,6 @@
     "copied": "Copiato!",
     "copy_to_clipboard": "Copia negli appunti"
   },
-  "tts_button": {
-    "play_audio": "Riproduci audio"
-  },
   "breadcrumb": {
     "breadcrumb": "Briciole di navigazione"
   },
@@ -191,8 +134,5 @@
     "error_loading_comments": "Errore nel caricamento dei commenti",
     "avatar": "Avatar"
   },
-  "settings": {
-    "voice_note": "La voce si applica solo alla riproduzione audio.",
-    "select_voice": "Seleziona voce TTS"
-  }
+  "settings": {}
 }

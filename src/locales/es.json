@@ -24,60 +24,10 @@
     "rows_per_page": "Filas por página",
     "total": "Total {{total}} elementos"
   },
-  "ai": {
-    "track_speed": "Velocidad de seguimiento",
-    "conversation": "Conversación de IA",
-    "send_tooltip": "Haga clic para enviar la pregunta",
-    "hold": "Mantenga para entrada de voz",
-    "configuration": "Configuración",
-    "select_model": "Seleccionar modelo de IA",
-    "temperature": "Temperatura Softmax",
-    "value_range_0_1": "El valor debe estar entre 0 y 1",
-    "value_range_50_500": "El valor debe estar entre 50 y 500",
-    "audio_player": "Reproductor de audio",
-    "send": "Enviar",
-    "input_placeholder": "Ingrese su pregunta aquí ...",
-    "input_helptext": "Presione Ctrl+Enter para enviar su pregunta",
-    "question_length": "Longitud de la pregunta",
-    "answer_length": "Longitud de la respuesta",
-    "return_error": "La solicitud de IA devolvió un error",
-    "return_length": "Recibimos una respuesta de la IA.\nLongitud de la respuesta",
-    "prompt": "Pregunta algo...",
-    "prompt_placeholder": "Escribe tu mensaje…",
-    "stop": "Detener",
-    "clear": "Limpiar",
-    "settings": "Configuración",
-    "history": "Historial",
-    "stream": "Flujo",
-    "system_prompt": "Prompt del sistema",
-    "mic": "Micrófono",
-    "recording": "Grabando…",
-    "play": "Reproducir",
-    "loading": "Cargando…",
-    "login_required": "Inicio de sesión requerido para usar TTS",
-    "tts_failed": "Síntesis de voz fallida",
-    "error_message": "Error al enviar mensaje. Inténtelo de nuevo.",
-    "fallback_toast": "Límite de {{from}} alcanzado: continuando con {{to}}.",
-    "timestamp_now": "Ahora mismo",
-    "timestamp_mins_ago": "min(s) hace",
-    "timestamp_hours_ago": "h(s) hace",
-    "clear_input": "Limpiar entrada",
-    "start_recording": "Comenzar grabación",
-    "stop_recording": "Detener grabación",
-    "composing": "Redactando...",
-    "hint_enter_to_send": "Presione Enter para enviar, Shift+Enter para nueva línea",
-    "characters": "caracteres",
-    "ai_model": "Modelo IA",
-    "show_input_panel": "Mostrar panel de entrada",
-    "hide_input_panel": "Ocultar panel de entrada",
-    "expand_input_panel": "Expandir panel de entrada",
-    "collapse_input_panel": "Contraer panel de entrada"
-  },
   "header": {
     "herohub": "HeroHub",
     "home": "Inicio",
     "settings": "Configuración",
-    "ai": "IA",
     "about": "Acerca de",
     "login": "Iniciar sesión",
     "login_username": "Nombre de usuario",
@@ -134,10 +84,6 @@
   "index": {
     "title": "Contenido"
   },
-  "chat": {
-    "ai_model": "Modelo IA",
-    "temperature": "Temperatura"
-  },
   "column": {
     "title": {
       "key": "Clave",
@@ -165,9 +111,6 @@
     "copied": "¡Copiado!",
     "copy_to_clipboard": "Copiar al portapapeles"
   },
-  "tts_button": {
-    "play_audio": "Reproducir audio"
-  },
   "breadcrumb": {
     "breadcrumb": "Migas de pan"
   },
@@ -191,8 +134,5 @@
     "error_loading_comments": "Error al cargar comentarios",
     "avatar": "Avatar"
   },
-  "settings": {
-    "voice_note": "La voz se aplica solo a la reproducción de audio.",
-    "select_voice": "Seleccionar voz TTS"
-  }
+  "settings": {}
 }

@@ -8,7 +8,6 @@ This repository is a Next.js website application using the Pages Router, with:
 - Tailwind CSS styling
 - NextAuth authentication
 - i18n via react-i18next
-- AI chat and voice features through API routes
 - PWA support via Serwist
 
 ## Runtime Architecture
@@ -27,7 +26,6 @@ This repository is a Next.js website application using the Pages Router, with:
 
 - `src/pages/index.js` home page (GitHub README + issues display)
 - `src/pages/about.js` markdown content page
-- `src/pages/ai.js` AI chat experience
 - `src/pages/settings.js` authenticated settings UI
 - `src/pages/error.js` and `src/pages/auth/error.js` error handling views
 
@@ -36,14 +34,12 @@ This repository is a Next.js website application using the Pages Router, with:
 Primary API endpoints in `src/pages/api/`:
 
 - Content + GitHub: `about.js`, `issues.js`, `comments.js`, `labels.js`, `member.js`
-- AI: `ai-models.js`, `chat.js`, `transcribe.js`, `tts.js`, `ai.js`
 - Auth + settings: `auth/[...nextauth].js`, `settings.js`
 - Utilities: `health.js`, `markdown.js`, `image-proxy.js`, `ip.js`, `getIp.js`, `postIp.js`
 
 ### Module Responsibilities
 
 - `src/components/`: reusable UI and feature components
-- `src/components/ai-elements/`: AI interaction UI atoms/molecules
 - `src/lib/`: hooks, API clients, request helpers, validation, utilities
 - `src/hooks/`: additional feature hooks (audio recording)
 - `src/config/`: site and model configuration
@@ -53,8 +49,7 @@ Primary API endpoints in `src/pages/api/`:
 
 1. Home route uses `useGithubContent` to fetch README/issues via internal API.
 2. About route renders markdown content from API-backed repository content.
-3. AI route uses chat + model APIs; supports speech-to-text and text-to-speech.
-4. Settings route uses session-gated API for user settings persistence.
+3. Settings route uses session-gated API for user settings persistence.
 
 ## Build, Quality, and Test
 

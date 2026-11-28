@@ -2,32 +2,7 @@
   "global": {
     "search": "검색..."
   },
-  "ai": {
-    "track_speed": "트랙 속도",
-    "conversation": "인공지능 대화",
-    "send_tooltip": "질문을 보내려면 클릭하세요",
-    "hold": "음성 입력을 위해 누르세요",
-    "configuration": "구성",
-    "select_model": "AI 모델 선택",
-    "temperature": "소프트맥스 온도",
-    "value_range_0_1": "값은 0과 1 사이여야 합니다",
-    "value_range_50_500": "값은 50과 500 사이여야 합니다",
-    "audio_player": "오디오 플레이어",
-    "send": "보내기",
-    "input_placeholder": "질문을 여기에 입력하세요 ...",
-    "input_helptext": "질문을 보내려면 Ctrl+Enter를 누르세요",
-    "question_length": "질문 길이",
-    "answer_length": "답변 길이",
-    "return_error": "AI 요청 오류 반환",
-    "return_length": "AI에서 답변을 받았습니다.\n답변 길이",
-    "error_message": "메시지를 보내지 못했습니다. 다시 시도해 주세요.",
-    "fallback_toast": "{{from}} 사용량 한도에 도달하여 {{to}}(으)로 계속합니다.",
-    "timestamp_now": "방금",
-    "timestamp_mins_ago": "분 전",
-    "timestamp_hours_ago": "시간 전"
-  },
   "header": {
-    "ai": "인공지능",
     "home": "홈",
     "settings": "설정",
     "about": "정보",

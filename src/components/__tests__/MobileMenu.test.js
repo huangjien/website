@@ -7,7 +7,6 @@ jest.mock("react-i18next", () => ({
     t: (key) => {
       const translations = {
         "header.home": "Home",
-        "header.ai": "AI",
         "header.settings": "Settings",
         "header.about": "About",
         "mobile_menu.toggle_menu": "Toggle menu",
@@ -73,7 +72,6 @@ describe("MobileMenu Component", () => {
       expect(
         screen.getByRole("menuitem", { name: /home/i }),
       ).toBeInTheDocument();
-      expect(screen.getByRole("menuitem", { name: /ai/i })).toBeInTheDocument();
       expect(
         screen.getByRole("menuitem", { name: /settings/i }),
       ).toBeInTheDocument();

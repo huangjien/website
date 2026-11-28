@@ -15,7 +15,6 @@ import "../styles/hallmark-error.css"; /* Hallmark · error.js layout */
 import "../styles/hallmark-auth-error.css"; /* Hallmark · auth/error.js layout */
 import "../styles/hallmark-about.css"; /* Hallmark · about.js prose */
 import "../styles/hallmark-settings.css"; /* Hallmark · settings.js workbench */
-import "../styles/hallmark-ai.css"; /* Hallmark · ai.js app-header */
 import RootLayout from "./layout";
 import "../locales/i18n";
 import PwaRegister from "../components/PwaRegister";

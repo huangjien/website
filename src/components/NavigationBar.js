@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
-import { BiChip, BiCog, BiDetail, BiEditAlt, BiHome } from "react-icons/bi";
+import { BiCog, BiDetail, BiEditAlt, BiHome } from "react-icons/bi";
 import Login from "./Login";
 import { ThemeSwitch } from "./ThemeSwitch";
 import { LanguageSwitch } from "./LanguageSwitch";
@@ -14,7 +14,6 @@ import { useAuthorCapability } from "../lib/useAuthorCapability";
 
 const NAV_ITEMS = [
   { href: "/", icon: BiHome, key: "header.home" },
-  { href: "/ai", icon: BiChip, key: "header.ai" },
   { href: "/settings", icon: BiCog, key: "header.settings" },
   { href: "/about", icon: BiDetail, key: "header.about" },
 ];
@@ -45,9 +44,9 @@ export const NavigationBar = () => {
   const { canPublish } = useAuthorCapability();
   const navItems = canPublish
     ? [
-        ...NAV_ITEMS.slice(0, 2),
+        ...NAV_ITEMS.slice(0, 1),
         { href: "/write", icon: BiEditAlt, key: "header.write" },
-        ...NAV_ITEMS.slice(2),
+        ...NAV_ITEMS.slice(1),
       ]
     : NAV_ITEMS;
 

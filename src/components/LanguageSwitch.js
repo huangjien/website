@@ -7,22 +7,15 @@ import { useEffect } from "react";
 import Button from "./ui/button";
 
 export const LanguageSwitch = () => {
-  const {
-    setLanguageCode,
-    setCurrentLanguage,
-    currentLanguage,
-    setSpeakerName,
-  } = useSettings();
+  const { setCurrentLanguage, currentLanguage } = useSettings();
   const { t, i18n } = useTranslation();
 
   const chooseLanguageKey = (key) => {
     try {
       const selected = languages.find((l) => l.key === key);
       if (selected) {
-        setLanguageCode(selected.languageCode);
-        setSpeakerName(selected.name);
+        setCurrentLanguage(key);
       }
-      setCurrentLanguage(key);
     } catch (error) {
       console.error("Failed to change language", error);
     }
@@ -37,17 +30,8 @@ export const LanguageSwitch = () => {
       ).finally(() => {
         i18n.changeLanguage(currentLanguage);
       });
-      // search in languages array for the current language and set languageCode and speakerName
-      const lang = languages.find((o) => o.key === currentLanguage);
-      if (lang && lang.languageCode && lang.name) {
-        setLanguageCode(lang.languageCode);
-        setSpeakerName(lang.name);
-      } else {
-        setLanguageCode(undefined);
-        setSpeakerName(undefined);
-      }
     }
-  }, [currentLanguage, setLanguageCode, setSpeakerName, i18n]);
+  }, [currentLanguage, i18n]);
 
   return (
     <DropdownMenu.Root>

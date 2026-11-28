@@ -11,18 +11,17 @@
 [![Dependabot](https://img.shields.io/badge/Dependabot-enabled-025E8C?style=flat-square&logo=dependabot)](https://github.com/dependabot)
 ![Node >=20.19](https://img.shields.io/badge/node-%3E%3D20.19-339933?style=flat-square&logo=node.js)
 
-A production-ready personal website featuring multilingual support, authentication, dark mode, and AI-powered capabilities. Deployed on Google Cloud Run.
+A production-ready personal website featuring multilingual support, authentication, and dark mode. Deployed on Cloudflare Workers.
 
 ## 🚀 Features
 
-| Category    | Features                                               |
-| ----------- | ------------------------------------------------------ |
-| **Core**    | Multi-language support (i18n), Dark/Light theme        |
-| **Auth**    | GitHub & Google OAuth authentication via NextAuth.js   |
-| **Content** | Blog posts, Comments system, Issue tracking            |
-| **AI**      | AI chat assistant, Text-to-speech, Voice transcription |
-| **PWA**     | Progressive Web App with service worker                |
-| **Testing** | 900+ unit tests with Jest                              |
+| Category    | Features                                             |
+| ----------- | ---------------------------------------------------- |
+| **Core**    | Multi-language support (i18n), Dark/Light theme      |
+| **Auth**    | GitHub & Google OAuth authentication via NextAuth.js |
+| **Content** | Blog posts, Comments system, Issue tracking          |
+| **PWA**     | Progressive Web App with service worker              |
+| **Testing** | 900+ unit tests with Jest                            |
 
 ## 🛠 Tech Stack
 
@@ -69,8 +68,6 @@ GITHUB_REPO=https://api.github.com/repos/username/repo
 # This list only decides who may inject a local dev session.
 BLOG_AUTHOR_EMAILS=your-email@example.com
 
-# AI Services
-OPENAI_API_KEY=your-openai-key
 ```
 
 ## 🚢 Deployment Topology

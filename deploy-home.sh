@@ -15,7 +15,7 @@ ENV_FILE="${ENV_FILE:-.env.home}"
 
 if [ ! -f "${ENV_FILE}" ]; then
   echo -e "${RED}Error: ${ENV_FILE} file not found.${NC}"
-  echo "Please create ${ENV_FILE} with your app runtime variables (NEXTAUTH_*, GITHUB_*, OPENAI_*, etc.)."
+  echo "Please create ${ENV_FILE} with your app runtime variables (NEXTAUTH_*, GITHUB_*, etc.)."
   exit 1
 fi
 

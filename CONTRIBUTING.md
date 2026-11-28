@@ -138,7 +138,6 @@ docs: update API endpoint documentation
 src/
 ├── components/       # React components
 │   ├── ui/          # shadcn/ui components
-│   └── ai-elements/  # AI-related components
 ├── pages/            # Next.js pages (Pages Router)
 │   └── api/         # API routes
 ├── lib/              # Utility functions and hooks

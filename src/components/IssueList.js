@@ -2,77 +2,41 @@ import React, { useState, useMemo, useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Issue } from "./Issue";
 import { ArticleIndex } from "./ArticleIndex";
-import { Chat } from "./Chat";
-import { useSettings } from "../lib/useSettings";
 import { BiSearch, BiChevronLeft, BiChevronRight } from "react-icons/bi";
 import Input from "./ui/input";
 import Divider from "./ui/divider";
-import { Dialog, DialogContent, DialogBody } from "./ui/dialog";
 import { Joke } from "./Joke";
 import EmptyState from "./EmptyState";
 
 const MemoizedIssue = React.memo(Issue);
-const MemoizedChat = React.memo(Chat);
 
 /**
- * Renders a list component that displays a list of issues or chats.
- * Provides functionality for searching, filtering, pagination, and text-to-speech.
+ * Renders a list component that displays a list of issues.
+ * Provides functionality for searching, filtering, and pagination.
  *
  * @param {Array} tags - An array of tags to filter the data by.
  * @param {string} ComponentName - The name of the component to render for each item in the list.
- * @param {Array} data - An array of issue or chat data.
- * @param {string} inTab - The tab name indicating the type of data being displayed. (default: 'ai')
+ * @param {Array} data - An array of issue data.
+ * @param {string} inTab - The tab name indicating the type of data being displayed. (default: 'issue')
  * @returns {JSX.Element} - The rendered list component with the filtered and paginated data.
  */
 export const IssueList = ({
   tags: _tags,
   ComponentName,
   data,
-  inTab: _inTab = "ai",
+  inTab: _inTab = "issue",
 }) => {
   const { t } = useTranslation();
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(1);
-  const [audioSrc, setAudioSrc] = useState("");
   const [pages, setPages] = useState(1);
-  const { languageCode, speakerName } = useSettings();
   const [filterValue, setFilterValue] = useState("");
-  const [open, setOpen] = useState(false);
   const [openId, setOpenId] = useState(null);
 
   // Reset page when data changes
   useEffect(() => {
     setPage(1);
   }, [data]);
-
-  const handleOpenChange = useCallback((nextOpen) => {
-    setOpen(nextOpen);
-    if (!nextOpen) {
-      setAudioSrc("");
-    }
-  }, []);
-
-  const handleText2Speech = useCallback(
-    async (text) => {
-      const res = await fetch(
-        `/api/tts?&&languageCode=${languageCode}&&name=${speakerName}&&text=${encodeURIComponent(
-          text.replaceAll("\n", ""),
-        )}`,
-      );
-      const blob = await res.blob();
-      const audioUrl = URL.createObjectURL(blob);
-      setAudioSrc(audioUrl);
-    },
-    [languageCode, speakerName],
-  );
-
-  const readText = useCallback(
-    (text) => {
-      setOpen(true);
-      handleText2Speech(text);
-    },
-    [handleText2Speech],
-  );
 
   const handleIssueOpenChange = useCallback((value) => {
     setOpenId(value ? value : null);
@@ -105,19 +69,11 @@ export const IssueList = ({
               onOpenChange={handleIssueOpenChange}
             />
           );
-        case "Chat":
-          return (
-            <MemoizedChat
-              player={readText}
-              name={itemData.id}
-              data={itemData}
-            />
-          );
         default:
           return <pre>{JSON.stringify(itemData)}</pre>;
       }
     },
-    [readText, handleIssueOpenChange, openId],
+    [handleIssueOpenChange, openId],
   );
 
   const onRowsPerPageChange = useCallback((e) => {
@@ -190,16 +146,6 @@ export const IssueList = ({
 
   return (
     <div>
-      <Dialog open={open} onOpenChange={handleOpenChange}>
-        <DialogContent className='m-2' aria-describedby='tts-player'>
-          <DialogBody>
-            <p id='tts-player' className='sr-only'>
-              Audio player
-            </p>
-            <audio controls autoPlay src={audioSrc} />
-          </DialogBody>
-        </DialogContent>
-      </Dialog>
       {!filterValue ? <Joke /> : null}
       <div className={" min-h-max w-auto text-large lg:m-4 "}>
         <div className='lg:inline-flex flex-wrap  text-lg justify-center lg:gap-8 items-center m-4 glass-card rounded-2xl p-4'>

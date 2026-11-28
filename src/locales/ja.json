@@ -2,32 +2,7 @@
   "global": {
     "search": "検索..."
   },
-  "ai": {
-    "track_speed": "トラック速度",
-    "conversation": "AI会話",
-    "send_tooltip": "質問を送るためにクリックしてください",
-    "hold": "音声入力のために押し続けてください",
-    "configuration": "設定",
-    "select_model": "AIモデルを選択",
-    "temperature": "ソフトマックス温度",
-    "value_range_0_1": "値は0から1の間でなければなりません",
-    "value_range_50_500": "値は50から500の間でなければなりません",
-    "audio_player": "オーディオプレーヤー",
-    "send": "送信",
-    "input_placeholder": "ここに質問を入力してください ...",
-    "input_helptext": "Ctrl+Enter を押して質問を送信します",
-    "question_length": "質問の長さ",
-    "answer_length": "回答の長さ",
-    "return_error": "AI 要求がエラーを返しました",
-    "return_length": "AI から回答がありました。\n回答の長さ",
-    "error_message": "メッセージの送信に失敗しました。もう一度お試しください。",
-    "fallback_toast": "{{from}} が利用上限に達したため、{{to}} で続行します。",
-    "timestamp_now": "たった今",
-    "timestamp_mins_ago": "分前",
-    "timestamp_hours_ago": "時間前"
-  },
   "header": {
-    "ai": "AI（人工知能）",
     "home": "ホーム",
     "settings": "設定",
     "about": "情報",

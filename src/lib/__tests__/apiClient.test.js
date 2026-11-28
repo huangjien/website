@@ -7,7 +7,6 @@ import {
   withErrorHandling,
   withMethod,
   ensureMethod,
-  getOpenAiApiKey,
   getClientIp,
   getRequestId,
   logApiEvent,
@@ -289,28 +288,6 @@ describe("apiClient", () => {
       expect(res.setHeader).toHaveBeenCalledWith("Allow", "GET, POST");
       expect(res.status).toHaveBeenCalledWith(405);
       expect(res.json).toHaveBeenCalledWith({ error: "Method Not Allowed" });
-    });
-  });
-
-  describe("getOpenAiApiKey", () => {
-    const originalEnv = process.env;
-
-    afterEach(() => {
-      process.env = originalEnv;
-    });
-
-    it("should return OPEN_AI_KEY when present", () => {
-      process.env = { ...originalEnv, OPEN_AI_KEY: "preferred-key" };
-      expect(getOpenAiApiKey()).toBe("preferred-key");
-    });
-
-    it("should fallback to OPENAI_API_KEY", () => {
-      process.env = {
-        ...originalEnv,
-        OPEN_AI_KEY: "",
-        OPENAI_API_KEY: "fallback-key",
-      };
-      expect(getOpenAiApiKey()).toBe("fallback-key");
     });
   });
 

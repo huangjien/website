@@ -124,8 +124,7 @@ beforeAll(() => {
   console.error = (...args) => {
     if (
       typeof args[0] === "string" &&
-      (args[0].includes("Warning: ReactDOM.render is no longer supported") ||
-        args[0].includes("TTS API Error"))
+      args[0].includes("Warning: ReactDOM.render is no longer supported")
     ) {
       return;
     }

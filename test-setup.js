@@ -23,7 +23,6 @@ process.env.GITHUB_REPO = "https://api.github.com/repos/test/repo";
 process.env.GITHUB_TOKEN = "test-token";
 process.env.GITHUB_MEMBER =
   "https://api.github.com/repos/test/repo/collaborators/testuser";
-process.env.OPEN_API_KEY = "test-openai-key";
 process.env.NEXTAUTH_SECRET = "test-secret";
 process.env.NEXTAUTH_URL = "http://localhost:3000";
 

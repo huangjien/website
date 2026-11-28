@@ -10,11 +10,10 @@ describe("siteConfig", () => {
   });
 
   it("should have all required navigation items", () => {
-    expect(siteConfig.navItems).toHaveLength(4);
+    expect(siteConfig.navItems).toHaveLength(3);
 
     const expectedNavItems = [
       { label: "Home", href: "/" },
-      { label: "AI", href: "/ai" },
       { label: "Settings", href: "/settings" },
       { label: "About", href: "/about" },
     ];
@@ -35,9 +34,6 @@ describe("siteConfig", () => {
   it("should have specific navigation items", () => {
     const homeItem = siteConfig.navItems.find((item) => item.label === "Home");
     expect(homeItem).toEqual({ label: "Home", href: "/" });
-
-    const aiItem = siteConfig.navItems.find((item) => item.label === "AI");
-    expect(aiItem).toEqual({ label: "AI", href: "/ai" });
 
     const settingsItem = siteConfig.navItems.find(
       (item) => item.label === "Settings",

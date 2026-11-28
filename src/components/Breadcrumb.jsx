@@ -16,7 +16,6 @@ export const Breadcrumb = () => {
       const href = `/${segments.slice(0, index + 1).join("/")}`;
       let label = segment;
 
-      if (segment === "ai") label = t("header.ai");
       if (segment === "settings") label = t("header.settings");
       if (segment === "about") label = t("header.about");
 

@@ -10,12 +10,6 @@
       "maxErrorRate": 0
     },
     {
-      "name": "ai",
-      "path": "/ai",
-      "maxP95Ms": 1200,
-      "maxErrorRate": 0
-    },
-    {
       "name": "settings",
       "path": "/settings",
       "maxP95Ms": 1200,

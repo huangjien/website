@@ -7,10 +7,6 @@ export const siteConfig = {
       href: "/",
     },
     {
-      label: "AI",
-      href: "/ai",
-    },
-    {
       label: "Settings",
       href: "/settings",
     },

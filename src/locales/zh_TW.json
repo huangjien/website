@@ -24,60 +24,10 @@
     "rows_per_page": "每頁行數",
     "total": "總計 {{total}} 項"
   },
-  "ai": {
-    "track_speed": "軌道速度",
-    "conversation": "AI 對談",
-    "send_tooltip": "點擊發送問題",
-    "hold": "按住進行語音輸入",
-    "configuration": "配置",
-    "select_model": "選擇 AI 模型",
-    "temperature": "Softmax 溫度",
-    "value_range_0_1": "值必須在 0 和 1 之間",
-    "value_range_50_500": "值必須在 50 和 500 之間",
-    "audio_player": "音頻播放器",
-    "send": "發送",
-    "input_placeholder": "在此輸入您的問題...",
-    "input_helptext": "按 Ctrl+Enter 發送您的問題",
-    "question_length": "問題長度",
-    "answer_length": "答案長度",
-    "return_error": "AI 請求返回錯誤",
-    "return_length": "我們從 AI 收到了答案。\n答案長度",
-    "prompt": "提問任何問題...",
-    "prompt_placeholder": "輸入您的訊息…",
-    "stop": "停止",
-    "clear": "清除",
-    "settings": "設定",
-    "history": "歷史記錄",
-    "stream": "串流",
-    "system_prompt": "系統提示詞",
-    "mic": "麥克風",
-    "recording": "錄製中…",
-    "play": "播放",
-    "loading": "載入中…",
-    "login_required": "登入後才能使用語音合成",
-    "tts_failed": "語音合成失敗",
-    "error_message": "發送訊息失敗，請重試。",
-    "fallback_toast": "{{from}} 已達到用量上限，改用 {{to}} 繼續。",
-    "timestamp_now": "剛剛",
-    "timestamp_mins_ago": "分鐘前",
-    "timestamp_hours_ago": "小時前",
-    "clear_input": "清除輸入",
-    "start_recording": "開始錄製",
-    "stop_recording": "停止錄製",
-    "composing": "輸入中...",
-    "hint_enter_to_send": "按 Enter 發送，Shift+Enter 換行",
-    "characters": "字符",
-    "ai_model": "AI 模型",
-    "show_input_panel": "顯示輸入面板",
-    "hide_input_panel": "隱藏輸入面板",
-    "expand_input_panel": "展開輸入面板",
-    "collapse_input_panel": "折疊輸入面板"
-  },
   "header": {
     "herohub": "HeroHub",
     "home": "首頁",
     "settings": "設定",
-    "ai": "AI",
     "about": "關於",
     "login": "登錄",
     "login_username": "使用者名稱",
@@ -134,10 +84,6 @@
   "index": {
     "title": "目錄"
   },
-  "chat": {
-    "ai_model": "AI 模型",
-    "temperature": "溫度"
-  },
   "column": {
     "title": {
       "key": "鍵",
@@ -165,9 +111,6 @@
     "copied": "已複製！",
     "copy_to_clipboard": "複製到剪貼簿"
   },
-  "tts_button": {
-    "play_audio": "播放音頻"
-  },
   "breadcrumb": {
     "breadcrumb": "麵包屑導航"
   },
@@ -191,8 +134,5 @@
     "error_loading_comments": "加載評論錯誤",
     "avatar": "頭像"
   },
-  "settings": {
-    "voice_note": "語音僅適用於文本轉語音播放。",
-    "select_voice": "選擇 TTS 語音"
-  }
+  "settings": {}
 }

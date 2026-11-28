@@ -11,7 +11,6 @@ jest.mock("react-i18next", () => ({
     t: (key) => {
       const translations = {
         "header.home": "Home",
-        "header.ai": "AI",
         "header.settings": "Settings",
         "header.about": "About",
         "breadcrumb.breadcrumb": "Breadcrumb",
@@ -36,11 +35,11 @@ describe("Breadcrumb Component", () => {
       expect(screen.getByText("Home")).toBeInTheDocument();
     });
 
-    it("renders on AI page", () => {
-      usePathname.mockReturnValue("/ai");
+    it("renders on About page", () => {
+      usePathname.mockReturnValue("/about");
       render(<Breadcrumb />);
       expect(screen.getByText("Home")).toBeInTheDocument();
-      expect(screen.getByText("AI")).toBeInTheDocument();
+      expect(screen.getByText("About")).toBeInTheDocument();
     });
 
     it("renders on Settings page", () => {
@@ -68,16 +67,16 @@ describe("Breadcrumb Component", () => {
 
   describe("Navigation Links", () => {
     it("has correct href attributes", () => {
-      usePathname.mockReturnValue("/ai/settings");
+      usePathname.mockReturnValue("/about/settings");
       render(<Breadcrumb />);
 
       const homeLink = screen.getByText("Home").closest("a");
-      const aiLink = screen.getByText("AI").closest("a");
+      const aboutLink = screen.getByText("About").closest("a");
       const settingsLink = screen.getByText("Settings").closest("a");
 
       expect(homeLink).toHaveAttribute("href", "/");
-      expect(aiLink).toHaveAttribute("href", "/ai");
-      expect(settingsLink).toHaveAttribute("href", "/ai/settings");
+      expect(aboutLink).toHaveAttribute("href", "/about");
+      expect(settingsLink).toHaveAttribute("href", "/about/settings");
     });
 
     it("highlights current page", () => {
@@ -89,7 +88,7 @@ describe("Breadcrumb Component", () => {
     });
 
     it("applies hover styles to non-current links", () => {
-      usePathname.mockReturnValue("/ai");
+      usePathname.mockReturnValue("/settings");
       render(<Breadcrumb />);
 
       const homeLink = screen.getByText("Home").closest("a");
@@ -102,7 +101,7 @@ describe("Breadcrumb Component", () => {
 
   describe("Accessibility", () => {
     it("has nav element with proper aria-label", () => {
-      usePathname.mockReturnValue("/ai");
+      usePathname.mockReturnValue("/settings");
       render(<Breadcrumb />);
 
       const nav = screen.getByRole("navigation", { name: /breadcrumb/i });
@@ -127,7 +126,7 @@ describe("Breadcrumb Component", () => {
     });
 
     it("hides separator icons from screen readers", () => {
-      usePathname.mockReturnValue("/ai");
+      usePathname.mockReturnValue("/settings");
       const { container } = render(<Breadcrumb />);
 
       const separators = container.querySelectorAll("svg");
@@ -147,7 +146,7 @@ describe("Breadcrumb Component", () => {
     });
 
     it("does not render separator before first item", () => {
-      usePathname.mockReturnValue("/ai");
+      usePathname.mockReturnValue("/settings");
       render(<Breadcrumb />);
 
       const homeLink = screen.getByText("Home").closest("a");
@@ -156,7 +155,7 @@ describe("Breadcrumb Component", () => {
     });
 
     it("has correct separator styling", () => {
-      usePathname.mockReturnValue("/ai");
+      usePathname.mockReturnValue("/settings");
       const { container } = render(<Breadcrumb />);
 
       const separator = container.querySelector("svg");
@@ -166,10 +165,10 @@ describe("Breadcrumb Component", () => {
 
   describe("Translation", () => {
     it("translates known routes", () => {
-      usePathname.mockReturnValue("/ai");
+      usePathname.mockReturnValue("/settings");
       render(<Breadcrumb />);
 
-      expect(screen.getByText("AI")).toBeInTheDocument();
+      expect(screen.getByText("Settings")).toBeInTheDocument();
     });
 
     it("uses original segment for unknown routes", () => {
@@ -180,10 +179,10 @@ describe("Breadcrumb Component", () => {
     });
 
     it("handles multiple segments with mixed translations", () => {
-      usePathname.mockReturnValue("/ai/custom-page");
+      usePathname.mockReturnValue("/about/custom-page");
       render(<Breadcrumb />);
 
-      expect(screen.getByText("AI")).toBeInTheDocument();
+      expect(screen.getByText("About")).toBeInTheDocument();
       expect(screen.getByText("custom-page")).toBeInTheDocument();
     });
   });
@@ -226,7 +225,7 @@ describe("Breadcrumb Component", () => {
 
   describe("Styling", () => {
     it("has correct container classes", () => {
-      usePathname.mockReturnValue("/ai");
+      usePathname.mockReturnValue("/settings");
       const { container } = render(<Breadcrumb />);
 
       const nav = container.querySelector("nav");

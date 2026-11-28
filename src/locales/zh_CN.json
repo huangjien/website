@@ -24,60 +24,10 @@
     "rows_per_page": "每页行数",
     "total": "共 {{total}} 项"
   },
-  "ai": {
-    "track_speed": "轨道速度",
-    "conversation": "AI对话",
-    "send_tooltip": "点击发送问题",
-    "hold": "按住进行语音输入",
-    "configuration": "配置",
-    "select_model": "选择 AI 模型",
-    "temperature": "Softmax 温度",
-    "value_range_0_1": "值必须在 0 和 1 之间",
-    "value_range_50_500": "值必须在 50 和 500 之间",
-    "audio_player": "音频播放器",
-    "send": "发送",
-    "input_placeholder": "在此输入您的问题...",
-    "input_helptext": "按 Ctrl+Enter 发送您的问题",
-    "question_length": "问题长度",
-    "answer_length": "答案长度",
-    "return_error": "AI 请求返回错误",
-    "return_length": "我们从 AI 收到了答案。\n答案长度",
-    "prompt": "提问任何问题...",
-    "prompt_placeholder": "输入您的消息…",
-    "stop": "停止",
-    "clear": "清除",
-    "settings": "设置",
-    "history": "历史记录",
-    "stream": "流式传输",
-    "system_prompt": "系统提示词",
-    "mic": "麦克风",
-    "recording": "录制中…",
-    "play": "播放",
-    "loading": "加载中…",
-    "login_required": "登录后才能使用语音合成",
-    "tts_failed": "语音合成失败",
-    "error_message": "发送消息失败，请重试。",
-    "fallback_toast": "{{from}} 已达到用量上限，改用 {{to}} 继续。",
-    "timestamp_now": "刚刚",
-    "timestamp_mins_ago": "分钟前",
-    "timestamp_hours_ago": "小时前",
-    "clear_input": "清除输入",
-    "start_recording": "开始录制",
-    "stop_recording": "停止录制",
-    "composing": "输入中...",
-    "hint_enter_to_send": "按 Enter 发送，Shift+Enter 换行",
-    "characters": "字符",
-    "ai_model": "AI 模型",
-    "show_input_panel": "显示输入面板",
-    "hide_input_panel": "隐藏输入面板",
-    "expand_input_panel": "展开输入面板",
-    "collapse_input_panel": "折叠输入面板"
-  },
   "header": {
     "herohub": "HeroHub",
     "home": "首页",
     "settings": "设置",
-    "ai": "AI",
     "about": "关于",
     "login": "登录",
     "login_username": "用户名",
@@ -134,10 +84,6 @@
   "index": {
     "title": "目录"
   },
-  "chat": {
-    "ai_model": "AI 模型",
-    "temperature": "温度"
-  },
   "column": {
     "title": {
       "key": "键",
@@ -165,9 +111,6 @@
     "copied": "已复制！",
     "copy_to_clipboard": "复制到剪贴板"
   },
-  "tts_button": {
-    "play_audio": "播放音频"
-  },
   "breadcrumb": {
     "breadcrumb": "面包屑导航"
   },
@@ -191,8 +134,5 @@
     "error_loading_comments": "加载评论错误",
     "avatar": "头像"
   },
-  "settings": {
-    "voice_note": "语音仅适用于文本转语音播放。",
-    "select_voice": "选择 TTS 语音"
-  }
+  "settings": {}
 }

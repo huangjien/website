@@ -15,20 +15,14 @@ jest.mock("../../locales/i18n", () => ({
     {
       key: "en",
       value: "English",
-      languageCode: "en-US",
-      name: "en-US-Standard-A",
     },
     {
       key: "zh_CN",
       value: "中文(简体)",
-      languageCode: "cmn-CN",
-      name: "cmn-CN-Standard-A",
     },
     {
       key: "es",
       value: "Español",
-      languageCode: "es-ES",
-      name: "es-ES-Standard-A",
     },
   ],
 }));
@@ -43,8 +37,6 @@ describe("LanguageSwitch", () => {
   const mockUseSettings = useSettings;
 
   let mockSetCurrentLanguage;
-  let mockSetLanguageCode;
-  let mockSetSpeakerName;
   let currentLanguageState;
 
   beforeEach(() => {
@@ -54,14 +46,10 @@ describe("LanguageSwitch", () => {
     mockSetCurrentLanguage = jest.fn((lang) => {
       currentLanguageState = lang;
     });
-    mockSetLanguageCode = jest.fn();
-    mockSetSpeakerName = jest.fn();
 
     mockUseSettings.mockImplementation(() => ({
-      setLanguageCode: mockSetLanguageCode,
       setCurrentLanguage: mockSetCurrentLanguage,
       currentLanguage: currentLanguageState,
-      setSpeakerName: mockSetSpeakerName,
     }));
   });
 
@@ -108,8 +96,6 @@ describe("LanguageSwitch", () => {
 
     await waitFor(() => {
       expect(mockSetCurrentLanguage).toHaveBeenCalledWith("zh_CN");
-      expect(mockSetLanguageCode).toHaveBeenCalledWith("cmn-CN");
-      expect(mockSetSpeakerName).toHaveBeenCalledWith("cmn-CN-Standard-A");
     });
   });
 
@@ -123,8 +109,6 @@ describe("LanguageSwitch", () => {
 
     await waitFor(() => {
       expect(mockSetCurrentLanguage).toHaveBeenCalledWith("es");
-      expect(mockSetLanguageCode).toHaveBeenCalledWith("es-ES");
-      expect(mockSetSpeakerName).toHaveBeenCalledWith("es-ES-Standard-A");
     });
   });
 
@@ -138,8 +122,6 @@ describe("LanguageSwitch", () => {
 
     await waitFor(() => {
       expect(mockSetCurrentLanguage).toHaveBeenCalledWith("en");
-      expect(mockSetLanguageCode).toHaveBeenCalledWith("en-US");
-      expect(mockSetSpeakerName).toHaveBeenCalledWith("en-US-Standard-A");
     });
   });
 
@@ -166,7 +148,6 @@ describe("LanguageSwitch", () => {
       setLanguageCode: jest.fn(),
       setCurrentLanguage: jest.fn(),
       currentLanguage: "en",
-      setSpeakerName: jest.fn(),
     }));
 
     expect(() => render(<LanguageSwitch />)).not.toThrow();

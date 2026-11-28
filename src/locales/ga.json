@@ -2,32 +2,7 @@
   "global": {
     "search": "Cuardaigh..."
   },
-  "ai": {
-    "track_speed": "Luas an tseirbhís",
-    "conversation": "Comhrá AI",
-    "send_tooltip": "Cliceáil chun an cheist a sheoladh",
-    "hold": "Coinnigh do ghlór a iontráil",
-    "configuration": "Cumraíocht",
-    "select_model": "Roghnaigh múnla AI",
-    "temperature": "Teocht Softmax",
-    "value_range_0_1": "Ní mór don luach a bheith idir 0 agus 1",
-    "value_range_50_500": "Ní mór don luach a bheith idir 50 agus 500",
-    "audio_player": "Seinnteoir fuaime",
-    "send": "Seol",
-    "input_placeholder": "Cuir do cheist anseo ...",
-    "input_helptext": "Brúigh Ctrl+Enter chun do cheist a sheoladh",
-    "question_length": "Fad na ceiste",
-    "answer_length": "Fad na freagra",
-    "return_error": "D'fhág an iarratas AI earráid",
-    "return_length": "Fuair muid freagra ó AI.\nFad na freagra",
-    "error_message": "Theip ar sheoladh na teachtaireachta. Déan iarracht eile.",
-    "fallback_toast": "Sroicheadh teorainn {{from}} — ag leanúint ar aghaidh le {{to}}.",
-    "timestamp_now": "Anois",
-    "timestamp_mins_ago": "nóim(í) ó shin",
-    "timestamp_hours_ago": "uair(e) ó shin"
-  },
   "header": {
-    "ai": "Inteallacht fhíorchliste",
     "home": "Baile",
     "settings": "Socruithe",
     "about": "Faoi",

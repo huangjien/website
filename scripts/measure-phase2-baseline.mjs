@@ -5,10 +5,8 @@ const RUNS = Number(process.env.RUNS || 5);
 
 const targets = [
   { name: "home", path: "/" },
-  { name: "ai", path: "/ai" },
   { name: "settings", path: "/settings" },
   { name: "api-issues", path: "/api/issues?includeComments=1" },
-  { name: "api-ai-models", path: "/api/ai-models" },
   { name: "api-settings", path: "/api/settings" },
 ];
 

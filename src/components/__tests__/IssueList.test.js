@@ -2,15 +2,7 @@ import { render, screen, fireEvent, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { IssueList } from "../IssueList";
 
-// Mock the useSettings hook
-jest.mock("@/lib/useSettings", () => ({
-  useSettings: () => ({
-    languageCode: "en-US",
-    speakerName: "en-US-Standard-A",
-  }),
-}));
-
-// Mock ahooks
+undefined; // Mock ahooks
 jest.mock("ahooks", () => ({
   useDebounceEffect: jest.fn(),
   useRequest: jest.fn(() => ({
@@ -21,12 +13,6 @@ jest.mock("ahooks", () => ({
   })),
 }));
 
-// Mock fetch for TTS API
-global.fetch = jest.fn();
-
-// Mock URL.createObjectURL
-global.URL.createObjectURL = jest.fn(() => "mock-audio-url");
-
 // Mock components
 jest.mock("../Issue", () => {
   const MockIssue = ({ issue }) => (
@@ -35,28 +21,6 @@ jest.mock("../Issue", () => {
   return {
     Issue: MockIssue,
     default: MockIssue,
-  };
-});
-
-jest.mock("../Chat", () => {
-  const MockChat = ({ data, player }) => (
-    <div data-testid='chat-component'>
-      <span>{data.question || data.title}</span>
-      <button
-        className='text-primary'
-        onClick={() => {
-          if (player && typeof player === "function") {
-            player(data.answer || data.body);
-          }
-        }}
-      >
-        <svg>Play Icon</svg>
-      </button>
-    </div>
-  );
-  return {
-    Chat: MockChat,
-    default: MockChat,
   };
 });
 
@@ -123,49 +87,7 @@ const mockData = [
   },
 ];
 
-const mockChatData = [
-  {
-    id: 1,
-    question: "First Question",
-    answer: "This is the first answer content",
-    model: "gpt-4.1-mini",
-    question_tokens: 10,
-    answer_tokens: 20,
-  },
-  {
-    id: 2,
-    question: "Second Question",
-    answer: "This is the second answer content",
-    model: "gpt-4.1-mini",
-    question_tokens: 15,
-    answer_tokens: 25,
-  },
-  {
-    id: 3,
-    question: "Third Question",
-    answer: "This is the third answer content",
-    model: "gpt-4.1-mini",
-    question_tokens: 12,
-    answer_tokens: 22,
-  },
-];
-
 describe("IssueList", () => {
-  beforeEach(() => {
-    fetch.mockClear();
-    fetch.mockReset();
-    // Mock successful TTS response
-    fetch.mockResolvedValue({
-      blob: () =>
-        Promise.resolve(new Blob(["audio data"], { type: "audio/mpeg" })),
-    });
-  });
-
-  afterEach(() => {
-    fetch.mockClear();
-    fetch.mockReset();
-  });
-
   it("renders the issue list with data", () => {
     render(
       <IssueList
@@ -186,20 +108,6 @@ describe("IssueList", () => {
       within(screen.getByRole("list")).getByText("Third Issue"),
     ).toBeInTheDocument();
     expect(screen.getByTestId("joke-component")).toBeInTheDocument();
-  });
-
-  it("renders chat components when ComponentName is Chat", () => {
-    render(
-      <IssueList
-        tags={[]}
-        ComponentName='Chat'
-        data={mockChatData}
-        inTab='ai'
-      />,
-    );
-
-    expect(screen.getAllByTestId("chat-component")).toHaveLength(3);
-    expect(screen.getByText("First Question")).toBeInTheDocument();
   });
 
   it("filters data based on search input", async () => {
@@ -274,24 +182,6 @@ describe("IssueList", () => {
     await user.selectOptions(rowsSelect, "10");
 
     expect(rowsSelect.value).toBe("10");
-  });
-
-  it("handles text-to-speech functionality", async () => {
-    render(
-      <IssueList
-        tags={[]}
-        ComponentName='Chat'
-        data={mockChatData}
-        inTab='ai'
-      />,
-    );
-
-    // Verify that Chat components are rendered with play buttons
-    const playButtons = screen.getAllByRole("button");
-    const chatPlayButtons = playButtons.filter((button) =>
-      button.className.includes("text-primary"),
-    );
-    expect(chatPlayButtons.length).toBeGreaterThan(0);
   });
 
   it("displays correct total count", () => {
@@ -463,81 +353,6 @@ describe("IssueList", () => {
     ).not.toBeInTheDocument();
   });
 
-  it("handles TTS modal opening and closing", async () => {
-    render(
-      <IssueList
-        tags={[]}
-        ComponentName='Chat'
-        data={mockChatData}
-        inTab='ai'
-      />,
-    );
-
-    // Test that the component renders without errors
-    expect(screen.getByText("First Question")).toBeInTheDocument();
-
-    // Test that play buttons are present
-    const playButtons = screen.getAllByRole("button");
-    const chatPlayButtons = playButtons.filter((button) =>
-      button.className.includes("text-primary"),
-    );
-    expect(chatPlayButtons.length).toBeGreaterThan(0);
-
-    // Test that modal structure exists (even if not open)
-    // The modal is always rendered but may not be visible
-    expect(screen.getByRole("list")).toBeInTheDocument();
-  });
-
-  it("calls TTS API with correct parameters", async () => {
-    render(
-      <IssueList
-        tags={[]}
-        ComponentName='Chat'
-        data={mockChatData}
-        inTab='ai'
-      />,
-    );
-
-    // Test that the component renders without errors
-    expect(screen.getByText("First Question")).toBeInTheDocument();
-
-    // Test that play buttons are present
-    const playButtons = screen.getAllByRole("button");
-    const chatPlayButtons = playButtons.filter((button) =>
-      button.className.includes("text-primary"),
-    );
-    expect(chatPlayButtons.length).toBeGreaterThan(0);
-
-    // Test TTS URL construction logic directly
-    const testText = "Hello world";
-    const expectedUrl = `/api/tts?&&languageCode=en-US&&name=en-US-Standard-A&&text=${encodeURIComponent(testText.replaceAll("\n", ""))}`;
-    expect(expectedUrl).toContain(
-      "/api/tts?&&languageCode=en-US&&name=en-US-Standard-A&&text=",
-    );
-  });
-
-  it("handles TTS API error gracefully", async () => {
-    render(
-      <IssueList
-        tags={[]}
-        ComponentName='Chat'
-        data={mockChatData}
-        inTab='ai'
-      />,
-    );
-
-    // Test that the component renders without errors
-    expect(screen.getByText("First Question")).toBeInTheDocument();
-    expect(screen.getByRole("list")).toBeInTheDocument();
-
-    // Test that play buttons are present
-    const playButtons = screen.getAllByRole("button");
-    const chatPlayButtons = playButtons.filter((button) =>
-      button.className.includes("text-primary"),
-    );
-    expect(chatPlayButtons.length).toBeGreaterThan(0);
-  });
-
   it("renders default component for unknown ComponentName", () => {
     render(
       <IssueList
@@ -650,76 +465,6 @@ describe("IssueList", () => {
     expect(
       within(screen.getByRole("list")).queryByText("First Issue"),
     ).not.toBeInTheDocument();
-  });
-
-  it("encodes TTS text properly for URL", async () => {
-    const dataWithSpecialChars = [
-      {
-        id: 1,
-        question: "Question with special chars",
-        answer: "Text with & symbols and\nnewlines",
-        model: "gpt-4.1-mini",
-        question_tokens: 10,
-        answer_tokens: 15,
-      },
-    ];
-
-    render(
-      <IssueList
-        tags={[]}
-        ComponentName='Chat'
-        data={dataWithSpecialChars}
-        inTab='ai'
-      />,
-    );
-
-    // Test that the component renders without errors
-    expect(screen.getByText("Question with special chars")).toBeInTheDocument();
-
-    // Test URL encoding logic directly
-    const testText = "Text with & symbols and\nnewlines";
-    const encodedText = encodeURIComponent(testText.replace(/\n/g, " "));
-    expect(encodedText).toContain(
-      "Text%20with%20%26%20symbols%20and%20newlines",
-    );
-  });
-
-  it("creates audio URL from blob response", async () => {
-    render(
-      <IssueList
-        tags={[]}
-        ComponentName='Chat'
-        data={mockChatData}
-        inTab='ai'
-      />,
-    );
-
-    // Test that the component renders without errors
-    expect(screen.getByText("First Question")).toBeInTheDocument();
-
-    // Test that URL.createObjectURL is available for blob handling
-    expect(URL.createObjectURL).toBeDefined();
-    expect(typeof URL.createObjectURL).toBe("function");
-  });
-
-  it("stops audio when modal is closed", async () => {
-    render(
-      <IssueList
-        tags={[]}
-        ComponentName='Chat'
-        data={mockChatData}
-        inTab='ai'
-      />,
-    );
-
-    // Test that the component renders without errors
-    expect(screen.getByText("First Question")).toBeInTheDocument();
-
-    // Test escape key handling
-    fireEvent.keyDown(document, { key: "Escape", code: "Escape" });
-
-    // Component should still be rendered after escape key
-    expect(screen.getByText("First Question")).toBeInTheDocument();
   });
 
   it("handles data with missing id property", () => {

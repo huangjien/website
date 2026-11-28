@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import {
   BiHome,
-  BiChip,
   BiCog,
   BiDetail,
   BiEditAlt,
@@ -53,16 +52,6 @@ export const MobileMenu = ({ canPublish = false }) => {
           >
             <Link href='/' className='w-full'>
               <BiHome size='1.2em' aria-hidden='true' /> {t("header.home")}
-            </Link>
-          </DropdownMenu.Item>
-          <DropdownMenu.Item
-            className='flex cursor-pointer select-none items-center gap-2 rounded-lg px-3 py-2.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground transition-all duration-fast ease-out'
-            onSelect={handleClose}
-            role='menuitem'
-            asChild
-          >
-            <Link href='/ai' className='w-full'>
-              <BiChip size='1.2em' aria-hidden='true' /> {t("header.ai")}
             </Link>
           </DropdownMenu.Item>
           {canPublish && (

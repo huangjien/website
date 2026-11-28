@@ -2,32 +2,7 @@
   "global": {
     "search": "بحث..."
   },
-  "ai": {
-    "track_speed": "سرعة المسار",
-    "conversation": "محادثة الذكاء الاصطناعي",
-    "send_tooltip": "انقر لإرسال السؤال",
-    "hold": "اضغط للإدخال الصوتي",
-    "configuration": "التكوين",
-    "select_model": "اختر نموذج AI",
-    "temperature": "درجة الحرارة Softmax",
-    "value_range_0_1": "يجب أن تكون القيمة بين 0 و 1",
-    "value_range_50_500": "يجب أن تكون القيمة بين 50 و 500",
-    "audio_player": "مشغل الصوت",
-    "send": "ارسال",
-    "input_placeholder": "ادخل سؤالك هنا...",
-    "input_helptext": "اضغط على Ctrl+Enter لإرسال السؤال",
-    "question_length": "طول السؤال",
-    "answer_length": "طول الإجابة",
-    "return_error": "طلب الذكاء الاصطناعي يعيد خطأ",
-    "return_length": "لقد تلقينا إجابة من الذكاء الاصطناعي.\nطول الإجابة",
-    "error_message": "فشل إرسال الرسالة. يرجى المحاولة مرة أخرى.",
-    "fallback_toast": "تم الوصول إلى حد {{from}} — جارٍ المتابعة مع {{to}}.",
-    "timestamp_now": "الآن",
-    "timestamp_mins_ago": "دقيقة(ق) مضت",
-    "timestamp_hours_ago": "ساعة(ات) مضت"
-  },
   "header": {
-    "ai": "الذكاء الاصطناعي ",
     "home": "الصفحة الرئيسية",
     "settings": "الإعدادات",
     "about": "حول",

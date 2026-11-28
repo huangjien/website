@@ -55,15 +55,10 @@ describe("useSettings hook", () => {
 
   it("should provide default settings values", () => {
     const { result } = renderHook(() => useSettings(), { wrapper });
-
-    expect(result.current).toHaveProperty("languageCode");
-    expect(result.current).toHaveProperty("speakerName");
     expect(result.current).toHaveProperty("currentLanguage");
     expect(result.current).toHaveProperty("currentTheme");
     expect(result.current).toHaveProperty("currentStyle");
     expect(result.current).toHaveProperty("getSetting");
-    expect(result.current).toHaveProperty("setLanguageCode");
-    expect(result.current).toHaveProperty("setSpeakerName");
     expect(result.current).toHaveProperty("setCurrentLanguage");
     expect(result.current).toHaveProperty("setCurrentTheme");
     expect(result.current).toHaveProperty("setCurrentStyle");
@@ -71,32 +66,9 @@ describe("useSettings hook", () => {
 
   it("should have correct default values", () => {
     const { result } = renderHook(() => useSettings(), { wrapper });
-
-    expect(result.current.languageCode).toBe("en-US");
-    expect(result.current.speakerName).toBe("en-US-Standard-A");
     expect(result.current.currentLanguage).toBe("en");
     expect(result.current.currentTheme).toBe("light");
     expect(result.current.currentStyle).toBe("glassmorphism");
-  });
-
-  it("should update languageCode when setLanguageCode is called", () => {
-    const { result } = renderHook(() => useSettings(), { wrapper });
-
-    act(() => {
-      result.current.setLanguageCode("fr-FR");
-    });
-
-    expect(result.current.languageCode).toBe("fr-FR");
-  });
-
-  it("should update speakerName when setSpeakerName is called", () => {
-    const { result } = renderHook(() => useSettings(), { wrapper });
-
-    act(() => {
-      result.current.setSpeakerName("fr-FR-Standard-A");
-    });
-
-    expect(result.current.speakerName).toBe("fr-FR-Standard-A");
   });
 
   it("should update currentLanguage when setCurrentLanguage is called", () => {

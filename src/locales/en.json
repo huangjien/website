@@ -25,66 +25,10 @@
     "total": "Total {{total}} items",
     "unauthorized": "Please login to access Settings."
   },
-  "ai": {
-    "track_speed": "Track Speed",
-    "conversation": "AI Conversation",
-    "send_tooltip": "Clik to send question",
-    "hold": "Hold to voice input",
-    "configuration": "Configuration",
-    "select_model": "Select AI model",
-    "temperature": "Softmax Temperature",
-    "value_range_0_1": "The value must between 0 and 1",
-    "value_range_50_500": "The value must between 50 and 500",
-    "audio_player": "Audio Player",
-    "send": "Send",
-    "input_placeholder": "Input your question here ...",
-    "input_helptext": "Press Ctrl+Enter to send your question",
-    "question_length": "Length of question",
-    "answer_length": "Length of answer",
-    "return_error": "AI request return error",
-    "return_length": "We receive an answer from AI.\nAnswer length",
-    "prompt": "Ask anything...",
-    "prompt_placeholder": "Type your message…",
-    "stop": "Stop",
-    "clear": "Clear",
-    "settings": "Settings",
-    "history": "History",
-    "stream": "Stream",
-    "system_prompt": "System prompt",
-    "mic": "Mic",
-    "recording": "Recording…",
-    "play": "Play",
-    "loading": "Loading…",
-    "login_required": "Login required to use TTS",
-    "tts_failed": "Text-to-speech failed",
-    "error_message": "Failed to send message. Please try again.",
-    "fallback_toast": "AI limit reached on {{from}} — continuing with {{to}}.",
-    "timestamp_now": "Just now",
-    "timestamp_mins_ago": "min(s) ago",
-    "timestamp_hours_ago": "h(s) ago",
-    "clear_input": "Clear input",
-    "start_recording": "Start Recording",
-    "stop_recording": "Stop Recording",
-    "composing": "Composing...",
-    "hint_enter_to_send": "Press Enter to send, Shift+Enter for new line",
-    "characters": "chars",
-    "ai_model": "AI Model",
-    "show_input_panel": "Show input panel",
-    "hide_input_panel": "Hide input panel",
-    "expand_input_panel": "Expand input panel",
-    "collapse_input_panel": "Collapse input panel",
-    "model_auto_fallback": "Model unavailable, switched to {{model}} automatically",
-    "copy": "Copy",
-    "copied": "Copied to clipboard",
-    "copy_failed": "Failed to copy",
-    "select_voice": "Select TTS voice",
-    "voice_note": "Voice applies to text-to-speech playback only."
-  },
   "header": {
     "herohub": "HeroHub",
     "home": "Home",
     "settings": "Settings",
-    "ai": "AI",
     "about": "About",
     "login": "Login",
     "login_username": "User name",
@@ -142,10 +86,6 @@
   "index": {
     "title": "Contents"
   },
-  "chat": {
-    "ai_model": "AI Model",
-    "temperature": "Temperature"
-  },
   "column": {
     "title": {
       "key": "Key",
@@ -173,9 +113,6 @@
     "copied": "Copied!",
     "copy_to_clipboard": "Copy to clipboard"
   },
-  "tts_button": {
-    "play_audio": "Play audio"
-  },
   "breadcrumb": {
     "breadcrumb": "Breadcrumb"
   },
@@ -200,8 +137,6 @@
     "avatar": "Avatar"
   },
   "settings": {
-    "voice_note": "Voice applies to text-to-speech playback only.",
-    "select_voice": "Select TTS voice",
     "table_aria_label": "Settings"
   },
   "smart_image": {
