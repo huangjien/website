@@ -1,4 +1,10 @@
-import { streamText, convertToModelMessages, MessageConversionError } from "ai";
+import {
+  JsonToSseTransformStream,
+  UI_MESSAGE_STREAM_HEADERS,
+  streamText,
+  convertToModelMessages,
+  MessageConversionError,
+} from "ai";
 import { createOpenAI } from "@ai-sdk/openai";
 import { getServerSession } from "next-auth/next";
 import { z } from "zod";
@@ -20,10 +26,16 @@ import {
   CHAT_WINDOW_MS,
 } from "../../lib/rateLimit";
 import {
-  CURATED_MODEL_IDS,
+  CURATED_AI_MODELS,
   DEFAULT_AI_MODEL,
   isAllowedAiModel,
 } from "../../config/ai-models";
+import {
+  classifyProviderError,
+  getSharedCooldownState,
+  recordCooldown,
+  resolveChain,
+} from "../../lib/ai/failover";
 
 /**
  * Chat streaming endpoint using Vercel AI SDK (Pages Router, Node runtime)
@@ -87,7 +99,7 @@ const handler = withErrorHandling(async (req, res) => {
     if (!isAllowedAiModel(selectedModel)) {
       throw new ValidationError(
         "Invalid model",
-        `Model must be one of: ${CURATED_MODEL_IDS.join(", ")}`,
+        `Model must be one of: ${CURATED_AI_MODELS.map((m) => m.id).join(", ")}`,
       );
     }
 
@@ -108,14 +120,89 @@ const handler = withErrorHandling(async (req, res) => {
       ]);
     }
 
-    const result = await streamText({
-      model: openaiClient(selectedModel),
-      messages: modelMessages,
-      temperature: typeof temperature === "number" ? temperature : undefined,
-      system: typeof system === "string" ? system : undefined,
-    });
+    const cooldowns = getSharedCooldownState();
+    const candidates = resolveChain(
+      selectedModel,
+      CURATED_AI_MODELS,
+      cooldowns,
+      Date.now(),
+    );
 
-    await result.pipeUIMessageStreamToResponse(res);
+    if (candidates.length === 0) {
+      // Every curated model is cooling down (e.g. key-level quota hold).
+      const retryAt = Math.min(
+        ...CURATED_AI_MODELS.map(
+          (model) => cooldowns.get(model.id)?.openUntil ?? Date.now(),
+        ),
+      );
+      throw new RateLimitError(
+        Math.max(1, Math.ceil((retryAt - Date.now()) / 1000)),
+        retryAt,
+      );
+    }
+
+    let fallbackFrom = null;
+    for (let i = 0; i < candidates.length; i += 1) {
+      const candidateId = candidates[i];
+      const result = await streamText({
+        model: openaiClient(candidateId),
+        messages: modelMessages,
+        temperature: typeof temperature === "number" ? temperature : undefined,
+        system: typeof system === "string" ? system : undefined,
+        // Fail fast on provider limits; the failover chain owns retries.
+        maxRetries: 0,
+      });
+
+      // Same SSE pipeline as pipeUIMessageStreamToResponse, but readable
+      // chunk-by-chunk so we can fail over before committing a response.
+      const reader = result
+        .toUIMessageStream()
+        .pipeThrough(new JsonToSseTransformStream())
+        .pipeThrough(new TextEncoderStream())
+        .getReader();
+
+      let firstChunk;
+      try {
+        // Probe: usage-limit errors reject here, before any byte reaches res.
+        firstChunk = await reader.read();
+      } catch (error) {
+        const verdict = classifyProviderError(error);
+        if (verdict.kind === "other") {
+          throw error;
+        }
+        recordCooldown(cooldowns, candidateId, verdict, CURATED_AI_MODELS);
+        if (i === candidates.length - 1) {
+          throw new RateLimitError(
+            Math.max(1, Math.ceil(verdict.cooldownMs / 1000)),
+            Date.now() + verdict.cooldownMs,
+          );
+        }
+        fallbackFrom = fallbackFrom ?? selectedModel;
+        logApiEvent("warn", "ai_failover", req, {
+          from: candidateId,
+          kind: verdict.kind,
+        });
+        continue;
+      }
+
+      // Commit point — nothing has been written to res before this line.
+      res.writeHead(200, {
+        ...UI_MESSAGE_STREAM_HEADERS,
+        "X-AI-Model": candidateId,
+        ...(fallbackFrom ? { "X-AI-Fallback-From": fallbackFrom } : {}),
+      });
+      res.write(firstChunk.value);
+      try {
+        for (;;) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          res.write(value);
+        }
+      } finally {
+        res.end();
+      }
+      return;
+    }
   } catch (error) {
     logApiEvent("error", "chat_stream_error", req, {
       message: error?.message || "Unknown error",

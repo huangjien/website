@@ -1,5 +1,50 @@
 import { createMocks } from "node-mocks-http";
 
+// Polyfill web-stream globals missing from the jsdom test environment.
+const {
+  ReadableStream: NodeReadableStream,
+  TransformStream: NodeTransformStream,
+} = require("stream/web");
+if (typeof global.ReadableStream === "undefined") {
+  global.ReadableStream = NodeReadableStream;
+}
+if (typeof global.TransformStream === "undefined") {
+  global.TransformStream = NodeTransformStream;
+}
+if (typeof global.TextEncoder === "undefined") {
+  global.TextEncoder = require("util").TextEncoder;
+}
+if (typeof global.TextEncoderStream === "undefined") {
+  global.TextEncoderStream = class {
+    constructor() {
+      const ts = new TransformStream({
+        transform: (chunk, controller) => {
+          controller.enqueue(
+            typeof chunk === "string" ? new TextEncoder().encode(chunk) : chunk,
+          );
+        },
+      });
+      this.readable = ts.readable;
+      this.writable = ts.writable;
+    }
+  };
+}
+
+const byteStreamOf = (chunks) =>
+  new ReadableStream({
+    start(controller) {
+      for (const chunk of chunks) controller.enqueue(chunk);
+      controller.close();
+    },
+  });
+
+const failingStream = (error) =>
+  new ReadableStream({
+    start(controller) {
+      controller.error(error);
+    },
+  });
+
 // Stub streamText + convertToModelMessages while exposing a minimal
 // MessageConversionError so the handler's `isInstance` guard is testable.
 jest.mock("ai", () => {
@@ -12,10 +57,32 @@ jest.mock("ai", () => {
       return error instanceof MessageConversionError;
     }
   }
+  class JsonToSseTransformStream extends TransformStream {
+    constructor() {
+      super({
+        // Real implementation converts UI chunk objects to SSE lines.
+        transform: (chunk, controller) => {
+          controller.enqueue(
+            typeof chunk === "string"
+              ? chunk
+              : `data: ${JSON.stringify(chunk)}\n\n`,
+          );
+        },
+      });
+    }
+  }
   return {
     streamText: jest.fn(),
     convertToModelMessages: jest.fn(async (messages) => messages),
     MessageConversionError,
+    JsonToSseTransformStream,
+    UI_MESSAGE_STREAM_HEADERS: {
+      "content-type": "text/event-stream",
+      "cache-control": "no-cache",
+      connection: "keep-alive",
+      "x-vercel-ai-ui-message-stream": "v1",
+      "x-accel-buffering": "no",
+    },
   };
 });
 
@@ -44,10 +111,12 @@ jest.mock("../../lib/rateLimit", () => ({
 describe("/api/chat", () => {
   const originalEnv = process.env;
   const rateLimit = require("../../lib/rateLimit");
+  const failover = require("../../lib/ai/failover");
   const { getServerSession } = require("next-auth/next");
 
   beforeEach(() => {
     jest.clearAllMocks();
+    failover.getSharedCooldownState().clear();
     process.env = { ...originalEnv, OPENAI_API_KEY: "test-key" };
     // Default: authenticated session
     getServerSession.mockResolvedValue({
@@ -99,8 +168,10 @@ describe("/api/chat", () => {
     const openaiClient = jest.fn((modelId) => `MODEL:${modelId}`);
     createOpenAI.mockReturnValue(openaiClient);
 
-    const pipeUIMessageStreamToResponse = jest.fn(async () => {});
-    streamText.mockResolvedValue({ pipeUIMessageStreamToResponse });
+    streamText.mockResolvedValue({
+      toUIMessageStream: () =>
+        byteStreamOf([{ type: "start" }, { type: "finish" }]),
+    });
 
     const handler = require("../../pages/api/chat").default;
     const { req, res } = createMocks({
@@ -110,6 +181,12 @@ describe("/api/chat", () => {
         input: "Hi",
       },
     });
+    // node-mocks-http renders Uint8Array writes as byte lists — collect raw.
+    const written = [];
+    res.write = (chunk) => {
+      written.push(chunk);
+      return true;
+    };
 
     await handler(req, res);
 
@@ -120,9 +197,121 @@ describe("/api/chat", () => {
     expect(streamText).toHaveBeenCalledWith(
       expect.objectContaining({
         model: "MODEL:gpt-4o-mini",
+        maxRetries: 0,
       }),
     );
-    expect(pipeUIMessageStreamToResponse).toHaveBeenCalledWith(res);
+    expect(res._getStatusCode()).toBe(200);
+    expect(res.getHeader("X-AI-Model")).toBe("gpt-4o-mini");
+    expect(res.getHeader("X-AI-Fallback-From")).toBeUndefined();
+    const body = Buffer.concat(
+      written.map((chunk) => Buffer.from(chunk)),
+    ).toString("utf8");
+    expect(body).toContain('"type":"start"');
+    expect(body).toContain('"type":"finish"');
+  });
+
+  it("fails over to the next curated model on a provider rate limit", async () => {
+    const { streamText } = require("ai");
+    const { createOpenAI } = require("@ai-sdk/openai");
+
+    const openaiClient = jest.fn((modelId) => `MODEL:${modelId}`);
+    createOpenAI.mockReturnValue(openaiClient);
+
+    const rateLimitError = Object.assign(new Error("Rate limit reached"), {
+      statusCode: 429,
+      data: { error: { type: "rate_limit_exceeded" } },
+      responseHeaders: {},
+    });
+    let call = 0;
+    streamText.mockImplementation(() => {
+      call += 1;
+      return call === 1
+        ? { toUIMessageStream: () => failingStream(rateLimitError) }
+        : {
+            toUIMessageStream: () => byteStreamOf([{ type: "finish" }]),
+          };
+    });
+
+    const handler = require("../../pages/api/chat").default;
+    const { req, res } = createMocks({
+      method: "POST",
+      body: { model: "gpt-4o-mini", input: "Hi" },
+    });
+
+    await handler(req, res);
+
+    expect(streamText).toHaveBeenCalledTimes(2);
+    expect(openaiClient).toHaveBeenNthCalledWith(1, "gpt-4o-mini");
+    expect(openaiClient).toHaveBeenNthCalledWith(2, "gpt-4.1-mini");
+    expect(res._getStatusCode()).toBe(200);
+    expect(res.getHeader("X-AI-Model")).toBe("gpt-4.1-mini");
+    expect(res.getHeader("X-AI-Fallback-From")).toBe("gpt-4o-mini");
+    expect(failover.getSharedCooldownState().get("gpt-4o-mini").kind).toBe(
+      "rate_limit",
+    );
+  });
+
+  it("returns 429 when every candidate hits a usage limit", async () => {
+    const { streamText } = require("ai");
+    const rateLimitError = Object.assign(new Error("Rate limit reached"), {
+      statusCode: 429,
+      responseHeaders: {},
+    });
+    streamText.mockImplementation(() => ({
+      toUIMessageStream: () => failingStream(rateLimitError),
+    }));
+
+    const handler = require("../../pages/api/chat").default;
+    const { req, res } = createMocks({
+      method: "POST",
+      body: { input: "Hello" },
+    });
+
+    await handler(req, res);
+
+    expect(streamText).toHaveBeenCalledTimes(3);
+    expect(res._getStatusCode()).toBe(429);
+    expect(JSON.parse(res._getData()).error).toBe("Rate limit exceeded");
+  });
+
+  it("propagates non-limit provider errors without failover", async () => {
+    const { streamText } = require("ai");
+    streamText.mockImplementation(() => ({
+      toUIMessageStream: () => failingStream(new Error("Provider exploded")),
+    }));
+
+    const handler = require("../../pages/api/chat").default;
+    const { req, res } = createMocks({
+      method: "POST",
+      body: { input: "Hello" },
+    });
+
+    await handler(req, res);
+
+    expect(streamText).toHaveBeenCalledTimes(1);
+    expect(res._getStatusCode()).toBe(500);
+    const data = JSON.parse(res._getData());
+    expect(data.error).toBe("AI stream failed");
+    expect(data.details).toBe("Provider exploded");
+  });
+
+  it("returns 429 immediately when every curated model is cooling down", async () => {
+    const { CURATED_MODEL_IDS } = require("../../config/ai-models");
+    const state = failover.getSharedCooldownState();
+    for (const id of CURATED_MODEL_IDS) {
+      state.set(id, { kind: "quota", openUntil: Date.now() + 60000 });
+    }
+
+    const handler = require("../../pages/api/chat").default;
+    const { req, res } = createMocks({
+      method: "POST",
+      body: { input: "Hello" },
+    });
+
+    await handler(req, res);
+
+    expect(res._getStatusCode()).toBe(429);
+    expect(JSON.parse(res._getData()).error).toBe("Rate limit exceeded");
   });
 
   it("returns 400 when convertToModelMessages rejects malformed messages", async () => {

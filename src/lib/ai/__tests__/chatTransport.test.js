@@ -16,6 +16,66 @@ jest.mock("ai", () => {
   return { DefaultChatTransport: FakeTransport };
 });
 
+describe("createChatTransport fallback notification", () => {
+  const originalFetch = global.fetch;
+  afterEach(() => {
+    global.fetch = originalFetch;
+  });
+
+  it("notifies onModelFallback when the server reports a fallback", async () => {
+    const onModelFallback = jest.fn();
+    const transport = createChatTransport({ model: "gpt-4o" }, onModelFallback);
+    global.fetch = jest.fn(async () => ({
+      headers: {
+        get: (name) =>
+          name === "x-ai-fallback-from"
+            ? "gpt-4o"
+            : name === "x-ai-model"
+              ? "gpt-4o-mini"
+              : null,
+      },
+    }));
+
+    await transport.options.fetch("/api/chat", {});
+
+    expect(global.fetch).toHaveBeenCalledWith("/api/chat", {});
+    expect(onModelFallback).toHaveBeenCalledWith({
+      from: "gpt-4o",
+      servedBy: "gpt-4o-mini",
+    });
+  });
+
+  it("does not notify when the requested model served the response", async () => {
+    const onModelFallback = jest.fn();
+    const transport = createChatTransport({}, onModelFallback);
+    global.fetch = jest.fn(async () => ({
+      headers: {
+        get: (name) => (name === "x-ai-model" ? "gpt-4o-mini" : null),
+      },
+    }));
+
+    await transport.options.fetch("/api/chat", {});
+
+    expect(onModelFallback).not.toHaveBeenCalled();
+  });
+
+  it("still returns the response when header inspection throws", async () => {
+    const transport = createChatTransport({}, () => {
+      throw new Error("callback exploded");
+    });
+    const response = {
+      headers: {
+        get: () => "gpt-4o",
+      },
+    };
+    global.fetch = jest.fn(async () => response);
+
+    const result = await transport.options.fetch("/api/chat", {});
+
+    expect(result).toBe(response);
+  });
+});
+
 describe("createChatTransport", () => {
   it("returns a DefaultChatTransport pointed at /api/chat", () => {
     const transport = createChatTransport({ model: "gpt-4o-mini" });

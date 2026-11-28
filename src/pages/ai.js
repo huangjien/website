@@ -65,9 +65,21 @@ export default function AI() {
     }
   }, [modelOptions, settings?.model, setSettings, t]);
 
+  // ---- Failover notice: server swaps models on usage limits ----------
+  // Ref keeps the transport-stable callback from closing over stale `t`.
+  const fallbackHandlerRef = useRef(null);
+  fallbackHandlerRef.current = (info) => {
+    toast.info(t("ai.fallback_toast", { from: info.from, to: info.servedBy }), {
+      toastId: "ai-fallback",
+    });
+  };
+
   // ---- Transport: memoized so it only rebuilds on real settings change -
   const transport = useMemo(
-    () => createChatTransport(settings),
+    () =>
+      createChatTransport(settings, (info) =>
+        fallbackHandlerRef.current?.(info),
+      ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [transportDeps(settings)],
   );

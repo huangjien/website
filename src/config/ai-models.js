@@ -82,3 +82,9 @@ export function getCuratedAiModels() {
 export function isAllowedAiModel(modelId) {
   return CURATED_MODEL_IDS.includes(modelId);
 }
+
+// Failover behavior for /api/chat when a model hits its usage limit.
+export const FAILOVER_POLICY = Object.freeze({
+  // Requested model + fallbacks; bounds the added request latency.
+  maxCandidates: 3,
+});
