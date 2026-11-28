@@ -38,7 +38,7 @@ describe("GET /api/author", () => {
     });
   });
 
-  it("allows only the configured owner", async () => {
+  it("allows any signed-in user", async () => {
     getServerSession.mockResolvedValueOnce({
       user: { email: "OWNER@example.com" },
     });
@@ -53,7 +53,7 @@ describe("GET /api/author", () => {
     });
   });
 
-  it("does not expose the configured email to another signed-in user", async () => {
+  it("allows a signed-in user who is not the configured owner", async () => {
     getServerSession.mockResolvedValueOnce({
       user: { email: "reader@example.com" },
     });
@@ -64,7 +64,7 @@ describe("GET /api/author", () => {
 
     expect(JSON.parse(res._getData())).toEqual({
       authenticated: true,
-      canPublish: false,
+      canPublish: true,
     });
     expect(res._getData()).not.toContain("owner@example.com");
   });

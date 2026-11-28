@@ -1,6 +1,5 @@
 import { getServerSession } from "next-auth/next";
 import { ensureMethod, withErrorHandling } from "../../lib/apiClient";
-import { isBlogAuthor } from "../../lib/blogAuthor";
 import { authOptions } from "./auth/[...nextauth]";
 
 const handler = withErrorHandling(async (req, res) => {
@@ -9,7 +8,7 @@ const handler = withErrorHandling(async (req, res) => {
   const session = await getServerSession(req, res, authOptions);
   return res.status(200).json({
     authenticated: Boolean(session?.user),
-    canPublish: isBlogAuthor(session),
+    canPublish: Boolean(session?.user),
   });
 });
 

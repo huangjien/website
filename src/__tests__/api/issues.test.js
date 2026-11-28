@@ -195,21 +195,27 @@ describe("/api/issues", () => {
   });
 
   describe("POST /api/issues", () => {
-    it("rejects an authenticated user who is not the owner", async () => {
+    it("publishes for a signed-in user who is not the owner", async () => {
       getServerSession.mockResolvedValueOnce({
         user: { email: "reader@example.com" },
+      });
+      fetchWithTimeout.mockResolvedValueOnce({
+        ok: true,
+        status: 201,
+        json: async () => ({ id: 1, number: 123, title: "New article" }),
       });
 
       const handler = require("../../pages/api/issues").default;
       const { req, res } = createMocks({
         method: "POST",
-        body: { title: "Unauthorized publish" },
+        body: { title: "New article" },
       });
 
       await handler(req, res);
 
-      expect(res._getStatusCode()).toBe(403);
-      expect(fetchWithTimeout).not.toHaveBeenCalled();
+      expect(res._getStatusCode()).toBe(200);
+      const upstreamBody = JSON.parse(fetchWithTimeout.mock.calls[0][1].body);
+      expect(upstreamBody.labels).toEqual(["blog"]);
     });
 
     it("adds the mandatory blog label and de-duplicates it", async () => {

@@ -190,7 +190,7 @@ export function BlogEditor() {
       <header className='glass-card flex flex-col gap-5 rounded-2xl p-5 sm:flex-row sm:items-center sm:justify-between'>
         <div>
           <p className='text-xs font-semibold uppercase tracking-[0.18em] text-primary'>
-            Private studio
+            Writing studio
           </p>
           <h1
             id='blog-studio-title'

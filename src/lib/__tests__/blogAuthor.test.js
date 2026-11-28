@@ -1,11 +1,9 @@
-import { isBlogAuthor, parseBlogAuthorEmails } from "../blogAuthor";
+import { parseBlogAuthorEmails } from "../blogAuthor";
 
 describe("blog author policy", () => {
-  it("fails closed when no author email is configured", () => {
+  it("returns an empty list when no author email is configured", () => {
     expect(parseBlogAuthorEmails(undefined)).toEqual([]);
-    expect(isBlogAuthor({ user: { email: "owner@example.com" } }, "")).toBe(
-      false,
-    );
+    expect(parseBlogAuthorEmails("")).toEqual([]);
   });
 
   it("normalizes configured emails", () => {
@@ -14,16 +12,9 @@ describe("blog author policy", () => {
     ).toEqual(["owner@example.com", "second@example.com"]);
   });
 
-  it("authorizes only an exact normalized session email", () => {
-    const configured = "owner@example.com,second@example.com";
-
+  it("drops empty entries and duplicates", () => {
     expect(
-      isBlogAuthor({ user: { email: " OWNER@example.com " } }, configured),
-    ).toBe(true);
-    expect(
-      isBlogAuthor({ user: { email: "other@example.com" } }, configured),
-    ).toBe(false);
-    expect(isBlogAuthor({ user: {} }, configured)).toBe(false);
-    expect(isBlogAuthor(null, configured)).toBe(false);
+      parseBlogAuthorEmails("owner@example.com, ,owner@example.com"),
+    ).toEqual(["owner@example.com"]);
   });
 });

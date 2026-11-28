@@ -35,18 +35,17 @@ describe("Write page", () => {
     expect(signIn).toHaveBeenCalledWith("github");
   });
 
-  it("does not show the editor to another signed-in user", () => {
+  it("shows the editor to any signed-in user", () => {
     useAuthorCapability.mockReturnValue({
       loading: false,
       authenticated: true,
       canPublish: false,
     });
     render(<Write />);
-    expect(screen.getByText("This studio is private")).toBeInTheDocument();
-    expect(screen.queryByTestId("blog-editor")).not.toBeInTheDocument();
+    expect(screen.getByTestId("blog-editor")).toBeInTheDocument();
   });
 
-  it("shows the editor only to the owner", () => {
+  it("shows the editor to the owner", () => {
     useAuthorCapability.mockReturnValue({
       loading: false,
       authenticated: true,

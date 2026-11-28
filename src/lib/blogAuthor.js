@@ -6,13 +6,3 @@ export const parseBlogAuthorEmails = (value) => {
 
   return [...new Set(value.split(",").map(normalizeEmail).filter(Boolean))];
 };
-
-export const isBlogAuthor = (
-  session,
-  configuredEmails = process.env.BLOG_AUTHOR_EMAILS,
-) => {
-  const email = normalizeEmail(session?.user?.email);
-  if (!email) return false;
-
-  return parseBlogAuthorEmails(configuredEmails).includes(email);
-};

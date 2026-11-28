@@ -64,6 +64,9 @@ GITHUB_CLIENT_SECRET=your-github-client-secret
 # GitHub API (for blog content)
 GITHUB_TOKEN=your-github-token
 GITHUB_REPO=https://api.github.com/repos/username/repo
+
+# Blog owner allowlist. Every signed-in user can create a blog Issue.
+# This list only decides who may inject a local dev session.
 BLOG_AUTHOR_EMAILS=your-email@example.com
 
 # AI Services

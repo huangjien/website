@@ -8,8 +8,7 @@ import { useAuthorCapability } from "../lib/useAuthorCapability";
 
 export default function Write() {
   useTitle("Write");
-  const { authenticated, canPublish, loading, error, refresh } =
-    useAuthorCapability();
+  const { authenticated, loading, error, refresh } = useAuthorCapability();
 
   if (loading) {
     return (
@@ -33,20 +32,11 @@ export default function Write() {
   if (!authenticated) {
     return (
       <PrivateStudioState
-        title='Your private writing studio'
+        title='Your writing studio'
         description='Sign in with your GitHub account to create a new blog article.'
         action={
           <Button onClick={() => signIn("github")}>Sign in to continue</Button>
         }
-      />
-    );
-  }
-
-  if (!canPublish) {
-    return (
-      <PrivateStudioState
-        title='This studio is private'
-        description='This signed-in account does not have publishing access.'
       />
     );
   }

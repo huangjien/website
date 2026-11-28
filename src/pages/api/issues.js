@@ -11,7 +11,6 @@ import {
   logApiEvent,
   withErrorHandling,
 } from "../../lib/apiClient";
-import { isBlogAuthor } from "../../lib/blogAuthor";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "./auth/[...nextauth]";
 import { checkRateLimit } from "../../lib/rateLimit";
@@ -81,12 +80,6 @@ const handler = withErrorHandling(async (req, res) => {
     const session = await getServerSession(req, res, authOptions);
     if (!session) {
       handleMutationFailure(new AuthenticationError("Unauthorized"), "auth");
-    }
-    if (!isBlogAuthor(session)) {
-      handleMutationFailure(
-        new ApiError("Publishing is restricted to the site owner", 403),
-        "auth",
-      );
     }
 
     const userId = session.user?.email || session.user?.name || "anonymous";
