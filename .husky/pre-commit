@@ -10,6 +10,9 @@
 #    on JSON/MD/CSS/SCSS). Auto-re-stages the modified files.
 # 2. pnpm test:   full Jest suite. Cached, ~3s once warmed. Bails on any failure.
 # 3. pnpm build:  production build. Bails on any failure. ~25s once warm.
+#    A stale build cache can break the hash step with a confusing
+#    "Cannot read properties of undefined" error, so a failure is retried once
+#    with a cleared cache before the commit is refused.
 # 4. version:     auto-bump the patch version. Uses pnpm (project's declared
 #                 packageManager). Stages ONLY the files pnpm modifies -- never
 #                 unrelated working-tree changes.
@@ -31,10 +34,13 @@ pnpm test --silent
 # 3. Production build gate. The log is kept so a failure can show its tail.
 BUILD_LOG="$(mktemp)"
 if ! pnpm build >"$BUILD_LOG" 2>&1; then
-  echo "pnpm build failed:"
-  tail -40 "$BUILD_LOG"
-  rm -f "$BUILD_LOG"
-  exit 1
+  rm -rf .next/cache public/sw.js
+  if ! pnpm build >"$BUILD_LOG" 2>&1; then
+    echo "pnpm build failed:"
+    tail -40 "$BUILD_LOG"
+    rm -f "$BUILD_LOG"
+    exit 1
+  fi
 fi
 rm -f "$BUILD_LOG"
 

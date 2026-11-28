@@ -2,7 +2,7 @@
 
 ## Current Phase
 
-Milestone 7 COMPLETED - Deployment migration and closure package completed.
+Milestone 8 IN PROGRESS - Cloudflare Workers migration, AI removal, open publishing, and the article index sidebar. The code is merged and green. The Cloudflare cutover, the runtime secrets, and the retirement of the old deployment files are left.
 
 ## Completed Milestones
 
@@ -12,13 +12,28 @@ Milestone 7 COMPLETED - Deployment migration and closure package completed.
 
 ### Milestone 3: Foundation Hardening & Observability ✅
 
-### Milestone 4: Performance & Core Web Vitals ✅
+### Milestone 4: Performance & Core Webitals ✅
 
 ### Milestone 5: GitHub Issue & Comment Creation ✅
 
 ### Milestone 6: Issue & Comment Flow Hardening ✅
 
 ### Milestone 7: Deployment Structure Migration ✅
+
+## Milestone 8: Cloudflare Migration, AI Removal, Open Publishing, Article Index (In Progress)
+
+| Phase | Work                                                    | Status                                |
+| ----- | ------------------------------------------------------- | ------------------------------------- |
+| 35    | Build gate and CI cleanup                               | ✅ done (`e941b3e`)                   |
+| 36    | Remove the AI tab and all AI features (tag `lastAiTab`) | ✅ done (`352b624`)                   |
+| 37    | Cloudflare Workers take over build and deploy           | ◐ code done (`457225f`), cutover left |
+| 38    | Display images in articles                              | ✅ done (`5b2b48d`)                   |
+| 39    | Any signed-in user can add an article                   | ✅ done (`9d9ef4a`)                   |
+| 40    | Article index sidebar                                   | ✅ done (`3e81b71`)                   |
+
+- Plan: `docs/plans/2026-11-28-milestone-8-implementation-plan.md`
+- Verification report: `docs/plans/2026-11-28-milestone-8-verification-report.md`
+- Cloudflare Workers Builds builds and deploys `main`. The old Cloud Run edge and the home runtime are retired after the cutover is confirmed.
 
 ## Milestone 7: Deployment Structure Migration (Completed)
 

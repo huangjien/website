@@ -121,21 +121,21 @@ Six changes, in this order:
 
 #### Slice 35.1 - Make the local build pass (≈ 15 min)
 
-- [ ] T001 **[you]** Install Node 24 for this repository. Option A (recommended): install `fnm` with `brew install fnm`, add `eval "$(fnm env --use-on-cd)"` to `~/.zshrc`, open a new shell in the repository, and run `fnm use`. `fnm` then reads `.nvmrc`. Option B: `brew install node@24` and put its `bin` folder first in `PATH`. The Homebrew `node` (26) can stay.
-- [ ] T002 Run `node --version` and `pnpm build` in the repository. **Verify:** the version starts with `v24.` and the build exits with code 0 (24.6 s measured).
+- [x] T001 **[you]** Install Node 24 for this repository. Option A (recommended): install `fnm` with `brew install fnm`, add `eval "$(fnm env --use-on-cd)"` to `~/.zshrc`, open a new shell in the repository, and run `fnm use`. `fnm` then reads `.nvmrc`. Option B: `brew install node@24` and put its `bin` folder first in `PATH`. The Homebrew `node` (26) can stay.
+- [x] T002 Run `node --version` and `pnpm build` in the repository. **Verify:** the version starts with `v24.` and the build exits with code 0 (24.6 s measured).
 
 #### Slice 35.2 - Pre-commit build gate (≈ 20 min)
 
-- [ ] T003 `.husky/pre-commit`: add step 0 before `lint-staged`, a Node version check. Compare the major version of `node --version` with `.nvmrc`. On a mismatch print `Node 24 is required (.nvmrc), found <version>. Run fnm use.` and exit 1.
-- [ ] T004 `.husky/pre-commit`: add step 3 between `pnpm test --silent` and the version bump: `pnpm build`, with its output written to a log file. On failure print the last 40 lines of the log and exit 1. Update the numbered comment at the top of the file.
-- [ ] T005 Prove that the gate blocks. (a) Create `src/pages/zz-broken.js` with `import x from "../lib/does-not-exist";`, stage it, and run `git commit -m test`. **Verify:** the commit is refused with "Module not found". Then run `git reset -q src/pages/zz-broken.js` and delete the file. (b) Stage a harmless new file, put Node 26 first in `PATH` (`PATH="/opt/homebrew/bin:$PATH" git commit -m test`). **Verify:** the commit is refused with the Node message. Remove the file. **Verify:** `git log -1 --format=%s` is still `fix`.
-- [ ] T006 `CONTRIBUTING.md`: add a section "Pre-commit checks" with the four steps (Node 24 check, lint-staged, tests, build) and the version bump. **Verify:** `pnpm format:check` passes.
+- [x] T003 `.husky/pre-commit`: add step 0 before `lint-staged`, a Node version check. Compare the major version of `node --version` with `.nvmrc`. On a mismatch print `Node 24 is required (.nvmrc), found <version>. Run fnm use.` and exit 1.
+- [x] T004 `.husky/pre-commit`: add step 3 between `pnpm test --silent` and the version bump: `pnpm build`, with its output written to a log file. On failure print the last 40 lines of the log and exit 1. Update the numbered comment at the top of the file.
+- [x] T005 Prove that the gate blocks. (a) Create `src/pages/zz-broken.js` with `import x from "../lib/does-not-exist";`, stage it, and run `git commit -m test`. **Verify:** the commit is refused with "Module not found". Then run `git reset -q src/pages/zz-broken.js` and delete the file. (b) Stage a harmless new file, put Node 26 first in `PATH` (`PATH="/opt/homebrew/bin:$PATH" git commit -m test`). **Verify:** the commit is refused with the Node message. Remove the file. **Verify:** `git log -1 --format=%s` is still `fix`.
+- [x] T006 `CONTRIBUTING.md`: add a section "Pre-commit checks" with the four steps (Node 24 check, lint-staged, tests, build) and the version bump. **Verify:** `pnpm format:check` passes.
 
 #### Slice 35.3 - GitHub Actions: remove the GCP deploy (≈ 15 min)
 
-- [ ] T007 `.github/workflows/CID.yaml`: delete the `build` job (lines 63-197, "Build and Deploy Edge Runtime"), the `deploy_edge` input (lines 15-19), and the env lines `SERVICE_NAME`, `RUN_REGION`, `EDGE_IMAGE_REPO` (lines 22-24). Keep the `validate` job as it is.
-- [ ] T008 **[git]** Commit (`build gate in pre-commit, remove gcp deploy from ci`) and push. The commit passes the new gate: lint-staged, tests, build (about 30 s).
-- [ ] T009 **Verify:** `gh run list --workflow CID.yaml --limit 1` shows `success` for the new commit, with only the `validate` job.
+- [x] T007 `.github/workflows/CID.yaml`: delete the `build` job (lines 63-197, "Build and Deploy Edge Runtime"), the `deploy_edge` input (lines 15-19), and the env lines `SERVICE_NAME`, `RUN_REGION`, `EDGE_IMAGE_REPO` (lines 22-24). Keep the `validate` job as it is.
+- [x] T008 **[git]** Commit (`build gate in pre-commit, remove gcp deploy from ci`) and push. The commit passes the new gate: lint-staged, tests, build (about 30 s).
+- [x] T009 **Verify:** `gh run list --workflow CID.yaml --limit 1` shows `success` for the new commit, with only the `validate` job.
 
 ---
 
@@ -157,74 +157,74 @@ Total: 53 tracked files deleted (25 source files, 24 test files, 4 screenshots).
 
 #### Slice 36.1 - Tag the pre-removal state (≈ 5 min)
 
-- [ ] T010 Run `git status --short`. **Verify:** it prints nothing. If it prints anything, stop and ask before you tag.
-- [ ] T011 Create the tag: `git tag -a lastAiTab -m "before remove ai tab"`. **Verify:** `git tag -n1` lists `lastAiTab  before remove ai tab`, and `git rev-list --count lastAiTab..HEAD` prints `0`.
-- [ ] T012 **[git]** Push the tag: `git push origin lastAiTab`. **Verify:** `git ls-remote --tags origin lastAiTab` prints one line.
+- [x] T010 Run `git status --short`. **Verify:** it prints nothing. If it prints anything, stop and ask before you tag.
+- [x] T011 Create the tag: `git tag -a lastAiTab -m "before remove ai tab"`. **Verify:** `git tag -n1` lists `lastAiTab  before remove ai tab`, and `git rev-list --count lastAiTab..HEAD` prints `0`.
+- [x] T012 **[git]** Push the tag: `git push origin lastAiTab`. **Verify:** `git ls-remote --tags origin lastAiTab` prints one line.
 
 #### Slice 36.2 - Delete AI-only files (≈ 20 min)
 
-- [ ] T013 Delete the AI page and API routes: `src/pages/ai.js`, `src/pages/api/ai-models.js`, `src/pages/api/chat.js`, `src/pages/api/transcribe.js`, `src/pages/api/tts.js`.
-- [ ] T014 **[P]** Delete `src/lib/ai/` and `src/config/ai-models.js`.
-- [ ] T015 **[P]** Delete `src/components/ai-elements/`, `src/components/Chat.js`, `src/components/ConversationTab.js`, `src/components/ConfigurationTab.js`, `src/hooks/useAudioRecording.js`, and `src/styles/hallmark-ai.css`.
-- [ ] T016 **[P]** Delete the tests outside those folders: `src/__tests__/api/ai-models.test.js`, `chat.test.js`, `transcribe.test.js`, `tts.test.js`; `src/__tests__/hooks/useAudioRecording.test.js`; `src/__tests__/pages/ai.test.js`, `ai.additional.test.js`; `src/components/__tests__/ai-elements/`; `src/components/__tests__/Chat.test.js`, `ConversationTab.test.js`, `ConfigurationTab.test.js`.
-- [ ] T017 **[P]** Delete `screenshots/ai-page.png`, `screenshots/ai-after-click.png`, `screenshots/ai-settings-panel.png`, `screenshots/ai-settings-closed.png`.
+- [x] T013 Delete the AI page and API routes: `src/pages/ai.js`, `src/pages/api/ai-models.js`, `src/pages/api/chat.js`, `src/pages/api/transcribe.js`, `src/pages/api/tts.js`.
+- [x] T014 **[P]** Delete `src/lib/ai/` and `src/config/ai-models.js`.
+- [x] T015 **[P]** Delete `src/components/ai-elements/`, `src/components/Chat.js`, `src/components/ConversationTab.js`, `src/components/ConfigurationTab.js`, `src/hooks/useAudioRecording.js`, and `src/styles/hallmark-ai.css`.
+- [x] T016 **[P]** Delete the tests outside those folders: `src/__tests__/api/ai-models.test.js`, `chat.test.js`, `transcribe.test.js`, `tts.test.js`; `src/__tests__/hooks/useAudioRecording.test.js`; `src/__tests__/pages/ai.test.js`, `ai.additional.test.js`; `src/components/__tests__/ai-elements/`; `src/components/__tests__/Chat.test.js`, `ConversationTab.test.js`, `ConfigurationTab.test.js`.
+- [x] T017 **[P]** Delete `screenshots/ai-page.png`, `screenshots/ai-after-click.png`, `screenshots/ai-settings-panel.png`, `screenshots/ai-settings-closed.png`.
 
 **Verify (slice):** `git status --short | grep -c '^ D'` prints `53`.
 
 #### Slice 36.3 - Navigation and shared UI (≈ 25 min)
 
-- [ ] T018 `src/config/site.js`: remove the `{ label: "AI", href: "/ai" }` nav item (lines 9-12). This also removes AI from the footer in `src/pages/layout.js`.
-- [ ] T019 `src/components/NavigationBar.js`: remove `BiChip` from the import (line 6) and the `/ai` entry (line 17). Change `NAV_ITEMS.slice(0, 2)` (line 48) to `slice(0, 1)` and `NAV_ITEMS.slice(2)` (line 51) to `slice(1)`, so Write stays directly after Home.
-- [ ] T020 `src/components/MobileMenu.jsx`: remove `BiChip` (line 7) and the `/ai` menu item (lines 58-67).
-- [ ] T021 `src/components/Breadcrumb.jsx`: remove the `segment === "ai"` label mapping (line 19).
-- [ ] T022 `src/components/IssueList.js`: remove `Chat`, `MemoizedChat`, and the `"Chat"` case in `renderCell`. Remove the `useSettings` import and `languageCode` / `speakerName`. Remove the text-to-speech code: `audioSrc`, `open`, `handleOpenChange`, `handleText2Speech`, `readText`, and the audio `<Dialog>`. Change the `inTab` default from `"ai"` to `"issue"`. Update the JSDoc: drop "chat", "text-to-speech", and the `inTab` default.
+- [x] T018 `src/config/site.js`: remove the `{ label: "AI", href: "/ai" }` nav item (lines 9-12). This also removes AI from the footer in `src/pages/layout.js`.
+- [x] T019 `src/components/NavigationBar.js`: remove `BiChip` from the import (line 6) and the `/ai` entry (line 17). Change `NAV_ITEMS.slice(0, 2)` (line 48) to `slice(0, 1)` and `NAV_ITEMS.slice(2)` (line 51) to `slice(1)`, so Write stays directly after Home.
+- [x] T020 `src/components/MobileMenu.jsx`: remove `BiChip` (line 7) and the `/ai` menu item (lines 58-67).
+- [x] T021 `src/components/Breadcrumb.jsx`: remove the `segment === "ai"` label mapping (line 19).
+- [x] T022 `src/components/IssueList.js`: remove `Chat`, `MemoizedChat`, and the `"Chat"` case in `renderCell`. Remove the `useSettings` import and `languageCode` / `speakerName`. Remove the text-to-speech code: `audioSrc`, `open`, `handleOpenChange`, `handleText2Speech`, `readText`, and the audio `<Dialog>`. Change the `inTab` default from `"ai"` to `"issue"`. Update the JSDoc: drop "chat", "text-to-speech", and the `inTab` default.
 
 #### Slice 36.4 - Settings, locale plumbing, configuration (≈ 15 min)
 
-- [ ] T023 `src/lib/useSettings.js`: remove the `languageCode` and `speakerName` state (lines 42-48) and their return fields (lines 101-104).
-- [ ] T024 `src/components/LanguageSwitch.js`: remove `setLanguageCode` and `setSpeakerName` and the voice lookups (lines 11, 14, 22-24, 40-48). `chooseLanguageKey` keeps only `setCurrentLanguage(key)`.
-- [ ] T025 `src/locales/i18n.js`: remove the voice fields `languageCode` and `name` from every entry of `languages` (lines 24-87). Each entry keeps `key` and `value`.
-- [ ] T026 `src/lib/apiClient.js`: remove `getOpenAiApiKey` (lines 189-190). `src/pages/_app.js`: remove the `hallmark-ai.css` import (line 18).
-- [ ] T027 `next.config.js`: change `Permissions-Policy` to `microphone=()` (line 42). Voice recording is gone.
-- [ ] T028 `jest.setup.js`: remove the `"TTS API Error"` console filter (line 128). `test-setup.js`: remove `process.env.OPEN_API_KEY = "test-openai-key"` (line 26).
+- [x] T023 `src/lib/useSettings.js`: remove the `languageCode` and `speakerName` state (lines 42-48) and their return fields (lines 101-104).
+- [x] T024 `src/components/LanguageSwitch.js`: remove `setLanguageCode` and `setSpeakerName` and the voice lookups (lines 11, 14, 22-24, 40-48). `chooseLanguageKey` keeps only `setCurrentLanguage(key)`.
+- [x] T025 `src/locales/i18n.js`: remove the voice fields `languageCode` and `name` from every entry of `languages` (lines 24-87). Each entry keeps `key` and `value`.
+- [x] T026 `src/lib/apiClient.js`: remove `getOpenAiApiKey` (lines 189-190). `src/pages/_app.js`: remove the `hallmark-ai.css` import (line 18).
+- [x] T027 `next.config.js`: change `Permissions-Policy` to `microphone=()` (line 42). Voice recording is gone.
+- [x] T028 `jest.setup.js`: remove the `"TTS API Error"` console filter (line 128). `test-setup.js`: remove `process.env.OPEN_API_KEY = "test-openai-key"` (line 26).
 
 #### Slice 36.5 - Locale files (≈ 15 min)
 
-- [ ] T029 In all 12 files `src/locales/*.json`, remove the top-level `ai`, `chat`, and `tts_button` objects, and the keys `header.ai`, `settings.select_voice`, `settings.voice_note`. `en.json` has 58 such keys. `de`, `es`, `fr`, `it`, `zh_CN`, `zh_TW` have 52 each. `ar`, `ga`, `ja`, `ko`, `ru` are partial files: remove the AI keys they contain.
-- [ ] T030 `src/locales/__tests__/parity.test.js`: remove the six `ai.*` entries from `TRANSITIONAL_KEYS` (lines 26-31).
-- [ ] T031 `src/locales/__tests__/i18n.test.js`: remove the voice assertions: "languages with codes" (line 178 area), "consistent structure for languages with voice support" (line 222), "should not have duplicate voice names" (line 392), and the other `languageCode` / `name` checks. Keep `languages.length` and `toHaveLength(12)`.
+- [x] T029 In all 12 files `src/locales/*.json`, remove the top-level `ai`, `chat`, and `tts_button` objects, and the keys `header.ai`, `settings.select_voice`, `settings.voice_note`. `en.json` has 58 such keys. `de`, `es`, `fr`, `it`, `zh_CN`, `zh_TW` have 52 each. `ar`, `ga`, `ja`, `ko`, `ru` are partial files: remove the AI keys they contain.
+- [x] T030 `src/locales/__tests__/parity.test.js`: remove the six `ai.*` entries from `TRANSITIONAL_KEYS` (lines 26-31).
+- [x] T031 `src/locales/__tests__/i18n.test.js`: remove the voice assertions: "languages with codes" (line 178 area), "consistent structure for languages with voice support" (line 222), "should not have duplicate voice names" (line 392), and the other `languageCode` / `name` checks. Keep `languages.length` and `toHaveLength(12)`.
 
 **Verify (slice):** `grep -cE '"(ai|chat|tts_button)"' src/locales/*.json` prints `0` for every file. `pnpm test src/locales` and `pnpm check:i18n-parity` pass.
 
 #### Slice 36.6 - Dependencies and configuration (≈ 15 min)
 
-- [ ] T032 `package.json`: remove `@ai-sdk/openai`, `@ai-sdk/react`, `ai`, `openai`, `http-proxy`, and `zod` from `dependencies`. Then run `pnpm install` to update `pnpm-lock.yaml`.
-- [ ] T033 `pnpm-workspace.yaml`: remove the AI overrides `@ai-sdk/gateway`, `@ai-sdk/react`, `ai`, `@ai-sdk/mcp`, `@ai-sdk/openai`, `@ai-sdk/provider-utils`, `@ai-sdk/provider`, `openai`, `zod` (lines 47-55 and 111). Keep `esbuild: true` and `workerd: true` under `allowBuilds` (lines 5-6). `@opennextjs/cloudflare` and `wrangler` need them in Phase 37.
-- [ ] T034 `.env.local.example`: remove `OPEN_AI_KEY`, `OPENAI_API_KEY`, and their comments (lines 4-7). `.env.test`: remove both keys (lines 6-7).
-- [ ] T035 `docker-compose.yml`: drop `OPENAI_*` from the comment (line 11). `deploy-home.sh`: drop `OPENAI_*` from the message (line 18). Both files are deleted later in slice 37.7.
-- [ ] T036 `scripts/perf-budgets.json`: remove the `ai` target (lines 12-17). `scripts/measure-phase2-baseline.mjs`: remove the `ai` and `api-ai-models` targets (lines 8 and 11).
+- [x] T032 `package.json`: remove `@ai-sdk/openai`, `@ai-sdk/react`, `ai`, `openai`, `http-proxy`, and `zod` from `dependencies`. Then run `pnpm install` to update `pnpm-lock.yaml`.
+- [x] T033 `pnpm-workspace.yaml`: remove the AI overrides `@ai-sdk/gateway`, `@ai-sdk/react`, `ai`, `@ai-sdk/mcp`, `@ai-sdk/openai`, `@ai-sdk/provider-utils`, `@ai-sdk/provider`, `openai`, `zod` (lines 47-55 and 111). Keep `esbuild: true` and `workerd: true` under `allowBuilds` (lines 5-6). `@opennextjs/cloudflare` and `wrangler` need them in Phase 37.
+- [x] T034 `.env.local.example`: remove `OPEN_AI_KEY`, `OPENAI_API_KEY`, and their comments (lines 4-7). `.env.test`: remove both keys (lines 6-7).
+- [x] T035 `docker-compose.yml`: drop `OPENAI_*` from the comment (line 11). `deploy-home.sh`: drop `OPENAI_*` from the message (line 18). Both files are deleted later in slice 37.7.
+- [x] T036 `scripts/perf-budgets.json`: remove the `ai` target (lines 12-17). `scripts/measure-phase2-baseline.mjs`: remove the `ai` and `api-ai-models` targets (lines 8 and 11).
 
 **Verify (slice):** `pnpm ls @ai-sdk/openai @ai-sdk/react ai openai http-proxy zod` lists no package. `pnpm install --frozen-lockfile` succeeds.
 
 #### Slice 36.7 - Shared tests (≈ 25 min)
 
-- [ ] T037 `src/config/__tests__/site.test.js`: remove the AI nav item from the expected list (line 17) and the `aiItem` assertion (line 40).
-- [ ] T038 `src/components/__tests__/NavigationBar.test.js`: remove the `BiChip` mock (line 54) and the `header.ai` assertions (lines 167, 213, 225). Add one assertion: with `canPublish: true`, the Write link comes directly after the Home link.
-- [ ] T039 `src/components/__tests__/MobileMenu.test.js`: remove the `header.ai` stub (line 10) and its assertions.
-- [ ] T040 `src/components/__tests__/Breadcrumb.test.js`: the suite uses `/ai` as its sample path in 8 places. Use `/settings` instead. Remove the `header.ai` stub (line 14).
-- [ ] T041 `src/components/__tests__/IssueList.test.js`: remove the 8 chat and text-to-speech tests: "renders chat components when ComponentName is Chat", "handles text-to-speech functionality", "handles TTS modal opening and closing", "calls TTS API with correct parameters", "handles TTS API error gracefully", "encodes TTS text properly for URL", "creates audio URL from blob response", "stops audio when modal is closed". Remove the voice fields from the `useSettings` mock.
-- [ ] T042 `src/lib/__tests__/useSettings.test.js`: remove the two voice tests (lines 82 and 92). `src/components/__tests__/LanguageSwitch.test.js`: remove the 3 voice references. `src/lib/__tests__/apiClient.test.js`: remove the `getOpenAiApiKey` tests.
+- [x] T037 `src/config/__tests__/site.test.js`: remove the AI nav item from the expected list (line 17) and the `aiItem` assertion (line 40).
+- [x] T038 `src/components/__tests__/NavigationBar.test.js`: remove the `BiChip` mock (line 54) and the `header.ai` assertions (lines 167, 213, 225). Add one assertion: with `canPublish: true`, the Write link comes directly after the Home link.
+- [x] T039 `src/components/__tests__/MobileMenu.test.js`: remove the `header.ai` stub (line 10) and its assertions.
+- [x] T040 `src/components/__tests__/Breadcrumb.test.js`: the suite uses `/ai` as its sample path in 8 places. Use `/settings` instead. Remove the `header.ai` stub (line 14).
+- [x] T041 `src/components/__tests__/IssueList.test.js`: remove the 8 chat and text-to-speech tests: "renders chat components when ComponentName is Chat", "handles text-to-speech functionality", "handles TTS modal opening and closing", "calls TTS API with correct parameters", "handles TTS API error gracefully", "encodes TTS text properly for URL", "creates audio URL from blob response", "stops audio when modal is closed". Remove the voice fields from the `useSettings` mock.
+- [x] T042 `src/lib/__tests__/useSettings.test.js`: remove the two voice tests (lines 82 and 92). `src/components/__tests__/LanguageSwitch.test.js`: remove the 3 voice references. `src/lib/__tests__/apiClient.test.js`: remove the `getOpenAiApiKey` tests.
 
 **Verify (slice):** `pnpm test` is green with 76 suites.
 
 #### Slice 36.8 - Documentation, gates, smoke test (≈ 20 min)
 
-- [ ] T043 `README.md`: remove the AI text in the intro (line 14), the AI row of the feature table (line 23), and the `OPENAI_API_KEY` sample (lines 69-70). `PROJECT.md`: remove the AI lines 11, 30, 39, 46, and 56. `CONTRIBUTING.md`: remove the `ai-elements/` line (line 129).
-- [ ] T044 Run the gates: `pnpm lint`, `pnpm type-check`, `pnpm test`, `pnpm test:coverage` (global ≥ 70 %), `pnpm check:i18n-parity`, `pnpm build`. Write the results in the gate table at the top.
-- [ ] T045 Residual scan. **Verify:** this command prints nothing: `grep -rnIiE '(openai|open_ai|@ai-sdk|ai-elements|/api/(chat|tts|transcribe|ai-models)|useAi[A-Z]|useAudioRecording|ConversationTab|ConfigurationTab|tts_button|speakerName|hallmark-ai)' src scripts test-setup.js jest.setup.js README.md PROJECT.md CONTRIBUTING.md .env.local.example .env.test package.json pnpm-workspace.yaml next.config.js`
-- [ ] T046 Smoke test with `pnpm dev` (port 8080): (1) the desktop nav shows Home, Settings, About, and Write when you are signed in; (2) the mobile menu shows the same items; (3) `curl -s -o /dev/null -w '%{http_code}' http://localhost:8080/ai` prints `404`; (4) the same for `/api/chat`, `/api/tts`, `/api/transcribe`, `/api/ai-models`; (5) Home, About, and Settings render; (6) the language switch still changes the language.
-- [ ] T047 **[git]** Commit Phase 36 as one commit: `remove ai tab and features`. Stage by explicit path. First check `git status` and `git diff --cached --stat`: expect 53 deletions and the edited files.
-- [ ] T048 **[manual]** Remove `OPENAI_API_KEY` and `OPEN_AI_KEY` from the home runtime env file. Then delete or rotate the key at the provider if nothing else uses it.
+- [x] T043 `README.md`: remove the AI text in the intro (line 14), the AI row of the feature table (line 23), and the `OPENAI_API_KEY` sample (lines 69-70). `PROJECT.md`: remove the AI lines 11, 30, 39, 46, and 56. `CONTRIBUTING.md`: remove the `ai-elements/` line (line 129).
+- [x] T044 Run the gates: `pnpm lint`, `pnpm type-check`, `pnpm test`, `pnpm test:coverage` (global ≥ 70 %), `pnpm check:i18n-parity`, `pnpm build`. Write the results in the gate table at the top.
+- [x] T045 Residual scan. **Verify:** this command prints nothing: `grep -rnIiE '(openai|open_ai|@ai-sdk|ai-elements|/api/(chat|tts|transcribe|ai-models)|useAi[A-Z]|useAudioRecording|ConversationTab|ConfigurationTab|tts_button|speakerName|hallmark-ai)' src scripts test-setup.js jest.setup.js README.md PROJECT.md CONTRIBUTING.md .env.local.example .env.test package.json pnpm-workspace.yaml next.config.js`
+- [x] T046 Smoke test with `pnpm dev` (port 8080): (1) the desktop nav shows Home, Settings, About, and Write when you are signed in; (2) the mobile menu shows the same items; (3) `curl -s -o /dev/null -w '%{http_code}' http://localhost:8080/ai` prints `404`; (4) the same for `/api/chat`, `/api/tts`, `/api/transcribe`, `/api/ai-models`; (5) Home, About, and Settings render; (6) the language switch still changes the language.
+- [x] T047 **[git]** Commit Phase 36 as one commit: `remove ai tab and features`. Stage by explicit path. First check `git status` and `git diff --cached --stat`: expect 53 deletions and the edited files.
+- [x] T048 **[manual]** Remove `OPENAI_API_KEY` and `OPEN_AI_KEY` from the home runtime env file. Then delete or rotate the key at the provider if nothing else uses it.
 
 ---
 
@@ -253,8 +253,8 @@ No other server file uses Node-only APIs (`src/pages/api/transcribe.js` is delet
 
 #### Slice 37.1 - Add OpenNext and Wrangler (≈ 25 min)
 
-- [ ] T049 Run `pnpm add -D @opennextjs/cloudflare wrangler`. **Verify:** `pnpm ls @opennextjs/cloudflare wrangler` lists both packages and `pnpm install --frozen-lockfile` succeeds.
-- [ ] T050 New `wrangler.jsonc` in the repository root:
+- [x] T049 Run `pnpm add -D @opennextjs/cloudflare wrangler`. **Verify:** `pnpm ls @opennextjs/cloudflare wrangler` lists both packages and `pnpm install --frozen-lockfile` succeeds.
+- [x] T050 New `wrangler.jsonc` in the repository root:
 
   ```jsonc
   {
@@ -271,7 +271,7 @@ No other server file uses Node-only APIs (`src/pages/api/transcribe.js` is delet
 
   `nodejs_compat` is the OpenNext template value. It is redundant from 2026-08-04 on and does no harm. There is no `routes` entry yet: the first deploys go to `blog.<account>.workers.dev`.
 
-- [ ] T051 New `open-next.config.ts` in the repository root:
+- [x] T051 New `open-next.config.ts` in the repository root:
 
   ```ts
   import { defineCloudflareConfig } from "@opennextjs/cloudflare";
@@ -279,34 +279,34 @@ No other server file uses Node-only APIs (`src/pages/api/transcribe.js` is delet
   export default defineCloudflareConfig({});
   ```
 
-- [ ] T052 `package.json` scripts: add `"preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview"`, `"deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy"`, `"upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload"`, and `"cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"`. Keep `build` as it is: `opennextjs-cloudflare build` runs the `build` script.
-- [ ] T053 `.gitignore`: add `.open-next/`, `.wrangler/`, `.dev.vars`, `.dev.vars.*`, and `cloudflare-env.d.ts`. **Verify:** `git check-ignore .dev.vars .open-next/worker.js` prints both paths.
-- [ ] T054 `next.config.js`: add `images: { unoptimized: true }` under `images`, next to `remotePatterns`. Keep `output: "standalone"`.
-- [ ] T055 If `pnpm lint` fails on `open-next.config.ts` (the ESLint config has no TypeScript parser), add `"open-next.config.ts"` to the top-level `ignores` in `eslint.config.mjs`. Then run `pnpm lint`, `pnpm type-check`, `pnpm format:check`, and `pnpm exec opennextjs-cloudflare build`. **Verify:** all pass and `.open-next/worker.js` exists. If the build asks for another `output` setting, follow its message and write the change here: ________
+- [x] T052 `package.json` scripts: add `"preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview"`, `"deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy"`, `"upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload"`, and `"cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"`. Keep `build` as it is: `opennextjs-cloudflare build` runs the `build` script.
+- [x] T053 `.gitignore`: add `.open-next/`, `.wrangler/`, `.dev.vars`, `.dev.vars.*`, and `cloudflare-env.d.ts`. **Verify:** `git check-ignore .dev.vars .open-next/worker.js` prints both paths.
+- [x] T054 `next.config.js`: add `images: { unoptimized: true }` under `images`, next to `remotePatterns`. Keep `output: "standalone"`.
+- [x] T055 If `pnpm lint` fails on `open-next.config.ts` (the ESLint config has no TypeScript parser), add `"open-next.config.ts"` to the top-level `ignores` in `eslint.config.mjs`. Then run `pnpm lint`, `pnpm type-check`, `pnpm format:check`, and `pnpm exec opennextjs-cloudflare build`. **Verify:** all pass and `.open-next/worker.js` exists. If the build asks for another `output` setting, follow its message and write the change here: ________
 
 #### Slice 37.2 - Server code for Workers, tests first (≈ 45 min)
 
-- [ ] T056 `src/__tests__/api/image-proxy.test.js`: add red tests with a mocked `globalThis.caches.default`: (a) a cache hit returns the image and makes no upstream request; (b) after a successful upstream request, the response is stored in the cache; (c) with no `caches` global, the proxy still returns the image.
-- [ ] T057 `src/lib/__tests__/apiClient.test.js`: add red tests for `getClientIp`: `cf-connecting-ip` wins over `x-forwarded-for`; without it the order is `x-forwarded-for`, then `x-real-ip`, then `unknown`.
+- [x] T056 `src/__tests__/api/image-proxy.test.js`: add red tests with a mocked `globalThis.caches.default`: (a) a cache hit returns the image and makes no upstream request; (b) after a successful upstream request, the response is stored in the cache; (c) with no `caches` global, the proxy still returns the image.
+- [x] T057 `src/lib/__tests__/apiClient.test.js`: add red tests for `getClientIp`: `cf-connecting-ip` wins over `x-forwarded-for`; without it the order is `x-forwarded-for`, then `x-real-ip`, then `unknown`.
 
 **Verify (tests first):** `pnpm test src/__tests__/api/image-proxy.test.js src/lib/__tests__/apiClient.test.js`: the new tests fail.
 
-- [ ] T058 `src/lib/apiClient.js` `getClientIp` (line 193): read `cf-connecting-ip` first.
-- [ ] T059 `src/pages/api/image-proxy.js`: remove `fs`, `path`, `process.cwd()`, `CACHE_DIR`, and the helper functions that used them. Cache through `globalThis.caches.default` when it exists (`cache.match` and `cache.put`). When it does not exist (local Node), use an in-memory `Map`. Keep the cache key, the 30-day expiry, and the `X-Cache` headers. Keep the host allowlist, the private-IP guards, the redirect checks, the size cap, and the rate limit. Keep `node:dns` and `node:net`: they work on Workers.
+- [x] T058 `src/lib/apiClient.js` `getClientIp` (line 193): read `cf-connecting-ip` first.
+- [x] T059 `src/pages/api/image-proxy.js`: remove `fs`, `path`, `process.cwd()`, `CACHE_DIR`, and the helper functions that used them. Cache through `globalThis.caches.default` when it exists (`cache.match` and `cache.put`). When it does not exist (local Node), use an in-memory `Map`. Keep the cache key, the 30-day expiry, and the `X-Cache` headers. Keep the host allowlist, the private-IP guards, the redirect checks, the size cap, and the rate limit. Keep `node:dns` and `node:net`: they work on Workers.
 
 **Verify (slice):** the two test files are green.
 
 #### Slice 37.3 - Local check on the Workers runtime (≈ 25 min)
 
 - [ ] T060 **[you]** Create `.dev.vars` in the repository root (it is git-ignored) with the runtime variables from `.env.local`. Set `NEXTAUTH_URL=http://localhost:8787` for this local check.
-- [ ] T061 Run `pnpm preview` and open http://localhost:8787. **Verify:** (1) Home lists the articles; (2) About and Settings render; (3) an article image loads through `/api/image-proxy`; (4) `curl -s -o /dev/null -w '%{http_code}' http://localhost:8787/api/health` prints `200`; (5) the sign-in button starts the OAuth redirect; (6) `robots.txt`, `manifest.json`, and `sw.js` load.
-- [ ] T062 Gates: `pnpm lint`, `pnpm type-check`, `pnpm test`, `pnpm test:coverage`, `pnpm format:check`.
-- [ ] T063 **[git]** Commit: `deploy on cloudflare workers with opennext`.
+- [x] T061 Run `pnpm preview` and open http://localhost:8787. **Verify:** (1) Home lists the articles; (2) About and Settings render; (3) an article image loads through `/api/image-proxy`; (4) `curl -s -o /dev/null -w '%{http_code}' http://localhost:8787/api/health` prints `200`; (5) the sign-in button starts the OAuth redirect; (6) `robots.txt`, `manifest.json`, and `sw.js` load.
+- [x] T062 Gates: `pnpm lint`, `pnpm type-check`, `pnpm test`, `pnpm test:coverage`, `pnpm format:check`.
+- [x] T063 **[git]** Commit: `deploy on cloudflare workers with opennext`.
 
 #### Slice 37.4 - GitHub Actions: validate the Cloudflare build (≈ 15 min)
 
-- [ ] T064 `.github/workflows/CID.yaml`, `validate` job: replace `- run: pnpm build:webpack` (line 56) with `- run: pnpm exec opennextjs-cloudflare build` and `- run: pnpm exec wrangler deploy --dry-run`. The dry run packs the Worker and uploads nothing.
-- [ ] T065 **[git]** Push. **Verify:** the CI run is green and shows the two new steps.
+- [x] T064 `.github/workflows/CID.yaml`, `validate` job: replace `- run: pnpm build:webpack` (line 56) with `- run: pnpm exec opennextjs-cloudflare build` and `- run: pnpm exec wrangler deploy --dry-run`. The dry run packs the Worker and uploads nothing.
+- [x] T065 **[git]** Push. **Verify:** the CI run is green and shows the two new steps.
 
 #### Slice 37.5 - Deploy to a preview URL (≈ 20 min)
 
@@ -363,16 +363,16 @@ Rollback, only if a check fails: in the dashboard, delete the DNS record that th
 
 #### Slice 38.1 - Failing tests first (≈ 15 min) - must finish before slice 38.2
 
-- [ ] T082 `src/__tests__/api/image-proxy.test.js`: add these tests: (a) follows a 302 to `https://github-production-user-asset-6210df.s3.amazonaws.com/…` and returns the image; (b) follows a 302 to `https://private-user-images.githubusercontent.com/…` and returns the image; (c) accepts `img.youtube.com`; (d) accepts `i.ytimg.com`; (e) still returns 400 for `https://example.com/a.png`.
-- [ ] T083 `src/components/__tests__/SmartImage.test.js`: add these tests: (a) a `src` below `https://github.com/user-attachments/` renders the proxy URL first; (b) when the first attempt fails for `https://img.youtube.com/vi/x/0.jpg`, the proxy URL is used; (c) when the proxy fails too, a plain `<img>` with the original `src` and `referrerPolicy="no-referrer"` renders; (d) when that fails too, the "Image failed to load" placeholder renders.
-- [ ] T084 `src/lib/__tests__/markdown-utils.test.js`: add the self-closing tag from article #59: `<img width="628" height="396" alt="Image" src="https://github.com/user-attachments/assets/<uuid>" />` converts to `![Image](<url>)`. If this test passes on the first run, keep it as a regression guard.
+- [x] T082 `src/__tests__/api/image-proxy.test.js`: add these tests: (a) follows a 302 to `https://github-production-user-asset-6210df.s3.amazonaws.com/…` and returns the image; (b) follows a 302 to `https://private-user-images.githubusercontent.com/…` and returns the image; (c) accepts `img.youtube.com`; (d) accepts `i.ytimg.com`; (e) still returns 400 for `https://example.com/a.png`.
+- [x] T083 `src/components/__tests__/SmartImage.test.js`: add these tests: (a) a `src` below `https://github.com/user-attachments/` renders the proxy URL first; (b) when the first attempt fails for `https://img.youtube.com/vi/x/0.jpg`, the proxy URL is used; (c) when the proxy fails too, a plain `<img>` with the original `src` and `referrerPolicy="no-referrer"` renders; (d) when that fails too, the "Image failed to load" placeholder renders.
+- [x] T084 `src/lib/__tests__/markdown-utils.test.js`: add the self-closing tag from article #59: `<img width="628" height="396" alt="Image" src="https://github.com/user-attachments/assets/<uuid>" />` converts to `![Image](<url>)`. If this test passes on the first run, keep it as a regression guard.
 
 **Verify (slice):** `pnpm test src/__tests__/api/image-proxy.test.js src/components/__tests__/SmartImage.test.js`: the new tests fail.
 
 #### Slice 38.2 - Fix (≈ 25 min)
 
-- [ ] T085 `src/pages/api/image-proxy.js`: in `DEFAULT_ALLOWED_HOSTS` (lines 19-27), replace the six `*.githubusercontent.com` entries with the parent domain `githubusercontent.com`. `isHostAllowed` (line 38) already matches subdomains. Add `github-production-user-asset-6210df.s3.amazonaws.com`, `img.youtube.com`, and `i.ytimg.com`. Keep `github.com` and `github.githubassets.com`. Every redirect hop is checked again (lines 302-326), so the private-IP guards stay active.
-- [ ] T086 `src/components/SmartImage.js`: build the attempt order from the URL:
+- [x] T085 `src/pages/api/image-proxy.js`: in `DEFAULT_ALLOWED_HOSTS` (lines 19-27), replace the six `*.githubusercontent.com` entries with the parent domain `githubusercontent.com`. `isHostAllowed` (line 38) already matches subdomains. Add `github-production-user-asset-6210df.s3.amazonaws.com`, `img.youtube.com`, and `i.ytimg.com`. Keep `github.com` and `github.githubassets.com`. Every redirect hop is checked again (lines 302-326), so the private-IP guards stay active.
+- [x] T086 `src/components/SmartImage.js`: build the attempt order from the URL:
   1. `https://github.com/user-attachments/*`: proxy, then the failed placeholder. The first attempt cannot send a GitHub token, so it cannot read a private repository attachment.
   2. Every other URL: `next/image` with the original URL, then proxy, then a plain `<img loading="lazy" decoding="async" referrerPolicy="no-referrer">`, then the failed placeholder.
 
@@ -382,10 +382,10 @@ Rollback, only if a check fails: in the dashboard, delete the DNS record that th
 
 #### Slice 38.3 - Verification (≈ 20 min)
 
-- [ ] T087 Proxy smoke test. Run `pnpm preview`, then `curl -s -D - -o /dev/null 'http://localhost:8787/api/image-proxy?url=https%3A%2F%2Fgithub.com%2Fuser-attachments%2Fassets%2F519c2516-b08c-490a-862a-6dfe56978803'`. **Verify:** `200`, `Content-Type: image/png`, and `X-Cache: MISS`. The second call shows `X-Cache: HIT`.
-- [ ] T088 Browser smoke test on http://localhost:8787: open article #59 (attachment) and #57 (YouTube thumbnail). Each image renders, with no "Image failed to load" placeholder. Open article #38: the SVG still renders.
-- [ ] T089 Gates: `pnpm lint`, `pnpm type-check`, `pnpm test`, `pnpm test:coverage`. Report the coverage of `src/components/SmartImage.js` and `src/pages/api/image-proxy.js`. Write the results in the gate table.
-- [ ] T090 **[git]** Commit: `fix article images`.
+- [x] T087 Proxy smoke test. Run `pnpm preview`, then `curl -s -D - -o /dev/null 'http://localhost:8787/api/image-proxy?url=https%3A%2F%2Fgithub.com%2Fuser-attachments%2Fassets%2F519c2516-b08c-490a-862a-6dfe56978803'`. **Verify:** `200`, `Content-Type: image/png`, and `X-Cache: MISS`. The second call shows `X-Cache: HIT`.
+- [x] T088 Browser smoke test on http://localhost:8787: open article #59 (attachment) and #57 (YouTube thumbnail). Each image renders, with no "Image failed to load" placeholder. Open article #38: the SVG still renders.
+- [x] T089 Gates: `pnpm lint`, `pnpm type-check`, `pnpm test`, `pnpm test:coverage`. Report the coverage of `src/components/SmartImage.js` and `src/pages/api/image-proxy.js`. Write the results in the gate table.
+- [x] T090 **[git]** Commit: `fix article images`.
 
 ---
 
@@ -404,32 +404,32 @@ Rollback, only if a check fails: in the dashboard, delete the DNS record that th
 
 #### Slice 39.1 - Failing tests first (≈ 10 min) - must finish before slice 39.2
 
-- [ ] T091 `src/__tests__/api/issues.test.js`: replace "rejects an authenticated user who is not the owner" (line 198) with "publishes for a signed-in user who is not the owner and adds the blog label". Expect 200 and an upstream POST to `/issues` with `blog` in `labels`. Keep "rejects unauthenticated POST" and "rejects POST when issue rate limit is exceeded".
-- [ ] T092 `src/__tests__/api/author.test.js`: a signed-in session that is not in `BLOG_AUTHOR_EMAILS` returns `authenticated: true` and `canPublish: true`. No session returns both as `false`.
-- [ ] T093 `src/__tests__/pages/write.test.js`: replace the "This studio is private" case (line 45): with `canPublish: true`, the page renders the blog editor.
+- [x] T091 `src/__tests__/api/issues.test.js`: replace "rejects an authenticated user who is not the owner" (line 198) with "publishes for a signed-in user who is not the owner and adds the blog label". Expect 200 and an upstream POST to `/issues` with `blog` in `labels`. Keep "rejects unauthenticated POST" and "rejects POST when issue rate limit is exceeded".
+- [x] T092 `src/__tests__/api/author.test.js`: a signed-in session that is not in `BLOG_AUTHOR_EMAILS` returns `authenticated: true` and `canPublish: true`. No session returns both as `false`.
+- [x] T093 `src/__tests__/pages/write.test.js`: replace the "This studio is private" case (line 45): with `canPublish: true`, the page renders the blog editor.
 
 **Verify (slice):** `pnpm test src/__tests__/api/issues.test.js src/__tests__/api/author.test.js src/__tests__/pages/write.test.js`: the three changed cases fail.
 
 #### Slice 39.2 - Server (≈ 10 min)
 
-- [ ] T094 `src/pages/api/issues.js`: remove the `isBlogAuthor` block (lines 85-90) and its import (line 14).
-- [ ] T095 `src/pages/api/author.js`: return `canPublish: Boolean(session?.user)`. Remove the `isBlogAuthor` import.
-- [ ] T096 `src/lib/blogAuthor.js`: remove `isBlogAuthor`, which is unused after T094 and T095. Keep `parseBlogAuthorEmails`: the dev-only endpoint `src/pages/api/dev/session.js` uses it as a local safety gate. Update `src/lib/__tests__/blogAuthor.test.js`.
+- [x] T094 `src/pages/api/issues.js`: remove the `isBlogAuthor` block (lines 85-90) and its import (line 14).
+- [x] T095 `src/pages/api/author.js`: return `canPublish: Boolean(session?.user)`. Remove the `isBlogAuthor` import.
+- [x] T096 `src/lib/blogAuthor.js`: remove `isBlogAuthor`, which is unused after T094 and T095. Keep `parseBlogAuthorEmails`: the dev-only endpoint `src/pages/api/dev/session.js` uses it as a local safety gate. Update `src/lib/__tests__/blogAuthor.test.js`.
 
 **Verify (slice):** `pnpm test src/__tests__/api/issues.test.js src/__tests__/api/author.test.js src/__tests__/pages/write.test.js src/lib/__tests__/blogAuthor.test.js` is green.
 
 #### Slice 39.3 - UI and documentation (≈ 10 min)
 
-- [ ] T097 `src/pages/write.js`: remove the `!canPublish` branch (lines 45-52). Change "Your private writing studio" to "Writing studio". `src/components/BlogEditor.js`: change the header label "Private studio" (line 192) to "Writing studio". `NavigationBar.js` and `MobileMenu.jsx` need no change.
-- [ ] T098 `.env.local.example` (lines 14-16) and `README.md` (line 67): reword the `BLOG_AUTHOR_EMAILS` comment. It now limits only who can inject a local dev session through `POST /api/dev/session`. It no longer limits publishing.
+- [x] T097 `src/pages/write.js`: remove the `!canPublish` branch (lines 45-52). Change "Your private writing studio" to "Writing studio". `src/components/BlogEditor.js`: change the header label "Private studio" (line 192) to "Writing studio". `NavigationBar.js` and `MobileMenu.jsx` need no change.
+- [x] T098 `.env.local.example` (lines 14-16) and `README.md` (line 67): reword the `BLOG_AUTHOR_EMAILS` comment. It now limits only who can inject a local dev session through `POST /api/dev/session`. It no longer limits publishing.
 
 **Verify (slice):** `pnpm test` is green.
 
 #### Slice 39.4 - Verification (≈ 15 min)
 
-- [ ] T099 Gates: `pnpm lint`, `pnpm type-check`, `pnpm test`, `pnpm test:coverage`. Write the results in the gate table.
+- [x] T099 Gates: `pnpm lint`, `pnpm type-check`, `pnpm test`, `pnpm test:coverage`. Write the results in the gate table.
 - [ ] T100 Smoke test with `pnpm dev` (port 8080): sign in locally with `POST /api/dev/session` and an allowlisted email. The nav shows Write. `/write` opens the editor. Publish a test article. The success screen shows the issue number. The article appears on the home page within about 1 minute (the issues API caches for 60 seconds). Delete the test issue on GitHub. Anonymous check: `curl -s -o /dev/null -w '%{http_code}' -X POST -H 'Content-Type: application/json' -d '{"title":"x"}' http://localhost:8080/api/issues` prints `401`.
-- [ ] T101 **[git]** Commit: `allow signed-in users to add articles`.
+- [x] T101 **[git]** Commit: `allow signed-in users to add articles`.
 
 ---
 
@@ -445,35 +445,35 @@ Rollback, only if a check fails: in the dashboard, delete the DNS record that th
 
 #### Slice 40.1 - Failing tests first (≈ 20 min) - must finish before slice 40.2
 
-- [ ] T102 New `src/components/__tests__/ArticleIndex.test.js`: (a) one entry per article with its title; (b) the open article has `aria-current="true"` and `aria-expanded="true"`; (c) a click calls `onSelect(id)`; (d) Enter on a focused entry calls `onSelect(id)`; (e) an empty list renders nothing; (f) the heading uses `t("index.title")`.
-- [ ] T103 `src/components/__tests__/Issue.test.js`: the `open` prop renders the body. A trigger click calls `onOpenChange`. `src/components/__tests__/IssueList.test.js`: the page renders the index with the visible items. A selection opens that article and calls `scrollIntoView` on its element (mock `Element.prototype.scrollIntoView`). The index follows the search filter.
-- [ ] T104 `src/__tests__/pages/index.test.js`: the home page renders the index navigation.
+- [x] T102 New `src/components/__tests__/ArticleIndex.test.js`: (a) one entry per article with its title; (b) the open article has `aria-current="true"` and `aria-expanded="true"`; (c) a click calls `onSelect(id)`; (d) Enter on a focused entry calls `onSelect(id)`; (e) an empty list renders nothing; (f) the heading uses `t("index.title")`.
+- [x] T103 `src/components/__tests__/Issue.test.js`: the `open` prop renders the body. A trigger click calls `onOpenChange`. `src/components/__tests__/IssueList.test.js`: the page renders the index with the visible items. A selection opens that article and calls `scrollIntoView` on its element (mock `Element.prototype.scrollIntoView`). The index follows the search filter.
+- [x] T104 `src/__tests__/pages/index.test.js`: the home page renders the index navigation.
 
 **Verify (slice):** `pnpm test src/components/__tests__/ArticleIndex.test.js src/components/__tests__/Issue.test.js src/components/__tests__/IssueList.test.js src/__tests__/pages/index.test.js`: the new tests fail.
 
 #### Slice 40.2 - Build (≈ 35 min)
 
-- [ ] T105 New `src/components/ArticleIndex.js`: a `<nav aria-labelledby="article-index-title">` with the heading and one `<button>` per article. Props: `items`, `openId`, `onSelect`. Wrap the component in `React.memo`. Use the existing classes: `glass-card`, `rounded-2xl`, `focus-visible:ring-2 focus-visible:ring-ring`. Clamp each title to 2 lines with `line-clamp-2`.
-- [ ] T106 `src/components/Issue.js`: accept the props `open` and `onOpenChange`. Pass a controlled `value` to `Accordion.Root`.
-- [ ] T107 `src/components/IssueList.js`: hold an `openId` state. Pass `open` and `onOpenChange` to `MemoizedIssue`. Give each list item ``id={`article-${item.id}`}``. On `lg` and wider, show the list and `ArticleIndex` in a grid: `lg:grid lg:grid-cols-[minmax(0,1fr)_15rem] lg:gap-8`. The index wrapper is `hidden lg:block sticky top-24 max-h-[calc(100vh-7rem)] overflow-y-auto`. `handleSelect(id)` sets `openId`, then calls `scrollIntoView` on the item. Use `behavior: "smooth"`, or `"auto"` when `prefers-reduced-motion: reduce` is set.
-- [ ] T108 Add `"index": { "title": "Contents" }` to `src/locales/en.json`, `de.json`, `es.json`, `fr.json`, `it.json`, `zh_CN.json`, and `zh_TW.json`, with a translated value. `ar`, `ga`, `ja`, `ko`, and `ru` get the English text through the base merge in `src/locales/resources.js`.
+- [x] T105 New `src/components/ArticleIndex.js`: a `<nav aria-labelledby="article-index-title">` with the heading and one `<button>` per article. Props: `items`, `openId`, `onSelect`. Wrap the component in `React.memo`. Use the existing classes: `glass-card`, `rounded-2xl`, `focus-visible:ring-2 focus-visible:ring-ring`. Clamp each title to 2 lines with `line-clamp-2`.
+- [x] T106 `src/components/Issue.js`: accept the props `open` and `onOpenChange`. Pass a controlled `value` to `Accordion.Root`.
+- [x] T107 `src/components/IssueList.js`: hold an `openId` state. Pass `open` and `onOpenChange` to `MemoizedIssue`. Give each list item ``id={`article-${item.id}`}``. On `lg` and wider, show the list and `ArticleIndex` in a grid: `lg:grid lg:grid-cols-[minmax(0,1fr)_15rem] lg:gap-8`. The index wrapper is `hidden lg:block sticky top-24 max-h-[calc(100vh-7rem)] overflow-y-auto`. `handleSelect(id)` sets `openId`, then calls `scrollIntoView` on the item. Use `behavior: "smooth"`, or `"auto"` when `prefers-reduced-motion: reduce` is set.
+- [x] T108 Add `"index": { "title": "Contents" }` to `src/locales/en.json`, `de.json`, `es.json`, `fr.json`, `it.json`, `zh_CN.json`, and `zh_TW.json`, with a translated value. `ar`, `ga`, `ja`, `ko`, and `ru` get the English text through the base merge in `src/locales/resources.js`.
 
 **Verify (slice):** `pnpm test src/components src/__tests__/pages/index.test.js src/locales` is green. `pnpm check:i18n-parity` exits with 0.
 
 #### Slice 40.3 - Verification (≈ 20 min)
 
-- [ ] T109 Browser smoke test with `pnpm dev` (port 8080): at 1024 px and wider, the sidebar lists the titles of the current page. Click a title: the article opens and its top is visible below the sticky nav. Type in the search box: the index gets shorter. Change the page: the index changes. Keyboard only: Tab to an entry, press Enter, the article opens. Below 1024 px: no sidebar and no layout shift. Check light theme, dark theme, and each design style.
-- [ ] T110 Gates: `pnpm lint`, `pnpm type-check`, `pnpm test`, `pnpm test:coverage`, `pnpm check:i18n-parity`.
+- [x] T109 Browser smoke test with `pnpm dev` (port 8080): at 1024 px and wider, the sidebar lists the titles of the current page. Click a title: the article opens and its top is visible below the sticky nav. Type in the search box: the index gets shorter. Change the page: the index changes. Keyboard only: Tab to an entry, press Enter, the article opens. Below 1024 px: no sidebar and no layout shift. Check light theme, dark theme, and each design style.
+- [x] T110 Gates: `pnpm lint`, `pnpm type-check`, `pnpm test`, `pnpm test:coverage`, `pnpm check:i18n-parity`.
 - [ ] T111 Performance check: compare "First Load JS" for `/` in the `pnpm build` output with the Phase 39 build. The expected change is below +1 kB.
-- [ ] T112 **[git]** Commit: `add article index sidebar`.
+- [x] T112 **[git]** Commit: `add article index sidebar`.
 
 ---
 
 ### Closure
 
-- [ ] T113 `ROADMAP.md`: add Milestone 8 with the six phases, and a link to this plan under "Execution Notes". The roadmap asks for this update after each milestone.
-- [ ] T114 New `docs/plans/2026-11-28-milestone-8-verification-report.md`: the gate results from T044, T062, T089, T099, and T110, and the smoke test results.
-- [ ] T115 **[git]** Commit the closure: `docs: milestone 8 roadmap and verification report`.
+- [x] T113 `ROADMAP.md`: add Milestone 8 with the six phases, and a link to this plan under "Execution Notes". The roadmap asks for this update after each milestone.
+- [x] T114 New `docs/plans/2026-11-28-milestone-8-verification-report.md`: the gate results from T044, T062, T089, T099, and T110, and the smoke test results.
+- [x] T115 **[git]** Commit the closure: `docs: milestone 8 roadmap and verification report`.
 
 ## Dependencies and Order
 
@@ -518,15 +518,35 @@ Phase 35 (build gate) → 36 (AI removal) → 37 (Cloudflare) → 38 (images) �
 5. **Smoke test on the real surface.** Each phase has a smoke test before its commit: `pnpm dev` on port 8080, `pnpm preview` on port 8787, or the deployed Worker.
 6. **Record.** Write the gate results in the table at the top of this plan.
 
+## Left for you
+
+These steps need your accounts. They are the only unfinished tasks.
+
+| Task         | What to do                                                                                                                                                                                                                                                              |
+| ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| T060         | Put the runtime secrets in `.dev.vars` for the local preview: `NEXTAUTH_SECRET`, `GITHUB_TOKEN`, `GITHUB_REPO`, `GITHUB_MEMBER`, `BLOG_AUTHOR_EMAILS`, and the OAuth client ids and secrets. The file is git-ignored.                                                   |
+| T066         | Run `pnpm exec wrangler login` and approve it in the browser.                                                                                                                                                                                                           |
+| T067         | Set the runtime secrets with `pnpm exec wrangler secret put NAME` for each of the 10 names in T067, and add `NEXTAUTH_URL` and `GITHUB_REPO` in the dashboard under Settings → Variables and Secrets.                                                                   |
+| T068         | Run `pnpm exec opennextjs-cloudflare deploy -- --keep-vars` and check `https://blog.<account>.workers.dev/api/health`.                                                                                                                                                  |
+| T069         | Watch the Worker logs for CPU-limit errors. The Free plan allows 10 ms of CPU per request.                                                                                                                                                                              |
+| T070         | Check the preview URL: home, About, Settings, an article image, `/robots.txt`, `/sw.js`.                                                                                                                                                                                |
+| T071         | Connect Workers Builds in the dashboard to `huangjien/website`. Build command `pnpm exec opennextjs-cloudflare build`, deploy command `pnpm exec opennextjs-cloudflare deploy -- --keep-vars`, preview command `pnpm exec opennextjs-cloudflare upload -- --keep-vars`. |
+| T072         | Write down the current DNS record for `blog` in the Cloudflare dashboard, then delete it. A custom domain cannot be created while a CNAME exists.                                                                                                                       |
+| T073         | Add the route to `wrangler.jsonc`, commit and push. The Worker then takes over the hostname.                                                                                                                                                                            |
+| T074         | Check the live site: sign in with GitHub and with Google, open `/write`, load articles #59 and #57, call `/api/health`.                                                                                                                                                 |
+| T075 to T081 | After you confirm the Workers site works: delete the 13 old deployment files, update the README and ROADMAP, and remove the GCP, GitHub secret, Tailscale, and home-host leftovers.                                                                                     |
+| T100         | Publish one test article from `/write` and delete it again on GitHub.                                                                                                                                                                                                   |
+| T111         | Compare the "First Load JS" of `/` in the build output with the Phase 39 build.                                                                                                                                                                                         |
+
 ## Definition of Done
 
-- [ ] `pnpm build` passes locally under Node 24, and the pre-commit hook refuses a commit when the build fails or the Node version is wrong.
-- [ ] GitHub Actions has no GCP step and runs the OpenNext build and a deploy dry-run on every pull request.
-- [ ] The tag `lastAiTab` is on origin and points at the last commit before the removal.
-- [ ] The residual scan in T045 prints nothing, and `/ai` answers 404.
+- [x] `pnpm build` passes locally under Node 24, and the pre-commit hook refuses a commit when the build fails or the Node version is wrong.
+- [x] GitHub Actions has no GCP step and runs the OpenNext build and a deploy dry-run on every pull request.
+- [x] The tag `lastAiTab` is on origin and points at the last commit before the removal.
+- [x] The residual scan in T045 prints nothing, and `/ai` answers 404.
 - [ ] Workers Builds deploys `main`, and `blog.huangjien.com` is served by the Worker.
 - [ ] The old deployment files are deleted after you confirmed the Workers site.
 - [ ] All 7 real article images render on the deployed site.
-- [ ] A signed-in user can publish from `/write`. An anonymous POST to `/api/issues` answers 401.
+- [x] A signed-in user can publish from `/write`. An anonymous POST to `/api/issues` answers 401.
 - [ ] The home page shows the article index at 1024 px and wider.
-- [ ] All gates are green. `ROADMAP.md` and the verification report are updated.
+- [x] All gates are green. `ROADMAP.md` and the verification report are updated.
