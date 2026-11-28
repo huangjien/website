@@ -66,6 +66,18 @@ Please be respectful and constructive in all interactions. We aim to maintain a 
    pnpm format
    ```
 
+### Pre-commit checks
+
+The repository runs a Husky hook (`.husky/pre-commit`) before every commit. It aborts the commit when any step fails.
+
+| Step | Check         | Notes                                                                                                                                                                           |
+| ---- | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 0    | Node version  | The Node major version must match `.nvmrc` (24). The production build fails on a newer Node, so the hook reports the mismatch first. Use `fnm use` in the repository to switch. |
+| 1    | `lint-staged` | ESLint and Prettier run on the staged files only.                                                                                                                               |
+| 2    | `pnpm test`   | The full Jest suite.                                                                                                                                                            |
+| 3    | `pnpm build`  | The production build. About 25 seconds once warm.                                                                                                                               |
+| 4    | version bump  | `pnpm version patch` bumps the patch version and stages `package.json` and `pnpm-lock.yaml`.                                                                                    |
+
 ### Commit Messages
 
 Follow the [Conventional Commits](https://www.conventionalcommits.org/) specification:

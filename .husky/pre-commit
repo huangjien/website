@@ -1,19 +1,43 @@
 #!/usr/bin/env sh
 # Pre-commit gate. Aborts the commit (non-zero exit) if any step fails.
 #
+# 0. node-version: the Node major version must match .nvmrc. The production
+#    build fails on a newer Node (Next.js 16 + Serwist), so a mismatch is
+#    reported here instead of as a build error.
 # 1. lint-staged: lint + format only the files about to be committed.
 #    Defined in package.json -> "lint-staged". Runs eslint --fix +
 #    prettier --write on the staged JS/JSX/TS/TSX files (and prettier --write
 #    on JSON/MD/CSS/SCSS). Auto-re-stages the modified files.
 # 2. pnpm test:   full Jest suite. Cached, ~3s once warmed. Bails on any failure.
-# 3. version:     auto-bump the patch version. Uses pnpm (project's declared
+# 3. pnpm build:  production build. Bails on any failure. ~25s once warm.
+# 4. version:     auto-bump the patch version. Uses pnpm (project's declared
 #                 packageManager). Stages ONLY the files pnpm modifies -- never
 #                 unrelated working-tree changes.
 
 set -e
 
+# 0. Node version gate.
+REQUIRED_NODE="$(tr -cd '0-9' < .nvmrc | cut -c1-2)"
+ACTUAL_NODE="$(node -p 'process.versions.node.split(".")[0]')"
+if [ "$REQUIRED_NODE" != "$ACTUAL_NODE" ]; then
+  echo "Node $REQUIRED_NODE is required (.nvmrc), found $(node -v)."
+  echo "Run 'fnm use' in the repository to switch, then commit again."
+  exit 1
+fi
+
 pnpm exec lint-staged
 pnpm test --silent
+
+# 3. Production build gate. The log is kept so a failure can show its tail.
+BUILD_LOG="$(mktemp)"
+if ! pnpm build >"$BUILD_LOG" 2>&1; then
+  echo "pnpm build failed:"
+  tail -40 "$BUILD_LOG"
+  rm -f "$BUILD_LOG"
+  exit 1
+fi
+rm -f "$BUILD_LOG"
+
 # --no-git-checks: pnpm v11 lets us skip the strict clean-tree requirement so
 # the version bump can run alongside the user's staged changes. We still
 # stage only package.json + pnpm-lock.yaml afterwards so unrelated working-
