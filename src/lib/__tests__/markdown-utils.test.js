@@ -39,4 +39,12 @@ describe("sanitizeMarkdown", () => {
       "![Image](https://github.com/user-attachments/assets/703be3d9-a2ce-495f-9656-ef38a53c5978)";
     expect(sanitizeMarkdown(input)).toBe(expected);
   });
+
+  it("should convert a self-closing img tag with dimensions", () => {
+    const input =
+      '<img width="628" height="396" alt="Image" src="https://github.com/user-attachments/assets/519c2516-b08c-490a-862a-6dfe56978803" />';
+    const expected =
+      "![Image](https://github.com/user-attachments/assets/519c2516-b08c-490a-862a-6dfe56978803)";
+    expect(sanitizeMarkdown(input)).toBe(expected);
+  });
 });

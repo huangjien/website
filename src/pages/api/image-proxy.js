@@ -16,12 +16,15 @@ const IMAGE_PROXY_RATE_LIMIT = 60;
 const IMAGE_PROXY_WINDOW_MS = 60000;
 const DEFAULT_ALLOWED_HOSTS = [
   "github.com",
-  "raw.githubusercontent.com",
-  "avatars.githubusercontent.com",
-  "media.githubusercontent.com",
-  "user-images.githubusercontent.com",
-  "camo.githubusercontent.com",
+  // Every githubusercontent.com subdomain, including the private image hosts
+  // that a GitHub attachment redirects to.
+  "githubusercontent.com",
   "github.githubassets.com",
+  // The bucket that serves the attachments of a private repository.
+  "github-production-user-asset-6210df.s3.amazonaws.com",
+  // YouTube thumbnails.
+  "img.youtube.com",
+  "i.ytimg.com",
 ];
 
 const parseAllowedHosts = () => {

@@ -238,6 +238,92 @@ describe("/api/image-proxy", () => {
     expect(res._getHeaders()["x-cache"]).toBe("MISS");
   });
 
+  it("follows a redirect to the GitHub attachment host", async () => {
+    resolve4Spy.mockResolvedValue([PUBLIC_IPV4]);
+    fetchWithTimeout
+      .mockResolvedValueOnce(
+        createRedirectResponse(
+          "https://github-production-user-asset-6210df.s3.amazonaws.com/asset.png?jwt=token",
+        ),
+      )
+      .mockResolvedValueOnce(createImageResponse({ ok: true }));
+    const handler = require("../../pages/api/image-proxy").default;
+    const { req, res } = createMocks({
+      method: "GET",
+      query: {
+        url: encodeURIComponent(
+          "https://github.com/user-attachments/assets/519c2516",
+        ),
+      },
+    });
+
+    await handler(req, res);
+
+    expect(res._getStatusCode()).toBe(200);
+    expect(fetchWithTimeout).toHaveBeenCalledTimes(2);
+    expect(fetchWithTimeout).toHaveBeenNthCalledWith(
+      2,
+      "https://github-production-user-asset-6210df.s3.amazonaws.com/asset.png?jwt=token",
+      expect.objectContaining({ redirect: "manual" }),
+      10000,
+    );
+  });
+
+  it("follows a redirect to private-user-images.githubusercontent.com", async () => {
+    resolve4Spy.mockResolvedValue([PUBLIC_IPV4]);
+    fetchWithTimeout
+      .mockResolvedValueOnce(
+        createRedirectResponse(
+          "https://private-user-images.githubusercontent.com/asset.png?jwt=token",
+        ),
+      )
+      .mockResolvedValueOnce(createImageResponse({ ok: true }));
+    const handler = require("../../pages/api/image-proxy").default;
+    const { req, res } = createMocks({
+      method: "GET",
+      query: {
+        url: encodeURIComponent(
+          "https://github.com/user-attachments/assets/aabbccdd",
+        ),
+      },
+    });
+
+    await handler(req, res);
+
+    expect(res._getStatusCode()).toBe(200);
+    expect(fetchWithTimeout).toHaveBeenCalledTimes(2);
+  });
+
+  it("accepts img.youtube.com", async () => {
+    resolve4Spy.mockResolvedValue([PUBLIC_IPV4]);
+    fetchWithTimeout.mockResolvedValueOnce(createImageResponse({ ok: true }));
+    const handler = require("../../pages/api/image-proxy").default;
+    const { req, res } = createMocks({
+      method: "GET",
+      query: {
+        url: encodeURIComponent("https://img.youtube.com/vi/abc/0.jpg"),
+      },
+    });
+
+    await handler(req, res);
+
+    expect(res._getStatusCode()).toBe(200);
+  });
+
+  it("accepts i.ytimg.com", async () => {
+    resolve4Spy.mockResolvedValue([PUBLIC_IPV4]);
+    fetchWithTimeout.mockResolvedValueOnce(createImageResponse({ ok: true }));
+    const handler = require("../../pages/api/image-proxy").default;
+    const { req, res } = createMocks({
+      method: "GET",
+      query: { url: encodeURIComponent("https://i.ytimg.com/vi/abc/0.jpg") },
+    });
+
+    await handler(req, res);
+
+    expect(res._getStatusCode()).toBe(200);
+  });
+
   describe("cache", () => {
     let originalCaches;
     let originalResponse;

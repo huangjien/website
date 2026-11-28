@@ -55,20 +55,44 @@ describe("SmartImage Component", () => {
     expect(img).toHaveAttribute("src", expectedProxyUrl);
   });
 
-  it("should show fallback on second error (proxy failed)", () => {
+  it("should render the proxy URL first for a private GitHub attachment", () => {
+    const attachment = "https://github.com/user-attachments/assets/519c2516";
+    render(<SmartImage src={attachment} alt='Attachment' />);
+    const img = screen.getByRole("img");
+
+    expect(img).toHaveAttribute(
+      "src",
+      `/api/image-proxy?url=${encodeURIComponent(attachment)}`,
+    );
+  });
+
+  it("should fall back to a plain image after the proxy fails", () => {
     render(<SmartImage src={mockSrc} alt={mockAlt} />);
     const img = screen.getByRole("img");
 
-    // First error (direct link)
-    fireEvent.error(img);
+    fireEvent.error(img); // the image itself failed
+    fireEvent.error(img); // the proxy failed
 
-    // Second error (proxy link)
+    const direct = screen.getByTestId("smart-image-direct");
+    expect(direct).toHaveAttribute("src", mockSrc);
+    expect(direct).toHaveAttribute("referrerpolicy", "no-referrer");
+  });
+
+  it("should show fallback after the last attempt fails", () => {
+    render(<SmartImage src={mockSrc} alt={mockAlt} />);
+    const img = screen.getByRole("img");
+
+    // First error (the image itself)
     fireEvent.error(img);
+    // Second error (the proxy)
+    fireEvent.error(img);
+    // Third error (the plain element)
+    fireEvent.error(screen.getByTestId("smart-image-direct"));
 
     // Should show failure state
     expect(screen.getByText("Image failed to load")).toBeInTheDocument();
     expect(screen.getByText("Try direct link")).toBeInTheDocument();
-    expect(screen.queryByRole("img")).not.toBeInTheDocument();
+    expect(screen.queryByTestId("smart-image-direct")).not.toBeInTheDocument();
     expect(screen.queryByTestId("skeleton")).not.toBeInTheDocument();
   });
 });
