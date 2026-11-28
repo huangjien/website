@@ -464,7 +464,7 @@ Rollback, only if a check fails: in the dashboard, delete the DNS record that th
 
 - [x] T109 Browser smoke test with `pnpm dev` (port 8080): at 1024 px and wider, the sidebar lists the titles of the current page. Click a title: the article opens and its top is visible below the sticky nav. Type in the search box: the index gets shorter. Change the page: the index changes. Keyboard only: Tab to an entry, press Enter, the article opens. Below 1024 px: no sidebar and no layout shift. Check light theme, dark theme, and each design style.
 - [x] T110 Gates: `pnpm lint`, `pnpm type-check`, `pnpm test`, `pnpm test:coverage`, `pnpm check:i18n-parity`.
-- [ ] T111 Performance check: compare "First Load JS" for `/` in the `pnpm build` output with the Phase 39 build. The expected change is below +1 kB.
+- [x] T111 Performance check: compare "First Load JS" for `/` in the `pnpm build` output with the Phase 39 build. The expected change is below +1 kB.
 - [x] T112 **[git]** Commit: `add article index sidebar`.
 
 ---

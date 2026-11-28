@@ -40,6 +40,7 @@ The test count fell because the AI suites were removed with the AI code: 24 test
 - `fnm` 1.39.0 is installed and Node 24.22.3 lives in its store. `~/.zshenv`, `~/.zprofile`, and `~/.zshrc` evaluate `fnm env --use-on-cd`, so the repository picks Node 24 from `.nvmrc` and every other project keeps the system Node.
 - `.husky/pre-commit` now runs four steps: a Node version check against `.nvmrc`, lint-staged, the test suite, and `pnpm build`. The build writes to a log file and prints the last 40 lines when it fails.
 - Both gate steps were proven: a broken import refused the commit with the webpack error, and Node 26 refused the commit with `Node 24 is required (.nvmrc), found v26.13.1`.
+- A stale build cache breaks the build with a confusing `Cannot read properties of undefined (reading length)` error in the hash step of the service worker bundle. The hook now clears `.next/cache` and `public/sw.js` and retries the build once before it refuses the commit.
 - The GCP deploy job was removed from `.github/workflows/CID.yaml`. CI is green for the first time since that job was added.
 
 ## Phase 36: Remove the AI tab and all AI features
@@ -80,6 +81,7 @@ Root cause, confirmed against the live data: a GitHub attachment in a private re
 - `src/components/ArticleIndex.js` lists the titles of the articles on the page. Clicking a title opens that article and scrolls to it. The sidebar shows at 1024 px and wider and follows the search box and the pagination.
 - `Issue` takes a controlled `open` prop, and `IssueList` holds the open id and gives every article a stable anchor id.
 - The locale files carry the title in seven languages. The component falls back to "Contents" when a key is missing.
+- The index page chunk is 25.2 kB and the client chunks total 1.3 MB. Next.js 16 no longer prints a per-route First Load JS summary, so the planned before and after comparison is not available from the build output. The sidebar adds one component and no dependency.
 
 ## Risks that remain
 
