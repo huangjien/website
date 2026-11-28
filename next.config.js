@@ -73,6 +73,10 @@ const nextConfig = {
     removeConsole: { exclude: ["error"] },
   },
   images: {
+    // Cloudflare Workers have no Next.js image optimizer. With `unoptimized`
+    // the `next/image` component renders the original URL, so remote images
+    // load directly and the allowlist in `remotePatterns` is not enforced.
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: "https",

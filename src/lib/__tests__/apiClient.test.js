@@ -315,6 +315,17 @@ describe("apiClient", () => {
   });
 
   describe("getClientIp", () => {
+    it("should prefer cf-connecting-ip", () => {
+      const req = {
+        headers: {
+          "cf-connecting-ip": "203.0.113.7",
+          "x-forwarded-for": "203.0.113.1, 10.0.0.1",
+          "x-real-ip": "198.51.100.2",
+        },
+      };
+      expect(getClientIp(req)).toBe("203.0.113.7");
+    });
+
     it("should prefer x-forwarded-for", () => {
       const req = {
         headers: {

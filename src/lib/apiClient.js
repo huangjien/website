@@ -190,6 +190,7 @@ export const getOpenAiApiKey = () =>
   process.env.OPEN_AI_KEY || process.env.OPENAI_API_KEY;
 
 export const getClientIp = (req) =>
+  req.headers["cf-connecting-ip"] ||
   req.headers["x-forwarded-for"]?.split(",")[0] ||
   req.headers["x-real-ip"] ||
   "unknown";

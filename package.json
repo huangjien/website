@@ -1,6 +1,6 @@
 {
   "name": "website",
-  "version": "2.0.67",
+  "version": "2.0.68",
   "description": "A modern, responsive blog website template built with Next.js, React, and Tailwind CSS",
   "author": {
     "name": "Jien Huang",
@@ -55,6 +55,10 @@
     "docker:run": "docker run --env-file .env.local -ti -d -p 8080:8080 huangjien/website",
     "clean": "rm -rf .next out node_modules/.cache",
     "analyze": "cross-env ANALYZE=true next build",
+    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
+    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload",
+    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
     "measure:phase2": "node scripts/measure-phase2-baseline.mjs",
     "measure:phase10": "node scripts/measure-phase10-prodlike.mjs",
     "check:i18n-parity": "node scripts/check-i18n-parity.mjs",
@@ -111,6 +115,7 @@
     "@lhci/cli": "^0.16.1",
     "@next/bundle-analyzer": "^16.4.6",
     "@next/eslint-plugin-next": "^16.4.6",
+    "@opennextjs/cloudflare": "^1.20.19",
     "@tailwindcss/typography": "^0.5.20",
     "@testing-library/dom": "^10.4.2",
     "@testing-library/jest-dom": "^8.0.0",
@@ -138,7 +143,8 @@
     "postcss": "^8.5.34",
     "style-loader": "^4.0.0",
     "tailwindcss": "4.3.5",
-    "typescript": "^7.0.2"
+    "typescript": "^7.0.2",
+    "wrangler": "^4.168.0"
   },
   "overrides": {
     "ahooks": {

@@ -3,18 +3,6 @@ import dns from "node:dns";
 import { fetchWithTimeout } from "../../lib/fetchWithTimeout";
 import { checkRateLimit } from "../../lib/rateLimit";
 
-jest.mock("fs", () => ({
-  promises: {
-    access: jest.fn(async () => {
-      throw new Error("missing");
-    }),
-    mkdir: jest.fn(async () => {}),
-    readFile: jest.fn(async () => Buffer.from("")),
-    writeFile: jest.fn(async () => {}),
-    unlink: jest.fn(async () => {}),
-  },
-}));
-
 jest.mock("../../lib/fetchWithTimeout", () => ({
   fetchWithTimeout: jest.fn(),
 }));
@@ -96,7 +84,7 @@ describe("/api/image-proxy", () => {
     const handler = require("../../pages/api/image-proxy").default;
     const { req, res } = createMocks({
       method: "GET",
-      query: { url: encodeURIComponent("https://github.com/a.png") },
+      query: { url: encodeURIComponent("https://github.com/rate-limited.png") },
     });
 
     await handler(req, res);
@@ -137,7 +125,7 @@ describe("/api/image-proxy", () => {
     const handler = require("../../pages/api/image-proxy").default;
     const { req, res } = createMocks({
       method: "GET",
-      query: { url: encodeURIComponent("https://github.com/a.png") },
+      query: { url: encodeURIComponent("https://github.com/not-an-image.png") },
     });
 
     await handler(req, res);
@@ -152,7 +140,7 @@ describe("/api/image-proxy", () => {
     const handler = require("../../pages/api/image-proxy").default;
     const { req, res } = createMocks({
       method: "GET",
-      query: { url: encodeURIComponent("https://github.com/a.png") },
+      query: { url: encodeURIComponent("https://github.com/oversized.png") },
     });
 
     await handler(req, res);
@@ -166,14 +154,14 @@ describe("/api/image-proxy", () => {
     const handler = require("../../pages/api/image-proxy").default;
     const { req, res } = createMocks({
       method: "GET",
-      query: { url: encodeURIComponent("https://github.com/a.png") },
+      query: { url: encodeURIComponent("https://github.com/token-header.png") },
     });
 
     await handler(req, res);
 
     expect(res._getStatusCode()).toBe(200);
     expect(fetchWithTimeout).toHaveBeenCalledWith(
-      "https://github.com/a.png",
+      "https://github.com/token-header.png",
       expect.objectContaining({
         redirect: "manual",
         headers: expect.objectContaining({
@@ -191,7 +179,7 @@ describe("/api/image-proxy", () => {
     const handler = require("../../pages/api/image-proxy").default;
     const { req, res } = createMocks({
       method: "GET",
-      query: { url: encodeURIComponent("https://github.com/a.png") },
+      query: { url: encodeURIComponent("https://github.com/private-ipv4.png") },
     });
 
     await handler(req, res);
@@ -207,7 +195,7 @@ describe("/api/image-proxy", () => {
     const handler = require("../../pages/api/image-proxy").default;
     const { req, res } = createMocks({
       method: "GET",
-      query: { url: encodeURIComponent("https://github.com/a.png") },
+      query: { url: encodeURIComponent("https://github.com/link-local.png") },
     });
 
     await handler(req, res);
@@ -223,7 +211,7 @@ describe("/api/image-proxy", () => {
     const handler = require("../../pages/api/image-proxy").default;
     const { req, res } = createMocks({
       method: "GET",
-      query: { url: encodeURIComponent("https://github.com/a.png") },
+      query: { url: encodeURIComponent("https://github.com/private-ipv6.png") },
     });
 
     await handler(req, res);
@@ -239,13 +227,113 @@ describe("/api/image-proxy", () => {
     const handler = require("../../pages/api/image-proxy").default;
     const { req, res } = createMocks({
       method: "GET",
-      query: { url: encodeURIComponent("https://github.com/a.png") },
+      query: {
+        url: encodeURIComponent("https://github.com/public-domain.png"),
+      },
     });
 
     await handler(req, res);
 
     expect(res._getStatusCode()).toBe(200);
     expect(res._getHeaders()["x-cache"]).toBe("MISS");
+  });
+
+  describe("cache", () => {
+    let originalCaches;
+    let originalResponse;
+
+    beforeEach(() => {
+      originalCaches = globalThis.caches;
+      originalResponse = globalThis.Response;
+    });
+
+    afterEach(() => {
+      globalThis.caches = originalCaches;
+      globalThis.Response = originalResponse;
+    });
+
+    // jsdom has no Response constructor. The runtime only needs one to store
+    // an image in the platform cache, so a minimal stand-in is enough here.
+    const installResponseShim = () => {
+      globalThis.Response = class {
+        constructor(body, init = {}) {
+          this.body = body;
+          this.init = init;
+          this.headers = {
+            get: (key) =>
+              key.toLowerCase() === "content-type"
+                ? (this.init?.headers?.["content-type"] ?? null)
+                : null,
+          };
+        }
+
+        async arrayBuffer() {
+          return new Uint8Array(0).buffer;
+        }
+      };
+    };
+
+    it("serves a cached image without an upstream request", async () => {
+      installResponseShim();
+      const match = jest.fn(async () => ({
+        headers: {
+          get: (key) =>
+            key.toLowerCase() === "content-type" ? "image/png" : null,
+        },
+        arrayBuffer: async () => new Uint8Array(3).buffer,
+      }));
+      globalThis.caches = { default: { match, put: jest.fn() } };
+
+      const handler = require("../../pages/api/image-proxy").default;
+      const { req, res } = createMocks({
+        method: "GET",
+        query: { url: encodeURIComponent("https://github.com/cached.png") },
+      });
+
+      await handler(req, res);
+
+      expect(res._getStatusCode()).toBe(200);
+      expect(res._getHeaders()["x-cache"]).toBe("HIT");
+      expect(fetchWithTimeout).not.toHaveBeenCalled();
+    });
+
+    it("stores the image in the platform cache", async () => {
+      installResponseShim();
+      const put = jest.fn(async () => {});
+      globalThis.caches = {
+        default: { match: jest.fn(async () => null), put },
+      };
+      fetchWithTimeout.mockResolvedValueOnce(createImageResponse({ ok: true }));
+
+      const handler = require("../../pages/api/image-proxy").default;
+      const { req, res } = createMocks({
+        method: "GET",
+        query: { url: encodeURIComponent("https://github.com/new.png") },
+      });
+
+      await handler(req, res);
+
+      expect(res._getStatusCode()).toBe(200);
+      expect(res._getHeaders()["x-cache"]).toBe("MISS");
+      expect(put).toHaveBeenCalledTimes(1);
+      expect(put.mock.calls[0][0]).toMatch(/^https:\/\//);
+    });
+
+    it("returns the image when the runtime has no platform cache", async () => {
+      delete globalThis.caches;
+      fetchWithTimeout.mockResolvedValueOnce(createImageResponse({ ok: true }));
+
+      const handler = require("../../pages/api/image-proxy").default;
+      const { req, res } = createMocks({
+        method: "GET",
+        query: { url: encodeURIComponent("https://github.com/nocache.png") },
+      });
+
+      await handler(req, res);
+
+      expect(res._getStatusCode()).toBe(200);
+      expect(res._getHeaders()["x-cache"]).toBe("MISS");
+    });
   });
 
   it("rejects a redirect to an internal IP literal URL", async () => {
@@ -256,7 +344,9 @@ describe("/api/image-proxy", () => {
     const handler = require("../../pages/api/image-proxy").default;
     const { req, res } = createMocks({
       method: "GET",
-      query: { url: encodeURIComponent("https://github.com/a.png") },
+      query: {
+        url: encodeURIComponent("https://github.com/redirect-internal.png"),
+      },
     });
 
     await handler(req, res);
@@ -279,7 +369,9 @@ describe("/api/image-proxy", () => {
     const handler = require("../../pages/api/image-proxy").default;
     const { req, res } = createMocks({
       method: "GET",
-      query: { url: encodeURIComponent("https://github.com/a.png") },
+      query: {
+        url: encodeURIComponent("https://github.com/redirect-private-host.png"),
+      },
     });
 
     await handler(req, res);
@@ -301,7 +393,9 @@ describe("/api/image-proxy", () => {
     const handler = require("../../pages/api/image-proxy").default;
     const { req, res } = createMocks({
       method: "GET",
-      query: { url: encodeURIComponent("https://github.com/a.png") },
+      query: {
+        url: encodeURIComponent("https://github.com/redirect-safe-host.png"),
+      },
     });
 
     await handler(req, res);

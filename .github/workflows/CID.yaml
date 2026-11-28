@@ -43,7 +43,8 @@ jobs:
       - run: pnpm check:i18n-parity
       - run: pnpm test:ci
       - run: pnpm check:pages-tests
-      - run: pnpm build:webpack
+      - run: pnpm exec opennextjs-cloudflare build
+      - run: pnpm exec wrangler deploy --dry-run
       - run: pnpm perf:ci
       - run: pnpm lhci:collect
         continue-on-error: true

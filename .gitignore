@@ -149,3 +149,10 @@ temp/
 .lighthouseci/
 # Bundled webpack chunk artifact emitted at repo root by next build
 /main.js
+
+# Cloudflare Workers (OpenNext build output, Wrangler state, local secrets)
+/.open-next/
+/.wrangler/
+/.dev.vars
+/.dev.vars.*
+/cloudflare-env.d.ts

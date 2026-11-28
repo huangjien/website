@@ -1,5 +1,3 @@
-import { promises as fs } from "fs";
-import path from "path";
 import crypto from "crypto";
 import dns from "node:dns";
 import net from "node:net";
@@ -11,8 +9,8 @@ import {
 } from "../../lib/apiClient";
 import { checkRateLimit } from "../../lib/rateLimit";
 
-const CACHE_DIR = path.join(process.cwd(), ".cache", "images");
 const MAX_CACHE_AGE = 30 * 24 * 60 * 60 * 1000; // 30 days in milliseconds
+const CACHE_KEY_ORIGIN = "https://image-proxy.local/";
 const IMAGE_PROXY_MAX_BYTES = 5 * 1024 * 1024;
 const IMAGE_PROXY_RATE_LIMIT = 60;
 const IMAGE_PROXY_WINDOW_MS = 60000;
@@ -132,100 +130,86 @@ function buildHeaders(hostname) {
 }
 
 /**
- * Generate a cache key from URL
+ * Generate a cache hash from URL
  * @param {string} url - The URL to hash
- * @returns {string} - Hashed cache key
+ * @returns {string} - Hashed value
  */
-function getCacheKey(url) {
+function getCacheHash(url) {
   return crypto.createHash("sha256").update(url).digest("hex");
 }
 
 /**
- * Ensure cache directory exists
+ * Build the cache key. The Cache API needs a URL, so the hash is attached to
+ * an internal origin.
+ * @param {string} url - The image URL
+ * @returns {string} - The cache key URL
  */
-async function ensureCacheDir() {
-  await fs.mkdir(CACHE_DIR, { recursive: true });
+function getCacheKey(url) {
+  return `${CACHE_KEY_ORIGIN}${getCacheHash(url)}`;
 }
 
 /**
- * Check if cached file exists and is valid
- * @param {string} cacheKey - The cache key
- * @returns {Object|null} - Cached data with metadata or null
+ * Get the platform cache when the runtime provides one. Cloudflare Workers
+ * expose the Cache API through `caches.default`. A local Node run has no
+ * Cache API and falls back to the in-memory map.
+ * @returns {Object|null} - The cache store, or null when there is none
  */
-async function pathExists(filePath) {
-  try {
-    await fs.access(filePath);
-    return true;
-  } catch {
-    return false;
-  }
+function getCacheStore() {
+  if (!globalThis.caches?.default) return null;
+  if (typeof globalThis.Response !== "function") return null;
+  return globalThis.caches.default;
 }
 
+// In-memory fallback for runtimes without the Cache API.
+const memoryCache = new Map();
+
+/**
+ * Read an image from the cache.
+ * @param {string} cacheKey - The cache key
+ * @returns {Promise<Object|null>} - Cached image data, or null on a miss
+ */
 async function getCachedImage(cacheKey) {
-  const cachePath = path.join(CACHE_DIR, `${cacheKey}.json`);
+  const store = getCacheStore();
+  if (store) {
+    const hit = await store.match(cacheKey);
+    if (!hit) return null;
+    const contentType = hit.headers.get("content-type") || "image/jpeg";
+    const data = Buffer.from(await hit.arrayBuffer());
+    return { data, contentType, cached: true };
+  }
 
-  try {
-    if (!(await pathExists(cachePath))) {
-      return null;
-    }
-
-    const cacheData = JSON.parse(await fs.readFile(cachePath, "utf8"));
-    const imagePath = path.join(CACHE_DIR, cacheKey);
-
-    // Check if image file exists
-    if (!(await pathExists(imagePath))) {
-      // Clean up stale metadata
-      await fs.unlink(cachePath).catch(() => {});
-      return null;
-    }
-
-    // Check cache age
-    const now = Date.now();
-    if (now - cacheData.timestamp > MAX_CACHE_AGE) {
-      // Cache expired, clean up
-      await fs.unlink(cachePath).catch(() => {});
-      await fs.unlink(imagePath).catch(() => {});
-      return null;
-    }
-
-    return {
-      data: await fs.readFile(imagePath),
-      contentType: cacheData.contentType,
-      cached: true,
-    };
-  } catch (error) {
-    console.error("Error reading cache:", error);
+  const entry = memoryCache.get(cacheKey);
+  if (!entry) return null;
+  if (Date.now() - entry.timestamp > MAX_CACHE_AGE) {
+    memoryCache.delete(cacheKey);
     return null;
   }
+  return { data: entry.data, contentType: entry.contentType, cached: true };
 }
 
 /**
- * Save image to cache
+ * Save an image to the cache.
  * @param {string} cacheKey - The cache key
  * @param {Buffer} buffer - The image buffer
  * @param {string} contentType - The content type
  */
 async function saveCachedImage(cacheKey, buffer, contentType) {
-  try {
-    await ensureCacheDir();
-
-    const imagePath = path.join(CACHE_DIR, cacheKey);
-    const metaPath = path.join(CACHE_DIR, `${cacheKey}.json`);
-
-    // Save image data
-    await fs.writeFile(imagePath, buffer);
-
-    // Save metadata
-    await fs.writeFile(
-      metaPath,
-      JSON.stringify({
-        timestamp: Date.now(),
-        contentType,
-      }),
-    );
-  } catch (error) {
-    console.error("Error saving cache:", error);
+  const store = getCacheStore();
+  if (store) {
+    const response = new Response(buffer, {
+      headers: {
+        "content-type": contentType,
+        "cache-control": `public, max-age=${Math.floor(MAX_CACHE_AGE / 1000)}`,
+      },
+    });
+    await store.put(cacheKey, response);
+    return;
   }
+  memoryCache.set(cacheKey, {
+    data: buffer,
+    contentType,
+    timestamp: Date.now(),
+  });
 }
 
 export default withErrorHandling(async function handler(req, res) {

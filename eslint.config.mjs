@@ -15,6 +15,9 @@ export default [
       "build/**",
       "coverage/**",
       "out/**",
+      // OpenNext build output for Cloudflare Workers
+      "**/.open-next/**",
+      "**/.wrangler/**",
       // Bundled webpack chunk artifact at repo root (orphaned, not hand-authored source)
       "main.js",
     ],
