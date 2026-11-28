@@ -57,6 +57,7 @@
     "login_required": "Anmeldung erforderlich, um TTS zu verwenden",
     "tts_failed": "Text-zu-Sprache fehlgeschlagen",
     "error_message": "Nachricht konnte nicht gesendet werden. Bitte versuchen Sie es erneut.",
+    "fallback_toast": "Limit von {{from}} erreicht – es wird mit {{to}} fortgefahren.",
     "timestamp_now": "Gerade eben",
     "timestamp_mins_ago": "min(s) vor",
     "timestamp_hours_ago": "h(s) vor",
@@ -129,6 +130,9 @@
     "empty": "Keine Probleme anzuzeigen",
     "new": "Neu",
     "edit": "Bearbeiten"
+  },
+  "index": {
+    "title": "Inhalt"
   },
   "chat": {
     "ai_model": "KI-Modell",

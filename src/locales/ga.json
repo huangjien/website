@@ -21,6 +21,7 @@
     "return_error": "D'fhág an iarratas AI earráid",
     "return_length": "Fuair muid freagra ó AI.\nFad na freagra",
     "error_message": "Theip ar sheoladh na teachtaireachta. Déan iarracht eile.",
+    "fallback_toast": "Sroicheadh teorainn {{from}} — ag leanúint ar aghaidh le {{to}}.",
     "timestamp_now": "Anois",
     "timestamp_mins_ago": "nóim(í) ó shin",
     "timestamp_hours_ago": "uair(e) ó shin"

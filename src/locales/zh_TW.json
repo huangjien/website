@@ -57,6 +57,7 @@
     "login_required": "登入後才能使用語音合成",
     "tts_failed": "語音合成失敗",
     "error_message": "發送訊息失敗，請重試。",
+    "fallback_toast": "{{from}} 已達到用量上限，改用 {{to}} 繼續。",
     "timestamp_now": "剛剛",
     "timestamp_mins_ago": "分鐘前",
     "timestamp_hours_ago": "小時前",
@@ -129,6 +130,9 @@
     "empty": "無問題顯示",
     "new": "新建",
     "edit": "編輯"
+  },
+  "index": {
+    "title": "目錄"
   },
   "chat": {
     "ai_model": "AI 模型",

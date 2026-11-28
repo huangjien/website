@@ -57,6 +57,7 @@
     "login_required": "Connexion requise pour utiliser le TTS",
     "tts_failed": "Synthèse vocale échouée",
     "error_message": "Échec de l'envoi du message. Veuillez réessayer.",
+    "fallback_toast": "Limite de {{from}} atteinte — poursuite avec {{to}}.",
     "timestamp_now": "À l'instant",
     "timestamp_mins_ago": "min(s) il y a",
     "timestamp_hours_ago": "h(s) il y a",
@@ -129,6 +130,9 @@
     "empty": "Aucun problème à afficher",
     "new": "Nouveau",
     "edit": "Modifier"
+  },
+  "index": {
+    "title": "Sommaire"
   },
   "chat": {
     "ai_model": "Modèle IA",

@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { IssueList } from "../IssueList";
 
@@ -176,9 +176,15 @@ describe("IssueList", () => {
       />,
     );
 
-    expect(screen.getByText("First Issue")).toBeInTheDocument();
-    expect(screen.getByText("Second Issue")).toBeInTheDocument();
-    expect(screen.getByText("Third Issue")).toBeInTheDocument();
+    expect(
+      within(screen.getByRole("list")).getByText("First Issue"),
+    ).toBeInTheDocument();
+    expect(
+      within(screen.getByRole("list")).getByText("Second Issue"),
+    ).toBeInTheDocument();
+    expect(
+      within(screen.getByRole("list")).getByText("Third Issue"),
+    ).toBeInTheDocument();
     expect(screen.getByTestId("joke-component")).toBeInTheDocument();
   });
 
@@ -211,9 +217,15 @@ describe("IssueList", () => {
     const searchInput = screen.getByPlaceholderText("global.search");
     await user.type(searchInput, "First");
 
-    expect(screen.getByText("First Issue")).toBeInTheDocument();
-    expect(screen.queryByText("Second Issue")).not.toBeInTheDocument();
-    expect(screen.queryByText("Third Issue")).not.toBeInTheDocument();
+    expect(
+      within(screen.getByRole("list")).getByText("First Issue"),
+    ).toBeInTheDocument();
+    expect(
+      within(screen.getByRole("list")).queryByText("Second Issue"),
+    ).not.toBeInTheDocument();
+    expect(
+      within(screen.getByRole("list")).queryByText("Third Issue"),
+    ).not.toBeInTheDocument();
   });
 
   it("clears search filter when clear button is clicked", async () => {
@@ -235,9 +247,15 @@ describe("IssueList", () => {
     const clearButton = searchInput.parentElement.querySelector("button");
     await user.click(clearButton);
 
-    expect(screen.getByText("First Issue")).toBeInTheDocument();
-    expect(screen.getByText("Second Issue")).toBeInTheDocument();
-    expect(screen.getByText("Third Issue")).toBeInTheDocument();
+    expect(
+      within(screen.getByRole("list")).getByText("First Issue"),
+    ).toBeInTheDocument();
+    expect(
+      within(screen.getByRole("list")).getByText("Second Issue"),
+    ).toBeInTheDocument();
+    expect(
+      within(screen.getByRole("list")).getByText("Third Issue"),
+    ).toBeInTheDocument();
   });
 
   it("changes rows per page when select value changes", async () => {
@@ -308,17 +326,29 @@ describe("IssueList", () => {
     );
 
     // Should show first 5 items by default
-    expect(screen.getByText("Issue 1")).toBeInTheDocument();
-    expect(screen.getByText("Issue 5")).toBeInTheDocument();
-    expect(screen.queryByText("Issue 6")).not.toBeInTheDocument();
+    expect(
+      within(screen.getByRole("list")).getByText("Issue 1"),
+    ).toBeInTheDocument();
+    expect(
+      within(screen.getByRole("list")).getByText("Issue 5"),
+    ).toBeInTheDocument();
+    expect(
+      within(screen.getByRole("list")).queryByText("Issue 6"),
+    ).not.toBeInTheDocument();
 
     // Navigate to page 2
     const nextButton = screen.getByRole("button", { name: /next/i });
     await user.click(nextButton);
 
-    expect(screen.getByText("Issue 6")).toBeInTheDocument();
-    expect(screen.getByText("Issue 10")).toBeInTheDocument();
-    expect(screen.queryByText("Issue 1")).not.toBeInTheDocument();
+    expect(
+      within(screen.getByRole("list")).getByText("Issue 6"),
+    ).toBeInTheDocument();
+    expect(
+      within(screen.getByRole("list")).getByText("Issue 10"),
+    ).toBeInTheDocument();
+    expect(
+      within(screen.getByRole("list")).queryByText("Issue 1"),
+    ).not.toBeInTheDocument();
   });
 
   it("handles empty data gracefully", () => {
@@ -379,7 +409,9 @@ describe("IssueList", () => {
     );
 
     // Should reset to page 1
-    expect(screen.getByText("New Issue")).toBeInTheDocument();
+    expect(
+      within(screen.getByRole("list")).getByText("New Issue"),
+    ).toBeInTheDocument();
   });
 
   it("handles case-insensitive search filtering", async () => {
@@ -397,8 +429,12 @@ describe("IssueList", () => {
     const searchInput = screen.getByPlaceholderText("global.search");
     await user.type(searchInput, "FIRST");
 
-    expect(screen.getByText("First Issue")).toBeInTheDocument();
-    expect(screen.queryByText("Second Issue")).not.toBeInTheDocument();
+    expect(
+      within(screen.getByRole("list")).getByText("First Issue"),
+    ).toBeInTheDocument();
+    expect(
+      within(screen.getByRole("list")).queryByText("Second Issue"),
+    ).not.toBeInTheDocument();
   });
 
   it("filters by nested object properties", async () => {
@@ -416,9 +452,15 @@ describe("IssueList", () => {
     const searchInput = screen.getByPlaceholderText("global.search");
     await user.type(searchInput, "bug");
 
-    expect(screen.getByText("First Issue")).toBeInTheDocument();
-    expect(screen.queryByText("Second Issue")).not.toBeInTheDocument();
-    expect(screen.queryByText("Third Issue")).not.toBeInTheDocument();
+    expect(
+      within(screen.getByRole("list")).getByText("First Issue"),
+    ).toBeInTheDocument();
+    expect(
+      within(screen.getByRole("list")).queryByText("Second Issue"),
+    ).not.toBeInTheDocument();
+    expect(
+      within(screen.getByRole("list")).queryByText("Third Issue"),
+    ).not.toBeInTheDocument();
   });
 
   it("handles TTS modal opening and closing", async () => {
@@ -540,10 +582,18 @@ describe("IssueList", () => {
     await user.type(searchInput, "Issue 1");
 
     // Should reset to page 1 and show filtered results
-    expect(screen.getByText("Issue 1")).toBeInTheDocument();
-    expect(screen.getByText("Issue 10")).toBeInTheDocument();
-    expect(screen.getByText("Issue 11")).toBeInTheDocument();
-    expect(screen.getByText("Issue 12")).toBeInTheDocument();
+    expect(
+      within(screen.getByRole("list")).getByText("Issue 1"),
+    ).toBeInTheDocument();
+    expect(
+      within(screen.getByRole("list")).getByText("Issue 10"),
+    ).toBeInTheDocument();
+    expect(
+      within(screen.getByRole("list")).getByText("Issue 11"),
+    ).toBeInTheDocument();
+    expect(
+      within(screen.getByRole("list")).getByText("Issue 12"),
+    ).toBeInTheDocument();
   });
 
   it("maintains correct page count when rows per page changes", async () => {
@@ -569,9 +619,15 @@ describe("IssueList", () => {
     await user.selectOptions(rowsSelect, "10");
 
     // Should show more items on first page
-    expect(screen.getByText("Issue 1")).toBeInTheDocument();
-    expect(screen.getByText("Issue 10")).toBeInTheDocument();
-    expect(screen.queryByText("Issue 11")).not.toBeInTheDocument();
+    expect(
+      within(screen.getByRole("list")).getByText("Issue 1"),
+    ).toBeInTheDocument();
+    expect(
+      within(screen.getByRole("list")).getByText("Issue 10"),
+    ).toBeInTheDocument();
+    expect(
+      within(screen.getByRole("list")).queryByText("Issue 11"),
+    ).not.toBeInTheDocument();
   });
 
   it("handles empty search results", async () => {
@@ -591,7 +647,9 @@ describe("IssueList", () => {
 
     // Should show no results but component should still render
     expect(screen.getByRole("list")).toBeInTheDocument();
-    expect(screen.queryByText("First Issue")).not.toBeInTheDocument();
+    expect(
+      within(screen.getByRole("list")).queryByText("First Issue"),
+    ).not.toBeInTheDocument();
   });
 
   it("encodes TTS text properly for URL", async () => {
@@ -683,8 +741,12 @@ describe("IssueList", () => {
       />,
     );
 
-    expect(screen.getByText("Issue without ID")).toBeInTheDocument();
-    expect(screen.getByText("Another issue")).toBeInTheDocument();
+    expect(
+      within(screen.getByRole("list")).getByText("Issue without ID"),
+    ).toBeInTheDocument();
+    expect(
+      within(screen.getByRole("list")).getByText("Another issue"),
+    ).toBeInTheDocument();
 
     // Restore console.error
     console.error = originalError;
@@ -725,5 +787,40 @@ describe("IssueList", () => {
 
     // Should handle gracefully without errors
     expect(screen.getByRole("list")).toBeInTheDocument();
+  });
+
+  it("renders the article index with the visible items", () => {
+    render(
+      <IssueList
+        tags={[]}
+        ComponentName='Issue'
+        data={mockData}
+        inTab='issue'
+      />,
+    );
+
+    const index = screen.getByTestId("article-index");
+    expect(index).toBeInTheDocument();
+    expect(within(index).getByText("First Issue")).toBeInTheDocument();
+    expect(within(index).getByText("Second Issue")).toBeInTheDocument();
+  });
+
+  it("opens the chosen article and scrolls to it", () => {
+    const scrollIntoView = jest.fn();
+    window.HTMLElement.prototype.scrollIntoView = scrollIntoView;
+
+    render(
+      <IssueList
+        tags={[]}
+        ComponentName='Issue'
+        data={mockData}
+        inTab='issue'
+      />,
+    );
+
+    const index = screen.getByTestId("article-index");
+    fireEvent.click(within(index).getByText("First Issue"));
+
+    expect(scrollIntoView).toHaveBeenCalled();
   });
 });

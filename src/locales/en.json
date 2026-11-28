@@ -58,6 +58,7 @@
     "login_required": "Login required to use TTS",
     "tts_failed": "Text-to-speech failed",
     "error_message": "Failed to send message. Please try again.",
+    "fallback_toast": "AI limit reached on {{from}} — continuing with {{to}}.",
     "timestamp_now": "Just now",
     "timestamp_mins_ago": "min(s) ago",
     "timestamp_hours_ago": "h(s) ago",
@@ -137,6 +138,9 @@
     "empty": "No issues to display",
     "new": "New",
     "edit": "Edit"
+  },
+  "index": {
+    "title": "Contents"
   },
   "chat": {
     "ai_model": "AI Model",

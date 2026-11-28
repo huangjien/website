@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Issue } from "./Issue";
+import { ArticleIndex } from "./ArticleIndex";
 import { Chat } from "./Chat";
 import { useSettings } from "../lib/useSettings";
 import { BiSearch, BiChevronLeft, BiChevronRight } from "react-icons/bi";
@@ -37,6 +38,7 @@ export const IssueList = ({
   const { languageCode, speakerName } = useSettings();
   const [filterValue, setFilterValue] = useState("");
   const [open, setOpen] = useState(false);
+  const [openId, setOpenId] = useState(null);
 
   // Reset page when data changes
   useEffect(() => {
@@ -72,11 +74,37 @@ export const IssueList = ({
     [handleText2Speech],
   );
 
+  const handleIssueOpenChange = useCallback((value) => {
+    setOpenId(value ? value : null);
+  }, []);
+
+  const handleSelect = useCallback((id) => {
+    setOpenId(id);
+    const target = document.getElementById(`article-${id}`);
+    if (!target) return;
+    const reduceMotion = window.matchMedia
+      ? window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      : false;
+    target.scrollIntoView({
+      behavior: reduceMotion ? "auto" : "smooth",
+      block: "start",
+    });
+  }, []);
+
   const renderCell = useCallback(
-    (itemData, columnKey) => {
+    (itemData, columnKey, index) => {
       switch (columnKey) {
         case "Issue":
-          return <MemoizedIssue issue={itemData} />;
+          return (
+            <MemoizedIssue
+              issue={itemData}
+              open={
+                openId !== null &&
+                String(openId) === String(itemData.id ?? index)
+              }
+              onOpenChange={handleIssueOpenChange}
+            />
+          );
         case "Chat":
           return (
             <MemoizedChat
@@ -89,7 +117,7 @@ export const IssueList = ({
           return <pre>{JSON.stringify(itemData)}</pre>;
       }
     },
-    [readText],
+    [readText, handleIssueOpenChange, openId],
   );
 
   const onRowsPerPageChange = useCallback((e) => {
@@ -150,6 +178,15 @@ export const IssueList = ({
     if (!filterItems) return [];
     return filterItems.slice(start, end);
   }, [page, filterItems, rowsPerPage]);
+
+  const indexItems = useMemo(
+    () =>
+      items.map((item, index) => ({
+        id: item.id ?? index,
+        title: item.title,
+      })),
+    [items],
+  );
 
   return (
     <div>
@@ -237,23 +274,39 @@ export const IssueList = ({
           <Divider />
         </div>
 
-        <div
-          role='list'
-          aria-label={t("navigation.list", { defaultValue: "List" })}
-          className='space-y-4 px-4 sm:px-6 lg:px-8'
-        >
-          {items.length > 0 ? (
-            items.map((item, index) => (
-              <div role='listitem' key={item.id || `item-${index}`}>
-                {renderCell(item, ComponentName)}
-              </div>
-            ))
-          ) : (
-            <EmptyState
-              message={t("issue.empty", {
-                defaultValue: "No issues to display",
-              })}
-            />
+        <div className='lg:grid lg:grid-cols-[minmax(0,1fr)_15rem] lg:gap-8 lg:items-start'>
+          <div
+            role='list'
+            aria-label={t("navigation.list", { defaultValue: "List" })}
+            className='space-y-4 px-4 sm:px-6 lg:px-8'
+          >
+            {items.length > 0 ? (
+              items.map((item, index) => (
+                <div
+                  role='listitem'
+                  key={item.id || `item-${index}`}
+                  id={`article-${item.id ?? index}`}
+                  className='scroll-mt-24'
+                >
+                  {renderCell(item, ComponentName, index)}
+                </div>
+              ))
+            ) : (
+              <EmptyState
+                message={t("issue.empty", {
+                  defaultValue: "No issues to display",
+                })}
+              />
+            )}
+          </div>
+          {ComponentName === "Issue" && (
+            <aside className='hidden lg:block lg:sticky lg:top-24 lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto lg:py-4'>
+              <ArticleIndex
+                items={indexItems}
+                openId={openId}
+                onSelect={handleSelect}
+              />
+            </aside>
           )}
         </div>
       </div>

@@ -6,7 +6,7 @@ import { Comment } from "./Comment";
 import { sanitizeMarkdown } from "../lib/markdown-utils";
 import { MarkdownContent } from "./MarkdownContent";
 
-export const Issue = React.memo(function Issue({ issue }) {
+export const Issue = React.memo(function Issue({ issue, open, onOpenChange }) {
   const { t } = useTranslation();
 
   if (!issue) return null;
@@ -15,6 +15,10 @@ export const Issue = React.memo(function Issue({ issue }) {
   const commentsData = Array.isArray(issue.commentsData)
     ? issue.commentsData
     : [];
+  const itemValue = String(
+    issue.id ?? issue.number ?? issue.title ?? "issue-item",
+  );
+  const isControlled = typeof open === "boolean";
 
   const subtitleText =
     (issue.created_at === issue.updated_at
@@ -31,9 +35,11 @@ export const Issue = React.memo(function Issue({ issue }) {
       type='single'
       collapsible
       data-testid='accordion'
+      value={isControlled ? (open ? itemValue : "") : undefined}
+      onValueChange={onOpenChange}
     >
       <Accordion.Item
-        value={String(issue.title || issue.number || issue.id || "issue-item")}
+        value={itemValue}
         data-testid='accordion-item'
         aria-label={issue.title}
         className='transition-all duration-normal ease-out hover:shadow-glass rounded-2xl glass-card overflow-hidden'

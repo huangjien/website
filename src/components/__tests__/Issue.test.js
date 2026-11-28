@@ -79,6 +79,23 @@ describe("Issue Component", () => {
     expect(accordions.length).toBeGreaterThanOrEqual(1);
   });
 
+  it("should render the body when the issue is open", () => {
+    render(<Issue issue={mockIssue} open />);
+
+    expect(
+      screen.getByText("This is a test issue body with some content."),
+    ).toBeInTheDocument();
+  });
+
+  it("should report an open change to the parent", () => {
+    const onOpenChange = jest.fn();
+    render(<Issue issue={mockIssue} onOpenChange={onOpenChange} />);
+
+    fireEvent.click(screen.getByText("Test Issue Title"));
+
+    expect(onOpenChange).toHaveBeenCalled();
+  });
+
   it("should render labels correctly", () => {
     render(<Issue issue={mockIssue} />);
 

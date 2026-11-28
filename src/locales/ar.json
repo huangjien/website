@@ -21,6 +21,7 @@
     "return_error": "طلب الذكاء الاصطناعي يعيد خطأ",
     "return_length": "لقد تلقينا إجابة من الذكاء الاصطناعي.\nطول الإجابة",
     "error_message": "فشل إرسال الرسالة. يرجى المحاولة مرة أخرى.",
+    "fallback_toast": "تم الوصول إلى حد {{from}} — جارٍ المتابعة مع {{to}}.",
     "timestamp_now": "الآن",
     "timestamp_mins_ago": "دقيقة(ق) مضت",
     "timestamp_hours_ago": "ساعة(ات) مضت"

@@ -21,6 +21,7 @@
     "return_error": "AI 要求がエラーを返しました",
     "return_length": "AI から回答がありました。\n回答の長さ",
     "error_message": "メッセージの送信に失敗しました。もう一度お試しください。",
+    "fallback_toast": "{{from}} が利用上限に達したため、{{to}} で続行します。",
     "timestamp_now": "たった今",
     "timestamp_mins_ago": "分前",
     "timestamp_hours_ago": "時間前"
